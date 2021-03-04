@@ -1,0 +1,283 @@
+<template>
+  <el-select
+    v-model="value__"
+    :loading="loading"
+    v-bind="elSelectProps"
+    @change="onChange"
+    ref="elSelect"
+  >
+    <el-option
+      v-for="(v,i) in options"
+      :key="Label?v[Key]:v"
+      :label="getLabel(v)"
+      :value="ObjectValue?v:Label?v[Key]:i"
+      :disabled="v[Props.disabled]"
+    >
+      <el-tooltip
+        :disabled="!Ellipsis"
+        effect="dark"
+        :content="getLabel(v).toString()"
+        placement="right"
+      >
+        <span class="label-left" :ref="'leftLabel'+(Label?v[Key]:v)">{{ getLabel(v) }}</span>
+      </el-tooltip>
+      <span class="label-right">{{ v[Props.rightLabel] }}</span>
+    </el-option>
+  </el-select>
+</template>
+
+<script>
+import { typeOf, isEmpty, getPropByPath } from 'kayran'
+import globalProps from './config'
+import isPlainObject from 'lodash/isPlainObject'
+
+/**
+ * 参数有全局参数、实例参数和默认值之分 取哪个取决于用户传了哪个：
+ *   1. 怎么判断用户传没传？ —— 以该参数是否全等于undefined作为标识
+ *   2. 如果传了多个，权重顺序是怎样的？ —— 实例＞全局＞默认
+ *
+ * @param {any} globalProp - 全局参数
+ * @param {any} prop - 实例参数
+ * @param {any} defaultValue - 默认值
+ * @return {any} 最终
+ */
+
+export function getFinalProp (globalProp, prop, defaultValue) {
+  return prop !== undefined ? prop :
+    globalProp !== undefined ? globalProp :
+      defaultValue
+}
+
+export default {
+  name: 'Selector',
+  model: {
+    prop: 'value',
+    event: 'change'
+  },
+  props: {
+    value: {},
+    label: {},
+    options: {
+      validator: value => ['null', 'array'].includes(typeOf(value)),
+    },
+    props: Object,
+    placeholder: String,
+    ellipsis: {
+      // 不能用type 因为type为Boolean时 如果用户没传 默认值为false而不是undefined 会影响getFinalProp的判断
+      validator: value => ['boolean'].includes(typeOf(value)),
+    },
+    objectValue: {
+      validator: value => ['boolean'].includes(typeOf(value)),
+    },
+    search: Function,
+    immediate: {
+      validator: value => ['boolean'].includes(typeOf(value)),
+    }
+  },
+  computed: {
+    elSelectProps () {
+      return {
+        clearable: true,
+        filterable: true,
+        remote: true,
+        'reserve-keyword': true,
+        'remote-method': this.Search__,
+        'value-key': this.Label ? this.Key : 'value',
+        ...globalProps,
+        ...this.$attrs,
+        placeholder: this.Placeholder,
+      }
+    },
+    Ellipsis () {
+      const result = getFinalProp(globalProps.ellipsis, this.ellipsis, false)
+      if (result) {
+        this.$nextTick(() => {
+          this.popper = this.$refs.elSelect.$refs.popper
+          this.unwatchOptions = this.$watch('options', newVal => {
+            if (newVal && newVal.length) {
+              setTimeout(() => {
+                if (this.popper) {
+                  this.popper.$el.style.maxWidth = this.popper.minWidth
+                }
+              })
+            }
+          }, {
+            immediate: true,
+          })
+        })
+      } else {
+        this.unwatchOptions?.()
+      }
+    },
+    Placeholder () {
+      return getFinalProp(globalProps.placeholder, this.placeholder, this.search ? '输入关键字搜索' : '请选择')
+    },
+    Key () {
+      return this.Props.key
+    },
+    Label () {
+      return this.Props.label
+    },
+    Props () {
+      if (this.rightLabel) {
+        console.warn('[Selector] rightLabel已废弃 请使用props.rightLabel')
+      }
+
+      let result = {
+        key: 'dataValue',
+        label: 'dataName', // label不为空标志着value为对象类型
+        disabled: 'disabled',
+        searchResponse: 'data',
+        ...this.props,
+        ...globalProps.props
+      }
+
+      if (typeof this.options?.[0] !== 'object') {
+        result.label = ''
+      }
+
+      if (result.label) {
+        const placeholders = result.label?.match(/\${[\dA-z_\$]*}/g)
+        if (placeholders) {
+          // 坑：ios不支持正则后顾 (?<=exp2)exp1 编译阶段就会报错 导致白屏
+          // const props = this.label.match(/(?<=\${)[\dA-z_\$]*(?=})/g)
+          const __labelTemplate = result.label
+          result.label = objOption => {
+            let res = __labelTemplate
+            placeholders.map((v, i) => {
+              const prop = v?.slice(2, -1)
+              if (prop) {
+                res = res.replace(placeholders[i], objOption[prop])
+              } else {
+
+              }
+            })
+            return res
+          }
+        }
+      }
+
+      return result
+    },
+    Search () {
+      return getFinalProp(globalProps.search, this.search)
+    },
+    ObjectValue () {
+      return getFinalProp(globalProps.objectValue, this.objectValue)
+    },
+    Immediate () {
+      return getFinalProp(globalProps.immediate, this.immediate, true)
+    }
+  },
+  data () {
+    return {
+      value__: this.value,
+      popper: null,
+      //showDropdown: false
+      unwatchOptions: null,
+      loading: false,
+      defaultSearchResult: null
+    }
+  },
+  watch: {
+    value: {
+      immediate: true,
+      handler (newVal, oldVal) {
+        this.value__ = newVal
+      }
+    },
+    value__: {
+      handler (newVal, oldVal) {
+        if (isEmpty(newVal)) {
+          if (this.defaultSearchResult) {
+            this.$emit('update:options', this.defaultSearchResult)
+          } else {
+            this.Search__()
+          }
+        }
+        this.onBlur()
+      }
+    },
+  },
+  created () {
+    if (this.Immediate) {
+      this.Search__()
+    }
+  },
+  methods: {
+    Search__ (e) {
+      if (!this.Search) {
+        return
+      }
+      this.loading = true
+      const result = this.Search(e)
+      if (result instanceof Promise) {
+        result.then(res => {
+          this.$emit('update:options', getPropByPath(res, this.Props.searchResponse))
+        }).finally(() => {
+          this.loading = false
+        })
+      } else {
+        console.warn('[Selector] search的返回值需为Promise类型')
+        this.loading = false
+      }
+    },
+    onChange (value) {
+      if (this.Label) {
+        this.$nextTick(() => {
+          this.$emit('update:label', this.$refs.elSelect.selectedLabel)
+        })
+      }
+      this.$emit('change', value)
+    },
+    onBlur () {
+      //fix: 用于el表单中 且校验触发方式为blur时 没有生效
+      if (this.$parent?.$options?._componentTag === ('el-form-item') && this.$parent.rules?.trigger === 'blur') {
+        this.$parent.$emit('el.form.blur')
+      }
+    },
+    getLabel (v) {
+      if (this.Label) {
+        if (typeof this.Label === 'function') {
+          return this.Label(v)
+        } else {
+          return v[this.Label]
+        }
+      } else {
+        return v
+      }
+    },
+    /*onVisibleChange (show) {
+      this.showDropdown = show
+    },
+    isEllipsis*/
+  }
+}
+</script>
+
+<style lang="scss">
+.el-select-dropdown__item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  & > .label-left {
+    text-overflow: ellipsis;
+    white-space: normal;
+    word-break: break-all;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    line-height: normal;
+  }
+
+  & > .label-right {
+    flex-shrink: 0;
+    color: #8492a6;
+    font-size: 13px;
+    margin-left: 1rem;
+    font-weight: normal; // 默认选中时加粗
+  }
+}
+</style>
