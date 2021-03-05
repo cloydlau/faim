@@ -245,12 +245,13 @@ export default {
 | catalog | 目录 | global | object | |
 | elPopconfirmProps | el-popconfirm的配置 未配置时默认不开启popconfirm | local, global | object | |
 | elTooltipProps | el-tooltip的配置 默认circle为true时开启tooltip | local, global | object | |
-
-> ...以及el-button所有props
+| ...el-button的所有props |
 
 **show**
 
 show为function时支持返回boolean或者返回promise在promise内resolve一个boolean
+
+> show为function时 参数1为当前组件实例的name属性值
 
 **catalog**
 

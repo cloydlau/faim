@@ -166,7 +166,7 @@ export default {
       if (this.Show) {
         let authorized
         if (typeof this.Show === 'function') {
-          const result = this.Show()
+          const result = this.Show(this.name)
           authorized = result instanceof Promise ? await result : result
           if (typeof authorized === 'boolean') {
             this.authorized = authorized

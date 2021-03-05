@@ -10,6 +10,11 @@ const requireAll = requireContext => requireContext.keys().map(requireContext)
 requireAll(require.context('@/assets/svg-sprite', false, /\.svg$/))
 Vue.component('SvgIcon', SvgIcon)*/
 
+import { SvgIcon } from '../src/main'
+// @ts-ignore
+const modules = import.meta.globEager('./assets/svg-sprite/*.svg')
+Vue.component('SvgIcon', SvgIcon)
+
 Vue.config.productionTip = false
 
 new Vue({
