@@ -1,30 +1,43 @@
 <template>
-  <div @click.capture="$emit('click',$event)">
-    <el-button @click="send" :disabled="buttonText!=='发送验证码'">
-      {{buttonText}}
+  <span @click.capture="$emit('click',$event)">
+    <el-button
+      v-bind="$attrs"
+      @click="send"
+      :disabled="remaining>0"
+    >
+      <slot :remaining="remaining">
+        {{ buttonText }}
+      </slot>
     </el-button>
-  </div>
+  </span>
 </template>
 
 <script>
 export default {
   name: 'SmsButton',
+  props: {
+    cd: {
+      type: Number,
+      default: 60
+    }
+  },
   data () {
     return {
-      buttonText: '发送验证码'
+      buttonText: '发送验证码',
+      remaining: 0,
     }
   },
   methods: {
     send (e) {
-      let countDown = 60
+      this.remaining = this.cd
 
       const updateBtnText = () => {
-        --countDown
-        if (countDown === 0) {
+        --this.remaining
+        if (this.remaining === 0) {
           clearInterval(interval)
           this.buttonText = '发送验证码'
         } else {
-          this.buttonText = countDown + '秒后重新获取'
+          this.buttonText = this.remaining + '秒后可重新获取'
         }
       }
 

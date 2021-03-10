@@ -171,7 +171,7 @@ export default {
           if (valid) {
             exec()
           } else {
-            highlightFormError()
+            highlightError()
           }
         })
       } else {

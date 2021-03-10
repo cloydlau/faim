@@ -1,11 +1,16 @@
 <template>
   <div class="auth-tree">
     <div class="premiss-tree">
-      <el-tree :data="value" :props="defaultProps" @node-click="nodeClick" />
+      <el-tree
+        :data="value"
+        :props="defaultProps"
+        @node-click="nodeClick"
+        v-bind="$attrs"
+      />
     </div>
 
     <div class="recursion-box">
-      <Recursion v-model="value" ref="Recursion" />
+      <Recursion v-model="value" ref="Recursion"/>
     </div>
   </div>
 </template>
@@ -16,12 +21,8 @@ import Recursion from './Recursion.vue'
 export default {
   name: 'AuthTree',
   components: { Recursion },
-  model: {
-    prop: 'value',
-    event: 'change'
-  },
-  props: ['value', 'check-strictly'],
-  data() {
+  props: ['value'],
+  data () {
     return {
       defaultProps: {
         children: 'children',
@@ -30,7 +31,7 @@ export default {
     }
   },
   methods: {
-    nodeClick(curPage) {
+    nodeClick (curPage) {
       this.$refs['Recursion']?.nodeClick(curPage.id)
     }
   }
@@ -40,6 +41,7 @@ export default {
 <style lang="scss" scoped>
 $border-color: rgba(#59b9c6, 0.1);
 $bg-color: #fdfdfd;
+
 .auth-tree {
   display: flex;
   height: 100%;
@@ -55,6 +57,7 @@ $bg-color: #fdfdfd;
     flex: 1;
     height: 100%;
     overflow: auto;
+
     .tree-title {
       background: linear-gradient(to right, $border-color, lighten(#e9f1f6, 10%));
       margin: 0;
@@ -64,27 +67,33 @@ $bg-color: #fdfdfd;
       border-radius: 0;
       font-weight: normal;
       line-height: 1;
+
       .el-checkbox {
         margin-bottom: 0px;
       }
     }
+
     .el-checkbox {
       margin-bottom: 12px;
       margin-right: 12px;
       line-height: 1;
     }
+
     .sys-root {
       margin-bottom: 14px;
       background: $bg-color;
       border-left: 1px solid $border-color;
       border-bottom: 1px solid $border-color;
       overflow: hidden;
+
       & > .tree-title {
         padding: 10px 14px;
         font-weight: bold;
       }
+
       .sub-title {
         position: relative;
+
         &::after {
           content: '';
           position: absolute;
@@ -95,12 +104,14 @@ $bg-color: #fdfdfd;
         }
       }
     }
+
     .recursion {
       .recursion-item {
         position: relative;
         border-left: 1px solid $border-color;
         padding-left: 14px;
         line-height: 1;
+
         &::before {
           content: '';
           position: absolute;
@@ -109,6 +120,7 @@ $bg-color: #fdfdfd;
           width: 13px;
           border-top: 1px solid $border-color;
         }
+
         .no-children {
           // 屏蔽功能按钮左侧的线条
           &::after {
@@ -123,6 +135,7 @@ $bg-color: #fdfdfd;
           }
         }
       }
+
       .recursion-item:last-child {
         // 遮蔽左侧超出的边框
         &::before {

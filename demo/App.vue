@@ -8,6 +8,7 @@
       :submit="submit"
       title="FormDialog"
       ref="formDialog"
+      v-model="form"
       @open="console.log('open')"
       @opened="console.log('opened')"
       @close="console.log('close')"
@@ -88,9 +89,13 @@
           <AuthTree v-model="form.AuthTree"/>
         </el-form-item>
 
-        <el-form-item label="SmsButton" prop="SmsButton">
-          <el-input v-model="form.SmsButton">
-            <SmsButton slot="append" @click="send($event)"/>
+        <el-form-item label="手机号" prop="phone" ref="formItemPhone" required>
+          <el-input v-model="form.phone">
+            <SmsButton slot="append" @click="send" :cd="3">
+              <!--<template v-slot="{remaining}">
+                {{ remaining ? `${remaining}s remaining` : `send verification code` }}
+              </template>-->
+            </SmsButton>
           </el-input>
         </el-form-item>
 
@@ -161,10 +166,6 @@
           pageSize:
           <el-input-number v-model="pageSize" style="width: 180px;"/>
         </el-form-item>
-
-        <el-form-item label="SvgIcon">
-          <SvgIcon icon-class="avatar"/>
-        </el-form-item>
       </template>
     </FormDialog>
   </div>
@@ -209,7 +210,9 @@ export default {
   },
   data () {
     return {
-      form: {},
+      form: {
+        phone: ''
+      },
       Selector: {
         value: undefined,
         label: undefined
@@ -295,12 +298,11 @@ export default {
       })
     },
     send (e) {
-      this.$refs.formDialog.$refs.elForm.validateField('SmsButton', err => {
+      this.$refs.formItemPhone.elForm.validateField('phone', err => {
         if (err) {
-          // 不开始计时
           e.stopPropagation()
         } else {
-          // 调用短信接口
+          // 发送验证码短信
         }
       })
     },

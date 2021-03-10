@@ -18,57 +18,34 @@ components: {
 }
 ```
 
+```js
+// 局部注册
+import { AuthButton } from 'kikimore'
+
+components: {
+  AuthButton
+}
+```
+
 <br/>
 
 ## FormDialog / 表单对话框
 
 [el-dialog](https://element.eleme.cn/#/zh-CN/component/dialog)
-与 [el-form](https://element.eleme.cn/#/zh-CN/component/form) 的结合
+与 [el-form](https://element.eleme.cn/#/zh-CN/component/form) 的结合 用于表单的展示、填写和提交
 
-**Features**
-
-- 支持el-dialog几乎所有参数、事件和slot
-- 支持el-form几乎所有参数、事件（el-form没有slot）
-
-```html
-
-<FormDialog
-  :show.sync="show"
-  :retrieve="retrieve"
-  :submit="submit"
-  title=""
-  v-model="form"
->
-  <template #el-form>
-    <el-form-item prop="input">
-      <el-input v-model="form.input"/>
-    </el-form-item>
-  </template>
-</FormDialog>
-```
+### Props
 
 | 参数 | 说明 | 类型 | 可选值 | 默认值 |
 | --- | --- | --- | --- | --- |
 | show.sync | 是否开启 | boolean | | false |
 | title | 对话框标题 | string | | |
 | readonly | 是否只读 | boolean | | false |
-| v-model | 表单数据对象（即el-form的model参数） | any | *see below* | {} |
-| elFormProps | el-form参数对象 | object | el-form绝大部分参数 | {} |
-| retrieve | 获取数据方法（返回值需为Promise类型） | function | | |
-| submit | 提交方法 | function | | |
-| ... | el-dialog参数 | - | <a>https://element.eleme.cn/#/zh-CN/component/dialog</a><OutboundLink/> | |
-
-<br/>
-
-| name | description |
-| --- | --- |
-| el-form | el-form |
-| title | el-dialog的slot |
-| footer | el-dialog的slot |
-
-> el-form插槽不是必须的 你可以传任意slot进去 只是提交时不会帮你校验罢了 你可以自行校验
-
-<br/>
+| v-model* | 表单数据对象（即el-form的model） | any | | {} |
+| elFormProps | el-form属性 | object | el-form绝大部分参数 | {} |
+| retrieve | 获取数据 | function | | |
+| submit | 提交 | function | | |
+| ...el-dialog属性 |
 
 **v-model**
 
@@ -132,13 +109,16 @@ submit的返回值如果是一个Promise 则then时默认关闭弹框 而reject�
 submit没有返回值或者返回值不是Promise时 则submit执行完毕后默认关闭弹框 你可以```return { close: false }```来控制该行为
 :::
 
-内部el-form的ref获取方式：
-
-1. 先给FormDialog添加一个ref 比如formDialog
-
-2. ```this.$refs.formDialog.$refs.elForm```
-
 <br/>
+
+### Slots
+
+| name | description |
+| --- | --- |
+| el-form | el-form |
+| ...el-dialog插槽 |
+
+> el-form插槽不是必须的 你可以传任意slot进去 只是提交时不会帮你校验罢了 你可以自行校验
 
 **footer slot 示例**
 
@@ -181,7 +161,14 @@ export default {
 
 <br/>
 
-**完整示例**
+### Events
+
+| name | description | callback's arguments |
+| --- | --- | --- |
+| ...el-dialog事件 |
+| ...el-form事件 |
+
+### 完整示例
 
 ```vue
 
@@ -245,7 +232,7 @@ export default {
 | catalog | 目录 | global | object | |
 | elPopconfirmProps | el-popconfirm的配置 未配置时默认不开启popconfirm | local, global | object | |
 | elTooltipProps | el-tooltip的配置 默认circle为true时开启tooltip | local, global | object | |
-| ...el-button的所有props |
+| ...el-button属性 |
 
 **show**
 
@@ -336,14 +323,9 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
 | ellipsis | 是否限宽并对超长的label作溢出省略处理（默认是超长撑开） | boolean | | false | props, global |
 | search | 搜索方法（即el-select的remote-method） | function | | | props, global |
 | immediate | 是否立即执行搜索 | boolean | | true | props, global |
-| props | 指定对象的属性 | object | | *see below* | props, global |
+| props* | 指定对象的属性 | object | | | props, global |
 | objectValue | 指定value的类型为object（options为对象数组时有效） | boolean | | | props, global |
-
-::: tip  
-支持el-select全部参数
-
-> 不建议传在组件内部已经二次封装过的参数 如remote-method和value-key
-:::
+| ...el-select属性 |
 
 <br/>
 
@@ -432,7 +414,7 @@ export default {
 | 参数 | 说明 | 类型 | 可选值 | 默认值 |
 | --- | --- | --- | --- | --- |
 | value | 值 | any | | |
-| options | 选项 | string, array | *see below* | |
+| options* | 选项 | string, array | | |
 
 options
 
@@ -595,47 +577,6 @@ Swal.confirm({
 
 <br/>
 
-## SvgIcon
-
-``` bash
-$ yarn add svg-sprite-loader svgo -D
-```
-
-- vue.config.js
-
-```js
-chainWebpack: config => {
-  config.module
-  .rule('svg')
-  .exclude.add(resolve('src/assets/svg-sprite'))
-  .end()
-  config.module
-  .rule('svg-sprite')
-  .test(/\.svg$/)
-  .include.add(resolve('src/assets/svg-sprite'))
-  .end()
-  .use('svg-sprite-loader')
-  .loader('svg-sprite-loader')
-  .options({
-    symbolId: 'icon-[name]'
-  })
-  .end()
-}
-```
-
-- main.js
-
-```js
-import { SvgIcon } from 'kikimore'
-const requireAll = requireContext => requireContext.keys().map(requireContext)
-requireAll(require.context('@/assets/svg-sprite', false, /\.svg$/))
-Vue.component('SvgIcon', SvgIcon)
-```
-
-- ```<SvgIcon icon-class=""/>```
-
-<br/>
-
 ## QR / 支持蒙层的二维码
 
 ```html
@@ -706,8 +647,7 @@ Vue.component('SvgIcon', SvgIcon)
 | --- | --- | --- | --- | --- |
 | v-model / value | 绑定值 | string / number / boolean | | |
 | options | 选项 key即label value即value | object | | |
-
-> 支持el-checkbox全部参数
+| ...el-checkbox属性 |
 
 <br/>
 
@@ -721,29 +661,51 @@ Vue.component('SvgIcon', SvgIcon)
 
 ## SmsButton / 短信验证码按钮
 
-```js
-// 如果发送短信前需要先校验手机号
-methods: {
-  sms(e)
-  {
-    this.$refs.formDialog.$refs.elForm.validateField('SmsButton', err => {
-      if (err) {
-        // 不开始计时
-        e.stopPropagation()
-      } else {
-        // 调用短信接口
-      }
-    })
+```vue
+
+<template>
+  <el-form-item label="手机号" prop="phone" ref="formItemPhone">
+    <el-input v-model="form.phone">
+      <SmsButton slot="append" @click="send"/>
+    </el-input>
+  </el-form-item>
+</template>
+
+<script>
+export default {
+  // 如果发送短信前需要先校验手机号
+  methods: {
+    send (e) {
+      this.$refs.formItemPhone.elForm.validateField('phone', err => {
+        if (err) {
+          e.stopPropagation()
+        } else {
+          // 发送验证码短信
+        }
+      })
+    }
   }
 }
+</script>
 ```
+
+作用域插槽示例：
 
 ```html
 
-<SmsButton @click="sms($event)"/>
+<SmsButton>
+  <template v-slot="{remaining}">
+    {{ remaining ? `${remaining}s remaining` : `send verification code` }}
+  </template>
+</SmsButton>
 ```
 
-| 事件名称 | 说明 | 回调参数 |
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+| --- | --- | --- | --- | --- |
+| cd | 冷却时间（秒） | number | | 60 |
+| ...el-button属性 |
+
+| 事件 | 说明 | 回调参数 |
 | --- | --- | --- |
 | click | 点击后触发（返回值需为Promise类型） | |
 
@@ -757,9 +719,8 @@ methods: {
 | --- | --- | --- | --- | --- |
 | show.sync | 是否开启 | boolean | | false |
 | src | 音频文件链接 | string | | |
-| *inline | 以行内元素的方式显示 | boolean | | false |
-
-> 支持audio标签全部参数
+| inline* | 以行内元素的方式显示 | boolean | | false |
+| ...audio属性 |
 
 inline
 
@@ -777,9 +738,8 @@ inline
 | show.sync | 是否开启 | boolean | | false |
 | src | 视频文件链接 | string | | |
 | poster | 视频封面图片链接 | string | | |
-| inline | 以行内元素的方式显示 | boolean | *see below* | false |
-
-> 支持video标签全部参数
+| inline* | 以行内元素的方式显示 | boolean | | false |
+| ...video属性 |
 
 inline
 
