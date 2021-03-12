@@ -15,6 +15,13 @@
       @closed="console.log('closed')"
     >
       <template #el-form>
+        <el-form-item label="Camera" prop="Camera">
+          <el-button @click="showCamera=true">打开摄像头</el-button>
+          <Camera
+            :show.sync="showCamera"
+          />
+        </el-form-item>
+
         <el-form-item label="SweetAlert">
           <el-button-group>
             <el-button @click="success__().then(() => {window.alert('success')})">成功</el-button>
@@ -187,6 +194,7 @@ import {
   AuthButton,
   Tag,
   Pagination,
+  Camera,
 } from '../src/main'
 
 import Vue from 'vue'
@@ -194,6 +202,7 @@ Vue.use(Swal)
 
 export default {
   components: {
+    Camera,
     FormDialog,
     SmsButton,
     QR,
@@ -210,6 +219,7 @@ export default {
   },
   data () {
     return {
+      showCamera: false,
       form: {
         phone: ''
       },

@@ -108,4 +108,8 @@ Swal.install = Vue => {
   Vue.prototype.confirm__ = confirm
 }
 
+export {
+  success, warning, info, error, confirm
+}
+
 export default Swal

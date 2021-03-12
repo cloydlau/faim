@@ -1,10 +1,14 @@
 import { defineConfig } from 'vite'
-const { createVuePlugin } = require('vite-plugin-vue2')
+import { createVuePlugin } from 'vite-plugin-vue2'
+import WindiCSS from 'vite-plugin-windicss'
 import { name } from './package.json'
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [createVuePlugin(/*options*/)],
+  plugins: [
+    createVuePlugin(/*options*/),
+    WindiCSS()
+  ],
   build: {
     lib: {
       name,

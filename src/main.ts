@@ -1,3 +1,5 @@
+import 'virtual:windi.css'
+
 import OnefoldTable from './components/OnefoldTable'
 import FormItemTip from './components/FormItemTip'
 import CheckAllBox from './components/CheckAllBox'
