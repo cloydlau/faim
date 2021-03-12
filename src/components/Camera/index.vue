@@ -15,7 +15,7 @@
         <div slot="footer" class="flex justify-between p-0 pt-30px">
           <div>
             <canvas ref="canvas" :width="width" :height="height" class="hidden"></canvas>
-            <PicViewer :value="base64" style="font-size:0"/>
+            <PicViewer ref="picViewer" :value="base64" style="font-size:0"/>
           </div>
           <div>
             <el-button @click="photograph" :disabled="error" icon="el-icon-camera">
@@ -105,7 +105,7 @@ export default {
           })
         }
       }
-    }
+    },
   },
   computed: {
     canvasCtx () {
@@ -137,6 +137,7 @@ export default {
       }, 'image/png') //第三个参数为质量 默认＜1
       this.canvasCtx.drawImage(this.$refs.video, 0, 0, this.width, this.height)
       this.base64 = this.$refs.canvas.toDataURL()
+      //this.$refs.picViewer.preview()
     }
   }
 }
