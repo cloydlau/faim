@@ -3,7 +3,7 @@ import 'sweetalert2/src/sweetalert2.scss'
 import './index.scss'
 import { isPlainObject } from 'lodash-es'
 
-function success (config) {
+function success (config: any) {
   return Swal.fire({
     titleText: config?.titleText || (typeof config === 'string' ? config : '操作成功'),
     icon: 'success',
@@ -13,7 +13,7 @@ function success (config) {
   })
 }
 
-function info (config = {}) {
+function info (config: any = {}) {
   let titleText
   if (typeof config === 'string') {
     titleText = config
@@ -34,7 +34,7 @@ function info (config = {}) {
   }
 }
 
-function warning (config = {}) {
+function warning (config: any = {}) {
   let titleText
   if (typeof config === 'string') {
     titleText = config
@@ -54,19 +54,17 @@ function warning (config = {}) {
   }
 }
 
-function error (titleText) {
-  if (titleText) {
-    return Swal.fire({
-      icon: 'error',
-      titleText,
-      timer: 5000,
-      allowOutsideClick: false,
-      allowEscapeKey: true,
-    })
-  }
+function error (cfg: string | object) {
+  return Swal.fire({
+    icon: 'error',
+    timer: 5000,
+    allowOutsideClick: false,
+    allowEscapeKey: true,
+    ...typeof cfg === 'string' ? { titleText: cfg } : cfg
+  })
 }
 
-function confirm (config = {}, force) {
+function confirm (config: any = {}, force: boolean) {
   return new Promise((resolve, reject) => {
     let title
     if (typeof config === 'string') {
@@ -87,7 +85,7 @@ function confirm (config = {}, force) {
         allowEscapeKey: false,
       },
       ...config,
-    }).then(e => {
+    }).then((e: any) => {
       e.isConfirmed ? resolve(e) : reject(e)
     })
   })
@@ -99,7 +97,7 @@ Swal.info = info
 Swal.error = error
 Swal.confirm = confirm
 
-Swal.install = Vue => {
+Swal.install = (Vue: { prototype: { Swal__: any; success__: (config: any) => any; info__: (config?: any) => any; warning__: (config?: any) => any; error__: (titleText: string) => any; confirm__: (config: any, force: boolean) => Promise<unknown> } }) => {
   Vue.prototype.Swal__ = Swal
   Vue.prototype.success__ = success
   Vue.prototype.info__ = info
