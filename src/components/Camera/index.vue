@@ -1,24 +1,33 @@
 <template>
   <el-dialog
     title='摄像头'
-    :visible.sync="show"
-    :before-close="()=>{$emit('update:show', false)}"
     :close-on-click-modal="false"
     append-to-body
     destroy-on-close
+    v-bind="$attrs"
     v-on="$listeners"
+    :visible.sync="show"
+    :before-close="()=>{$emit('update:show', false)}"
   >
-    <div v-loading="loading">
-      <video ref="video" class="w-full h-full"/>
+    <div v-loading="initializing">
+      <div class="relative">
+        <video ref="video" class="w-full h-full"/>
+        <Screenshot ref="screenshot" @finish="()=>{performing=false}"/>
+      </div>
 
       <slot name="footer">
         <div slot="footer" class="flex justify-between p-0 pt-30px">
           <div>
             <canvas ref="canvas" :width="width" :height="height" class="hidden"></canvas>
-            <PicViewer ref="picViewer" :value="base64" style="font-size:0"/>
+            <PicViewer :waterfall="false" ref="picViewer" :value="base64" style="font-size:0"/>
           </div>
           <div>
-            <el-button @click="photograph" :disabled="error" icon="el-icon-camera">
+            <el-button
+              @click="photograph"
+              :disabled="error"
+              :loading="Loading"
+              icon="el-icon-camera"
+            >
               拍 照
             </el-button>
             <el-button type="primary" @click="confirm">
@@ -34,20 +43,27 @@
 <script>
 import globalProps from './config'
 import { getFinalProp } from '../../utils'
-import { error, info } from '../Swal'
+import { error, info, warning } from '../Swal'
 import PicViewer from 'pic-viewer'
+import Screenshot from './Screenshot.vue'
 const prefix = `[Camera] `
 
 export default {
   name: 'Camera',
-  components: { PicViewer },
+  components: { PicViewer, Screenshot },
   props: {
     show: Boolean,
+    count: {
+      type: [Number, Array],
+      default: 1
+    }
   },
   data () {
     return {
       error: false,
-      loading: true,
+      initializing: true,
+      loading: false,
+      performing: false,
       base64: null,
       blob: null,
       file: null,
@@ -81,7 +97,7 @@ export default {
                   error(err.name)
                   console.error(err)
                 }).finally(() => {
-                  this.loading = false
+                  this.initializing = false
                 })
               } else if (navigator.mediaDevices.webkitGetUserMedia) { // WebKit
                 navigator.mediaDevices.webkitGetUserMedia({
@@ -98,7 +114,7 @@ export default {
                   error(err.name)
                   console.error(err)
                 }).finally(() => {
-                  this.loading = false
+                  this.initializing = false
                 })
               }
             }
@@ -110,6 +126,26 @@ export default {
   computed: {
     canvasCtx () {
       return this.$refs.canvas.getContext('2d')
+    },
+    maxCount () {
+      if (this.count) {
+        return typeof this.count === 'number' ? this.count : this.count[1]
+      }
+    },
+    minCount () {
+      if (Array.isArray(this.count)) {
+        return this.count[0]
+      }
+    },
+    Count () {
+      return this.file ?
+        Array.isArray(this.file) ?
+          this.file.length :
+          1 :
+        0
+    },
+    Loading () {
+      return !(!this.performing && !this.loading)
     }
   },
   mounted () {
@@ -117,7 +153,12 @@ export default {
   },
   methods: {
     confirm () {
-      this.$emit('change', {
+      if (this.minCount && this.minCount > this.Count) {
+        warning(`至少拍摄${this.Count}张`)
+        return
+      }
+
+      this.$emit('confirm', {
         base64: this.base64,
         blob: this.blob,
         file: this.file
@@ -129,15 +170,49 @@ export default {
       this.blob = null
       this.file = null
     },
-    photograph () {
-      this.reset()
-      this.$refs.canvas.toBlob(blob => {
-        this.blob = blob
-        this.file = new File([blob], String(new Date().valueOf()), { type: blob.type })
-      }, 'image/png') //第三个参数为质量 默认＜1
+    async photograph () {
+      if (this.maxCount > 1 && this.maxCount === this.Count) {
+        warning(`最多拍摄${this.Count}张`)
+        return
+      }
+
+      this.loading = true
+      if (this.maxCount === 1) {
+        this.reset()
+      }
+
+      let blob, file, base64
+
+      await new Promise((resolve, reject) => {
+        this.$refs.canvas.toBlob(blob__ => {
+          blob = blob__
+          file = new File([blob__], String(new Date().valueOf()), { type: blob__.type })
+          resolve()
+        }, 'image/png') //第三个参数为质量 默认＜1
+      })
+
       this.canvasCtx.drawImage(this.$refs.video, 0, 0, this.width, this.height)
-      this.base64 = this.$refs.canvas.toDataURL()
-      //this.$refs.picViewer.preview()
+      base64 = this.$refs.canvas.toDataURL()
+
+      this.$refs.screenshot.perform(base64)
+
+      if (this.maxCount > 1) {
+        if (Array.isArray(this.blob)) {
+          this.blob.push(blob)
+          this.file.push(file)
+          this.base64.push(base64)
+        } else {
+          this.blob = [blob]
+          this.file = [file]
+          this.base64 = [base64]
+        }
+      } else {
+        this.blob = blob
+        this.file = file
+        this.base64 = base64
+      }
+
+      this.loading = false
     }
   }
 }
@@ -148,7 +223,17 @@ export default {
   padding: 7.5px 20px 30px 20px;
 }
 
-::v-deep .pic-viewer img {
-  height: 38px !important;
+::v-deep .pic-viewer {
+  & > ul.normal-flow {
+    height: unset;
+
+    > li {
+      margin-bottom: 0;
+
+      img {
+        height: 38px !important;
+      }
+    }
+  }
 }
 </style>

@@ -27,7 +27,7 @@
   "dependencies": {
     "kayran": "0",
     "lodash-es": "4",
-    "pic-viewer": "^0.2.12",
+    "pic-viewer": "0",
     "qrcode": "1",
     "sweetalert2": "10"
   },

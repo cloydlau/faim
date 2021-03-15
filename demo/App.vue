@@ -19,7 +19,10 @@
           <el-button @click="showCamera=true">打开摄像头</el-button>
           <Camera
             :show.sync="showCamera"
+            :count="2"
+            ref="camera"
           />
+          <PicViewer :value="$refs.camera&&$refs.camera.base64"/>
         </el-form-item>
 
         <el-form-item label="SweetAlert">
@@ -200,8 +203,11 @@ import {
 import Vue from 'vue'
 Vue.use(Swal)
 
+import PicViewer from 'pic-viewer'
+
 export default {
   components: {
+    PicViewer,
     Camera,
     FormDialog,
     SmsButton,
