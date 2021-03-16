@@ -153,12 +153,13 @@ export default {
       error({
         titleText: '调用摄像头失败',
         html: `
-        <ol class="list-disc">
-          <li>请确保摄像头已正确配置 win10系统可在【相机】应用查看</li>
-          <li>建议使用最新版现代浏览器如 Chrome / Edge / Firefox</li>
-          <li>浏览器提示申请使用摄像头时 请点击【允许】</li>
-        </ol>
-      `,
+          <ol class="list-disc">
+            <li>请确保摄像头已正确配置 win10系统可在【相机】应用查看</li>
+            <li>建议使用最新版现代浏览器如 Chrome / Edge / Firefox</li>
+            <li>浏览器提示申请使用摄像头时 请点击【允许】</li>
+          </ol>
+        `,
+        timer: 100000
       })
     },
     confirm () {
@@ -195,7 +196,7 @@ export default {
       await new Promise((resolve, reject) => {
         this.$refs.canvas.toBlob(blob__ => {
           blob = blob__
-          file = new File([blob__], String(new Date().valueOf()), { type: blob__.type })
+          file = new File([blob__], new Date().valueOf() + `.png`, { type: blob__.type })
           resolve()
         }, 'image/png') //第三个参数为质量 默认＜1
       })
