@@ -159,7 +159,7 @@ export default {
             <li>浏览器提示申请使用摄像头时 请点击【允许】</li>
           </ol>
         `,
-        timer: 100000
+        timer: 10000
       })
     },
     confirm () {
