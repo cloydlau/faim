@@ -18,7 +18,7 @@
       <slot name="footer">
         <div slot="footer" class="flex justify-between p-0 pt-30px">
           <div>
-            <canvas ref="canvas" :width="width" :height="height" class="hidden"></canvas>
+            <canvas ref="canvas" :width="width" :height="height" class="hidden"/>
             <PicViewer :waterfall="false" ref="picViewer" :value="base64" style="font-size:0"/>
           </div>
           <div>
@@ -124,9 +124,6 @@ export default {
     },
   },
   computed: {
-    canvasCtx () {
-      return this.$refs.canvas.getContext('2d')
-    },
     maxCount () {
       if (this.count) {
         return typeof this.count === 'number' ? this.count : this.count[1]
@@ -201,7 +198,7 @@ export default {
         }, 'image/png') //第三个参数为质量 默认＜1
       })
 
-      this.canvasCtx.drawImage(this.$refs.video, 0, 0, this.width, this.height)
+      this.$refs.canvas.getContext('2d').drawImage(this.$refs.video, 0, 0, this.width, this.height)
       base64 = this.$refs.canvas.toDataURL()
 
       this.$refs.screenshot.perform(base64)

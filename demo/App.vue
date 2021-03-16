@@ -19,7 +19,6 @@
           <el-button @click="showCamera=true">打开摄像头</el-button>
           <Camera
             :show.sync="showCamera"
-            :count="2"
             ref="camera"
           />
           <PicViewer :value="$refs.camera&&$refs.camera.base64"/>
