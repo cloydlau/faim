@@ -16,7 +16,8 @@
     ".": {
       "import": "./dist/kikimore.es.js",
       "require": "./dist/kikimore.umd.js"
-    }
+    },
+    "./dist/style.css": "./dist/style.css"
   },
   "scripts": {
     "dev": "vite",
