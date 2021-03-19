@@ -745,3 +745,36 @@ inline
 
 - 默认false表示以弹框形式显示
 - 开启后不再需要show参数
+
+<br/>
+
+## Camera / 摄像头拍照
+
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+| --- | --- | --- | --- | --- |
+| show.sync | 是否开启 | boolean | | false |
+| count | 拍照数量限制 | number / [number, number] | | 1 |
+| ...el-dialog属性 |
+
+### Events
+
+| name | description | callback's arguments |
+| --- | --- | --- |
+| ...el-dialog事件 |
+| confirm | 点击确认按钮触发 | { base64, blob, file } |
+
+### 获取照片
+
+- 通过 `confirm` 事件获取
+
+```html
+
+<Camera @confirm="({ base64, blob, file }) => {
+
+"/>
+```
+
+- 通过 `ref` 获取
+    - `this.$refs.camera.base64`
+    - `this.$refs.camera.blob`
+    - `this.$refs.camera.file`
