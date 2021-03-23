@@ -70,7 +70,7 @@ export default {
       return {
         content: this.name,
         placement: 'top',
-        openDelay: 200,
+        openDelay: 300,
         key: this.name,
         disabled: !([true, ''].includes(this.$attrs.circle) || this.preset.circle), // 仅图标型按钮显示tooltip
         ...globalProps.elTooltipProps,
