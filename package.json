@@ -1,6 +1,6 @@
 {
   "name": "kikimore",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "displayName": "",
   "description": "趁手小型组件库",
   "author": "cloydlau",
@@ -23,7 +23,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "clean": "rd /s /q .\\node_modules"
+    "ri": "rd /s /q .\\node_modules && pnpm i"
   },
   "dependencies": {
     "kayran": "0",
