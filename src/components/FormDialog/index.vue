@@ -21,7 +21,8 @@
       <slot/>
 
       <slot name="footer">
-        <div slot="footer" class="footer">
+        <div :class="['',true].includes($attrs.fullscreen)&&'h-90px'"/>
+        <div slot="footer" :class="['',true].includes($attrs.fullscreen)?'footer-fixed':'footer'">
           <el-button @click="closeDialog" :disabled="submitting">
             关 闭
           </el-button>
@@ -35,6 +36,8 @@
 </template>
 
 <script>
+import globalProps from './config'
+import { getFinalProp } from '../../utils'
 import { highlightError } from 'kayran'
 import { cloneDeep } from 'lodash-es'
 
@@ -51,7 +54,7 @@ export default {
     },
     elFormProps: Object,
     retrieve: Function,
-    submit: Function
+    submit: Function,
   },
   model: {
     prop: 'value',
@@ -66,7 +69,10 @@ export default {
   },
   computed: {
     beforeClosePassed () {
-      return this.$attrs.beforeClose || this.$attrs['before-close']
+      return globalProps.beforeClose ||
+        globalProps['before-close'] ||
+        this.$attrs.beforeClose ||
+        this.$attrs['before-close']
     },
     ElDialogProps () {
       return {
@@ -76,6 +82,7 @@ export default {
             this.$emit('update:show', false)
           }
         },
+        ...globalProps,
         ...this.$attrs,
       }
     },
@@ -84,6 +91,7 @@ export default {
         disabled: this.readonly,
         labelPosition: 'right',
         labelWidth: 'auto',
+        ...globalProps.elFormProps,
         ...this.elFormProps,
         model: this.value,
         ref: 'elForm',
@@ -289,6 +297,10 @@ export default {
     .footer {
       text-align: right;
       padding: 50px 0 0 0;
+    }
+
+    .footer-fixed {
+      @apply fixed bottom-5 right-9;
     }
   }
 

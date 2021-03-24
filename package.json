@@ -23,7 +23,7 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "clean": "md .\\node_modules\\__empty__ && robocopy .\\node_modules\\__empty__ .\\node_modules /mir /ns /nc /nfl /ndl /np"
+    "clean": "rd /s /q .\\node_modules"
   },
   "dependencies": {
     "kayran": "0",
