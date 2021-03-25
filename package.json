@@ -1,6 +1,6 @@
 {
   "name": "kikimore",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "displayName": "",
   "description": "趁手小型组件库",
   "author": "cloydlau",
@@ -26,7 +26,7 @@
     "ri": "rd /s /q .\\node_modules && pnpm i"
   },
   "dependencies": {
-    "kayran": "^0.0.2",
+    "kayran": "0.0.1",
     "lodash-es": "^4.17.21",
     "pic-viewer": "^0.2.12",
     "qrcode": "^1.4.4",

@@ -1,5 +1,5 @@
 dependencies:
-  kayran: 0.0.2
+  kayran: 0.0.1
   lodash-es: 4.17.21
   pic-viewer: 0.2.12
   qrcode: 1.4.4
@@ -1458,14 +1458,14 @@ packages:
       graceful-fs: 4.2.6
     resolution:
       integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==
-  /kayran/0.0.2:
+  /kayran/0.0.1:
     dependencies:
       lodash: 4.17.21
       lodash-es: 4.17.21
       qs: 6.10.1
     dev: false
     resolution:
-      integrity: sha512-GdGIwkUnu6BKVpJpI9tIONsnLfrR4r58BhBjzBz8kHe5GzoladAYW1M2KCphonTqnWq3R+LFFG8yhMR/zZSr6w==
+      integrity: sha512-F9E33vYiYtnh8mNf1SAoXaWBQsd9fAK4uDKX2K/5wtcrvTGDn5pSzV6e3b2hKBQC8KuAgIJFe4e4OS1KftGg/w==
   /lines-and-columns/1.1.6:
     dev: true
     resolution:
@@ -2175,7 +2175,7 @@ packages:
       integrity: sha512-AX3Zw5iPruN5ie6xGRIDgqkT+ZhnRlZMLMHAs8tg7nRruy2Nb+i5o9bwghAogtM08q1dpr2LVoS8KSTMYpWXUw==
 specifiers:
   element-ui: ^2.15.1
-  kayran: ^0.0.2
+  kayran: 0.0.1
   lodash-es: ^4.17.21
   pic-viewer: ^0.2.12
   qrcode: ^1.4.4
