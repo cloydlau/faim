@@ -1,5 +1,5 @@
 dependencies:
-  kayran: 0.0.1
+  kayran: 0.0.2
   lodash-es: 4.17.21
   pic-viewer: 0.2.12
   qrcode: 1.4.4
@@ -10,7 +10,7 @@ devDependencies:
   typescript: 4.2.3
   vite: 2.1.2
   vite-plugin-vue2: 1.4.2_vite@2.1.2
-  vite-plugin-windicss: 0.9.7_vite@2.1.2
+  vite-plugin-windicss: 0.9.11_vite@2.1.2
   vue: 2.6.12
 lockfileVersion: 5.2
 packages:
@@ -264,11 +264,11 @@ packages:
       node: '>= 8'
     resolution:
       integrity: sha512-8Broas6vTtW4GIXTAHDoE32hnN2M5ykgCpWGbuXHQ15vEMqr23pB76e/GZcYsZCHALv50ktd24qhEyKr6wBtow==
-  /@rollup/pluginutils/4.1.0_rollup@2.42.3:
+  /@rollup/pluginutils/4.1.0_rollup@2.42.4:
     dependencies:
       estree-walker: 2.0.2
       picomatch: 2.2.2
-      rollup: 2.42.3
+      rollup: 2.42.4
     dev: true
     engines:
       node: '>= 8.0.0'
@@ -386,7 +386,7 @@ packages:
       prettier: 1.19.1
     resolution:
       integrity: sha512-lejBLa7xAMsfiZfNp7Kv51zOzifnb29FwdnMLa96z26kXErPFioSf9BMcePVIQ6/Gc6/mC0UrPpxAWIHyae0vw==
-  /@windicss/plugin-utils/0.9.7:
+  /@windicss/plugin-utils/0.9.11:
     dependencies:
       debug: 4.3.2
       fast-glob: 3.2.5
@@ -395,7 +395,7 @@ packages:
       windicss: 2.5.4
     dev: true
     resolution:
-      integrity: sha512-tyKcMTXENd7AYV1Z3DbZUq/x8/UM3bGeg327lHKrsklds6F4MKZRVwtG2ya5h5taeKmcLHK+qvIvknwhwKNxrA==
+      integrity: sha512-gGLe3/Ud63fcpj1FTq+0/feP/UM34j9W+iSyBtpPnmfLx8mi2a9g9vhZrojqL9X9IYY+ZhHczZ8Fn9qcHdzWVw==
   /ansi-regex/2.1.1:
     dev: true
     engines:
@@ -897,7 +897,7 @@ packages:
   /browserslist/3.2.8:
     dependencies:
       caniuse-lite: 1.0.30001204
-      electron-to-chromium: 1.3.696
+      electron-to-chromium: 1.3.699
     dev: true
     hasBin: true
     resolution:
@@ -906,7 +906,7 @@ packages:
     dependencies:
       caniuse-lite: 1.0.30001204
       colorette: 1.2.2
-      electron-to-chromium: 1.3.696
+      electron-to-chromium: 1.3.699
       escalade: 3.1.1
       node-releases: 1.1.71
     dev: true
@@ -1133,10 +1133,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-082BIh4+pAdCz83lVtTpnpjdxxs=
-  /electron-to-chromium/1.3.696:
+  /electron-to-chromium/1.3.699:
     dev: true
     resolution:
-      integrity: sha512-yuKKvBuXe+IWRp6DxqbGUxbPtamh5C+mEC38vZ0KLxQFpGG9TQn0DbPL9WhWhQnfNhLyzxmPYlCzShbs8QxGbA==
+      integrity: sha512-fjt43CPXdPYwD9ybmKbNeLwZBmCVdLY2J5fGZub7/eMPuiqQznOGNXv/wurnpXIlE7ScHnvG9Zi+H4/i6uMKmw==
   /element-ui/2.15.1_vue@2.6.12:
     dependencies:
       async-validator: 1.8.5
@@ -1155,12 +1155,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA==
-  /esbuild/0.9.6:
+  /esbuild/0.9.7:
     dev: true
     hasBin: true
     requiresBuild: true
     resolution:
-      integrity: sha512-F6vASxU0wT/Davt9aj2qtDwDNSkQxh9VbyO56M7PDWD+D/Vgq/rmUDGDQo7te76W5auauVojjnQr/wTu3vpaUA==
+      integrity: sha512-VtUf6aQ89VTmMLKrWHYG50uByMF4JQlVysb8dmg6cOgW8JnFCipmz7p+HNBl+RR3LLCuBxFGVauAe2wfnF9bLg==
   /escalade/3.1.1:
     dev: true
     engines:
@@ -1458,14 +1458,14 @@ packages:
       graceful-fs: 4.2.6
     resolution:
       integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==
-  /kayran/0.0.1:
+  /kayran/0.0.2:
     dependencies:
       lodash: 4.17.21
       lodash-es: 4.17.21
       qs: 6.10.1
     dev: false
     resolution:
-      integrity: sha512-F9E33vYiYtnh8mNf1SAoXaWBQsd9fAK4uDKX2K/5wtcrvTGDn5pSzV6e3b2hKBQC8KuAgIJFe4e4OS1KftGg/w==
+      integrity: sha512-GdGIwkUnu6BKVpJpI9tIONsnLfrR4r58BhBjzBz8kHe5GzoladAYW1M2KCphonTqnWq3R+LFFG8yhMR/zZSr6w==
   /lines-and-columns/1.1.6:
     dev: true
     resolution:
@@ -1830,7 +1830,7 @@ packages:
       node: '>=0.10.0'
     resolution:
       integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==
-  /rollup/2.42.3:
+  /rollup/2.42.4:
     dev: true
     engines:
       node: '>=10.0.0'
@@ -1838,7 +1838,7 @@ packages:
     optionalDependencies:
       fsevents: 2.3.2
     resolution:
-      integrity: sha512-JjaT9WaUS5vmjy6xUrnPOskjkQg2cN4WSACNCwbOvBz8VDmbiKVdmTFUoMPRqTud0tsex8Xy9/boLbDW9HKD1w==
+      integrity: sha512-Zqv3EvNfcllBHyyEUM754npqsZw82VIjK34cDQMwrQ1d6aqxzeYu5yFb7smGkPU4C1Bj7HupIMeT6WU7uIdnMw==
   /run-parallel/1.2.0:
     dependencies:
       queue-microtask: 1.2.3
@@ -2054,7 +2054,7 @@ packages:
       '@babel/core': 7.13.10
       '@babel/parser': 7.13.12
       '@babel/plugin-transform-typescript': 7.13.0_@babel+core@7.13.10
-      '@rollup/pluginutils': 4.1.0_rollup@2.42.3
+      '@rollup/pluginutils': 4.1.0_rollup@2.42.4
       '@vue/babel-helper-vue-jsx-merge-props': 1.2.1
       '@vue/babel-preset-jsx': 1.2.4_@babel+core@7.13.10
       '@vue/component-compiler-utils': 3.2.0
@@ -2068,7 +2068,7 @@ packages:
       postinstall-postinstall: 2.1.0
       prettier: 2.2.1
       querystring: 0.2.1
-      rollup: 2.42.3
+      rollup: 2.42.4
       slash: 3.0.0
       vite: 2.1.2
       vue: 2.6.12
@@ -2079,9 +2079,9 @@ packages:
       vite: ^2.0.0-beta.23
     resolution:
       integrity: sha512-JKTF4JQfGMxWorJuOdVGR1DhIvfpqpdshtbKYroVwxk0MSXwl2x7oNJP4TVUR5ic9S/n1zcEHvClb4pOpXHBdw==
-  /vite-plugin-windicss/0.9.7_vite@2.1.2:
+  /vite-plugin-windicss/0.9.11_vite@2.1.2:
     dependencies:
-      '@windicss/plugin-utils': 0.9.7
+      '@windicss/plugin-utils': 0.9.11
       debug: 4.3.2
       vite: 2.1.2
       windicss: 2.5.4
@@ -2089,13 +2089,13 @@ packages:
     peerDependencies:
       vite: ^2.0.1
     resolution:
-      integrity: sha512-chk7vlV2VyofE5FlxEIhsHajPDInnW44QljY+vHvnd/r90pBEJF6dS9+fpJoS5+jrCVWTCX6t1BL4rZOkIv69A==
+      integrity: sha512-wcF2VmglWqvtsi8Zq4kTVVU9jPiiAfdyy91TnlgaJYlgRaBZcwb7QSJ9p5SeOWIyl6RpzjlK2JFWa0djrVmG8w==
   /vite/2.1.2:
     dependencies:
-      esbuild: 0.9.6
+      esbuild: 0.9.7
       postcss: 8.2.8
       resolve: 1.20.0
-      rollup: 2.42.3
+      rollup: 2.42.4
     dev: true
     engines:
       node: '>=12.0.0'
@@ -2174,15 +2174,15 @@ packages:
     resolution:
       integrity: sha512-AX3Zw5iPruN5ie6xGRIDgqkT+ZhnRlZMLMHAs8tg7nRruy2Nb+i5o9bwghAogtM08q1dpr2LVoS8KSTMYpWXUw==
 specifiers:
-  element-ui: '2'
-  kayran: '0'
-  lodash-es: '4'
-  pic-viewer: '0'
-  qrcode: '1'
-  sass: '1'
-  sweetalert2: '10'
-  typescript: '4'
-  vite: '2'
-  vite-plugin-vue2: '1'
-  vite-plugin-windicss: '0'
-  vue: '2'
+  element-ui: ^2.15.1
+  kayran: ^0.0.2
+  lodash-es: ^4.17.21
+  pic-viewer: ^0.2.12
+  qrcode: ^1.4.4
+  sass: ^1.32.8
+  sweetalert2: ^10.15.6
+  typescript: ^4.2.3
+  vite: ^2.1.2
+  vite-plugin-vue2: ^1.4.2
+  vite-plugin-windicss: ^0.9.11
+  vue: ^2.6.12

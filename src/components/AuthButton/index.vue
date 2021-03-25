@@ -43,7 +43,6 @@ export default {
   data () {
     return {
       authorized: false,
-      authCatalog: undefined,
     }
   },
   computed: {
@@ -152,17 +151,16 @@ export default {
         if (typeof this.Show === 'function') {
           const result = this.Show(this.name)
           authorized = result instanceof Promise ? await result : result
-          if (typeof authorized === 'boolean') {
-            this.authorized = authorized
+          if (authorized === true) {
+            this.authorized = true
             return
-          } else {
-            throw new Error('[AuthButton] show的返回值须为boolean类型')
           }
+        } else if (this.Show === true) {
+          this.authorized = true
+          return
         }
-        this.authorized = typeof this.Show === 'boolean' ? this.Show : false
-        return
       }
-      this.authorized = this.authCatalog.includes(this.name)
+      this.authorized = false
     },
   }
 }
