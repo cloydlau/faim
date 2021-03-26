@@ -16,7 +16,7 @@
       <el-tooltip
         :disabled="!Ellipsis"
         effect="dark"
-        :content="getLabel(v).toString()"
+        :content="getLabel(v)"
         placement="right"
       >
         <span class="label-left" :ref="'leftLabel'+(Label?v[Key]:v)">{{ getLabel(v) }}</span>
@@ -220,15 +220,17 @@ export default {
       }
     },
     getLabel (v) {
+      let result
       if (this.Label) {
         if (typeof this.Label === 'function') {
-          return this.Label(v)
+          result = this.Label(v)
         } else {
-          return v[this.Label]
+          result = v[this.Label]
         }
       } else {
-        return v
+        result = v
       }
+      return isEmpty(result) ? '' : String(result)
     },
     /*onVisibleChange (show) {
       this.showDropdown = show
