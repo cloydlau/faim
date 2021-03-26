@@ -14,3 +14,7 @@ export function getFinalProp (globalProp: any, prop: any, defaultValue: any) {
     globalProp !== undefined ? globalProp :
       defaultValue
 }
+
+export function hasScrollbar (el: HTMLElement) {
+  return el.scrollHeight > el.clientHeight
+}

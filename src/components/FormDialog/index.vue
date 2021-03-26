@@ -9,7 +9,7 @@
       <slot name="title"/>
     </template>
 
-    <div v-loading="loading">
+    <div v-loading="loading" class="h-full">
       <el-form
         v-if="$scopedSlots['el-form']"
         v-bind="ElFormProps"
@@ -21,7 +21,7 @@
       <slot/>
 
       <slot name="footer">
-        <div :class="['',true].includes($attrs.fullscreen)&&'h-90px'"/>
+        <div :class="['',true].includes($attrs.fullscreen)&&hasScrollbar&&'h-90px'"/>
         <div slot="footer" :class="['',true].includes($attrs.fullscreen)?'footer-fixed':'footer'">
           <el-button @click="closeDialog" :disabled="submitting">
             关 闭
@@ -37,7 +37,7 @@
 
 <script>
 import globalProps from './config'
-import { getFinalProp } from '../../utils'
+import { getFinalProp, hasScrollbar } from '../../utils'
 import { highlightError } from 'kayran'
 import { cloneDeep } from 'lodash-es'
 
@@ -65,6 +65,7 @@ export default {
       loading: false,
       submitting: false,
       initiated: false,
+      hasScrollbar: false,
     }
   },
   computed: {
@@ -137,6 +138,13 @@ export default {
         this.initiated = true
       }
     },
+    loading (n) {
+      if (!n) {
+        this.$nextTick(() => {
+          this.hasScrollbar = hasScrollbar(this.$refs.elDialog.$el.firstChild)
+        })
+      }
+    }
   },
   methods: {
     closeDialog () {
@@ -256,6 +264,7 @@ export default {
   }
 
   .el-dialog__body {
+    height: calc(100% - 55px);
     padding: 25px 50px;
 
     /* 去掉输入框的上下箭头 */
