@@ -1,6 +1,6 @@
 {
   "name": "kikimore",
-  "version": "0.0.10",
+  "version": "0.0.11",
   "displayName": "",
   "description": "趁手小型组件库",
   "author": "cloydlau",
@@ -30,7 +30,7 @@
     "lodash-es": "^4.17.21",
     "pic-viewer": "^0.2.12",
     "qrcode": "^1.4.4",
-    "sweetalert2": "^10.15.6"
+    "sweetalert2": "^10.15.7"
   },
   "peerDependencies": {
     "element-ui": "2",
@@ -40,9 +40,9 @@
     "element-ui": "^2.15.1",
     "sass": "^1.32.8",
     "typescript": "^4.2.3",
-    "vite": "^2.1.3",
+    "vite": "^2.1.5",
     "vite-plugin-vue2": "^1.4.2",
-    "vite-plugin-windicss": "^0.9.11",
+    "vite-plugin-windicss": "^0.11.3",
     "vue": "^2.6.12"
   }
 }
