@@ -3,6 +3,7 @@ import { init } from './config'
 
 Component.install = (Vue, opts) => {
   if (Component.install.installed) {
+    console.warn(`请勿重复注册${Component.name}`)
     return
   }
   init(opts)

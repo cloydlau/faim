@@ -31,5 +31,5 @@ export {
   Camera,
   Swal,
   Tag,
-  QR,
+  QR
 }
