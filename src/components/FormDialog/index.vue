@@ -38,6 +38,7 @@
 <script>
 import globalProps from './config'
 import { getFinalProp, hasScrollbar } from '../../utils'
+import 'kayran/dist/style.css'
 import { highlightError, loadStyle } from 'kayran'
 import { cloneDeep } from 'lodash-es'
 

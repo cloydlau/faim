@@ -1,5 +1,5 @@
 dependencies:
-  kayran: 0.0.3
+  kayran: 0.1.0
   lodash-es: 4.17.21
   pic-viewer: 0.2.12
   qrcode: 1.4.4
@@ -1458,14 +1458,13 @@ packages:
       graceful-fs: 4.2.6
     resolution:
       integrity: sha512-5dgndWOriYSm5cnYaJNhalLNDKOqFwyDB/rr1E9ZsGciGvKPs8R2xYGCacuf3z6K1YKDz182fd+fY3cn3pMqXQ==
-  /kayran/0.0.3:
+  /kayran/0.1.0:
     dependencies:
-      lodash: 4.17.21
       lodash-es: 4.17.21
       qs: 6.10.1
     dev: false
     resolution:
-      integrity: sha512-7G5aWdWoCvqa8WbL0JjJugLsewteG44DRbJmTqkLin9Ldp3QMNq0MQX8pfnkVzh45fr1r44z08+onXu/vXtMPw==
+      integrity: sha512-W0EqvNwV8LvBoI5WaGudTWqwuyGnroCIwn2Kwfm5/lqwnrCulYppBGKR6RvYu6YiVT53a1N7lYKF2PJJ7k1E3g==
   /lines-and-columns/1.1.6:
     dev: true
     resolution:
@@ -1488,6 +1487,7 @@ packages:
     resolution:
       integrity: sha1-hImxyw0p/4gZXM7KRI/21swpXDY=
   /lodash/4.17.21:
+    dev: true
     resolution:
       integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
   /loose-envify/1.4.0:
@@ -2176,7 +2176,7 @@ packages:
       integrity: sha512-AX3Zw5iPruN5ie6xGRIDgqkT+ZhnRlZMLMHAs8tg7nRruy2Nb+i5o9bwghAogtM08q1dpr2LVoS8KSTMYpWXUw==
 specifiers:
   element-ui: ^2.15.1
-  kayran: ^0.0.3
+  kayran: ^0.1.0
   lodash-es: ^4.17.21
   pic-viewer: ^0.2.12
   qrcode: ^1.4.4
