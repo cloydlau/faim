@@ -13,6 +13,11 @@
 <script>
 export default {
   name: 'Pagination',
+  inject: {
+    elForm: {
+      default: {}
+    },
+  },
   props: {
     pageSize: {
       type: Number,
@@ -47,8 +52,9 @@ export default {
         layout: 'total, prev, pager, next, jumper',
         background: true,
         ...this.$attrs,
+        disabled: ['', true].includes(this.$attrs.disabled) || this.elForm.disabled,
       }
-    }
+    },
   },
   methods: {
     onSizeChange (e) {

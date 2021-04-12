@@ -1,6 +1,10 @@
 <template>
   <div>
     <el-button @click="showFormDialog=true">打开FormDialog</el-button>
+    只读：
+    <el-switch
+      v-model="readonly"
+    />
 
     <FormDialog
       :show.sync="showFormDialog"
@@ -13,6 +17,7 @@
       @opened="console.log('opened')"
       @close="console.log('close')"
       @closed="console.log('closed')"
+      :readonly="readonly"
     >
       <template #el-form>
         <el-form-item label="Camera" prop="Camera">
@@ -263,6 +268,7 @@ export default {
         周二: 2
       },
       showFormDialog: true,
+      readonly: false
     }
   },
   methods: {

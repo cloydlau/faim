@@ -34,3 +34,4 @@ tests/
 .gitattributes
 .gitignore
 vite.config.ts
+windi.config.ts

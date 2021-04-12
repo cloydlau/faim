@@ -38,7 +38,7 @@
 <script>
 import globalProps from './config'
 import { getFinalProp, hasScrollbar } from '../../utils'
-import { highlightError } from 'kayran'
+import { highlightError, loadStyle } from 'kayran'
 import { cloneDeep } from 'lodash-es'
 
 export default {
@@ -66,6 +66,7 @@ export default {
       submitting: false,
       initiated: false,
       hasScrollbar: false,
+      disabledStyle: null
     }
   },
   computed: {
@@ -143,6 +144,27 @@ export default {
         this.$nextTick(() => {
           this.hasScrollbar = hasScrollbar(this.$refs.elDialog.$el.firstChild)
         })
+      }
+    },
+    readonly: {
+      immediate: true,
+      handler (n) {
+        if (n) {
+          loadStyle(this.disabledStyle || `
+.el-form [disabled="disabled"],
+.el-form .is-disabled,
+.el-form .is-disabled *,
+.el-form .disabled {
+  color: unset !important;
+  cursor: initial !important;
+}
+          `).then(disabledStyle => {
+            this.disabledStyle = disabledStyle
+          })
+        } else if (this.disabledStyle) {
+          this.disabledStyle.remove()
+          this.disabledStyle = null
+        }
       }
     }
   },
@@ -275,11 +297,6 @@ export default {
 
     input[type="number"] {
       -moz-appearance: textfield;
-    }
-
-    //针对readonly
-    [disabled="disabled"], .el-tag.el-tag--info {
-      color: unset !important;
     }
 
     .el-form-item__label {
