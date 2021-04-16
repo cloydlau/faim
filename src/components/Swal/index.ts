@@ -64,7 +64,7 @@ function error (cfg: string | object) {
   })
 }
 
-function confirm (config: any = {}, force: boolean) {
+function confirm (config: any = {}, force: boolean = false) {
   return new Promise((resolve, reject) => {
     let title
     if (typeof config === 'string') {
@@ -76,11 +76,10 @@ function confirm (config: any = {}, force: boolean) {
 
     title && Swal.fire({
       title,
-      showCancelButton: true,
       confirmButtonText: '确定',
       cancelButtonText: '取消',
+      showCancelButton: !force,
       ...force && {
-        showCancelButton: false,
         allowOutsideClick: false,
         allowEscapeKey: false,
       },
