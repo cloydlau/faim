@@ -5,26 +5,27 @@
 :::
 
 ```js
+// 全局注册
+
 import { AuthButton } from 'kikimore'
 
-// 全局注册
 Vue.use(AuthButton, {
   // 全局配置
 })
-
-// 局部注册
-components: {
-  AuthButton
-}
 ```
 
-```js
-// 局部注册
+```vue
+<!-- 局部注册 -->
+
+<script >
 import { AuthButton } from 'kikimore'
 
-components: {
-  AuthButton
+export default{
+  components: {
+    AuthButton
+  }
 }
+</script>
 ```
 
 <br/>
