@@ -33,5 +33,7 @@ coverage/
 tests/
 .gitattributes
 .gitignore
-vite.config.ts
-windi.config.ts
+/vite.config.*
+/windi.config.*
+/pnpm-lock.yaml
+*.html

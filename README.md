@@ -498,28 +498,6 @@ confirm('确认')
 })
 ```
 
-### 全局注册
-
-```js
-import { Swal } from 'kikimore'
-
-Vue.use(Swal)
-
-// 之后你可以通过以下方式访问
-
-this.Swal__
-
-this.success__
-
-this.info__
-
-this.warning__
-
-this.error__
-
-this.confirm__
-```
-
 ### 强制confirm
 
 ```js
