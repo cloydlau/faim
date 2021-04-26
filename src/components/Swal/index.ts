@@ -96,6 +96,10 @@ Swal.info = info
 Swal.error = error
 Swal.confirm = confirm
 
+Swal.install = (Vue: { prototype: { $Swal: any; } }) => {
+  Vue.prototype.$Swal = Swal
+}
+
 export {
   success, warning, info, error, confirm
 }

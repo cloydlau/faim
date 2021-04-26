@@ -17,10 +17,10 @@ Vue.use(AuthButton, {
 ```vue
 <!-- 局部注册 -->
 
-<script >
+<script>
 import { AuthButton } from 'kikimore'
 
-export default{
+export default {
   components: {
     AuthButton
   }
@@ -496,6 +496,18 @@ confirm('确认')
     // 点击取消
   }
 })
+```
+
+### 全局注册
+
+```js
+import { Swal } from 'kikimore'
+
+Vue.use(Swal)
+
+// 然后你可以通过以下方式访问
+
+this.$Swal
 ```
 
 ### 强制confirm
