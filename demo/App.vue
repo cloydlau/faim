@@ -31,12 +31,12 @@
 
         <el-form-item label="SweetAlert">
           <el-button-group>
-            <el-button @click="success__().then(() => {window.alert('success')})">成功</el-button>
-            <el-button @click="info__('info').then(() => {window.alert('info')})">提示</el-button>
-            <el-button @click="warning__('warning').then(() => {window.alert('warning')})">警告</el-button>
-            <el-button @click="error__('error').then(() => {window.alert('error')})">错误</el-button>
+            <el-button @click="$Swal.success().then(() => {window.alert('success')})">成功</el-button>
+            <el-button @click="$Swal.info('info').then(() => {window.alert('info')})">提示</el-button>
+            <el-button @click="$Swal.warning('warning').then(() => {window.alert('warning')})">警告</el-button>
+            <el-button @click="$Swal.error('error').then(() => {window.alert('error')})">错误</el-button>
             <el-button
-              @click="confirm__('confirm').then(() => {window.alert('确认')}).catch(() => {window.alert('取消')})">
+              @click="$Swal.confirm('confirm').then(() => {window.alert('确认')}).catch(() => {window.alert('取消')})">
               确认
             </el-button>
             <el-button
@@ -205,7 +205,7 @@ import {
 } from '../src/main'
 
 import Vue from 'vue'
-Vue.use(Swal)
+Vue.prototype.$Swal = Swal
 
 import PicViewer from 'pic-viewer'
 
@@ -273,7 +273,7 @@ export default {
   },
   methods: {
     asyncConfirmation () {
-      this.confirm__({
+      this.$Swal.confirm({
         title: '异步确认',
         input: 'text',
         inputAttributes: {
@@ -304,7 +304,7 @@ export default {
               alert('拒绝失败')
             })
           } else {
-            this.Swal__.showValidationMessage(`请填写备注`)
+            this.$Swal.showValidationMessage(`请填写备注`)
             return false
           }
         },
