@@ -90,7 +90,7 @@ submit()
   if (...) {
     return this.POST('')
   } else {
-    this.warning__('校验失败')
+    this.$Swal.warning('校验失败')
     return {
       close: false
     }
