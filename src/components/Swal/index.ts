@@ -96,15 +96,6 @@ Swal.info = info
 Swal.error = error
 Swal.confirm = confirm
 
-Swal.install = (Vue: { prototype: { Swal__: any; success__: (config: any) => any; info__: (config?: any) => any; warning__: (config?: any) => any; error__: (titleText: string) => any; confirm__: (config: any, force: boolean) => Promise<unknown> } }) => {
-  Vue.prototype.Swal__ = Swal
-  Vue.prototype.success__ = success
-  Vue.prototype.info__ = info
-  Vue.prototype.warning__ = warning
-  Vue.prototype.error__ = error
-  Vue.prototype.confirm__ = confirm
-}
-
 export {
   success, warning, info, error, confirm
 }
