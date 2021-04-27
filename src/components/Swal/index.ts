@@ -22,16 +22,14 @@ function info (config: any = {}) {
     titleText = config.titleText
   }
 
-  if (titleText) {
-    return Swal.fire({
-      titleText,
-      icon: 'info',
-      timer: 2000,
-      toast: true,
-      showConfirmButton: false,
-      ...config,
-    })
-  }
+  return Swal.fire({
+    titleText,
+    icon: 'info',
+    timer: 2000,
+    toast: true,
+    showConfirmButton: false,
+    ...config,
+  })
 }
 
 function warning (config: any = {}) {
@@ -43,15 +41,13 @@ function warning (config: any = {}) {
     titleText = config.titleText
   }
 
-  if (titleText) {
-    return Swal.fire({
-      titleText,
-      icon: 'warning',
-      timer: 3000,
-      toast: true,
-      ...config,
-    })
-  }
+  return Swal.fire({
+    titleText,
+    icon: 'warning',
+    timer: 3000,
+    toast: true,
+    ...config,
+  })
 }
 
 function error (cfg: string | object) {
@@ -66,16 +62,16 @@ function error (cfg: string | object) {
 
 function confirm (config: any = {}, force: boolean = false) {
   return new Promise((resolve, reject) => {
-    let title
+    let titleText
     if (typeof config === 'string') {
-      title = config
+      titleText = config
       config = {}
     } else if (config) {
-      title = config.title
+      titleText = config.titleText
     }
 
-    title && Swal.fire({
-      title,
+    Swal.fire({
+      titleText,
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       showCancelButton: !force,
