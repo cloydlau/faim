@@ -551,7 +551,7 @@ Swal.confirm({
         alert('拒绝失败')
       })
     } else {
-      this.Swal__.showValidationMessage(`请填写备注`)
+      this.$Swal.showValidationMessage(`请填写备注`)
       return false
     }
   },
