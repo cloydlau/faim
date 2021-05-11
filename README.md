@@ -4,9 +4,10 @@
 所有组件均可具名引入 均可全局注册或局部注册 后文不再赘述
 :::
 
-```js
-// 全局注册
+```ts
+// 全局引入
 
+import 'kikimore/dist/style.css'
 import { AuthButton } from 'kikimore'
 
 Vue.use(AuthButton, {
@@ -15,18 +16,40 @@ Vue.use(AuthButton, {
 ```
 
 ```vue
-<!-- 局部注册 -->
+<!-- 局部引入 -->
+
+<template>
+  <AuthButton v-bind="config"/>
+</template>
 
 <script>
+import 'kikimore/dist/style.css'
 import { AuthButton } from 'kikimore'
 
 export default {
-  components: {
-    AuthButton
+  components: { AuthButton },
+  data () {
+    return {
+      config: {
+        // 局部配置
+      }
+    }
   }
 }
 </script>
 ```
+
+<br/>
+
+**Config rules**
+
+- 双向绑定参数（`v-model` / `value` / `*.sync`）仅支持局部配置
+- 其余参数均支持全局或局部配置
+
+权重：
+
+- 局部配置高于全局配置
+- 对于对象类型的参数 局部配置会与全局配置进行合并 同名属性会被局部配置覆盖
 
 <br/>
 
@@ -226,14 +249,14 @@ export default {
 
 ## AuthButton / 权限按钮
 
-| Attribute | Description | Configuration Mode | Type |  Default |
-| --- | --- | --- | --- | --- |
-| name | 文案 | local | string | |
-| show | 是否显示 | local, global | boolean, function | false |
-| catalog | 目录 | global | object | |
-| elPopconfirmProps | el-popconfirm的配置 未配置时默认不开启popconfirm | local, global | object | |
-| elTooltipProps | el-tooltip的配置 默认circle为true时开启tooltip | local, global | object | |
-| ...el-button属性 |
+| Attribute | Description | Type |  Default |
+| --- | --- | --- | --- |
+| name | 文案 | string | |
+| show | 是否显示 | boolean, function | false |
+| catalog | 预设目录 | object | |
+| elPopconfirmProps | el-popconfirm的配置 未配置时默认不开启popconfirm | object | |
+| elTooltipProps | el-tooltip的配置 默认circle为true时开启tooltip | object | |
+| ... `el-button` 属性 |
 
 **show**
 
@@ -245,7 +268,9 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
 
 如果同一个name的AuthButton需要多处使用 你可以在catalog中针对这个name进行全局配置
 
-> elPopconfirmProps、elTooltipProps也支持在catalog中使用
+`elPopconfirmProps`、`elTooltipProps` 也支持在catalog中使用
+
+> 该参数不支持局部配置
 
 默认值：
 
@@ -281,8 +306,17 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
     icon: 'el-icon-video-play',
     circle: true,
     elPopconfirmProps: {}
-  },
+  },### 不需要PopConfirm
+
+```html
+
+<AuthButton
+  :elPopconfirmProps="{disabled:true}"
+/>
+```
+
 }
+
 ```
 
 - 使用在catalog中定义过的AuthButton
@@ -299,6 +333,24 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
 <AuthButton @click="" name="" circle type="primary">
   <i class="el-icon-finished"/>
 </AuthButton>
+```
+
+### 不需要Popconfirm
+
+```html
+
+<AuthButton
+  :elPopconfirmProps="{disabled:true}"
+/>
+```
+
+### 不需要Tooltip
+
+```html
+
+<AuthButton
+  :elTooltipProps="{disabled:true}"
+/>
 ```
 
 <br/>

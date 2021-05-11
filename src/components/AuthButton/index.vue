@@ -11,13 +11,13 @@
       <el-button
         slot="reference"
         class="auth-button"
-        v-bind="elButtonProps"
+        v-bind="ElButtonProps"
         @click="onElButtonClick"
       >
         <span v-if="$slots.default && ![true,''].includes($attrs.loading)">
           <slot/>
         </span>
-        <span v-else-if="!preset.circle && ![true,''].includes($attrs.loading)">{{ name }}</span>
+        <span v-else-if="!presetFromCatalog.circle && ![true,''].includes($attrs.loading)">{{ name }}</span>
       </el-button>
     </el-popconfirm>
   </el-tooltip>
@@ -26,6 +26,8 @@
 <script>
 import globalProps from './config'
 import { getFinalProp } from '../../utils'
+import { isEmpty } from 'kayran'
+import { isPlainObject } from 'lodash-es'
 
 export default {
   name: 'AuthButton',
@@ -46,45 +48,45 @@ export default {
     }
   },
   computed: {
-    popconfirmDisabled () {
-      return !this.preset.elPopconfirmProps && !globalProps.elPopconfirmProps && !this.elPopconfirmProps
-    },
-    elButtonProps () {
-      return {
-        ...globalProps.elButtonProps,
-        ...this.preset,
-        ...this.$attrs,
-      }
+    ElButtonProps () {
+      return getFinalProp(
+        this.$attrs,
+        this.presetFromCatalog,
+        globalProps.elButtonProps
+      )
     },
     ElPopconfirmProps () {
-      return {
-        title: this.name,
-        disabled: this.popconfirmDisabled,
-        ...globalProps.elPopconfirmProps,
-        ...this.preset.elPopconfirmProps,
-        ...this.elPopconfirmProps
-      }
+      return getFinalProp(
+        this.elPopconfirmProps,
+        this.presetFromCatalog.elPopconfirmProps,
+        globalProps.elPopconfirmProps,
+        {
+          title: this.name,
+        },
+      )
     },
     ElTooltipProps () {
-      return {
-        content: this.name,
-        placement: 'top',
-        openDelay: 400,
-        key: this.name,
-        disabled: !([true, ''].includes(this.$attrs.circle) || this.preset.circle), // 仅图标型按钮显示tooltip
-        ...globalProps.elTooltipProps,
-        ...this.preset.elTooltipProps,
-        ...this.elTooltipProps,
-      }
-    },
-    preset () {
-      return {
-        重置密码: {
-          type: 'info',
-          icon: 'el-icon-unlock',
-          circle: true,
-          elPopconfirmProps: {}
+      return getFinalProp(
+        this.elTooltipProps,
+        this.presetFromCatalog.elTooltipProps,
+        globalProps.elTooltipProps,
+        {
+          content: this.name,
+          placement: 'top',
+          openDelay: 400,
+          key: this.name,
+          // 默认非圆形按钮不显示tooltip
+          disabled: !getFinalProp(
+            this.$attrs.circle,
+            this.presetFromCatalog.circle,
+            globalProps.circle,
+            false
+          ),
         },
+      )
+    },
+    presetFromCatalog () {
+      return {
         新增: {
           type: 'primary',
           icon: 'el-icon-circle-plus-outline'
@@ -116,16 +118,11 @@ export default {
           circle: true,
           elPopconfirmProps: {}
         },
-        授权: {
-          type: 'info',
-          icon: 'el-icon-user-solid',
-          circle: true
-        },
         ...globalProps.catalog,
       }[this.name] || {}
     },
     Show () {
-      return getFinalProp(globalProps.show, this.show === '' ? true : this.show)
+      return getFinalProp(this.show, globalProps.show, false)
     }
   },
   watch: {
@@ -141,7 +138,7 @@ export default {
   },
   methods: {
     onElButtonClick (e) {
-      if (this.popconfirmDisabled) {
+      if (this.ElPopconfirmProps.disabled) {
         this.$emit('click', e)
       }
     },

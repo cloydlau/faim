@@ -72,7 +72,7 @@ export default {
       }
     },
     Ellipsis () {
-      const result = getFinalProp(globalProps.ellipsis, this.ellipsis, false)
+      const result = getFinalProp(this.ellipsis, globalProps.ellipsis, false)
       if (result) {
         this.$nextTick(() => {
           this.popper = this.$refs.elSelect.$refs.popper
@@ -93,7 +93,7 @@ export default {
       }
     },
     Placeholder () {
-      return getFinalProp(globalProps.placeholder, this.placeholder, this.search ? '输入关键字搜索' : '请选择')
+      return getFinalProp(this.placeholder, globalProps.placeholder, this.search ? '输入关键字搜索' : '请选择')
     },
     Key () {
       return this.Props.key
@@ -143,13 +143,13 @@ export default {
       return result
     },
     Search () {
-      return getFinalProp(globalProps.search, this.search)
+      return getFinalProp(this.search, globalProps.search,)
     },
     ObjectValue () {
-      return getFinalProp(globalProps.objectValue, this.objectValue)
+      return getFinalProp(this.objectValue, globalProps.objectValue,)
     },
     Immediate () {
-      return getFinalProp(globalProps.immediate, this.immediate, true)
+      return getFinalProp(this.immediate, globalProps.immediate, true)
     }
   },
   data () {

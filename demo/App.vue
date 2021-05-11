@@ -93,9 +93,9 @@
           <AuthButton
             name="test"
             @click="console.log('[AuthButton] click')"
-            :elPopconfirmProps="{}"
             show
             circle
+            :elPopconfirmProps="{disabled:true}"
           />
         </el-form-item>
 

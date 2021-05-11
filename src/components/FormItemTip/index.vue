@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     Show () {
-      return getFinalProp(globalProps.show, this.show === '' ? true : this.show, !this.elForm.disabled)
+      return getFinalProp(this.show, globalProps.show, !Boolean(this.elForm.disabled))
     }
   }
 }
