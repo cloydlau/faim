@@ -56,14 +56,16 @@ export default {
       )
     },
     ElPopconfirmProps () {
-      return getFinalProp(
+      const result = getFinalProp(
         this.elPopconfirmProps,
         this.presetFromCatalog.elPopconfirmProps,
         globalProps.elPopconfirmProps,
-        {
-          title: this.name,
-        },
       )
+      return {
+        title: this.name,
+        disabled: !Boolean(result), // 未配置elPopconfirmProps时默认不启用
+        ...result,
+      }
     },
     ElTooltipProps () {
       return getFinalProp(

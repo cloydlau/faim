@@ -9,7 +9,7 @@ specifiers:
   sass: ^1.32.12
   sweetalert2: ^10.16.7
   typescript: ^4.2.4
-  vite: ^2.2.4
+  vite: 2.2.4
   vite-plugin-vue2: ^1.5.1
   vite-plugin-windicss: ^0.15.10
   vue: ^2.6.12
@@ -409,7 +409,7 @@ packages:
       lru-cache: 4.1.5
       merge-source-map: 1.1.0
       postcss: 7.0.35
-      postcss-selector-parser: 6.0.5
+      postcss-selector-parser: 6.0.6
       source-map: 0.6.1
       vue-template-es2015-compiler: 1.9.1
     optionalDependencies:
@@ -1629,8 +1629,8 @@ packages:
     engines: {node: '>=4.0.0'}
     dev: false
 
-  /postcss-selector-parser/6.0.5:
-    resolution: {integrity: sha512-aFYPoYmXbZ1V6HZaSvat08M97A8HqO6Pjz+PiNpw/DhuRrC72XWAdp3hL6wusDCN31sSmcZyMGa2hZEuX+Xfhg==}
+  /postcss-selector-parser/6.0.6:
+    resolution: {integrity: sha512-9LXrvaaX3+mcv5xkg5kFwqSzSH1JIObIx51PrndZwlmznwXRfxMddDvo9gve3gVR8ZTKgoFDdWkbRFmEhT4PMg==}
     engines: {node: '>=4'}
     dependencies:
       cssesc: 3.0.0
