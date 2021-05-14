@@ -47,14 +47,14 @@ export default {
     placeholder: String,
     ellipsis: {
       // 不能用type 因为type为Boolean时 如果用户没传 默认值为false而不是undefined 会影响getFinalProp的判断
-      validator: value => ['boolean'].includes(typeOf(value)),
+      validator: value => value === '' || ['boolean'].includes(typeOf(value)),
     },
     objectValue: {
-      validator: value => ['boolean'].includes(typeOf(value)),
+      validator: value => value === '' || ['boolean'].includes(typeOf(value)),
     },
     search: Function,
     immediate: {
-      validator: value => ['boolean'].includes(typeOf(value)),
+      validator: value => value === '' || ['boolean'].includes(typeOf(value)),
     }
   },
   computed: {
