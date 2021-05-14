@@ -1,4 +1,4 @@
-import { isPlainObject } from 'lodash-es'
+import { isPlainObject, assignInWith, cloneDeep } from 'lodash-es'
 
 /**
  * 参数有全局参数、实例参数和默认值之分 取哪个取决于用户传了哪个：
@@ -11,27 +11,30 @@ import { isPlainObject } from 'lodash-es'
  * @return {any} 最终值
  */
 export function getFinalProp () {
-  const defaultValue = arguments[arguments.length - 1]
-  for (let i = 0; i < arguments.length - 1; i++) {
-    const prop = arguments[i]
+  const args = Array.from(arguments)
+  const defaultValue = args[args.length - 1]
+  let result = defaultValue
+  //console.log('传参：', cloneDeep(args))
+  for (let i = 0; i < args.length - 1; i++) {
+    const prop = args[i]
     if (prop !== undefined) {
       if (i === 0 && typeof (defaultValue) === 'boolean') {
-        return ['', true].includes(prop)
+        result = ['', true].includes(prop) ? true : prop
       } else if (isPlainObject(prop)) {
-        let mixture = {}
-        for (let j = arguments.length - 1; j >= i; j--) {
-          mixture = {
-            ...mixture,
-            ...arguments[j]
-          }
-        }
-        return mixture
+        result = assignInWith(...args, (objValue, srcValue) => {
+          return isPlainObject(srcValue) ? {
+            ...srcValue,
+            ...objValue,
+          } : srcValue
+        })
       } else {
-        return prop
+        result = prop
       }
+      break
     }
   }
-  return defaultValue
+  //console.log('生效：', result)
+  return result
 }
 
 export function hasScrollbar (el: HTMLElement) {
