@@ -153,7 +153,7 @@ submit没有返回值或者返回值不是Promise时 则submit执行完毕后默
     :show.sync="form.show"
     ref="formDialog"
   >
-    <div slot="footer" class="footer">
+    <div slot="footer" class="text-right pt-50px">
       <el-button
         type="primary"
         v-if="formDialog.readonly"
