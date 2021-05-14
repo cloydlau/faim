@@ -99,7 +99,7 @@ retrieve()
 submit()
 {
   // 提交之前
-  return this.POST('').then(() => {
+  return this.$POST('').then(() => {
     // 提交之后
   })
 }
@@ -111,7 +111,7 @@ submit()
 submit()
 {
   if (...) {
-    return this.POST('')
+    return this.$POST('')
   } else {
     this.$Swal.warning('校验失败')
     return {
@@ -231,14 +231,14 @@ export default {
       this.form.show = true
     },
     retrieve () {
-      return this.POST('', {
+      return this.$POST('', {
         id: this.form.data.id
       }).then(({ data }) => {
         this.form.data = data || {}
       })
     },
     submit () {
-      return this.POST('', this.form.data)
+      return this.$POST('', this.form.data)
     },
   }
 }
@@ -427,7 +427,7 @@ export default {
   },
   methods: {
     search (value) {
-      return this.POST('', {
+      return this.$POST('', {
         keyword: value
       })
     }
