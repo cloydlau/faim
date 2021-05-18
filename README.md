@@ -555,11 +555,9 @@ confirm('确认')
 ```js
 import { Swal } from 'kikimore'
 
-Vue.use(Swal)
-
-// 然后你可以通过以下方式访问
-
-this.$Swal
+Object.defineProperty(Vue.prototype, '$Swal', {
+  value: Swal
+})
 ```
 
 ### 强制confirm
@@ -617,38 +615,6 @@ Swal.confirm({
   }
 })
 ```
-
-<br/>
-
-## QR / 支持蒙层的二维码
-
-```html
-
-<QR :value=""/>
-```
-
-如果value的值比较小 而size的值比较大 会导致图片模糊 此时可以增大scale解决：
-
-```html
-
-<QR :value="" :options="{scale:25}"/>
-```
-
-> scale指二维码每个黑点占用的px数量 可选值为整数的二次方 如25 36 49 64 81
-
-| 参数 | 说明 | 类型 | 可选值 | 默认值 |
-| --- | --- | --- | --- | --- |
-| value | 二维码字符串（如果为base64编码 则不经过转换直接展示） | string | | |
-| mask-text | 蒙层文案 | string | | |
-| size | 宽高（单位px） | string | | 200 |
-| options | 底层依赖qrcode的参数 | object | <a>https:// github.com/soldair/node-qrcode</a><OutboundLink/> | {margin:0, scale:16, errorCorrectionLevel:'L'} |
-
-<br/>
-
-| 事件名称 | 说明 | 回调参数 |
-| --- | --- | --- |
-| load | 加载完成后触发 | |
-| error | 加载出错后触发 | event |
 
 <br/>
 

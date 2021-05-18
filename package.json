@@ -30,7 +30,7 @@
     "lodash-es": "^4.17.21",
     "pic-viewer": "^0.2.12",
     "qrcode": "^1.4.4",
-    "sweetalert2": "^10.16.7"
+    "sweetalert2": "^10.16.9"
   },
   "peerDependencies": {
     "element-ui": "2",
