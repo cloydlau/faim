@@ -35,5 +35,5 @@ tests/
 .gitignore
 /vite.config.*
 /windi.config.*
-/pnpm-lock.yaml
-*.html
+/dist/*.html
+/*.html
