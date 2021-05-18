@@ -117,10 +117,6 @@
           <Tag :value="1" :options="'being'"/>
         </el-form-item>
 
-        <el-form-item label="QR">
-          <QR value="123123" @load="()=>{console.log('qr loaded')}"/>
-        </el-form-item>
-
         <el-form-item label="OnefoldTable">
           <OnefoldTable title="两列">
             <tr>
@@ -188,7 +184,6 @@
 <script>
 import {
   SmsButton,
-  QR,
   CheckAllBox,
   OnefoldTable,
   VideoPlayer,
@@ -215,7 +210,6 @@ export default {
     Camera,
     FormDialog,
     SmsButton,
-    QR,
     CheckAllBox,
     OnefoldTable,
     VideoPlayer,

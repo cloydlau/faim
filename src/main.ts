@@ -14,7 +14,6 @@ import Selector from './components/Selector'
 import Camera from './components/Camera'
 import Swal from './components/Swal'
 import Tag from './components/Tag'
-import QR from './components/QR'
 
 export {
   OnefoldTable,
@@ -31,5 +30,4 @@ export {
   Camera,
   Swal,
   Tag,
-  QR
 }
