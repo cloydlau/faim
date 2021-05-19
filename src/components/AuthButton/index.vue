@@ -1,6 +1,6 @@
 <template>
   <el-tooltip
-    v-if="authorized"
+    v-if="name&&authorized"
     v-bind="ElTooltipProps"
   >
     <el-popconfirm
@@ -26,21 +26,19 @@
 <script>
 import globalProps from './config'
 import { getFinalProp } from '../../utils'
-import { isEmpty } from 'kayran'
-import { isPlainObject } from 'lodash-es'
 
 export default {
   name: 'AuthButton',
   props: {
     name: {
       type: String,
-      required: true
+      //required: true // undefined 时报错
+    },
+    show: {
+      validator: value => ['boolean', 'function'].includes(typeof value) || value === '',
     },
     elPopconfirmProps: Object,
     elTooltipProps: Object,
-    show: {
-      validator: value => ['boolean', 'function'].includes(typeof value) || value === '',
-    }
   },
   data () {
     return {
