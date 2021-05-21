@@ -102,10 +102,6 @@ export default {
       return this.Props.label
     },
     Props () {
-      if (this.rightLabel) {
-        console.warn('[Selector] rightLabel已废弃 请使用props.rightLabel')
-      }
-
       let result = {
         key: 'dataValue',
         label: 'dataName', // label不为空标志着value为对象类型
