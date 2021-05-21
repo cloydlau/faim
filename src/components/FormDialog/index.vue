@@ -177,10 +177,6 @@ export default {
         this.$emit('update:show', false)
       }
     },
-    doSubmit () {
-      console.warn('[FormDialog] doSubmit命名已废弃 请改用confirm')
-      this.confirm()
-    },
     confirm () {
       const exec = () => {
         if (typeof this.submit === 'function') {
