@@ -362,7 +362,7 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
 ```html
 
 <Selector
-  v-model="list__.query.status"
+  v-model="list__.filter.status"
   :options="['停用', '启用']"
   placeholder="状态"
 />
