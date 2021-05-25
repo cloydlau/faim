@@ -6,7 +6,7 @@ specifiers:
   lodash-es: ^4.17.21
   pic-viewer: ^0.2.12
   qrcode: ^1.4.4
-  sass: ^1.32.13
+  sass: ^1.34.0
   sweetalert2: ^10.16.9
   typescript: ^4.2.4
   vite: 2.2.4
@@ -23,7 +23,7 @@ dependencies:
 
 devDependencies:
   element-ui: 2.15.1_vue@2.6.12
-  sass: 1.32.13
+  sass: 1.34.0
   typescript: 4.2.4
   vite: 2.2.4
   vite-plugin-vue2: 1.5.1_vite@2.2.4
@@ -295,15 +295,15 @@ packages:
       fastq: 1.11.0
     dev: true
 
-  /@rollup/pluginutils/4.1.0_rollup@2.48.0:
+  /@rollup/pluginutils/4.1.0_rollup@2.49.0:
     resolution: {integrity: sha512-TrBhfJkFxA+ER+ew2U2/fHbebhLT/l/2pRk0hfj9KusXUuRXd2v0R58AfaZK9VXDQ4TogOSEmICVrQAA3zFnHQ==}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
       rollup: ^1.20.0||^2.0.0
     dependencies:
       estree-walker: 2.0.2
-      picomatch: 2.2.3
-      rollup: 2.48.0
+      picomatch: 2.3.0
+      rollup: 2.49.0
     dev: true
 
   /@vue/babel-helper-vue-jsx-merge-props/1.2.1:
@@ -467,7 +467,7 @@ packages:
     engines: {node: '>= 8'}
     dependencies:
       normalize-path: 3.0.0
-      picomatch: 2.2.3
+      picomatch: 2.3.0
     dev: true
 
   /async-validator/1.8.5:
@@ -924,7 +924,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001228
-      electron-to-chromium: 1.3.731
+      electron-to-chromium: 1.3.737
     dev: true
 
   /browserslist/4.16.6:
@@ -934,7 +934,7 @@ packages:
     dependencies:
       caniuse-lite: 1.0.30001228
       colorette: 1.2.2
-      electron-to-chromium: 1.3.731
+      electron-to-chromium: 1.3.737
       escalade: 3.1.1
       node-releases: 1.1.72
     dev: true
@@ -1143,8 +1143,8 @@ packages:
     resolution: {integrity: sha1-082BIh4+pAdCz83lVtTpnpjdxxs=}
     dev: false
 
-  /electron-to-chromium/1.3.731:
-    resolution: {integrity: sha512-dn1Nyd0DuFa3xhqZJr6/L9phyk+YXJpvrz6Vcu6mFxFqr5TQ9r/F3yvOYFUrEwY4Tbb1YBjN19TDKnSVCQvalA==}
+  /electron-to-chromium/1.3.737:
+    resolution: {integrity: sha512-P/B84AgUSQXaum7a8m11HUsYL8tj9h/Pt5f7Hg7Ty6bm5DxlFq+e5+ouHUoNQMsKDJ7u4yGfI8mOErCmSH9wyg==}
     dev: true
 
   /element-ui/2.15.1_vue@2.6.12:
@@ -1199,7 +1199,7 @@ packages:
       glob-parent: 5.1.2
       merge2: 1.4.1
       micromatch: 4.0.4
-      picomatch: 2.2.3
+      picomatch: 2.3.0
     dev: true
 
   /fastq/1.11.0:
@@ -1504,7 +1504,7 @@ packages:
     engines: {node: '>=8.6'}
     dependencies:
       braces: 3.0.2
-      picomatch: 2.2.3
+      picomatch: 2.3.0
     dev: true
 
   /minimatch/3.0.4:
@@ -1608,12 +1608,12 @@ packages:
   /pic-viewer/0.2.12:
     resolution: {integrity: sha512-xuxLdDN+Y/F6SisN32mZB0qyk15srtyXA8m8+jlJS7Gpp+lLciYfpwrP71ISvej8lS126Ma9yL3Q+pcJI/RwuA==}
     dependencies:
-      viewerjs: 1.9.0
+      viewerjs: 1.9.1
       vue: 2.6.12
     dev: false
 
-  /picomatch/2.2.3:
-    resolution: {integrity: sha512-KpELjfwcCDUb9PeigTs2mBJzXUPzAuP2oPcA989He8Rte0+YUAjw1JVedDhuTKPkHjSYzMN3npC9luThGYEKdg==}
+  /picomatch/2.3.0:
+    resolution: {integrity: sha512-lY1Q/PiJGC2zOv/z391WOTD+Z02bCgsFfvxoXXf6h7kv9o+WmsmzYqrAwY63sNgOxE4xEdq0WyUnXfKeBrSvYw==}
     engines: {node: '>=8.6'}
     dev: true
 
@@ -1646,13 +1646,13 @@ packages:
       supports-color: 6.1.0
     dev: true
 
-  /postcss/8.2.15:
-    resolution: {integrity: sha512-2zO3b26eJD/8rb106Qu2o7Qgg52ND5HPjcyQiK2B98O388h43A448LCslC0dI2P97wCAQRJsFvwTRcXxTKds+Q==}
+  /postcss/8.3.0:
+    resolution: {integrity: sha512-+ogXpdAjWGa+fdYY5BQ96V/6tAo+TdSSIMP5huJBIygdWwKtVoB5JWZ7yUd4xZ8r+8Kvvx4nyg/PQ071H4UtcQ==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       colorette: 1.2.2
       nanoid: 3.1.23
-      source-map: 0.6.1
+      source-map-js: 0.6.2
     dev: true
 
   /prettier/1.19.1:
@@ -1711,7 +1711,7 @@ packages:
     resolution: {integrity: sha512-cMhu7c/8rdhkHXWsY+osBhfSy0JikwpHK/5+imo+LpeasTF8ouErHrlYkwT0++njiyuDvc7OFY5T3ukvZ8qmFQ==}
     engines: {node: '>=8.10.0'}
     dependencies:
-      picomatch: 2.2.3
+      picomatch: 2.3.0
     dev: true
 
   /regenerate/1.4.2:
@@ -1774,8 +1774,8 @@ packages:
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
     dev: true
 
-  /rollup/2.48.0:
-    resolution: {integrity: sha512-wl9ZSSSsi5579oscSDYSzGn092tCS076YB+TQrzsGuSfYyJeep8eEWj0eaRjuC5McuMNmcnR8icBqiE/FWNB1A==}
+  /rollup/2.49.0:
+    resolution: {integrity: sha512-UnrCjMXICx9q0jF8L7OYs7LPk95dW0U5UYp/VANnWqfuhyr66FWi/YVlI34Oy8Tp4ZGLcaUDt4APJm80b9oPWQ==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
@@ -1792,8 +1792,8 @@ packages:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
     dev: true
 
-  /sass/1.32.13:
-    resolution: {integrity: sha512-dEgI9nShraqP7cXQH+lEXVf73WOPCse0QlFzSD8k+1TcOxCMwVXfQlr0jtoluZysQOyJGnfr21dLvYKDJq8HkA==}
+  /sass/1.34.0:
+    resolution: {integrity: sha512-rHEN0BscqjUYuomUEaqq3BMgsXqQfkcMVR7UhscsAVub0/spUrZGBMxQXFS2kfiDsPLZw5yuU9iJEFNC2x38Qw==}
     engines: {node: '>=8.9.0'}
     hasBin: true
     dependencies:
@@ -1825,6 +1825,11 @@ packages:
   /slash/3.0.0:
     resolution: {integrity: sha512-g9Q1haeby36OSStwb4ntCGGGaKsaVSjQ68fBxoQcutl5fS1vuY18H3wSt3jFyFtrkx+Kz0V1G85A4MyAdDMi2Q==}
     engines: {node: '>=8'}
+    dev: true
+
+  /source-map-js/0.6.2:
+    resolution: {integrity: sha512-/3GptzWzu0+0MBQFrDKzw/DvvMTUORvgY6k6jd/VS6iCR4RDTKWH6v6WPwQoUO8667uQEf9Oe38DxAYWY5F/Ug==}
+    engines: {node: '>=0.10.0'}
     dev: true
 
   /source-map/0.5.7:
@@ -1965,8 +1970,8 @@ packages:
     resolution: {integrity: sha1-RQ1Nyfpw3nMnYvvS1KKJgUGaDM8=}
     dev: true
 
-  /viewerjs/1.9.0:
-    resolution: {integrity: sha512-2D1OdGatb5aCZbZvaCdbJYuoDObjD9ITe7GZp0SoG7rgw3arOIZoIO1ygmfG+I4+RvEuDo+aZ75kNgwmYS9j3w==}
+  /viewerjs/1.9.1:
+    resolution: {integrity: sha512-ivllTQh63M0nRvphzX8pgmz+TJsgLUs6o4gseh5kKsJ3eqb+IJzJInrfyqrLNgpDhiHloz2Fv70ZZeQK8VeaeQ==}
     dev: false
 
   /vite-plugin-vue2/1.5.1_vite@2.2.4:
@@ -1977,7 +1982,7 @@ packages:
       '@babel/core': 7.14.3
       '@babel/parser': 7.14.3
       '@babel/plugin-transform-typescript': 7.14.3_@babel+core@7.14.3
-      '@rollup/pluginutils': 4.1.0_rollup@2.48.0
+      '@rollup/pluginutils': 4.1.0_rollup@2.49.0
       '@vue/babel-helper-vue-jsx-merge-props': 1.2.1
       '@vue/babel-preset-jsx': 1.2.4_@babel+core@7.14.3
       '@vue/component-compiler-utils': 3.2.0
@@ -1989,7 +1994,7 @@ packages:
       magic-string: 0.25.7
       prettier: 2.3.0
       querystring: 0.2.1
-      rollup: 2.48.0
+      rollup: 2.49.0
       slash: 3.0.0
       vite: 2.2.4
       vue-template-compiler: 2.6.12
@@ -2018,9 +2023,9 @@ packages:
     hasBin: true
     dependencies:
       esbuild: 0.9.7
-      postcss: 8.2.15
+      postcss: 8.3.0
       resolve: 1.20.0
-      rollup: 2.48.0
+      rollup: 2.49.0
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
