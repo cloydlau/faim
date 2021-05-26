@@ -197,6 +197,7 @@ import {
   Tag,
   Pagination,
   Camera,
+  ParticleJs
 } from '../src/main'
 
 import Vue from 'vue'

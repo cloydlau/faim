@@ -28,6 +28,7 @@
   "dependencies": {
     "kayran": "^0.1.1",
     "lodash-es": "^4.17.21",
+    "particles.js": "^2.0.0",
     "pic-viewer": "^0.2.12",
     "qrcode": "^1.4.4",
     "sweetalert2": "^10.16.9"
