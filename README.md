@@ -382,7 +382,7 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
 
 <br/>
 
-**props**
+### Props
 
 ```
 {
@@ -394,20 +394,13 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
 }
 ```
 
-::: tip  
-props.label支持模板字符串形式 如 ```'${startTime}-${endTime}'```
-
-场景：label由对象中多个属性构成
-:::
-
-<br/>
-
-**search 示例**
+### search
 
 - 无需操心loading状态
 - 清空输入时 自动恢复初值options
 
 ```vue
+<!-- 示例 -->
 
 <template>
   <Selector
@@ -435,6 +428,23 @@ export default {
 }
 </script>
 ```
+
+### 自定义label、rightLabel
+
+```vue
+<!-- 示例 -->
+
+<template>
+  <Selector
+    :props="{
+      label: ({ city, address }) => `${city} - ${address}`,
+      rightLabel: ({ x, y }) => `${x + y}`
+    }"
+  />
+</template>
+```
+
+<br/>
 
 <br/>
 

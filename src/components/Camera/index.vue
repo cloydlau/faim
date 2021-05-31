@@ -46,7 +46,7 @@ import { getFinalProp } from '../../utils'
 import { error, info, warning } from '../Swal'
 import PicViewer from 'pic-viewer'
 import Screenshot from './Screenshot.vue'
-const prefix = `[Camera] `
+const prefix = `[kikimore - Camera] `
 
 export default {
   name: 'Camera',

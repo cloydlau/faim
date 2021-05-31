@@ -21,7 +21,7 @@
       >
         <span class="label-left" :ref="'leftLabel'+(Label?v[Key]:v)">{{ getLabel(v) }}</span>
       </el-tooltip>
-      <span class="label-right">{{ v[Props.rightLabel] }}</span>
+      <span class="label-right">{{ getRightLabel(v) }}</span>
     </el-option>
   </el-select>
 </template>
@@ -115,7 +115,7 @@ export default {
         result.label = ''
       }
 
-      if (result.label) {
+      /*if (result.label) {
         const placeholders = result.label?.match(/\${[\dA-z_\$]*}/g)
         if (placeholders) {
           // 坑：ios不支持正则后顾 (?<=exp2)exp1 编译阶段就会报错 导致白屏
@@ -134,7 +134,7 @@ export default {
             return res
           }
         }
-      }
+      }*/
 
       return result
     },
@@ -228,6 +228,19 @@ export default {
       }
       return isEmpty(result) ? '' : String(result)
     },
+    getRightLabel (v) {
+      let result
+      if (this.Props.rightLabel) {
+        if (typeof this.Props.rightLabel === 'function') {
+          result = this.Props.rightLabel(v)
+        } else {
+          result = v[this.Props.rightLabel]
+        }
+      } else {
+        result = v
+      }
+      return isEmpty(result) ? '' : String(result)
+    }
     /*onVisibleChange (show) {
       this.showDropdown = show
     },

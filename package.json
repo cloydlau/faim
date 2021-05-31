@@ -38,12 +38,13 @@
     "vue": "2"
   },
   "devDependencies": {
-    "element-ui": "^2.15.1",
+    "element-ui": "^2.15.2",
     "sass": "^1.34.0",
-    "typescript": "^4.2.4",
+    "typescript": "^4.3.2",
     "vite": "2.2.4",
-    "vite-plugin-vue2": "^1.5.1",
+    "vite-plugin-vue2": "^1.5.2",
     "vite-plugin-windicss": "^0.15.10",
-    "vue": "^2.6.12"
+    "vue": "^2.6.12",
+    "vue-template-compiler": "^2.6.12"
   }
 }
