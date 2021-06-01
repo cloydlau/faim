@@ -249,22 +249,24 @@ export default {
 
 ## AuthButton / 权限按钮
 
+### Props
+
 | Attribute | Description | Type |  Default |
 | --- | --- | --- | --- |
 | name | 文案 | string | |
-| show | 是否显示 | boolean, function | false |
-| catalog | 预设目录 | object | |
+| show* | 是否显示 | boolean, function | false |
+| catalog* | 预设目录 | object | |
 | elPopconfirmProps | el-popconfirm的配置 未配置时默认不开启popconfirm | object | |
 | elTooltipProps | el-tooltip的配置 默认circle为true时开启tooltip | object | |
 | ... `el-button` 属性 |
 
-**show**
+#### show
 
 show为function时支持返回boolean或者返回promise在promise内resolve一个boolean
 
 > show为function时 参数1为当前组件实例的name属性值
 
-**catalog**
+#### catalog
 
 如果同一个name的AuthButton需要多处使用 你可以在catalog中针对这个name进行全局配置
 
@@ -306,17 +308,8 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
     icon: 'el-icon-video-play',
     circle: true,
     elPopconfirmProps: {}
-  },### 不需要PopConfirm
-
-```html
-
-<AuthButton
-  :elPopconfirmProps="{disabled:true}"
-/>
-```
-
+  },
 }
-
 ```
 
 - 使用在catalog中定义过的AuthButton
@@ -335,7 +328,7 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
 </AuthButton>
 ```
 
-### 不需要Popconfirm
+### 禁用Popconfirm
 
 ```html
 
@@ -344,7 +337,7 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
 />
 ```
 
-### 不需要Tooltip
+### 禁用Tooltip
 
 ```html
 
@@ -359,14 +352,7 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
 
 [el-select](https://element.eleme.cn/#/zh-CN/component/select) 封装
 
-```html
-
-<Selector
-  v-model="list__.filter.status"
-  :options="['停用', '启用']"
-  placeholder="状态"
-/>
-```
+### Props
 
 | 参数 | 说明 | 类型 | 可选值 | 默认值 | 配置方式 |
 | --- | --- | --- | --- | --- | --- |
@@ -374,15 +360,13 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
 | label.sync | label双绑 | string, number | | | props |
 | options(.sync) | 选项 | array | | | props |
 | ellipsis | 是否限宽并对超长的label作溢出省略处理（默认是超长撑开） | boolean | | false | props, global |
-| search | 搜索方法（即el-select的remote-method） | function | | | props, global |
+| search* | 搜索方法（即el-select的remote-method） | function | | | props, global |
 | immediate | 是否立即执行搜索 | boolean | | true | props, global |
 | props* | 指定对象的属性 | object | | | props, global |
 | objectValue | 指定value的类型为object（options为对象数组时有效） | boolean | | | props, global |
 | ...el-select属性 |
 
-<br/>
-
-### Props
+#### props
 
 ```
 {
@@ -392,6 +376,23 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
   rightLabel: undefined, // 指定options中右浮label的属性名（options为对象数组时有效）
   searchResponse: 'data', // 指定search方法返回值中数据所在位置（支持路径形式）
 }
+```
+
+::: tip  
+label, rightLabel均支持以function形式定制返回值
+:::
+
+```vue
+<!-- 示例 -->
+
+<template>
+  <Selector
+    :props="{
+      label: ({ city, address }) => `${city} - ${address}`,
+      rightLabel: ({ x, y }) => `${x + y}`
+    }"
+  />
+</template>
 ```
 
 ### search
@@ -429,23 +430,6 @@ export default {
 </script>
 ```
 
-### 自定义label、rightLabel
-
-```vue
-<!-- 示例 -->
-
-<template>
-  <Selector
-    :props="{
-      label: ({ city, address }) => `${city} - ${address}`,
-      rightLabel: ({ x, y }) => `${x + y}`
-    }"
-  />
-</template>
-```
-
-<br/>
-
 <br/>
 
 ## Pagination / 分页
@@ -458,12 +442,30 @@ export default {
 
 用于表单项的填写规则说明 搭配 [el-form-item](https://element.eleme.cn/#/zh-CN/component/form) 使用
 
-```html
+### Slots
 
-<el-form-item>
-  <el-input/>
-  <form-item-tip>xxx</form-item-tip>
-</el-form-item>
+```vue
+<!-- 默认插槽可以是普通文本 -->
+
+<template>
+  <el-form-item>
+    <el-input/>
+    <form-item-tip>普通文本</form-item-tip>
+  </el-form-item>
+</template>
+```
+
+```vue
+<!-- 也可以是html -->
+
+<template>
+  <el-form-item>
+    <el-input/>
+    <form-item-tip>
+      <div>html</div>
+    </form-item-tip>
+  </el-form-item>
+</template>
 ```
 
 <br/>
@@ -474,12 +476,14 @@ export default {
 
 使用场景：在预设的范围中根据某个动态的值显示其对应的标签
 
+### Props
+
 | 参数 | 说明 | 类型 | 可选值 | 默认值 |
 | --- | --- | --- | --- | --- |
 | value | 值 | any | | |
 | options* | 选项 | string, array | | |
 
-options
+#### options
 
 预设值：
 
@@ -646,6 +650,8 @@ Swal.confirm({
 </OnefoldTable>
 ```
 
+### Props
+
 | 参数 | 说明 | 类型 | 可选值 | 默认值 |
 | --- | --- | --- | --- | --- |
 | title | 标题 | string | | |
@@ -662,6 +668,8 @@ Swal.confirm({
 }"/>
 ```
 
+### Props
+
 | 参数 | 说明 | 类型 | 可选值 | 默认值 |
 | --- | --- | --- | --- | --- |
 | v-model / value | 绑定值 | string / number / boolean | | |
@@ -672,6 +680,8 @@ Swal.confirm({
 
 ## AuthTree / 权限编辑树
 
+### Props
+
 | 参数 | 说明 | 类型 | 可选值 | 默认值 |
 | --- | --- | --- | --- | --- |
 | v-model / value | 绑定值 | array | | |
@@ -680,7 +690,19 @@ Swal.confirm({
 
 ## SmsButton / 短信验证码按钮
 
+### Props
+
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+| --- | --- | --- | --- | --- |
+| cd | 冷却时间（秒） | number | | 60 |
+| ...el-button属性 |
+
+| 事件 | 说明 | 回调参数 |
+| --- | --- | --- |
+| click | 点击后触发（返回值需为Promise类型） | |
+
 ```vue
+<!-- 示例 -->
 
 <template>
   <el-form-item label="手机号" prop="phone" ref="formItemPhone">
@@ -708,9 +730,8 @@ export default {
 </script>
 ```
 
-作用域插槽示例：
-
 ```html
+<!-- 作用域插槽示例 -->
 
 <SmsButton>
   <template v-slot="{remaining}">
@@ -719,20 +740,13 @@ export default {
 </SmsButton>
 ```
 
-| 参数 | 说明 | 类型 | 可选值 | 默认值 |
-| --- | --- | --- | --- | --- |
-| cd | 冷却时间（秒） | number | | 60 |
-| ...el-button属性 |
-
-| 事件 | 说明 | 回调参数 |
-| --- | --- | --- |
-| click | 点击后触发（返回值需为Promise类型） | |
-
 <br/>
 
 ## AudioPlayer / 音乐播放
 
 > 原生audio元素封装
+
+### Props
 
 | 参数 | 说明 | 类型 | 可选值 | 默认值 |
 | --- | --- | --- | --- | --- |
@@ -741,7 +755,7 @@ export default {
 | inline* | 以行内元素的方式显示 | boolean | | false |
 | ...audio属性 |
 
-inline
+#### inline
 
 - 默认false表示以弹框形式显示
 - 开启后不再需要show参数
@@ -752,6 +766,8 @@ inline
 
 > 原生video元素封装
 
+### Props
+
 | 参数 | 说明 | 类型 | 可选值 | 默认值 |
 | --- | --- | --- | --- | --- |
 | show.sync | 是否开启 | boolean | | false |
@@ -760,7 +776,7 @@ inline
 | inline* | 以行内元素的方式显示 | boolean | | false |
 | ...video属性 |
 
-inline
+#### inline
 
 - 默认false表示以弹框形式显示
 - 开启后不再需要show参数
@@ -769,10 +785,12 @@ inline
 
 ## Camera / 摄像头拍照
 
+### Props
+
 | 参数 | 说明 | 类型 | 可选值 | 默认值 |
 | --- | --- | --- | --- | --- |
 | show.sync | 是否开启 | boolean | | false |
-| count | 拍照数量限制 | number / [number, number] | | 1 |
+| count | 拍照数量限制 | number / number[] | | 1 |
 | ...el-dialog属性 |
 
 ### Events
