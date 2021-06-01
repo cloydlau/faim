@@ -8,7 +8,6 @@ import AudioPlayer from './components/AudioPlayer'
 import FormDialog from './components/FormDialog'
 import AuthButton from './components/AuthButton'
 import Pagination from './components/Pagination'
-import ParticleJs from './components/ParticleJs'
 import SmsButton from './components/SmsButton'
 import AuthTree from './components/AuthTree'
 import Selector from './components/Selector'
@@ -25,7 +24,6 @@ export {
   FormDialog,
   AuthButton,
   Pagination,
-  ParticleJs,
   SmsButton,
   AuthTree,
   Selector,

@@ -27,7 +27,8 @@
 </template>
 
 <script>
-import { typeOf, isEmpty, getPropByPath } from 'kayran'
+import { typeOf, isEmpty } from 'kayran'
+import { at } from 'lodash-es'
 import globalProps from './config'
 import { getFinalProp } from '../../utils'
 
@@ -192,7 +193,7 @@ export default {
       const result = this.Search(e)
       if (result instanceof Promise) {
         result.then(res => {
-          this.$emit('update:options', getPropByPath(res, this.Props.searchResponse))
+          this.$emit('update:options', at(res, this.Props.searchResponse)[0])
         }).finally(() => {
           this.loading = false
         })

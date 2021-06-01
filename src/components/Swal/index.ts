@@ -1,5 +1,5 @@
-import Swal from 'sweetalert2/dist/sweetalert2.js'
-import 'sweetalert2/src/sweetalert2.scss'
+import 'sweetalert2/dist/sweetalert2.min.css'
+import Swal from 'sweetalert2/dist/sweetalert2.min.js'
 import './index.scss'
 import { isPlainObject } from 'lodash-es'
 

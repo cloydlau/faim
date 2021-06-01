@@ -81,10 +81,10 @@
               :options="options.obj"
               :props="{
                 key:'a',
-                label:'${name}---${b}',
-                rightLabel:'rightLabel'
+                label:({name,b})=>`${name}-${b}`,
+                rightLabel:({name,b})=>`${b}-${name}`
               }"
-              placeholder="a/${name}---${b}/rightLabel"
+              placeholder="a/${name}-${b}/rightLabel"
             />
           </div>
         </el-form-item>
@@ -197,7 +197,6 @@ import {
   Tag,
   Pagination,
   Camera,
-  ParticleJs
 } from '../src/main'
 
 import Vue from 'vue'
