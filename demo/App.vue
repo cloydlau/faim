@@ -71,12 +71,14 @@
             <Selector
               v-model="Selector.value"
               :label.sync="Selector.label"
-              :options.sync="options.obj"
+              :options.sync="options.group"
               :props="{
                 key:'a',
                 label:'name',
                 rightLabel:'rightLabel',
-                disabled: '__disabled'
+                disabled: '__disabled',
+                groupOptions: 'children',
+                groupLabel: 'label'
               }"
               placeholder="rightLabel"
               :search="search"
@@ -246,16 +248,39 @@ export default {
         index: Array.from(Array(3)).map((e, i) => i + 1),
         obj: [{
           a: 1,
-          name: '111',
           b: 'bbb',
           rightLabel: 'rightLabel111',
           disabled: true,
           //__disabled: true,
+          name: 'name',
         }, {
           a: 2,
           name: '222',
           b: 'ccc',
-          rightLabel: 'rightLabel222'
+          rightLabel: 'rightLabel222',
+        }],
+        group: [{
+          label: 'label1',
+          children: [
+            {
+              a: 1,
+              b: 'bbb',
+              rightLabel: 'rightLabel111',
+              disabled: true,
+              //__disabled: true,
+              name: 'name',
+            },
+          ]
+        }, {
+          label: 'label2',
+          children: [
+            {
+              a: 2,
+              name: '222',
+              b: 'ccc',
+              rightLabel: 'rightLabel222',
+            },
+          ]
         }]
       },
       showAudioPlayer: false,

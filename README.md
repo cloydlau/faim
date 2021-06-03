@@ -375,6 +375,9 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
   disabled: 'disabled', // 指定options中disabled的属性名（options为对象数组时有效）
   rightLabel: undefined, // 指定options中右浮label的属性名（options为对象数组时有效）
   searchResponse: 'data', // 指定search方法返回值中数据所在位置（支持路径形式）
+  groupLabel: undefined, // 指定组名（分组时有效）
+  groupOptions: undefined, // 指定子选项组的属性名（分组时有效）
+  groupDisabled: 'disabled', // 指定子选项组是否禁用的属性名（分组时有效）
 }
 ```
 
@@ -442,6 +445,49 @@ export default {
     {{ option.name }}
   </template>
 </Selector>
+```
+
+### 分组
+
+```vue
+<!-- 示例 -->
+
+<Selector
+  :props="{
+    key: 'code',
+    label: 'name',
+    groupLabel: 'name',
+    groupOptions: 'children',
+  }"
+  :options="[
+    {
+      name: '广东省',
+      children: [
+        {
+          name: '深圳市',
+          code: '4403',
+        },
+        {
+          name: '广州市',
+          code: '4401',
+        },
+      ]
+    }, 
+    {
+      name: '江苏省',
+      children: [
+        {
+          name: '南京市',
+          code: '3201',
+        },
+        {
+          name: '苏州市',
+          code: '3205',
+        },
+      ]
+    }
+  ]"
+/>
 ```
 
 <br/>

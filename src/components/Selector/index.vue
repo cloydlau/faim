@@ -6,26 +6,58 @@
     @change="onChange"
     ref="elSelect"
   >
-    <el-option
-      v-for="(v,i) in options"
-      :key="Label?v[Key]:v"
-      :label="getLabel(v)"
-      :value="ObjectValue?v:Label?v[Key]:i"
-      :disabled="v[Props.disabled]"
-    >
-      <slot v-if="$scopedSlots.default" :option="v"/>
-      <template v-else>
-        <el-tooltip
-          :disabled="!Ellipsis"
-          effect="dark"
-          :content="getLabel(v)"
-          placement="right"
+    <template v-if="Props.groupOptions&&Props.groupLabel">
+      <el-option-group
+        v-for="group of options"
+        :key="group[Props.groupLabel]"
+        :label="group[Props.groupLabel]"
+        :disabled="group[Props.groupDisabled]"
+      >
+        <el-option
+          v-for="(v,i) in group[Props.groupOptions]"
+          :key="Label?v[Key]:v"
+          :label="getLabel(v)"
+          :value="ObjectValue?v:Label?v[Key]:i"
+          :disabled="v[Props.disabled]"
         >
-          <span class="label-left" :ref="'leftLabel'+(Label?v[Key]:v)">{{ getLabel(v) }}</span>
-        </el-tooltip>
-        <span class="label-right">{{ getRightLabel(v) }}</span>
-      </template>
-    </el-option>
+          <slot v-if="$scopedSlots.default" :option="v"/>
+          <template v-else>
+            <el-tooltip
+              :disabled="!Ellipsis"
+              effect="dark"
+              :content="getLabel(v)"
+              placement="right"
+            >
+              <span class="label-left" :ref="'leftLabel'+(Label?v[Key]:v)">{{ getLabel(v) }}</span>
+            </el-tooltip>
+            <span class="label-right">{{ getRightLabel(v) }}</span>
+          </template>
+        </el-option>
+      </el-option-group>
+    </template>
+
+    <template v-else>
+      <el-option
+        v-for="(v,i) in options"
+        :key="Label?v[Key]:v"
+        :label="getLabel(v)"
+        :value="ObjectValue?v:Label?v[Key]:i"
+        :disabled="v[Props.disabled]"
+      >
+        <slot v-if="$scopedSlots.default" :option="v"/>
+        <template v-else>
+          <el-tooltip
+            :disabled="!Ellipsis"
+            effect="dark"
+            :content="getLabel(v)"
+            placement="right"
+          >
+            <span class="label-left" :ref="'leftLabel'+(Label?v[Key]:v)">{{ getLabel(v) }}</span>
+          </el-tooltip>
+          <span class="label-right">{{ getRightLabel(v) }}</span>
+        </template>
+      </el-option>
+    </template>
 
     <template v-for="(v,k) in ScopedSlots" v-slot:[k]>
       <slot :name="k"/>
@@ -124,6 +156,7 @@ export default {
         label: 'dataName', // label不为空标志着value为对象类型
         disabled: 'disabled',
         searchResponse: 'data',
+        groupDisabled: 'disabled',
         ...this.props,
         ...globalProps.props
       }
