@@ -395,7 +395,7 @@ label, rightLabel均支持以function形式定制返回值
 </template>
 ```
 
-### search
+#### search
 
 - 无需操心loading状态
 - 清空输入时 自动恢复初值options
@@ -428,6 +428,20 @@ export default {
   }
 }
 </script>
+```
+
+### Slots
+
+支持el-select全部slots
+
+```html
+<!-- 使用默认插槽自定义选项内容 -->
+
+<Selector>
+  <template v-slot="{option}">
+    {{ option.name }}
+  </template>
+</Selector>
 ```
 
 <br/>

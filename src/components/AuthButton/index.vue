@@ -14,7 +14,7 @@
         v-bind="ElButtonProps"
         @click="onElButtonClick"
       >
-        <span v-if="$slots.default && ![true,''].includes($attrs.loading)">
+        <span v-if="$scopedSlots.default && ![true,''].includes($attrs.loading)">
           <slot/>
         </span>
         <span v-else-if="!presetFromCatalog.circle && ![true,''].includes($attrs.loading)">{{ name }}</span>

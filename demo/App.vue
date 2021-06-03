@@ -61,7 +61,13 @@
             <Selector
               :options="options.index"
               placeholder="number[]"
-            />
+            >
+              <template v-slot="{option}">
+                default: {{ option }}
+              </template>
+              <div slot="prefix">prefix</div>
+              <div slot="empty">empty</div>
+            </Selector>
             <Selector
               v-model="Selector.value"
               :label.sync="Selector.label"

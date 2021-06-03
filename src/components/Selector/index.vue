@@ -13,16 +13,23 @@
       :value="ObjectValue?v:Label?v[Key]:i"
       :disabled="v[Props.disabled]"
     >
-      <el-tooltip
-        :disabled="!Ellipsis"
-        effect="dark"
-        :content="getLabel(v)"
-        placement="right"
-      >
-        <span class="label-left" :ref="'leftLabel'+(Label?v[Key]:v)">{{ getLabel(v) }}</span>
-      </el-tooltip>
-      <span class="label-right">{{ getRightLabel(v) }}</span>
+      <slot v-if="$scopedSlots.default" :option="v"/>
+      <template v-else>
+        <el-tooltip
+          :disabled="!Ellipsis"
+          effect="dark"
+          :content="getLabel(v)"
+          placement="right"
+        >
+          <span class="label-left" :ref="'leftLabel'+(Label?v[Key]:v)">{{ getLabel(v) }}</span>
+        </el-tooltip>
+        <span class="label-right">{{ getRightLabel(v) }}</span>
+      </template>
     </el-option>
+
+    <template v-for="(v,k) in ScopedSlots" v-slot:[k]>
+      <slot :name="k"/>
+    </template>
   </el-select>
 </template>
 
@@ -59,6 +66,15 @@ export default {
     }
   },
   computed: {
+    ScopedSlots () {
+      let result = {}
+      for (let k in this.$scopedSlots) {
+        if (k !== 'default') {
+          result[k] = this.$scopedSlots[k]
+        }
+      }
+      return result
+    },
     elSelectProps () {
       return {
         clearable: true,
