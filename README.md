@@ -39,7 +39,7 @@ export default {
 </script>
 ```
 
-<br/>
+<br>
 
 **Config rules**
 
@@ -51,7 +51,7 @@ export default {
 - 局部配置高于全局配置
 - 对于对象类型的参数 局部配置会与全局配置进行合并 同名属性会被局部配置覆盖
 
-<br/>
+<br>
 
 ## FormDialog / 表单对话框
 
@@ -75,7 +75,7 @@ export default {
 
 即使不使用el-form插槽 也建议传入 表单关闭时会将数据对象重置为初始状态（以避免二次打开时显示上次value）
 
-<br/>
+<br>
 
 **retrieve**
 
@@ -91,7 +91,7 @@ retrieve()
 }
 ```
 
-<br/>
+<br>
 
 **submit**
 
@@ -121,7 +121,7 @@ submit()
 }
 ```
 
-<br/>
+<br>
 
 ::: tip  
 submit的返回值如果是一个Promise 则then时默认关闭弹框 而reject时不关闭
@@ -133,7 +133,7 @@ submit的返回值如果是一个Promise 则then时默认关闭弹框 而reject�
 submit没有返回值或者返回值不是Promise时 则submit执行完毕后默认关闭弹框 你可以```return { close: false }```来控制该行为
 :::
 
-<br/>
+<br>
 
 ### Slots
 
@@ -183,7 +183,7 @@ export default {
 </script>
 ```
 
-<br/>
+<br>
 
 ### Events
 
@@ -245,7 +245,7 @@ export default {
 </script>
 ```
 
-<br/>
+<br>
 
 ## AuthButton / 权限按钮
 
@@ -346,7 +346,7 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
 />
 ```
 
-<br/>
+<br>
 
 ## Selector / 下拉框
 
@@ -490,13 +490,13 @@ export default {
 />
 ```
 
-<br/>
+<br>
 
 ## Pagination / 分页
 
 [el-pagination](https://element.eleme.cn/#/zh-CN/component/pagination) 封装
 
-<br/>
+<br>
 
 ## FormItemTip / 表单项补充说明
 
@@ -528,7 +528,7 @@ export default {
 </template>
 ```
 
-<br/>
+<br>
 
 ## Tag / 标签
 
@@ -576,7 +576,7 @@ export default {
 ]"/>
 ```
 
-<br/>
+<br>
 
 ## Swal / 弹框提示
 
@@ -690,7 +690,7 @@ Swal.confirm({
 })
 ```
 
-<br/>
+<br>
 
 ## OnefoldTable / 一维表格
 
@@ -716,7 +716,7 @@ Swal.confirm({
 | --- | --- | --- | --- | --- |
 | title | 标题 | string | | |
 
-<br/>
+<br>
 
 ## CheckAllBox / 支持全选的复选框
 
@@ -736,7 +736,7 @@ Swal.confirm({
 | options | 选项 key即label value即value | object | | |
 | ...el-checkbox属性 |
 
-<br/>
+<br>
 
 ## AuthTree / 权限编辑树
 
@@ -746,7 +746,7 @@ Swal.confirm({
 | --- | --- | --- | --- | --- |
 | v-model / value | 绑定值 | array | | |
 
-<br/>
+<br>
 
 ## SmsButton / 短信验证码按钮
 
@@ -800,7 +800,7 @@ export default {
 </SmsButton>
 ```
 
-<br/>
+<br>
 
 ## AudioPlayer / 音乐播放
 
@@ -820,7 +820,7 @@ export default {
 - 默认false表示以弹框形式显示
 - 开启后不再需要show参数
 
-<br/>
+<br>
 
 ## VideoPlayer / 视频播放
 
@@ -841,7 +841,7 @@ export default {
 - 默认false表示以弹框形式显示
 - 开启后不再需要show参数
 
-<br/>
+<br>
 
 ## Camera / 摄像头拍照
 
