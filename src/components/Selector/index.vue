@@ -286,8 +286,6 @@ export default {
         } else {
           result = v[this.Props.rightLabel]
         }
-      } else {
-        result = v
       }
       return isEmpty(result) ? '' : String(result)
     }
