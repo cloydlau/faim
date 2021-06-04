@@ -5,7 +5,9 @@
     v-on="$listeners"
     ref="elDialog"
   >
+    <!-- 传slot -->
     <template slot="title">
+      <!-- 接收slot -->
       <slot name="title"/>
     </template>
 

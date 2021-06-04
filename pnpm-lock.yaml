@@ -11,24 +11,24 @@ specifiers:
   vite: 2.2.4
   vite-plugin-vue2: ^1.6.2
   vite-plugin-windicss: ^0.17.1
-  vue: ^2.6.13
-  vue-template-compiler: ^2.6.13
+  vue: 2.6.12
+  vue-template-compiler: 2.6.12
 
 dependencies:
   kayran: 0.2.2
   lodash-es: 4.17.21
-  pic-viewer: 0.3.6_element-ui@2.15.2+vue@2.6.13
+  pic-viewer: 0.3.6_element-ui@2.15.2+vue@2.6.12
   sweetalert2: 10.16.9
 
 devDependencies:
-  element-ui: 2.15.2_vue@2.6.13
+  element-ui: 2.15.2_vue@2.6.12
   sass: 1.34.1
   typescript: 4.3.2
   vite: 2.2.4
   vite-plugin-vue2: 1.6.2_vite@2.2.4
   vite-plugin-windicss: 0.17.1_vite@2.2.4
-  vue: 2.6.13
-  vue-template-compiler: 2.6.13
+  vue: 2.6.12
+  vue-template-compiler: 2.6.12
 
 packages:
 
@@ -912,8 +912,8 @@ packages:
     resolution: {integrity: sha512-WHVocJYavUwVgVViC0ORikPHQquXwVh939TaelZ4WDqpWgTX/FsGhl/+P4qBUAGcRvtOgDgC+xftNWWp2RUTAQ==}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001233
-      electron-to-chromium: 1.3.747
+      caniuse-lite: 1.0.30001234
+      electron-to-chromium: 1.3.748
     dev: true
 
   /browserslist/4.16.6:
@@ -921,9 +921,9 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001233
+      caniuse-lite: 1.0.30001234
       colorette: 1.2.2
-      electron-to-chromium: 1.3.747
+      electron-to-chromium: 1.3.748
       escalade: 3.1.1
       node-releases: 1.1.72
     dev: true
@@ -965,8 +965,8 @@ packages:
     resolution: {integrity: sha512-L28STB170nwWS63UjtlEOE3dldQApaJXZkOI1uMFfzf3rRuPegHaHesyee+YxQ+W6SvRDQV6UrdOdRiR153wJg==}
     engines: {node: '>=6'}
 
-  /caniuse-lite/1.0.30001233:
-    resolution: {integrity: sha512-BmkbxLfStqiPA7IEzQpIk0UFZFf3A4E6fzjPJ6OR+bFC2L8ES9J8zGA/asoi47p8XDVkev+WJo2I2Nc8c/34Yg==}
+  /caniuse-lite/1.0.30001234:
+    resolution: {integrity: sha512-a3gjUVKkmwLdNysa1xkUAwN2VfJUJyVW47rsi3aCbkRCtbHAfo+rOsCqVw29G6coQ8gzAPb5XBXwiGHwme3isA==}
     dev: true
 
   /chalk/1.1.3:
@@ -1129,11 +1129,11 @@ packages:
       ssr-window: 3.0.0
     dev: false
 
-  /electron-to-chromium/1.3.747:
-    resolution: {integrity: sha512-+K1vnBc08GNYxCWwdRe9o3Ml30DhsNyK/qIl/NE1Dic+qCy9ZREcqGNiV4jiLiAdALK1DUG3pakJHGkJUd9QQw==}
+  /electron-to-chromium/1.3.748:
+    resolution: {integrity: sha512-fmIKfYALVeEybk/L2ucdgt7jN3JsbGtg3K9pmF/MRWgkeADBI1VSAa5IzdG2gZwTxsnsrFtdMpOTSM5mrBRKVQ==}
     dev: true
 
-  /element-ui/2.15.2_vue@2.6.13:
+  /element-ui/2.15.2_vue@2.6.12:
     resolution: {integrity: sha512-S66VvOt1AR698uzxAnJeajnIPI1eIzlkKXHx2F2v94PAs/8JuyRcLOUGy100mJHIIaSkRlxVOtI+As2XTB8Oew==}
     peerDependencies:
       vue: ^2.5.17
@@ -1144,7 +1144,7 @@ packages:
       normalize-wheel: 1.0.1
       resize-observer-polyfill: 1.5.1
       throttle-debounce: 1.1.0
-      vue: 2.6.13
+      vue: 2.6.12
     dev: true
 
   /emoji-regex/7.0.3:
@@ -1531,19 +1531,19 @@ packages:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
     dev: true
 
-  /pic-viewer/0.3.6_element-ui@2.15.2+vue@2.6.13:
+  /pic-viewer/0.3.6_element-ui@2.15.2+vue@2.6.12:
     resolution: {integrity: sha512-K0CMLtDgambR827z9vBnpNezhJvjf9rXB4uxRS2cNlFDSim3P8w846qSdMAw5NGbwrafY8g2Xrk6cIme3kpMRw==}
     peerDependencies:
       element-ui: ^2.15.1
       vue: ^2.6.12
     dependencies:
-      element-ui: 2.15.2_vue@2.6.13
+      element-ui: 2.15.2_vue@2.6.12
       kayran: 0.2.2
       lodash-es: 4.17.21
       qrcode: 1.4.4
       swiper: 6.7.0
       viewerjs: 1.9.2
-      vue: 2.6.13
+      vue: 2.6.12
     dev: false
 
   /picomatch/2.3.0:
@@ -1913,7 +1913,7 @@ packages:
       slash: 3.0.0
       source-map: 0.7.3
       vite: 2.2.4
-      vue-template-compiler: 2.6.13
+      vue-template-compiler: 2.6.12
       vue-template-es2015-compiler: 1.9.1
     transitivePeerDependencies:
       - supports-color
@@ -1946,8 +1946,8 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vue-template-compiler/2.6.13:
-    resolution: {integrity: sha512-latKAqpUjCkovB8XppW5gnZbSdYQzkf8pavsMBZYZrQcG6lAnj0EH4Ty7jMwAwFw5Cf4mybKBHlp1UTjnLPOWw==}
+  /vue-template-compiler/2.6.12:
+    resolution: {integrity: sha512-OzzZ52zS41YUbkCBfdXShQTe69j1gQDZ9HIX8miuC9C3rBCk9wIRjLiZZLrmX9V+Ftq/YEyv1JaVr5Y/hNtByg==}
     dependencies:
       de-indent: 1.0.2
       he: 1.2.0
@@ -1957,8 +1957,8 @@ packages:
     resolution: {integrity: sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==}
     dev: true
 
-  /vue/2.6.13:
-    resolution: {integrity: sha512-O+pAdJkce1ooYS1XyoQtpBQr9An+Oys3w39rkqxukVO3ZD1ilYJkWBGoRuadiQEm2LLJnCL2utV4TMSf52ubjw==}
+  /vue/2.6.12:
+    resolution: {integrity: sha512-uhmLFETqPPNyuLLbsKz6ioJ4q7AZHzD8ZVFNATNyICSZouqP2Sz0rotWQC8UNBF6VGSCs5abnKJoStA6JbCbfg==}
     dev: true
 
   /which-module/2.0.0:

@@ -111,7 +111,7 @@ export default {
       return {
         clearable: true,
         filterable: true,
-        remote: true,
+        remote: Boolean(this.Search),
         'reserve-keyword': true,
         'remote-method': this.Search__,
         'value-key': this.Label ? this.Key : 'value',

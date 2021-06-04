@@ -78,7 +78,7 @@
                 rightLabel:'rightLabel',
                 disabled: '__disabled',
                 groupOptions: 'children',
-                groupLabel: 'label'
+                groupLabel: 'label',
               }"
               placeholder="rightLabel"
               :search="search"
@@ -293,7 +293,7 @@ export default {
         周二: 2
       },
       showFormDialog: true,
-      readonly: false
+      readonly: false,
     }
   },
   methods: {
@@ -425,19 +425,7 @@ export default {
     search (e) {
       return new Promise(resolve => {
         resolve({
-          data: [
-            {
-              a: 3,
-              name: '333',
-              b: 'xxx',
-              rightLabel: 'rlxxx'
-            }, {
-              a: 4,
-              name: '444',
-              b: 'zzz',
-              rightLabel: 'rlzzz'
-            }
-          ]
+          data: this.options.group
         })
       })
     }
