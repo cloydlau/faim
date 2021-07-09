@@ -4,21 +4,18 @@
     v-bind="ElTooltipProps"
   >
     <el-popconfirm
-      @onConfirm="$emit('click', $event)"
-      @confirm="$emit('click', $event)"
-      v-bind="ElPopconfirmProps"
+      @onconfirm="() => {enableDynamics = !enableDynamics}"
+      @onConfirm="() => {enableDynamics = !enableDynamics}"
+      :title="enableDynamics === 1? '停用': '启用'"
     >
-      <el-button
-        slot="reference"
-        class="auth-button"
-        v-bind="ElButtonProps"
-        @click="onElButtonClick"
-      >
-        <span v-if="$scopedSlots.default && ![true,''].includes($attrs.loading)">
-          <slot/>
-        </span>
-        <span v-else-if="!presetFromCatalog.circle && ![true,''].includes($attrs.loading)">{{ name }}</span>
-      </el-button>
+      <template slot="reference">
+        <el-switch
+          ref="elSwitch"
+          :value="enableDynamics"
+          :active-value="1"
+          :inactive-value="0"
+        />
+      </template>
     </el-popconfirm>
   </el-tooltip>
 </template>
@@ -28,7 +25,7 @@ import globalProps from './config'
 import { getFinalProp } from '../../utils'
 
 export default {
-  name: 'AuthButton',
+  name: 'PopSwitch',
   props: {
     name: {
       type: String,
@@ -163,37 +160,5 @@ export default {
 }
 </script>
 
-<!--<style lang="scss">
-.el-popconfirm__main {
-  margin-top: 5px;
-}
-</style>-->
-
 <style lang="scss" scoped>
-.auth-button {
-  margin-right: 5px;
-
-  &:not(:first-of-type) {
-    margin-left: 10px;
-  }
-
-  &.is-circle {
-    // 固定原型按钮尺寸
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    // 设置图标大小
-    // & /deep/ *{
-    //     font-size: 16px;
-    // }
-  }
-
-  & ::v-deep .el-popconfirm__main {
-    font-size: 18px;
-    margin: 8px 8px 16px 8px;
-  }
-}
 </style>

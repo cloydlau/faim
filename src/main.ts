@@ -6,7 +6,8 @@ import CheckAllBox from './components/CheckAllBox'
 import VideoPlayer from './components/VideoPlayer'
 import AudioPlayer from './components/AudioPlayer'
 import FormDialog from './components/FormDialog'
-import AuthButton from './components/AuthButton'
+import PopButton from './components/PopButton'
+import PopSwitch from './components/PopSwitch'
 import Pagination from './components/Pagination'
 import SmsButton from './components/SmsButton'
 import AuthTree from './components/AuthTree'
@@ -22,7 +23,8 @@ export {
   AudioPlayer,
   FormItemTip,
   FormDialog,
-  AuthButton,
+  PopButton,
+  PopSwitch,
   Pagination,
   SmsButton,
   AuthTree,

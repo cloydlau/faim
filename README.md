@@ -8,9 +8,9 @@
 // 全局引入
 
 import 'kikimore/dist/style.css'
-import { AuthButton } from 'kikimore'
+import { PopButton } from 'kikimore'
 
-Vue.use(AuthButton, {
+Vue.use(PopButton, {
   // 全局配置
 })
 ```
@@ -19,15 +19,15 @@ Vue.use(AuthButton, {
 <!-- 局部引入 -->
 
 <template>
-  <AuthButton v-bind="config"/>
+  <PopButton v-bind="config"/>
 </template>
 
 <script>
 import 'kikimore/dist/style.css'
-import { AuthButton } from 'kikimore'
+import { PopButton } from 'kikimore'
 
 export default {
-  components: { AuthButton },
+  components: { PopButton },
   data () {
     return {
       config: {
@@ -247,7 +247,7 @@ export default {
 
 <br>
 
-## AuthButton / 权限按钮
+## PopButton
 
 ### Props
 
@@ -268,7 +268,7 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
 
 #### catalog
 
-如果同一个name的AuthButton需要多处使用 你可以在catalog中针对这个name进行全局配置
+如果同一个name的PopButton需要多处使用 你可以在catalog中针对这个name进行全局配置
 
 `elPopconfirmProps`、`elTooltipProps` 也支持在catalog中使用
 
@@ -312,27 +312,27 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
 }
 ```
 
-- 使用在catalog中定义过的AuthButton
+- 使用在catalog中定义过的PopButton
 
 ```html
 
-<AuthButton @click="" name="编辑"/>
+<PopButton @click="" name="编辑"/>
 ```
 
-- 未在catalog中定义的AuthButton
+- 未在catalog中定义的PopButton
 
 ```html
 
-<AuthButton @click="" name="" circle type="primary">
+<PopButton @click="" name="" circle type="primary">
   <i class="el-icon-finished"/>
-</AuthButton>
+</PopButton>
 ```
 
 ### 禁用Popconfirm
 
 ```html
 
-<AuthButton
+<PopButton
   :elPopconfirmProps="{disabled:true}"
 />
 ```
@@ -341,7 +341,7 @@ show为function时支持返回boolean或者返回promise在promise内resolve一�
 
 ```html
 
-<AuthButton
+<PopButton
   :elTooltipProps="{disabled:true}"
 />
 ```

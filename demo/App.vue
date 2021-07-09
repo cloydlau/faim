@@ -97,12 +97,16 @@
           </div>
         </el-form-item>
 
-        <el-form-item label="AuthButton" prop="AuthButton">
-          <AuthButton
-            name="test"
-            @click="console.log('[AuthButton] click')"
-            show
-            circle
+        <el-form-item label="PopSwitch" prop="PopSwitch">
+          <PopSwitch
+            @click="console.log('[PopSwitch] click')"
+            :elPopconfirmProps="{disabled:true}"
+          />
+        </el-form-item>
+
+        <el-form-item label="PopButton" prop="PopButton">
+          <PopButton
+            @click="console.log('[PopButton] click')"
             :elPopconfirmProps="{disabled:true}"
           />
         </el-form-item>
@@ -201,10 +205,11 @@ import {
   FormDialog,
   Selector,
   FormItemTip,
-  AuthButton,
+  PopButton,
   Tag,
   Pagination,
   Camera,
+  PopSwitch,
 } from '../src/main'
 
 import Vue from 'vue'
@@ -225,9 +230,10 @@ export default {
     AuthTree,
     Selector,
     FormItemTip,
-    AuthButton,
+    PopButton,
     Tag,
     Pagination,
+    PopSwitch
   },
   data () {
     return {
