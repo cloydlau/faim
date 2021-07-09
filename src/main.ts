@@ -14,7 +14,6 @@ import AuthTree from './components/AuthTree'
 import Selector from './components/Selector'
 import Camera from './components/Camera'
 import Swal from './components/Swal'
-import Tag from './components/Tag'
 
 export {
   OnefoldTable,
@@ -31,5 +30,4 @@ export {
   Selector,
   Camera,
   Swal,
-  Tag,
 }

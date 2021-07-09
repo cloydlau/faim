@@ -1,22 +1,23 @@
 <template>
-  <el-tooltip
-    v-if="name&&authorized"
-    v-bind="ElTooltipProps"
-  >
-    <el-popconfirm
-      @onconfirm="() => {enableDynamics = !enableDynamics}"
-      @onConfirm="() => {enableDynamics = !enableDynamics}"
-      :title="enableDynamics === 1? '停用': '启用'"
-    >
-      <template slot="reference">
+  <el-tooltip v-bind="ElTooltipProps" ref="elTooltip">
+    <div slot="content" v-html="ElTooltipProps.content"/>
+    <el-popover v-bind="ElPopoverProps">
+      <div v-html="ElPopoverProps.content"/>
+      <el-popconfirm
+        slot="reference"
+        @confirm="onConfirm"
+        @onConfirm="onConfirm"
+        v-bind="ElPopconfirmProps"
+      >
         <el-switch
+          slot="reference"
+          v-bind="ElSwitchProps"
           ref="elSwitch"
-          :value="enableDynamics"
-          :active-value="1"
-          :inactive-value="0"
+          :value="value"
+          @click.native="onClick"
         />
-      </template>
-    </el-popconfirm>
+      </el-popconfirm>
+    </el-popover>
   </el-tooltip>
 </template>
 
@@ -27,135 +28,59 @@ import { getFinalProp } from '../../utils'
 export default {
   name: 'PopSwitch',
   props: {
-    name: {
-      type: String,
-      //required: true // undefined 时报错
-    },
-    show: {
-      validator: value => ['boolean', 'function'].includes(typeof value) || value === '',
-    },
+    value: {},
     elPopconfirmProps: Object,
     elTooltipProps: Object,
-  },
-  data () {
-    return {
-      authorized: false,
-    }
+    elPopoverProps: Object,
   },
   computed: {
-    ElButtonProps () {
+    ElSwitchProps () {
       return getFinalProp(
         this.$attrs,
-        this.presetFromCatalog,
-        globalProps.elButtonProps
+        globalProps
       )
+    },
+    ElPopoverProps () {
+      const result = getFinalProp(
+        this.elPopoverProps,
+        globalProps.elPopoverProps,
+      )
+      const { title, content } = result || {}
+      return {
+        disabled: !Boolean(title || content || this.$scopedSlots.elPopoverContent),
+        ...result,
+      }
     },
     ElPopconfirmProps () {
       const result = getFinalProp(
         this.elPopconfirmProps,
-        this.presetFromCatalog.elPopconfirmProps,
         globalProps.elPopconfirmProps,
       )
       return {
-        title: this.name,
-        disabled: !Boolean(result), // 未配置elPopconfirmProps时默认不启用
+        disabled: !Boolean(result?.title),
         ...result,
       }
     },
     ElTooltipProps () {
-      return getFinalProp(
+      const result = getFinalProp(
         this.elTooltipProps,
-        this.presetFromCatalog.elTooltipProps,
         globalProps.elTooltipProps,
-        {
-          content: this.name,
-          placement: 'top',
-          openDelay: 400,
-          key: this.name,
-          // 默认非圆形按钮不显示tooltip
-          disabled: !getFinalProp(
-            this.$attrs.circle,
-            this.presetFromCatalog.circle,
-            globalProps.circle,
-            false
-          ),
-        },
       )
-    },
-    presetFromCatalog () {
       return {
-        新增: {
-          type: 'primary',
-          icon: 'el-icon-circle-plus-outline'
-        },
-        查看: {
-          icon: 'el-icon-search',
-          circle: true
-        },
-        编辑: {
-          type: 'primary',
-          icon: 'el-icon-edit',
-          circle: true
-        },
-        停用: {
-          type: 'warning',
-          icon: 'el-icon-video-pause',
-          circle: true,
-          elPopconfirmProps: {}
-        },
-        启用: {
-          type: 'success',
-          icon: 'el-icon-video-play',
-          circle: true,
-          elPopconfirmProps: {}
-        },
-        删除: {
-          type: 'danger',
-          icon: 'el-icon-delete',
-          circle: true,
-          elPopconfirmProps: {}
-        },
-        ...globalProps.catalog,
-      }[this.name] || {}
+        //openDelay: 400,
+        disabled: !Boolean(result?.content || this.$scopedSlots.elTooltipContent),
+        ...result,
+      }
     },
-    Show () {
-      return getFinalProp(this.show, globalProps.show, false)
-    }
-  },
-  watch: {
-    Show () {
-      this.verify()
-    }
-  },
-  created () {
-    this.verify()
-  },
-  updated () {
-    this.verify()
   },
   methods: {
-    onElButtonClick (e) {
-      if (this.ElPopconfirmProps.disabled) {
-        this.$emit('click', e)
-      }
+    onConfirm () {
+      const { checked, inactiveValue, activeValue } = this.$refs.elSwitch
+      this.$emit('input', checked ? inactiveValue : activeValue)
     },
-    async verify () {
-      if (this.Show) {
-        let authorized
-        if (typeof this.Show === 'function') {
-          const result = this.Show(this.name)
-          authorized = result instanceof Promise ? await result : result
-          if (authorized === true) {
-            this.authorized = true
-            return
-          }
-        } else if (this.Show === true) {
-          this.authorized = true
-          return
-        }
-      }
-      this.authorized = false
-    },
+    onClick () {
+      this.$refs.elTooltip.showPopper = false
+    }
   }
 }
 </script>

@@ -1,21 +1,19 @@
 <template>
-  <el-tooltip
-    v-bind="ElTooltipProps"
-  >
-    <el-popover
-      v-bind="ElPopoverProps"
-    >
+  <el-tooltip v-bind="ElTooltipProps" ref="elTooltip">
+    <div slot="content" v-html="ElTooltipProps.content"/>
+    <el-popover v-bind="ElPopoverProps">
+      <div v-html="ElPopoverProps.content"/>
       <el-popconfirm
         slot="reference"
-        @onConfirm="$emit('click', $event)"
         @confirm="$emit('click', $event)"
+        @onConfirm="$emit('click', $event)"
         v-bind="ElPopconfirmProps"
       >
         <el-button
           slot="reference"
           class="pop-button"
           v-bind="ElButtonProps"
-          @click="onElButtonClick"
+          @click="onClick"
         >
           <slot/>
         </el-button>
@@ -50,8 +48,9 @@ export default {
         this.elPopoverProps,
         globalProps.elPopoverProps,
       )
+      const { title, content } = result || {}
       return {
-        disabled: !Boolean(result.title),
+        disabled: !Boolean(title || content),
         ...result,
       }
     },
@@ -61,7 +60,7 @@ export default {
         globalProps.elPopconfirmProps,
       )
       return {
-        disabled: !Boolean(result.title),
+        disabled: !Boolean(result?.title),
         ...result,
       }
     },
@@ -71,14 +70,15 @@ export default {
         globalProps.elTooltipProps,
       )
       return {
-        openDelay: 400,
-        disabled: !Boolean(result.content),
+        //openDelay: 400,
+        disabled: !Boolean(result?.content),
         ...result,
       }
     },
   },
   methods: {
-    onElButtonClick (e) {
+    onClick (e) {
+      this.$refs.elTooltip.showPopper = false
       if (this.ElPopconfirmProps.disabled) {
         this.$emit('click', e)
       }

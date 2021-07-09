@@ -530,54 +530,6 @@ export default {
 
 <br>
 
-## Tag / 标签
-
-[el-tag](https://element.eleme.cn/#/zh-CN/component/tag) 封装
-
-使用场景：在预设的范围中根据某个动态的值显示其对应的标签
-
-### Props
-
-| 参数 | 说明 | 类型 | 可选值 | 默认值 |
-| --- | --- | --- | --- | --- |
-| value | 值 | any | | |
-| options* | 选项 | string, array | | |
-
-#### options
-
-预设值：
-
-- `'whether'`：是/否
-- `'being'`：有/无
-- `'status'`：启用/停用
-- `'required'`：需要/不需要
-- `'auth'`：已授权/未授权
-
-```html
-
-<Tag :value="value" options="whether"/>
-```
-
-支持自定义
-
-```html
-
-<Tag :value="0" :options="[
-  { 
-    value: 0,         // 支持数组 数组以是否包含作为判断依据
-    text: '0对应文案', // 即el-tag的innerText
-    type: 'danger'    // 即el-tag的type
-  },
-  { 
-    value: 1,
-    text: '1对应文案',
-    type: 'warning'
-  },
-]"/>
-```
-
-<br>
-
 ## Swal / 弹框提示
 
 [sweetalert2](https://sweetalert2.github.io/) 封装

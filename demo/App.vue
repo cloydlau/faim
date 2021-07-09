@@ -99,16 +99,23 @@
 
         <el-form-item label="PopSwitch" prop="PopSwitch">
           <PopSwitch
-            @click="console.log('[PopSwitch] click')"
-            :elPopconfirmProps="{disabled:true}"
+            v-model="popSwitch"
+            @click.native="console.log('[PopSwitch] click')"
+            :elTooltipProps="{content:`<i class='el-icon-warning'/> 已停用`}"
+            :elPopoverProps="{content:`<i class='el-icon-warning'/> 权限不足`}"
+            :elPopconfirmProps="{title:'确认启用吗？',disabled:true}"
           />
         </el-form-item>
 
         <el-form-item label="PopButton" prop="PopButton">
           <PopButton
             @click="console.log('[PopButton] click')"
-            :elPopconfirmProps="{disabled:true}"
-          />
+            :elTooltipProps="{content:`<i class='el-icon-warning'/> 删除`}"
+            :elPopoverProps="{content:`<i class='el-icon-warning'/> 权限不足`,disabled:true}"
+            :elPopconfirmProps="{title:'确认删除吗？'}"
+          >
+            新增
+          </PopButton>
         </el-form-item>
 
         <el-form-item label="AuthTree" prop="AuthTree">
@@ -123,10 +130,6 @@
               </template>-->
             </SmsButton>
           </el-input>
-        </el-form-item>
-
-        <el-form-item label="Tag">
-          <Tag :value="1" :options="'being'"/>
         </el-form-item>
 
         <el-form-item label="OnefoldTable">
@@ -206,7 +209,6 @@ import {
   Selector,
   FormItemTip,
   PopButton,
-  Tag,
   Pagination,
   Camera,
   PopSwitch,
@@ -231,12 +233,12 @@ export default {
     Selector,
     FormItemTip,
     PopButton,
-    Tag,
     Pagination,
     PopSwitch
   },
   data () {
     return {
+      popSwitch: false,
       showCamera: false,
       form: {
         phone: ''
