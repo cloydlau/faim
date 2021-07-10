@@ -60,6 +60,7 @@ export default {
         globalProps.elPopconfirmProps,
       )
       return {
+        popperClass: 'pop-button',
         disabled: !Boolean(result?.title),
         ...result,
       }
@@ -114,10 +115,17 @@ export default {
     //     font-size: 16px;
     // }
   }
+}
+</style>
 
-  & ::v-deep .el-popconfirm__main {
-    font-size: 18px;
-    margin: 8px 8px 16px 8px;
+<style lang="scss">
+.pop-button {
+  &.el-popover {
+    min-width: fit-content;
+  }
+
+  & .el-popconfirm__main {
+    margin-block-start: .5em;
   }
 }
 </style>

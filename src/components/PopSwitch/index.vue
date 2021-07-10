@@ -47,7 +47,8 @@ export default {
       )
       const { title, content } = result || {}
       return {
-        disabled: !Boolean(title || content || this.$scopedSlots.elPopoverContent),
+        popperClass: 'pop-switch',
+        disabled: !Boolean(title || content),
         ...result,
       }
     },
@@ -57,6 +58,7 @@ export default {
         globalProps.elPopconfirmProps,
       )
       return {
+        popperClass: 'pop-switch',
         disabled: !Boolean(result?.title),
         ...result,
       }
@@ -76,7 +78,7 @@ export default {
   methods: {
     onConfirm () {
       const { checked, inactiveValue, activeValue } = this.$refs.elSwitch
-      this.$emit('input', checked ? inactiveValue : activeValue)
+      this.$emit('change', checked ? inactiveValue : activeValue)
     },
     onClick () {
       this.$refs.elTooltip.showPopper = false
@@ -85,5 +87,14 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.pop-switch {
+  &.el-popover {
+    min-width: fit-content;
+  }
+
+  & .el-popconfirm__main {
+    margin-block-start: .5em;
+  }
+}
 </style>
