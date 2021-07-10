@@ -14,6 +14,8 @@ import AuthTree from './components/AuthTree'
 import Selector from './components/Selector'
 import Camera from './components/Camera'
 import Swal from './components/Swal'
+import AuthButton from './components/AuthButton' // todo: deprecated
+import Tag from './components/Tag' // todo: deprecated
 
 export {
   OnefoldTable,
@@ -30,4 +32,6 @@ export {
   Selector,
   Camera,
   Swal,
+  AuthButton, // todo: deprecated
+  Tag, // todo: deprecated
 }

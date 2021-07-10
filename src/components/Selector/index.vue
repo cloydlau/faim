@@ -247,7 +247,7 @@ export default {
           this.loading = false
         })
       } else {
-        console.warn('[Selector] search的返回值需为Promise类型')
+        console.warn(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}search的返回值需为Promise类型`)
         this.loading = false
       }
     },

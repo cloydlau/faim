@@ -3,7 +3,7 @@ import { init } from './config'
 
 Component.install = (Vue, opts) => {
   if (Component.install.installed) {
-    console.warn(`请勿重复注册${Component.name}`)
+    console.warn(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}请勿重复注册${Component.name}`)
     return
   }
   init(opts)

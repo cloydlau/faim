@@ -33,6 +33,10 @@ export default {
     elTooltipProps: Object,
     elPopoverProps: Object,
   },
+  model: {
+    prop: 'value',
+    event: 'change'
+  },
   computed: {
     ElSwitchProps () {
       return getFinalProp(
@@ -81,7 +85,12 @@ export default {
       this.$emit('change', checked ? inactiveValue : activeValue)
     },
     onClick () {
-      this.$refs.elTooltip.showPopper = false
+      if (!this.$refs.elTooltip.manual) {
+        this.$refs.elTooltip.showPopper = false
+      }
+      if (this.ElSwitchProps.disabled === false && this.ElPopconfirmProps.disabled) {
+        this.onConfirm()
+      }
     }
   }
 }

@@ -43,7 +43,7 @@ export default {
 
 **Config rules**
 
-- 双向绑定参数（`v-model` / `value` / `*.sync`）仅支持局部配置
+- 双向绑定参数（`v-model`, `*.sync`）仅支持局部配置
 - 其余参数均支持全局或局部配置
 
 权重：
@@ -247,104 +247,51 @@ export default {
 
 <br>
 
-## PopButton
+## PopSwitch
+
+四个组件的组合拳：`el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip`
+
+### Features
+
+- 如果启用了Popconfirm，则仅在点击了确认后才会触发change事件
+- Popconfirm的顶部间隔不再那么违和地高了
+- Popover宽度自适应，而不是写死一个最小宽度
+- Tooltip非手动控制显隐时，点击开关后会自动关闭，以避免与Popconfirm和Popover冲突
+- Popconfirm, Popover, Tooltip的内容为空时，默认不启用
+- content属性支持html（但不再支持插槽）
 
 ### Props
 
 | Attribute | Description | Type |  Default |
 | --- | --- | --- | --- |
-| name | 文案 | string | |
-| show* | 是否显示 | boolean, function | false |
-| catalog* | 预设目录 | object | |
-| elPopconfirmProps | el-popconfirm的配置 未配置时默认不开启popconfirm | object | |
-| elTooltipProps | el-tooltip的配置 默认circle为true时开启tooltip | object | |
-| ... `el-button` 属性 |
+| elPopconfirmProps | el-popconfirm属性 | object | |
+| elPopoverProps | el-popover属性 | object | |
+| elTooltipProps | el-tooltip属性 | object | |
+| ... el-switch属性 |
 
-#### show
+<br>
 
-show为function时支持返回boolean或者返回promise在promise内resolve一个boolean
+## PopButton
 
-> show为function时 参数1为当前组件实例的name属性值
+四个组件的组合拳：`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip`
 
-#### catalog
+### Features
 
-如果同一个name的PopButton需要多处使用 你可以在catalog中针对这个name进行全局配置
+- 如果启用了Popconfirm，则仅在点击了确认后才会触发click事件
+- Popconfirm的顶部间隔不再那么违和地高了
+- Popover宽度自适应，而不是写死一个最小宽度
+- Tooltip非手动控制显隐时，点击按钮后会自动关闭，以避免与Popconfirm和Popover冲突
+- Popconfirm, Popover, Tooltip的内容为空时，默认不启用
+- content属性支持html（但不再支持插槽）
 
-`elPopconfirmProps`、`elTooltipProps` 也支持在catalog中使用
+### Props
 
-> 该参数不支持局部配置
-
-默认值：
-
-```
-{
-  新增: {
-    type: 'primary',
-    icon: 'el-icon-circle-plus-outline'
-  },
-  查看: {
-    icon: 'el-icon-search',
-    circle: true
-  },
-  编辑: {
-    type: 'primary',
-    icon: 'el-icon-edit',
-    circle: true
-  },
-  删除: {
-    type: 'danger',
-    icon: 'el-icon-delete',
-    circle: true,
-    elPopconfirmProps: {}
-  },
-  停用: {
-    type: 'warning',
-    icon: 'el-icon-video-pause',
-    circle: true,
-    elPopconfirmProps: {}
-  },
-  启用: {
-    type: 'success',
-    icon: 'el-icon-video-play',
-    circle: true,
-    elPopconfirmProps: {}
-  },
-}
-```
-
-- 使用在catalog中定义过的PopButton
-
-```html
-
-<PopButton @click="" name="编辑"/>
-```
-
-- 未在catalog中定义的PopButton
-
-```html
-
-<PopButton @click="" name="" circle type="primary">
-  <i class="el-icon-finished"/>
-</PopButton>
-```
-
-### 禁用Popconfirm
-
-```html
-
-<PopButton
-  :elPopconfirmProps="{disabled:true}"
-/>
-```
-
-### 禁用Tooltip
-
-```html
-
-<PopButton
-  :elTooltipProps="{disabled:true}"
-/>
-```
+| Attribute | Description | Type |  Default |
+| --- | --- | --- | --- |
+| elPopconfirmProps | el-popconfirm属性 | object | |
+| elPopoverProps | el-popover属性 | object | |
+| elTooltipProps | el-tooltip属性 | object | |
+| ... el-button属性 |
 
 <br>
 

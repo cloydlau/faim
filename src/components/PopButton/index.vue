@@ -33,9 +33,6 @@ export default {
     elTooltipProps: Object,
     elPopoverProps: Object,
   },
-  data () {
-    return {}
-  },
   computed: {
     ElButtonProps () {
       return getFinalProp(
@@ -79,7 +76,9 @@ export default {
   },
   methods: {
     onClick (e) {
-      this.$refs.elTooltip.showPopper = false
+      if (!this.$refs.elTooltip.manual) {
+        this.$refs.elTooltip.showPopper = false
+      }
       if (this.ElPopconfirmProps.disabled) {
         this.$emit('click', e)
       }
@@ -87,12 +86,6 @@ export default {
   }
 }
 </script>
-
-<!--<style lang="scss">
-.el-popconfirm__main {
-  margin-top: 5px;
-}
-</style>-->
 
 <style lang="scss" scoped>
 .pop-button {

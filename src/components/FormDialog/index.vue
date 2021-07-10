@@ -121,7 +121,7 @@ export default {
             const result = this.retrieve()
             if (result instanceof Promise) {
               result.catch(e => {
-                console.error(e)
+                console.error(import.meta.env.VITE_APP_CONSOLE_PREFIX, e)
                 this.closeDialog()
               }).finally(e => {
                 this.loading = false

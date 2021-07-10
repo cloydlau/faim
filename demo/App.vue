@@ -102,7 +102,7 @@
             v-model="popSwitch"
             @click.native="console.log('[PopSwitch] click')"
             :elTooltipProps="{content:`<i class='el-icon-warning'/> 已停用`}"
-            :elPopoverProps="{content:`<i class='el-icon-warning'/> 权限不足`}"
+            :elPopoverProps="{content:`<i class='el-icon-warning'/> 权限不足`,disabled:false}"
             :elPopconfirmProps="{title:'确认启用吗？',disabled:true}"
           />
         </el-form-item>
@@ -114,7 +114,7 @@
             :elPopoverProps="{content:`<i class='el-icon-warning'/> 权限不足`,disabled:true}"
             :elPopconfirmProps="{title:'确认删除吗？'}"
           >
-            新增
+            删除
           </PopButton>
         </el-form-item>
 
