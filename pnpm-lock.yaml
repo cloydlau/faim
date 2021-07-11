@@ -335,7 +335,7 @@ packages:
       fastq: 1.11.1
     dev: true
 
-  /@rollup/pluginutils/4.1.0_rollup@2.53.0:
+  /@rollup/pluginutils/4.1.0_rollup@2.53.1:
     resolution: {integrity: sha512-TrBhfJkFxA+ER+ew2U2/fHbebhLT/l/2pRk0hfj9KusXUuRXd2v0R58AfaZK9VXDQ4TogOSEmICVrQAA3zFnHQ==}
     engines: {node: '>= 8.0.0'}
     peerDependencies:
@@ -343,7 +343,7 @@ packages:
     dependencies:
       estree-walker: 2.0.2
       picomatch: 2.3.0
-      rollup: 2.53.0
+      rollup: 2.53.1
     dev: true
 
   /@types/throttle-debounce/2.1.0:
@@ -1739,8 +1739,8 @@ packages:
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
     dev: true
 
-  /rollup/2.53.0:
-    resolution: {integrity: sha512-spgrY78Toh+m0+zaOoeaayJKuzFuWy6o1PdFIBMVwRcuxT0xCOX9A5rChyKe+2ruL4lePKWUMImS4mMW1QAkmQ==}
+  /rollup/2.53.1:
+    resolution: {integrity: sha512-yiTCvcYXZEulNWNlEONOQVlhXA/hgxjelFSjNcrwAAIfYx/xqjSHwqg/cCaWOyFRKr+IQBaXwt723m8tCaIUiw==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
@@ -1936,7 +1936,7 @@ packages:
       '@babel/core': 7.14.6
       '@babel/parser': 7.14.7
       '@babel/plugin-transform-typescript': 7.14.6_@babel+core@7.14.6
-      '@rollup/pluginutils': 4.1.0_rollup@2.53.0
+      '@rollup/pluginutils': 4.1.0_rollup@2.53.1
       '@vue/babel-helper-vue-jsx-merge-props': 1.2.1
       '@vue/babel-preset-jsx': 1.2.4_@babel+core@7.14.6
       '@vue/component-compiler-utils': 3.2.2
@@ -1948,7 +1948,7 @@ packages:
       magic-string: 0.25.7
       prettier: 2.3.2
       querystring: 0.2.1
-      rollup: 2.53.0
+      rollup: 2.53.1
       slash: 3.0.0
       source-map: 0.7.3
       vite: 2.4.1
@@ -1980,7 +1980,7 @@ packages:
       esbuild: 0.12.15
       postcss: 8.3.5
       resolve: 1.20.0
-      rollup: 2.53.0
+      rollup: 2.53.1
     optionalDependencies:
       fsevents: 2.3.2
     dev: true

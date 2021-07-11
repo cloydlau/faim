@@ -5,23 +5,23 @@
     v-on="$listeners"
     ref="elDialog"
   >
-    <!-- 传slot -->
-    <template slot="title">
-      <!-- 接收slot -->
-      <slot name="title"/>
-    </template>
+    <el-scrollbar>
+      <!-- 传slot -->
+      <template slot="title">
+        <!-- 接收slot -->
+        <slot name="title"/>
+      </template>
+      <div v-loading="loading" class="h-full">
+        <el-form
+          v-if="$scopedSlots['el-form']"
+          v-bind="ElFormProps"
+          v-on="$listeners"
+        >
+          <slot name="el-form"/>
+        </el-form>
 
-    <div v-loading="loading" class="h-full">
-      <el-form
-        v-if="$scopedSlots['el-form']"
-        v-bind="ElFormProps"
-        v-on="$listeners"
-      >
-        <slot name="el-form"/>
-      </el-form>
-
-      <slot/>
-
+        <slot/>
+      </div>
       <slot name="footer">
         <div :class="['',true].includes($attrs.fullscreen)&&hasScrollbar&&'h-90px'"/>
         <div slot="footer" :class="['',true].includes($attrs.fullscreen)?'footer-fixed':'footer'">
@@ -33,7 +33,7 @@
           </el-button>
         </div>
       </slot>
-    </div>
+    </el-scrollbar>
   </el-dialog>
 </template>
 
@@ -273,6 +273,10 @@ export default {
 </style>
 
 <style lang="scss" scoped>
+::v-deep .el-dialog__wrapper {
+  display: flex;
+}
+
 ::v-deep .el-dialog {
   min-width: 600px;
 
@@ -330,7 +334,9 @@ export default {
   }
 
   &:not(.is-fullscreen) {
-    margin: 15vh auto !important;
+    margin: auto !important;
+    max-height: 90vh;
+    overflow-y: auto;
   }
 }
 </style>
