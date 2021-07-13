@@ -5,13 +5,15 @@
     v-on="$listeners"
     ref="elDialog"
   >
-    <el-scrollbar>
+    <template slot="title">
+      <!-- 接收slot -->
+      <slot name="title"/>
+    </template>
+    <div v-loading="loading" class="overflow-y-auto flex flex-col">
       <!-- 传slot -->
-      <template slot="title">
-        <!-- 接收slot -->
-        <slot name="title"/>
-      </template>
-      <div v-loading="loading" class="h-full">
+      <div ref="scrollbar" class="px-30px">
+        <div class="h-25px"/>
+
         <el-form
           v-if="$scopedSlots['el-form']"
           v-bind="ElFormProps"
@@ -21,10 +23,24 @@
         </el-form>
 
         <slot/>
+
+        <div class="h-100px"/>
       </div>
+
       <slot name="footer">
-        <div :class="['',true].includes($attrs.fullscreen)&&hasScrollbar&&'h-90px'"/>
-        <div slot="footer" :class="['',true].includes($attrs.fullscreen)?'footer-fixed':'footer'">
+        <div
+          slot="footer"
+          :class="{
+            'py-15px': true,
+            'px-20px': true,
+            ...ElDialogProps.fullscreen ? {
+              'fixed bottom-5px right-9px': true,
+            }: {
+              'text-right': true
+            }
+          }"
+          style="border-top: 1px solid #F7F7F7;"
+        >
           <el-button @click="closeDialog" :disabled="submitting">
             关 闭
           </el-button>
@@ -33,16 +49,17 @@
           </el-button>
         </div>
       </slot>
-    </el-scrollbar>
+    </div>
   </el-dialog>
 </template>
 
 <script>
 import globalProps from './config'
-import { getFinalProp, hasScrollbar } from '../../utils'
-import 'kayran/dist/style.css'
-import { highlightError, loadStyle } from 'kayran'
+import { getFinalProp } from '../../utils'
+import { loadStyle } from 'kayran'
+import highlightError from './highlightError'
 import { cloneDeep } from 'lodash-es'
+import Scrollbar from 'smooth-scrollbar'
 
 export default {
   name: 'FormDialog',
@@ -65,11 +82,11 @@ export default {
   },
   data () {
     return {
-      loading: false,
+      loading: true,
       submitting: false,
       initiated: false,
-      hasScrollbar: false,
-      disabledStyle: null
+      disabledStyle: null,
+      scrollbar: null
     }
   },
   computed: {
@@ -112,7 +129,6 @@ export default {
       immediate: true,
       async handler (newVal) {
         if (newVal) {
-          this.loading = true
           /*if (this.$scopedSlots['el-form'] && !this.labelWidthSettled) {
             this.labelWidth = await this.getLabelWidth()
             this.labelWidthSettled = true
@@ -145,7 +161,10 @@ export default {
     loading (n) {
       if (!n) {
         this.$nextTick(() => {
-          this.hasScrollbar = hasScrollbar(this.$refs.elDialog.$el.firstChild)
+          //this.hasScrollbar = hasScrollbar(this.$refs.elDialog.$el.firstChild)
+          this.scrollbar = Scrollbar.init(this.$refs.scrollbar, {
+            alwaysShowTracks: true,
+          })
         })
       }
     },
@@ -208,7 +227,7 @@ export default {
           if (valid) {
             exec()
           } else {
-            highlightError()
+            highlightError(undefined, this.scrollbar)
           }
         })
       } else {
@@ -273,24 +292,37 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-::v-deep .el-dialog__wrapper {
+.el-dialog__wrapper {
   display: flex;
 }
 
 ::v-deep .el-dialog {
   min-width: 600px;
 
+  &:not(.is-fullscreen) {
+    margin: auto !important;
+  }
+
   .el-dialog__header {
+    padding: 15px 20px;
     border-bottom: 1px solid #F7F7F7;
 
-    .el-dialog__headerbtn .el-dialog__close {
-      font-size: 20px;
+    & > .el-dialog__headerbtn {
+      top: 15px;
+
+      & > .el-dialog__close {
+        font-size: 20px;
+      }
     }
   }
 
   .el-dialog__body {
-    height: calc(100% - 55px);
-    padding: 25px 50px;
+    //height: calc(100% - 55px);
+    max-height: calc(100vh - 124px);
+    overflow-y: auto;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
 
     /* 去掉输入框的上下箭头 */
     input::-webkit-outer-spin-button,
@@ -322,21 +354,6 @@ export default {
     .el-form-item:last-child {
       margin-bottom: 0;
     }
-
-    .footer {
-      text-align: right;
-      padding: 50px 0 0 0;
-    }
-
-    .footer-fixed {
-      @apply fixed bottom-5 right-9;
-    }
-  }
-
-  &:not(.is-fullscreen) {
-    margin: auto !important;
-    max-height: 90vh;
-    overflow-y: auto;
   }
 }
 </style>

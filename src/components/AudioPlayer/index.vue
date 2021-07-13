@@ -44,5 +44,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.el-dialog__wrapper {
+  display: flex;
+}
 
+::v-deep .el-dialog {
+  min-width: 600px;
+  margin: auto !important;
+}
 </style>

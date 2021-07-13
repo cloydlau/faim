@@ -701,47 +701,6 @@ export default {
 
 <br>
 
-## AudioPlayer / 音乐播放
-
-> 原生audio元素封装
-
-### Props
-
-| 参数 | 说明 | 类型 | 可选值 | 默认值 |
-| --- | --- | --- | --- | --- |
-| show.sync | 是否开启 | boolean | | false |
-| src | 音频文件链接 | string | | |
-| inline* | 以行内元素的方式显示 | boolean | | false |
-| ...audio属性 |
-
-#### inline
-
-- 默认false表示以弹框形式显示
-- 开启后不再需要show参数
-
-<br>
-
-## VideoPlayer / 视频播放
-
-> 原生video元素封装
-
-### Props
-
-| 参数 | 说明 | 类型 | 可选值 | 默认值 |
-| --- | --- | --- | --- | --- |
-| show.sync | 是否开启 | boolean | | false |
-| src | 视频文件链接 | string | | |
-| poster | 视频封面图片链接 | string | | |
-| inline* | 以行内元素的方式显示 | boolean | | false |
-| ...video属性 |
-
-#### inline
-
-- 默认false表示以弹框形式显示
-- 开启后不再需要show参数
-
-<br>
-
 ## Camera / 摄像头拍照
 
 ### Props

@@ -5,8 +5,13 @@
     <el-switch
       v-model="readonly"
     />
+    全屏：
+    <el-switch
+      v-model="fullscreen"
+    />
 
     <FormDialog
+      :fullscreen="fullscreen"
       :show.sync="showFormDialog"
       :retrieve="retrieve"
       :submit="submit"
@@ -122,16 +127,6 @@
           <AuthTree v-model="form.AuthTree"/>
         </el-form-item>
 
-        <el-form-item label="手机号" prop="phone" ref="formItemPhone" required>
-          <el-input v-model="form.phone">
-            <SmsButton slot="append" @click="send" :cd="3">
-              <!--<template v-slot="{remaining}">
-                {{ remaining ? `${remaining}s remaining` : `send verification code` }}
-              </template>-->
-            </SmsButton>
-          </el-input>
-        </el-form-item>
-
         <el-form-item label="OnefoldTable">
           <OnefoldTable title="两列">
             <tr>
@@ -160,24 +155,6 @@
           </OnefoldTable>
         </el-form-item>
 
-        <el-form-item label="AudioPlayer">
-          <el-button @click="showAudioPlayer=true">音乐播放器</el-button>
-          <AudioPlayer :show.sync="showAudioPlayer" :src="showAudioPlayerSrc"/>
-        </el-form-item>
-
-        <el-form-item label="AudioPlayer(inline)">
-          <AudioPlayer inline :src="showAudioPlayerSrc"/>
-        </el-form-item>
-
-        <el-form-item label="VideoPlayer">
-          <el-button @click="showVideoPlayer=true">视频播放器</el-button>
-          <VideoPlayer :show.sync="showVideoPlayer" :src="videoPlayerSrc" :poster="poster"/>
-        </el-form-item>
-
-        <el-form-item label="VideoPlayer(inline)">
-          <VideoPlayer inline :src="videoPlayerSrc" :poster="poster"/>
-        </el-form-item>
-
         <el-form-item label="Pagination">
           <Pagination
             :total="99"
@@ -191,6 +168,16 @@
           pageSize:
           <el-input-number v-model="pageSize" style="width: 180px;"/>
         </el-form-item>
+
+        <el-form-item label="手机号" prop="phone" ref="formItemPhone" required>
+          <el-input v-model="form.phone">
+            <SmsButton slot="append" @click="send" :cd="3">
+              <!--<template v-slot="{remaining}">
+                {{ remaining ? `${remaining}s remaining` : `send verification code` }}
+              </template>-->
+            </SmsButton>
+          </el-input>
+        </el-form-item>
       </template>
     </FormDialog>
   </div>
@@ -201,8 +188,6 @@ import {
   SmsButton,
   CheckAllBox,
   OnefoldTable,
-  VideoPlayer,
-  AudioPlayer,
   AuthTree,
   Swal,
   FormDialog,
@@ -227,8 +212,6 @@ export default {
     SmsButton,
     CheckAllBox,
     OnefoldTable,
-    VideoPlayer,
-    AudioPlayer,
     AuthTree,
     Selector,
     FormItemTip,
@@ -291,17 +274,13 @@ export default {
           ]
         }]
       },
-      showAudioPlayer: false,
-      showAudioPlayerSrc: '',
-      showVideoPlayer: false,
-      videoPlayerSrc: '',
-      poster: '',
       dateOptions: {
         周一: 1,
         周二: 2
       },
       showFormDialog: true,
       readonly: false,
+      fullscreen: false,
     }
   },
   methods: {

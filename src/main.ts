@@ -3,8 +3,6 @@ import 'virtual:windi.css'
 import OnefoldTable from './components/OnefoldTable'
 import FormItemTip from './components/FormItemTip'
 import CheckAllBox from './components/CheckAllBox'
-import VideoPlayer from './components/VideoPlayer'
-import AudioPlayer from './components/AudioPlayer'
 import FormDialog from './components/FormDialog'
 import PopButton from './components/PopButton'
 import PopSwitch from './components/PopSwitch'
@@ -20,8 +18,6 @@ import Tag from './components/Tag' // todo: deprecated
 export {
   OnefoldTable,
   CheckAllBox,
-  VideoPlayer,
-  AudioPlayer,
   FormItemTip,
   FormDialog,
   PopButton,
