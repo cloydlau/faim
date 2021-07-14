@@ -36,12 +36,12 @@
 
         <el-form-item label="SweetAlert">
           <el-button-group>
-            <el-button @click="$Swal.success().then(() => {window.alert('success')})">成功</el-button>
-            <el-button @click="$Swal.info('info').then(() => {window.alert('info')})">提示</el-button>
-            <el-button @click="$Swal.warning('warning').then(() => {window.alert('warning')})">警告</el-button>
-            <el-button @click="$Swal.error('error').then(() => {window.alert('error')})">错误</el-button>
+            <el-button @click="$Swal.success().then(() => {console.log('success')})">成功</el-button>
+            <el-button @click="$Swal.info('info').then(() => {console.log('info')})">提示</el-button>
+            <el-button @click="$Swal.warning('warning').then(() => {console.log('warning')})">警告</el-button>
+            <el-button @click="$Swal.error('error').then(() => {console.log('error')})">错误</el-button>
             <el-button
-              @click="$Swal.confirm('confirm').then(() => {window.alert('确认')}).catch(() => {window.alert('取消')})">
+              @click="$Swal.confirm('confirm').then(() => {console.log('确认')}).catch(() => {console.log('取消')})">
               确认
             </el-button>
             <el-button

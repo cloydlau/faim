@@ -7,7 +7,7 @@ function success (config: any) {
   return Swal.fire({
     titleText: config?.titleText || (typeof config === 'string' ? config : '操作成功'),
     icon: 'success',
-    timer: 2000,
+    timer: 1000,
     showConfirmButton: false,
     ...isPlainObject(config) ? config : null,
   })
@@ -55,7 +55,6 @@ function error (cfg: string | object) {
     icon: 'error',
     timer: 5000,
     allowOutsideClick: false,
-    allowEscapeKey: true,
     ...typeof cfg === 'string' ? { titleText: cfg } : cfg
   })
 }
