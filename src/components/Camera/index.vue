@@ -122,7 +122,6 @@ export default {
               error({
                 titleText: '未检测到摄像头',
                 text: '请确保摄像头已正确连接 win10系统可在【相机】应用查看',
-                timer: 10000
               })
             }
           })
@@ -163,7 +162,6 @@ export default {
             <li>浏览器提示申请使用摄像头时 请点击【允许】</li>
           </ol>
         `,
-        timer: 10000
       })
     },
     confirm () {

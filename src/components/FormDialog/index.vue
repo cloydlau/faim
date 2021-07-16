@@ -24,7 +24,7 @@
 
         <slot/>
 
-        <div class="h-100px"/>
+        <div class="h-25px"/>
       </div>
 
       <slot name="footer">

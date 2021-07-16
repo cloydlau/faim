@@ -1,5 +1,5 @@
 import 'sweetalert2/dist/sweetalert2.min.css'
-import Swal from 'sweetalert2/dist/sweetalert2.min.js'
+import Swal from 'sweetalert2'
 import './index.scss'
 import { isPlainObject } from 'lodash-es'
 
@@ -7,7 +7,10 @@ function success (config: any) {
   return Swal.fire({
     titleText: config?.titleText || (typeof config === 'string' ? config : '操作成功'),
     icon: 'success',
-    timer: 1000,
+    backdrop: false,
+    timer: 2000,
+    toast: true,
+    position: 'top',
     showConfirmButton: false,
     ...isPlainObject(config) ? config : null,
   })
@@ -25,7 +28,7 @@ function info (config: any = {}) {
   return Swal.fire({
     titleText,
     icon: 'info',
-    timer: 2000,
+    timer: 3000,
     toast: true,
     showConfirmButton: false,
     ...config,
@@ -44,8 +47,8 @@ function warning (config: any = {}) {
   return Swal.fire({
     titleText,
     icon: 'warning',
-    timer: 3000,
-    toast: true,
+    backdrop: false,
+    timer: 5000,
     ...config,
   })
 }
@@ -53,7 +56,7 @@ function warning (config: any = {}) {
 function error (cfg: string | object) {
   return Swal.fire({
     icon: 'error',
-    timer: 5000,
+    //timer: 5000,
     allowOutsideClick: false,
     ...typeof cfg === 'string' ? { titleText: cfg } : cfg
   })
