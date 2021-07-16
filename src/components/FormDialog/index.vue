@@ -11,7 +11,7 @@
     </template>
     <div v-loading="loading" class="overflow-y-auto flex flex-col">
       <!-- 传slot -->
-      <div ref="scrollbar" class="px-30px">
+      <div ref="scrollbar" class="pl-40px pr-50px">
         <div class="h-25px"/>
 
         <el-form
