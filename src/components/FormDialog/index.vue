@@ -15,6 +15,8 @@
       <div ref="scrollbar" class="pl-40px pr-50px">
         <div class="h-25px"/>
 
+        <slot/>
+
         <el-form
           v-if="$scopedSlots['el-form']"
           v-bind="ElFormProps"
@@ -22,8 +24,6 @@
         >
           <slot name="el-form"/>
         </el-form>
-
-        <slot/>
 
         <div class="h-25px"/>
       </div>
@@ -167,14 +167,14 @@ export default {
           } else {
             this.loading = false
           }
-        } else {
+        }
+        // 首次不执行
+        else if (this.initiated) {
           this.closing = true
-          if (this.initiated) {
-            // 重置表单
-            this.$emit('change', cloneDeep(this.value__))
-            if (this.$scopedSlots['el-form']) {
-              this.$nextTick(this.$refs.elForm.clearValidate)
-            }
+          // 重置表单
+          this.$emit('change', cloneDeep(this.value__))
+          if (this.$scopedSlots['el-form']) {
+            this.$nextTick(this.$refs.elForm.clearValidate)
           }
         }
         this.initiated = true

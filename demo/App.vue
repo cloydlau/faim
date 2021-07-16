@@ -24,6 +24,14 @@
       @closed="console.log('closed')"
       :readonly="readonly"
     >
+      只读：
+      <el-switch
+        v-model="readonly"
+      />
+      全屏：
+      <el-switch
+        v-model="fullscreen"
+      />
       <template #el-form>
         <el-form-item label="Camera" prop="Camera">
           <el-button @click="showCamera=true">打开摄像头</el-button>
