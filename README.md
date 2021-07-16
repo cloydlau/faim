@@ -245,6 +245,12 @@ export default {
 </script>
 ```
 
+### 「确定」和「取消」按钮的左右顺序
+
+可以看看这篇[知乎回答](https://www.zhihu.com/question/20694680/answer/1400624833)。
+
+无论你的观点如何，你可以通过slot自定义footer。
+
 <br>
 
 ## PopSwitch

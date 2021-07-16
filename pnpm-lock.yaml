@@ -962,7 +962,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001245
-      electron-to-chromium: 1.3.777
+      electron-to-chromium: 1.3.778
     dev: true
 
   /browserslist/4.16.6:
@@ -972,7 +972,7 @@ packages:
     dependencies:
       caniuse-lite: 1.0.30001245
       colorette: 1.2.2
-      electron-to-chromium: 1.3.777
+      electron-to-chromium: 1.3.778
       escalade: 3.1.1
       node-releases: 1.1.73
     dev: true
@@ -1171,8 +1171,8 @@ packages:
       ssr-window: 3.0.0
     dev: false
 
-  /electron-to-chromium/1.3.777:
-    resolution: {integrity: sha512-gO0VEU2esNUOu51DTtp7E7xy0d+yZdbC06EACvou1cbPM9Wwyz8ixPa6T1tqDXlT4/AefXtzx0i9OLwKkLOHQA==}
+  /electron-to-chromium/1.3.778:
+    resolution: {integrity: sha512-Lw04qJaPtWdq0d7qKHJTgkam+FhFi3hm/scf1EyqJWdjO3ZIGUJhNmZJRXWb7yb/bRYXQyVGSpa9RqVpjjWMQw==}
     dev: true
 
   /element-ui/2.15.3_vue@2.6.12:

@@ -4,6 +4,7 @@
     v-bind="ElDialogProps"
     v-on="$listeners"
     ref="elDialog"
+    @closed="onClosed"
   >
     <template slot="title">
       <!-- 接收slot -->
@@ -41,10 +42,16 @@
           }"
           style="border-top: 1px solid #F7F7F7;"
         >
-          <el-button @click="closeDialog" :disabled="submitting">
+          <el-button @click="closeDialog" :disabled="submitting||closing">
             关 闭
           </el-button>
-          <el-button type="primary" @click="confirm" :loading="submitting" v-if="!readonly">
+          <el-button
+            type="primary"
+            @click="confirm"
+            :disabled="closing"
+            :loading="submitting"
+            v-if="showConfirmBtn"
+          >
             确 定
           </el-button>
         </div>
@@ -68,11 +75,11 @@ export default {
       type: Boolean,
       required: true
     },
-    readonly: Boolean,
     value: {
       default: () => ({}),
     },
     elFormProps: Object,
+    readonly: Boolean,
     retrieve: Function,
     submit: Function,
   },
@@ -84,12 +91,24 @@ export default {
     return {
       loading: true,
       submitting: false,
+      closing: false,
       initiated: false,
       disabledStyle: null,
-      scrollbar: null
+      scrollbar: null,
+      // 作用是防止在关闭但关闭动画未结束时隐藏的确认按钮暴露出来
+      showConfirmBtn: false,
     }
   },
   computed: {
+    Retrieve () {
+      return getFinalProp(this.retrieve, globalProps.retrieve)
+    },
+    Submit () {
+      return getFinalProp(this.submit, globalProps.submit)
+    },
+    Readonly () {
+      return getFinalProp(this.readonly, globalProps.readonly, false)
+    },
     beforeClosePassed () {
       return globalProps.beforeClose ||
         globalProps['before-close'] ||
@@ -133,8 +152,8 @@ export default {
             this.labelWidth = await this.getLabelWidth()
             this.labelWidthSettled = true
           }*/
-          if (this.retrieve) {
-            const result = this.retrieve()
+          if (this.Retrieve) {
+            const result = this.Retrieve()
             if (result instanceof Promise) {
               result.catch(e => {
                 console.error(import.meta.env.VITE_APP_CONSOLE_PREFIX, e)
@@ -148,11 +167,14 @@ export default {
           } else {
             this.loading = false
           }
-        } else if (this.initiated) {
-          // 重置表单
-          this.$emit('change', cloneDeep(this.value__))
-          if (this.$scopedSlots['el-form']) {
-            this.$nextTick(this.$refs.elForm.clearValidate)
+        } else {
+          this.closing = true
+          if (this.initiated) {
+            // 重置表单
+            this.$emit('change', cloneDeep(this.value__))
+            if (this.$scopedSlots['el-form']) {
+              this.$nextTick(this.$refs.elForm.clearValidate)
+            }
           }
         }
         this.initiated = true
@@ -168,10 +190,18 @@ export default {
         })
       }
     },
-    readonly: {
+    Readonly: {
       immediate: true,
       handler (n) {
-        if (n) {
+        if (!this.closing) {
+          this.showConfirmBtn = !n
+        }
+      }
+    },
+    showConfirmBtn: {
+      immediate: true,
+      handler (n) {
+        if (!n) {
           loadStyle(this.disabledStyle || `
 .el-form [disabled="disabled"],
 .el-form .is-disabled,
@@ -191,6 +221,10 @@ export default {
     }
   },
   methods: {
+    onClosed () {
+      this.closing = false
+      this.showConfirmBtn = !this.Readonly
+    },
     closeDialog () {
       if (this.beforeClosePassed) {
         this.$refs.elDialog.beforeClose()
@@ -200,9 +234,9 @@ export default {
     },
     confirm () {
       const exec = () => {
-        if (typeof this.submit === 'function') {
+        if (typeof this.Submit === 'function') {
           this.submitting = true
-          const result = this.submit()
+          const result = this.Submit()
           if (result instanceof Promise) {
             result.then(data => {
               if (data?.close !== false) {
