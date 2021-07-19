@@ -180,16 +180,6 @@ export default {
         this.initiated = true
       }
     },
-    loading (n) {
-      if (!n) {
-        this.$nextTick(() => {
-          //this.hasScrollbar = hasScrollbar(this.$refs.elDialog.$el.firstChild)
-          this.scrollbar = Scrollbar.init(this.$refs.scrollbar, {
-            alwaysShowTracks: true,
-          })
-        })
-      }
-    },
     Readonly: {
       immediate: true,
       handler (n) {
@@ -219,6 +209,21 @@ export default {
         }
       }
     }
+  },
+  mounted () {
+    const unwatch = this.$watch('loading', n => {
+      if (!n) {
+        this.$nextTick(() => {
+          this.scrollbar = Scrollbar.init(this.$refs.scrollbar, {
+            alwaysShowTracks: true,
+          })
+          //this.hasScrollbar = hasScrollbar(this.$refs.elDialog.$el.firstChild)
+          unwatch()
+        })
+      }
+    }, {
+      immediate: true
+    })
   },
   methods: {
     onClosed () {
