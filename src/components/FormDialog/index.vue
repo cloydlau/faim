@@ -12,9 +12,11 @@
     </template>
     <div v-loading="loading" class="overflow-y-auto flex flex-col">
       <!-- 传slot -->
-      <div ref="scrollbar" class="pl-40px pr-50px">
-        <div class="h-25px"/>
-
+      <overlay-scrollbars
+        ref="overlayScrollbar"
+        class="pl-40px pr-50px pb-30px pt-25px"
+        style="max-height:calc(100vh - 124px);"
+      >
         <slot/>
 
         <el-form
@@ -24,23 +26,13 @@
         >
           <slot name="el-form"/>
         </el-form>
-
-        <div class="h-25px"/>
-      </div>
+      </overlay-scrollbars>
 
       <slot name="footer">
         <div
           slot="footer"
-          :class="{
-            'py-15px': true,
-            'px-20px': true,
-            ...ElDialogProps.fullscreen ? {
-              'fixed bottom-5px right-9px': true,
-            }: {
-              'text-right': true
-            }
-          }"
-          style="border-top: 1px solid #F7F7F7;"
+          class="z-1 absolute bottom-0 w-full box-border absolute py-15px px-20px text-right"
+          style="border-top: 1px solid #F7F7F7;background-color:white;"
         >
           <el-button @click="closeDialog" :disabled="submitting||closing">
             关 闭
@@ -64,12 +56,15 @@
 import globalProps from './config'
 import { getFinalProp } from '../../utils'
 import { loadStyle } from 'kayran'
-import highlightError from './highlightError'
+import highlightError from './highlightErrorViaOverlayScrollbars'
 import { cloneDeep } from 'lodash-es'
-import Scrollbar from 'smooth-scrollbar'
+//import Scrollbar from 'smooth-scrollbar'
+import 'overlayscrollbars/css/OverlayScrollbars.min.css'
+import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 
 export default {
   name: 'FormDialog',
+  components: { 'overlay-scrollbars': OverlayScrollbarsComponent },
   props: {
     show: {
       type: Boolean,
@@ -211,19 +206,20 @@ export default {
     }
   },
   mounted () {
-    const unwatch = this.$watch('loading', n => {
+    // 不兼容tinymce
+    /*const unwatch = this.$watch('loading', n => {
       if (!n) {
         this.$nextTick(() => {
-          this.scrollbar = Scrollbar.init(this.$refs.scrollbar, {
+          /!*this.scrollbar = Scrollbar.init(this.$refs.scrollbar, {
             alwaysShowTracks: true,
-          })
+          })*!/
           //this.hasScrollbar = hasScrollbar(this.$refs.elDialog.$el.firstChild)
           unwatch()
         })
       }
     }, {
       immediate: true
-    })
+    })*/
   },
   methods: {
     onClosed () {
@@ -266,7 +262,7 @@ export default {
           if (valid) {
             exec()
           } else {
-            highlightError(undefined, this.scrollbar)
+            highlightError(undefined, this.$refs.overlayScrollbar.osInstance())
           }
         })
       } else {
@@ -336,10 +332,15 @@ export default {
 }
 
 ::v-deep .el-dialog {
-  min-width: 600px;
+  min-width: 620px;
 
   &:not(.is-fullscreen) {
     margin: auto !important;
+
+    .os-host {
+      max-height: calc(100vh - 124px);
+      margin-bottom: 70px;
+    }
   }
 
   .el-dialog__header {
@@ -356,7 +357,6 @@ export default {
   }
 
   .el-dialog__body {
-    //height: calc(100% - 55px);
     max-height: calc(100vh - 124px);
     overflow-y: auto;
     padding: 0;

@@ -1,14 +1,13 @@
 import './highlightError.scss'
 
-export default (selectors: string | Element | NodeList = '.el-form .el-form-item.is-error'): void => {
+export default (
+  el: string | Element | NodeList = '.el-form .el-form-item.is-error',
+  overlayScrollbar: object,
+): void => {
   const scrollIntoView = element => {
-    element.scrollIntoView({
-      behavior: 'smooth',
-      block: 'center'
-    })
+    overlayScrollbar.scroll(element, 500)
   }
-
-  function isVisible (element) {
+  const isVisible = element => {
     const rect = element.getBoundingClientRect()
     const yInView = rect.top < window.innerHeight && rect.bottom > 0
     const xInView = rect.left < window.innerWidth && rect.right > 0
@@ -37,7 +36,7 @@ export default (selectors: string | Element | NodeList = '.el-form .el-form-item
 
   // is-error类名需要异步才能获取到
   setTimeout(() => {
-    const errFormItems = typeof selectors === 'string' ? document.querySelectorAll(selectors) : selectors
+    const errFormItems = typeof el === 'string' ? document.querySelectorAll(el) : el
 
     // 打包后不生效
     /*if (IntersectionObserver) {
@@ -63,23 +62,13 @@ export default (selectors: string | Element | NodeList = '.el-form .el-form-item
           console.warn(e)
         })
       } else {
-        let scrollTimeout: number
-
-        function shake () {
-          // 滚动时会持续触发该回调
-          clearTimeout(scrollTimeout)
-          // 100毫秒都没有触发 说明滚动停止
-          scrollTimeout = setTimeout(() => {
-            animateCSS(errFormItems, 'animate__headShake').catch(e => {
-              console.warn(e)
-            })
-            removeEventListener('scroll', shake)
-          }, 100)
-        }
-
-        addEventListener('scroll', shake)
-
         scrollIntoView(errFormItems[0])
+
+        setTimeout(() => {
+          animateCSS(errFormItems, 'animate__headShake').catch(e => {
+            console.warn(e)
+          })
+        }, 750)
       }
     }
   }, 0)
