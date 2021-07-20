@@ -307,16 +307,16 @@ export default {
 
 ### Props
 
-| 参数 | 说明 | 类型 | 可选值 | 默认值 | 配置方式 |
-| --- | --- | --- | --- | --- | --- |
-| v-model / value | 绑定值 | string, number, object | | | props |
-| label.sync | label双绑 | string, number | | | props |
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+| --- | --- | --- | --- | --- |
+| v-model / value | 绑定值 | string, number, object | | |
+| label.sync | label双绑 | string, number | | |
 | options(.sync) | 选项 | array | | | props |
-| ellipsis | 是否限宽并对超长的label作溢出省略处理（默认是超长撑开） | boolean | | false | props, global |
-| search* | 搜索方法（即el-select的remote-method） | function | | | props, global |
-| immediate | 是否立即执行搜索 | boolean | | true | props, global |
-| props* | 指定对象的属性 | object | | | props, global |
-| objectValue | 指定value的类型为object（options为对象数组时有效） | boolean | | | props, global |
+| ellipsis | 是否限宽并对超长的label作溢出省略处理（默认是超长撑开） | boolean | | false | 
+| search | 搜索获取options，（`remote-method` 封装） | function | | |
+| immediate | 是否立即执行搜索 | boolean | | true |
+| props | 指定对象的属性 | object | | |
+| objectValue | 指定value的类型为object（options为对象数组时有效） | boolean | | | 
 | ...el-select属性 |
 
 #### props
@@ -327,7 +327,6 @@ export default {
   label: 'dataName', // 指定options中label的属性名（options为对象数组时有效）
   disabled: 'disabled', // 指定options中disabled的属性名（options为对象数组时有效）
   rightLabel: undefined, // 指定options中右浮label的属性名（options为对象数组时有效）
-  searchResponse: 'data', // 指定search方法返回值中数据所在位置（支持路径形式）
   groupLabel: undefined, // 指定组名（分组时有效）
   groupOptions: undefined, // 指定子选项组的属性名（分组时有效）
   groupDisabled: 'disabled', // 指定子选项组是否禁用的属性名（分组时有效）
@@ -354,10 +353,10 @@ label, rightLabel均支持以function形式定制返回值
 #### search
 
 - 无需操心loading状态
-- 清空输入时 自动恢复初值options
+- 清空输入时，自动恢复初值options
 
 ```vue
-<!-- 示例 -->
+<!-- 异步获取options -->
 
 <template>
   <Selector
@@ -377,9 +376,41 @@ export default {
   },
   methods: {
     search (value) {
-      return this.$POST('', {
-        keyword: value
+      return new Promise((resolve, reject) => {
+        this.$POST('xxx', {
+          keyword: value
+        }).then(({ data }) => {
+          resolve(data)
+        })
       })
+    }
+  }
+}
+</script>
+```
+
+```vue
+<!-- 同步获取options -->
+
+<template>
+  <Selector
+    v-model="value"
+    :options.sync="options"
+    :search="search"
+  />
+</template>
+
+<script>
+export default {
+  data () {
+    return {
+      value: undefined,
+      options: [],
+    }
+  },
+  methods: {
+    search (value) {
+      return ['1', '2', '3'].filter(v => v === value)
     }
   }
 }

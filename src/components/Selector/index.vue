@@ -67,7 +67,6 @@
 
 <script>
 import { typeOf, isEmpty } from 'kayran'
-import { at } from 'lodash-es'
 import globalProps from './config'
 import { getFinalProp } from '../../utils'
 
@@ -242,12 +241,12 @@ export default {
       const result = this.Search(e)
       if (result instanceof Promise) {
         result.then(res => {
-          this.$emit('update:options', at(res, this.Props.searchResponse)[0])
+          this.$emit('update:options', res)
         }).finally(() => {
           this.loading = false
         })
       } else {
-        console.warn(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}search的返回值需为Promise类型`)
+        this.$emit('update:options', result)
         this.loading = false
       }
     },
