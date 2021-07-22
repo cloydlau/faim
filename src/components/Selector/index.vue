@@ -95,12 +95,15 @@ export default {
     }
   },
   computed: {
+    itemTypeIsObject () {
+      return typeof this.options?.[0] === 'object'
+    },
     valueComesFromObject () {
       if (['symbol', 'string', 'number', 'null'].includes(typeOf(this.Key))) {
         if (isEmpty(this.Key)) {
           return false
         } else {
-          return typeof this.options?.[0] === 'object'
+          return this.itemTypeIsObject
         }
       } else {
         throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}props.key的类型仅能为string/number/symbol`)
@@ -262,15 +265,13 @@ export default {
       }
     },
     getLabel (v) {
-      let result
+      let result = v
       if (this.Label) {
         if (typeof this.Label === 'function') {
           result = this.Label(v)
-        } else {
+        } else if (this.itemTypeIsObject) {
           result = v[this.Label]
         }
-      } else {
-        result = v
       }
       return isEmpty(result) ? '' : String(result)
     },
