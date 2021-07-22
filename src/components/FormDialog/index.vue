@@ -15,7 +15,7 @@
       <overlay-scrollbars
         ref="overlayScrollbar"
         class="pl-40px pr-50px pb-30px pt-25px"
-        style="max-height:calc(100vh - 104px);"
+        style="max-height:calc(100vh - 100px);"
       >
         <slot/>
 
@@ -338,8 +338,8 @@ export default {
     margin: auto !important;
 
     .os-host {
-      max-height: calc(100vh - 104px);
-      margin-bottom: 70px;
+      max-height: calc(100vh - 100px);
+      margin-bottom: 60px;
     }
   }
 
@@ -357,7 +357,7 @@ export default {
   }
 
   .el-dialog__body {
-    max-height: calc(100vh - 104px);
+    max-height: calc(100vh - 100px);
     overflow-y: auto;
     padding: 0;
     display: flex;
