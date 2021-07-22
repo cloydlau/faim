@@ -8,7 +8,6 @@ import PopButton from './components/PopButton'
 import PopSwitch from './components/PopSwitch'
 import Pagination from './components/Pagination'
 import SmsButton from './components/SmsButton'
-import AuthTree from './components/AuthTree'
 import Selector from './components/Selector'
 import Camera from './components/Camera'
 import Swal from './components/Swal'
@@ -24,7 +23,6 @@ export {
   PopSwitch,
   Pagination,
   SmsButton,
-  AuthTree,
   Selector,
   Camera,
   Swal,

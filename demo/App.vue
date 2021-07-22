@@ -131,10 +131,6 @@
           </PopButton>
         </el-form-item>
 
-        <el-form-item label="AuthTree" prop="AuthTree">
-          <AuthTree v-model="form.AuthTree"/>
-        </el-form-item>
-
         <el-form-item label="OnefoldTable">
           <OnefoldTable title="两列">
             <tr>
@@ -196,7 +192,6 @@ import {
   SmsButton,
   CheckAllBox,
   OnefoldTable,
-  AuthTree,
   Swal,
   FormDialog,
   Selector,
@@ -220,7 +215,6 @@ export default {
     SmsButton,
     CheckAllBox,
     OnefoldTable,
-    AuthTree,
     Selector,
     FormItemTip,
     PopButton,
@@ -350,61 +344,7 @@ export default {
     retrieve () {
       console.log('表格打开之后、获取数据之前')
       return new Promise((resolve, reject) => {
-        setTimeout(() => {
-          this.form.AuthTree = [
-            {
-              label: '子系统',
-              type: '-1',
-              children: [{
-                children: [
-                  {
-                    children: null,
-                    hasPermission: true,
-                    label: 'a21',
-                    id: 'a21',
-                    type: '1',
-                    pageButtonList: [
-                      {
-                        hasPermission: false,
-                        name: '新增',
-                        type: '2',
-                      },
-                      {
-                        hasPermission: false,
-                        name: '新增',
-                        type: '2',
-                      }
-                    ],
-                    parentId: null,
-                  }, {
-                    type: '1',
-                    children: null,
-                    hasPermission: true,
-                    label: 'a22',
-                    id: 'a22',
-                    pageButtonList: null,
-                    parentId: null,
-                  },
-                ],
-                hasPermission: true,
-                label: 'a2',
-                id: 'a2',
-                pageButtonList: null,
-                parentId: null,
-                type: '0'
-              }]
-            }, {
-              children: null,
-              hasPermission: true,
-              label: 'a1',
-              id: 'a1',
-              pageButtonList: null,
-              parentId: null,
-              type: '0'
-            },
-          ]
-          resolve()
-        }, 500)
+        resolve()
       }).then(() => {
         console.log('获取数据之后')
       })

@@ -15,7 +15,7 @@
       <overlay-scrollbars
         ref="overlayScrollbar"
         class="pl-40px pr-50px pb-30px pt-25px"
-        style="max-height:calc(100vh - 124px);"
+        style="max-height:calc(100vh - 104px);"
       >
         <slot/>
 
@@ -31,7 +31,7 @@
       <slot name="footer">
         <div
           slot="footer"
-          class="z-1 absolute bottom-0 w-full box-border absolute py-15px px-20px text-right"
+          class="z-1 absolute bottom-0 w-full box-border absolute py-10px px-15px text-right"
           style="border-top: 1px solid #F7F7F7;background-color:white;"
         >
           <el-button @click="closeDialog" :disabled="submitting||closing">
@@ -332,23 +332,23 @@ export default {
 }
 
 ::v-deep .el-dialog {
-  min-width: 620px;
+  min-width: 800px;
 
   &:not(.is-fullscreen) {
     margin: auto !important;
 
     .os-host {
-      max-height: calc(100vh - 124px);
+      max-height: calc(100vh - 104px);
       margin-bottom: 70px;
     }
   }
 
   .el-dialog__header {
-    padding: 15px 20px;
+    padding: 10px 15px;
     border-bottom: 1px solid #F7F7F7;
 
     & > .el-dialog__headerbtn {
-      top: 15px;
+      top: 13px;
 
       & > .el-dialog__close {
         font-size: 20px;
@@ -357,7 +357,7 @@ export default {
   }
 
   .el-dialog__body {
-    max-height: calc(100vh - 124px);
+    max-height: calc(100vh - 104px);
     overflow-y: auto;
     padding: 0;
     display: flex;

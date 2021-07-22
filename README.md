@@ -674,16 +674,6 @@ Swal.confirm({
 
 <br>
 
-## AuthTree / 权限编辑树
-
-### Props
-
-| 参数 | 说明 | 类型 | 可选值 | 默认值 |
-| --- | --- | --- | --- | --- |
-| v-model / value | 绑定值 | array | | |
-
-<br>
-
 ## SmsButton / 短信验证码按钮
 
 ### Props

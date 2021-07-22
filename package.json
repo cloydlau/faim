@@ -1,6 +1,6 @@
 {
   "name": "kikimore",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "趁手小型组件库",
   "author": "cloydlau",
   "license": "MIT",
@@ -42,9 +42,9 @@
     "element-ui": "^2.15.3",
     "sass": "^1.35.2",
     "typescript": "^4.3.5",
-    "vite": "^2.4.2",
+    "vite": "^2.4.3",
     "vite-plugin-vue2": "1.5.2",
-    "vite-plugin-windicss": "^1.2.4",
+    "vite-plugin-windicss": "^1.2.5",
     "vue": "2.6.12",
     "vue-template-compiler": "2.6.12"
   }
