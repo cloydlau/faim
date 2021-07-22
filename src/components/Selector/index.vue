@@ -9,15 +9,15 @@
     <template v-if="Props.groupOptions&&Props.groupLabel">
       <el-option-group
         v-for="group of options"
-        :key="group[Props.groupLabel]"
+        :key="uuidv1()"
         :label="group[Props.groupLabel]"
         :disabled="group[Props.groupDisabled]"
       >
         <el-option
-          v-for="(v,i) in group[Props.groupOptions]"
-          :key="Label?v[Key]:v"
+          v-for="v in group[Props.groupOptions]"
+          :key="uuidv1()"
+          :value="valueComesFromObject?v[Key]:v"
           :label="getLabel(v)"
-          :value="ObjectValue?v:Label?v[Key]:i"
           :disabled="v[Props.disabled]"
         >
           <slot v-if="$scopedSlots.default" :option="v"/>
@@ -38,10 +38,10 @@
 
     <template v-else>
       <el-option
-        v-for="(v,i) in options"
-        :key="Label?v[Key]:v"
+        v-for="v in options"
+        :key="uuidv1()"
+        :value="valueComesFromObject?v[Key]:v"
         :label="getLabel(v)"
-        :value="ObjectValue?v:Label?v[Key]:i"
         :disabled="v[Props.disabled]"
       >
         <slot v-if="$scopedSlots.default" :option="v"/>
@@ -52,7 +52,7 @@
             :content="getLabel(v)"
             placement="right"
           >
-            <span class="label-left" :ref="'leftLabel'+(Label?v[Key]:v)">{{ getLabel(v) }}</span>
+            <span class="label-left" :ref="'leftLabel'+(valueComesFromObject?v[Key]:v)">{{ getLabel(v) }}</span>
           </el-tooltip>
           <span class="label-right">{{ getRightLabel(v) }}</span>
         </template>
@@ -69,6 +69,7 @@
 import { typeOf, isEmpty } from 'kayran'
 import globalProps from './config'
 import { getFinalProp } from '../../utils'
+import { v1 as uuidv1 } from 'uuid'
 
 export default {
   name: 'Selector',
@@ -88,15 +89,23 @@ export default {
       // 不能用type 因为type为Boolean时 如果用户没传 默认值为false而不是undefined 会影响getFinalProp的判断
       validator: value => value === '' || ['boolean'].includes(typeOf(value)),
     },
-    objectValue: {
-      validator: value => value === '' || ['boolean'].includes(typeOf(value)),
-    },
     search: Function,
-    immediate: {
+    searchImmediately: {
       validator: value => value === '' || ['boolean'].includes(typeOf(value)),
     }
   },
   computed: {
+    valueComesFromObject () {
+      if (['symbol', 'string', 'number', 'null'].includes(typeOf(this.Key))) {
+        if (isEmpty(this.Key)) {
+          return false
+        } else {
+          return typeof this.options?.[0] === 'object'
+        }
+      } else {
+        throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}props.key的类型仅能为string/number/symbol`)
+      }
+    },
     ScopedSlots () {
       let result = {}
       for (let k in this.$scopedSlots) {
@@ -112,8 +121,8 @@ export default {
         filterable: true,
         remote: Boolean(this.Search),
         'reserve-keyword': true,
-        'remote-method': this.Search__,
-        'value-key': this.Label ? this.Key : 'value',
+        'remote-method': this.remoteMethod,
+        'value-key': this.valueComesFromObject ? this.Key : undefined,
         ...globalProps,
         ...this.$attrs,
         placeholder: this.Placeholder,
@@ -150,19 +159,11 @@ export default {
       return this.Props.label
     },
     Props () {
-      let result = {
-        key: 'dataValue',
-        label: 'dataName', // label不为空标志着value为对象类型
+      return getFinalProp(this.props, globalProps.props, {
         disabled: 'disabled',
         searchResponse: 'data',
         groupDisabled: 'disabled',
-        ...this.props,
-        ...globalProps.props
-      }
-
-      if (typeof this.options?.[0] !== 'object') {
-        result.label = ''
-      }
+      })
 
       /*if (result.label) {
         const placeholders = result.label?.match(/\${[\dA-z_\$]*}/g)
@@ -184,17 +185,12 @@ export default {
           }
         }
       }*/
-
-      return result
     },
     Search () {
       return getFinalProp(this.search, globalProps.search,)
     },
-    ObjectValue () {
-      return getFinalProp(this.objectValue, globalProps.objectValue,)
-    },
-    Immediate () {
-      return getFinalProp(this.immediate, globalProps.immediate, true)
+    SearchImmediately () {
+      return getFinalProp(this.searchImmediately, globalProps.searchImmediately, true)
     }
   },
   data () {
@@ -220,7 +216,7 @@ export default {
           if (this.defaultSearchResult) {
             this.$emit('update:options', this.defaultSearchResult)
           } else {
-            this.Search__()
+            this.remoteMethod()
           }
         }
         this.onBlur()
@@ -228,12 +224,13 @@ export default {
     },
   },
   created () {
-    if (this.Immediate) {
-      this.Search__()
+    if (this.SearchImmediately) {
+      this.remoteMethod()
     }
   },
   methods: {
-    Search__ (e) {
+    uuidv1,
+    remoteMethod (e) {
       if (!this.Search) {
         return
       }
@@ -251,7 +248,7 @@ export default {
       }
     },
     onChange (value) {
-      if (this.Label) {
+      if (this.valueComesFromObject) {
         this.$nextTick(() => {
           this.$emit('update:label', this.$refs.elSelect.selectedLabel)
         })
@@ -259,7 +256,7 @@ export default {
       this.$emit('change', value)
     },
     onBlur () {
-      //fix: 用于el表单中 且校验触发方式为blur时 没有生效
+      // fix: 用于el表单中 且校验触发方式为blur时 没有生效
       if (this.$parent?.$options?._componentTag === ('el-form-item') && this.$parent.rules?.trigger === 'blur') {
         this.$parent.$emit('el.form.blur')
       }

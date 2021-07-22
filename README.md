@@ -314,17 +314,16 @@ export default {
 | options(.sync) | 选项 | array | | | props |
 | ellipsis | 是否限宽并对超长的label作溢出省略处理（默认是超长撑开） | boolean | | false | 
 | search | 搜索获取options，（`remote-method` 封装） | function | | |
-| immediate | 是否立即执行搜索 | boolean | | true |
+| searchImmediately | 是否立即执行搜索 | boolean | | true |
 | props | 指定对象的属性 | object | | |
-| objectValue | 指定value的类型为object（options为对象数组时有效） | boolean | | | 
 | ...el-select属性 |
 
 #### props
 
 ```
 {
-  key: 'dataValue', // 指定options中key的属性名（options为对象数组时有效）
-  label: 'dataName', // 指定options中label的属性名（options为对象数组时有效）
+  key: undefined, // 指定options中key的属性名（options为对象数组时有效）
+  label: undefined, // 指定options中label的属性名（options为对象数组时有效）
   disabled: 'disabled', // 指定options中disabled的属性名（options为对象数组时有效）
   rightLabel: undefined, // 指定options中右浮label的属性名（options为对象数组时有效）
   groupLabel: undefined, // 指定组名（分组时有效）
@@ -350,7 +349,27 @@ label, rightLabel均支持以function形式定制返回值
 </template>
 ```
 
-#### search
+### Slots
+
+支持el-select全部slots
+
+```html
+<!-- 使用默认插槽自定义选项内容 -->
+
+<Selector>
+  <template v-slot="{option}">
+    {{ option.name }}
+  </template>
+</Selector>
+```
+
+### object类型
+
+如果options为对象数组且props.key有效时，value将得到选中项对应对象中指定key的值
+
+否则，value将得到选中项对应的数组元素
+
+### 搜索
 
 - 无需操心loading状态
 - 清空输入时，自动恢复初值options
@@ -415,20 +434,6 @@ export default {
   }
 }
 </script>
-```
-
-### Slots
-
-支持el-select全部slots
-
-```html
-<!-- 使用默认插槽自定义选项内容 -->
-
-<Selector>
-  <template v-slot="{option}">
-    {{ option.name }}
-  </template>
-</Selector>
 ```
 
 ### 分组

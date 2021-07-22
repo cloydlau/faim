@@ -10,17 +10,21 @@
     </el-checkbox>
     <div style="margin: 15px 0;"/>
     <el-checkbox-group v-model="selfValue" @change="checkChange" :disabled="disabled">
-      <el-checkbox v-for="(v,k,i) in options"
-                   :label="v"
-                   :key="i"
-                   v-bind="$attrs"
-      >{{ k }}
+      <el-checkbox
+        v-for="(v,k) in options"
+        :label="v"
+        :key="uuidv1()"
+        v-bind="$attrs"
+      >
+        {{ k }}
       </el-checkbox>
     </el-checkbox-group>
   </div>
 </template>
 
 <script>
+import { v1 as uuidv1 } from 'uuid'
+
 export default {
   name: 'CheckAllBox',
   model: {
@@ -77,6 +81,7 @@ export default {
     }
   },
   methods: {
+    uuidv1,
     checkAllChange (checked) {
       this.selfValue = checked ? Object.values(this.options) : []
       this.isIndeterminate = false

@@ -70,7 +70,7 @@
 
         <el-form-item label="Selector">
           <div style="display: flex; justify-content: space-between">
-            <Selector/>
+            <Selector placeholder="空"/>
             <Selector
               :options="options.index"
               placeholder="number[]"
@@ -86,7 +86,7 @@
               :label.sync="Selector.label"
               :options.sync="options.group"
               :props="{
-                key:'a',
+                key:null,
                 label:'name',
                 rightLabel:'rightLabel',
                 disabled: '__disabled',
@@ -95,8 +95,7 @@
               }"
               placeholder="rightLabel"
               :search="search"
-              :immediate="false"
-              :object-value="false"
+              :searchImmediately="false"
             />
             <Selector
               :options="options.obj"
@@ -205,7 +204,14 @@ import {
 import Vue from 'vue'
 Vue.prototype.$Swal = Swal
 
+Vue.use(Selector, {
+  props: {
+    key: 'a'
+  }
+})
+
 import PicViewer from 'pic-viewer'
+import JsonEditorVue from 'json-editor-vue'
 
 export default {
   components: {
@@ -215,11 +221,12 @@ export default {
     SmsButton,
     CheckAllBox,
     OnefoldTable,
-    Selector,
+    //Selector,
     FormItemTip,
     PopButton,
     Pagination,
-    PopSwitch
+    PopSwitch,
+    JsonEditorVue
   },
   data () {
     return {
@@ -359,9 +366,7 @@ export default {
     },
     search (e) {
       return new Promise(resolve => {
-        resolve({
-          data: this.options.group
-        })
+        resolve([...this.options.group, ...this.options.group])
       })
     }
   }

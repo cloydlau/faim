@@ -1,6 +1,6 @@
 {
   "name": "kikimore",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "趁手小型组件库",
   "author": "cloydlau",
   "license": "MIT",
@@ -31,7 +31,8 @@
     "overlayscrollbars": "^1.13.1",
     "overlayscrollbars-vue": "^0.2.2",
     "pic-viewer": "^0.3.10",
-    "sweetalert2": "^11.0.19"
+    "sweetalert2": "^11.0.19",
+    "uuid": "^8.3.2"
   },
   "peerDependencies": {
     "element-ui": "2",
@@ -40,10 +41,11 @@
   "devDependencies": {
     "@types/overlayscrollbars": "^1.12.1",
     "element-ui": "^2.15.3",
+    "json-editor-vue": "^0.1.6",
     "sass": "^1.35.2",
     "typescript": "^4.3.5",
     "vite": "^2.4.3",
-    "vite-plugin-vue2": "1.5.2",
+    "vite-plugin-vue2": "^1.7.3",
     "vite-plugin-windicss": "^1.2.5",
     "vue": "2.6.12",
     "vue-template-compiler": "2.6.12"
