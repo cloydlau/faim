@@ -1009,7 +1009,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001246
-      electron-to-chromium: 1.3.784
+      electron-to-chromium: 1.3.785
     dev: true
 
   /browserslist/4.16.6:
@@ -1019,7 +1019,7 @@ packages:
     dependencies:
       caniuse-lite: 1.0.30001246
       colorette: 1.2.2
-      electron-to-chromium: 1.3.784
+      electron-to-chromium: 1.3.785
       escalade: 3.1.1
       node-releases: 1.1.73
     dev: true
@@ -1233,8 +1233,8 @@ packages:
       ssr-window: 3.0.0
     dev: false
 
-  /electron-to-chromium/1.3.784:
-    resolution: {integrity: sha512-JTPxdUibkefeomWNaYs8lI/x/Zb4cOhZWX+d7kpzsNKzUd07pNuo/AcHeNJ/qgEchxM1IAxda9aaGUhKN/poOg==}
+  /electron-to-chromium/1.3.785:
+    resolution: {integrity: sha512-WmCgAeURsMFiyoJ646eUaJQ7GNfvMRLXo+GamUyKVNEM4MqTAsXyC0f38JEB4N3BtbD0tlAKozGP5E2T9K3YGg==}
     dev: true
 
   /element-ui/2.15.3_vue@2.6.12:
@@ -1707,7 +1707,7 @@ packages:
       kayran: 0.2.2
       lodash-es: 4.17.21
       qrcode: 1.4.4
-      swiper: 6.7.5
+      swiper: 6.8.0
       viewerjs: 1.10.0
       vue: 2.6.12
     dev: false
@@ -2018,7 +2018,7 @@ packages:
   /svelte-awesome/2.3.2:
     resolution: {integrity: sha512-odkwkVSYEARI/4CskjwoI7KIhds1Ui74H1VFAifWuDoczY+JpPeJuBwDqgo8imM7Bd76U+ns7Yf1iQqveHnx5Q==}
     dependencies:
-      svelte: 3.40.0
+      svelte: 3.40.1
     dev: true
 
   /svelte-jsoneditor/0.1.6:
@@ -2037,7 +2037,7 @@ packages:
       lodash-es: 4.17.21
       natural-compare-lite: 1.4.0
       svelte-awesome: 2.3.2
-      svelte-select: 4.2.6
+      svelte-select: 4.2.7
       svelte-simple-modal: 0.10.4
       sveltip: 0.0.1
     transitivePeerDependencies:
@@ -2045,8 +2045,8 @@ packages:
       - svelte
     dev: true
 
-  /svelte-select/4.2.6:
-    resolution: {integrity: sha512-Vg5l3CohyT7FOBaLXAm5+nXTDWyE2X3JmD2QesvzMD38KT04FfM2KOpwMaNNO4VZcJAahldW7tDa1VGibXRyeQ==}
+  /svelte-select/4.2.7:
+    resolution: {integrity: sha512-mGF7HZcCWDmZOfJTBgnacCZ8cAYCRlQNu4/CNEX5juhlJuCI/ncYYs8O4jnYPnU/Qc7l07y+bpi7TF9SF9eRgQ==}
     dev: true
 
   /svelte-simple-modal/0.10.4:
@@ -2055,8 +2055,8 @@ packages:
       svelte: ^3.18.2
     dev: true
 
-  /svelte/3.40.0:
-    resolution: {integrity: sha512-PCof5NCkxw7ZIkypiHwmjk8jCnnlmJ62NQIcGr/keBCOCx2FdAYmpjLjAey8hGy58xKK4WtwLUgFNcQZK2fPLQ==}
+  /svelte/3.40.1:
+    resolution: {integrity: sha512-IreCwsCD5yoKlXCDXCyHZ0mh1wNwm3/5QD+nVNBzSWug5dUiWcah/8QWnDcC3IYbJbn0ZRT04b8y4ITMtr1bNQ==}
     engines: {node: '>= 8'}
     dev: true
 
@@ -2072,8 +2072,8 @@ packages:
     resolution: {integrity: sha512-fJkiIhvOjDux8Ns08uWNdWPcLql5tpMpiuc78sYLjY9zTBvkj7rvmPHHckdkAZLKVGUmOfy8ckDZ1ElS0lLpjw==}
     dev: false
 
-  /swiper/6.7.5:
-    resolution: {integrity: sha512-KaTjO93tZyMpxWHaey+T+H/JeePMZV/joZWhZaor76Xk+rPGmjOz1S8mXSyrRkaW0p0LOJYeWGB8d0gYxSSV/Q==}
+  /swiper/6.8.0:
+    resolution: {integrity: sha512-6H3e7VOihasMp8sPXNhRDkc61UD0XeFlefbWfUHecBLBTtmA+9WxJiKDBMdzgetK1cny+5+mKfVcsmxYgnEDSw==}
     engines: {node: '>= 4.7.0'}
     requiresBuild: true
     dependencies:

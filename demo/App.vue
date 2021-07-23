@@ -88,12 +88,12 @@
               :props="{
                 key:null,
                 label:'name',
-                rightLabel:'rightLabel',
+                labelRight:'labelRight',
                 disabled: '__disabled',
                 groupOptions: 'children',
                 groupLabel: 'label',
               }"
-              placeholder="rightLabel"
+              placeholder="labelRight"
               :search="search"
               :searchImmediately="false"
             />
@@ -249,7 +249,7 @@ export default {
         obj: [{
           a: 1,
           b: 'bbb',
-          rightLabel: 'rightLabel111',
+          labelRight: 'labelRight111',
           disabled: true,
           //__disabled: true,
           name: 'name',
@@ -257,7 +257,7 @@ export default {
           a: 2,
           name: '222',
           b: 'ccc',
-          rightLabel: 'rightLabel222',
+          labelRight: 'labelRight222',
         }],
         group: [{
           label: 'label1',
@@ -265,7 +265,7 @@ export default {
             {
               a: 1,
               b: 'bbb',
-              rightLabel: 'rightLabel111',
+              labelRight: 'labelRight111',
               disabled: true,
               //__disabled: true,
               name: 'name',
@@ -278,7 +278,7 @@ export default {
               a: 2,
               name: '222',
               b: 'ccc',
-              rightLabel: 'rightLabel222',
+              labelRight: 'labelRight222',
             },
           ]
         }]

@@ -1,36 +1,36 @@
 <template>
   <el-select
     v-model="value__"
-    :loading="loading"
     v-bind="elSelectProps"
     @change="onChange"
     ref="elSelect"
   >
-    <template v-if="Props.groupOptions&&Props.groupLabel">
+    <template v-if="notEmpty(Props.groupOptions)">
       <el-option-group
-        v-for="group of options"
+        v-for="(group,groupIndex) of options"
         :key="uuidv1()"
-        :label="group[Props.groupLabel]"
-        :disabled="group[Props.groupDisabled]"
+        :label="getGroupLabel(group,groupIndex)"
+        :disabled="isGroupDisabled(group,groupIndex)"
       >
         <el-option
-          v-for="v in group[Props.groupOptions]"
+          v-for="(v,i) of getGroupOptions(group,groupIndex)"
           :key="uuidv1()"
-          :value="valueComesFromObject?v[Key]:v"
-          :label="getLabel(v)"
-          :disabled="v[Props.disabled]"
+          :value="getValue(v,i)"
+          :label="getLabel(v,i)"
+          :disabled="isDisabled(v,i)"
+          @click.native="onOptionClick(v,i)"
         >
           <slot v-if="$scopedSlots.default" :option="v"/>
           <template v-else>
             <el-tooltip
               :disabled="!Ellipsis"
               effect="dark"
-              :content="getLabel(v)"
               placement="right"
+              :content="getLabel(v,i)"
             >
-              <span class="label-left" :ref="'leftLabel'+(Label?v[Key]:v)">{{ getLabel(v) }}</span>
+              <span class="label-left">{{ getLabel(v, i) }}</span>
             </el-tooltip>
-            <span class="label-right">{{ getRightLabel(v) }}</span>
+            <span class="label-right">{{ getLabelRight(v, i) }}</span>
           </template>
         </el-option>
       </el-option-group>
@@ -38,23 +38,24 @@
 
     <template v-else>
       <el-option
-        v-for="v in options"
+        v-for="(v,i) of options"
         :key="uuidv1()"
-        :value="valueComesFromObject?v[Key]:v"
-        :label="getLabel(v)"
-        :disabled="v[Props.disabled]"
+        :value="getValue(v,i)"
+        :label="getLabel(v,i)"
+        :disabled="isDisabled(v,i)"
+        @click.native="onOptionClick(v,i)"
       >
         <slot v-if="$scopedSlots.default" :option="v"/>
         <template v-else>
           <el-tooltip
             :disabled="!Ellipsis"
             effect="dark"
-            :content="getLabel(v)"
             placement="right"
+            :content="getLabel(v,i)"
           >
-            <span class="label-left" :ref="'leftLabel'+(valueComesFromObject?v[Key]:v)">{{ getLabel(v) }}</span>
+            <span class="label-left">{{ getLabel(v, i) }}</span>
           </el-tooltip>
-          <span class="label-right">{{ getRightLabel(v) }}</span>
+          <span class="label-right">{{ getLabelRight(v, i) }}</span>
         </template>
       </el-option>
     </template>
@@ -66,7 +67,7 @@
 </template>
 
 <script>
-import { typeOf, isEmpty } from 'kayran'
+import { typeOf, isEmpty, notEmpty } from 'kayran'
 import globalProps from './config'
 import { getFinalProp } from '../../utils'
 import { v1 as uuidv1 } from 'uuid'
@@ -84,7 +85,6 @@ export default {
       validator: value => ['null', 'array'].includes(typeOf(value)),
     },
     props: Object,
-    placeholder: String,
     ellipsis: {
       // 不能用type 因为type为Boolean时 如果用户没传 默认值为false而不是undefined 会影响getFinalProp的判断
       validator: value => value === '' || ['boolean'].includes(typeOf(value)),
@@ -99,14 +99,10 @@ export default {
       return typeof this.options?.[0] === 'object'
     },
     valueComesFromObject () {
-      if (['symbol', 'string', 'number', 'null'].includes(typeOf(this.Key))) {
-        if (isEmpty(this.Key)) {
-          return false
-        } else {
-          return this.itemTypeIsObject
-        }
+      if (isEmpty(this.Props.key) || this.keyType === 'function') {
+        return false
       } else {
-        throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}props.key的类型仅能为string/number/symbol`)
+        return this.itemTypeIsObject
       }
     },
     ScopedSlots () {
@@ -119,17 +115,24 @@ export default {
       return result
     },
     elSelectProps () {
-      return {
+      let globalAttrs = {}
+      Object.keys(globalProps).filter(v => !Object.keys(this.$props).includes(v)).map(v => {
+        globalAttrs[v] = globalProps[v]
+      })
+
+      const remote = Boolean(this.Search)
+      const placeholder = remote ? '输入关键字搜索' : '请选择'
+
+      return getFinalProp(this.$attrs, globalAttrs, {
         clearable: true,
         filterable: true,
-        remote: Boolean(this.Search),
+        remote,
         'reserve-keyword': true,
         'remote-method': this.remoteMethod,
-        'value-key': this.valueComesFromObject ? this.Key : undefined,
-        ...globalProps,
-        ...this.$attrs,
-        placeholder: this.Placeholder,
-      }
+        'value-key': this.valueComesFromObject ? this.Props.key : undefined,
+        loading: this.loading,
+        placeholder,
+      })
     },
     Ellipsis () {
       const result = getFinalProp(this.ellipsis, globalProps.ellipsis, false)
@@ -152,42 +155,32 @@ export default {
         this.unwatchOptions?.()
       }
     },
-    Placeholder () {
-      return getFinalProp(this.placeholder, globalProps.placeholder, this.search ? '输入关键字搜索' : '请选择')
+    keyType () {
+      return this.validateProps('key')
     },
-    Key () {
-      return this.Props.key
+    labelType () {
+      return this.validateProps('label')
     },
-    Label () {
-      return this.Props.label
+    labelRightType () {
+      return this.validateProps('labelRight')
+    },
+    disabledType () {
+      return this.validateProps('disabled')
+    },
+    groupLabelType () {
+      return this.validateProps('groupLabel')
+    },
+    groupDisabledType () {
+      return this.validateProps('groupDisabled')
+    },
+    groupOptionsType () {
+      return this.validateProps('groupOptions')
     },
     Props () {
       return getFinalProp(this.props, globalProps.props, {
         disabled: 'disabled',
-        searchResponse: 'data',
         groupDisabled: 'disabled',
       })
-
-      /*if (result.label) {
-        const placeholders = result.label?.match(/\${[\dA-z_\$]*}/g)
-        if (placeholders) {
-          // 坑：ios不支持正则后顾 (?<=exp2)exp1 编译阶段就会报错 导致白屏
-          // const props = this.label.match(/(?<=\${)[\dA-z_\$]*(?=})/g)
-          const __labelTemplate = result.label
-          result.label = objOption => {
-            let res = __labelTemplate
-            placeholders.map((v, i) => {
-              const prop = v?.slice(2, -1)
-              if (prop) {
-                res = res.replace(placeholders[i], objOption[prop])
-              } else {
-
-              }
-            })
-            return res
-          }
-        }
-      }*/
     },
     Search () {
       return getFinalProp(this.search, globalProps.search,)
@@ -203,19 +196,21 @@ export default {
       //showDropdown: false
       unwatchOptions: null,
       loading: false,
-      defaultSearchResult: null
+      defaultSearchResult: null,
+      selectedIndex: undefined,
     }
   },
   watch: {
     value: {
       immediate: true,
-      handler (newVal, oldVal) {
-        this.value__ = newVal
+      handler (n, o) {
+        this.value__ = n
       }
     },
     value__: {
-      handler (newVal, oldVal) {
-        if (isEmpty(newVal)) {
+      handler (n, o) {
+        if (isEmpty(n)) {
+          this.selectedIndex = undefined
           if (this.defaultSearchResult) {
             this.$emit('update:options', this.defaultSearchResult)
           } else {
@@ -232,7 +227,21 @@ export default {
     }
   },
   methods: {
+    validateProps (propKey) {
+      const result = typeOf(this.Props[propKey])
+      if (['undefined', 'boolean', 'symbol', 'string', 'number', 'null', 'function'].includes(result)) {
+        return result
+      } else {
+        throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}props.${propKey}的类型仅能为string/number/symbol/function`)
+      }
+    },
+    onOptionClick (v, i) {
+      if (!v[this.Props.disabled]) {
+        this.selectedIndex = i
+      }
+    },
     uuidv1,
+    notEmpty,
     remoteMethod (e) {
       if (!this.Search) {
         return
@@ -251,11 +260,10 @@ export default {
       }
     },
     onChange (value) {
-      if (this.valueComesFromObject) {
-        this.$nextTick(() => {
-          this.$emit('update:label', this.$refs.elSelect.selectedLabel)
-        })
-      }
+      this.$nextTick(() => {
+        this.$emit('update:label', this.$refs.elSelect.selectedLabel)
+      })
+      this.$emit('update:index', this.selectedIndex)
       this.$emit('change', value)
     },
     onBlur () {
@@ -264,28 +272,90 @@ export default {
         this.$parent.$emit('el.form.blur')
       }
     },
-    getLabel (v) {
+    getValue (v, i) {
       let result = v
-      if (this.Label) {
-        if (typeof this.Label === 'function') {
-          result = this.Label(v)
-        } else if (this.itemTypeIsObject) {
-          result = v[this.Label]
+      if (this.keyType === 'function') {
+        result = this.Props.key(v, i)
+      } else if (this.itemTypeIsObject) {
+        if (notEmpty(this.Props.key)) {
+          result = v[this.Props.key]
+        } else if (isEmpty(this.elSelectProps.valueKey || this.elSelectProps['value-key'])) {
+          throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}绑定值为object类型时，必须按el-select的要求指定value-key`)
+        }
+      }
+      return result
+    },
+    getLabel (v, i) {
+      let result = v
+      if (this.labelType === 'function') {
+        result = this.Props.label(v, i)
+      } else if (this.itemTypeIsObject) {
+        if (notEmpty(this.Props.label)) {
+          result = v[this.Props.label]
+        } else {
+          result = JSON.stringify(v)
         }
       }
       return isEmpty(result) ? '' : String(result)
     },
-    getRightLabel (v) {
-      let result
-      if (this.Props.rightLabel) {
-        if (typeof this.Props.rightLabel === 'function') {
-          result = this.Props.rightLabel(v)
+    getLabelRight (v, i) {
+      let result = v
+      if (this.labelRightType === 'function') {
+        result = this.Props.labelRight(v, i)
+      } else if (this.itemTypeIsObject) {
+        if (notEmpty(this.Props.labelRight)) {
+          result = v[this.Props.labelRight]
         } else {
-          result = v[this.Props.rightLabel]
+          result = JSON.stringify(v)
         }
       }
       return isEmpty(result) ? '' : String(result)
-    }
+    },
+    getGroupLabel (v, i) {
+      let result = v
+      if (this.groupLabelType === 'function') {
+        result = this.Props.groupLabel(v, i)
+      } else if (this.itemTypeIsObject) {
+        if (notEmpty(this.Props.groupLabel)) {
+          result = v[this.Props.groupLabel]
+        } else {
+          result = JSON.stringify(v)
+        }
+      }
+      return isEmpty(result) ? '' : String(result)
+    },
+    isDisabled (v, i) {
+      let result = false
+      if (this.disabledType === 'function') {
+        result = this.Props.disabled(v, i)
+      } else if (this.itemTypeIsObject && notEmpty(this.Props.disabled)) {
+        result = v[this.Props.disabled]
+      }
+      return Boolean(result)
+    },
+    isGroupDisabled (v, i) {
+      let result = false
+      if (this.groupDisabledType === 'function') {
+        result = this.Props.groupDisabled(v, i)
+      } else if (this.itemTypeIsObject && notEmpty(this.Props.groupDisabled)) {
+        result = v[this.Props.groupDisabled]
+      }
+      return Boolean(result)
+    },
+    getGroupOptions (v, i) {
+      let result
+      if (this.groupOptionsType === 'function') {
+        result = this.Props.groupOptions(v, i)
+      } else if (this.itemTypeIsObject) {
+        result = v[this.Props.groupOptions]
+      }
+      if (['undefined', 'array', 'null'].includes(result)) {
+        return isEmpty(result) ? [] : result
+      } else {
+        console.warn(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}props.groupOptions的类型仅能为any[]`)
+        return []
+      }
+    },
     /*onVisibleChange (show) {
       this.showDropdown = show
     },

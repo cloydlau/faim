@@ -310,12 +310,13 @@ export default {
 | 参数 | 说明 | 类型 | 可选值 | 默认值 |
 | --- | --- | --- | --- | --- |
 | v-model / value | 绑定值 | string, number, object | | |
-| label.sync | label双绑 | string, number | | |
+| label.sync | label（单向） | string, number | | |
+| index.sync | index（单向） | number | | |
 | options(.sync) | 选项 | array | | | props |
-| ellipsis | 是否限宽并对超长的label作溢出省略处理（默认是超长撑开） | boolean | | false | 
+| props | 指定对象的属性 | object | | |
 | search | 搜索获取options，（`remote-method` 封装） | function | | |
 | searchImmediately | 是否立即执行搜索 | boolean | | true |
-| props | 指定对象的属性 | object | | |
+| ellipsis | 是否限宽并对超长的label作溢出省略处理（默认是超长撑开） | boolean | | false |
 | ...el-select属性 |
 
 #### props
@@ -324,8 +325,8 @@ export default {
 {
   key: undefined, // 指定options中key的属性名（options为对象数组时有效）
   label: undefined, // 指定options中label的属性名（options为对象数组时有效）
+  labelRight: undefined, // 指定options中右浮label的属性名（options为对象数组时有效）
   disabled: 'disabled', // 指定options中disabled的属性名（options为对象数组时有效）
-  rightLabel: undefined, // 指定options中右浮label的属性名（options为对象数组时有效）
   groupLabel: undefined, // 指定组名（分组时有效）
   groupOptions: undefined, // 指定子选项组的属性名（分组时有效）
   groupDisabled: 'disabled', // 指定子选项组是否禁用的属性名（分组时有效）
@@ -333,7 +334,7 @@ export default {
 ```
 
 ::: tip  
-label, rightLabel均支持以function形式定制返回值
+key, label, labelRight均支持以function形式定制返回值
 :::
 
 ```vue
@@ -342,8 +343,9 @@ label, rightLabel均支持以function形式定制返回值
 <template>
   <Selector
     :props="{
-      label: ({ city, address }) => `${city} - ${address}`,
-      rightLabel: ({ x, y }) => `${x + y}`
+      key: (value, index) => String(index),
+      label: ({ city, address }, index) => `${city} - ${address}`,
+      labelRight: ({ x, y }, index) => `${x + y}`
     }"
   />
 </template>
@@ -365,9 +367,13 @@ label, rightLabel均支持以function形式定制返回值
 
 ### object类型
 
-如果options为对象数组且props.key有效时，value将得到选中项对应对象中指定key的值
+如果options是对象数组且props.key是有效的对象键名时，value将得到选中项对应对象中指定key的值
 
 否则，value将得到选中项对应的数组元素
+
+::: warning  
+绑定值为object类型时，必须按el-select的要求提供 `value-key`
+:::
 
 ### 搜索
 
