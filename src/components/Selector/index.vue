@@ -5,22 +5,22 @@
     @change="onChange"
     ref="elSelect"
   >
-    <template v-if="notEmpty(Props.groupOptions)">
+    <template v-if="grouped">
       <el-option-group
-        v-for="(group,groupIndex) of options"
+        v-for="(groupOption,groupIndex) of options"
         :key="uuidv1()"
-        :label="getGroupLabel(group,groupIndex)"
-        :disabled="isGroupDisabled(group,groupIndex)"
+        :label="getGroupLabel(groupOption,groupIndex)"
+        :disabled="isGroupDisabled(groupOption,groupIndex)"
       >
         <el-option
-          v-for="(v,i) of getGroupOptions(group,groupIndex)"
+          v-for="(v,i) of getGroupOptions(groupOption,groupIndex)"
           :key="uuidv1()"
           :value="getValue(v,i)"
           :label="getLabel(v,i)"
           :disabled="isDisabled(v,i)"
-          @click.native="onOptionClick(v,i)"
+          @click.native="onOptionClick(groupOption,groupIndex)"
         >
-          <slot v-if="$scopedSlots.default" :option="v"/>
+          <slot v-if="$scopedSlots.default" :option="v" :index="i"/>
           <template v-else>
             <el-tooltip
               :disabled="!Ellipsis"
@@ -45,7 +45,7 @@
         :disabled="isDisabled(v,i)"
         @click.native="onOptionClick(v,i)"
       >
-        <slot v-if="$scopedSlots.default" :option="v"/>
+        <slot v-if="$scopedSlots.default" :option="v" :index="i"/>
         <template v-else>
           <el-tooltip
             :disabled="!Ellipsis"
@@ -95,6 +95,9 @@ export default {
     }
   },
   computed: {
+    grouped () {
+      return notEmpty(this.Props.groupOptions)
+    },
     itemTypeIsObject () {
       return typeof this.options?.[0] === 'object'
     },
@@ -197,7 +200,6 @@ export default {
       unwatchOptions: null,
       loading: false,
       defaultSearchResult: null,
-      selectedIndex: undefined,
     }
   },
   watch: {
@@ -210,7 +212,7 @@ export default {
     value__: {
       handler (n, o) {
         if (isEmpty(n)) {
-          this.selectedIndex = undefined
+          this.$emit('update:index', undefined)
           if (this.defaultSearchResult) {
             this.$emit('update:options', this.defaultSearchResult)
           } else {
@@ -237,11 +239,10 @@ export default {
     },
     onOptionClick (v, i) {
       if (!v[this.Props.disabled]) {
-        this.selectedIndex = i
+        this.$emit('update:index', i)
       }
     },
     uuidv1,
-    notEmpty,
     remoteMethod (e) {
       if (!this.Search) {
         return
@@ -263,7 +264,6 @@ export default {
       this.$nextTick(() => {
         this.$emit('update:label', this.$refs.elSelect.selectedLabel)
       })
-      this.$emit('update:index', this.selectedIndex)
       this.$emit('change', value)
     },
     onBlur () {
@@ -349,12 +349,13 @@ export default {
       } else if (this.itemTypeIsObject) {
         result = v[this.Props.groupOptions]
       }
-      if (['undefined', 'array', 'null'].includes(result)) {
-        return isEmpty(result) ? [] : result
-      } else {
-        console.warn(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}props.groupOptions的类型仅能为any[]`)
+      if (isEmpty(result)) {
+        return []
+      } else if (!Array.isArray(result)) {
+        console.warn(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}groupOptions的值类型仅能为any[]`)
         return []
       }
+      return result
     },
     /*onVisibleChange (show) {
       this.showDropdown = show

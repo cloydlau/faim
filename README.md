@@ -305,13 +305,21 @@ export default {
 
 [el-select](https://element.eleme.cn/#/zh-CN/component/select) 封装
 
+### Features
+
+- 保留el-select及其子组件的所有特性。
+- 不需要自行循环 `el-option`，传options就好。
+- 用更简单的方式来获取label和index，不需要加ref，不需要判空。
+- 用更简单的方式来支持异步获取options的场景。
+- 支持对超长的label作溢出省略处理。
+
 ### Props
 
 | 参数 | 说明 | 类型 | 可选值 | 默认值 |
 | --- | --- | --- | --- | --- |
 | v-model / value | 绑定值 | string, number, object | | |
-| label.sync | label（单向） | string, number | | |
-| index.sync | index（单向） | number | | |
+| label.sync | 绑定值的标签 | string, number | | |
+| index.sync | 绑定值的数组下标 | number | | |
 | options(.sync) | 选项 | array | | | props |
 | props | 指定对象的属性 | object | | |
 | search | 搜索获取options，（`remote-method` 封装） | function | | |
@@ -333,12 +341,8 @@ export default {
 }
 ```
 
-::: tip  
-key, label, labelRight均支持以function形式定制返回值
-:::
-
 ```vue
-<!-- 示例 -->
+<!-- props中所有属性均支持以function形式定制返回值 -->
 
 <template>
   <Selector
@@ -351,6 +355,14 @@ key, label, labelRight均支持以function形式定制返回值
 </template>
 ```
 
+### label.sync, index.sync
+
+为避免与value冲突，仅支持单向数据流（子→父），选中项依然以value为准。
+
+::: warning  
+分组时，index为组下标。
+:::
+
 ### Slots
 
 支持el-select全部slots
@@ -359,7 +371,7 @@ key, label, labelRight均支持以function形式定制返回值
 <!-- 使用默认插槽自定义选项内容 -->
 
 <Selector>
-  <template v-slot="{option}">
+  <template v-slot="{option, index}">
     {{ option.name }}
   </template>
 </Selector>
@@ -372,7 +384,8 @@ key, label, labelRight均支持以function形式定制返回值
 否则，value将得到选中项对应的数组元素
 
 ::: warning  
-绑定值为object类型时，必须按el-select的要求提供 `value-key`
+Selector默认将props.key用作 `value-key`
+options为对象数组且未指定key值时，绑定值将是object类型，此时必须按el-select的要求提供 `value-key`
 :::
 
 ### 搜索

@@ -31,7 +31,7 @@
     "overlayscrollbars": "^1.13.1",
     "overlayscrollbars-vue": "^0.2.2",
     "pic-viewer": "^0.3.10",
-    "sweetalert2": "^11.0.19",
+    "sweetalert2": "^11.0.20",
     "uuid": "^8.3.2"
   },
   "peerDependencies": {
@@ -42,7 +42,7 @@
     "@types/overlayscrollbars": "^1.12.1",
     "element-ui": "^2.15.3",
     "json-editor-vue": "^0.1.6",
-    "sass": "^1.35.2",
+    "sass": "^1.36.0",
     "typescript": "^4.3.5",
     "vite": "^2.4.3",
     "vite-plugin-vue2": "^1.7.3",
