@@ -71,10 +71,10 @@
         <el-form-item label="Selector">
           <div class="flex justify-between">
             <Selector
-              v-model="Selector[0].value"
-              :label.sync="Selector[0].label"
-              :index.sync="Selector[0].index"
-              :options="Selector[0].options"
+              v-model="form.Selector[0].value"
+              :label.sync="form.Selector[0].label"
+              :index.sync="form.Selector[0].index"
+              :options="form.Selector[0].options"
               placeholder="number[]"
             >
               <template v-slot="{option, index}">
@@ -85,10 +85,10 @@
               <div slot="empty">empty</div>
             </Selector>
             <Selector
-              v-model="Selector[1].value"
-              :label.sync="Selector[1].label"
-              :index.sync="Selector[1].index"
-              :options="Selector[1].options"
+              v-model="form.Selector[1].value"
+              :label.sync="form.Selector[1].label"
+              :index.sync="form.Selector[1].index"
+              :options="form.Selector[1].options"
               value-key="a"
               :props="{
                 key:null,
@@ -103,10 +103,10 @@
               :searchImmediately="false"
             />
             <Selector
-              v-model="Selector[2].value"
-              :label.sync="Selector[2].label"
-              :index.sync="Selector[2].index"
-              :options="Selector[2].options"
+              v-model="form.Selector[2].value"
+              :label.sync="form.Selector[2].label"
+              :index.sync="form.Selector[2].index"
+              :options="form.Selector[2].options"
               :props="{
                 key:'a',
                 label:({name,b})=>`${name}-${b}`,
@@ -116,19 +116,19 @@
             />
           </div>
           <div class="flex justify-between">
-            <div>{{ Selector[0].value }}</div>
-            <div>{{ Selector[1].value }}</div>
-            <div>{{ Selector[2].value }}</div>
+            <div>{{ form.Selector[0].value }}</div>
+            <div>{{ form.Selector[1].value }}</div>
+            <div>{{ form.Selector[2].value }}</div>
           </div>
           <div class="flex justify-between">
-            <div>{{ Selector[0].label }}</div>
-            <div>{{ Selector[1].label }}</div>
-            <div>{{ Selector[2].label }}</div>
+            <div>{{ form.Selector[0].label }}</div>
+            <div>{{ form.Selector[1].label }}</div>
+            <div>{{ form.Selector[2].label }}</div>
           </div>
           <div class="flex justify-between">
-            <div>{{ Selector[0].index }}</div>
-            <div>{{ Selector[1].index }}</div>
-            <div>{{ Selector[2].index }}</div>
+            <div>{{ form.Selector[0].index }}</div>
+            <div>{{ form.Selector[1].index }}</div>
+            <div>{{ form.Selector[2].index }}</div>
           </div>
         </el-form-item>
 
@@ -256,66 +256,67 @@ export default {
       popSwitch: false,
       showCamera: false,
       form: {
-        phone: ''
+        checkAllBox: undefined,
+        phone: '',
+        Selector: [
+          {
+            value: undefined,
+            label: undefined,
+            index: undefined,
+            options: Array.from(Array(3)).map((e, i) => i + 1),
+          }, {
+            value: undefined,
+            label: undefined,
+            index: undefined,
+            options: [{
+              label: 'label1',
+              children: [
+                {
+                  a: 1,
+                  b: 'bbb',
+                  labelRight: 'labelRight111',
+                  disabled: true,
+                  //__disabled: true,
+                  name: 'name',
+                }, {
+                  a: 3,
+                  b: 'ccc',
+                  labelRight: 'labelRight333',
+                  disabled: true,
+                  name: '777',
+                },
+              ]
+            }, {
+              label: 'label2',
+              children: [
+                {
+                  a: 2,
+                  name: '222',
+                  b: 'ccc',
+                  labelRight: 'labelRight222',
+                },
+              ]
+            }],
+          }, {
+            value: undefined,
+            label: undefined,
+            index: undefined,
+            options: [{
+              a: 1,
+              b: 'bbb',
+              labelRight: 'labelRight111',
+              disabled: true,
+              //__disabled: true,
+              name: 'name',
+            }, {
+              a: 2,
+              name: '222',
+              b: 'ccc',
+              labelRight: 'labelRight222',
+            }],
+          },
+        ],
       },
-      Selector: [
-        {
-          value: undefined,
-          label: undefined,
-          index: undefined,
-          options: Array.from(Array(3)).map((e, i) => i + 1),
-        }, {
-          value: undefined,
-          label: undefined,
-          index: undefined,
-          options: [{
-            label: 'label1',
-            children: [
-              {
-                a: 1,
-                b: 'bbb',
-                labelRight: 'labelRight111',
-                disabled: true,
-                //__disabled: true,
-                name: 'name',
-              }, {
-                a: 3,
-                b: 'ccc',
-                labelRight: 'labelRight333',
-                disabled: true,
-                name: '777',
-              },
-            ]
-          }, {
-            label: 'label2',
-            children: [
-              {
-                a: 2,
-                name: '222',
-                b: 'ccc',
-                labelRight: 'labelRight222',
-              },
-            ]
-          }],
-        }, {
-          value: undefined,
-          label: undefined,
-          index: undefined,
-          options: [{
-            a: 1,
-            b: 'bbb',
-            labelRight: 'labelRight111',
-            disabled: true,
-            //__disabled: true,
-            name: 'name',
-          }, {
-            a: 2,
-            name: '222',
-            b: 'ccc',
-            labelRight: 'labelRight222',
-          }],
-        },
-      ],
       Swal,
       pageSize: 10,
       pageNo: 2,
@@ -404,7 +405,7 @@ export default {
     },
     search (e) {
       return new Promise(resolve => {
-        resolve([...this.options.group, ...this.options.group])
+        resolve()
       })
     }
   }

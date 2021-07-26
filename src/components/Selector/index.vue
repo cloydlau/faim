@@ -71,9 +71,17 @@ import { typeOf, isEmpty, notEmpty } from 'kayran'
 import globalProps from './config'
 import { getFinalProp } from '../../utils'
 import { v1 as uuidv1 } from 'uuid'
+import emitter from 'element-ui/src/mixins/emitter'
+import { cloneDeep } from 'lodash-es'
 
 export default {
   name: 'Selector',
+  mixins: [emitter],
+  inject: {
+    elForm: {
+      default: {}
+    }
+  },
   model: {
     prop: 'value',
     event: 'change'
@@ -86,7 +94,6 @@ export default {
     },
     props: Object,
     ellipsis: {
-      // 不能用type 因为type为Boolean时 如果用户没传 默认值为false而不是undefined 会影响getFinalProp的判断
       validator: value => value === '' || ['boolean'].includes(typeOf(value)),
     },
     search: Function,
@@ -195,6 +202,7 @@ export default {
   data () {
     return {
       value__: this.value,
+      initialValue: undefined,
       popper: null,
       //showDropdown: false
       unwatchOptions: null,
@@ -203,6 +211,7 @@ export default {
     }
   },
   watch: {
+    // 没有使用v-model/:value时 resetFields不会触发
     value: {
       immediate: true,
       handler (n, o) {
@@ -228,7 +237,28 @@ export default {
       this.remoteMethod()
     }
   },
+  mounted () {
+    this.initialValue = cloneDeep(this.value)
+    this.dispatch('ElForm', 'el.form.addField', [this])
+  },
   methods: {
+    // el-from重置触发
+    resetField () {
+      const initialValue = cloneDeep(this.initialValue)
+      this.value__ = initialValue
+      this.onChange(initialValue)
+    },
+    validate (trigger, callback) {
+      callback()
+    },
+    clearValidate () {},
+    getRules () {
+      return []
+    },
+    getFilteredRule () {
+      return []
+    },
+
     validateProps (propKey) {
       const result = typeOf(this.Props[propKey])
       if (['undefined', 'boolean', 'symbol', 'string', 'number', 'null', 'function'].includes(result)) {
@@ -299,14 +329,12 @@ export default {
       return isEmpty(result) ? '' : String(result)
     },
     getLabelRight (v, i) {
-      let result = v
+      let result
       if (this.labelRightType === 'function') {
         result = this.Props.labelRight(v, i)
       } else if (this.itemTypeIsObject) {
         if (notEmpty(this.Props.labelRight)) {
           result = v[this.Props.labelRight]
-        } else {
-          result = JSON.stringify(v)
         }
       }
       return isEmpty(result) ? '' : String(result)

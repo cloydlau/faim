@@ -37,6 +37,14 @@
           <el-button @click="closeDialog" :disabled="submitting||closing">
             关 闭
           </el-button>
+          <!--<el-button
+            v-if="showConfirmBtn && $scopedSlots['el-form']"
+            type="info"
+            @click="reset"
+            :disabled="submitting||closing"
+          >
+            重 置
+          </el-button>-->
           <el-button
             type="primary"
             @click="confirm"
@@ -222,6 +230,9 @@ export default {
     })*/
   },
   methods: {
+    /*reset () {
+      this.$refs.elForm.resetFields()
+    },*/
     onClosed () {
       this.closing = false
       this.showConfirmBtn = !this.Readonly
