@@ -131,7 +131,7 @@ export default {
       })
 
       const remote = Boolean(this.Search)
-      const placeholder = remote ? '输入关键字搜索' : '请选择'
+      const placeholder = remote ? '搜索' : '请选择'
 
       return getFinalProp(this.$attrs, globalAttrs, {
         clearable: true,
