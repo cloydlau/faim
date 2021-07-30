@@ -405,7 +405,17 @@ export default {
     },
     search (e) {
       return new Promise(resolve => {
-        resolve()
+        resolve([{
+          label: 'label2',
+          children: [
+            {
+              a: 2,
+              name: '222',
+              b: 'ccc',
+              labelRight: 'labelRight222',
+            },
+          ]
+        }])
       })
     }
   }

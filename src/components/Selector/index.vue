@@ -7,7 +7,7 @@
   >
     <template v-if="grouped">
       <el-option-group
-        v-for="(groupOption,groupIndex) of options"
+        v-for="(groupOption,groupIndex) of options__"
         :key="uuidv1()"
         :label="getGroupLabel(groupOption,groupIndex)"
         :disabled="isGroupDisabled(groupOption,groupIndex)"
@@ -38,7 +38,7 @@
 
     <template v-else>
       <el-option
-        v-for="(v,i) of options"
+        v-for="(v,i) of options__"
         :key="uuidv1()"
         :value="getValue(v,i)"
         :label="getLabel(v,i)"
@@ -106,7 +106,7 @@ export default {
       return notEmpty(this.Props.groupOptions)
     },
     itemTypeIsObject () {
-      return typeof this.options?.[0] === 'object'
+      return typeof this.options__?.[0] === 'object'
     },
     valueComesFromObject () {
       if (isEmpty(this.Props.key) || this.keyType === 'function') {
@@ -149,7 +149,7 @@ export default {
       if (result) {
         this.$nextTick(() => {
           this.popper = this.$refs.elSelect.$refs.popper
-          this.unwatchOptions = this.$watch('options', newVal => {
+          this.unwatchOptions = this.$watch('options__', newVal => {
             if (newVal && newVal.length) {
               setTimeout(() => {
                 if (this.popper) {
@@ -208,6 +208,8 @@ export default {
       unwatchOptions: null,
       loading: false,
       defaultSearchResult: null,
+      options__: [],
+      optionsSyncing: false,
     }
   },
   watch: {
@@ -223,7 +225,7 @@ export default {
         if (isEmpty(n)) {
           this.$emit('update:index', undefined)
           if (this.defaultSearchResult) {
-            this.$emit('update:options', this.defaultSearchResult)
+            this.options__ = this.defaultSearchResult
           } else {
             this.remoteMethod()
           }
@@ -231,6 +233,23 @@ export default {
         this.onBlur()
       }
     },
+    options: {
+      immediate: true,
+      handler (n, o) {
+        if (this.optionsSyncing) {
+          this.optionsSyncing = false
+        } else {
+          this.options__ = n || []
+        }
+      }
+    },
+    // 在组件内部维护一份options__的目的：search时可以不绑定options。
+    options__: {
+      handler (n, o) {
+        this.optionsSyncing = true
+        this.$emit('update:options', n)
+      }
+    }
   },
   created () {
     if (this.SearchImmediately) {
@@ -258,7 +277,6 @@ export default {
     getFilteredRule () {
       return []
     },
-
     validateProps (propKey) {
       const result = typeOf(this.Props[propKey])
       if (['undefined', 'boolean', 'symbol', 'string', 'number', 'null', 'function'].includes(result)) {
@@ -281,12 +299,12 @@ export default {
       const result = this.Search(e)
       if (result instanceof Promise) {
         result.then(res => {
-          this.$emit('update:options', res)
+          this.options__ = res
         }).finally(() => {
           this.loading = false
         })
       } else {
-        this.$emit('update:options', result)
+        this.options__ = result
         this.loading = false
       }
     },

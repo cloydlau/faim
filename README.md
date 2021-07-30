@@ -392,16 +392,37 @@ options为对象数组且未指定key值时，绑定值将是object类型，此�
 ### 搜索
 
 - 无需操心loading状态
-- 清空输入时，自动恢复初值options
+- 清空输入时，自动恢复初始options
 
 ```vue
 <!-- 异步获取options -->
 
 <template>
   <Selector
-    v-model="value"
+    :search="keyword => new Promise((resolve, reject) => {
+      $POST('xxx', {
+        keyword
+      }).then(({ data }) => {
+        resolve(data)
+      })
+    })"
+  />
+</template>
+```
+
+```vue
+<!-- 双向绑定options -->
+
+<template>
+  <Selector
+    :search="keyword => new Promise((resolve, reject) => {
+      $POST('xxx', {
+        keyword
+      }).then(({ data }) => {
+        resolve(data)
+      })
+    })"
     :options.sync="options"
-    :search="search"
   />
 </template>
 
@@ -409,21 +430,9 @@ options为对象数组且未指定key值时，绑定值将是object类型，此�
 export default {
   data () {
     return {
-      value: undefined,
       options: [],
     }
   },
-  methods: {
-    search (value) {
-      return new Promise((resolve, reject) => {
-        this.$POST('xxx', {
-          keyword: value
-        }).then(({ data }) => {
-          resolve(data)
-        })
-      })
-    }
-  }
 }
 </script>
 ```
@@ -433,27 +442,9 @@ export default {
 
 <template>
   <Selector
-    v-model="value"
-    :options.sync="options"
-    :search="search"
+    :search="keyword => ['1', '2', '3'].filter(v => v === keyword)"
   />
 </template>
-
-<script>
-export default {
-  data () {
-    return {
-      value: undefined,
-      options: [],
-    }
-  },
-  methods: {
-    search (value) {
-      return ['1', '2', '3'].filter(v => v === value)
-    }
-  }
-}
-</script>
 ```
 
 ### 分组
