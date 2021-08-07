@@ -260,6 +260,7 @@ export default {
 ### Features
 
 - 如果启用了Popconfirm，则仅在点击了确认后才会触发change事件
+- 支持描述内嵌，宽度自适应
 - Popconfirm的顶部间隔不再那么违和地高了
 - Popover宽度自适应，而不是写死一个最小宽度
 - Tooltip非手动控制显隐时，点击开关后会自动关闭，以避免与Popconfirm和Popover冲突
@@ -270,6 +271,7 @@ export default {
 
 | Attribute | Description | Type |  Default |
 | --- | --- | --- | --- |
+| textInside | 是否内嵌描述 | boolean | true |
 | elPopconfirmProps | el-popconfirm属性 | object | |
 | elPopoverProps | el-popover属性 | object | |
 | elTooltipProps | el-tooltip属性 | object | |

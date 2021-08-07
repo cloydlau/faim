@@ -15,6 +15,7 @@
           ref="elSwitch"
           :value="value"
           @click.native="onClick"
+          :class="TextInside&&'text-inside'"
         />
       </el-popconfirm>
     </el-popover>
@@ -23,12 +24,16 @@
 
 <script>
 import globalProps from './config'
-import { getFinalProp } from '../../utils'
+import { getCharCount, getFinalProp } from '../../utils'
+import { typeOf } from 'kayran'
 
 export default {
   name: 'PopSwitch',
   props: {
     value: {},
+    textInside: {
+      validator: value => value === '' || ['boolean'].includes(typeOf(value)),
+    },
     elPopconfirmProps: Object,
     elTooltipProps: Object,
     elPopoverProps: Object,
@@ -38,11 +43,27 @@ export default {
     event: 'change'
   },
   computed: {
+    TextInside () {
+      return getFinalProp(this.textInside, globalProps.textInside, true)
+    },
     ElSwitchProps () {
-      return getFinalProp(
+      const result = getFinalProp(
         this.$attrs,
         globalProps
       )
+
+      let maxTextWidth = 0;
+      ['active-text', 'inactive-text', 'activeText', 'inactiveText'].map(v => {
+        let textWidth = getCharCount(result[v])
+        if (textWidth > maxTextWidth) {
+          maxTextWidth = textWidth
+        }
+      })
+
+      return {
+        ...this.TextInside && { width: 40 + maxTextWidth * 7 },
+        ...result
+      }
     },
     ElPopoverProps () {
       const result = getFinalProp(
@@ -104,6 +125,61 @@ export default {
 
   & .el-popconfirm__main {
     margin-block-start: .5em;
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+::v-deep {
+  .text-inside {
+    .el-switch__label--left, .el-switch__label--right {
+      position: absolute;
+      top: 0;
+      z-index: 1;
+      margin: 0;
+
+      &:not(.is-active) {
+        display: none;
+      }
+    }
+
+    .el-switch__label--left {
+      left: 26px;
+      color: gray !important;
+    }
+
+    .el-switch__label--right {
+      left: 12px;
+      color: white !important;
+    }
+
+    .el-switch__core {
+      height: 24px;
+      border-radius: 12px;
+
+      &:after {
+        top: 2px;
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    &:not(.is-checked) .el-switch__core {
+      //background: white;
+      //border-color: #A9A9A9;
+
+      &:after {
+        //background-color: #A9A9A9;
+        left: 2px;
+      }
+    }
+
+    &.is-checked .el-switch__core {
+      &:after {
+        background-color: white;
+        margin-left: -20px;
+      }
+    }
   }
 }
 </style>
