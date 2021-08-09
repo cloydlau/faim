@@ -61,7 +61,7 @@ export default {
       })
 
       return {
-        ...this.TextInside && { width: 40 + maxTextWidth * 7 },
+        ...this.TextInside && { width: 30 + maxTextWidth * 7 },
         ...result
       }
     },
@@ -144,32 +144,26 @@ export default {
     }
 
     .el-switch__label--left {
-      left: 26px;
+      left: 23px;
       color: gray !important;
     }
 
     .el-switch__label--right {
-      left: 12px;
+      left: 9px;
       color: white !important;
     }
 
     .el-switch__core {
-      height: 24px;
       border-radius: 12px;
 
       &:after {
-        top: 2px;
-        width: 18px;
-        height: 18px;
+        top: .5px;
       }
     }
 
     &:not(.is-checked) .el-switch__core {
-      //background: white;
-      //border-color: #A9A9A9;
 
       &:after {
-        //background-color: #A9A9A9;
         left: 2px;
       }
     }
@@ -177,7 +171,6 @@ export default {
     &.is-checked .el-switch__core {
       &:after {
         background-color: white;
-        margin-left: -20px;
       }
     }
   }
