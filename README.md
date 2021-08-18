@@ -494,38 +494,6 @@ export default {
 
 <br>
 
-## FormItemTip / 表单项补充说明
-
-用于表单项的填写规则说明 搭配 [el-form-item](https://element.eleme.cn/#/zh-CN/component/form) 使用
-
-### Slots
-
-```vue
-<!-- 默认插槽可以是普通文本 -->
-
-<template>
-  <el-form-item>
-    <el-input/>
-    <form-item-tip>普通文本</form-item-tip>
-  </el-form-item>
-</template>
-```
-
-```vue
-<!-- 也可以是html -->
-
-<template>
-  <el-form-item>
-    <el-input/>
-    <form-item-tip>
-      <div>html</div>
-    </form-item-tip>
-  </el-form-item>
-</template>
-```
-
-<br>
-
 ## Swal / 弹框提示
 
 [sweetalert2](https://sweetalert2.github.io/) 封装

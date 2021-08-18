@@ -24,6 +24,9 @@ export default {
       validator: value => value === '' || typeOf(value) === 'boolean',
     }
   },
+  created () {
+    console.warn(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}FormItemTip已废弃。`)
+  },
   computed: {
     Show () {
       return getFinalProp(this.show, globalProps.show, !Boolean(this.elForm.disabled))
