@@ -56,6 +56,9 @@ export default {
       }
     },
   },
+  created () {
+    console.warn(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}Pagination已废弃，请直接使用原生el-pagination。`)
+  },
   methods: {
     onSizeChange (e) {
       this.$emit('update:pageSize', e)

@@ -494,12 +494,6 @@ export default {
 
 <br>
 
-## Pagination / 分页
-
-[el-pagination](https://element.eleme.cn/#/zh-CN/component/pagination) 封装
-
-<br>
-
 ## FormItemTip / 表单项补充说明
 
 用于表单项的填写规则说明 搭配 [el-form-item](https://element.eleme.cn/#/zh-CN/component/form) 使用
