@@ -75,7 +75,7 @@ import emitter from 'element-ui/src/mixins/emitter'
 import { cloneDeep } from 'lodash-es'
 
 export default {
-  name: 'Selector',
+  name: 'DropDown',
   mixins: [emitter],
   inject: {
     elForm: {

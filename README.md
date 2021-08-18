@@ -1,8 +1,8 @@
 # kikimore / 趁手小型组件
 
-::: tip  
-所有组件均可具名引入 均可全局注册或局部注册 后文不再赘述
-:::
+## Installation
+
+所有组件均支持全局或局部引入
 
 ```ts
 // 全局引入
@@ -41,7 +41,7 @@ export default {
 
 <br>
 
-**Config rules**
+## 配置规则
 
 - 双向绑定参数（`v-model`, `*.sync`）仅支持局部配置
 - 其余参数均支持全局或局部配置
@@ -50,6 +50,17 @@ export default {
 
 - 局部配置高于全局配置
 - 对于对象类型的参数 局部配置会与全局配置进行合并 同名属性会被局部配置覆盖
+
+<br>
+
+## 命名规则
+
+所有组件命名均符合[Vue官方风格指南](https://v3.cn.vuejs.org/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81) 指导的 `组件名为多个单词`
+
+::: tip 为什么Swal例外？
+1. Swal为 `SweetAlert` 官方示例的缩写，故沿用。
+2. Swal是指令式调用的，不会书写在html中，所以不会与其它组件冲突。
+   :::
 
 <br>
 
@@ -253,7 +264,7 @@ export default {
 
 <br>
 
-## PopSwitch
+## PopSwitch / 气泡开关
 
 四个组件的组合拳：`el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip`
 
@@ -279,7 +290,7 @@ export default {
 
 <br>
 
-## PopButton
+## PopButton / 气泡按钮
 
 四个组件的组合拳：`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip`
 
@@ -303,7 +314,7 @@ export default {
 
 <br>
 
-## Selector / 下拉框
+## DropDown / 下拉框
 
 [el-select](https://element.eleme.cn/#/zh-CN/component/select) 封装
 
@@ -348,7 +359,7 @@ export default {
 <!-- props中所有属性均支持以function形式定制返回值 -->
 
 <template>
-  <Selector
+  <DropDown
     :props="{
       key: (value, index) => String(index),
       label: ({ city, address }, index) => `${city} - ${address}`,
@@ -373,11 +384,11 @@ export default {
 ```html
 <!-- 使用默认插槽自定义选项内容 -->
 
-<Selector>
+<DropDown>
   <template v-slot="{option, index}">
     {{ option.name }}
   </template>
-</Selector>
+</DropDown>
 ```
 
 ### object类型
@@ -387,7 +398,7 @@ export default {
 否则，value将得到选中项对应的数组元素
 
 ::: warning  
-Selector默认将props.key用作 `value-key`
+DropDown默认将props.key用作 `value-key`
 options为对象数组且未指定key值时，绑定值将是object类型，此时必须按el-select的要求提供 `value-key`
 :::
 
@@ -400,7 +411,7 @@ options为对象数组且未指定key值时，绑定值将是object类型，此�
 <!-- 异步获取options -->
 
 <template>
-  <Selector
+  <DropDown
     :search="keyword => new Promise((resolve, reject) => {
       $POST('xxx', {
         keyword
@@ -416,7 +427,7 @@ options为对象数组且未指定key值时，绑定值将是object类型，此�
 <!-- 双向绑定options -->
 
 <template>
-  <Selector
+  <DropDown
     :search="keyword => new Promise((resolve, reject) => {
       $POST('xxx', {
         keyword
@@ -443,7 +454,7 @@ export default {
 <!-- 同步获取options -->
 
 <template>
-  <Selector
+  <DropDown
     :search="keyword => ['1', '2', '3'].filter(v => v === keyword)"
   />
 </template>
@@ -454,7 +465,7 @@ export default {
 ```vue
 <!-- 示例 -->
 
-<Selector
+<DropDown
   :props="{
     key: 'code',
     label: 'name',
@@ -491,6 +502,41 @@ export default {
   ]"
 />
 ```
+
+<br>
+
+## WebCam / 摄像头拍照
+
+### Props
+
+| 参数 | 说明 | 类型 | 可选值 | 默认值 |
+| --- | --- | --- | --- | --- |
+| show.sync | 是否开启 | boolean | | false |
+| count | 拍照数量限制 | number / number[] | | 1 |
+| ...el-dialog属性 |
+
+### Events
+
+| name | description | callback's arguments |
+| --- | --- | --- |
+| ...el-dialog事件 |
+| confirm | 点击确认按钮触发 | { base64, blob, file } |
+
+### 获取照片
+
+- 通过 `confirm` 事件获取
+
+```html
+
+<WebCam @confirm="({ base64, blob, file }) => {
+
+"/>
+```
+
+- 通过 `ref` 获取
+    - `this.$refs.webCam.base64`
+    - `this.$refs.webCam.blob`
+    - `this.$refs.webCam.file`
 
 <br>
 
@@ -540,7 +586,7 @@ confirm('确认')
 })
 ```
 
-### 全局注册
+### 全局引入
 
 ```js
 import { Swal } from 'kikimore'
@@ -608,11 +654,11 @@ Swal.confirm({
 
 <br>
 
-## OnefoldTable / 一维表格
+## UnivariateTable / 一维表格
 
 ```html
 
-<OnefoldTable title="标题">
+<UnivariateTable title="标题">
   <tr>
     <td>xxx</td>
     <td>xxx</td>
@@ -623,7 +669,7 @@ Swal.confirm({
     <td>xxx</td>
     <td>xxx</td>
   </tr>
-</OnefoldTable>
+</UnivariateTable>
 ```
 
 ### Props
@@ -654,7 +700,7 @@ Swal.confirm({
 
 <br>
 
-## SmsButton / 短信验证码按钮
+## CountdownButton / 倒计时按钮
 
 ### Props
 
@@ -673,7 +719,7 @@ Swal.confirm({
 <template>
   <el-form-item label="手机号" prop="phone" ref="formItemPhone">
     <el-input v-model="form.phone">
-      <SmsButton slot="append" @click="send"/>
+      <CountdownButton slot="append" @click="send"/>
     </el-input>
   </el-form-item>
 </template>
@@ -699,44 +745,9 @@ export default {
 ```html
 <!-- 作用域插槽示例 -->
 
-<SmsButton>
+<CountdownButton>
   <template v-slot="{remaining}">
     {{ remaining ? `${remaining}s remaining` : `send verification code` }}
   </template>
-</SmsButton>
+</CountdownButton>
 ```
-
-<br>
-
-## Camera / 摄像头拍照
-
-### Props
-
-| 参数 | 说明 | 类型 | 可选值 | 默认值 |
-| --- | --- | --- | --- | --- |
-| show.sync | 是否开启 | boolean | | false |
-| count | 拍照数量限制 | number / number[] | | 1 |
-| ...el-dialog属性 |
-
-### Events
-
-| name | description | callback's arguments |
-| --- | --- | --- |
-| ...el-dialog事件 |
-| confirm | 点击确认按钮触发 | { base64, blob, file } |
-
-### 获取照片
-
-- 通过 `confirm` 事件获取
-
-```html
-
-<Camera @confirm="({ base64, blob, file }) => {
-
-"/>
-```
-
-- 通过 `ref` 获取
-    - `this.$refs.camera.base64`
-    - `this.$refs.camera.blob`
-    - `this.$refs.camera.file`

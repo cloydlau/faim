@@ -1,5 +1,5 @@
 <template>
-  <div class="onefold-table">
+  <div class="univariate-table">
     <h2 v-if="title">{{title}}</h2>
     <div class="el-table el-table--fit el-table--border">
       <div class="el-table__body-wrapper">
@@ -13,7 +13,7 @@
 
 <script>
 export default {
-  name: 'OnefoldTable',
+  name: 'UnivariateTable',
   props: {
     title: String
   }
@@ -21,7 +21,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.onefold-table {
+.univariate-table {
   &:not(:last-child) {
     margin-bottom: 40px;
   }

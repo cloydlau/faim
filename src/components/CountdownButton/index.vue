@@ -14,7 +14,7 @@
 
 <script>
 export default {
-  name: 'SmsButton',
+  name: 'CountdownButton',
   props: {
     cd: {
       type: Number,

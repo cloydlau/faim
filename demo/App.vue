@@ -24,25 +24,17 @@
       @closed="console.log('closed')"
       :readonly="readonly"
     >
-      只读：
-      <el-switch
-        v-model="readonly"
-      />
-      全屏：
-      <el-switch
-        v-model="fullscreen"
-      />
       <template #el-form>
-        <el-form-item label="Camera" prop="Camera">
-          <el-button @click="showCamera=true">打开摄像头</el-button>
-          <Camera
-            :show.sync="showCamera"
-            ref="camera"
+        <el-form-item label="WebCam" prop="WebCam">
+          <el-button @click="showWebCam=true">打开摄像头</el-button>
+          <WebCam
+            :show.sync="showWebCam"
+            ref="webCam"
           />
-          <PicViewer :value="$refs.camera&&$refs.camera.base64"/>
+          <PicViewer :value="$refs.webCam&&$refs.webCam.base64"/>
         </el-form-item>
 
-        <el-form-item label="SweetAlert">
+        <el-form-item label="Swal">
           <el-button-group>
             <el-button @click="$Swal.success().then(() => {console.log('success')})">成功</el-button>
             <el-button @click="$Swal.info('info').then(() => {console.log('info')})">提示</el-button>
@@ -61,20 +53,15 @@
 
         <el-form-item label="CheckAllBox" prop="CheckAllBox">
           <CheckAllBox v-model="form.CheckAllBox" :options="dateOptions"/>
-          <form-item-tip>
-            <div>1. 第一条</div>
-            <div>2. 第二条</div>
-            innerText
-          </form-item-tip>
         </el-form-item>
 
-        <el-form-item label="Selector">
+        <el-form-item label="DropDown">
           <div class="flex justify-between">
-            <Selector
-              v-model="form.Selector[0].value"
-              :label.sync="form.Selector[0].label"
-              :index.sync="form.Selector[0].index"
-              :options="form.Selector[0].options"
+            <DropDown
+              v-model="form.DropDown[0].value"
+              :label.sync="form.DropDown[0].label"
+              :index.sync="form.DropDown[0].index"
+              :options="form.DropDown[0].options"
               placeholder="number[]"
             >
               <template v-slot="{option, index}">
@@ -83,12 +70,12 @@
               </template>
               <div slot="prefix">pre</div>
               <div slot="empty">empty</div>
-            </Selector>
-            <Selector
-              v-model="form.Selector[1].value"
-              :label.sync="form.Selector[1].label"
-              :index.sync="form.Selector[1].index"
-              :options="form.Selector[1].options"
+            </DropDown>
+            <DropDown
+              v-model="form.DropDown[1].value"
+              :label.sync="form.DropDown[1].label"
+              :index.sync="form.DropDown[1].index"
+              :options="form.DropDown[1].options"
               value-key="a"
               :props="{
                 key:null,
@@ -102,11 +89,11 @@
               :search="search"
               :searchImmediately="false"
             />
-            <Selector
-              v-model="form.Selector[2].value"
-              :label.sync="form.Selector[2].label"
-              :index.sync="form.Selector[2].index"
-              :options="form.Selector[2].options"
+            <DropDown
+              v-model="form.DropDown[2].value"
+              :label.sync="form.DropDown[2].label"
+              :index.sync="form.DropDown[2].index"
+              :options="form.DropDown[2].options"
               :props="{
                 key:'a',
                 label:({name,b})=>`${name}-${b}`,
@@ -116,19 +103,19 @@
             />
           </div>
           <div class="flex justify-between">
-            <div>{{ form.Selector[0].value }}</div>
-            <div>{{ form.Selector[1].value }}</div>
-            <div>{{ form.Selector[2].value }}</div>
+            <div>{{ form.DropDown[0].value }}</div>
+            <div>{{ form.DropDown[1].value }}</div>
+            <div>{{ form.DropDown[2].value }}</div>
           </div>
           <div class="flex justify-between">
-            <div>{{ form.Selector[0].label }}</div>
-            <div>{{ form.Selector[1].label }}</div>
-            <div>{{ form.Selector[2].label }}</div>
+            <div>{{ form.DropDown[0].label }}</div>
+            <div>{{ form.DropDown[1].label }}</div>
+            <div>{{ form.DropDown[2].label }}</div>
           </div>
           <div class="flex justify-between">
-            <div>{{ form.Selector[0].index }}</div>
-            <div>{{ form.Selector[1].index }}</div>
-            <div>{{ form.Selector[2].index }}</div>
+            <div>{{ form.DropDown[0].index }}</div>
+            <div>{{ form.DropDown[1].index }}</div>
+            <div>{{ form.DropDown[2].index }}</div>
           </div>
         </el-form-item>
 
@@ -155,8 +142,8 @@
           </PopButton>
         </el-form-item>
 
-        <el-form-item label="OnefoldTable">
-          <OnefoldTable title="两列">
+        <el-form-item label="UnivariateTable">
+          <UnivariateTable title="两列">
             <tr>
               <td>xxx</td>
               <td>xxx</td>
@@ -165,9 +152,9 @@
               <td>xxx</td>
               <td>xxx</td>
             </tr>
-          </OnefoldTable>
+          </UnivariateTable>
 
-          <OnefoldTable title="四列">
+          <UnivariateTable title="四列">
             <tr>
               <td>xxx</td>
               <td>xxx</td>
@@ -180,30 +167,16 @@
               <td>xxx</td>
               <td>xxx</td>
             </tr>
-          </OnefoldTable>
+          </UnivariateTable>
         </el-form-item>
 
-        <el-form-item label="Pagination">
-          <Pagination
-            :total="99"
-            :currentPage.sync="pageNo"
-            :page-size.sync="pageSize"
-            @size-change="e=>{console.log('size-change: '+e)}"
-            @prev-click="e=>{console.log('prev-click: '+e)}"
-            @next-click="e=>{console.log('next-click: '+e)}"
-            @current-change="e=>{console.log('current-change: '+e)}"
-          />
-          pageSize:
-          <el-input-number v-model="pageSize" style="width: 180px;"/>
-        </el-form-item>
-
-        <el-form-item label="手机号" prop="phone" ref="formItemPhone" required>
+        <el-form-item label="CountdownButton" prop="phone" ref="formItemPhone" required>
           <el-input v-model="form.phone">
-            <SmsButton slot="append" @click="send" :cd="3">
+            <CountdownButton slot="append" @click="send" :cd="3">
               <!--<template v-slot="{remaining}">
                 {{ remaining ? `${remaining}s remaining` : `send verification code` }}
               </template>-->
-            </SmsButton>
+            </CountdownButton>
           </el-input>
         </el-form-item>
       </template>
@@ -213,23 +186,21 @@
 
 <script>
 import {
-  SmsButton,
+  CountdownButton,
   CheckAllBox,
-  OnefoldTable,
+  UnivariateTable,
   Swal,
   FormDialog,
-  Selector,
-  FormItemTip,
+  DropDown,
   PopButton,
-  Pagination,
-  Camera,
+  WebCam,
   PopSwitch,
 } from '../src/main'
 
 import Vue from 'vue'
 Vue.prototype.$Swal = Swal
 
-Vue.use(Selector, {
+Vue.use(DropDown, {
   props: {
     key: 'a'
   }
@@ -241,26 +212,24 @@ import JsonEditorVue from 'json-editor-vue'
 export default {
   components: {
     PicViewer,
-    Camera,
+    WebCam,
     FormDialog,
-    SmsButton,
+    CountdownButton,
     CheckAllBox,
-    OnefoldTable,
-    //Selector,
-    FormItemTip,
+    UnivariateTable,
+    //DropDown,
     PopButton,
-    Pagination,
     PopSwitch,
     JsonEditorVue
   },
   data () {
     return {
       popSwitch: false,
-      showCamera: false,
+      showWebCam: false,
       form: {
         checkAllBox: undefined,
         phone: '',
-        Selector: [
+        DropDown: [
           {
             value: undefined,
             label: undefined,

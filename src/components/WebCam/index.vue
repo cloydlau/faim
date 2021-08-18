@@ -48,7 +48,7 @@ import PicViewer from 'pic-viewer'
 import Screenshot from './Screenshot.vue'
 
 export default {
-  name: 'Camera',
+  name: 'WebCam',
   components: { PicViewer, Screenshot },
   props: {
     show: Boolean,
