@@ -322,7 +322,7 @@ export default {
 
 - 保留el-select及其子组件的所有特性。
 - 不需要自行循环 `el-option`，传options就好。
-- options的数组元素支持任意类型
+- options的数组元素支持任意类型。
 - 用更简单的方式来获取label和index，不需要加ref，不需要判空。
 - 用更简单的方式来支持异步获取options的场景。
 - 支持对超长的label作溢出省略处理。
