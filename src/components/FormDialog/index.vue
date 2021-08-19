@@ -34,7 +34,7 @@
           class="z-1 absolute bottom-0 w-full box-border absolute py-10px px-15px text-right"
           style="border-top: 1px solid #F7F7F7;background-color:white;"
         >
-          <el-button @click="closeDialog" :disabled="submitting||closing">
+          <el-button @click="closeDialog" :disabled="closing">
             关 闭
           </el-button>
           <!--<el-button
