@@ -37,6 +37,15 @@
     </template>
 
     <template v-else>
+      <el-checkbox
+        v-model="allSelected"
+        @change='selectAll'
+        :indeterminate="indeterminate"
+        class="px-20px py-10px"
+        v-if="isMultiple"
+      >
+        全选
+      </el-checkbox>
       <el-option
         v-for="(v,i) of options__"
         :key="uuidv1()"
@@ -102,6 +111,9 @@ export default {
     }
   },
   computed: {
+    isMultiple () {
+      return ['', true].includes(this.elSelectProps.multiple)
+    },
     grouped () {
       return notEmpty(this.Props.groupOptions)
     },
@@ -210,6 +222,9 @@ export default {
       defaultSearchResult: null,
       options__: [],
       optionsSyncing: false,
+      allSelected: false,
+      indeterminate: false,
+      valueInitializedWhenMultiple: false,
     }
   },
   watch: {
@@ -222,6 +237,14 @@ export default {
     },
     value__: {
       handler (n, o) {
+        // 多选时，value会被el-select初始化为[]，此时不应执行清空逻辑
+        if (this.isMultiple) {
+          if (!this.valueInitializedWhenMultiple) {
+            return
+          }
+          this.valueInitializedWhenMultiple = true
+        }
+        // 清空时
         if (isEmpty(n)) {
           this.$emit('update:index', undefined)
           if (this.defaultSearchResult) {
@@ -261,6 +284,20 @@ export default {
     this.dispatch('ElForm', 'el.form.addField', [this])
   },
   methods: {
+    selectAll () {
+      if (this.allSelected) {
+        let temp = []
+        this.options__.map((v, i) => {
+          if (!this.isDisabled(v, i)) {
+            temp.push(this.getValue(v, i))
+          }
+        })
+        this.value__ = temp
+      } else {
+        this.value__ = []
+      }
+      this.onChange(this.value__)
+    },
     // el-from重置触发
     resetField () {
       const initialValue = cloneDeep(this.initialValue)
@@ -309,6 +346,12 @@ export default {
       }
     },
     onChange (value) {
+      if (this.isMultiple && !this.grouped) {
+        let valueLen = value.length
+        const optionsLen = this.options__.length
+        this.allSelected = valueLen === optionsLen
+        this.indeterminate = valueLen > 0 && valueLen < optionsLen
+      }
       this.$nextTick(() => {
         this.$emit('update:label', this.$refs.elSelect.selectedLabel)
       })
