@@ -360,6 +360,7 @@ export default {
 
     & > .el-dialog__headerbtn {
       top: 13px;
+      right: 13px;
 
       & > .el-dialog__close {
         font-size: 20px;
