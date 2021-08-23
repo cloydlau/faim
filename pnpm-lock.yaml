@@ -1046,7 +1046,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001251
-      electron-to-chromium: 1.3.813
+      electron-to-chromium: 1.3.814
     dev: true
 
   /browserslist/4.16.8:
@@ -1056,7 +1056,7 @@ packages:
     dependencies:
       caniuse-lite: 1.0.30001251
       colorette: 1.3.0
-      electron-to-chromium: 1.3.813
+      electron-to-chromium: 1.3.814
       escalade: 3.1.1
       node-releases: 1.1.75
     dev: true
@@ -1270,8 +1270,8 @@ packages:
       ssr-window: 3.0.0
     dev: false
 
-  /electron-to-chromium/1.3.813:
-    resolution: {integrity: sha512-YcSRImHt6JZZ2sSuQ4Bzajtk98igQ0iKkksqlzZLzbh4p0OIyJRSvUbsgqfcR8txdfsoYCc4ym306t4p2kP/aw==}
+  /electron-to-chromium/1.3.814:
+    resolution: {integrity: sha512-0mH03cyjh6OzMlmjauGg0TLd87ErIJqWiYxMcOLKf5w6p0YEOl7DJAj7BDlXEFmCguY5CQaKVOiMjAMODO2XDw==}
     dev: true
 
   /element-ui/2.15.5_vue@2.6.12:
@@ -1292,8 +1292,8 @@ packages:
     resolution: {integrity: sha512-CwBLREIQ7LvYFB0WyRvwhq5N5qPhc6PMjD6bYggFlI5YyDgl+0vxq5VHbMOFqLg7hfWzmu8T5Z1QofhmTIhItA==}
     dev: false
 
-  /esbuild/0.12.21:
-    resolution: {integrity: sha512-7hyXbU3g94aREufI/5nls7Xcc+RGQeZWZApm6hoBaFvt2BPtpT4TjFMQ9Tb1jU8XyBGz00ShmiyflCogphMHFQ==}
+  /esbuild/0.12.22:
+    resolution: {integrity: sha512-yWCr9RoFehpqoe/+MwZXJpYOEIt7KOEvNnjIeMZpMSyQt+KCBASM3y7yViiN5dJRphf1wGdUz1+M4rTtWd/ulA==}
     hasBin: true
     requiresBuild: true
     dev: true
@@ -1744,7 +1744,7 @@ packages:
       kayran: 0.2.2
       lodash-es: 4.17.21
       qrcode: 1.4.4
-      swiper: 6.8.2
+      swiper: 6.8.3
       viewerjs: 1.10.1
       vue: 2.6.12
     dev: false
@@ -2055,7 +2055,7 @@ packages:
   /svelte-awesome/2.3.2:
     resolution: {integrity: sha512-odkwkVSYEARI/4CskjwoI7KIhds1Ui74H1VFAifWuDoczY+JpPeJuBwDqgo8imM7Bd76U+ns7Yf1iQqveHnx5Q==}
     dependencies:
-      svelte: 3.42.1
+      svelte: 3.42.2
     dev: true
 
   /svelte-jsoneditor/0.1.6:
@@ -2092,8 +2092,8 @@ packages:
       svelte: ^3.18.2
     dev: true
 
-  /svelte/3.42.1:
-    resolution: {integrity: sha512-XtExLd2JAU3T7M2g/DkO3UNj/3n1WdTXrfL63OZ5nZq7nAqd9wQw+lR4Pv/wkVbrWbAIPfLDX47UjFdmnY+YtQ==}
+  /svelte/3.42.2:
+    resolution: {integrity: sha512-FOyNYKXb8wdE0Ot+Ctt2/OyDLsNBP8+V6PUE9ag6ZKeLslIou0LnMu1fhtWUA+HjzKTbAM1yj+4PFLtg/3pMJA==}
     engines: {node: '>= 8'}
     dev: true
 
@@ -2109,8 +2109,8 @@ packages:
     resolution: {integrity: sha512-CTNLviF6w1wyh1ou2UY8RpZasV2RiXbO6489v+a1Swz4jrUyuFDDjMZ9tMMVFnxTMdiUGfYiJoFUniZbHSEnHw==}
     dev: false
 
-  /swiper/6.8.2:
-    resolution: {integrity: sha512-VwBZ40NQ8vDzIZO9wApJTf4bDu/o3sgURMQ6fvJVSc9T63NoJV0KLC/mjkrl9GepGbmlCQNLR2tL0Kk/r8NSdw==}
+  /swiper/6.8.3:
+    resolution: {integrity: sha512-1tpU2pqI/iUEfl2xg+7UBgwPQqTlFrm3Q9RKiphAAS+s0xUXRnHddAHifntTWAalcYR1AJwFUjv7hs0teyUYEw==}
     engines: {node: '>= 4.7.0'}
     requiresBuild: true
     dependencies:
@@ -2226,7 +2226,7 @@ packages:
     engines: {node: '>=12.2.0'}
     hasBin: true
     dependencies:
-      esbuild: 0.12.21
+      esbuild: 0.12.22
       postcss: 8.3.6
       resolve: 1.20.0
       rollup: 2.56.2

@@ -504,6 +504,14 @@ export default {
 />
 ```
 
+::: tip  
+多选且与el-form搭配时，会出现一开始就触发rule校验的问题（而不是blur或change以后）
+
+这是el-select自身原因导致的，在多选时，el-select会将value初始化为 `[]`
+
+解决方式：给value赋初值 `[]`
+:::
+
 <br>
 
 ## WebCam / 摄像头拍照

@@ -55,7 +55,7 @@
           <CheckAllBox v-model="form.CheckAllBox" :options="dateOptions"/>
         </el-form-item>
 
-        <el-form-item label="DropDown">
+        <el-form-item label="DropDown" required prop="DropDown[0].value">
           <div class="flex justify-between">
             <DropDown
               v-model="form.DropDown[0].value"
@@ -63,6 +63,7 @@
               :index.sync="form.DropDown[0].index"
               :options="form.DropDown[0].options"
               placeholder="number[]"
+              multiple
             >
               <template v-slot="{option, index}">
                 option: {{ option }}
