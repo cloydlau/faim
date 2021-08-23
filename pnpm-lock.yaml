@@ -1744,7 +1744,7 @@ packages:
       kayran: 0.2.2
       lodash-es: 4.17.21
       qrcode: 1.4.4
-      swiper: 6.8.3
+      swiper: 6.8.4
       viewerjs: 1.10.1
       vue: 2.6.12
     dev: false
@@ -1919,8 +1919,8 @@ packages:
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
     dev: true
 
-  /rollup/2.56.2:
-    resolution: {integrity: sha512-s8H00ZsRi29M2/lGdm1u8DJpJ9ML8SUOpVVBd33XNeEeL3NVaTiUcSBHzBdF3eAyR0l7VSpsuoVUGrRHq7aPwQ==}
+  /rollup/2.56.3:
+    resolution: {integrity: sha512-Au92NuznFklgQCUcV96iXlxUbHuB1vQMaH76DHl5M11TotjOHwqk9CwcrT78+Tnv4FN9uTBxq6p4EJoYkpyekg==}
     engines: {node: '>=10.0.0'}
     hasBin: true
     optionalDependencies:
@@ -2109,8 +2109,8 @@ packages:
     resolution: {integrity: sha512-CTNLviF6w1wyh1ou2UY8RpZasV2RiXbO6489v+a1Swz4jrUyuFDDjMZ9tMMVFnxTMdiUGfYiJoFUniZbHSEnHw==}
     dev: false
 
-  /swiper/6.8.3:
-    resolution: {integrity: sha512-1tpU2pqI/iUEfl2xg+7UBgwPQqTlFrm3Q9RKiphAAS+s0xUXRnHddAHifntTWAalcYR1AJwFUjv7hs0teyUYEw==}
+  /swiper/6.8.4:
+    resolution: {integrity: sha512-O+buF9Q+sMA0H7luMS8R59hCaJKlpo8PXhQ6ZYu6Rn2v9OsFd4d1jmrv14QvxtQpKAvL/ZiovEeANI/uDGet7g==}
     engines: {node: '>= 4.7.0'}
     requiresBuild: true
     dependencies:
@@ -2197,7 +2197,7 @@ packages:
       magic-string: 0.25.7
       prettier: 2.3.2
       querystring: 0.2.1
-      rollup: 2.56.2
+      rollup: 2.56.3
       slash: 3.0.0
       source-map: 0.7.3
       vite: 2.5.0
@@ -2229,7 +2229,7 @@ packages:
       esbuild: 0.12.22
       postcss: 8.3.6
       resolve: 1.20.0
-      rollup: 2.56.2
+      rollup: 2.56.3
     optionalDependencies:
       fsevents: 2.3.2
     dev: true

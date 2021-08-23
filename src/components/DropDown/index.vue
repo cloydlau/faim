@@ -233,6 +233,8 @@ export default {
       immediate: true,
       handler (n, o) {
         this.value__ = n
+        // 外部设值时，同步全选按钮状态
+        this.syncSelectAllBtn(n)
       }
     },
     value__: {
@@ -345,13 +347,16 @@ export default {
         this.loading = false
       }
     },
-    onChange (value) {
+    syncSelectAllBtn (value) {
       if (this.isMultiple && !this.grouped) {
-        let valueLen = value.length
+        let valueLen = value?.length
         const optionsLen = this.options__.length
         this.allSelected = valueLen === optionsLen
         this.indeterminate = valueLen > 0 && valueLen < optionsLen
       }
+    },
+    onChange (value) {
+      this.syncSelectAllBtn(value)
       this.$nextTick(() => {
         this.$emit('update:label', this.$refs.elSelect.selectedLabel)
       })
