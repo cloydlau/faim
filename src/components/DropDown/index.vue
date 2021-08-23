@@ -349,9 +349,9 @@ export default {
     },
     syncSelectAllBtn (value) {
       if (this.isMultiple && !this.grouped) {
-        let valueLen = value?.length
+        let valueLen = value ? value.length : 0
         const optionsLen = this.options__.length
-        this.allSelected = valueLen === optionsLen
+        this.allSelected = valueLen > 0 && valueLen === optionsLen
         this.indeterminate = valueLen > 0 && valueLen < optionsLen
       }
     },
