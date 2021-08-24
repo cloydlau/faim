@@ -3,6 +3,7 @@
     v-model="value__"
     v-bind="elSelectProps"
     @change="onChange"
+    v-on="$listeners"
     ref="elSelect"
   >
     <template v-if="grouped">
@@ -76,6 +77,7 @@
 </template>
 
 <script>
+import Vue from 'vue'
 import { typeOf, isEmpty, notEmpty } from 'kayran'
 import globalProps from './config'
 import { getFinalProp } from '../../utils'
@@ -258,6 +260,13 @@ export default {
         this.onBlur()
       }
     },
+    label: {
+      immediate: true,
+      handler (n, o) {
+        // 没有匹配到选项时，显示label
+        this.initLabel()
+      }
+    },
     options: {
       immediate: true,
       handler (n, o) {
@@ -286,6 +295,17 @@ export default {
     this.dispatch('ElForm', 'el.form.addField', [this])
   },
   methods: {
+    initLabel () {
+      if (this.label) {
+        setTimeout(() => {
+          const { selected, selectedLabel } = this.$refs.elSelect
+          if (!(selected instanceof Vue) && selectedLabel === '') {
+            this.$refs.elSelect.selectedLabel = this.label
+            this.$refs.elSelect.query = this.label
+          }
+        })
+      }
+    },
     selectAll () {
       if (this.allSelected) {
         let temp = []
@@ -363,6 +383,7 @@ export default {
       this.$emit('change', value)
     },
     onBlur () {
+      //this.initLabel()
       // fix: 用于el表单中 且校验触发方式为blur时 没有生效
       if (this.$parent?.$options?._componentTag === ('el-form-item') && this.$parent.rules?.trigger === 'blur') {
         this.$parent.$emit('el.form.blur')

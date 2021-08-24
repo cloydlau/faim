@@ -372,7 +372,9 @@ export default {
 
 ### label.sync, index.sync
 
-为避免与value冲突，仅支持单向数据流（子→父），选中项依然以value为准。
+为避免与value冲突，index仅支持单向数据流（子→父），选中项依然以value为准。
+
+当value在options中没有匹配到对应项时，label也可以正常展示。
 
 ::: warning  
 分组时，index为组下标。
