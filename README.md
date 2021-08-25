@@ -325,7 +325,7 @@ export default {
 - 多选时，提供全选按钮（分组时不支持）。
 - options的数组元素支持任意类型。
 - 用更简单的方式来获取label和index，不需要加ref，不需要判空。
-- 用更简单的方式来支持异步获取options的场景。
+- 用更简单的方式来异步获取options。
 - 支持对超长的label作溢出省略处理。
 
 ### Props
