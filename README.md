@@ -61,7 +61,7 @@ export default {
 - 对于对象类型的参数 局部配置会与全局配置进行合并 同名属性会被局部配置覆盖
 
 ::: danger  
-Boolean类型的底层组件prop，可能是不支持下方的写法的：
+Boolean类型的**底层组件prop**，可能是不支持下方的写法的：
 
 ```html
 <!-- 这样写可能没有效果 -->
@@ -71,6 +71,10 @@ Boolean类型的底层组件prop，可能是不支持下方的写法的：
 ```html
 <!-- 这样比较保险 -->
 <blog-post :is-published="true"/>
+
+这是因为Kikimore的组件内部没有将底层组件的Boolean prop声明为Boolean类型，
+
+因为如果声明了，
 ```
 :::
 
