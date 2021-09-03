@@ -13,13 +13,13 @@
 </template>
 
 <script>
+import { getFinalProp } from 'kayran'
+import globalConfig from './config'
+
 export default {
-  name: 'CountdownButton',
+  name: 'KiCountdownButton',
   props: {
-    cd: {
-      type: Number,
-      default: 60
-    }
+    cd: {}
   },
   data () {
     return {
@@ -27,9 +27,20 @@ export default {
       remaining: 0,
     }
   },
+  computed: {
+    Cd () {
+      return getFinalProp([
+        this.cd,
+        globalConfig.cd,
+        60
+      ], {
+        type: 'number'
+      })
+    }
+  },
   methods: {
     send (e) {
-      this.remaining = this.cd
+      this.remaining = this.Cd
 
       const updateBtnText = () => {
         --this.remaining

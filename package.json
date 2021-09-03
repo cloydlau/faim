@@ -26,6 +26,7 @@
     "ri": "rd /s /q .\\node_modules && pnpm i"
   },
   "dependencies": {
+    "camelcase-keys": "latest",
     "kayran": "latest",
     "lodash-es": "latest",
     "overlayscrollbars": "latest",
@@ -36,7 +37,7 @@
   },
   "peerDependencies": {
     "element-ui": "latest",
-    "vue": "2.6.12"
+    "vue": "2"
   },
   "devDependencies": {
     "@types/overlayscrollbars": "latest",

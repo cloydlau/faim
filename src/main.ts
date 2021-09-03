@@ -1,32 +1,46 @@
 import 'virtual:windi.css'
 
 import UnivariateTable from './components/UnivariateTable'
-import FormItemTip from './components/FormItemTip'
+import CountdownButton from './components/CountdownButton'
 import CheckAllBox from './components/CheckAllBox'
 import FormDialog from './components/FormDialog'
 import PopButton from './components/PopButton'
 import PopSwitch from './components/PopSwitch'
-import Pagination from './components/Pagination'
-import CountdownButton from './components/CountdownButton'
-import DropDown from './components/DropDown'
-import WebCam from './components/WebCam'
+import Select from './components/Select'
+import Webcam from './components/Webcam'
 import Swal from './components/Swal'
-import AuthButton from './components/AuthButton' // todo: deprecated
-import Tag from './components/Tag' // todo: deprecated
 
-export {
+const components = [
   UnivariateTable,
+  CountdownButton,
   CheckAllBox,
-  FormItemTip, // todo: deprecated
   FormDialog,
   PopButton,
   PopSwitch,
-  Pagination, // todo: deprecated
+  Select,
+  Webcam,
+]
+
+const install = function (Vue, opts = {}) {
+  components.forEach(component => {
+    Vue.component(component.name, component)
+  })
+
+  Vue.prototype.$Swal = Swal
+}
+
+export default {
+  install,
+  ...components,
+}
+
+export {
+  UnivariateTable,
   CountdownButton,
-  DropDown,
-  DropDown as Selector, // todo: deprecated
-  WebCam,
-  Swal,
-  AuthButton, // todo: deprecated
-  Tag, // todo: deprecated
+  CheckAllBox,
+  FormDialog,
+  PopButton,
+  PopSwitch,
+  Select,
+  Webcam,
 }

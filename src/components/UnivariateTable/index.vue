@@ -1,6 +1,6 @@
 <template>
   <div class="univariate-table">
-    <h2 v-if="title">{{title}}</h2>
+    <h2 v-if="Title">{{ Title }}</h2>
     <div class="el-table el-table--fit el-table--border">
       <div class="el-table__body-wrapper">
         <table class="el-table__body" cellspacing="0" cellpadding="0" border="0">
@@ -12,10 +12,22 @@
 </template>
 
 <script>
+import { getFinalProp } from 'kayran'
+import globalConfig from './config'
+
 export default {
-  name: 'UnivariateTable',
+  name: 'KiUnivariateTable',
   props: {
-    title: String
+    title: {}
+  },
+  computed: {
+    Title () {
+      return getFinalProp([
+        this.title, globalConfig.title
+      ], {
+        type: 'string'
+      })
+    }
   }
 }
 </script>

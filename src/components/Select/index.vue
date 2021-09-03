@@ -1,7 +1,7 @@
 <template>
   <el-select
     v-model="value__"
-    v-bind="elSelectProps"
+    v-bind="ElSelectProps"
     @change="onChange"
     v-on="$listeners"
     ref="elSelect"
@@ -43,7 +43,7 @@
         @change='selectAll'
         :indeterminate="indeterminate"
         class="px-20px py-10px"
-        v-if="isMultiple"
+        v-if="ElSelectProps.multiple"
       >
         全选
       </el-checkbox>
@@ -78,15 +78,14 @@
 
 <script>
 import Vue from 'vue'
-import { typeOf, isEmpty, notEmpty } from 'kayran'
-import globalProps from './config'
-import { getFinalProp } from '../../utils'
+import { typeOf, isEmpty, notEmpty, getFinalProp, getGlobalAttrs } from 'kayran'
+import globalConfig from './config'
 import { v1 as uuidv1 } from 'uuid'
 import emitter from 'element-ui/src/mixins/emitter'
 import { cloneDeep } from 'lodash-es'
 
 export default {
-  name: 'DropDown',
+  name: 'KiSelect',
   mixins: [emitter],
   inject: {
     elForm: {
@@ -103,19 +102,22 @@ export default {
     options: {
       validator: value => ['null', 'array'].includes(typeOf(value)),
     },
-    props: Object,
+    props: {},
     ellipsis: {
-      validator: value => value === '' || ['boolean'].includes(typeOf(value)),
+      type: Boolean,
+      default: undefined
     },
-    search: Function,
+    search: {},
     searchImmediately: {
-      validator: value => value === '' || ['boolean'].includes(typeOf(value)),
+      type: Boolean,
+      default: undefined
+    },
+    multiple: {
+      type: Boolean,
+      default: undefined
     }
   },
   computed: {
-    isMultiple () {
-      return ['', true].includes(this.elSelectProps.multiple)
-    },
     grouped () {
       return notEmpty(this.Props.groupOptions)
     },
@@ -123,7 +125,7 @@ export default {
       return typeof this.options__?.[0] === 'object'
     },
     valueComesFromObject () {
-      if (isEmpty(this.Props.key) || this.keyType === 'function') {
+      if (isEmpty(this.Props.value) || this.valueType === 'function') {
         return false
       } else {
         return this.itemTypeIsObject
@@ -138,28 +140,40 @@ export default {
       }
       return result
     },
-    elSelectProps () {
+    ElSelectProps () {
       let globalAttrs = {}
-      Object.keys(globalProps).filter(v => !Object.keys(this.$props).includes(v)).map(v => {
-        globalAttrs[v] = globalProps[v]
+      Object.keys(globalConfig).filter(v => !Object.keys(this.$props).includes(v)).map(v => {
+        globalAttrs[v] = globalConfig[v]
       })
 
       const remote = Boolean(this.Search)
       const placeholder = remote ? '搜索' : '请选择'
 
-      return getFinalProp(this.$attrs, globalAttrs, {
-        clearable: true,
-        filterable: true,
-        remote,
-        'reserve-keyword': true,
-        'remote-method': this.remoteMethod,
-        'value-key': this.valueComesFromObject ? this.Props.key : undefined,
-        loading: this.loading,
-        placeholder,
+      return getFinalProp([
+        this.$attrs,
+        getGlobalAttrs(globalConfig, this.$props),
+        {
+          clearable: true,
+          filterable: true,
+          remote,
+          reserveKeyword: true,
+          remoteMethod: this.remoteMethod,
+          valueKey: this.valueComesFromObject ? this.Props.value : undefined,
+          loading: this.loading,
+          placeholder,
+        }
+      ], {
+        type: 'object'
       })
     },
     Ellipsis () {
-      const result = getFinalProp(this.ellipsis, globalProps.ellipsis, false)
+      const result = getFinalProp([
+        this.ellipsis,
+        globalConfig.ellipsis,
+        false
+      ], {
+        type: 'boolean'
+      })
       if (result) {
         this.$nextTick(() => {
           this.popper = this.$refs.elSelect.$refs.popper
@@ -179,8 +193,8 @@ export default {
         this.unwatchOptions?.()
       }
     },
-    keyType () {
-      return this.validateProps('key')
+    valueType () {
+      return this.validateProps('value')
     },
     labelType () {
       return this.validateProps('label')
@@ -201,16 +215,30 @@ export default {
       return this.validateProps('groupOptions')
     },
     Props () {
-      return getFinalProp(this.props, globalProps.props, {
-        disabled: 'disabled',
-        groupDisabled: 'disabled',
+      return getFinalProp([
+        this.props,
+        globalConfig.props,
+        {
+          disabled: 'disabled',
+          groupDisabled: 'disabled',
+        }
+      ], {
+        type: 'object'
       })
     },
     Search () {
-      return getFinalProp(this.search, globalProps.search,)
+      return getFinalProp([this.search, globalConfig.search], {
+        type: 'function'
+      })
     },
     SearchImmediately () {
-      return getFinalProp(this.searchImmediately, globalProps.searchImmediately, true)
+      return getFinalProp([
+        this.searchImmediately,
+        globalConfig.searchImmediately,
+        true
+      ], {
+        type: 'boolean'
+      })
     }
   },
   data () {
@@ -218,7 +246,7 @@ export default {
       value__: this.value,
       initialValue: undefined,
       popper: null,
-      //showDropdown: false
+      //showKiSelect: false
       unwatchOptions: null,
       loading: false,
       defaultSearchResult: null,
@@ -242,7 +270,7 @@ export default {
     value__: {
       handler (n, o) {
         // 多选时，value会被el-select初始化为[]，此时不应执行清空逻辑
-        if (this.isMultiple) {
+        if (this.ElSelectProps.multiple) {
           if (!this.valueInitializedWhenMultiple) {
             return
           }
@@ -345,7 +373,7 @@ export default {
       }
     },
     onOptionClick (v, i) {
-      if (!v[this.Props.disabled]) {
+      if (v?.[this.Props.disabled] !== true) {
         this.$emit('update:index', i)
       }
     },
@@ -368,7 +396,7 @@ export default {
       }
     },
     syncSelectAllBtn (value) {
-      if (this.isMultiple && !this.grouped) {
+      if (this.ElSelectProps.multiple && !this.grouped) {
         let valueLen = value ? value.length : 0
         const optionsLen = this.options__.length
         this.allSelected = valueLen > 0 && valueLen === optionsLen
@@ -391,12 +419,12 @@ export default {
     },
     getValue (v, i) {
       let result = v
-      if (this.keyType === 'function') {
-        result = this.Props.key(v, i)
+      if (this.valueType === 'function') {
+        result = this.Props.value(v, i)
       } else if (this.itemTypeIsObject) {
-        if (notEmpty(this.Props.key)) {
-          result = v[this.Props.key]
-        } else if (isEmpty(this.elSelectProps.valueKey || this.elSelectProps['value-key'])) {
+        if (notEmpty(this.Props.value)) {
+          result = v?.[this.Props.value]
+        } else if (isEmpty(this.ElSelectProps.valueKey || this.ElSelectProps['value-key'])) {
           throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}绑定值为object类型时，必须按el-select的要求指定value-key`)
         }
       }
@@ -408,7 +436,7 @@ export default {
         result = this.Props.label(v, i)
       } else if (this.itemTypeIsObject) {
         if (notEmpty(this.Props.label)) {
-          result = v[this.Props.label]
+          result = v?.[this.Props.label]
         } else {
           result = JSON.stringify(v)
         }
@@ -421,7 +449,7 @@ export default {
         result = this.Props.labelRight(v, i)
       } else if (this.itemTypeIsObject) {
         if (notEmpty(this.Props.labelRight)) {
-          result = v[this.Props.labelRight]
+          result = v?.[this.Props.labelRight]
         }
       }
       return isEmpty(result) ? '' : String(result)
@@ -432,7 +460,7 @@ export default {
         result = this.Props.groupLabel(v, i)
       } else if (this.itemTypeIsObject) {
         if (notEmpty(this.Props.groupLabel)) {
-          result = v[this.Props.groupLabel]
+          result = v?.[this.Props.groupLabel]
         } else {
           result = JSON.stringify(v)
         }
@@ -444,7 +472,7 @@ export default {
       if (this.disabledType === 'function') {
         result = this.Props.disabled(v, i)
       } else if (this.itemTypeIsObject && notEmpty(this.Props.disabled)) {
-        result = v[this.Props.disabled]
+        result = v?.[this.Props.disabled]
       }
       return Boolean(result)
     },
@@ -453,7 +481,7 @@ export default {
       if (this.groupDisabledType === 'function') {
         result = this.Props.groupDisabled(v, i)
       } else if (this.itemTypeIsObject && notEmpty(this.Props.groupDisabled)) {
-        result = v[this.Props.groupDisabled]
+        result = v?.[this.Props.groupDisabled]
       }
       return Boolean(result)
     },
@@ -462,7 +490,7 @@ export default {
       if (this.groupOptionsType === 'function') {
         result = this.Props.groupOptions(v, i)
       } else if (this.itemTypeIsObject) {
-        result = v[this.Props.groupOptions]
+        result = v?.[this.Props.groupOptions]
       }
       if (isEmpty(result)) {
         return []
@@ -473,7 +501,7 @@ export default {
       return result
     },
     /*onVisibleChange (show) {
-      this.showDropdown = show
+      this.showKiSelect = show
     },
     isEllipsis*/
   }

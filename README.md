@@ -8,9 +8,18 @@
 // 全局引入
 
 import 'kikimore/dist/style.css'
-import { PopButton } from 'kikimore'
+import Kikimore from 'kikimore'
 
-Vue.use(PopButton, {
+Vue.use(Kikimore)
+```
+
+```ts
+// 全局引入某个组件
+
+import 'kikimore/dist/style.css'
+import { FormDialog } from 'kikimore'
+
+Vue.use(FormDialog, {
   // 全局配置
 })
 ```
@@ -19,7 +28,7 @@ Vue.use(PopButton, {
 <!-- 局部引入 -->
 
 <template>
-  <PopButton v-bind="config"/>
+  <KiPopButton v-bind="config"/>
 </template>
 
 <script>
@@ -27,7 +36,7 @@ import 'kikimore/dist/style.css'
 import { PopButton } from 'kikimore'
 
 export default {
-  components: { PopButton },
+  components: { KiPopButton: PopButton },
   data () {
     return {
       config: {
@@ -50,6 +59,20 @@ export default {
 
 - 局部配置高于全局配置
 - 对于对象类型的参数 局部配置会与全局配置进行合并 同名属性会被局部配置覆盖
+
+::: danger  
+Boolean类型的底层组件prop，可能是不支持下方的写法的：
+
+```html
+<!-- 这样写可能没有效果 -->
+<blog-post is-published/>
+```
+
+```html
+<!-- 这样比较保险 -->
+<blog-post :is-published="true"/>
+```
+:::
 
 <br>
 
@@ -539,7 +562,7 @@ export default {
 
 ```html
 
-<WebCam @confirm="({ base64, blob, file }) => {
+<KiWebcam @confirm="({ base64, blob, file }) => {
 
 "/>
 ```

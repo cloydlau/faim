@@ -23,28 +23,30 @@
 </template>
 
 <script>
-import globalProps from './config'
-import { getFinalProp } from '../../utils'
+import globalConfig from './config'
+import { getFinalProp, getGlobalAttrs } from 'kayran'
 
 export default {
-  name: 'PopButton',
+  name: 'KiPopButton',
   props: {
-    elPopconfirmProps: Object,
-    elTooltipProps: Object,
-    elPopoverProps: Object,
+    elPopconfirmProps: {},
+    elTooltipProps: {},
+    elPopoverProps: {},
   },
   computed: {
     ElButtonProps () {
-      return getFinalProp(
+      return getFinalProp([
         this.$attrs,
-        globalProps
-      )
+        getGlobalAttrs(globalConfig, this.$props)
+      ])
     },
     ElPopoverProps () {
-      const result = getFinalProp(
+      const result = getFinalProp([
         this.elPopoverProps,
-        globalProps.elPopoverProps,
-      )
+        globalConfig.elPopoverProps,
+      ], {
+        type: 'object'
+      })
       const { title, content } = result || {}
       return {
         disabled: !Boolean(title || content),
@@ -52,10 +54,12 @@ export default {
       }
     },
     ElPopconfirmProps () {
-      const result = getFinalProp(
+      const result = getFinalProp([
         this.elPopconfirmProps,
-        globalProps.elPopconfirmProps,
-      )
+        globalConfig.elPopconfirmProps,
+      ], {
+        type: 'object'
+      })
       return {
         popperClass: 'pop-button',
         disabled: !Boolean(result?.title),
@@ -63,10 +67,12 @@ export default {
       }
     },
     ElTooltipProps () {
-      const result = getFinalProp(
+      const result = getFinalProp([
         this.elTooltipProps,
-        globalProps.elTooltipProps,
-      )
+        globalConfig.elTooltipProps,
+      ], {
+        type: 'object'
+      })
       return {
         //openDelay: 400,
         disabled: !Boolean(result?.content),

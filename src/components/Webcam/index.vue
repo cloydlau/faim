@@ -41,21 +41,18 @@
 </template>
 
 <script>
-import globalProps from './config'
-import { getFinalProp } from '../../utils'
+import { getFinalProp } from 'kayran'
+import globalConfig from './config'
 import { error, info, warning } from '../Swal'
 import PicViewer from 'pic-viewer'
 import Screenshot from './Screenshot.vue'
 
 export default {
-  name: 'WebCam',
+  name: 'KiWebcam',
   components: { PicViewer, Screenshot },
   props: {
     show: Boolean,
-    count: {
-      type: [Number, Array],
-      default: 1
-    }
+    count: {}
   },
   data () {
     return {
@@ -129,17 +126,26 @@ export default {
     },
   },
   computed: {
+    Count () {
+      return getFinalProp([
+        this.count,
+        globalConfig.count,
+        1
+      ], {
+        type: ['number', 'array']
+      })
+    },
     maxCount () {
-      if (this.count) {
-        return typeof this.count === 'number' ? this.count : this.count[1]
+      if (this.Count) {
+        return typeof this.Count === 'number' ? this.Count : this.Count[1]
       }
     },
     minCount () {
-      if (Array.isArray(this.count)) {
-        return this.count[0]
+      if (Array.isArray(this.Count)) {
+        return this.Count[0]
       }
     },
-    Count () {
+    CurrentCount () {
       return this.file ?
         Array.isArray(this.file) ?
           this.file.length :
@@ -164,8 +170,8 @@ export default {
       })
     },
     confirm () {
-      if (this.minCount && this.minCount > this.Count) {
-        warning(`至少拍摄${this.Count}张`)
+      if (this.minCount && this.minCount > this.CurrentCount) {
+        warning(`至少拍摄${this.minCount}张`)
         return
       }
 
@@ -182,8 +188,8 @@ export default {
       this.file = null
     },
     async photograph () {
-      if (this.maxCount > 1 && this.maxCount === this.Count) {
-        warning(`最多拍摄${this.Count}张`)
+      if (this.maxCount > 1 && this.maxCount === this.CurrentCount) {
+        warning(`最多拍摄${this.maxCount}张`)
         return
       }
 

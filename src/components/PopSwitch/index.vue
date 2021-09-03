@@ -23,20 +23,21 @@
 </template>
 
 <script>
-import globalProps from './config'
-import { getCharCount, getFinalProp } from '../../utils'
-import { typeOf } from 'kayran'
+import globalConfig from './config'
+import { getCharCount } from '../../utils'
+import { getFinalProp, getGlobalAttrs } from 'kayran'
 
 export default {
-  name: 'PopSwitch',
+  name: 'KiPopSwitch',
   props: {
     value: {},
     textInside: {
-      validator: value => value === '' || ['boolean'].includes(typeOf(value)),
+      type: Boolean,
+      default: undefined
     },
-    elPopconfirmProps: Object,
-    elTooltipProps: Object,
-    elPopoverProps: Object,
+    elPopconfirmProps: {},
+    elTooltipProps: {},
+    elPopoverProps: {},
   },
   model: {
     prop: 'value',
@@ -44,13 +45,19 @@ export default {
   },
   computed: {
     TextInside () {
-      return getFinalProp(this.textInside, globalProps.textInside, true)
+      return getFinalProp([
+        this.textInside,
+        globalConfig.textInside,
+        true
+      ], {
+        type: 'boolean'
+      })
     },
     ElSwitchProps () {
-      const result = getFinalProp(
+      const result = getFinalProp([
         this.$attrs,
-        globalProps
-      )
+        getGlobalAttrs(globalConfig, this.$props)
+      ])
 
       let maxTextWidth = 0;
       ['active-text', 'inactive-text', 'activeText', 'inactiveText'].map(v => {
@@ -66,10 +73,12 @@ export default {
       }
     },
     ElPopoverProps () {
-      const result = getFinalProp(
+      const result = getFinalProp([
         this.elPopoverProps,
-        globalProps.elPopoverProps,
-      )
+        globalConfig.elPopoverProps,
+      ], {
+        type: 'object'
+      })
       const { title, content } = result || {}
       return {
         popperClass: 'pop-switch',
@@ -78,10 +87,12 @@ export default {
       }
     },
     ElPopconfirmProps () {
-      const result = getFinalProp(
+      const result = getFinalProp([
         this.elPopconfirmProps,
-        globalProps.elPopconfirmProps,
-      )
+        globalConfig.elPopconfirmProps,
+      ], {
+        type: 'object'
+      })
       return {
         popperClass: 'pop-switch',
         disabled: !Boolean(result?.title),
@@ -89,10 +100,12 @@ export default {
       }
     },
     ElTooltipProps () {
-      const result = getFinalProp(
+      const result = getFinalProp([
         this.elTooltipProps,
-        globalProps.elTooltipProps,
-      )
+        globalConfig.elTooltipProps,
+      ], {
+        type: 'object'
+      })
       return {
         //openDelay: 400,
         disabled: !Boolean(result?.content || this.$scopedSlots.elTooltipContent),

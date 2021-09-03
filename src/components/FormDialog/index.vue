@@ -61,9 +61,8 @@
 </template>
 
 <script>
-import globalProps from './config'
-import { getFinalProp } from '../../utils'
-import { loadStyle } from 'kayran'
+import globalConfig from './config'
+import { loadStyle, getFinalProp } from 'kayran'
 import highlightError from './highlightErrorViaOverlayScrollbars'
 import { cloneDeep } from 'lodash-es'
 //import Scrollbar from 'smooth-scrollbar'
@@ -71,7 +70,7 @@ import 'overlayscrollbars/css/OverlayScrollbars.min.css'
 import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 
 export default {
-  name: 'FormDialog',
+  name: 'KiFormDialog',
   components: { 'overlay-scrollbars': OverlayScrollbarsComponent },
   props: {
     show: {
@@ -81,10 +80,13 @@ export default {
     value: {
       default: () => ({}),
     },
-    elFormProps: Object,
-    readonly: Boolean,
-    retrieve: Function,
-    submit: Function,
+    elFormProps: {},
+    retrieve: {},
+    submit: {},
+    readonly: {
+      type: Boolean,
+      default: undefined
+    }
   },
   model: {
     prop: 'value',
@@ -104,17 +106,27 @@ export default {
   },
   computed: {
     Retrieve () {
-      return getFinalProp(this.retrieve, globalProps.retrieve)
+      return getFinalProp([this.retrieve, globalConfig.retrieve], {
+        type: 'function'
+      })
     },
     Submit () {
-      return getFinalProp(this.submit, globalProps.submit)
+      return getFinalProp([this.submit, globalConfig.submit], {
+        type: 'function'
+      })
     },
     Readonly () {
-      return getFinalProp(this.readonly, globalProps.readonly, false)
+      return getFinalProp([
+        this.readonly,
+        globalConfig.readonly,
+        false
+      ], {
+        type: 'boolean'
+      })
     },
     beforeClosePassed () {
-      return globalProps.beforeClose ||
-        globalProps['before-close'] ||
+      return globalConfig.beforeClose ||
+        globalConfig['before-close'] ||
         this.$attrs.beforeClose ||
         this.$attrs['before-close']
     },
@@ -126,20 +138,21 @@ export default {
             this.$emit('update:show', false)
           }
         },
-        ...globalProps,
+        ...globalConfig,
         ...this.$attrs,
       }
     },
     ElFormProps () {
-      return {
-        disabled: this.readonly,
-        labelPosition: 'right',
-        labelWidth: 'auto',
-        ...globalProps.elFormProps,
-        ...this.elFormProps,
-        model: this.value,
-        ref: 'elForm',
-      }
+      return getFinalProp([
+        this.elFormProps, globalConfig.elFormProps, {
+          disabled: this.readonly,
+          labelWidth: 'auto',
+          model: this.value,
+          ref: 'elForm',
+        }
+      ], {
+        type: 'object'
+      })
     }
   },
   created () {

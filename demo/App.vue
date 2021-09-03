@@ -10,7 +10,7 @@
       v-model="fullscreen"
     />
 
-    <FormDialog
+    <KiFormDialog
       :fullscreen="fullscreen"
       :show.sync="showFormDialog"
       :retrieve="retrieve"
@@ -22,13 +22,16 @@
       @opened="console.log('opened')"
       @close="console.log('close')"
       @closed="console.log('closed')"
-      :readonly="readonly"
+      readonly
+      :elFormProps="{
+        'labelPosition':'top',
+      }"
     >
       <template #el-form>
-        <el-form-item label="WebCam" prop="WebCam">
-          <el-button @click="showWebCam=true">打开摄像头</el-button>
-          <WebCam
-            :show.sync="showWebCam"
+        <el-form-item label="KiWebcam" prop="KiWebcam">
+          <el-button @click="showKiWebcam=true">打开摄像头</el-button>
+          <KiWebcam
+            :show.sync="showKiWebcam"
             ref="webCam"
           />
           <PicViewer :value="$refs.webCam&&$refs.webCam.base64"/>
@@ -51,17 +54,44 @@
           </el-button-group>
         </el-form-item>
 
-        <el-form-item label="CheckAllBox" prop="CheckAllBox">
-          <CheckAllBox v-model="form.CheckAllBox" :options="dateOptions"/>
+        <el-form-item label="CheckAllBox: 对象数组，值为对象的某个属性" prop="CheckAllBox[0].value">
+          <KiCheckAllBox
+            v-model="form.CheckAllBox[0].value"
+            :options="form.CheckAllBox[0].options"
+            :props="{
+              value: 'id',
+              label: 'name'
+            }"
+          />
+          {{ form.CheckAllBox[0].value }}
         </el-form-item>
 
-        <el-form-item label="DropDown" required prop="DropDown[0].value">
+        <el-form-item label="CheckAllBox: 对象数组，值为对象本身" prop="CheckAllBox[1].value">
+          <KiCheckAllBox
+            v-model="form.CheckAllBox[1].value"
+            :options="form.CheckAllBox[1].options"
+            :props="{
+              label: 'name'
+            }"
+          />
+          {{ form.CheckAllBox[1].value }}
+        </el-form-item>
+
+        <el-form-item label="CheckAllBox: 值类型数组" prop="CheckAllBox[2].value">
+          <KiCheckAllBox
+            v-model="form.CheckAllBox[2].value"
+            :options="form.CheckAllBox[2].options"
+          />
+          {{ form.CheckAllBox[2].value }}
+        </el-form-item>
+
+        <el-form-item label="KiSelect" required prop="KiSelect[0].value">
           <div class="flex justify-between">
-            <DropDown
-              v-model="form.DropDown[0].value"
-              :label.sync="form.DropDown[0].label"
-              :index.sync="form.DropDown[0].index"
-              :options="form.DropDown[0].options"
+            <KiSelect
+              v-model="form.KiSelect[0].value"
+              :label.sync="form.KiSelect[0].label"
+              :index.sync="form.KiSelect[0].index"
+              :options="form.KiSelect[0].options"
               placeholder="number[]"
               multiple
             >
@@ -71,15 +101,15 @@
               </template>
               <div slot="prefix">pre</div>
               <div slot="empty">empty</div>
-            </DropDown>
-            <DropDown
-              v-model="form.DropDown[1].value"
-              :label.sync="form.DropDown[1].label"
-              :index.sync="form.DropDown[1].index"
-              :options="form.DropDown[1].options"
+            </KiSelect>
+            <KiSelect
+              v-model="form.KiSelect[1].value"
+              :label.sync="form.KiSelect[1].label"
+              :index.sync="form.KiSelect[1].index"
+              :options="form.KiSelect[1].options"
               value-key="a"
               :props="{
-                key:null,
+                value:null,
                 label:'name',
                 labelRight:'labelRight',
                 disabled: '__disabled',
@@ -90,13 +120,13 @@
               :search="search"
               :searchImmediately="false"
             />
-            <DropDown
-              v-model="form.DropDown[2].value"
-              :label.sync="form.DropDown[2].label"
-              :index.sync="form.DropDown[2].index"
-              :options="form.DropDown[2].options"
+            <KiSelect
+              v-model="form.KiSelect[2].value"
+              :label.sync="form.KiSelect[2].label"
+              :index.sync="form.KiSelect[2].index"
+              :options="form.KiSelect[2].options"
               :props="{
-                key:'a',
+                value:'a',
                 label:({name,b})=>`${name}-${b}`,
                 labelRight:({name,b})=>`${b}-${name}`
               }"
@@ -104,24 +134,24 @@
             />
           </div>
           <div class="flex justify-between">
-            <div>{{ form.DropDown[0].value }}</div>
-            <div>{{ form.DropDown[1].value }}</div>
-            <div>{{ form.DropDown[2].value }}</div>
+            <div>{{ form.KiSelect[0].value }}</div>
+            <div>{{ form.KiSelect[1].value }}</div>
+            <div>{{ form.KiSelect[2].value }}</div>
           </div>
           <div class="flex justify-between">
-            <div>{{ form.DropDown[0].label }}</div>
-            <div>{{ form.DropDown[1].label }}</div>
-            <div>{{ form.DropDown[2].label }}</div>
+            <div>{{ form.KiSelect[0].label }}</div>
+            <div>{{ form.KiSelect[1].label }}</div>
+            <div>{{ form.KiSelect[2].label }}</div>
           </div>
           <div class="flex justify-between">
-            <div>{{ form.DropDown[0].index }}</div>
-            <div>{{ form.DropDown[1].index }}</div>
-            <div>{{ form.DropDown[2].index }}</div>
+            <div>{{ form.KiSelect[0].index }}</div>
+            <div>{{ form.KiSelect[1].index }}</div>
+            <div>{{ form.KiSelect[2].index }}</div>
           </div>
         </el-form-item>
 
         <el-form-item label="PopSwitch" prop="PopSwitch">
-          <PopSwitch
+          <KiPopSwitch
             v-model="popSwitch"
             @click.native="console.log('[PopSwitch] click')"
             :elTooltipProps="{content:`<i class='el-icon-warning'/> 已停用`}"
@@ -133,18 +163,18 @@
         </el-form-item>
 
         <el-form-item label="PopButton" prop="PopButton">
-          <PopButton
+          <KiPopButton
             @click="console.log('[PopButton] click')"
             :elTooltipProps="{content:`<i class='el-icon-warning'/> 删除`}"
             :elPopoverProps="{content:`<i class='el-icon-warning'/> 权限不足`,disabled:true}"
             :elPopconfirmProps="{title:'确认删除吗？'}"
           >
             删除
-          </PopButton>
+          </KiPopButton>
         </el-form-item>
 
         <el-form-item label="UnivariateTable">
-          <UnivariateTable title="两列">
+          <KiUnivariateTable title="两列">
             <tr>
               <td>xxx</td>
               <td>xxx</td>
@@ -153,9 +183,9 @@
               <td>xxx</td>
               <td>xxx</td>
             </tr>
-          </UnivariateTable>
+          </KiUnivariateTable>
 
-          <UnivariateTable title="四列">
+          <KiUnivariateTable title="四列">
             <tr>
               <td>xxx</td>
               <td>xxx</td>
@@ -168,69 +198,72 @@
               <td>xxx</td>
               <td>xxx</td>
             </tr>
-          </UnivariateTable>
+          </KiUnivariateTable>
         </el-form-item>
 
         <el-form-item label="CountdownButton" prop="phone" ref="formItemPhone" required>
           <el-input v-model="form.phone">
-            <CountdownButton slot="append" @click="send" :cd="3">
+            <KiCountdownButton slot="append" @click="send" :cd="3">
               <!--<template v-slot="{remaining}">
                 {{ remaining ? `${remaining}s remaining` : `send verification code` }}
               </template>-->
-            </CountdownButton>
+            </KiCountdownButton>
           </el-input>
         </el-form-item>
       </template>
-    </FormDialog>
+    </KiFormDialog>
   </div>
 </template>
 
 <script>
-import {
-  CountdownButton,
-  CheckAllBox,
-  UnivariateTable,
-  Swal,
-  FormDialog,
-  DropDown,
-  PopButton,
-  WebCam,
-  PopSwitch,
-} from '../src/main'
-
-import Vue from 'vue'
-Vue.prototype.$Swal = Swal
-
-Vue.use(DropDown, {
-  props: {
-    key: 'a'
-  }
-})
-
 import PicViewer from 'pic-viewer'
 import JsonEditorVue from 'json-editor-vue'
 
 export default {
   components: {
+    JsonEditorVue,
     PicViewer,
-    WebCam,
-    FormDialog,
-    CountdownButton,
-    CheckAllBox,
-    UnivariateTable,
-    //DropDown,
-    PopButton,
-    PopSwitch,
-    JsonEditorVue
   },
   data () {
     return {
       popSwitch: false,
-      showWebCam: false,
+      showKiWebcam: false,
       form: {
-        checkAllBox: undefined,
+        CheckAllBox: [
+          {
+            value: [1],
+            options: [
+              {
+                id: 1,
+                name: '周一',
+              }, {
+                id: 2,
+                name: '周二',
+              }
+            ]
+          },
+          {
+            value: [{
+              id: 1,
+              name: '周一',
+            }],
+            options: [
+              {
+                id: 1,
+                name: '周一',
+              }, {
+                id: 2,
+                name: '周二',
+              }
+            ]
+          },
+          {
+            value: ['周一'],
+            options: ['周一', '周二'],
+          },
+        ],
         phone: '',
-        DropDown: [
+        KiSelect: [
           {
             value: undefined,
             label: undefined,
@@ -289,15 +322,19 @@ export default {
           },
         ],
       },
-      Swal,
       pageSize: 10,
       pageNo: 2,
       console,
       window,
-      dateOptions: {
-        周一: 1,
-        周二: 2
-      },
+      dateOptions: [
+        {
+          value: 1,
+          label: '周一',
+        }, {
+          value: 2,
+          label: '周二',
+        }
+      ],
       showFormDialog: true,
       readonly: false,
       fullscreen: false,
