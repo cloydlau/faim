@@ -83,10 +83,50 @@ export default {
     elFormProps: {},
     retrieve: {},
     submit: {},
+    fullscreen: {
+      type: Boolean,
+      default: undefined
+    },
+    modal: {
+      type: Boolean,
+      default: undefined
+    },
+    modalAppendToBody: {
+      type: Boolean,
+      default: undefined
+    },
+    appendToBody: {
+      type: Boolean,
+      default: undefined
+    },
+    lockScroll: {
+      type: Boolean,
+      default: undefined
+    },
+    closeOnClickModal: {
+      type: Boolean,
+      default: undefined
+    },
+    closeOnPressEscape: {
+      type: Boolean,
+      default: undefined
+    },
+    showClose: {
+      type: Boolean,
+      default: undefined
+    },
+    center: {
+      type: Boolean,
+      default: undefined
+    },
+    destroyOnClose: {
+      type: Boolean,
+      default: undefined
+    },
     readonly: {
       type: Boolean,
       default: undefined
-    }
+    },
   },
   model: {
     prop: 'value',

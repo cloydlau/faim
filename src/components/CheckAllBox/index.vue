@@ -50,7 +50,19 @@ export default {
     disabled: {
       type: Boolean,
       default: undefined
-    }
+    },
+    border: {
+      type: Boolean,
+      default: undefined
+    },
+    checked: {
+      type: Boolean,
+      default: undefined
+    },
+    indeterminate: {
+      type: Boolean,
+      default: undefined
+    },
   },
   watch: {
     value: {

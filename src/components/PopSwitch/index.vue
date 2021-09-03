@@ -38,6 +38,14 @@ export default {
     elPopconfirmProps: {},
     elTooltipProps: {},
     elPopoverProps: {},
+    disabled: {
+      type: Boolean,
+      default: undefined
+    },
+    validateEvent: {
+      type: Boolean,
+      default: undefined
+    },
   },
   model: {
     prop: 'value',

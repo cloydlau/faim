@@ -115,7 +115,51 @@ export default {
     multiple: {
       type: Boolean,
       default: undefined
-    }
+    },
+    disabled: {
+      type: Boolean,
+      default: undefined
+    },
+    clearable: {
+      type: Boolean,
+      default: undefined
+    },
+    collapseTags: {
+      type: Boolean,
+      default: undefined
+    },
+    filterable: {
+      type: Boolean,
+      default: undefined
+    },
+    allowCreate: {
+      type: Boolean,
+      default: undefined
+    },
+    remote: {
+      type: Boolean,
+      default: undefined
+    },
+    loading: {
+      type: Boolean,
+      default: undefined
+    },
+    reserveKeyword: {
+      type: Boolean,
+      default: undefined
+    },
+    defaultFirstOption: {
+      type: Boolean,
+      default: undefined
+    },
+    popperAppendToBody: {
+      type: Boolean,
+      default: undefined
+    },
+    automaticDropdown: {
+      type: Boolean,
+      default: undefined
+    },
   },
   computed: {
     grouped () {

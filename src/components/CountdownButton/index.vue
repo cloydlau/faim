@@ -19,7 +19,31 @@ import globalConfig from './config'
 export default {
   name: 'KiCountdownButton',
   props: {
-    cd: {}
+    cd: {},
+    plain: {
+      type: Boolean,
+      default: undefined,
+    },
+    round: {
+      type: Boolean,
+      default: undefined,
+    },
+    circle: {
+      type: Boolean,
+      default: undefined,
+    },
+    loading: {
+      type: Boolean,
+      default: undefined,
+    },
+    disabled: {
+      type: Boolean,
+      default: undefined,
+    },
+    autofocus: {
+      type: Boolean,
+      default: undefined,
+    },
   },
   data () {
     return {
