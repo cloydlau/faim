@@ -43,4 +43,5 @@ export {
   PopSwitch,
   Select,
   Webcam,
+  Swal,
 }
