@@ -323,7 +323,7 @@ export default {
 
 <br>
 
-## DropDown / 下拉框
+## Select / 下拉框
 
 [el-select](https://element.eleme.cn/#/zh-CN/component/select) 封装
 
@@ -410,7 +410,7 @@ export default {
 否则，value将得到选中项对应的数组元素
 
 ::: warning  
-DropDown默认将props.key用作 `value-key`
+Select默认将props.key用作 `value-key`
 options为对象数组且未指定key值时，绑定值将是object类型，此时必须按el-select的要求提供 `value-key`
 :::
 
