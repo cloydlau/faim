@@ -71,6 +71,21 @@ export default {
 2. Swal是指令式调用的，不会书写在html中，所以不会与其它组件冲突。
    :::
 
+关于 `KiCheckAllBox` 和 `KiSelect` 组件中value和label的命名：
+
+- `value`: 这里要表达的含义就是选中目标的“值”，等同于原生 `<input type="checkbox">` 和 `<select>` 元素的value属性，不一定是其唯一标识，
+所以不应该使用id或者key，且key与Vue的特殊attribute冲突
+
+- `label`: html中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以label天生是用来表达选中目标的“展示名称”的，
+而name由于与原生input元素的name属性冲突故不考虑使用name
+
+> `Element` 本身没有做到命名的统一，`el-select` 中label表示选项的标签，
+> 但 `el-checkbox` 中label却表示的是选中状态的值
+
+::: tip  
+UI组件库的标杆 `Ant Design` 也是使用value与label命名
+:::
+
 <br>
 
 ## FormDialog / 表单对话框
@@ -344,7 +359,7 @@ export default {
 | v-model / value | 绑定值 | string, number, object | | |
 | label.sync | 绑定值的标签 | string, number | | |
 | index.sync | 绑定值的数组下标 | number | | |
-| options(.sync) | 选项 | array | | | props |
+| options(.sync) | 选项 | { label, value }[] | | |
 | props | 指定对象的属性 | object | | |
 | search | 搜索获取options，（`remote-method` 封装） | function | | |
 | searchImmediately | 是否立即执行搜索 | boolean | | true |
@@ -355,7 +370,7 @@ export default {
 
 ```
 {
-  key: undefined, // 指定options中key的属性名（options为对象数组时有效）
+  value: undefined, // 指定options中key的属性名（options为对象数组时有效）
   label: undefined, // 指定options中label的属性名（options为对象数组时有效）
   labelRight: undefined, // 指定options中右浮label的属性名（options为对象数组时有效）
   disabled: 'disabled', // 指定options中disabled的属性名（options为对象数组时有效）
@@ -371,7 +386,7 @@ export default {
 <template>
   <KiSelect
     :props="{
-      key: (value, index) => String(index),
+      value: (value, index) => String(index),
       label: ({ city, address }, index) => `${city} - ${address}`,
       labelRight: ({ x, y }, index) => `${x + y}`
     }"
@@ -405,13 +420,13 @@ export default {
 
 ### object类型
 
-如果options是对象数组且props.key是有效的对象键名时，value将得到选中项对应对象中指定key的值
+如果options是对象数组且props.value是有效的对象键名时，value将得到选中项对应对象中指定value的值
 
 否则，value将得到选中项对应的数组元素
 
 ::: warning  
-Select默认将props.key用作 `value-key`
-options为对象数组且未指定key值时，绑定值将是object类型，此时必须按el-select的要求提供 `value-key`
+Select默认将props.value用作 `value-key`
+options为对象数组且未指定value值时，绑定值将是object类型，此时必须按el-select的要求提供 `value-key`
 :::
 
 ### 搜索
@@ -479,7 +494,7 @@ export default {
 
 <KiSelect
   :props="{
-    key: 'code',
+    value: 'code',
     label: 'name',
     groupLabel: 'name',
     groupOptions: 'children',
@@ -715,7 +730,7 @@ Swal.confirm({
 | 参数 | 说明 | 类型 | 可选值 | 默认值 |
 | --- | --- | --- | --- | --- |
 | v-model / value | 绑定值 | string / number / boolean | | |
-| options | 选项 key即label value即value | object | | |
+| options | 选项 | { label, value }[] | | |
 | ...el-checkbox属性 |
 
 <br>
