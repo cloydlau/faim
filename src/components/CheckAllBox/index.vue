@@ -2,14 +2,12 @@
   <div>
     <el-checkbox
       v-model="allChecked"
-      :disabled="Disabled"
       v-bind="ElCheckAllBoxProps"
       @change="checkAllChange"
     >全选
     </el-checkbox>
     <el-checkbox-group
       v-model="value__"
-      :disabled="Disabled"
       v-bind="ElCheckboxGroupProps"
       @change="checkChange"
     >
@@ -47,22 +45,6 @@ export default {
     },
     elCheckboxGroupProps: {},
     props: {},
-    disabled: {
-      type: Boolean,
-      default: undefined
-    },
-    border: {
-      type: Boolean,
-      default: undefined
-    },
-    checked: {
-      type: Boolean,
-      default: undefined
-    },
-    indeterminate: {
-      type: Boolean,
-      default: undefined
-    },
   },
   watch: {
     value: {
@@ -83,15 +65,6 @@ export default {
     }
   },
   computed: {
-    Disabled () {
-      return getFinalProp([
-        this.disabled,
-        globalConfig.disabled,
-        false
-      ], {
-        type: 'boolean'
-      })
-    },
     ElCheckBoxProps () {
       return getFinalProp([
         this.$attrs, getGlobalAttrs(globalConfig, this.$props)

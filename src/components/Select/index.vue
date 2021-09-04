@@ -43,7 +43,7 @@
         @change='selectAll'
         :indeterminate="indeterminate"
         class="px-20px py-10px"
-        v-if="ElSelectProps.multiple"
+        v-if="isMultiple"
       >
         全选
       </el-checkbox>
@@ -103,63 +103,9 @@ export default {
       validator: value => ['null', 'array'].includes(typeOf(value)),
     },
     props: {},
-    ellipsis: {
-      type: Boolean,
-      default: undefined
-    },
+    ellipsis: {},
     search: {},
-    searchImmediately: {
-      type: Boolean,
-      default: undefined
-    },
-    multiple: {
-      type: Boolean,
-      default: undefined
-    },
-    disabled: {
-      type: Boolean,
-      default: undefined
-    },
-    clearable: {
-      type: Boolean,
-      default: undefined
-    },
-    collapseTags: {
-      type: Boolean,
-      default: undefined
-    },
-    filterable: {
-      type: Boolean,
-      default: undefined
-    },
-    allowCreate: {
-      type: Boolean,
-      default: undefined
-    },
-    remote: {
-      type: Boolean,
-      default: undefined
-    },
-    loading: {
-      type: Boolean,
-      default: undefined
-    },
-    reserveKeyword: {
-      type: Boolean,
-      default: undefined
-    },
-    defaultFirstOption: {
-      type: Boolean,
-      default: undefined
-    },
-    popperAppendToBody: {
-      type: Boolean,
-      default: undefined
-    },
-    automaticDropdown: {
-      type: Boolean,
-      default: undefined
-    },
+    searchImmediately: {},
   },
   computed: {
     grouped () {
@@ -212,7 +158,7 @@ export default {
     },
     Ellipsis () {
       const result = getFinalProp([
-        this.ellipsis,
+        [true, ''].includes(this.ellipsis) ? true : this.ellipsis,
         globalConfig.ellipsis,
         false
       ], {
@@ -277,12 +223,15 @@ export default {
     },
     SearchImmediately () {
       return getFinalProp([
-        this.searchImmediately,
+        [true, ''].includes(this.searchImmediately) ? true : this.searchImmediately,
         globalConfig.searchImmediately,
         true
       ], {
         type: 'boolean'
       })
+    },
+    isMultiple () {
+      return [true, ''].includes(this.ElSelectProps.multiple)
     }
   },
   data () {
@@ -292,7 +241,7 @@ export default {
       popper: null,
       //showKiSelect: false
       unwatchOptions: null,
-      loading: false,
+      loading: undefined,
       defaultSearchResult: null,
       options__: [],
       optionsSyncing: false,
@@ -314,7 +263,7 @@ export default {
     value__: {
       handler (n, o) {
         // 多选时，value会被el-select初始化为[]，此时不应执行清空逻辑
-        if (this.ElSelectProps.multiple) {
+        if (this.isMultiple) {
           if (!this.valueInitializedWhenMultiple) {
             return
           }
@@ -355,7 +304,7 @@ export default {
         this.optionsSyncing = true
         this.$emit('update:options', n)
       }
-    }
+    },
   },
   created () {
     if (this.SearchImmediately) {
@@ -440,7 +389,7 @@ export default {
       }
     },
     syncSelectAllBtn (value) {
-      if (this.ElSelectProps.multiple && !this.grouped) {
+      if (this.isMultiple && !this.grouped) {
         let valueLen = value ? value.length : 0
         const optionsLen = this.options__.length
         this.allSelected = valueLen > 0 && valueLen === optionsLen

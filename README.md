@@ -14,7 +14,7 @@ Vue.use(Kikimore)
 ```
 
 ```ts
-// 全局引入某个组件
+// 全局引入部分组件
 
 import 'kikimore/dist/style.css'
 import { FormDialog } from 'kikimore'
@@ -36,7 +36,7 @@ import 'kikimore/dist/style.css'
 import { PopButton } from 'kikimore'
 
 export default {
-  components: { KiPopButton: PopButton },
+  components: { [PopButton.name]: PopButton },
   data () {
     return {
       config: {
@@ -50,7 +50,7 @@ export default {
 
 <br>
 
-## 配置规则
+## Config Rules
 
 - 双向绑定参数（`v-model`, `*.sync`）仅支持局部配置
 - 其余参数均支持全局或局部配置
@@ -60,27 +60,9 @@ export default {
 - 局部配置高于全局配置
 - 对于对象类型的参数 局部配置会与全局配置进行合并 同名属性会被局部配置覆盖
 
-::: danger  
-Boolean类型的**底层组件prop**，可能是不支持下方的写法的：
-
-```html
-<!-- 这样写可能没有效果 -->
-<blog-post is-published/>
-```
-
-```html
-<!-- 这样比较保险 -->
-<blog-post :is-published="true"/>
-
-这是因为Kikimore的组件内部没有将底层组件的Boolean prop声明为Boolean类型，
-
-因为如果声明了，
-```
-:::
-
 <br>
 
-## 命名规则
+## Naming Rules
 
 所有组件命名均符合[Vue官方风格指南](https://v3.cn.vuejs.org/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81) 指导的 `组件名为多个单词`
 
@@ -187,7 +169,7 @@ submit没有返回值或者返回值不是Promise时 则submit执行完毕后默
 ```vue
 
 <template>
-  <FormDialog
+  <KiFormDialog
     :show.sync="form.show"
     ref="formDialog"
   >
@@ -204,7 +186,7 @@ submit没有返回值或者返回值不是Promise时 则submit执行完毕后默
         取 消
       </el-button>
     </div>
-  </FormDialog>
+  </KiFormDialog>
 </template>
 
 <script>
@@ -238,7 +220,7 @@ export default {
   <div>
     <el-button @click="open('id')">打开</el-button>
 
-    <FormDialog
+    <KiFormDialog
       :show.sync="form.show"
       v-model="form.data"
       :retrieve="retrieve"
@@ -249,7 +231,7 @@ export default {
           <el-input v-model="form.data.a"/>
         </el-form-item>
       </template>
-    </FormDialog>
+    </KiFormDialog>
   </div>
 </template>
 
@@ -387,7 +369,7 @@ export default {
 <!-- props中所有属性均支持以function形式定制返回值 -->
 
 <template>
-  <DropDown
+  <KiSelect
     :props="{
       key: (value, index) => String(index),
       label: ({ city, address }, index) => `${city} - ${address}`,
@@ -414,11 +396,11 @@ export default {
 ```html
 <!-- 使用默认插槽自定义选项内容 -->
 
-<DropDown>
+<KiSelect>
   <template v-slot="{option, index}">
     {{ option.name }}
   </template>
-</DropDown>
+</KiSelect>
 ```
 
 ### object类型
@@ -441,7 +423,7 @@ options为对象数组且未指定key值时，绑定值将是object类型，此�
 <!-- 异步获取options -->
 
 <template>
-  <DropDown
+  <KiSelect
     :search="keyword => new Promise((resolve, reject) => {
       $POST('xxx', {
         keyword
@@ -457,7 +439,7 @@ options为对象数组且未指定key值时，绑定值将是object类型，此�
 <!-- 双向绑定options -->
 
 <template>
-  <DropDown
+  <KiSelect
     :search="keyword => new Promise((resolve, reject) => {
       $POST('xxx', {
         keyword
@@ -484,7 +466,7 @@ export default {
 <!-- 同步获取options -->
 
 <template>
-  <DropDown
+  <KiSelect
     :search="keyword => ['1', '2', '3'].filter(v => v === keyword)"
   />
 </template>
@@ -495,7 +477,7 @@ export default {
 ```vue
 <!-- 示例 -->
 
-<DropDown
+<KiSelect
   :props="{
     key: 'code',
     label: 'name',
@@ -543,7 +525,7 @@ export default {
 
 <br>
 
-## WebCam / 摄像头拍照
+## Webcam / 摄像头拍照
 
 ### Props
 
@@ -572,9 +554,9 @@ export default {
 ```
 
 - 通过 `ref` 获取
-    - `this.$refs.webCam.base64`
-    - `this.$refs.webCam.blob`
-    - `this.$refs.webCam.file`
+    - `this.$refs.webcam.base64`
+    - `this.$refs.webcam.blob`
+    - `this.$refs.webcam.file`
 
 <br>
 
@@ -696,7 +678,7 @@ Swal.confirm({
 
 ```html
 
-<UnivariateTable title="标题">
+<KiUnivariateTable title="标题">
   <tr>
     <td>xxx</td>
     <td>xxx</td>
@@ -707,7 +689,7 @@ Swal.confirm({
     <td>xxx</td>
     <td>xxx</td>
   </tr>
-</UnivariateTable>
+</KiUnivariateTable>
 ```
 
 ### Props
@@ -722,7 +704,7 @@ Swal.confirm({
 
 ```html
 
-<CheckAllBox v-model="date" :options="{
+<KiCheckAllBox v-model="date" :options="{
   周一: 1,
   周二: 2
 }"/>
@@ -757,7 +739,7 @@ Swal.confirm({
 <template>
   <el-form-item label="手机号" prop="phone" ref="formItemPhone">
     <el-input v-model="form.phone">
-      <CountdownButton slot="append" @click="send"/>
+      <KiCountdownButton slot="append" @click="send"/>
     </el-input>
   </el-form-item>
 </template>
@@ -783,9 +765,9 @@ export default {
 ```html
 <!-- 作用域插槽示例 -->
 
-<CountdownButton>
+<KiCountdownButton>
   <template v-slot="{remaining}">
     {{ remaining ? `${remaining}s remaining` : `send verification code` }}
   </template>
-</CountdownButton>
+</KiCountdownButton>
 ```

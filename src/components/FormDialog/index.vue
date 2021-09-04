@@ -62,7 +62,7 @@
 
 <script>
 import globalConfig from './config'
-import { loadStyle, getFinalProp } from 'kayran'
+import { loadStyle, getFinalProp, getGlobalAttrs } from 'kayran'
 import highlightError from './highlightErrorViaOverlayScrollbars'
 import { cloneDeep } from 'lodash-es'
 //import Scrollbar from 'smooth-scrollbar'
@@ -83,50 +83,7 @@ export default {
     elFormProps: {},
     retrieve: {},
     submit: {},
-    fullscreen: {
-      type: Boolean,
-      default: undefined
-    },
-    modal: {
-      type: Boolean,
-      default: undefined
-    },
-    modalAppendToBody: {
-      type: Boolean,
-      default: undefined
-    },
-    appendToBody: {
-      type: Boolean,
-      default: undefined
-    },
-    lockScroll: {
-      type: Boolean,
-      default: undefined
-    },
-    closeOnClickModal: {
-      type: Boolean,
-      default: undefined
-    },
-    closeOnPressEscape: {
-      type: Boolean,
-      default: undefined
-    },
-    showClose: {
-      type: Boolean,
-      default: undefined
-    },
-    center: {
-      type: Boolean,
-      default: undefined
-    },
-    destroyOnClose: {
-      type: Boolean,
-      default: undefined
-    },
-    readonly: {
-      type: Boolean,
-      default: undefined
-    },
+    readonly: {},
   },
   model: {
     prop: 'value',
@@ -142,6 +99,7 @@ export default {
       scrollbar: null,
       // 作用是防止在关闭但关闭动画未结束时隐藏的确认按钮暴露出来
       showConfirmBtn: false,
+      beforeCloseIsPassed: false,
     }
   },
   computed: {
@@ -157,30 +115,29 @@ export default {
     },
     Readonly () {
       return getFinalProp([
-        this.readonly,
+        [true, ''].includes(this.readonly) ? true : this.readonly,
         globalConfig.readonly,
         false
       ], {
         type: 'boolean'
       })
     },
-    beforeClosePassed () {
-      return globalConfig.beforeClose ||
-        globalConfig['before-close'] ||
-        this.$attrs.beforeClose ||
-        this.$attrs['before-close']
-    },
     ElDialogProps () {
-      return {
-        closeOnClickModal: false,
-        ...!this.beforeClosePassed && {
-          beforeClose: () => {
-            this.$emit('update:show', false)
+      return getFinalProp([
+        this.$attrs,
+        getGlobalAttrs(globalConfig, this.$props),
+        userProp => {
+          this.beforeCloseIsPassed = Boolean(userProp.beforeClose)
+          return {
+            closeOnClickModal: false,
+            ...!this.beforeCloseIsPassed && {
+              beforeClose: () => {
+                this.$emit('update:show', false)
+              }
+            },
           }
-        },
-        ...globalConfig,
-        ...this.$attrs,
-      }
+        }
+      ])
     },
     ElFormProps () {
       return getFinalProp([
@@ -291,7 +248,7 @@ export default {
       this.showConfirmBtn = !this.Readonly
     },
     closeDialog () {
-      if (this.beforeClosePassed) {
+      if (this.beforeCloseIsPassed) {
         this.$refs.elDialog.beforeClose()
       } else {
         this.$emit('update:show', false)

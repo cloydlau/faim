@@ -32,30 +32,6 @@ export default {
     elPopconfirmProps: {},
     elTooltipProps: {},
     elPopoverProps: {},
-    plain: {
-      type: Boolean,
-      default: undefined,
-    },
-    round: {
-      type: Boolean,
-      default: undefined,
-    },
-    circle: {
-      type: Boolean,
-      default: undefined,
-    },
-    loading: {
-      type: Boolean,
-      default: undefined,
-    },
-    disabled: {
-      type: Boolean,
-      default: undefined,
-    },
-    autofocus: {
-      type: Boolean,
-      default: undefined,
-    },
   },
   computed: {
     ElButtonProps () {

@@ -31,21 +31,10 @@ export default {
   name: 'KiPopSwitch',
   props: {
     value: {},
-    textInside: {
-      type: Boolean,
-      default: undefined
-    },
+    textInside: {},
     elPopconfirmProps: {},
     elTooltipProps: {},
     elPopoverProps: {},
-    disabled: {
-      type: Boolean,
-      default: undefined
-    },
-    validateEvent: {
-      type: Boolean,
-      default: undefined
-    },
   },
   model: {
     prop: 'value',
@@ -54,7 +43,7 @@ export default {
   computed: {
     TextInside () {
       return getFinalProp([
-        this.textInside,
+        [true, ''].includes(this.textInside) ? true : this.textInside,
         globalConfig.textInside,
         true
       ], {

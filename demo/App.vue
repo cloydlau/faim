@@ -22,13 +22,13 @@
       @opened="console.log('opened')"
       @close="console.log('close')"
       @closed="console.log('closed')"
-      readonly
+      :readonly="readonly"
       :elFormProps="{
         'labelPosition':'top',
       }"
     >
       <template #el-form>
-        <el-form-item label="KiWebcam" prop="KiWebcam">
+        <el-form-item label="Webcam" prop="KiWebcam">
           <el-button @click="showKiWebcam=true">打开摄像头</el-button>
           <KiWebcam
             :show.sync="showKiWebcam"
@@ -85,7 +85,7 @@
           {{ form.CheckAllBox[2].value }}
         </el-form-item>
 
-        <el-form-item label="KiSelect" required prop="KiSelect[0].value">
+        <el-form-item label="Select" required prop="KiSelect[0].value">
           <div class="flex justify-between">
             <KiSelect
               v-model="form.KiSelect[0].value"

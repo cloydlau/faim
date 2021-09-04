@@ -1,7 +1,7 @@
 <template>
   <span @click.capture="$emit('click',$event)">
     <el-button
-      v-bind="$attrs"
+      v-bind="ElButtonProps"
       @click="send"
       :disabled="remaining>0"
     >
@@ -13,37 +13,13 @@
 </template>
 
 <script>
-import { getFinalProp } from 'kayran'
+import { getFinalProp, getGlobalAttrs } from 'kayran'
 import globalConfig from './config'
 
 export default {
   name: 'KiCountdownButton',
   props: {
     cd: {},
-    plain: {
-      type: Boolean,
-      default: undefined,
-    },
-    round: {
-      type: Boolean,
-      default: undefined,
-    },
-    circle: {
-      type: Boolean,
-      default: undefined,
-    },
-    loading: {
-      type: Boolean,
-      default: undefined,
-    },
-    disabled: {
-      type: Boolean,
-      default: undefined,
-    },
-    autofocus: {
-      type: Boolean,
-      default: undefined,
-    },
   },
   data () {
     return {
@@ -60,6 +36,12 @@ export default {
       ], {
         type: 'number'
       })
+    },
+    ElButtonProps () {
+      return getFinalProp([
+        this.$attrs,
+        getGlobalAttrs(globalConfig, this.$props)
+      ])
     }
   },
   methods: {
