@@ -112,7 +112,7 @@ export default {
     Submit () {
       return getFinalProp([this.submit, globalConfig.submit], {
         name: 'submit',
-        type: 'function'
+        type: ['function', 'object']
       })
     },
     Readonly () {

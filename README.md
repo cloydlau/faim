@@ -103,7 +103,7 @@ UI组件库的标杆 `Ant Design` 也是使用value与label命名
 | v-model* | 表单数据对象（即el-form的model） | any | | {} |
 | elFormProps | el-form属性 | object | el-form绝大部分参数 | {} |
 | retrieve | 获取数据 | function | | |
-| submit | 提交 | function | | |
+| submit | 提交 | function, object | | |
 | ...el-dialog属性 |
 
 **v-model**
