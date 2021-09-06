@@ -278,7 +278,6 @@ export default {
             this.remoteMethod()
           }
         }
-        this.onBlur()
       }
     },
     label: {
@@ -402,13 +401,6 @@ export default {
         this.$emit('update:label', this.$refs.elSelect.selectedLabel)
       })
       this.$emit('change', value)
-    },
-    onBlur () {
-      //this.initLabel()
-      // fix: 用于el表单中 且校验触发方式为blur时 没有生效
-      if (this.$parent?.$options?._componentTag === ('el-form-item') && this.$parent.rules?.trigger === 'blur') {
-        this.$parent.$emit('el.form.blur')
-      }
     },
     getValue (v, i) {
       let result = v

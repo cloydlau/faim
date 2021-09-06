@@ -1,4 +1,5 @@
 import './highlightError.scss'
+import elementIsVisible from './elementIsVisible'
 
 export default (
   el: string | Element | NodeList = '.el-form .el-form-item.is-error',
@@ -6,12 +7,6 @@ export default (
 ): void => {
   const scrollIntoView = element => {
     overlayScrollbar.scroll(element, 500)
-  }
-  const isVisible = element => {
-    const rect = element.getBoundingClientRect()
-    const yInView = rect.top < window.innerHeight && rect.bottom > 0
-    const xInView = rect.left < window.innerWidth && rect.right > 0
-    return yInView && xInView
   }
 
   const animateCSS = (el, animationName) =>
@@ -57,7 +52,7 @@ export default (
 
     // 视图滚动至校验失败的第一个表单项
     if (errFormItems[0]) {
-      if (isVisible(errFormItems[0])) {
+      if (elementIsVisible(errFormItems[0])) {
         animateCSS(errFormItems, 'animate__headShake').catch(e => {
           console.warn(e)
         })

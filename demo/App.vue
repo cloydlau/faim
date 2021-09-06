@@ -77,7 +77,7 @@
           {{ form.CheckAllBox[1].value }}
         </el-form-item>
 
-        <el-form-item label="CheckAllBox: 值类型数组" prop="CheckAllBox[2].value">
+        <el-form-item label="CheckAllBox: 值类型数组" prop="CheckAllBox[2].value" required>
           <KiCheckAllBox
             v-model="form.CheckAllBox[2].value"
             :options="form.CheckAllBox[2].options"
@@ -85,15 +85,29 @@
           {{ form.CheckAllBox[2].value }}
         </el-form-item>
 
-        <el-form-item label="Select" required prop="KiSelect[0].value">
+        <el-form-item
+          label="Select"
+          required
+          prop="KiSelect[0].value"
+        >
           <div class="flex justify-between">
+            <!--            <el-select
+                          v-model="form.KiSelect[0].value"
+                          clearable
+                        >
+                          <el-option
+                            v-for="item in form.KiSelect[0].options"
+                            :key="item"
+                            :label="item"
+                            :value="item"
+                          />
+                        </el-select>-->
             <KiSelect
               v-model="form.KiSelect[0].value"
               :label.sync="form.KiSelect[0].label"
               :index.sync="form.KiSelect[0].index"
               :options="form.KiSelect[0].options"
               placeholder="number[]"
-              multiple
             >
               <template v-slot="{option, index}">
                 option: {{ option }}
@@ -162,7 +176,7 @@
           />
         </el-form-item>
 
-        <el-form-item label="PopButton" prop="PopButton">
+        <el-form-item label="PopButton">
           <KiPopButton
             @click="console.log('[PopButton] click')"
             :elTooltipProps="{content:`<i class='el-icon-warning'/> 删除`}"
@@ -201,7 +215,12 @@
           </KiUnivariateTable>
         </el-form-item>
 
-        <el-form-item label="CountdownButton" prop="phone" ref="formItemPhone" required>
+        <el-form-item
+          label="CountdownButton"
+          prop="phone"
+          ref="formItemPhone"
+          required
+        >
           <el-input v-model="form.phone">
             <KiCountdownButton slot="append" @click="send" :cd="3">
               <!--<template v-slot="{remaining}">
