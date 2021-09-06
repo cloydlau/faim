@@ -106,13 +106,13 @@ export default {
     Retrieve () {
       return getFinalProp([this.retrieve, globalConfig.retrieve], {
         name: 'retrieve',
-        type: 'function'
+        type: ['function', 'asyncfunction']
       })
     },
     Submit () {
       return getFinalProp([this.submit, globalConfig.submit], {
         name: 'submit',
-        type: ['function', 'object']
+        type: ['function', 'asyncfunction', 'object']
       })
     },
     Readonly () {

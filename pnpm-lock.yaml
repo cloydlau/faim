@@ -22,7 +22,7 @@ specifiers:
 
 dependencies:
   camelcase-keys: 7.0.0
-  kayran: 0.4.1
+  kayran: 0.4.2
   lodash-es: 4.17.21
   overlayscrollbars: 1.13.1
   overlayscrollbars-vue: 0.2.2_e2a4ced77c20d28557bb0b577fb8fcf4
@@ -1767,7 +1767,7 @@ packages:
       vue: '2'
     dependencies:
       jsonrepair: 2.2.1
-      kayran: 0.4.1
+      kayran: 0.4.2
       lodash-es: 4.17.21
       svelte-jsoneditor: 0.2.8
       vue: 2.6.12
@@ -1813,8 +1813,8 @@ packages:
       qs: 6.10.1
     dev: false
 
-  /kayran/0.4.1:
-    resolution: {integrity: sha512-MJKruy7xs2zrJJ4HpTCpR/nXiwx8LTH5hcR8ElxrblNHB5tfQk4b8XSV7wFwjxNCb3yMf7haGk5x6CQYexRIrw==}
+  /kayran/0.4.2:
+    resolution: {integrity: sha512-JwKMwZxKUS1XWjVGV44cdOdhiiiciOklSZs0QgO7F/AZqcUAXb4W3hmYOaPDQbKln3xCtQXyyKXuWLv8utZWNw==}
     dependencies:
       change-case: 4.1.2
       lodash-es: 4.17.21

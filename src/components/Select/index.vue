@@ -220,7 +220,7 @@ export default {
     },
     Search () {
       return getFinalProp([this.search, globalConfig.search], {
-        type: 'function'
+        type: ['function', 'asyncfunction']
       })
     },
     SearchImmediately () {
