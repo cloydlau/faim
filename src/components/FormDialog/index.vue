@@ -184,11 +184,6 @@ export default {
         // 首次不执行
         else if (this.initiated) {
           this.closing = true
-          // 重置表单
-          this.$emit('change', cloneDeep(this.value__))
-          if (this.$scopedSlots['el-form']) {
-            this.$nextTick(this.$refs.elForm.clearValidate)
-          }
         }
         this.initiated = true
       }
@@ -244,6 +239,11 @@ export default {
       this.$refs.elForm.resetFields()
     },*/
     onClosed () {
+      // 重置表单
+      this.$emit('change', cloneDeep(this.value__))
+      if (this.$scopedSlots['el-form']) {
+        this.$refs.elForm.clearValidate()
+      }
       this.closing = false
       this.showConfirmBtn = !this.Readonly
     },
