@@ -47,6 +47,7 @@ export default {
         globalConfig.textInside,
         true
       ], {
+        name: 'textInside',
         type: 'boolean'
       })
     },
@@ -74,6 +75,7 @@ export default {
         this.elPopoverProps,
         globalConfig.elPopoverProps,
       ], {
+        name: 'elPopoverProps',
         type: 'object'
       })
       const { title, content } = result || {}
@@ -88,6 +90,7 @@ export default {
         this.elPopconfirmProps,
         globalConfig.elPopconfirmProps,
       ], {
+        name: 'elPopconfirmProps',
         type: 'object'
       })
       return {
@@ -101,6 +104,7 @@ export default {
         this.elTooltipProps,
         globalConfig.elTooltipProps,
       ], {
+        name: 'elTooltipProps',
         type: 'object'
       })
       return {

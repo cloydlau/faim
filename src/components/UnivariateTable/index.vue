@@ -25,6 +25,7 @@ export default {
       return getFinalProp([
         this.title, globalConfig.title
       ], {
+        name: 'title',
         type: 'string'
       })
     }

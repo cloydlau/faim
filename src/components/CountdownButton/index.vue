@@ -34,6 +34,7 @@ export default {
         globalConfig.cd,
         60
       ], {
+        name: 'cd',
         type: 'number'
       })
     },

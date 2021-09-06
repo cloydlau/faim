@@ -105,11 +105,13 @@ export default {
   computed: {
     Retrieve () {
       return getFinalProp([this.retrieve, globalConfig.retrieve], {
+        name: 'retrieve',
         type: 'function'
       })
     },
     Submit () {
       return getFinalProp([this.submit, globalConfig.submit], {
+        name: 'submit',
         type: 'function'
       })
     },
@@ -119,6 +121,7 @@ export default {
         globalConfig.readonly,
         false
       ], {
+        name: 'readonly',
         type: 'boolean'
       })
     },
@@ -148,6 +151,7 @@ export default {
           ref: 'elForm',
         }
       ], {
+        name: 'elFormProps',
         type: 'object'
       })
     }

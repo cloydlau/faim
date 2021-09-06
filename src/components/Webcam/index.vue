@@ -132,6 +132,7 @@ export default {
         globalConfig.count,
         1
       ], {
+        name: 'count',
         type: ['number', 'array']
       })
     },

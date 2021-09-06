@@ -162,6 +162,7 @@ export default {
         globalConfig.ellipsis,
         false
       ], {
+        name: 'ellipsis',
         type: 'boolean'
       })
       if (result) {
@@ -213,6 +214,7 @@ export default {
           groupDisabled: 'disabled',
         }
       ], {
+        name: 'props',
         type: 'object'
       })
     },
@@ -227,6 +229,7 @@ export default {
         globalConfig.searchImmediately,
         true
       ], {
+        name: 'searchImmediately',
         type: 'boolean'
       })
     },

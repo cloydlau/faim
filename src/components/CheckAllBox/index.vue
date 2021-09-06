@@ -76,6 +76,7 @@ export default {
       return getFinalProp([
         this.elCheckboxGroupProps, globalConfig.elCheckboxGroupProps
       ], {
+        name: 'elCheckboxGroupProps',
         type: 'object'
       })
     },
@@ -97,6 +98,7 @@ export default {
           disabled: 'disabled',
         }
       ], {
+        name: 'props',
         type: 'object'
       })
     }
