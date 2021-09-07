@@ -64,20 +64,21 @@ export default {
 
 ## Naming Rules
 
-所有组件命名均符合[Vue官方风格指南](https://v3.cn.vuejs.org/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81) 指导的 `组件名为多个单词`
+所有组件命名均符合[Vue官方风格指南](https://v3.cn.vuejs.org/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81)
+指导的 `组件名为多个单词`
 
 ::: tip 为什么Swal例外？
+
 1. Swal为 `SweetAlert` 官方示例的缩写，故沿用。
 2. Swal是指令式调用的，不会书写在html中，所以不会与其它组件冲突。
    :::
 
 关于 `KiCheckAllBox` 和 `KiSelect` 组件中value和label的命名：
 
-- `value`: 这里要表达的含义就是选中目标的“值”，等同于原生 `<input type="checkbox">` 和 `<select>` 元素的value属性，不一定是其唯一标识，
-所以不应该使用id或者key，且key与Vue的特殊attribute冲突
+- `value`: 这里要表达的含义就是选中目标的“值”，等同于原生 `<input type="checkbox">` 和 `<select>`
+  元素的value属性，不一定是其唯一标识，所以不应该使用id或者key，且key与Vue的特殊attribute冲突
 
-- `label`: html中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以label天生是用来表达选中目标的“展示名称”的，
-而name由于与原生input元素的name属性冲突故不考虑使用name
+- `label`: html中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以label天生是用来表达选中目标的“展示名称”的， 而name由于与原生input元素的name属性冲突故不考虑使用name
 
 > `Element` 本身没有做到命名的统一，`el-select` 中label表示选项的标签，
 > 但 `el-checkbox` 中label却表示的是选中状态的值
@@ -633,15 +634,24 @@ Object.defineProperty(Vue.prototype, '$Swal', {
 
 ### 强制confirm
 
+无取消按钮、点击弹框外部、按下esc键均无效果
+
 ```js
-// 强制状态下无法取消（无取消按钮、点击弹框外部、按下esc键均无效果）
-Swal.confirm('同意以继续', true)
+// 示例
+
+Swal.confirm({
+  titleText: '同意以继续',
+  showCancelButton: false,
+  allowOutsideClick: false,
+  allowEscapeKey: false,
+})
 ```
 
 ### 复杂confirm
 
 ```js
 // 简单表单 + 三个按钮 + 异步确认的例子
+
 Swal.confirm({
   input: 'text',
   inputAttributes: {

@@ -62,7 +62,7 @@ function error (cfg: string | object) {
   })
 }
 
-function confirm (config: any = {}, force: boolean = false) {
+function confirm (config: any = {}) {
   return new Promise((resolve, reject) => {
     let titleText
     if (typeof config === 'string') {
@@ -76,11 +76,7 @@ function confirm (config: any = {}, force: boolean = false) {
       titleText,
       confirmButtonText: '确定',
       cancelButtonText: '取消',
-      showCancelButton: !force,
-      ...force && {
-        allowOutsideClick: false,
-        allowEscapeKey: false,
-      },
+      showCancelButton: true,
       ...config,
     }).then((e: any) => {
       e.isConfirmed ? resolve(e) : reject(e)
