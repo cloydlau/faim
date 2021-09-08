@@ -104,7 +104,7 @@ UI组件库的标杆 `Ant Design` 也是使用value与label命名
 | v-model* | 表单数据对象（即el-form的model） | any | | {} |
 | elFormProps | el-form属性 | object | el-form绝大部分参数 | {} |
 | retrieve | 获取数据 | function | | |
-| submit | 提交 | function, object | | |
+| submit | 提交 | function | | |
 | ...el-dialog属性 |
 
 **v-model**
@@ -117,44 +117,63 @@ UI组件库的标杆 `Ant Design` 也是使用value与label命名
 
 获取数据前后、提交前后的生命周期都是暴露出来的 如下所示
 
-```js
-retrieve()
-{
-  // 表格打开之后、获取数据之前
-  return request().then(() => {
-    // 获取数据之后
-  })
+```vue
+
+<script>
+export default {
+  methods: {
+    retrieve () {
+      // 表格打开之后、获取数据之前
+      return request().then(() => {
+        // 获取数据之后
+      })
+    }
+  }
 }
+</script>
 ```
 
 <br>
 
 **submit**
 
-```js
-submit()
-{
-  // 提交之前
-  return this.$POST('').then(() => {
-    // 提交之后
-  })
+```vue
+
+<script>
+export default {
+  methods: {
+    submit () {
+      // 提交之前
+      return this.$POST('').then(() => {
+        // 提交之后
+      })
+    }
+  }
 }
+</script>
 ```
 
 提交拦截
 
-```
-submit()
-{
-  if (...) {
-    return this.$POST('')
-  } else {
-    this.$Swal.warning('校验失败')
-    return {
-      close: false
+```vue
+
+<script>
+export default {
+  methods: {
+    submit () {
+      const valid = true
+      if (valid) {
+        return this.$POST('')
+      } else {
+        this.$Swal.warning('校验失败')
+        return {
+          close: false
+        }
+      }
     }
   }
 }
+</script>
 ```
 
 <br>
@@ -584,7 +603,7 @@ export default {
 Swal只是对最常用的五种场景做了封装 支持只传字符串作为title
 :::
 
-```js
+```ts
 import { Swal } from 'kikimore'
 
 const { success, info, warning, error, confirm } = Swal
@@ -624,7 +643,7 @@ confirm('确认')
 
 ### 全局引入
 
-```js
+```ts
 import { Swal } from 'kikimore'
 
 Object.defineProperty(Vue.prototype, '$Swal', {
@@ -636,7 +655,7 @@ Object.defineProperty(Vue.prototype, '$Swal', {
 
 无取消按钮、点击弹框外部、按下esc键均无效果
 
-```js
+```ts
 // 示例
 
 Swal.confirm({
@@ -649,7 +668,7 @@ Swal.confirm({
 
 ### 复杂confirm
 
-```js
+```ts
 // 简单表单 + 三个按钮 + 异步确认的例子
 
 Swal.confirm({
