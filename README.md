@@ -2,9 +2,11 @@
 
 ## Installation
 
-![NPM](https://nodei.co/npm/kayran.png)
+![NPM](https://nodei.co/npm/kikimore.png)
 
-**Dependencies**：element-ui sweetalert2 vue
+```bash
+pnpm add kikimore vue element-ui sweetalert2
+```
 
 所有组件均支持全局或局部引入
 
