@@ -2,6 +2,10 @@
 
 ## Installation
 
+![NPM](https://nodei.co/npm/kayran.png)
+
+**Dependencies**：element-ui sweetalert2 vue
+
 所有组件均支持全局或局部引入
 
 ```ts

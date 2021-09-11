@@ -32,11 +32,11 @@
     "overlayscrollbars": "latest",
     "overlayscrollbars-vue": "latest",
     "pic-viewer": "latest",
-    "sweetalert2": "latest",
     "uuid": "latest"
   },
   "peerDependencies": {
     "element-ui": "latest",
+    "sweetalert2": "latest",
     "vue": "2"
   },
   "devDependencies": {
@@ -44,6 +44,7 @@
     "element-ui": "latest",
     "json-editor-vue": "latest",
     "sass": "latest",
+    "sweetalert2": "latest",
     "typescript": "latest",
     "vite": "latest",
     "vite-plugin-vue2": "latest",
