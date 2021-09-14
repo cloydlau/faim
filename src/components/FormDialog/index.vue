@@ -246,7 +246,9 @@ export default {
       // 重置表单
       this.$emit('change', cloneDeep(this.value__))
       if (this.$scopedSlots['el-form']) {
-        this.$refs.elForm.clearValidate()
+        setTimeout(() => {
+          this.$refs.elForm.clearValidate()
+        }, 0)
       }
       this.closing = false
       this.showConfirmBtn = !this.Readonly
