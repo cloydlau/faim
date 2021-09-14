@@ -31,11 +31,14 @@
       <slot name="footer">
         <div
           slot="footer"
-          class="z-1 absolute bottom-0 w-full box-border absolute py-10px px-15px text-right"
-          style="border-top: 1px solid #F7F7F7;background-color:white;"
+          class="z-1 absolute bottom-0 right-0 py-10px px-15px box-border absolute text-right"
+          style="backdrop-filter: blur(4px)"
         >
-          <el-button @click="closeDialog" :disabled="closing">
-            关 闭
+          <el-button
+            @click="closeDialog"
+            :disabled="closing"
+          >
+            取 消
           </el-button>
           <!--<el-button
             v-if="showConfirmBtn && $scopedSlots['el-form']"
@@ -360,14 +363,13 @@ export default {
 
 ::v-deep .el-dialog {
   min-width: 800px;
-  border: 2px solid #909399;
 
   &:not(.is-fullscreen) {
     margin: auto !important;
 
     .os-host {
       max-height: calc(100vh - 100px);
-      margin-bottom: 60px;
+      padding-bottom: 85px;
     }
   }
 
