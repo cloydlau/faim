@@ -358,6 +358,7 @@ export default {
 
 ::v-deep .el-dialog {
   min-width: 800px;
+  border: 2px solid #909399;
 
   &:not(.is-fullscreen) {
     margin: auto !important;
@@ -370,14 +371,15 @@ export default {
 
   .el-dialog__header {
     padding: 10px 15px;
-    border-bottom: 1px solid #F7F7F7;
+    display: flex;
+    justify-content: space-between;
 
     & > .el-dialog__headerbtn {
-      top: 13px;
-      right: 13px;
+      position: unset;
 
       & > .el-dialog__close {
-        font-size: 20px;
+        font-size: 24px;
+        font-weight: bolder;
       }
     }
   }
