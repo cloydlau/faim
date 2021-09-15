@@ -38,7 +38,7 @@
             @click="closeDialog"
             :disabled="closing"
           >
-            取 消
+            {{ showConfirmBtn ? '取 消' : '关 闭' }}
           </el-button>
           <!--<el-button
             v-if="showConfirmBtn && $scopedSlots['el-form']"
