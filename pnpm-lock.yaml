@@ -33,7 +33,7 @@ devDependencies:
   '@types/overlayscrollbars': 1.12.1
   element-ui: 2.15.6_vue@2.6.12
   json-editor-vue: 0.2.1_vue@2.6.12
-  sass: 1.40.0
+  sass: 1.41.0
   sweetalert2: 11.1.5
   typescript: 4.4.3
   vite: 2.5.7
@@ -2304,8 +2304,8 @@ packages:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
     dev: true
 
-  /sass/1.40.0:
-    resolution: {integrity: sha512-2nLdBmvcxhsYlH6VDsHMhEoc9iYvH7uIkgGJXXNPfTqwKpvXsZyYPMwNLntqoY4zxDKU8wSSqA7XLKHy1o8nVA==}
+  /sass/1.41.0:
+    resolution: {integrity: sha512-wb8nT60cjo9ZZMcHzG7TzdbFtCAmHEKWrH+zAdScPb4ZxL64WQBnGdbp5nwlenW5wJPcHva1JWmVa0h6iqA5eg==}
     engines: {node: '>=8.9.0'}
     hasBin: true
     dependencies:
@@ -2488,7 +2488,7 @@ packages:
       jsonrepair: 2.2.1
       lodash-es: 4.17.21
       natural-compare-lite: 1.4.0
-      sass: 1.40.0
+      sass: 1.41.0
       svelte-awesome: 2.3.2
       svelte-select: 4.4.1
       svelte-simple-modal: 1.0.3
