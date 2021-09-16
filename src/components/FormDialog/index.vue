@@ -131,8 +131,9 @@ export default {
     ElDialogProps () {
       return getFinalProp([
         this.$attrs,
-        getGlobalAttrs(globalConfig, this.$props),
-        userProp => {
+        getGlobalAttrs(globalConfig, this.$props)
+      ], {
+        dynamicDefault: userProp => {
           this.beforeCloseIsPassed = Boolean(userProp.beforeClose)
           return {
             closeOnClickModal: false,
@@ -143,7 +144,7 @@ export default {
             },
           }
         }
-      ])
+      })
     },
     ElFormProps () {
       return getFinalProp([

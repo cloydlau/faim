@@ -26,7 +26,6 @@
     "ri": "rd /s /q .\\node_modules && pnpm i"
   },
   "dependencies": {
-    "camelcase-keys": "latest",
     "kayran": "latest",
     "lodash-es": "latest",
     "overlayscrollbars": "latest",
