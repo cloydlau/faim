@@ -5,7 +5,7 @@
 ![NPM](https://nodei.co/npm/kikimore.png)
 
 ```bash
-pnpm add kikimore vue element-ui sweetalert2
+pnpm add kikimore vue@2 element-ui sweetalert2
 ```
 
 所有组件均支持全局或局部引入
@@ -754,10 +754,16 @@ Swal.confirm({
 
 ```html
 
-<KiCheckAllBox v-model="date" :options="{
-  周一: 1,
-  周二: 2
-}"/>
+<KiCheckAllBox v-model="date" :options="[
+  {
+    value: 1,
+    label: '周一',
+  },
+  {
+    value: 2,
+    label: '周二',
+  },
+]"/>
 ```
 
 ### Props
