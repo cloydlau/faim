@@ -149,7 +149,7 @@ export default {
     ElFormProps () {
       return getFinalProp([
         this.elFormProps, globalConfig.elFormProps, {
-          disabled: this.readonly,
+          disabled: this.readonly || this.submitting,
           labelWidth: 'auto',
           model: this.value,
           ref: 'elForm',
