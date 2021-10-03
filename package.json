@@ -31,7 +31,8 @@
     "overlayscrollbars": "latest",
     "overlayscrollbars-vue": "latest",
     "pic-viewer": "latest",
-    "uuid": "latest"
+    "uuid": "latest",
+    "viewerjs": "latest"
   },
   "peerDependencies": {
     "element-ui": "latest",
