@@ -35,15 +35,16 @@
     "viewerjs": "latest"
   },
   "peerDependencies": {
-    "element-ui": "latest",
-    "sweetalert2": "latest",
-    "vue": "2"
+    "element-ui": "2",
+    "sweetalert2": "11"
   },
   "devDependencies": {
     "@types/overlayscrollbars": "latest",
+    "@vue/composition-api": "latest",
     "element-ui": "latest",
     "json-editor-vue": "latest",
     "sass": "latest",
+    "svelte-jsoneditor": "latest",
     "sweetalert2": "latest",
     "typescript": "latest",
     "vite": "latest",
