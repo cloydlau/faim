@@ -133,7 +133,7 @@ export default {
         this.$attrs,
         getGlobalAttrs(globalConfig, this.$props)
       ], {
-        dynamicDefault: userProp => {
+        default: userProp => {
           this.beforeCloseIsPassed = Boolean(userProp.beforeClose)
           return {
             closeOnClickModal: false,
@@ -143,7 +143,8 @@ export default {
               }
             },
           }
-        }
+        },
+        defaultIsDynamic: true,
       })
     },
     ElFormProps () {
