@@ -216,6 +216,14 @@ export default {
   color: unset !important;
   cursor: initial !important;
 }
+.el-form .el-radio__input.is-disabled.is-checked .el-radio__inner {
+  border-color: #409EFF;
+  background: #409EFF;
+}
+.el-form .el-radio__input.is-disabled.is-checked .el-radio__inner::after {
+  cursor: unset;
+  background-color: #FFF;
+}
           `).then(disabledStyle => {
             this.disabledStyle = disabledStyle
           })
