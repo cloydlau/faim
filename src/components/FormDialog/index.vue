@@ -28,12 +28,14 @@
         </el-form>
       </overlay-scrollbars>
 
-      <slot name="footer">
-        <div
-          slot="footer"
-          class="z-1 absolute bottom-0 right-0 py-10px px-15px box-border absolute text-right"
-          style="backdrop-filter: blur(4px)"
-        >
+
+      <div
+        slot="footer"
+        class="z-1 absolute bottom-0 right-0 py-10px px-15px box-border absolute text-right"
+        style="backdrop-filter: blur(4px)"
+      >
+        <slot name="footer" v-if="$scopedSlots['footer']"/>
+        <template v-else>
           <el-button
             @click="closeDialog"
             :disabled="closing"
@@ -57,8 +59,8 @@
           >
             确 定
           </el-button>
-        </div>
-      </slot>
+        </template>
+      </div>
     </div>
   </el-dialog>
 </template>
