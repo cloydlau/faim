@@ -379,9 +379,8 @@ export default {
   &:not(.is-fullscreen) {
     margin: auto !important;
 
-    .os-host {
+    .el-dialog__body {
       max-height: calc(100vh - 100px);
-      padding-bottom: 85px;
     }
   }
 
@@ -401,11 +400,15 @@ export default {
   }
 
   .el-dialog__body {
-    max-height: calc(100vh - 100px);
+    max-height: calc(100vh - 45px);
     overflow-y: auto;
     padding: 0;
     display: flex;
     flex-direction: column;
+
+    .os-host {
+      padding-bottom: 85px;
+    }
 
     /* 去掉输入框的上下箭头 */
     input::-webkit-outer-spin-button,
