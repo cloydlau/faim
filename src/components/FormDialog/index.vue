@@ -15,7 +15,7 @@
       <overlay-scrollbars
         ref="overlayScrollbar"
         class="pl-40px pr-50px pb-30px pt-25px"
-        style="max-height:calc(100vh - 100px);"
+        style="max-height:calc(100vh - 45px);"
       >
         <slot/>
 
