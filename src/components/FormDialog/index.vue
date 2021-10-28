@@ -15,7 +15,7 @@
       <overlay-scrollbars
         ref="overlayScrollbar"
         class="pl-40px pr-50px pb-30px pt-25px"
-        style="max-height:calc(100vh - 100px);"
+        style="max-height:calc(100vh - 45px);"
       >
         <slot/>
 
@@ -28,12 +28,14 @@
         </el-form>
       </overlay-scrollbars>
 
-      <slot name="footer">
-        <div
-          slot="footer"
-          class="z-1 absolute bottom-0 right-0 py-10px px-15px box-border absolute text-right"
-          style="backdrop-filter: blur(4px)"
-        >
+
+      <div
+        slot="footer"
+        class="z-1 absolute bottom-0 right-0 py-10px px-15px box-border absolute text-right"
+        style="backdrop-filter: blur(4px)"
+      >
+        <slot name="footer" v-if="$scopedSlots['footer']"/>
+        <template v-else>
           <el-button
             @click="closeDialog"
             :disabled="closing"
@@ -57,8 +59,8 @@
           >
             确 定
           </el-button>
-        </div>
-      </slot>
+        </template>
+      </div>
     </div>
   </el-dialog>
 </template>
@@ -380,9 +382,8 @@ export default {
   &:not(.is-fullscreen) {
     margin: auto !important;
 
-    .os-host {
+    .el-dialog__body {
       max-height: calc(100vh - 100px);
-      padding-bottom: 85px;
     }
   }
 
@@ -402,11 +403,15 @@ export default {
   }
 
   .el-dialog__body {
-    max-height: calc(100vh - 100px);
+    max-height: calc(100vh - 45px);
     overflow-y: auto;
     padding: 0;
     display: flex;
     flex-direction: column;
+
+    .os-host {
+      padding-bottom: 85px;
+    }
 
     /* 去掉输入框的上下箭头 */
     input::-webkit-outer-spin-button,
