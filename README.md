@@ -203,23 +203,30 @@ submit没有返回值或者返回值不是Promise时 则submit执行完毕后默
 | el-form | el-form |
 | ...el-dialog插槽 |
 
-> el-form插槽不是必须的 你可以传任意slot进去 只是提交时不会帮你校验罢了 你可以自行校验
+#### el-form
 
-**footer slot 示例**
+- 非必须
+- 提交前自动校验
+- 校验失败后自动平滑滚动至错误的表单项
+
+高度定制化场景：比如你的对话框内有多个el-form，需要自定义校验，需要自定义平滑滚动的时机
+
+你可以调用 `this.$refs.kiFormDialog.highlightError()` 来平滑滚动至错误的表单项
+
+#### footer
 
 ```vue
-
 <template>
   <KiFormDialog
     :show.sync="form.show"
-    ref="formDialog"
+    ref="kiFormDialog"
   >
     <div slot="footer" class="text-right pt-50px">
       <el-button
         type="primary"
-        v-if="formDialog.readonly"
-        @click="formDialog.confirm"
-        :loading="formDialog.submitting"
+        v-if="kiFormDialog.readonly"
+        @click="kiFormDialog.confirm"
+        :loading="kiFormDialog.submitting"
       >
         提 交
       </el-button>
@@ -233,11 +240,11 @@ submit没有返回值或者返回值不是Promise时 则submit执行完毕后默
 <script>
 export default {
   mounted () {
-    this.formDialog = this.$refs.formDialog
+    this.kiFormDialog = this.$refs.kiFormDialog
   },
   data () {
     return {
-      formDialog: {}
+      kiFormDialog: {}
     }
   },
 }
