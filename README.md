@@ -513,6 +513,27 @@ export default {
 </template>
 ```
 
+```vue
+<!-- searchImmediately为true时，search将在created时被调用 -->
+<!-- 你可以通过如下方式来自定义search的调用时机 -->
+
+<template>
+  <KiSelect
+    :search="() => {}"
+    :searchImmediately="false"
+    ref="kiSelect"
+  />
+</template>
+
+<script>
+export default {
+  mounted () {
+    this.$refs.kiSelect.remoteMethod()
+  }
+}
+</script>
+```
+
 ### 分组
 
 ```vue
