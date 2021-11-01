@@ -304,12 +304,15 @@ export default {
           if (valid) {
             exec()
           } else {
-            highlightError(undefined, this.$refs.overlayScrollbar.osInstance())
+            this.highlightError()
           }
         })
       } else {
         exec()
       }
+    },
+    highlightError () {
+      highlightError(undefined, this.$refs.overlayScrollbar.osInstance())
     }
   }
 }
