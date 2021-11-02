@@ -23,7 +23,10 @@
     "build": "vite build",
     "serve": "vite preview",
     "clean": "rd /s /q .\\node_modules",
-    "ri": "rd /s /q .\\node_modules && pnpm i"
+    "ri": "rd /s /q .\\node_modules && pnpm i",
+    "release": "npm version patch && npm publish && git push",
+    "release:minor": "npm version minor && npm publish && git push",
+    "release:major": "npm version major && npm publish && git push"
   },
   "dependencies": {
     "kayran": "latest",
