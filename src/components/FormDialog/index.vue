@@ -10,12 +10,12 @@
       <!-- 接收slot -->
       <slot name="title"/>
     </template>
-    <div v-loading="loading" class="overflow-y-auto flex flex-col">
+    <div v-loading="loading" class="overflow-y-hidden flex flex-col">
       <!-- 传slot -->
-      <overlay-scrollbars
-        ref="overlayScrollbar"
-        class="pl-40px pr-50px pb-30px pt-25px"
+      <div
+        class="overflow-y-auto pl-40px pr-50px pb-85px mt-25px"
         style="max-height:calc(100vh - 45px);"
+        ref="overlayScrollbar"
       >
         <slot/>
 
@@ -26,12 +26,11 @@
         >
           <slot name="el-form"/>
         </el-form>
-      </overlay-scrollbars>
-
+      </div>
 
       <div
         slot="footer"
-        class="z-1 absolute bottom-0 right-0 py-10px px-15px box-border absolute text-right"
+        class="z-1 absolute bottom-0 right-0 py-10px pl-15px pr-7px mr-8px box-border absolute text-right"
         style="backdrop-filter: blur(4px)"
       >
         <slot name="footer" v-if="$scopedSlots['footer']"/>
@@ -72,11 +71,12 @@ import highlightError from './highlightErrorViaOverlayScrollbars'
 import { cloneDeep } from 'lodash-es'
 //import Scrollbar from 'smooth-scrollbar'
 import 'overlayscrollbars/css/OverlayScrollbars.min.css'
-import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
+import OverlayScrollbars from 'overlayscrollbars'
+// 在某项目中触发诡异bug：el-input输入时触发重绘，光标被强制后移
+//import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 
 export default {
   name: 'KiFormDialog',
-  components: { 'overlay-scrollbars': OverlayScrollbarsComponent },
   props: {
     show: {
       type: Boolean,
@@ -238,6 +238,9 @@ export default {
     }
   },
   mounted () {
+    this.$nextTick(() => {
+      OverlayScrollbars(this.$refs.overlayScrollbar, {})
+    })
     // 不兼容tinymce
     /*const unwatch = this.$watch('loading', n => {
       if (!n) {
@@ -408,10 +411,6 @@ export default {
     padding: 0;
     display: flex;
     flex-direction: column;
-
-    .os-host {
-      padding-bottom: 85px;
-    }
 
     /* 去掉输入框的上下箭头 */
     input::-webkit-outer-spin-button,

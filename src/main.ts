@@ -1,4 +1,4 @@
-import 'virtual:windi.css'
+import 'uno.css'
 
 import UnivariateTable from './components/UnivariateTable'
 import CountdownButton from './components/CountdownButton'
