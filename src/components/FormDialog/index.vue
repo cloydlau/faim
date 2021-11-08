@@ -30,7 +30,7 @@
 
       <div
         slot="footer"
-        class="z-1 absolute bottom-0 right-0 py-10px pl-15px pr-7px mr-8px box-border absolute text-right"
+        class="z-1 absolute bottom-0 right-0 py-10px px-15px box-border absolute text-right"
         style="backdrop-filter: blur(4px)"
       >
         <slot name="footer" v-if="$scopedSlots['footer']"/>
@@ -411,6 +411,10 @@ export default {
     padding: 0;
     display: flex;
     flex-direction: column;
+
+    .os-scrollbar {
+      z-index: 2;
+    }
 
     /* 去掉输入框的上下箭头 */
     input::-webkit-outer-spin-button,
