@@ -105,6 +105,7 @@ export default {
       // 作用是防止在关闭但关闭动画未结束时隐藏的确认按钮暴露出来
       showConfirmBtn: false,
       beforeCloseIsPassed: false,
+      osInstance: null,
     }
   },
   computed: {
@@ -239,7 +240,7 @@ export default {
   },
   mounted () {
     this.$nextTick(() => {
-      OverlayScrollbars(this.$refs.overlayScrollbar, {})
+      this.osInstance = OverlayScrollbars(this.$refs.overlayScrollbar, {})
     })
     // 不兼容tinymce
     /*const unwatch = this.$watch('loading', n => {
@@ -315,7 +316,7 @@ export default {
       }
     },
     highlightError () {
-      highlightError(undefined, this.$refs.overlayScrollbar.osInstance())
+      highlightError(undefined, this.osInstance)
     }
   }
 }
