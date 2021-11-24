@@ -13,7 +13,7 @@
     <div v-loading="loading" class="overflow-y-hidden flex flex-col">
       <!-- 传slot -->
       <div
-        class="overflow-y-auto pl-40px pr-50px pb-85px mt-25px"
+        class="overflow-y-auto pl-40px pr-50px pb-85px pt-25px"
         style="max-height:calc(100vh - 45px);"
         ref="overlayScrollbar"
       >
