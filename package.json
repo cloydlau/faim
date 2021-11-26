@@ -1,6 +1,6 @@
 {
   "name": "kikimore",
-  "version": "0.4.17",
+  "version": "0.4.18",
   "description": "趁手小型组件库",
   "author": "cloydlau",
   "license": "MIT",
@@ -31,7 +31,6 @@
   "dependencies": {
     "kayran": "latest",
     "lodash-es": "latest",
-    "overlayscrollbars": "latest",
     "pic-viewer": "latest",
     "uuid": "latest",
     "viewerjs": "latest"

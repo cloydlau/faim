@@ -28,63 +28,6 @@
       }"
     >
       <template #el-form>
-        <el-form-item label="Webcam" prop="KiWebcam">
-          <el-button @click="showKiWebcam=true">打开摄像头</el-button>
-          <KiWebcam
-            :show.sync="showKiWebcam"
-            ref="webCam"
-          />
-          <PicViewer :value="$refs.webCam&&$refs.webCam.base64"/>
-        </el-form-item>
-
-        <el-form-item label="Swal">
-          <el-button-group>
-            <el-button @click="$Swal.success().then(() => {console.log('success')})">成功</el-button>
-            <el-button @click="$Swal.info('info').then(() => {console.log('info')})">提示</el-button>
-            <el-button @click="$Swal.warning('warning').then(() => {console.log('warning')})">警告</el-button>
-            <el-button @click="$Swal.error('error').then(() => {console.log('error')})">错误</el-button>
-            <el-button
-              @click="$Swal.confirm('confirm').then(() => {console.log('确认')}).catch(() => {console.log('取消')})">
-              确认
-            </el-button>
-            <el-button
-              @click="asyncConfirmation">
-              异步确认
-            </el-button>
-          </el-button-group>
-        </el-form-item>
-
-        <el-form-item label="CheckAllBox: 对象数组，值为对象的某个属性" prop="CheckAllBox[0].value">
-          <KiCheckAllBox
-            v-model="form.CheckAllBox[0].value"
-            :options="form.CheckAllBox[0].options"
-            :props="{
-              value: 'id',
-              label: 'name'
-            }"
-          />
-          {{ form.CheckAllBox[0].value }}
-        </el-form-item>
-
-        <el-form-item label="CheckAllBox: 对象数组，值为对象本身" prop="CheckAllBox[1].value">
-          <KiCheckAllBox
-            v-model="form.CheckAllBox[1].value"
-            :options="form.CheckAllBox[1].options"
-            :props="{
-              label: 'name'
-            }"
-          />
-          {{ form.CheckAllBox[1].value }}
-        </el-form-item>
-
-        <el-form-item label="CheckAllBox: 值类型数组" prop="CheckAllBox[2].value" required>
-          <KiCheckAllBox
-            v-model="form.CheckAllBox[2].value"
-            :options="form.CheckAllBox[2].options"
-          />
-          {{ form.CheckAllBox[2].value }}
-        </el-form-item>
-
         <el-form-item
           label="Select"
           required
@@ -162,6 +105,63 @@
             <div>{{ form.KiSelect[1].index }}</div>
             <div>{{ form.KiSelect[2].index }}</div>
           </div>
+        </el-form-item>
+
+        <el-form-item label="Webcam" prop="KiWebcam">
+          <el-button @click="showKiWebcam=true">打开摄像头</el-button>
+          <KiWebcam
+            :show.sync="showKiWebcam"
+            ref="webCam"
+          />
+          <PicViewer :value="$refs.webCam&&$refs.webCam.base64"/>
+        </el-form-item>
+
+        <el-form-item label="Swal">
+          <el-button-group>
+            <el-button @click="$Swal.success().then(() => {console.log('success')})">成功</el-button>
+            <el-button @click="$Swal.info('info').then(() => {console.log('info')})">提示</el-button>
+            <el-button @click="$Swal.warning('warning').then(() => {console.log('warning')})">警告</el-button>
+            <el-button @click="$Swal.error('error').then(() => {console.log('error')})">错误</el-button>
+            <el-button
+              @click="$Swal.confirm('confirm').then(() => {console.log('确认')}).catch(() => {console.log('取消')})">
+              确认
+            </el-button>
+            <el-button
+              @click="asyncConfirmation">
+              异步确认
+            </el-button>
+          </el-button-group>
+        </el-form-item>
+
+        <el-form-item label="CheckAllBox: 对象数组，值为对象的某个属性" prop="CheckAllBox[0].value">
+          <KiCheckAllBox
+            v-model="form.CheckAllBox[0].value"
+            :options="form.CheckAllBox[0].options"
+            :props="{
+              value: 'id',
+              label: 'name'
+            }"
+          />
+          {{ form.CheckAllBox[0].value }}
+        </el-form-item>
+
+        <el-form-item label="CheckAllBox: 对象数组，值为对象本身" prop="CheckAllBox[1].value">
+          <KiCheckAllBox
+            v-model="form.CheckAllBox[1].value"
+            :options="form.CheckAllBox[1].options"
+            :props="{
+              label: 'name'
+            }"
+          />
+          {{ form.CheckAllBox[1].value }}
+        </el-form-item>
+
+        <el-form-item label="CheckAllBox: 值类型数组" prop="CheckAllBox[2].value" required>
+          <KiCheckAllBox
+            v-model="form.CheckAllBox[2].value"
+            :options="form.CheckAllBox[2].options"
+          />
+          {{ form.CheckAllBox[2].value }}
         </el-form-item>
 
         <el-form-item label="PopSwitch" prop="PopSwitch">

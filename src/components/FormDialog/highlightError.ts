@@ -1,7 +1,7 @@
 import './highlightError.scss'
 import elementIsVisible from './elementIsVisible'
 
-export default (selectors: string | Element | NodeList = '.el-form .el-form-item.is-error'): void => {
+export default (selectors: string | Element | NodeList = '.el-form .el-form-item.is-error', container = window,): void => {
   const scrollIntoView = element => {
     element.scrollIntoView({
       behavior: 'smooth',
@@ -71,8 +71,7 @@ export default (selectors: string | Element | NodeList = '.el-form .el-form-item
           }, 100)
         }
 
-        addEventListener('scroll', shake)
-
+        container.addEventListener('scroll', shake)
         scrollIntoView(errFormItems[0])
       }
     }

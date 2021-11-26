@@ -30,7 +30,7 @@
 
       <div
         slot="footer"
-        class="z-1 absolute bottom-0 right-0 py-10px px-15px box-border absolute text-right"
+        class="z-1 absolute bottom-0 right-0 py-10px pl-15px pr-9px mr-6px box-border absolute text-right"
         style="backdrop-filter: blur(4px)"
       >
         <slot name="footer" v-if="$scopedSlots['footer']"/>
@@ -67,11 +67,11 @@
 <script>
 import globalConfig from './config'
 import { loadStyle, getFinalProp, getGlobalAttrs } from 'kayran'
-import highlightError from './highlightErrorViaOverlayScrollbars'
+import highlightError from './highlightError'
 import { cloneDeep } from 'lodash-es'
 //import Scrollbar from 'smooth-scrollbar'
-import 'overlayscrollbars/css/OverlayScrollbars.min.css'
-import OverlayScrollbars from 'overlayscrollbars'
+//import 'overlayscrollbars/css/OverlayScrollbars.min.css'
+//import OverlayScrollbars from 'overlayscrollbars'
 // 在某项目中触发诡异bug：el-input输入时触发重绘，光标被强制后移
 //import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 
@@ -105,7 +105,8 @@ export default {
       // 作用是防止在关闭但关闭动画未结束时隐藏的确认按钮暴露出来
       showConfirmBtn: false,
       beforeCloseIsPassed: false,
-      osInstance: null,
+      //osInstance: null,
+      labelWidth: undefined
     }
   },
   computed: {
@@ -154,7 +155,7 @@ export default {
       return getFinalProp([
         this.elFormProps, globalConfig.elFormProps, {
           disabled: this.readonly || this.submitting,
-          labelWidth: 'auto',
+          labelWidth: this.labelWidth,
           model: this.value,
           ref: 'elForm',
         }
@@ -192,6 +193,11 @@ export default {
           } else {
             this.loading = false
           }
+          this.computeLabelWidth()
+          // 不兼容 tinymce
+          /*this.$nextTick(() => {
+            this.osInstance = OverlayScrollbars(this.$refs.overlayScrollbar, {})
+          })*/
         }
         // 首次不执行
         else if (this.initiated) {
@@ -239,9 +245,6 @@ export default {
     }
   },
   mounted () {
-    this.$nextTick(() => {
-      this.osInstance = OverlayScrollbars(this.$refs.overlayScrollbar, {})
-    })
     // 不兼容tinymce
     /*const unwatch = this.$watch('loading', n => {
       if (!n) {
@@ -257,7 +260,27 @@ export default {
       immediate: true
     })*/
   },
+  updated () {
+    this.computeLabelWidth()
+  },
   methods: {
+    /*
+      fix: https://github.com/ElemeFE/element/issues?q=label+width+auto
+    */
+    computeLabelWidth () {
+      this.$nextTick(() => {
+        let { labelWidth, labelPosition } = this.ElFormProps
+        if (labelPosition !== 'top' && (labelWidth === undefined || labelWidth === 'auto')) {
+          let labelWidthVal = 0
+          this.$refs.elForm?.$el?.querySelectorAll('.el-form-item__label').forEach(item => {
+            const width = window.getComputedStyle(item).width
+            const computedWidth = Math.ceil(parseFloat(width))
+            labelWidthVal = computedWidth > labelWidthVal ? computedWidth : labelWidthVal
+          })
+          this.labelWidth = labelWidthVal ? `${labelWidthVal}px` : 'auto'
+        }
+      })
+    },
     /*reset () {
       this.$refs.elForm.resetFields()
     },*/
@@ -308,16 +331,14 @@ export default {
           if (valid) {
             exec()
           } else {
-            this.highlightError()
+            this.highlightError(undefined, this.$refs.overlayScrollbar)
           }
         })
       } else {
         exec()
       }
     },
-    highlightError () {
-      highlightError(undefined, this.osInstance)
-    }
+    highlightError,
   }
 }
 </script>
@@ -413,9 +434,9 @@ export default {
     display: flex;
     flex-direction: column;
 
-    .os-scrollbar {
+    /*.os-scrollbar {
       z-index: 2;
-    }
+    }*/
 
     /* 去掉输入框的上下箭头 */
     input::-webkit-outer-spin-button,
@@ -446,6 +467,21 @@ export default {
 
     .el-form-item:last-child {
       margin-bottom: 0;
+    }
+
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      border-radius: 10px;
+      background-color: rgba(0, 0, 0, .4);
+    }
+
+    ::-webkit-scrollbar-track {
+      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+      background: #ededed;
+      border-radius: 10px;
     }
   }
 }
