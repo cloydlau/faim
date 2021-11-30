@@ -96,7 +96,7 @@ export default {
   },
   data () {
     return {
-      loading: true,
+      loading: false,
       submitting: false,
       closing: false,
       initiated: false,
@@ -181,17 +181,14 @@ export default {
           if (this.Retrieve) {
             const result = this.Retrieve()
             if (result instanceof Promise) {
+              this.loading = true
               result.catch(e => {
                 console.error(import.meta.env.VITE_APP_CONSOLE_PREFIX, e)
                 this.closeDialog()
               }).finally(e => {
                 this.loading = false
               })
-            } else {
-              this.loading = false
             }
-          } else {
-            this.loading = false
           }
           this.computeLabelWidth()
           // 不兼容 tinymce
