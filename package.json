@@ -24,9 +24,7 @@
     "serve": "vite preview",
     "clean": "rd /s /q .\\node_modules",
     "ri": "rd /s /q .\\node_modules && pnpm i",
-    "release": "npm version patch -m 'v%s' && npm publish && git push --tags",
-    "release:minor": "npm version minor -m 'v%s' && npm publish && git push --tags",
-    "release:major": "npm version major -m 'v%s' && npm publish && git push --tags"
+    "release": "node scripts/release.js"
   },
   "dependencies": {
     "kayran": "latest",
@@ -40,7 +38,6 @@
     "sweetalert2": "11"
   },
   "devDependencies": {
-    "@types/overlayscrollbars": "latest",
     "@vue/composition-api": "latest",
     "element-ui": "latest",
     "json-editor-vue": "latest",

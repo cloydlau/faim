@@ -21,6 +21,7 @@
 
         <el-form
           v-if="$scopedSlots['el-form']"
+          :labelWidth="labelWidth"
           v-bind="ElFormProps"
           v-on="$listeners"
         >
@@ -155,7 +156,6 @@ export default {
       return getFinalProp([
         this.elFormProps, globalConfig.elFormProps, {
           disabled: this.readonly || this.submitting,
-          labelWidth: this.labelWidth,
           model: this.value,
           ref: 'elForm',
         }
@@ -163,7 +163,7 @@ export default {
         name: 'elFormProps',
         type: 'object'
       })
-    }
+    },
   },
   created () {
     this.value__ = cloneDeep(this.value)
@@ -241,9 +241,9 @@ export default {
       }
     }
   },
-  mounted () {
+  /*mounted () {
     // 不兼容tinymce
-    /*const unwatch = this.$watch('loading', n => {
+    const unwatch = this.$watch('loading', n => {
       if (!n) {
         this.$nextTick(() => {
           /!*this.scrollbar = Scrollbar.init(this.$refs.scrollbar, {
@@ -255,8 +255,8 @@ export default {
       }
     }, {
       immediate: true
-    })*/
-  },
+    })
+  },*/
   updated () {
     this.computeLabelWidth()
   },
@@ -265,18 +265,20 @@ export default {
       fix: https://github.com/ElemeFE/element/issues?q=label+width+auto
     */
     computeLabelWidth () {
-      this.$nextTick(() => {
-        let { labelWidth, labelPosition } = this.ElFormProps
-        if (labelPosition !== 'top' && (labelWidth === undefined || labelWidth === 'auto')) {
-          let labelWidthVal = 0
+      const { labelWidth, labelPosition } = this.ElFormProps
+      // 如果 label 位置不为顶部 且 用户没有指定 label 宽度，则计算 label 宽度
+      if (labelPosition !== 'top' && [undefined, 'auto'].includes(labelWidth)) {
+        this.$nextTick(() => {
+          let max = 0
           this.$refs.elForm?.$el?.querySelectorAll('.el-form-item__label').forEach(item => {
-            const width = window.getComputedStyle(item).width
-            const computedWidth = Math.ceil(parseFloat(width))
-            labelWidthVal = computedWidth > labelWidthVal ? computedWidth : labelWidthVal
+            const computedWidth = Math.ceil(parseFloat(window.getComputedStyle(item).width))
+            if (computedWidth > max) {
+              max = computedWidth
+            }
           })
-          this.labelWidth = labelWidthVal ? `${labelWidthVal}px` : 'auto'
-        }
-      })
+          this.labelWidth = max ? `${max}px` : 'auto'
+        })
+      }
     },
     /*reset () {
       this.$refs.elForm.resetFields()
