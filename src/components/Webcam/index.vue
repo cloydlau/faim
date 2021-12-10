@@ -117,7 +117,7 @@ export default {
               this.$emit('update:show', false)
               error({
                 titleText: '未检测到摄像头',
-                text: '请确保摄像头已正确连接 win10系统可在【相机】应用查看',
+                text: '请确保摄像头已正确连接，win10系统可在【相机】应用查看',
               })
             }
           })
@@ -163,9 +163,9 @@ export default {
         titleText: '调用摄像头失败',
         html: `
           <ol class="list-disc">
-            <li>请确保摄像头已正确连接 win10系统可在【相机】应用查看</li>
+            <li>请确保摄像头已正确连接，win10系统可在【相机】应用查看</li>
             <li>建议使用最新版现代浏览器如 Chrome / Edge / Firefox</li>
-            <li>浏览器提示申请使用摄像头时 请点击【允许】</li>
+            <li>浏览器提示申请使用摄像头时，请点击【允许】</li>
           </ol>
         `,
       })

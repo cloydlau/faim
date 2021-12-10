@@ -97,7 +97,7 @@ export default {
   },
   data () {
     return {
-      loading: false,
+      loading: true,
       submitting: false,
       closing: false,
       initiated: false,
@@ -172,16 +172,16 @@ export default {
     show: {
       // 针对默认打开的情况 默认打开时 依然执行retrieve
       immediate: true,
-      async handler (newVal) {
-        if (newVal) {
+      handler (n) {
+        if (n) {
           /*if (this.$scopedSlots['el-form'] && !this.labelWidthSettled) {
             this.labelWidth = await this.getLabelWidth()
             this.labelWidthSettled = true
           }*/
+          this.loading = true
           if (this.Retrieve) {
             const result = this.Retrieve()
             if (result instanceof Promise) {
-              this.loading = true
               result.catch(e => {
                 console.error(import.meta.env.VITE_APP_CONSOLE_PREFIX, e)
                 this.closeDialog()
@@ -189,6 +189,8 @@ export default {
                 this.loading = false
               })
             }
+          } else {
+            this.loading = false
           }
           this.computeLabelWidth()
           // 不兼容 tinymce
