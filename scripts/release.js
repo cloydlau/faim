@@ -125,9 +125,10 @@ async function main () {
 }
 
 async function publishPackage (pkgName, version, runIfNotDry) {
-  const releaseTag = semver.prerelease(version)[0] || null
+  const releaseTag = semver.prerelease(version) && semver.prerelease(version)[0] || null
 
   step(`Publishing ${pkgName}...`)
+  await runIfNotDry('yrm', ['use npm'])
   try {
     await runIfNotDry(
       // note: use of yarn is intentional here as we rely on its publishing
@@ -146,6 +147,7 @@ async function publishPackage (pkgName, version, runIfNotDry) {
         stdio: 'pipe'
       }
     )
+    //await runIfNotDry('npm', ['publish'])
     console.log(chalk.green(`Successfully published ${pkgName}@${version}`))
   } catch (e) {
     if (e.stderr.match(/previously published/)) {
@@ -154,6 +156,7 @@ async function publishPackage (pkgName, version, runIfNotDry) {
       throw e
     }
   }
+  await runIfNotDry('yrm', ['use tb'])
 }
 
 main().catch(err => {

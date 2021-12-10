@@ -271,6 +271,8 @@ export default {
         this.$nextTick(() => {
           let max = 0
           this.$refs.elForm?.$el?.querySelectorAll('.el-form-item__label').forEach(item => {
+            // updated 时，避免受之前设置的宽度影响
+            item.style.width = 'unset'
             const computedWidth = Math.ceil(parseFloat(window.getComputedStyle(item).width))
             if (computedWidth > max) {
               max = computedWidth
