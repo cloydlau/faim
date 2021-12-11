@@ -98,30 +98,31 @@ UI组件库的标杆 `Ant Design` 也是使用value与label命名
 ## FormDialog / 表单对话框
 
 [el-dialog](https://element.eleme.cn/#/zh-CN/component/dialog)
-与 [el-form](https://element.eleme.cn/#/zh-CN/component/form) 的结合 用于表单的展示、填写和提交
+与 [el-form](https://element.eleme.cn/#/zh-CN/component/form) 的结合，用于表单的展示、填写和提交
 
 ### Props
 
-| 参数 | 说明 | 类型 | 可选值 | 默认值 |
-| --- | --- | --- | --- | --- |
-| show.sync | 是否开启 | boolean | | false |
-| title | 对话框标题 | string | | |
-| readonly | 是否只读 | boolean | | false |
-| v-model* | 表单数据对象（即el-form的model） | any | | {} |
-| elFormProps | el-form属性 | object | el-form绝大部分参数 | {} |
-| retrieve | 获取数据 | function | | |
-| submit | 提交 | function | | |
-| ...el-dialog属性 |
+| 参数             | 说明                        | 类型      | 可选值           | 默认值                         |
+|----------------|---------------------------|---------|---------------|-----------------------------|
+| show.sync      | 是否开启                      | boolean |               | false                       |
+| title          | 对话框标题                     | string  |               |                             |
+| readonly       | 是否只读                      | boolean |               | false                       |
+| v-model        | 表单数据对象（即 el-form 的model）  | any     |               | {}                          |
+| elFormProps    | el-form 属性                | object  | el-form 绝大部分参数 | {}                          |
+| retrieve       | 获取数据                      | function |               |                             |
+| loading        | 加载状态                      | boolean |               | 默认由 retrieve 的 Promise 状态决定 |
+| submit         | 提交                        | function |               |                             |
+| ...el-dialog 属性 |
 
 **v-model**
 
-即使不使用el-form插槽 也建议传入 表单关闭时会将数据对象重置为初始状态（以避免二次打开时显示上一次的value）
+即使不使用 el-form 插槽，也建议传入，表单关闭时会将数据对象重置为初始状态（以避免二次打开时显示上一次的 value）
 
 <br>
 
 **retrieve**
 
-获取数据前后、提交前后的生命周期都是暴露出来的 如下所示
+获取数据前后、提交前后的生命周期都是暴露出来的，如下所示
 
 ```vue
 
@@ -185,22 +186,22 @@ export default {
 <br>
 
 ::: tip  
-submit的返回值如果是一个Promise 则then时默认关闭弹框 而reject时不关闭
+submit 的返回值如果是一个 Promise，则 then 时默认关闭弹框，而 reject 时不关闭
 
-注意：如果catch了reject 则reject时也会关闭弹框 这是因为组件内部已无法获知被你捕获的reject
+注意：如果 catch 了 reject，则 reject 时也会关闭弹框，这是因为组件内部已无法获知被你捕获的 reject
 
-你可以在最后一个then/catch中```return { close: false }```来控制是否关闭弹框
+你可以在最后一个 then / catch 中 `return { close: false }` 来控制是否关闭弹框
 
-submit没有返回值或者返回值不是Promise时 则submit执行完毕后默认关闭弹框 你可以```return { close: false }```来控制该行为
+submit 没有返回值或者返回值不是 Promise 时，则 submit 执行完毕后默认关闭弹框，你可以 `return { close: false }` 来控制该行为
 :::
 
 <br>
 
 ### Slots
 
-| name | description |
-| --- | --- |
-| el-form | el-form |
+| name           | description |
+|----------------|---------|
+| el-form        | el-form |
 | ...el-dialog插槽 |
 
 #### el-form
@@ -209,7 +210,7 @@ submit没有返回值或者返回值不是Promise时 则submit执行完毕后默
 - 提交前自动校验
 - 校验失败后自动平滑滚动至错误的表单项
 
-高度定制化场景：比如你的对话框内有多个el-form，需要自定义校验，需要自定义平滑滚动的时机
+高度定制化场景：比如你的对话框内有多个 el-form，需要自定义校验，需要自定义平滑滚动的时机
 
 你可以调用 `this.$refs.kiFormDialog.highlightError()` 来平滑滚动至错误的表单项
 
@@ -255,10 +256,10 @@ export default {
 
 ### Events
 
-| name | description | callback's arguments |
-| --- | --- | --- |
+| name           | description | callback's arguments |
+|----------------| --- | --- |
 | ...el-dialog事件 |
-| ...el-form事件 |
+| ...el-form事件   |
 
 ### 完整示例
 
@@ -317,7 +318,7 @@ export default {
 
 可以看看这篇[知乎回答](https://www.zhihu.com/question/20694680/answer/1400624833)。
 
-无论你的观点如何，你可以通过slot自定义footer。
+无论你的观点如何，你可以通过 slot 自定义 footer。
 
 <br>
 
