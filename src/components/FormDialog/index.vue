@@ -10,7 +10,7 @@
       <!-- 接收slot -->
       <slot name="title"/>
     </template>
-    <div v-loading="loading" class="overflow-y-hidden flex flex-col">
+    <div v-loading="Loading" class="overflow-y-hidden flex flex-col">
       <!-- 传slot -->
       <div
         class="overflow-y-auto pl-40px pr-50px pb-85px pt-25px"
@@ -90,6 +90,10 @@ export default {
     retrieve: {},
     submit: {},
     readonly: {},
+    loading: {
+      type: Boolean,
+      default: undefined,
+    },
   },
   model: {
     prop: 'value',
@@ -97,7 +101,7 @@ export default {
   },
   data () {
     return {
-      loading: true,
+      retrieving: true,
       submitting: false,
       closing: false,
       initiated: false,
@@ -111,6 +115,12 @@ export default {
     }
   },
   computed: {
+    Loading () {
+      return getFinalProp([this.loading, globalConfig.loading, this.retrieving], {
+        name: 'loading',
+        type: 'boolean'
+      })
+    },
     Retrieve () {
       return getFinalProp([this.retrieve, globalConfig.retrieve], {
         name: 'retrieve',
@@ -178,7 +188,7 @@ export default {
             this.labelWidth = await this.getLabelWidth()
             this.labelWidthSettled = true
           }*/
-          this.loading = true
+          this.retrieving = true
           if (this.Retrieve) {
             const result = this.Retrieve()
             if (result instanceof Promise) {
@@ -186,11 +196,11 @@ export default {
                 console.error(import.meta.env.VITE_APP_CONSOLE_PREFIX, e)
                 this.closeDialog()
               }).finally(e => {
-                this.loading = false
+                this.retrieving = false
               })
             }
           } else {
-            this.loading = false
+            this.retrieving = false
           }
           this.computeLabelWidth()
           // 不兼容 tinymce
