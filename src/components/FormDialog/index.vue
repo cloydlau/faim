@@ -282,7 +282,8 @@ export default {
       if (labelPosition !== 'top' && [undefined, 'auto'].includes(labelWidth)) {
         this.$nextTick(() => {
           let max = 0
-          this.$refs.elForm?.$el?.querySelectorAll('.el-form-item__label').forEach(item => {
+          // 首次执行时 this.$refs.elForm 为空
+          this.$refs.elForm?.$el.querySelectorAll('.el-form-item__label').forEach(item => {
             // updated 时，避免受之前设置的宽度影响
             const prevWidth = item.style.width
             item.style.width = 'unset'
@@ -293,7 +294,9 @@ export default {
             // 不还原会导致文案变成居左的（默认是居右）
             item.style.width = prevWidth
           })
-          this.labelWidth = max ? `${max}px` : 'auto'
+          if (max) {
+            this.labelWidth = `${max}px`
+          }
         })
       }
     },
