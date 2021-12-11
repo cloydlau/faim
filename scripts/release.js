@@ -1,6 +1,7 @@
 /**
- * pnpm release
- * - 如果是本机第一次使用，需要运行 yarn login 登录 npm 账号
+ * 发版
+ * - pnpm release: 打包 + 发布 + Push + Tag
+ * - pnpm release -- --skipBuild: 跳过打包
  */
 
 const args = require('minimist')(process.argv.slice(2))
