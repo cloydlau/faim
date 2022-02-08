@@ -170,7 +170,7 @@
             @click.native="console.log('[PopSwitch] click')"
             :elTooltipProps="{content:`<i class='el-icon-warning'/> 已停用`}"
             :elPopoverProps="{content:`<i class='el-icon-warning'/> 权限不足`,disabled:true}"
-            :elPopconfirmProps="{title:'确认启用吗？',disabled:false}"
+            :elPopconfirmProps="{title:'确认启用吗？'}"
             active-text="启用"
             inactive-text="停用"
           />

@@ -52,66 +52,67 @@ export default {
       })
     },
     ElSwitchProps () {
-      const result = getFinalProp([
+      return getFinalProp([
         this.$attrs,
         getGlobalAttrs(globalConfig, this.$props)
-      ])
-
-      let maxTextWidth = 0;
-      ['active-text', 'inactive-text', 'activeText', 'inactiveText'].map(v => {
-        let textWidth = getCharCount(result[v])
-        if (textWidth > maxTextWidth) {
-          maxTextWidth = textWidth
-        }
+      ], {
+        default: userProp => {
+          let maxTextWidth = 0;
+          ['active-text', 'inactive-text', 'activeText', 'inactiveText'].map(v => {
+            let textWidth = getCharCount(userProp[v])
+            if (textWidth > maxTextWidth) {
+              maxTextWidth = textWidth
+            }
+          })
+          return {
+            ...this.TextInside && { width: 30 + maxTextWidth * 7 },
+            ...userProp
+          }
+        },
+        defaultIsDynamic: true,
       })
-
-      return {
-        ...this.TextInside && { width: 30 + maxTextWidth * 7 },
-        ...result
-      }
     },
     ElPopoverProps () {
-      const result = getFinalProp([
+      return getFinalProp([
         this.elPopoverProps,
         globalConfig.elPopoverProps,
       ], {
         name: 'elPopoverProps',
-        type: 'object'
+        type: 'object',
+        default: userProp => ({
+          popperClass: 'pop-switch',
+          disabled: !Boolean(userProp && (userProp.title || userProp.content)),
+        }),
+        defaultIsDynamic: true,
       })
-      const { title, content } = result || {}
-      return {
-        popperClass: 'pop-switch',
-        disabled: !Boolean(title || content),
-        ...result,
-      }
     },
     ElPopconfirmProps () {
-      const result = getFinalProp([
+      return getFinalProp([
         this.elPopconfirmProps,
         globalConfig.elPopconfirmProps,
       ], {
         name: 'elPopconfirmProps',
-        type: 'object'
+        type: 'object',
+        default: userProp => ({
+          popperClass: 'pop-switch',
+          disabled: [true, ''].includes(this.ElSwitchProps.disabled) || !Boolean(userProp?.title),
+        }),
+        defaultIsDynamic: true,
       })
-      return {
-        popperClass: 'pop-switch',
-        disabled: !Boolean(result?.title),
-        ...result,
-      }
     },
     ElTooltipProps () {
-      const result = getFinalProp([
+      return getFinalProp([
         this.elTooltipProps,
         globalConfig.elTooltipProps,
       ], {
         name: 'elTooltipProps',
-        type: 'object'
+        type: 'object',
+        default: userProp => ({
+          //openDelay: 400,
+          disabled: !Boolean(userProp?.content || this.$scopedSlots.elTooltipContent),
+        }),
+        defaultIsDynamic: true,
       })
-      return {
-        //openDelay: 400,
-        disabled: !Boolean(result?.content || this.$scopedSlots.elTooltipContent),
-        ...result,
-      }
     },
   },
   methods: {
@@ -171,7 +172,7 @@ export default {
       border-radius: 12px;
 
       &:after {
-        top: .5px;
+        top: 1px;
       }
     }
 

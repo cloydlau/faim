@@ -1,6 +1,6 @@
 {
   "name": "kikimore",
-  "version": "0.4.23",
+  "version": "0.4.24",
   "description": "趁手小型组件库",
   "author": "cloydlau",
   "license": "MIT",
@@ -24,6 +24,7 @@
     "serve": "vite preview",
     "clean": "rd /s /q .\\node_modules",
     "ri": "rd /s /q .\\node_modules && pnpm i",
+    "up": "node scripts/upgrade.js",
     "release": "node scripts/release.js"
   },
   "dependencies": {
@@ -31,7 +32,7 @@
     "lodash-es": "latest",
     "pic-viewer": "latest",
     "uuid": "latest",
-    "viewerjs": "latest"
+    "viewerjs": "1.10.2"
   },
   "peerDependencies": {
     "element-ui": "2",
