@@ -14,6 +14,7 @@ const currentVersion = require('../package.json').version
 const pkg = require('../package.json').name
 const { prompt } = require('enquirer')
 const execa = require('execa')
+const mirror = 'https://registry.npmmirror.com/'
 
 const preId =
   args.preid ||
@@ -21,8 +22,6 @@ const preId =
 const isDryRun = args.dry
 //const skipTests = args.skipTests
 const skipBuild = args.skipBuild
-const registryManager = 'yrm'
-const registry = 'tb'
 
 const versionIncrements = [
   'patch',
@@ -153,7 +152,7 @@ async function publishPackage (pkgName, version, runIfNotDry) {
   const releaseTag = semver.prerelease(version) && semver.prerelease(version)[0] || null
 
   step(`Publishing ${pkgName}...`)
-  await runIfNotDry(registryManager, ['use', 'npm'])
+  await runIfNotDry('npm', ['config', 'rm', 'registry'])
   await runIfNotDry('pnpm', ['config', 'rm', 'registry'])
   try {
     /*await runIfNotDry(
@@ -182,8 +181,8 @@ async function publishPackage (pkgName, version, runIfNotDry) {
       throw e
     }
   }
-  await runIfNotDry(registryManager, ['use', registry])
-  await runIfNotDry('pnpm', ['config', 'set', 'registry', 'https://registry.npmmirror.com/'])
+  await runIfNotDry('npm', ['config', 'set', 'registry', mirror])
+  await runIfNotDry('pnpm', ['config', 'set', 'registry', mirror])
 }
 
 main().catch(err => {
