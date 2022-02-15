@@ -404,8 +404,8 @@ export default {
 
 ```
 {
-  value: undefined, // 指定options中key的属性名（options为对象数组时有效）
-  label: undefined, // 指定options中label的属性名（options为对象数组时有效）
+  value: undefined, // 指定 options 中 key 的属性名（options 为对象数组时有效）
+  label: undefined, // 指定 options 中 label 的属性名（options 为对象数组时有效）
   labelRight: undefined, // 指定options中右浮label的属性名（options为对象数组时有效）
   disabled: 'disabled', // 指定options中disabled的属性名（options为对象数组时有效）
   groupLabel: undefined, // 指定组名（分组时有效）
@@ -801,7 +801,18 @@ Swal.confirm({
 | --- | --- | --- | --- | --- |
 | v-model / value | 绑定值 | string / number / boolean | | |
 | options | 选项 | { label, value }[] | | |
+| props | 指定对象的属性 | object | | |
+| elCheckboxGroupProps | el-checkbox-group 属性 | object | | |
 | ...el-checkbox属性 |
+
+#### props
+
+```
+{
+  value: undefined, // 指定 options 中 key 的属性名
+  label: undefined, // 指定 options 中 label 的属性名
+}
+```
 
 <br>
 
