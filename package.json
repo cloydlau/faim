@@ -1,6 +1,6 @@
 {
   "name": "kikimore",
-  "version": "0.4.24",
+  "version": "0.4.25",
   "description": "趁手小型组件库",
   "author": "cloydlau",
   "license": "MIT",
@@ -24,7 +24,7 @@
     "serve": "vite preview",
     "clean": "rd /s /q .\\node_modules",
     "ri": "rd /s /q .\\node_modules && pnpm i",
-    "up": "node scripts/upgrade.js",
+    "u": "node scripts/upgrade.js",
     "release": "node scripts/release.js"
   },
   "dependencies": {

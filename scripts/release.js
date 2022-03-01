@@ -1,6 +1,7 @@
 /**
  * 发版
- * - pnpm add chalk@^4.1.2 enquirer@latest execa@^4.1.0 minimist@latest semver@latest -D: 需要安装的依赖
+ * - pnpm add chalk@^4.1.2 enquirer execa@^4.1.0 minimist semver -D: 需要安装的依赖
+ * - "release": "node scripts/release.js": package.json - scripts
  * - pnpm release: 打包 + 发布 + Push + Tag
  * - pnpm release -- --skipBuild: 跳过打包
  */
@@ -14,7 +15,6 @@ const currentVersion = require('../package.json').version
 const pkg = require('../package.json').name
 const { prompt } = require('enquirer')
 const execa = require('execa')
-const mirror = 'https://registry.npmmirror.com/'
 
 const preId =
   args.preid ||
@@ -22,6 +22,8 @@ const preId =
 const isDryRun = args.dry
 //const skipTests = args.skipTests
 const skipBuild = args.skipBuild
+const registryManager = 'yrm'
+const registry = 'tb'
 
 const versionIncrements = [
   'patch',
@@ -136,12 +138,12 @@ async function main () {
   console.log()
 }
 
-function updateVersions (version) {
+function updateVersions(version) {
   // update root package.json
   updatePackage(path.resolve(__dirname, '..'), version)
 }
 
-function updatePackage (pkgRoot, version) {
+function updatePackage(pkgRoot, version) {
   const pkgPath = path.resolve(pkgRoot, 'package.json')
   const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf-8'))
   pkg.version = version
@@ -152,8 +154,7 @@ async function publishPackage (pkgName, version, runIfNotDry) {
   const releaseTag = semver.prerelease(version) && semver.prerelease(version)[0] || null
 
   step(`Publishing ${pkgName}...`)
-  await runIfNotDry('npm', ['config', 'rm', 'registry'])
-  await runIfNotDry('pnpm', ['config', 'rm', 'registry'])
+  await runIfNotDry(registryManager, ['use', 'npm'])
   try {
     /*await runIfNotDry(
       // note: use of yarn is intentional here as we rely on its publishing
@@ -178,13 +179,14 @@ async function publishPackage (pkgName, version, runIfNotDry) {
     if (e.stderr.match(/previously published/)) {
       console.log(chalk.red(`Skipping already published: ${pkgName}`))
     } else {
+      await runIfNotDry('git', ['reset', '--soft', 'HEAD~1'])
       throw e
     }
   }
-  await runIfNotDry('npm', ['config', 'set', 'registry', mirror])
-  await runIfNotDry('pnpm', ['config', 'set', 'registry', mirror])
+  await runIfNotDry(registryManager, ['use', registry])
 }
 
 main().catch(err => {
+  updateVersions(currentVersion)
   console.error(err)
 })

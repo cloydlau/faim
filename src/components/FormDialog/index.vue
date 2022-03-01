@@ -189,16 +189,14 @@ export default {
             this.labelWidthSettled = true
           }*/
           this.retrieving = true
-          if (this.Retrieve) {
-            const result = this.Retrieve()
-            if (result instanceof Promise) {
-              result.catch(e => {
-                console.error(import.meta.env.VITE_APP_CONSOLE_PREFIX, e)
-                this.closeDialog()
-              }).finally(e => {
-                this.retrieving = false
-              })
-            }
+          const result = this.Retrieve?.()
+          if (result instanceof Promise) {
+            result.catch(e => {
+              console.error(import.meta.env.VITE_APP_CONSOLE_PREFIX, e)
+              this.closeDialog()
+            }).finally(e => {
+              this.retrieving = false
+            })
           } else {
             this.retrieving = false
           }
