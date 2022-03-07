@@ -49,6 +49,7 @@ function warning (config: any = {}) {
     icon: 'warning',
     backdrop: false,
     timer: 5000,
+    confirmButtonColor: '#66b1ff',
     ...config,
   })
 }
@@ -58,6 +59,7 @@ function error (cfg: string | object) {
     icon: 'error',
     //timer: 5000,
     allowOutsideClick: false,
+    confirmButtonColor: '#66b1ff',
     ...typeof cfg === 'string' ? { titleText: cfg } : cfg
   })
 }
@@ -77,6 +79,9 @@ function confirm (config: any = {}) {
       confirmButtonText: '确定',
       cancelButtonText: '取消',
       showCancelButton: true,
+      reverseButtons: true,
+      confirmButtonColor: '#66b1ff',
+      allowOutsideClick: false,
       ...config,
     }).then((e: any) => {
       e.isConfirmed ? resolve(e) : reject(e)
