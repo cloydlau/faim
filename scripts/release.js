@@ -22,8 +22,8 @@ const preId =
 const isDryRun = args.dry
 //const skipTests = args.skipTests
 const skipBuild = args.skipBuild
-const registryManager = 'nrm'
-const registry = 'tb'
+//const registryManager = 'nrm'
+//const registry = 'tb'
 
 const versionIncrements = [
   'patch',
@@ -154,7 +154,7 @@ async function publishPackage (pkgName, version, runIfNotDry) {
   const releaseTag = semver.prerelease(version) && semver.prerelease(version)[0] || null
 
   step(`Publishing ${pkgName}...`)
-  await runIfNotDry(registryManager, ['use', 'npm'])
+  //await runIfNotDry(registryManager, ['use', 'npm'])
   try {
     /*await runIfNotDry(
       // note: use of yarn is intentional here as we rely on its publishing
@@ -183,7 +183,7 @@ async function publishPackage (pkgName, version, runIfNotDry) {
       throw e
     }
   }
-  await runIfNotDry(registryManager, ['use', registry])
+  //await runIfNotDry(registryManager, ['use', registry])
 }
 
 main().catch(err => {
