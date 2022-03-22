@@ -51,7 +51,7 @@
     "svelte-jsoneditor": "latest",
     "sweetalert2": "latest",
     "typescript": "latest",
-    "unocss": "0.12.2",
+    "unocss": "latest",
     "vite": "latest",
     "vite-plugin-vue2": "latest",
     "vue": "2.6.12",
