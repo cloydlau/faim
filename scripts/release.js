@@ -177,7 +177,7 @@ async function publishPackage (pkgName, version, runIfNotDry) {
     if (e.stderr.match(/previously published/)) {
       console.log(chalk.red(`Skipping already published: ${pkgName}`))
     } else {
-      await runIfNotDry('git', ['reset', '--soft', 'HEAD~1'])
+      //await runIfNotDry('git', ['reset', '--soft', 'HEAD~1'])
       throw e
     }
   }
