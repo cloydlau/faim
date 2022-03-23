@@ -310,7 +310,7 @@ export default {
   },
   created () {
     if (this.SearchImmediately) {
-      this.remoteMethod()
+      this.remoteMethod(undefined, true)
     }
   },
   mounted () {
@@ -373,12 +373,12 @@ export default {
       }
     },
     uuidv1,
-    remoteMethod (e) {
+    remoteMethod (e, searchInitially = false) {
       if (!this.Search) {
         return
       }
       this.loading = true
-      const result = this.Search(e)
+      const result = this.Search(e, searchInitially)
       if (result instanceof Promise) {
         result.then(res => {
           this.options__ = res

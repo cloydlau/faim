@@ -522,12 +522,12 @@ export default {
 ```
 
 ```vue
-<!-- searchImmediately为true时，search将在created时被调用 -->
-<!-- 你可以通过如下方式来自定义search的调用时机 -->
+<!-- searchImmediately 为 true 时，search 将在 created 时被调用，可以用 search 方法的第二个参数来判断是否为初始调用 -->
+<!-- 你可以通过如下方式来自定义 search 的调用时机 -->
 
 <template>
   <KiSelect
-    :search="() => {}"
+    :search="(keyword, searchInitially) => {}"
     :searchImmediately="false"
     ref="kiSelect"
   />
@@ -536,7 +536,7 @@ export default {
 <script>
 export default {
   mounted () {
-    this.$refs.kiSelect.remoteMethod()
+    this.$refs.kiSelect.remoteMethod(undefined, true)
   }
 }
 </script>
