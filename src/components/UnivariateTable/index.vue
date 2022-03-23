@@ -1,5 +1,5 @@
 <template>
-  <div class="univariate-table">
+  <div class="ki-univariate-table">
     <h2 v-if="Title">{{ Title }}</h2>
     <div class="el-table el-table--fit el-table--border">
       <div class="el-table__body-wrapper">
@@ -34,7 +34,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.univariate-table {
+.ki-univariate-table {
   &:not(:last-child) {
     margin-bottom: 40px;
   }
@@ -46,8 +46,11 @@ export default {
       display: flex;
 
       td {
-        padding-left: 10px;
-        padding-right: 10px;
+        line-height: initial; // 避免被 .el-form-item__content 的样式覆盖
+        transition: background-color 0.25s ease;
+        border-bottom: 1px solid #dfe6ec;
+        border-right: 1px solid #dfe6ec;
+        padding: 10px;
 
         &:nth-child(2n - 1) {
           width: 20%;
