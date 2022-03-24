@@ -75,7 +75,7 @@
               }"
               placeholder="labelRight"
               :search="search"
-              :searchImmediately="false"
+              :searchImmediately="true"
             />
             <KiSelect
               v-model="form.KiSelect[2].value"
@@ -431,7 +431,8 @@ export default {
         console.log('提交之后')
       })
     },
-    search (e) {
+    search (e, isImmediate) {
+      console.log('是否为初始调用：', isImmediate)
       return new Promise(resolve => {
         resolve([{
           label: 'label2',
