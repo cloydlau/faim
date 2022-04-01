@@ -5,7 +5,7 @@
 ![NPM](https://nodei.co/npm/kikimore.png)
 
 ```bash
-pnpm add kikimore vue@2 element-ui sweetalert2
+npm add kikimore element-ui sweetalert2
 ```
 
 所有组件均支持全局或局部引入
@@ -172,7 +172,7 @@ export default {
       if (valid) {
         return this.$POST('')
       } else {
-        this.$Swal.warning('校验失败')
+        this.$swal.warning('校验失败')
         return {
           close: false
         }
@@ -685,7 +685,7 @@ confirm('确认')
 ```ts
 import { Swal } from 'kikimore'
 
-Object.defineProperty(Vue.prototype, '$Swal', {
+Object.defineProperty(Vue.prototype, '$swal', {
   value: Swal
 })
 ```
@@ -740,7 +740,7 @@ Swal.confirm({
         alert('拒绝失败')
       })
     } else {
-      this.$Swal.showValidationMessage(`请填写备注`)
+      this.$swal.showValidationMessage(`请填写备注`)
       return false
     }
   },
