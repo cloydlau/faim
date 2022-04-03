@@ -5,7 +5,7 @@
 ![NPM](https://nodei.co/npm/kikimore.png)
 
 ```bash
-pnpm add kikimore vue@2 element-ui sweetalert2
+npm add kikimore element-ui sweetalert2
 ```
 
 所有组件均支持全局或局部引入
@@ -172,7 +172,7 @@ export default {
       if (valid) {
         return this.$POST('')
       } else {
-        this.$Swal.warning('校验失败')
+        this.$swal.warning('校验失败')
         return {
           close: false
         }
@@ -522,19 +522,23 @@ export default {
 ```
 
 ```vue
-<!-- searchImmediately 为 true 时，search 将在 created 时被调用，可以用 search 方法的第二个参数来判断是否为初始调用 -->
+<!-- searchImmediately 为 true 时，search 将在 created 时被调用，可以用 search 方法的第二个参数 isImmediate 来判断是否为初始调用 -->
 <!-- 你可以通过如下方式来自定义 search 的调用时机 -->
 
 <template>
   <KiSelect
-    :search="(keyword, searchInitially) => {}"
-    :searchImmediately="false"
+    :search="(keyword, isImmediate) => {}"
     ref="kiSelect"
   />
 </template>
 
 <script>
 export default {
+  watch: {
+    'x' () {
+      this.$refs.kiSelect.remoteMethod()  
+    }
+  },
   mounted () {
     this.$refs.kiSelect.remoteMethod(undefined, true)
   }
@@ -681,7 +685,7 @@ confirm('确认')
 ```ts
 import { Swal } from 'kikimore'
 
-Object.defineProperty(Vue.prototype, '$Swal', {
+Object.defineProperty(Vue.prototype, '$swal', {
   value: Swal
 })
 ```
@@ -736,7 +740,7 @@ Swal.confirm({
         alert('拒绝失败')
       })
     } else {
-      this.$Swal.showValidationMessage(`请填写备注`)
+      this.$swal.showValidationMessage(`请填写备注`)
       return false
     }
   },

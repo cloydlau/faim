@@ -373,12 +373,12 @@ export default {
       }
     },
     uuidv1,
-    remoteMethod (e, searchInitially = false) {
+    remoteMethod (e, isImmediate = false) {
       if (!this.Search) {
         return
       }
       this.loading = true
-      const result = this.Search(e, searchInitially)
+      const result = this.Search(e, isImmediate)
       if (result instanceof Promise) {
         result.then(res => {
           this.options__ = res
