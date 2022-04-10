@@ -2,7 +2,7 @@
   <el-dialog
     :visible.sync="show"
     v-bind="ElDialogProps"
-    v-on="$listeners"
+    v-on="Listeners"
     ref="elDialog"
     @closed="onClosed"
   >
@@ -23,7 +23,7 @@
           v-if="$scopedSlots['el-form']"
           :labelWidth="labelWidth"
           v-bind="ElFormProps"
-          v-on="$listeners"
+          v-on="Listeners"
         >
           <slot name="el-form"/>
         </el-form>
@@ -66,35 +66,23 @@
 </template>
 
 <script>
-import globalConfig from './config'
-import { loadStyle, getFinalProp, getGlobalAttrs } from 'kayran'
+import { localProps, globalProps, globalAttrs, globalEvents, globalHooks } from './config'
+import { loadStyle, getFinalProp as evaluateProp } from 'kayran'
+import { evaluateListeners, listenGlobalHooks } from './vue-global-config'
 import highlightError from './highlightError'
 import { cloneDeep } from 'lodash-es'
+import Vue from 'vue'
 //import Scrollbar from 'smooth-scrollbar'
 //import 'overlayscrollbars/css/OverlayScrollbars.min.css'
 //import OverlayScrollbars from 'overlayscrollbars'
 // 在某项目中触发诡异bug：el-input输入时触发重绘，光标被强制后移
 //import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 
+import { notEmpty } from 'kayran'
+
 export default {
   name: 'KiFormDialog',
-  props: {
-    show: {
-      type: Boolean,
-      required: true
-    },
-    value: {
-      default: () => ({}),
-    },
-    elFormProps: {},
-    retrieve: {},
-    submit: {},
-    readonly: {},
-    loading: {
-      type: Boolean,
-      default: undefined,
-    },
-  },
+  props: localProps,
   model: {
     prop: 'value',
     event: 'change'
@@ -115,28 +103,31 @@ export default {
     }
   },
   computed: {
+    Listeners () {
+      return evaluateListeners.call(this, globalEvents)
+    },
     Loading () {
-      return getFinalProp([this.loading, globalConfig.loading, this.retrieving], {
+      return evaluateProp([this.loading, globalProps.loading, this.retrieving], {
         name: 'loading',
         type: 'boolean'
       })
     },
     Retrieve () {
-      return getFinalProp([this.retrieve, globalConfig.retrieve], {
+      return evaluateProp([this.retrieve, globalProps.retrieve], {
         name: 'retrieve',
         type: ['function', 'asyncfunction']
       })
     },
     Submit () {
-      return getFinalProp([this.submit, globalConfig.submit], {
+      return evaluateProp([this.submit, globalProps.submit], {
         name: 'submit',
         type: ['function', 'asyncfunction']
       })
     },
     Readonly () {
-      return getFinalProp([
+      return evaluateProp([
         [true, ''].includes(this.readonly) ? true : this.readonly,
-        globalConfig.readonly,
+        globalProps.readonly,
         false
       ], {
         name: 'readonly',
@@ -144,9 +135,9 @@ export default {
       })
     },
     ElDialogProps () {
-      return getFinalProp([
+      return evaluateProp([
         this.$attrs,
-        getGlobalAttrs(globalConfig, this.$props)
+        globalAttrs,
       ], {
         default: userProp => {
           this.beforeCloseIsPassed = Boolean(userProp.beforeClose)
@@ -163,8 +154,8 @@ export default {
       })
     },
     ElFormProps () {
-      return getFinalProp([
-        this.elFormProps, globalConfig.elFormProps, {
+      return evaluateProp([
+        this.elFormProps, globalProps.elFormProps, {
           disabled: this.readonly || this.submitting,
           model: this.value,
           ref: 'elForm',
@@ -176,6 +167,7 @@ export default {
     },
   },
   created () {
+    listenGlobalHooks.call(this, globalHooks)
     this.value__ = cloneDeep(this.value)
   },
   watch: {

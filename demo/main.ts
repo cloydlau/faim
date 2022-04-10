@@ -5,8 +5,60 @@ import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
 Vue.use(ElementUI)
 
-import Kikimore from '../src/main'
-Vue.use(Kikimore)
+import {
+  FormDialog,
+  PopButton,
+  PopSwitch,
+  Select,
+  CheckAllBox,
+  UnivariateTable,
+  Webcam,
+  CountdownButton,
+} from '../src/main'
+
+[
+  {
+    component: PopButton,
+  },
+  {
+    component: PopSwitch,
+  },
+  {
+    component: FormDialog,
+    config: {
+      '@validate' (e) {
+        console.log('@validate')
+        console.log(e)
+        console.log(this)
+      },
+      '@closed' (e) {
+        console.log('@closed')
+        console.log(e)
+        console.log(this)
+      },
+      '@hook:mounted' (e) {
+        console.log('@hook:mounted')
+        console.log(e)
+        console.log(this)
+      }
+    }
+  },
+  {
+    component: CheckAllBox
+  },
+  {
+    component: Select,
+  },
+  {
+    component: UnivariateTable
+  },
+  {
+    component: Webcam
+  },
+  {
+    component: CountdownButton
+  },
+].map(({ component, config }) => Vue.use(component, config))
 
 Vue.config.productionTip = false
 

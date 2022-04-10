@@ -22,6 +22,7 @@
       @opened="console.log('opened')"
       @close="console.log('close')"
       @closed="console.log('closed')"
+      @validate="console.log('validate')"
       :readonly="readonly"
       :elFormProps="{
         'labelPosition':'top',
