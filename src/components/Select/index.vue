@@ -15,7 +15,7 @@
       >
         <el-option
           v-for="(v,i) of getGroupOptions(groupOption,groupIndex)"
-          :key="i"
+          :key="getKey(v,i)"
           :value="getValue(v,i)"
           :label="getLabel(v,i)"
           :disabled="isDisabled(v,i)"
@@ -148,7 +148,7 @@ export default {
         loading: this.loading,
         placeholder,
       }], {
-        type: 'object'
+        type: 'object',
       })
     },
     Ellipsis () {
@@ -399,6 +399,10 @@ export default {
       })
       this.$emit('change', value)
     },
+    getKey (v, i) {
+      console.log(123)
+      return i
+    },
     getValue (v, i) {
       let result = v
       if (this.valueType === 'function') {
@@ -406,8 +410,8 @@ export default {
       } else if (this.itemTypeIsObject) {
         if (notEmpty(this.Props.value)) {
           result = v?.[this.Props.value]
-        } else if (isEmpty(this.ElSelectProps.valueKey || this.ElSelectProps['value-key'])) {
-          throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}绑定值为object类型时，必须按el-select的要求指定value-key`)
+        } else if (isEmpty(this.ElSelectProps.valueKey)) {
+          throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX} 绑定值为 object 类型时，必须按 el-select 的要求指定 value-key`)
         }
       }
       return result
