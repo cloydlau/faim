@@ -219,6 +219,7 @@
 </template>
 
 <script>
+import 'pic-viewer/dist/style.css'
 import PicViewer from 'pic-viewer'
 import JsonEditorVue from 'json-editor-vue'
 

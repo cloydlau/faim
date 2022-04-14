@@ -21,9 +21,9 @@ export function getListeners (globalListeners: { [key: string]: any }) {
 
   return conclude([getLocalListeners(this.$listeners)], {
     default: globalListeners,
-    mergeFunction: (localEventListener: Function, globalEventListener: any) => (...args: any) => {
+    mergeFunction: (localEventListener: Function, globalEventListener: Function) => (...args: any) => {
       localEventListener(...args)
-      globalEventListener?.(...args)
+      globalEventListener(...args)
     },
   })
 }
