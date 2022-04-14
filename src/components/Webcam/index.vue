@@ -4,8 +4,8 @@
     :close-on-click-modal="false"
     append-to-body
     destroy-on-close
-    v-bind="$attrs"
-    v-on="$listeners"
+    v-bind="Attrs"
+    v-on="Listeners"
     :visible.sync="show"
     :before-close="()=>{$emit('update:show', false)}"
   >
@@ -41,11 +41,14 @@
 </template>
 
 <script>
-import { getFinalProp } from 'kayran'
-import globalConfig from './config'
-import { error, info, warning } from '../Swal'
+import { conclude } from 'vue-global-config'
+import { globalProps, globalAttrs, globalListeners } from './index'
+import 'cozyalert/dist/style.css'
+import { error, warning } from 'cozyalert'
+import 'pic-viewer/dist/style.css'
 import PicViewer from 'pic-viewer'
 import Screenshot from './Screenshot.vue'
+import { getListeners } from '../../utils'
 
 export default {
   name: 'KiWebcam',
@@ -126,10 +129,16 @@ export default {
     },
   },
   computed: {
+    Attrs () {
+      return conclude([this.$attrs, globalAttrs])
+    },
+    Listeners () {
+      return getListeners.call(this, globalListeners)
+    },
     Count () {
-      return getFinalProp([
+      return conclude([
         this.count,
-        globalConfig.count,
+        globalProps.count,
         1
       ], {
         name: 'count',

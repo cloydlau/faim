@@ -12,8 +12,8 @@
 </template>
 
 <script>
-import { getFinalProp } from 'kayran'
-import globalConfig from './config'
+import { conclude } from 'vue-global-config'
+import { globalProps, globalListeners } from './index'
 
 export default {
   name: 'KiUnivariateTable',
@@ -22,8 +22,8 @@ export default {
   },
   computed: {
     Title () {
-      return getFinalProp([
-        this.title, globalConfig.title
+      return conclude([
+        this.title, globalProps.title
       ], {
         name: 'title',
         type: 'string'

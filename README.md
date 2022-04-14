@@ -1,14 +1,19 @@
 # kikimore / 趁手小型组件
 
-## Installation
+## 特性
+
+- 所有组件均支持全局或局部引入
+- 所有组件均支持全局或局部参数
+
+<br>
+
+## 安装
 
 ![NPM](https://nodei.co/npm/kikimore.png)
 
 ```bash
-npm add kikimore element-ui sweetalert2
+npm add kikimore element-ui
 ```
-
-所有组件均支持全局或局部引入
 
 ```ts
 // 全局引入
@@ -56,7 +61,7 @@ export default {
 
 <br>
 
-## Config Rules
+## 配置规则
 
 - 双向绑定参数（`v-model`, `*.sync`）仅支持局部配置
 - 其余参数均支持全局或局部配置
@@ -68,7 +73,7 @@ export default {
 
 <br>
 
-## Naming Rules
+## 命名风格
 
 所有组件命名均符合[Vue官方风格指南](https://v3.cn.vuejs.org/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81)
 指导的 `组件名为多个单词`
@@ -83,9 +88,7 @@ export default {
 > `Element` 本身没有做到命名的统一，`el-select` 中label表示选项的标签，
 > 但 `el-checkbox` 中label却表示的是选中状态的值
 
-::: tip  
 UI组件库的标杆 `Ant Design` 也是使用value与label命名
-:::
 
 <br>
 
@@ -179,7 +182,6 @@ export default {
 
 <br>
 
-::: tip  
 submit 的返回值如果是一个 Promise，则 then 时默认关闭弹框，而 reject 时不关闭
 
 注意：如果 catch 了 reject，则 reject 时也会关闭弹框，这是因为组件内部已无法获知被你捕获的 reject
@@ -187,7 +189,6 @@ submit 的返回值如果是一个 Promise，则 then 时默认关闭弹框，�
 你可以在最后一个 then / catch 中 `return { close: false }` 来控制是否关闭弹框
 
 submit 没有返回值或者返回值不是 Promise 时，则 submit 执行完毕后默认关闭弹框，你可以 `return { close: false }` 来控制该行为
-:::
 
 <br>
 
@@ -428,9 +429,7 @@ export default {
 
 当value在options中没有匹配到对应项时，label也可以正常展示。
 
-::: warning  
 分组时，index为组下标。
-:::
 
 ### Slots
 
@@ -452,10 +451,8 @@ export default {
 
 否则，value将得到选中项对应的数组元素
 
-::: warning  
 Select默认将props.value用作 `value-key`
 options为对象数组且未指定value值时，绑定值将是object类型，此时必须按el-select的要求提供 `value-key`
-:::
 
 ### 搜索
 
@@ -583,13 +580,11 @@ export default {
 />
 ```
 
-::: tip  
 多选且与el-form搭配时，会出现一开始就触发rule校验的问题（而不是blur或change以后）
 
 这是el-select自身原因导致的，在多选时，el-select会将value初始化为 `[]`
 
 解决方式：给value赋初值 `[]`
-:::
 
 <br>
 

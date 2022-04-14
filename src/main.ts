@@ -8,7 +8,6 @@ import PopButton from './components/PopButton'
 import PopSwitch from './components/PopSwitch'
 import Select from './components/Select'
 import Webcam from './components/Webcam'
-import Swal from './components/Swal'
 
 const components = [
   UnivariateTable,
@@ -25,8 +24,6 @@ const install = function (Vue, opts = {}) {
   components.forEach(component => {
     Vue.component(component.name, component)
   })
-
-  Vue.prototype.$Swal = Swal
 }
 
 export default {
@@ -43,5 +40,4 @@ export {
   PopSwitch,
   Select,
   Webcam,
-  Swal,
 }

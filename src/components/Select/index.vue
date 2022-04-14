@@ -3,19 +3,19 @@
     v-model="value__"
     v-bind="ElSelectProps"
     @change="onChange"
-    v-on="$listeners"
+    v-on="Listeners"
     ref="elSelect"
   >
     <template v-if="grouped">
       <el-option-group
         v-for="(groupOption,groupIndex) of options__"
-        :key="uuidv1()"
+        :key="groupIndex"
         :label="getGroupLabel(groupOption,groupIndex)"
         :disabled="isGroupDisabled(groupOption,groupIndex)"
       >
         <el-option
           v-for="(v,i) of getGroupOptions(groupOption,groupIndex)"
-          :key="uuidv1()"
+          :key="i"
           :value="getValue(v,i)"
           :label="getLabel(v,i)"
           :disabled="isDisabled(v,i)"
@@ -49,7 +49,7 @@
       </el-checkbox>
       <el-option
         v-for="(v,i) of options__"
-        :key="uuidv1()"
+        :key="i"
         :value="getValue(v,i)"
         :label="getLabel(v,i)"
         :disabled="isDisabled(v,i)"
@@ -78,11 +78,12 @@
 
 <script>
 import Vue from 'vue'
-import { typeOf, isEmpty, notEmpty, getFinalProp, getGlobalAttrs } from 'kayran'
-import globalConfig from './config'
-import { v1 as uuidv1 } from 'uuid'
+import { typeOf, isEmpty, notEmpty } from 'kayran'
 import emitter from 'element-ui/src/mixins/emitter'
 import { cloneDeep } from 'lodash-es'
+import { globalProps, globalAttrs, globalListeners } from './index'
+import { conclude } from 'vue-global-config'
+import { getListeners } from '../../utils'
 
 export default {
   name: 'KiSelect',
@@ -108,6 +109,9 @@ export default {
     searchImmediately: {},
   },
   computed: {
+    Listeners () {
+      return getListeners.call(this, globalListeners)
+    },
     grouped () {
       return notEmpty(this.Props.groupOptions)
     },
@@ -131,35 +135,26 @@ export default {
       return result
     },
     ElSelectProps () {
-      let globalAttrs = {}
-      Object.keys(globalConfig).filter(v => !Object.keys(this.$props).includes(v)).map(v => {
-        globalAttrs[v] = globalConfig[v]
-      })
-
       const remote = Boolean(this.Search)
       const placeholder = remote ? '搜索' : '请选择'
 
-      return getFinalProp([
-        this.$attrs,
-        getGlobalAttrs(globalConfig, this.$props),
-        {
-          clearable: true,
-          filterable: true,
-          remote,
-          reserveKeyword: true,
-          remoteMethod: this.remoteMethod,
-          valueKey: this.valueComesFromObject ? this.Props.value : undefined,
-          loading: this.loading,
-          placeholder,
-        }
-      ], {
+      return conclude([this.$attrs, globalAttrs, {
+        clearable: true,
+        filterable: true,
+        remote,
+        reserveKeyword: true,
+        remoteMethod: this.remoteMethod,
+        valueKey: this.valueComesFromObject ? this.Props.value : undefined,
+        loading: this.loading,
+        placeholder,
+      }], {
         type: 'object'
       })
     },
     Ellipsis () {
-      const result = getFinalProp([
+      const result = conclude([
         [true, ''].includes(this.ellipsis) ? true : this.ellipsis,
-        globalConfig.ellipsis,
+        globalProps.ellipsis,
         false
       ], {
         name: 'ellipsis',
@@ -206,9 +201,9 @@ export default {
       return this.validateProps('groupOptions')
     },
     Props () {
-      return getFinalProp([
+      return conclude([
         this.props,
-        globalConfig.props,
+        globalProps.props,
         {
           disabled: 'disabled',
           groupDisabled: 'disabled',
@@ -219,14 +214,14 @@ export default {
       })
     },
     Search () {
-      return getFinalProp([this.search, globalConfig.search], {
+      return conclude([this.search, globalProps.search], {
         type: ['function', 'asyncfunction']
       })
     },
     SearchImmediately () {
-      return getFinalProp([
+      return conclude([
         [true, ''].includes(this.searchImmediately) ? true : this.searchImmediately,
-        globalConfig.searchImmediately,
+        globalProps.searchImmediately,
         true
       ], {
         name: 'searchImmediately',
@@ -372,7 +367,6 @@ export default {
         this.$emit('update:index', i)
       }
     },
-    uuidv1,
     remoteMethod (e, isImmediate = false) {
       if (!this.Search) {
         return

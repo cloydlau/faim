@@ -23,9 +23,9 @@
 </template>
 
 <script>
-import globalConfig from './config'
+import { globalProps, globalAttrs } from './index'
 import { getCharCount } from '../../utils'
-import { getFinalProp, getGlobalAttrs } from 'kayran'
+import { conclude } from 'vue-global-config'
 
 export default {
   name: 'KiPopSwitch',
@@ -42,9 +42,9 @@ export default {
   },
   computed: {
     TextInside () {
-      return getFinalProp([
+      return conclude([
         [true, ''].includes(this.textInside) ? true : this.textInside,
-        globalConfig.textInside,
+        globalProps.textInside,
         true
       ], {
         name: 'textInside',
@@ -52,10 +52,7 @@ export default {
       })
     },
     ElSwitchProps () {
-      return getFinalProp([
-        this.$attrs,
-        getGlobalAttrs(globalConfig, this.$props)
-      ], {
+      return conclude([this.$attrs, globalAttrs], {
         default: userProp => {
           let maxTextWidth = 0;
           ['active-text', 'inactive-text', 'activeText', 'inactiveText'].map(v => {
@@ -73,9 +70,9 @@ export default {
       })
     },
     ElPopoverProps () {
-      return getFinalProp([
+      return conclude([
         this.elPopoverProps,
-        globalConfig.elPopoverProps,
+        globalProps.elPopoverProps,
       ], {
         name: 'elPopoverProps',
         type: 'object',
@@ -87,9 +84,9 @@ export default {
       })
     },
     ElPopconfirmProps () {
-      return getFinalProp([
+      return conclude([
         this.elPopconfirmProps,
-        globalConfig.elPopconfirmProps,
+        globalProps.elPopconfirmProps,
       ], {
         name: 'elPopconfirmProps',
         type: 'object',
@@ -101,9 +98,9 @@ export default {
       })
     },
     ElTooltipProps () {
-      return getFinalProp([
+      return conclude([
         this.elTooltipProps,
-        globalConfig.elTooltipProps,
+        globalProps.elTooltipProps,
       ], {
         name: 'elTooltipProps',
         type: 'object',

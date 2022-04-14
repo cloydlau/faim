@@ -26,21 +26,11 @@ import {
   {
     component: FormDialog,
     config: {
-      '@validate' (e) {
-        console.log('@validate')
-        console.log(e)
-        console.log(this)
-      },
       '@closed' (e) {
         console.log('@closed')
         console.log(e)
         console.log(this)
       },
-      '@hook:mounted' (e) {
-        console.log('@hook:mounted')
-        console.log(e)
-        console.log(this)
-      }
     }
   },
   {

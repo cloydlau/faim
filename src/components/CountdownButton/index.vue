@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import { getFinalProp, getGlobalAttrs } from 'kayran'
-import globalConfig from './config'
+import { conclude } from 'vue-global-config'
+import { globalProps, globalAttrs, globalListeners } from './index'
 
 export default {
   name: 'KiCountdownButton',
@@ -29,9 +29,9 @@ export default {
   },
   computed: {
     Cd () {
-      return getFinalProp([
+      return conclude([
         this.cd,
-        globalConfig.cd,
+        globalProps.cd,
         60
       ], {
         name: 'cd',
@@ -39,10 +39,7 @@ export default {
       })
     },
     ElButtonProps () {
-      return getFinalProp([
-        this.$attrs,
-        getGlobalAttrs(globalConfig, this.$props)
-      ])
+      return conclude([this.$attrs, globalAttrs])
     }
   },
   methods: {

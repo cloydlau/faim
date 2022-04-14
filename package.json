@@ -23,20 +23,20 @@
     "build": "vite build",
     "serve": "vite preview",
     "c": "rd /s /q .\\node_modules",
-    "ri": "rd /s /q .\\node_modules && pnpm i",
+    "ri": "npm run c && pnpm i",
     "u": "node scripts/upgrade.js",
-    "release": "node scripts/release.js"
+    "r": "node scripts/release.js",
+    "rs": "node scripts/release.js --straightforward"
   },
   "dependencies": {
+    "cozyalert": "latest",
     "kayran": "latest",
     "lodash-es": "latest",
     "pic-viewer": "latest",
-    "uuid": "latest",
-    "viewerjs": "1.10.2"
+    "vue-global-config": "latest"
   },
   "peerDependencies": {
-    "element-ui": "2",
-    "sweetalert2": "11"
+    "element-ui": "2"
   },
   "devDependencies": {
     "@vue/composition-api": "latest",
@@ -49,7 +49,6 @@
     "sass": "latest",
     "semver": "latest",
     "svelte-jsoneditor": "latest",
-    "sweetalert2": "latest",
     "typescript": "latest",
     "unocss": "latest",
     "vite": "latest",

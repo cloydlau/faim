@@ -117,23 +117,6 @@
           <PicViewer :value="$refs.webCam&&$refs.webCam.base64"/>
         </el-form-item>
 
-        <el-form-item label="Swal">
-          <el-button-group>
-            <el-button @click="$Swal.success().then(() => {console.log('success')})">成功</el-button>
-            <el-button @click="$Swal.info('info').then(() => {console.log('info')})">提示</el-button>
-            <el-button @click="$Swal.warning('warning').then(() => {console.log('warning')})">警告</el-button>
-            <el-button @click="$Swal.error('error').then(() => {console.log('error')})">错误</el-button>
-            <el-button
-              @click="$Swal.confirm('confirm').then(() => {console.log('确认')}).catch(() => {console.log('取消')})">
-              确认
-            </el-button>
-            <el-button
-              @click="asyncConfirmation">
-              异步确认
-            </el-button>
-          </el-button-group>
-        </el-form-item>
-
         <el-form-item label="CheckAllBox: 对象数组，值为对象的某个属性" prop="CheckAllBox[0].value">
           <KiCheckAllBox
             v-model="form.CheckAllBox[0].value"
@@ -361,52 +344,6 @@ export default {
     }
   },
   methods: {
-    asyncConfirmation () {
-      this.$Swal.confirm({
-        title: '异步确认',
-        input: 'text',
-        inputAttributes: {
-          placeholder: '备注'
-        },
-        confirmButtonText: `同意`,
-        showLoaderOnConfirm: true,
-        preConfirm: input => {
-          return new Promise(resolve => {
-            setTimeout(resolve, 500)
-          }).then(() => {
-            alert('同意成功')
-          }).catch(e => {
-            alert('同意失败')
-          })
-        },
-        // 拒绝按钮
-        showDenyButton: true,
-        denyButtonText: `拒绝`,
-        returnInputValueOnDeny: true,
-        preDeny: input => {
-          if (input) {
-            return new Promise((resolve, reject) => {
-              setTimeout(reject, 500)
-            }).then(() => {
-              alert('拒绝成功')
-            }).catch(e => {
-              alert('拒绝失败')
-            })
-          } else {
-            this.$Swal.showValidationMessage(`请填写备注`)
-            return false
-          }
-        },
-      }).then(e => {
-        alert('同意')
-      }).catch(e => {
-        if (e.isDenied) {
-          alert('拒绝')
-        } else if (e.isDismissed) {
-          alert('取消')
-        }
-      })
-    },
     send (e) {
       this.$refs.formItemPhone.elForm.validateField('phone', err => {
         if (err) {

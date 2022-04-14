@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import globalConfig from './config'
-import { getFinalProp, getGlobalAttrs } from 'kayran'
+import { globalProps, globalAttrs } from './index'
+import { conclude } from 'vue-global-config'
 
 export default {
   name: 'KiPopButton',
@@ -35,15 +35,12 @@ export default {
   },
   computed: {
     ElButtonProps () {
-      return getFinalProp([
-        this.$attrs,
-        getGlobalAttrs(globalConfig, this.$props)
-      ])
+      return conclude([this.$attrs, globalAttrs])
     },
     ElPopoverProps () {
-      const result = getFinalProp([
+      const result = conclude([
         this.elPopoverProps,
-        globalConfig.elPopoverProps,
+        globalProps.elPopoverProps,
       ], {
         name: 'elPopoverProps',
         type: 'object'
@@ -55,9 +52,9 @@ export default {
       }
     },
     ElPopconfirmProps () {
-      const result = getFinalProp([
+      const result = conclude([
         this.elPopconfirmProps,
-        globalConfig.elPopconfirmProps,
+        globalProps.elPopconfirmProps,
       ], {
         name: 'elPopconfirmProps',
         type: 'object'
@@ -69,9 +66,9 @@ export default {
       }
     },
     ElTooltipProps () {
-      const result = getFinalProp([
+      const result = conclude([
         this.elTooltipProps,
-        globalConfig.elTooltipProps,
+        globalProps.elTooltipProps,
       ], {
         name: 'elTooltipProps',
         type: 'object'

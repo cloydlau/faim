@@ -14,7 +14,7 @@
       <el-checkbox
         v-for="(v,i) of options"
         :label="getValue(v,i)"
-        :key="uuidv1()"
+        :key="i"
         v-bind="ElCheckBoxProps"
         :disabled="isDisabled(v,i)"
       >
@@ -25,9 +25,9 @@
 </template>
 
 <script>
-import { v1 as uuidv1 } from 'uuid'
-import { isEmpty, notEmpty, typeOf, getFinalProp, getGlobalAttrs } from 'kayran'
-import globalConfig from './config'
+import { isEmpty, notEmpty, typeOf } from 'kayran'
+import { conclude } from 'vue-global-config'
+import { globalProps, globalAttrs } from './index'
 
 export default {
   name: 'KiCheckAllBox',
@@ -62,9 +62,7 @@ export default {
   },
   computed: {
     ElCheckBoxProps () {
-      return getFinalProp([
-        this.$attrs, getGlobalAttrs(globalConfig, this.$props)
-      ])
+      return conclude([this.$attrs, globalAttrs])
     },
     ElCheckAllBoxProps () {
       return {
@@ -73,8 +71,8 @@ export default {
       }
     },
     ElCheckboxGroupProps () {
-      return getFinalProp([
-        this.elCheckboxGroupProps, globalConfig.elCheckboxGroupProps
+      return conclude([
+        this.elCheckboxGroupProps, globalProps.elCheckboxGroupProps
       ], {
         name: 'elCheckboxGroupProps',
         type: 'object'
@@ -93,8 +91,8 @@ export default {
       return this.validateProps('disabled')
     },
     Props () {
-      return getFinalProp([
-        this.props, globalConfig.props, {
+      return conclude([
+        this.props, globalProps.props, {
           disabled: 'disabled',
         }
       ], {
@@ -111,7 +109,6 @@ export default {
     }
   },
   methods: {
-    uuidv1,
     checkAllChange (checked) {
       this.value__ = checked ?
         Array.from(this.options, (v, i) => this.getValue(v, i)) :
