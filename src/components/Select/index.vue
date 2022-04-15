@@ -8,27 +8,32 @@
   >
     <template v-if="grouped">
       <el-option-group
-        v-for="(groupOption,groupIndex) of options__"
-        :key="groupIndex"
-        :label="getGroupLabel(groupOption,groupIndex)"
-        :disabled="isGroupDisabled(groupOption,groupIndex)"
+        v-for="(group,groupIndex) of options__"
+        :key="optionGroupPropsList[groupIndex].key"
+        :label="optionGroupPropsList[groupIndex].label"
+        :disabled="optionGroupPropsList[groupIndex].disabled"
       >
         <el-option
-          v-for="(v,i) of getGroupOptions(groupOption,groupIndex)"
-          v-bind="getElOptionProps(v,i)"
-          @click.native="onOptionClick(groupOption,groupIndex)"
+          v-for="(option,optionIndex) of optionGroupPropsList[groupIndex].options"
+          :key="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].key"
+          :label="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label"
+          :value="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].value"
+          :disabled="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled"
+          @click.native="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled ? undefined : onOptionClick(group,groupIndex)"
         >
-          <slot v-if="$scopedSlots.default" :option="v" :index="i"/>
+          <slot v-if="$scopedSlots.default" :option="option" :index="optionIndex"/>
           <template v-else>
             <el-tooltip
               :disabled="!Ellipsis"
               effect="dark"
               placement="right"
-              :content="getLabel(v,i)"
+              :content="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label"
             >
-              <span class="label-left">{{ getLabel(v, i) }}</span>
+              <span class="label-left">{{ optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label }}</span>
             </el-tooltip>
-            <span class="label-right">{{ getLabelRight(v, i) }}</span>
+            <span class="label-right">{{
+                optionGroupPropsList[groupIndex].optionPropsList[optionIndex].labelRight
+              }}</span>
           </template>
         </el-option>
       </el-option-group>
@@ -46,7 +51,11 @@
       </el-checkbox>
       <el-option
         v-for="(v,i) of options__"
-        v-bind="getElOptionProps(v,i)"
+        :key="optionPropsList[i].key"
+        :label="optionPropsList[i].label"
+        :value="optionPropsList[i].value"
+        :disabled="optionPropsList[i].disabled"
+        @click.native="optionPropsList[i].disabled ? undefined : onOptionClick(v,i)"
       >
         <slot v-if="$scopedSlots.default" :option="v" :index="i"/>
         <template v-else>
@@ -54,11 +63,11 @@
             :disabled="!Ellipsis"
             effect="dark"
             placement="right"
-            :content="getLabel(v,i)"
+            :content="optionPropsList[i].label"
           >
-            <span class="label-left">{{ getLabel(v, i) }}</span>
+            <span class="label-left">{{ optionPropsList[i].label }}</span>
           </el-tooltip>
-          <span class="label-right">{{ getLabelRight(v, i) }}</span>
+          <span class="label-right">{{ optionPropsList[i].labelRight }}</span>
         </template>
       </el-option>
     </template>
@@ -236,6 +245,8 @@ export default {
       loading: undefined,
       defaultSearchResult: null,
       options__: [],
+      optionGroupPropsList: [],
+      optionPropsList: [],
       optionsSyncing: false,
       allSelected: false,
       indeterminate: false,
@@ -291,8 +302,35 @@ export default {
     },
     // 在组件内部维护一份 options__ 的目的：search 时可以不绑定 options
     options__: {
+      immediate: true,
       handler (n, o) {
         this.optionsSyncing = true
+        if (this.grouped) {
+          this.optionGroupPropsList = Array.from(n || [], (group, groupIndex) => {
+            const options = this.getGroupOptions(group, groupIndex)
+            return {
+              key: uuidv4(),
+              label: this.getGroupLabel(group, groupIndex),
+              disabled: this.isGroupDisabled(group, groupIndex),
+              options,
+              optionPropsList: Array.from(options || [], (v, i) => ({
+                key: uuidv4(),
+                value: this.getValue(v, i),
+                label: this.getLabel(v, i),
+                labelRight: this.getLabelRight(v, i),
+                disabled: this.isDisabled(v, i),
+              }))
+            }
+          })
+        } else {
+          this.optionPropsList = Array.from(n || [], (v, i) => ({
+            key: uuidv4(),
+            value: this.getValue(v, i),
+            label: this.getLabel(v, i),
+            labelRight: this.getLabelRight(v, i),
+            disabled: this.isDisabled(v, i),
+          }))
+        }
         this.$emit('update:options', n)
       }
     },
@@ -357,9 +395,7 @@ export default {
       }
     },
     onOptionClick (v, i) {
-      if (v?.[this.Props.disabled] !== true) {
-        this.$emit('update:index', i)
-      }
+      this.$emit('update:index', i)
     },
     remoteMethod (e, isImmediate = false) {
       if (!this.Search) {
@@ -392,17 +428,6 @@ export default {
         this.$emit('update:label', this.$refs.elSelect.selectedLabel)
       })
       this.$emit('change', value)
-    },
-    getElOptionProps (v, i) {
-      console.log(123)
-      const key = this.getKey(v, i)
-      const value = this.getValue(v, i)
-      const label = this.getLabel(v, i)
-      const disabled = this.isDisabled(v, i)
-      return { key, value, label, disabled }
-    },
-    getKey (v, i) {
-      return uuidv4()
     },
     getValue (v, i) {
       let res = v
