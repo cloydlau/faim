@@ -15,10 +15,7 @@
       >
         <el-option
           v-for="(v,i) of getGroupOptions(groupOption,groupIndex)"
-          :key="getKey(v,i)"
-          :value="getValue(v,i)"
-          :label="getLabel(v,i)"
-          :disabled="isDisabled(v,i)"
+          v-bind="getElOptionProps(v,i)"
           @click.native="onOptionClick(groupOption,groupIndex)"
         >
           <slot v-if="$scopedSlots.default" :option="v" :index="i"/>
@@ -49,11 +46,7 @@
       </el-checkbox>
       <el-option
         v-for="(v,i) of options__"
-        :key="i"
-        :value="getValue(v,i)"
-        :label="getLabel(v,i)"
-        :disabled="isDisabled(v,i)"
-        @click.native="onOptionClick(v,i)"
+        v-bind="getElOptionProps(v,i)"
       >
         <slot v-if="$scopedSlots.default" :option="v" :index="i"/>
         <template v-else>
@@ -83,6 +76,7 @@ import emitter from 'element-ui/src/mixins/emitter'
 import { cloneDeep } from 'lodash-es'
 import { globalProps, globalAttrs, globalListeners } from './index'
 import { conclude } from 'vue-global-config'
+import { v4 as uuidv4 } from 'uuid'
 import { getListeners } from '../../utils'
 
 export default {
@@ -115,24 +109,24 @@ export default {
     grouped () {
       return notEmpty(this.Props.groupOptions)
     },
-    itemTypeIsObject () {
+    itemTypeIsJSON () {
       return typeof this.options__?.[0] === 'object'
     },
     valueComesFromObject () {
       if (isEmpty(this.Props.value) || this.valueType === 'function') {
         return false
       } else {
-        return this.itemTypeIsObject
+        return this.itemTypeIsJSON
       }
     },
     ScopedSlots () {
-      let result = {}
+      let res = {}
       for (let k in this.$scopedSlots) {
         if (k !== 'default') {
-          result[k] = this.$scopedSlots[k]
+          res[k] = this.$scopedSlots[k]
         }
       }
-      return result
+      return res
     },
     ElSelectProps () {
       const remote = Boolean(this.Search)
@@ -152,7 +146,7 @@ export default {
       })
     },
     Ellipsis () {
-      const result = conclude([
+      const res = conclude([
         [true, ''].includes(this.ellipsis) ? true : this.ellipsis,
         globalProps.ellipsis,
         false
@@ -160,7 +154,7 @@ export default {
         name: 'ellipsis',
         type: 'boolean'
       })
-      if (result) {
+      if (res) {
         this.$nextTick(() => {
           this.popper = this.$refs.elSelect.$refs.popper
           this.unwatchOptions = this.$watch('options__', newVal => {
@@ -295,7 +289,7 @@ export default {
         }
       }
     },
-    // 在组件内部维护一份options__的目的：search时可以不绑定options。
+    // 在组件内部维护一份 options__ 的目的：search 时可以不绑定 options
     options__: {
       handler (n, o) {
         this.optionsSyncing = true
@@ -338,7 +332,7 @@ export default {
       }
       this.onChange(this.value__)
     },
-    // el-from重置触发
+    // el-from 重置触发
     resetField () {
       const initialValue = cloneDeep(this.initialValue)
       this.value__ = initialValue
@@ -355,9 +349,9 @@ export default {
       return []
     },
     validateProps (propKey) {
-      const result = typeOf(this.Props[propKey])
-      if (['undefined', 'boolean', 'symbol', 'string', 'number', 'null', 'function'].includes(result)) {
-        return result
+      const res = typeOf(this.Props[propKey])
+      if (['undefined', 'boolean', 'symbol', 'string', 'number', 'null', 'function'].includes(res)) {
+        return res
       } else {
         throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}props.${propKey}的类型仅能为string/number/symbol/function`)
       }
@@ -372,15 +366,15 @@ export default {
         return
       }
       this.loading = true
-      const result = this.Search(e, isImmediate)
-      if (result instanceof Promise) {
-        result.then(res => {
+      const res = this.Search(e, isImmediate)
+      if (res instanceof Promise) {
+        res.then(res => {
           this.options__ = res
         }).finally(() => {
           this.loading = false
         })
       } else {
-        this.options__ = result
+        this.options__ = res
         this.loading = false
       }
     },
@@ -399,92 +393,99 @@ export default {
       })
       this.$emit('change', value)
     },
-    getKey (v, i) {
+    getElOptionProps (v, i) {
       console.log(123)
-      return i
+      const key = this.getKey(v, i)
+      const value = this.getValue(v, i)
+      const label = this.getLabel(v, i)
+      const disabled = this.isDisabled(v, i)
+      return { key, value, label, disabled }
+    },
+    getKey (v, i) {
+      return uuidv4()
     },
     getValue (v, i) {
-      let result = v
+      let res = v
       if (this.valueType === 'function') {
-        result = this.Props.value(v, i)
-      } else if (this.itemTypeIsObject) {
+        res = this.Props.value(v, i)
+      } else if (this.itemTypeIsJSON) {
         if (notEmpty(this.Props.value)) {
-          result = v?.[this.Props.value]
+          res = v?.[this.Props.value]
         } else if (isEmpty(this.ElSelectProps.valueKey)) {
           throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX} 绑定值为 object 类型时，必须按 el-select 的要求指定 value-key`)
         }
       }
-      return result
+      return res
     },
     getLabel (v, i) {
-      let result = v
+      let res = v
       if (this.labelType === 'function') {
-        result = this.Props.label(v, i)
-      } else if (this.itemTypeIsObject) {
+        res = this.Props.label(v, i)
+      } else if (this.itemTypeIsJSON) {
         if (notEmpty(this.Props.label)) {
-          result = v?.[this.Props.label]
+          res = v?.[this.Props.label]
         } else {
-          result = JSON.stringify(v)
+          res = JSON.stringify(v)
         }
       }
-      return isEmpty(result) ? '' : String(result)
+      return isEmpty(res) ? '' : String(res)
     },
     getLabelRight (v, i) {
-      let result
+      let res
       if (this.labelRightType === 'function') {
-        result = this.Props.labelRight(v, i)
-      } else if (this.itemTypeIsObject) {
+        res = this.Props.labelRight(v, i)
+      } else if (this.itemTypeIsJSON) {
         if (notEmpty(this.Props.labelRight)) {
-          result = v?.[this.Props.labelRight]
+          res = v?.[this.Props.labelRight]
         }
       }
-      return isEmpty(result) ? '' : String(result)
+      return isEmpty(res) ? '' : String(res)
     },
     getGroupLabel (v, i) {
-      let result = v
+      let res = v
       if (this.groupLabelType === 'function') {
-        result = this.Props.groupLabel(v, i)
-      } else if (this.itemTypeIsObject) {
+        res = this.Props.groupLabel(v, i)
+      } else if (this.itemTypeIsJSON) {
         if (notEmpty(this.Props.groupLabel)) {
-          result = v?.[this.Props.groupLabel]
+          res = v?.[this.Props.groupLabel]
         } else {
-          result = JSON.stringify(v)
+          res = JSON.stringify(v)
         }
       }
-      return isEmpty(result) ? '' : String(result)
+      return isEmpty(res) ? '' : String(res)
     },
     isDisabled (v, i) {
-      let result = false
+      let res = false
       if (this.disabledType === 'function') {
-        result = this.Props.disabled(v, i)
-      } else if (this.itemTypeIsObject && notEmpty(this.Props.disabled)) {
-        result = v?.[this.Props.disabled]
+        res = this.Props.disabled(v, i)
+      } else if (this.itemTypeIsJSON && notEmpty(this.Props.disabled)) {
+        res = v?.[this.Props.disabled]
       }
-      return Boolean(result)
+      return Boolean(res)
     },
     isGroupDisabled (v, i) {
-      let result = false
+      let res = false
       if (this.groupDisabledType === 'function') {
-        result = this.Props.groupDisabled(v, i)
-      } else if (this.itemTypeIsObject && notEmpty(this.Props.groupDisabled)) {
-        result = v?.[this.Props.groupDisabled]
+        res = this.Props.groupDisabled(v, i)
+      } else if (this.itemTypeIsJSON && notEmpty(this.Props.groupDisabled)) {
+        res = v?.[this.Props.groupDisabled]
       }
-      return Boolean(result)
+      return Boolean(res)
     },
     getGroupOptions (v, i) {
-      let result
+      let res
       if (this.groupOptionsType === 'function') {
-        result = this.Props.groupOptions(v, i)
-      } else if (this.itemTypeIsObject) {
-        result = v?.[this.Props.groupOptions]
+        res = this.Props.groupOptions(v, i)
+      } else if (this.itemTypeIsJSON) {
+        res = v?.[this.Props.groupOptions]
       }
-      if (isEmpty(result)) {
+      if (isEmpty(res)) {
         return []
-      } else if (!Array.isArray(result)) {
+      } else if (!Array.isArray(res)) {
         console.warn(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}groupOptions的值类型仅能为any[]`)
         return []
       }
-      return result
+      return res
     },
     /*onVisibleChange (show) {
       this.showKiSelect = show

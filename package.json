@@ -33,6 +33,7 @@
     "kayran": "latest",
     "lodash-es": "latest",
     "pic-viewer": "latest",
+    "uuid": "latest",
     "vue-global-config": "latest"
   },
   "peerDependencies": {
