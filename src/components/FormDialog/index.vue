@@ -305,6 +305,7 @@ export default {
     },*/
     onClosed () {
       // 重置表单
+      this.submitting = false
       this.$emit('change', cloneDeep(this.value__))
       if (this.$scopedSlots['el-form']) {
         setTimeout(() => {
@@ -324,18 +325,17 @@ export default {
     confirm () {
       const exec = () => {
         if (typeof this.Submit === 'function') {
-          this.submitting = true
           const result = this.Submit()
           if (result instanceof Promise) {
+            this.submitting = true
             result.then(data => {
               if (data?.close !== false) {
                 this.closeDialog()
               }
-            }).finally(e => {
+            }).catch(e => {
               this.submitting = false
             })
           } else {
-            this.submitting = false
             if (result?.close !== false) {
               this.closeDialog()
             }
