@@ -49,7 +49,6 @@
     "minimist": "latest",
     "sass": "latest",
     "semver": "latest",
-    "svelte-jsoneditor": "latest",
     "typescript": "latest",
     "unocss": "latest",
     "vite": "latest",

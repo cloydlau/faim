@@ -1,45 +1,26 @@
 <template>
-  <el-dialog
-    :visible.sync="show"
-    v-bind="ElDialogProps"
-    v-on="Listeners"
-    ref="elDialog"
-    @closed="onClosed"
-  >
+  <el-dialog :visible.sync="show" :title="Title" v-bind="ElDialogProps" v-on="Listeners" ref="elDialog" @closed="onClosed">
     <template slot="title">
       <!-- 接收slot -->
-      <slot name="title"/>
+      <slot name="title" />
     </template>
     <div v-loading="Loading" class="overflow-y-hidden flex flex-col">
       <!-- 传slot -->
-      <div
-        class="overflow-y-auto pl-40px pr-50px pb-85px pt-25px"
-        style="max-height:calc(100vh - 45px);"
-        ref="overlayScrollbar"
-      >
-        <slot/>
+      <div class="overflow-y-auto px-40px pb-85px pt-25px" style="max-height:calc(100vh - 45px);"
+        ref="overlayScrollbar">
+        <slot />
 
-        <el-form
-          v-if="$scopedSlots['el-form']"
-          :labelWidth="labelWidth"
-          v-bind="ElFormProps"
-          v-on="Listeners"
-        >
-          <slot name="el-form"/>
+        <el-form v-if="$scopedSlots['el-form']" :labelWidth="labelWidth" v-bind="ElFormProps" v-on="Listeners">
+          <slot name="el-form" />
         </el-form>
       </div>
 
-      <div
-        slot="footer"
+      <div slot="footer"
         class="z-1 absolute bottom-0 right-0 py-10px pl-15px pr-9px mr-6px box-border absolute text-right"
-        style="backdrop-filter: blur(4px)"
-      >
-        <slot name="footer" v-if="$scopedSlots['footer']"/>
+        style="backdrop-filter: blur(4px)">
+        <slot name="footer" v-if="$scopedSlots['footer']" />
         <template v-else>
-          <el-button
-            @click="closeDialog"
-            :disabled="closing"
-          >
+          <el-button @click="closeDialog" :disabled="closing">
             {{ showConfirmBtn ? '取 消' : '关 闭' }}
           </el-button>
           <!--<el-button
@@ -50,13 +31,7 @@
           >
             重 置
           </el-button>-->
-          <el-button
-            type="primary"
-            @click="confirm"
-            :disabled="closing"
-            :loading="submitting"
-            v-if="showConfirmBtn"
-          >
+          <el-button type="primary" @click="confirm" :disabled="closing" :loading="submitting" v-if="showConfirmBtn">
             确 定
           </el-button>
         </template>
@@ -96,12 +71,13 @@ export default {
       type: Boolean,
       default: undefined,
     },
+    title: {}
   },
   model: {
     prop: 'value',
     event: 'change'
   },
-  data () {
+  data() {
     return {
       retrieving: true,
       submitting: false,
@@ -117,28 +93,34 @@ export default {
     }
   },
   computed: {
-    Listeners () {
+    Title() {
+      return conclude([this.title, globalProps.title], {
+        name: 'title',
+        type: 'string'
+      })
+    },
+    Listeners() {
       return getListeners.call(this, globalListeners)
     },
-    Loading () {
+    Loading() {
       return conclude([this.loading, globalProps.loading, this.retrieving], {
         name: 'loading',
         type: 'boolean'
       })
     },
-    Retrieve () {
+    Retrieve() {
       return conclude([this.retrieve, globalProps.retrieve], {
         name: 'retrieve',
         type: ['function', 'asyncfunction']
       })
     },
-    Submit () {
+    Submit() {
       return conclude([this.submit, globalProps.submit], {
         name: 'submit',
         type: ['function', 'asyncfunction']
       })
     },
-    Readonly () {
+    Readonly() {
       return conclude([
         [true, ''].includes(this.readonly) ? true : this.readonly,
         globalProps.readonly,
@@ -148,7 +130,7 @@ export default {
         type: 'boolean'
       })
     },
-    ElDialogProps () {
+    ElDialogProps() {
       return conclude([this.$attrs, globalAttrs], {
         default: userProp => {
           this.beforeCloseIsPassed = Boolean(userProp.beforeClose)
@@ -164,7 +146,7 @@ export default {
         defaultIsDynamic: true,
       })
     },
-    ElFormProps () {
+    ElFormProps() {
       return conclude([
         this.elFormProps, globalProps.elFormProps, {
           disabled: this.readonly || this.submitting,
@@ -177,14 +159,14 @@ export default {
       })
     },
   },
-  created () {
+  created() {
     this.value__ = cloneDeep(this.value)
   },
   watch: {
     show: {
       // 针对默认打开的情况 默认打开时 依然执行retrieve
       immediate: true,
-      handler (n) {
+      handler(n) {
         if (n) {
           /*if (this.$scopedSlots['el-form'] && !this.labelWidthSettled) {
             this.labelWidth = await this.getLabelWidth()
@@ -217,7 +199,7 @@ export default {
     },
     Readonly: {
       immediate: true,
-      handler (n) {
+      handler(n) {
         if (!this.closing) {
           this.showConfirmBtn = !n
         }
@@ -225,7 +207,7 @@ export default {
     },
     showConfirmBtn: {
       immediate: true,
-      handler (n) {
+      handler(n) {
         if (!n) {
           loadStyle(this.disabledStyle || `
 .el-form [disabled="disabled"],
@@ -269,14 +251,14 @@ export default {
       immediate: true
     })
   },*/
-  updated () {
+  updated() {
     this.computeLabelWidth()
   },
   methods: {
     /*
       fix: https://github.com/ElemeFE/element/issues?q=label+width+auto
     */
-    computeLabelWidth () {
+    computeLabelWidth() {
       const { labelWidth, labelPosition } = this.ElFormProps
       // 如果 label 位置不为顶部 且 用户没有指定 label 宽度，则计算 label 宽度
       if (labelPosition !== 'top' && [undefined, 'auto'].includes(labelWidth)) {
@@ -303,7 +285,7 @@ export default {
     /*reset () {
       this.$refs.elForm.resetFields()
     },*/
-    onClosed () {
+    onClosed() {
       // 重置表单
       this.submitting = false
       this.$emit('change', cloneDeep(this.value__))
@@ -315,14 +297,14 @@ export default {
       this.closing = false
       this.showConfirmBtn = !this.Readonly
     },
-    closeDialog () {
+    closeDialog() {
       if (this.beforeCloseIsPassed) {
         this.$refs.elDialog.beforeClose()
       } else {
         this.$emit('update:show', false)
       }
     },
-    confirm () {
+    confirm() {
       const exec = () => {
         if (typeof this.Submit === 'function') {
           const result = this.Submit()
@@ -369,6 +351,7 @@ export default {
     opacity: 0;
     transform: scale3d(0, 0, 1);
   }
+
   100% {
     opacity: 1;
     transform: scale3d(1, 1, 1);
@@ -379,6 +362,7 @@ export default {
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
     transform: scale3d(0.5, 0.5, 1);
@@ -436,10 +420,10 @@ export default {
     display: flex;
     justify-content: space-between;
 
-    & > .el-dialog__headerbtn {
+    &>.el-dialog__headerbtn {
       position: unset;
 
-      & > .el-dialog__close {
+      &>.el-dialog__close {
         font-size: 24px;
         font-weight: bolder;
       }
@@ -472,6 +456,7 @@ export default {
     }
 
     .el-form-item__content {
+
       .el-input,
       .el-input-number,
       .el-select,

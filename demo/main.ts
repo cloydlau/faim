@@ -26,7 +26,7 @@ import {
   {
     component: FormDialog,
     config: {
-      '@closed' (e) {
+      '@closed'(e) {
         console.log('@closed')
         console.log(e)
         console.log(this)
