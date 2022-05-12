@@ -1,70 +1,39 @@
 <template>
-  <el-select
-    v-model="value__"
-    v-bind="ElSelectProps"
-    @change="onChange"
-    v-on="Listeners"
-    ref="elSelect"
-  >
+  <el-select v-model="value__" v-bind="ElSelectProps" @change="onChange" v-on="Listeners" ref="elSelect">
     <template v-if="grouped">
-      <el-option-group
-        v-for="(group,groupIndex) of options__"
-        :key="optionGroupPropsList[groupIndex].key"
-        :label="optionGroupPropsList[groupIndex].label"
-        :disabled="optionGroupPropsList[groupIndex].disabled"
-      >
-        <el-option
-          v-for="(option,optionIndex) of optionGroupPropsList[groupIndex].options"
+      <el-option-group v-for="(group, groupIndex) of options__" :key="optionGroupPropsList[groupIndex].key"
+        :label="optionGroupPropsList[groupIndex].label" :disabled="optionGroupPropsList[groupIndex].disabled">
+        <el-option v-for="(option, optionIndex) of optionGroupPropsList[groupIndex].options"
           :key="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].key"
           :label="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label"
           :value="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].value"
           :disabled="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled"
-          @click.native="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled ? undefined : onOptionClick(group,groupIndex)"
-        >
-          <slot v-if="$scopedSlots.default" :option="option" :index="optionIndex"/>
+          @click.native="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled ? undefined : onOptionClick(group, groupIndex)">
+          <slot v-if="$scopedSlots.default" :option="option" :index="optionIndex" />
           <template v-else>
-            <el-tooltip
-              :disabled="!Ellipsis"
-              effect="dark"
-              placement="right"
-              :content="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label"
-            >
+            <el-tooltip :disabled="!Ellipsis" effect="dark" placement="right"
+              :content="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label">
               <span class="label-left">{{ optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label }}</span>
             </el-tooltip>
             <span class="label-right">{{
                 optionGroupPropsList[groupIndex].optionPropsList[optionIndex].labelRight
-              }}</span>
+            }}</span>
           </template>
         </el-option>
       </el-option-group>
     </template>
 
     <template v-else>
-      <el-checkbox
-        v-model="allSelected"
-        @change='selectAll'
-        :indeterminate="indeterminate"
-        class="px-20px py-10px"
-        v-if="isMultiple"
-      >
+      <el-checkbox v-model="allSelected" @change='selectAll' :indeterminate="indeterminate" class="px-20px py-10px"
+        v-if="isMultiple">
         全选
       </el-checkbox>
-      <el-option
-        v-for="(v,i) of options__"
-        :key="optionPropsList[i].key"
-        :label="optionPropsList[i].label"
-        :value="optionPropsList[i].value"
-        :disabled="optionPropsList[i].disabled"
-        @click.native="optionPropsList[i].disabled ? undefined : onOptionClick(v,i)"
-      >
-        <slot v-if="$scopedSlots.default" :option="v" :index="i"/>
+      <el-option v-for="(v, i) of options__" :key="optionPropsList[i].key" :label="optionPropsList[i].label"
+        :value="optionPropsList[i].value" :disabled="optionPropsList[i].disabled"
+        @click.native="optionPropsList[i].disabled ? undefined : onOptionClick(v, i)">
+        <slot v-if="$scopedSlots.default" :option="v" :index="i" />
         <template v-else>
-          <el-tooltip
-            :disabled="!Ellipsis"
-            effect="dark"
-            placement="right"
-            :content="optionPropsList[i].label"
-          >
+          <el-tooltip :disabled="!Ellipsis" effect="dark" placement="right" :content="optionPropsList[i].label">
             <span class="label-left">{{ optionPropsList[i].label }}</span>
           </el-tooltip>
           <span class="label-right">{{ optionPropsList[i].labelRight }}</span>
@@ -72,8 +41,8 @@
       </el-option>
     </template>
 
-    <template v-for="(v,k) in ScopedSlots" v-slot:[k]>
-      <slot :name="k"/>
+    <template v-for="(v, k) in ScopedSlots" v-slot:[k]>
+      <slot :name="k" />
     </template>
   </el-select>
 </template>
@@ -112,23 +81,23 @@ export default {
     searchImmediately: {},
   },
   computed: {
-    Listeners () {
+    Listeners() {
       return getListeners.call(this, globalListeners)
     },
-    grouped () {
+    grouped() {
       return notEmpty(this.Props.groupOptions)
     },
-    itemTypeIsJSON () {
+    itemTypeIsJSON() {
       return typeof this.options__?.[0] === 'object'
     },
-    valueComesFromObject () {
+    valueComesFromObject() {
       if (isEmpty(this.Props.value) || this.valueType === 'function') {
         return false
       } else {
         return this.itemTypeIsJSON
       }
     },
-    ScopedSlots () {
+    ScopedSlots() {
       let res = {}
       for (let k in this.$scopedSlots) {
         if (k !== 'default') {
@@ -137,7 +106,7 @@ export default {
       }
       return res
     },
-    ElSelectProps () {
+    ElSelectProps() {
       const remote = Boolean(this.Search)
       const placeholder = remote ? '搜索' : '请选择'
 
@@ -154,7 +123,7 @@ export default {
         type: 'object',
       })
     },
-    Ellipsis () {
+    Ellipsis() {
       const res = conclude([
         [true, ''].includes(this.ellipsis) ? true : this.ellipsis,
         globalProps.ellipsis,
@@ -182,28 +151,28 @@ export default {
         this.unwatchOptions?.()
       }
     },
-    valueType () {
+    valueType() {
       return this.validateProps('value')
     },
-    labelType () {
+    labelType() {
       return this.validateProps('label')
     },
-    labelRightType () {
+    labelRightType() {
       return this.validateProps('labelRight')
     },
-    disabledType () {
+    disabledType() {
       return this.validateProps('disabled')
     },
-    groupLabelType () {
+    groupLabelType() {
       return this.validateProps('groupLabel')
     },
-    groupDisabledType () {
+    groupDisabledType() {
       return this.validateProps('groupDisabled')
     },
-    groupOptionsType () {
+    groupOptionsType() {
       return this.validateProps('groupOptions')
     },
-    Props () {
+    Props() {
       return conclude([
         this.props,
         globalProps.props,
@@ -216,12 +185,12 @@ export default {
         type: 'object'
       })
     },
-    Search () {
+    Search() {
       return conclude([this.search, globalProps.search], {
         type: ['function', 'asyncfunction']
       })
     },
-    SearchImmediately () {
+    SearchImmediately() {
       return conclude([
         [true, ''].includes(this.searchImmediately) ? true : this.searchImmediately,
         globalProps.searchImmediately,
@@ -231,11 +200,11 @@ export default {
         type: 'boolean'
       })
     },
-    isMultiple () {
+    isMultiple() {
       return [true, ''].includes(this.ElSelectProps.multiple)
     }
   },
-  data () {
+  data() {
     return {
       value__: this.value,
       initialValue: undefined,
@@ -244,6 +213,7 @@ export default {
       unwatchOptions: null,
       loading: undefined,
       defaultSearchResult: null,
+      // 在组件内部维护一份 options__ 的目的：search 时可以不绑定 options
       options__: [],
       optionGroupPropsList: [],
       optionPropsList: [],
@@ -257,14 +227,14 @@ export default {
     // 没有使用v-model/:value时 resetFields不会触发
     value: {
       immediate: true,
-      handler (n, o) {
+      handler(n, o) {
         this.value__ = n
         // 外部设值时，同步全选按钮状态
         this.syncSelectAllBtn(n)
       }
     },
     value__: {
-      handler (n, o) {
+      handler(n, o) {
         // 多选时，value会被el-select初始化为[]，此时不应执行清空逻辑
         if (this.isMultiple) {
           if (!this.valueInitializedWhenMultiple) {
@@ -276,7 +246,7 @@ export default {
         if (isEmpty(n)) {
           this.$emit('update:index', undefined)
           if (this.defaultSearchResult) {
-            this.options__ = this.defaultSearchResult
+            this.setOptions__(this.defaultSearchResult)
           } else {
             this.remoteMethod()
           }
@@ -285,66 +255,67 @@ export default {
     },
     label: {
       immediate: true,
-      handler (n, o) {
+      handler(n, o) {
         // 没有匹配到选项时，显示label
         this.initLabel()
       }
     },
     options: {
       immediate: true,
-      handler (n, o) {
+      handler(n, o) {
         if (this.optionsSyncing) {
           this.optionsSyncing = false
         } else {
-          this.options__ = n || []
+          this.setOptions__(n)
         }
-      }
-    },
-    // 在组件内部维护一份 options__ 的目的：search 时可以不绑定 options
-    options__: {
-      handler (n, o) {
-        this.optionsSyncing = true
-        if (this.grouped) {
-          this.optionGroupPropsList = Array.from(n || [], (group, groupIndex) => {
-            const options = this.getGroupOptions(group, groupIndex)
-            return {
-              key: uuidv4(),
-              label: this.getGroupLabel(group, groupIndex),
-              disabled: this.isGroupDisabled(group, groupIndex),
-              options,
-              optionPropsList: Array.from(options || [], (v, i) => ({
-                key: uuidv4(),
-                value: this.getValue(v, i),
-                label: this.getLabel(v, i),
-                labelRight: this.getLabelRight(v, i),
-                disabled: this.isDisabled(v, i),
-              }))
-            }
-          })
-        } else {
-          this.optionPropsList = Array.from(n || [], (v, i) => ({
-            key: uuidv4(),
-            value: this.getValue(v, i),
-            label: this.getLabel(v, i),
-            labelRight: this.getLabelRight(v, i),
-            disabled: this.isDisabled(v, i),
-          }))
-        }
-        this.$emit('update:options', n)
       }
     },
   },
-  created () {
+  created() {
     if (this.SearchImmediately) {
       this.remoteMethod(undefined, true)
     }
   },
-  mounted () {
+  mounted() {
     this.initialValue = cloneDeep(this.value)
     this.dispatch('ElForm', 'el.form.addField', [this])
   },
   methods: {
-    initLabel () {
+    // 不写在 watch 里的原因：options__、optionPropsList、optionGroupPropsList 的长度必须保持同步
+    setOptions__(n) {
+      this.optionsSyncing = true
+
+      if (this.grouped) {
+        this.optionGroupPropsList = Array.from(n || [], (group, groupIndex) => {
+          const options = this.getGroupOptions(group, groupIndex)
+          return {
+            key: uuidv4(),
+            label: this.getGroupLabel(group, groupIndex),
+            disabled: this.isGroupDisabled(group, groupIndex),
+            options,
+            optionPropsList: Array.from(options || [], (v, i) => ({
+              key: uuidv4(),
+              value: this.getValue(v, i),
+              label: this.getLabel(v, i),
+              labelRight: this.getLabelRight(v, i),
+              disabled: this.isDisabled(v, i),
+            }))
+          }
+        })
+      } else {
+        this.optionPropsList = Array.from(n || [], (v, i) => ({
+          key: uuidv4(),
+          value: this.getValue(v, i),
+          label: this.getLabel(v, i),
+          labelRight: this.getLabelRight(v, i),
+          disabled: this.isDisabled(v, i),
+        }))
+      }
+
+      this.options__ = n || []
+      this.$emit('update:options', n)
+    },
+    initLabel() {
       if (this.label) {
         setTimeout(() => {
           const { selected, selectedLabel } = this.$refs.elSelect
@@ -355,7 +326,7 @@ export default {
         })
       }
     },
-    selectAll () {
+    selectAll() {
       if (this.allSelected) {
         let temp = []
         this.options__.map((v, i) => {
@@ -370,22 +341,22 @@ export default {
       this.onChange(this.value__)
     },
     // el-from 重置触发
-    resetField () {
+    resetField() {
       const initialValue = cloneDeep(this.initialValue)
       this.value__ = initialValue
       this.onChange(initialValue)
     },
-    validate (trigger, callback) {
+    validate(trigger, callback) {
       callback()
     },
-    clearValidate () {},
-    getRules () {
+    clearValidate() { },
+    getRules() {
       return []
     },
-    getFilteredRule () {
+    getFilteredRule() {
       return []
     },
-    validateProps (propKey) {
+    validateProps(propKey) {
       const res = typeOf(this.Props[propKey])
       if (['undefined', 'boolean', 'symbol', 'string', 'number', 'null', 'function'].includes(res)) {
         return res
@@ -393,10 +364,10 @@ export default {
         throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}props.${propKey}的类型仅能为string/number/symbol/function`)
       }
     },
-    onOptionClick (v, i) {
+    onOptionClick(v, i) {
       this.$emit('update:index', i)
     },
-    remoteMethod (e, isImmediate = false) {
+    remoteMethod(e, isImmediate = false) {
       if (!this.Search) {
         return
       }
@@ -404,16 +375,16 @@ export default {
       const res = this.Search(e, isImmediate)
       if (res instanceof Promise) {
         res.then(res => {
-          this.options__ = res
+          this.setOptions__(res)
         }).finally(() => {
           this.loading = false
         })
       } else {
-        this.options__ = res
+        this.setOptions__(res)
         this.loading = false
       }
     },
-    syncSelectAllBtn (value) {
+    syncSelectAllBtn(value) {
       if (this.isMultiple && !this.grouped) {
         let valueLen = value ? value.length : 0
         const optionsLen = this.options__.length
@@ -421,14 +392,14 @@ export default {
         this.indeterminate = valueLen > 0 && valueLen < optionsLen
       }
     },
-    onChange (value) {
+    onChange(value) {
       this.syncSelectAllBtn(value)
       this.$nextTick(() => {
         this.$emit('update:label', this.$refs.elSelect.selectedLabel)
       })
       this.$emit('change', value)
     },
-    getValue (v, i) {
+    getValue(v, i) {
       let res = v
       if (this.valueType === 'function') {
         res = this.Props.value(v, i)
@@ -441,7 +412,7 @@ export default {
       }
       return res
     },
-    getLabel (v, i) {
+    getLabel(v, i) {
       let res = v
       if (this.labelType === 'function') {
         res = this.Props.label(v, i)
@@ -454,7 +425,7 @@ export default {
       }
       return isEmpty(res) ? '' : String(res)
     },
-    getLabelRight (v, i) {
+    getLabelRight(v, i) {
       let res
       if (this.labelRightType === 'function') {
         res = this.Props.labelRight(v, i)
@@ -465,7 +436,7 @@ export default {
       }
       return isEmpty(res) ? '' : String(res)
     },
-    getGroupLabel (v, i) {
+    getGroupLabel(v, i) {
       let res = v
       if (this.groupLabelType === 'function') {
         res = this.Props.groupLabel(v, i)
@@ -478,7 +449,7 @@ export default {
       }
       return isEmpty(res) ? '' : String(res)
     },
-    isDisabled (v, i) {
+    isDisabled(v, i) {
       let res = false
       if (this.disabledType === 'function') {
         res = this.Props.disabled(v, i)
@@ -487,7 +458,7 @@ export default {
       }
       return Boolean(res)
     },
-    isGroupDisabled (v, i) {
+    isGroupDisabled(v, i) {
       let res = false
       if (this.groupDisabledType === 'function') {
         res = this.Props.groupDisabled(v, i)
@@ -496,7 +467,7 @@ export default {
       }
       return Boolean(res)
     },
-    getGroupOptions (v, i) {
+    getGroupOptions(v, i) {
       let res
       if (this.groupOptionsType === 'function') {
         res = this.Props.groupOptions(v, i)
@@ -525,7 +496,7 @@ export default {
   justify-content: space-between;
   align-items: center;
 
-  & > .label-left {
+  &>.label-left {
     text-overflow: ellipsis;
     white-space: normal;
     word-break: break-all;
@@ -536,7 +507,7 @@ export default {
     line-height: normal;
   }
 
-  & > .label-right {
+  &>.label-right {
     flex-shrink: 0;
     color: #8492a6;
     font-size: 13px;
