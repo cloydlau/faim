@@ -285,6 +285,9 @@ export default {
     setOptions__(n) {
       this.optionsSyncing = true
 
+      // 必须先于 optionPropsList、optionGroupPropsList 执行，否则会影响 getValue 等的判断
+      this.options__ = n || []
+
       if (this.grouped) {
         this.optionGroupPropsList = Array.from(n || [], (group, groupIndex) => {
           const options = this.getGroupOptions(group, groupIndex)
@@ -312,7 +315,6 @@ export default {
         }))
       }
 
-      this.options__ = n || []
       this.$emit('update:options', n)
     },
     initLabel() {
