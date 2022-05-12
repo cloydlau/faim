@@ -302,7 +302,6 @@ export default {
     },
     // 在组件内部维护一份 options__ 的目的：search 时可以不绑定 options
     options__: {
-      immediate: true,
       handler (n, o) {
         this.optionsSyncing = true
         if (this.grouped) {
