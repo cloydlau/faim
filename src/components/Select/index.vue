@@ -217,7 +217,6 @@ export default {
       options__: [],
       optionGroupPropsList: [],
       optionPropsList: [],
-      optionsSyncing: false,
       allSelected: false,
       indeterminate: false,
       valueInitializedWhenMultiple: false,
@@ -263,11 +262,7 @@ export default {
     options: {
       immediate: true,
       handler(n, o) {
-        if (this.optionsSyncing) {
-          this.optionsSyncing = false
-        } else {
-          this.setOptions__(n)
-        }
+        this.setOptions__(n)
       }
     },
   },
@@ -283,8 +278,6 @@ export default {
   methods: {
     // 不写在 watch 里的原因：options__、optionPropsList、optionGroupPropsList 的长度必须保持同步
     setOptions__(n) {
-      this.optionsSyncing = true
-
       // 必须先于 optionPropsList、optionGroupPropsList 执行，否则会影响 getValue 等的判断
       this.options__ = n || []
 
