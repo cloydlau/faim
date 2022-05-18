@@ -1,11 +1,11 @@
 <template>
   <el-dialog :visible.sync="show" :title="Title" v-bind="ElDialogProps" v-on="Listeners" ref="elDialog" @closed="onClosed">
     <template slot="title">
-      <!-- 接收slot -->
+      <!-- 接收 slot -->
       <slot name="title" />
     </template>
     <div v-loading="Loading" class="overflow-y-hidden flex flex-col">
-      <!-- 传slot -->
+      <!-- 传 slot -->
       <div class="overflow-y-auto px-40px pb-85px pt-25px" style="max-height:calc(100vh - 45px);"
         ref="overlayScrollbar">
         <slot />
@@ -50,7 +50,7 @@ import { getListeners } from '../../utils'
 //import Scrollbar from 'smooth-scrollbar'
 //import 'overlayscrollbars/css/OverlayScrollbars.min.css'
 //import OverlayScrollbars from 'overlayscrollbars'
-// 在某项目中触发诡异bug：el-input输入时触发重绘，光标被强制后移
+// 在某项目中触发诡异 bug：el-input 输入时触发重绘，光标被强制后移
 //import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 
 export default {
@@ -449,10 +449,6 @@ export default {
 
     input[type="number"] {
       -moz-appearance: textfield;
-    }
-
-    .el-form-item__label {
-      font-size: 14px !important; //会影响getCharLen算法
     }
 
     .el-form-item__content {
