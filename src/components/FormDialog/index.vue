@@ -315,6 +315,7 @@ export default {
                 this.closeDialog()
               }
             }).catch(e => {
+              console.error(import.meta.env.VITE_APP_CONSOLE_PREFIX, e)
               this.submitting = false
             })
           } else {
