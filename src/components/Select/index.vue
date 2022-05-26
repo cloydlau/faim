@@ -1,19 +1,26 @@
 <template>
-  <el-select v-model="value__" v-bind="ElSelectProps" @change="onChange" v-on="Listeners" ref="elSelect">
+  <el-select v-model="value__" v-bind="ElSelectProps" @change="onChange"
+    v-on="Listeners" ref="elSelect" @visible-change="onVisibleChange">
     <template v-if="grouped">
-      <el-option-group v-for="(group, groupIndex) of options__" :key="optionGroupPropsList[groupIndex].key"
-        :label="optionGroupPropsList[groupIndex].label" :disabled="optionGroupPropsList[groupIndex].disabled">
-        <el-option v-for="(option, optionIndex) of optionGroupPropsList[groupIndex].options"
+      <el-option-group v-for="(group, groupIndex) of options__"
+        :key="optionGroupPropsList[groupIndex].key"
+        :label="optionGroupPropsList[groupIndex].label"
+        :disabled="optionGroupPropsList[groupIndex].disabled">
+        <el-option
+          v-for="(option, optionIndex) of optionGroupPropsList[groupIndex].options"
           :key="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].key"
           :label="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label"
           :value="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].value"
           :disabled="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled"
           @click.native="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled ? undefined : onOptionClick(group, groupIndex)">
-          <slot v-if="$scopedSlots.default" :option="option" :index="optionIndex" />
+          <slot v-if="$scopedSlots.default" :option="option"
+            :index="optionIndex" />
           <template v-else>
             <el-tooltip :disabled="!Ellipsis" effect="dark" placement="right"
               :content="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label">
-              <span class="label-left">{{ optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label }}</span>
+              <span class="label-left">{{
+                  optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label
+              }}</span>
             </el-tooltip>
             <span class="label-right">{{
                 optionGroupPropsList[groupIndex].optionPropsList[optionIndex].labelRight
@@ -24,16 +31,19 @@
     </template>
 
     <template v-else>
-      <el-checkbox v-model="allSelected" @change='selectAll' :indeterminate="indeterminate" class="px-20px py-10px"
+      <el-checkbox v-model="allSelected" @change='selectAll'
+        :indeterminate="indeterminate" class="px-20px py-10px"
         v-if="isMultiple">
         全选
       </el-checkbox>
-      <el-option v-for="(v, i) of options__" :key="optionPropsList[i].key" :label="optionPropsList[i].label"
-        :value="optionPropsList[i].value" :disabled="optionPropsList[i].disabled"
+      <el-option v-for="(v, i) of options__" :key="optionPropsList[i].key"
+        :label="optionPropsList[i].label" :value="optionPropsList[i].value"
+        :disabled="optionPropsList[i].disabled"
         @click.native="optionPropsList[i].disabled ? undefined : onOptionClick(v, i)">
         <slot v-if="$scopedSlots.default" :option="v" :index="i" />
         <template v-else>
-          <el-tooltip :disabled="!Ellipsis" effect="dark" placement="right" :content="optionPropsList[i].label">
+          <el-tooltip :disabled="!Ellipsis" effect="dark" placement="right"
+            :content="optionPropsList[i].label">
             <span class="label-left">{{ optionPropsList[i].label }}</span>
           </el-tooltip>
           <span class="label-right">{{ optionPropsList[i].labelRight }}</span>
@@ -212,7 +222,6 @@ export default {
       //showKiSelect: false
       unwatchOptions: null,
       loading: undefined,
-      defaultSearchResult: null,
       // 在组件内部维护一份 options__ 的目的：search 时可以不绑定 options
       options__: [],
       optionGroupPropsList: [],
@@ -244,11 +253,7 @@ export default {
         // 清空时
         if (isEmpty(n)) {
           this.$emit('update:index', undefined)
-          if (this.defaultSearchResult) {
-            this.setOptions__(this.defaultSearchResult)
-          } else {
-            this.remoteMethod()
-          }
+          this.remoteMethod()
         }
       }
     },
@@ -276,6 +281,15 @@ export default {
     this.dispatch('ElForm', 'el.form.addField', [this])
   },
   methods: {
+    // 下拉框隐藏时，如果没有选中，el-select 会清空搜索关键字，此时需要恢复 options
+    onVisibleChange(isVisible) {
+      if (!isVisible && isEmpty(this.value__)) {
+        // 加延迟的原因：在下拉框隐藏动画结束后再恢复
+        setTimeout(() => {
+          this.remoteMethod()
+        }, 100)
+      }
+    },
     // 不写在 watch 里的原因：options__、optionPropsList、optionGroupPropsList 的长度必须保持同步
     setOptions__(n) {
       // 必须先于 optionPropsList、optionGroupPropsList 执行，否则会影响 getValue 等的判断
