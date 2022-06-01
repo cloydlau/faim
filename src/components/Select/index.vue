@@ -75,10 +75,6 @@ export default {
       default: {}
     }
   },
-  model: {
-    prop: 'value',
-    event: 'change'
-  },
   props: {
     value: {},
     label: {},
@@ -406,7 +402,7 @@ export default {
       this.$nextTick(() => {
         this.$emit('update:label', this.$refs.elSelect.selectedLabel)
       })
-      this.$emit('change', value)
+      this.$emit('input', value)
     },
     getValue(v, i) {
       let res = v
