@@ -1,16 +1,18 @@
 <template>
-  <el-dialog :visible.sync="show" :title="Title" v-bind="ElDialogProps" v-on="Listeners" ref="elDialog" @closed="onClosed">
+  <el-dialog :visible.sync="show" :title="Title" v-bind="ElDialogProps"
+    v-on="Listeners" ref="elDialog" @closed="onClosed">
     <template slot="title">
       <!-- 接收 slot -->
       <slot name="title" />
     </template>
     <div v-loading="Loading" class="overflow-y-hidden flex flex-col">
       <!-- 传 slot -->
-      <div class="overflow-y-auto px-40px pb-85px pt-25px" style="max-height:calc(100vh - 45px);"
-        ref="overlayScrollbar">
+      <div class="overflow-y-auto px-40px pb-85px pt-25px"
+        style="max-height:calc(100vh - 45px);" ref="overlayScrollbar">
         <slot />
 
-        <el-form v-if="$scopedSlots['el-form']" :labelWidth="labelWidth" v-bind="ElFormProps" v-on="Listeners">
+        <el-form v-if="$scopedSlots['el-form']" :labelWidth="labelWidth"
+          v-bind="ElFormProps" v-on="Listeners">
           <slot name="el-form" />
         </el-form>
       </div>
@@ -31,7 +33,8 @@
           >
             重 置
           </el-button>-->
-          <el-button type="primary" @click="confirm" :disabled="closing" :loading="submitting" v-if="showConfirmBtn">
+          <el-button type="primary" @click="confirm" :disabled="closing"
+            :loading="submitting" v-if="showConfirmBtn">
             确 定
           </el-button>
         </template>
@@ -66,7 +69,10 @@ export default {
     elFormProps: {},
     retrieve: {},
     submit: {},
-    readonly: {},
+    readonly: {
+      type: Boolean,
+      default: undefined,
+    },
     loading: {
       type: Boolean,
       default: undefined,
@@ -121,11 +127,7 @@ export default {
       })
     },
     Readonly() {
-      return conclude([
-        [true, ''].includes(this.readonly) ? true : this.readonly,
-        globalProps.readonly,
-        false
-      ], {
+      return conclude([this.readonly, globalProps.readonly, false], {
         name: 'readonly',
         type: 'boolean'
       })

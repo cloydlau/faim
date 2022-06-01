@@ -22,7 +22,10 @@ export default {
   name: 'KiPopSwitch',
   props: {
     value: {},
-    textInside: {},
+    textInside: {
+      type: Boolean,
+      default: undefined
+    },
     elPopconfirmProps: {},
     elTooltipProps: {},
     elPopoverProps: {},
@@ -33,11 +36,7 @@ export default {
   },
   computed: {
     TextInside() {
-      return conclude([
-        [true, ''].includes(this.textInside) ? true : this.textInside,
-        globalProps.textInside,
-        true
-      ], {
+      return conclude([this.textInside, globalProps.textInside, true], {
         name: 'textInside',
         type: 'boolean'
       })
@@ -53,7 +52,7 @@ export default {
             }
           })
           return {
-            ...this.TextInside && { width: 30 + maxTextWidth * 7 },
+            ...this.TextInside && { width: 30 + maxTextWidth * 6 },
             ...userProp
           }
         },

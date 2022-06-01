@@ -82,9 +82,15 @@ export default {
       validator: value => ['null', 'array'].includes(typeOf(value)),
     },
     props: {},
-    ellipsis: {},
+    ellipsis: {
+      type: Boolean,
+      default: undefined,
+    },
     search: {},
-    searchImmediately: {},
+    searchImmediately: {
+      type: Boolean,
+      default: undefined,
+    },
   },
   computed: {
     Listeners() {
@@ -130,11 +136,7 @@ export default {
       })
     },
     Ellipsis() {
-      const res = conclude([
-        [true, ''].includes(this.ellipsis) ? true : this.ellipsis,
-        globalProps.ellipsis,
-        false
-      ], {
+      const res = conclude([this.ellipsis, globalProps.ellipsis, false], {
         name: 'ellipsis',
         type: 'boolean'
       })
@@ -197,11 +199,7 @@ export default {
       })
     },
     SearchImmediately() {
-      return conclude([
-        [true, ''].includes(this.searchImmediately) ? true : this.searchImmediately,
-        globalProps.searchImmediately,
-        true
-      ], {
+      return conclude([this.searchImmediately, globalProps.searchImmediately, true], {
         name: 'searchImmediately',
         type: 'boolean'
       })
