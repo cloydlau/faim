@@ -1,22 +1,13 @@
 <template>
   <el-tooltip v-bind="ElTooltipProps" ref="elTooltip">
-    <div slot="content" v-html="ElTooltipProps.content"/>
+    <div slot="content" v-html="ElTooltipProps.content" />
     <el-popover v-bind="ElPopoverProps">
-      <div v-html="ElPopoverProps.content"/>
-      <el-popconfirm
-        slot="reference"
-        @confirm="onConfirm"
-        @onConfirm="onConfirm"
-        v-bind="ElPopconfirmProps"
-      >
-        <el-switch
-          slot="reference"
-          v-bind="ElSwitchProps"
-          ref="elSwitch"
-          :value="value"
-          @click.native="onClick"
-          :class="TextInside&&'text-inside'"
-        />
+      <div v-html="ElPopoverProps.content" />
+      <el-popconfirm slot="reference" @confirm="onConfirm"
+        @onConfirm="onConfirm" v-bind="ElPopconfirmProps">
+        <el-switch slot="reference" v-bind="ElSwitchProps" ref="elSwitch"
+          :value="value" @click.native="onClick"
+          :class="TextInside && 'text-inside'" />
       </el-popconfirm>
     </el-popover>
   </el-tooltip>
@@ -41,7 +32,7 @@ export default {
     event: 'change'
   },
   computed: {
-    TextInside () {
+    TextInside() {
       return conclude([
         [true, ''].includes(this.textInside) ? true : this.textInside,
         globalProps.textInside,
@@ -51,7 +42,7 @@ export default {
         type: 'boolean'
       })
     },
-    ElSwitchProps () {
+    ElSwitchProps() {
       return conclude([this.$attrs, globalAttrs], {
         default: userProp => {
           let maxTextWidth = 0;
@@ -69,7 +60,7 @@ export default {
         defaultIsDynamic: true,
       })
     },
-    ElPopoverProps () {
+    ElPopoverProps() {
       return conclude([
         this.elPopoverProps,
         globalProps.elPopoverProps,
@@ -83,7 +74,7 @@ export default {
         defaultIsDynamic: true,
       })
     },
-    ElPopconfirmProps () {
+    ElPopconfirmProps() {
       return conclude([
         this.elPopconfirmProps,
         globalProps.elPopconfirmProps,
@@ -97,7 +88,7 @@ export default {
         defaultIsDynamic: true,
       })
     },
-    ElTooltipProps () {
+    ElTooltipProps() {
       return conclude([
         this.elTooltipProps,
         globalProps.elTooltipProps,
@@ -113,11 +104,11 @@ export default {
     },
   },
   methods: {
-    onConfirm () {
+    onConfirm() {
       const { checked, inactiveValue, activeValue } = this.$refs.elSwitch
       this.$emit('change', checked ? inactiveValue : activeValue)
     },
-    onClick () {
+    onClick() {
       if (!this.$refs.elTooltip.manual) {
         this.$refs.elTooltip.showPopper = false
       }
@@ -144,9 +135,14 @@ export default {
 <style lang="scss" scoped>
 ::v-deep {
   .text-inside {
-    .el-switch__label--left, .el-switch__label--right {
+    .el-switch__label * {
+      font-size: 12px;
+    }
+
+    .el-switch__label--left,
+    .el-switch__label--right {
       position: absolute;
-      top: 0;
+      top: -1px;
       z-index: 1;
       margin: 0;
 
