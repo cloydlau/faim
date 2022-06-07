@@ -18,8 +18,8 @@
       </div>
 
       <div slot="footer"
-        class="z-1 absolute bottom-0 right-0 py-10px pl-15px pr-9px mr-6px box-border absolute text-right"
-        style="backdrop-filter: blur(4px)">
+        class="z-1 absolute bottom-0 right-0 py-10px px-15px box-border absolute text-right"
+        style="backdrop-filter: blur(1px)">
         <slot name="footer" v-if="$scopedSlots['footer']" />
         <template v-else>
           <el-button @click="closeDialog" :disabled="closing">
