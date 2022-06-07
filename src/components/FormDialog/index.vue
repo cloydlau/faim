@@ -455,7 +455,6 @@ export default {
     }
 
     .el-form-item__content {
-
       .el-input,
       .el-input-number,
       .el-select,
@@ -473,7 +472,8 @@ export default {
     }
 
     ::-webkit-scrollbar {
-      width: 6px;
+      width: 6px; // 纵向滚动条
+      height: 6px; // 横向滚动条
     }
 
     ::-webkit-scrollbar-thumb {
