@@ -141,7 +141,6 @@ export default {
     .el-switch__label--left,
     .el-switch__label--right {
       position: absolute;
-      top: -1px;
       z-index: 1;
       margin: 0;
 
