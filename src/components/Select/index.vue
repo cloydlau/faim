@@ -1,6 +1,6 @@
 <template>
-  <el-select v-model="value__" v-bind="ElSelectProps" @change="onChange"
-    v-on="Listeners" ref="elSelect" @visible-change="onVisibleChange">
+  <el-select v-model="value__" v-bind="ElSelectProps" @change="onChange" v-on="Listeners"
+    ref="elSelect" @visible-change="onVisibleChange">
     <template v-if="grouped">
       <el-option-group v-for="(group, groupIndex) of options__"
         :key="optionGroupPropsList[groupIndex].key"
@@ -13,8 +13,7 @@
           :value="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].value"
           :disabled="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled"
           @click.native="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled ? undefined : onOptionClick(group, groupIndex)">
-          <slot v-if="$scopedSlots.default" :option="option"
-            :index="optionIndex" />
+          <slot v-if="$scopedSlots.default" :option="option" :index="optionIndex" />
           <template v-else>
             <el-tooltip :disabled="!Ellipsis" effect="dark" placement="right"
               :content="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label">
@@ -33,7 +32,7 @@
     <template v-else>
       <el-checkbox v-model="allSelected" @change='selectAll'
         :indeterminate="indeterminate" class="px-20px py-10px"
-        v-if="isMultiple">
+        v-if="isMultiple && options__.length > 1">
         全选
       </el-checkbox>
       <el-option v-for="(v, i) of options__" :key="optionPropsList[i].key"
