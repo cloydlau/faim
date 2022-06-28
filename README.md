@@ -99,16 +99,16 @@ UI组件库的标杆 `Ant Design` 也是使用value与label命名
 
 ### Props
 
-| 参数             | 说明                        | 类型      | 可选值           | 默认值                         |
-|----------------|---------------------------|---------|---------------|-----------------------------|
-| show.sync      | 是否开启                      | boolean |               | false                       |
-| title          | 对话框标题                     | string  |               |                             |
-| readonly       | 是否只读                      | boolean |               | false                       |
-| v-model        | 表单数据对象（即 el-form 的model）  | any     |               | {}                          |
-| elFormProps    | el-form 属性                | object  | el-form 绝大部分参数 | {}                          |
-| retrieve       | 获取数据                      | function |               |                             |
-| loading        | 加载状态                      | boolean |               | 默认由 retrieve 的 Promise 状态决定 |
-| submit         | 提交                        | function |               |                             |
+| 参数              | 说明                               | 类型     | 可选值               | 默认值                              |
+| ----------------- | ---------------------------------- | -------- | -------------------- | ----------------------------------- |
+| show.sync         | 是否开启                           | boolean  |                      | false                               |
+| title             | 对话框标题                         | string   |                      |                                     |
+| readonly          | 是否只读                           | boolean  |                      | false                               |
+| v-model           | 表单数据对象（即 el-form 的model） | any      |                      | {}                                  |
+| elFormProps       | el-form 属性                       | object   | el-form 绝大部分参数 | {}                                  |
+| retrieve          | 获取数据                           | function |                      |                                     |
+| loading           | 加载状态                           | boolean  |                      | 默认由 retrieve 的 Promise 状态决定 |
+| submit            | 提交                               | function |                      |                                     |
 | ...el-dialog 属性 |
 
 **v-model**
@@ -171,7 +171,7 @@ export default {
       } else {
         this.$swal.warning('校验失败')
         return {
-          close: false
+          show: true,
         }
       }
     }
@@ -186,17 +186,17 @@ submit 的返回值如果是一个 Promise，则 then 时默认关闭弹框，�
 
 注意：如果 catch 了 reject，则 reject 时也会关闭弹框，这是因为组件内部已无法获知被你捕获的 reject
 
-你可以在最后一个 then / catch 中 `return { close: false }` 来控制是否关闭弹框
+你可以在最后一个 then / catch 中 `resolve({ show: true })` 或 `return { show: true }` 来控制是否关闭弹框
 
-submit 没有返回值或者返回值不是 Promise 时，则 submit 执行完毕后默认关闭弹框，你可以 `return { close: false }` 来控制该行为
+submit 没有返回值或者返回值不是 Promise 时，则 submit 执行完毕后默认关闭弹框，你可以 `resolve({ show: true })` 或 `return { show: true }` 来控制该行为
 
 <br>
 
 ### Slots
 
-| name           | description |
-|----------------|---------|
-| el-form        | el-form |
+| name             | description |
+| ---------------- | ----------- |
+| el-form          | el-form     |
 | ...el-dialog插槽 |
 
 #### el-form
@@ -251,8 +251,8 @@ export default {
 
 ### Events
 
-| name           | description | callback's arguments |
-|----------------| --- | --- |
+| name             | description | callback's arguments |
+| ---------------- | ----------- | -------------------- |
 | ...el-dialog事件 |
 | ...el-form事件   |
 
@@ -333,12 +333,12 @@ export default {
 
 ### Props
 
-| Attribute | Description | Type |  Default |
-| --- | --- | --- | --- |
-| textInside | 是否内嵌描述 | boolean | true |
-| elPopconfirmProps | el-popconfirm属性 | object | |
-| elPopoverProps | el-popover属性 | object | |
-| elTooltipProps | el-tooltip属性 | object | |
+| Attribute         | Description       | Type    | Default |
+| ----------------- | ----------------- | ------- | ------- |
+| textInside        | 是否内嵌描述      | boolean | true    |
+| elPopconfirmProps | el-popconfirm属性 | object  |         |
+| elPopoverProps    | el-popover属性    | object  |         |
+| elTooltipProps    | el-tooltip属性    | object  |         |
 | ... el-switch属性 |
 
 <br>
@@ -358,11 +358,11 @@ export default {
 
 ### Props
 
-| Attribute | Description | Type |  Default |
-| --- | --- | --- | --- |
-| elPopconfirmProps | el-popconfirm属性 | object | |
-| elPopoverProps | el-popover属性 | object | |
-| elTooltipProps | el-tooltip属性 | object | |
+| Attribute         | Description       | Type   | Default |
+| ----------------- | ----------------- | ------ | ------- |
+| elPopconfirmProps | el-popconfirm属性 | object |         |
+| elPopoverProps    | el-popover属性    | object |         |
+| elTooltipProps    | el-tooltip属性    | object |         |
 | ... el-button属性 |
 
 <br>
@@ -383,17 +383,17 @@ export default {
 
 ### Props
 
-| 参数 | 说明 | 类型 | 可选值 | 默认值 |
-| --- | --- | --- | --- | --- |
-| v-model / value | 绑定值 | string, number, object | | |
-| label.sync | 绑定值的标签 | string, number | | |
-| index.sync | 绑定值的数组下标 | number | | |
-| options(.sync) | 选项 | { label, value }[] | | |
-| props | 指定对象的属性 | object | | |
-| search | 搜索获取options，（`remote-method` 封装） | function | | |
-| searchImmediately | 是否立即执行搜索 | boolean | | true |
-| ellipsis | 是否限宽并对超长的label作溢出省略处理（默认是超长撑开） | boolean | | false |
-| ...el-select属性 |
+| 参数              | 说明                                                    | 类型                   | 可选值 | 默认值 |
+| ----------------- | ------------------------------------------------------- | ---------------------- | ------ | ------ |
+| v-model / value   | 绑定值                                                  | string, number, object |        |        |
+| label.sync        | 绑定值的标签                                            | string, number         |        |        |
+| index.sync        | 绑定值的数组下标                                        | number                 |        |        |
+| options(.sync)    | 选项                                                    | { label, value }[]     |        |        |
+| props             | 指定对象的属性                                          | object                 |        |        |
+| search            | 搜索获取options，（`remote-method` 封装）               | function               |        |        |
+| searchImmediately | 是否立即执行搜索                                        | boolean                |        | true   |
+| ellipsis          | 是否限宽并对超长的label作溢出省略处理（默认是超长撑开） | boolean                |        | false  |
+| ...el-select属性  |
 
 #### props
 
@@ -592,18 +592,18 @@ export default {
 
 ### Props
 
-| 参数 | 说明 | 类型 | 可选值 | 默认值 |
-| --- | --- | --- | --- | --- |
-| show.sync | 是否开启 | boolean | | false |
-| count | 拍照数量限制 | number / number[] | | 1 |
+| 参数             | 说明         | 类型              | 可选值 | 默认值 |
+| ---------------- | ------------ | ----------------- | ------ | ------ |
+| show.sync        | 是否开启     | boolean           |        | false  |
+| count            | 拍照数量限制 | number / number[] |        | 1      |
 | ...el-dialog属性 |
 
 ### Events
 
-| name | description | callback's arguments |
-| --- | --- | --- |
+| name             | description      | callback's arguments   |
+| ---------------- | ---------------- | ---------------------- |
 | ...el-dialog事件 |
-| confirm | 点击确认按钮触发 | { base64, blob, file } |
+| confirm          | 点击确认按钮触发 | { base64, blob, file } |
 
 ### 获取照片
 
@@ -643,9 +643,9 @@ export default {
 
 ### Props
 
-| 参数 | 说明 | 类型 | 可选值 | 默认值 |
-| --- | --- | --- | --- | --- |
-| title | 标题 | string | | |
+| 参数  | 说明 | 类型   | 可选值 | 默认值 |
+| ----- | ---- | ------ | ------ | ------ |
+| title | 标题 | string |        |        |
 
 <br>
 
@@ -667,13 +667,13 @@ export default {
 
 ### Props
 
-| 参数 | 说明 | 类型 | 可选值 | 默认值 |
-| --- | --- | --- | --- | --- |
-| v-model / value | 绑定值 | string / number / boolean | | |
-| options | 选项 | { label, value }[] | | |
-| props | 指定对象的属性 | object | | |
-| elCheckboxGroupProps | el-checkbox-group 属性 | object | | |
-| ...el-checkbox属性 |
+| 参数                 | 说明                   | 类型                      | 可选值 | 默认值 |
+| -------------------- | ---------------------- | ------------------------- | ------ | ------ |
+| v-model / value      | 绑定值                 | string / number / boolean |        |        |
+| options              | 选项                   | { label, value }[]        |        |        |
+| props                | 指定对象的属性         | object                    |        |        |
+| elCheckboxGroupProps | el-checkbox-group 属性 | object                    |        |        |
+| ...el-checkbox属性   |
 
 #### props
 
@@ -690,14 +690,14 @@ export default {
 
 ### Props
 
-| 参数 | 说明 | 类型 | 可选值 | 默认值 |
-| --- | --- | --- | --- | --- |
-| cd | 冷却时间（秒） | number | | 60 |
+| 参数             | 说明           | 类型   | 可选值 | 默认值 |
+| ---------------- | -------------- | ------ | ------ | ------ |
+| cd               | 冷却时间（秒） | number |        | 60     |
 | ...el-button属性 |
 
-| 事件 | 说明 | 回调参数 |
-| --- | --- | --- |
-| click | 点击后触发（返回值需为Promise类型） | |
+| 事件  | 说明                                | 回调参数 |
+| ----- | ----------------------------------- | -------- |
+| click | 点击后触发（返回值需为Promise类型） |          |
 
 ```vue
 <!-- 示例 -->

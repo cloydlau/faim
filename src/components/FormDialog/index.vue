@@ -1,6 +1,6 @@
 <template>
-  <el-dialog :visible.sync="show" :title="Title" v-bind="ElDialogProps"
-    v-on="Listeners" ref="elDialog" @closed="onClosed">
+  <el-dialog :visible.sync="show" :title="Title" v-bind="ElDialogProps" v-on="Listeners"
+    ref="elDialog" @closed="onClosed">
     <template slot="title">
       <!-- 接收 slot -->
       <slot name="title" />
@@ -313,17 +313,17 @@ export default {
           if (result instanceof Promise) {
             this.submitting = true
             result.then(data => {
-              if (data?.close !== false) {
+              if (data?.show === true) {
+                this.submitting = false
+              } else {
                 this.closeDialog()
               }
             }).catch(e => {
               console.error(import.meta.env.VITE_APP_CONSOLE_PREFIX, e)
               this.submitting = false
             })
-          } else {
-            if (result?.close !== false) {
-              this.closeDialog()
-            }
+          } else if (result?.show !== true) {
+            this.closeDialog()
           }
         } else {
           this.closeDialog()
@@ -455,6 +455,7 @@ export default {
     }
 
     .el-form-item__content {
+
       .el-input,
       .el-input-number,
       .el-select,
