@@ -125,7 +125,7 @@ export default {
       if (['undefined', 'boolean', 'symbol', 'string', 'number', 'null', 'function'].includes(result)) {
         return result
       } else {
-        throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}props.${propKey}的类型仅能为string/number/symbol/function`)
+        throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}props.${propKey} 的类型仅能为 string / number / symbol / function`)
       }
     },
     getValue (v, i) {
