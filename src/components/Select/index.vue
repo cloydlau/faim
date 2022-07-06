@@ -286,7 +286,7 @@ export default {
     // 不写在 watch 里的原因：options__、optionPropsList、optionGroupPropsList 的长度必须保持同步
     setOptions__(n) {
       if (!['undefined', 'null', 'array'].includes(typeOf(n))) {
-        throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}options 的类型仅能为 any[]`)
+        throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}options 的类型仅能为 any[]，得到：`, n)
       }
       // 必须先于 optionPropsList、optionGroupPropsList 执行，否则会影响 getValue 等的判断
       this.options__ = n || []
@@ -366,7 +366,7 @@ export default {
       if (['undefined', 'boolean', 'symbol', 'string', 'number', 'null', 'function'].includes(res)) {
         return res
       } else {
-        throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}props.${propKey} 的类型仅能为 string / number / symbol / function`)
+        throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}props.${propKey} 的类型仅能为 string / number / symbol / function，得到：`, this.Props[propKey])
       }
     },
     onOptionClick(v, i) {

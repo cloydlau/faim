@@ -1,23 +1,12 @@
 <template>
   <div>
-    <el-checkbox
-      v-model="allChecked"
-      v-bind="ElCheckAllBoxProps"
-      @change="checkAllChange"
-    >全选
+    <el-checkbox v-model="allChecked" v-bind="ElCheckAllBoxProps"
+      @change="checkAllChange">全选
     </el-checkbox>
-    <el-checkbox-group
-      v-model="value__"
-      v-bind="ElCheckboxGroupProps"
-      @change="checkChange"
-    >
-      <el-checkbox
-        v-for="(v,i) of options"
-        :label="getValue(v,i)"
-        :key="i"
-        v-bind="ElCheckBoxProps"
-        :disabled="isDisabled(v,i)"
-      >
+    <el-checkbox-group v-model="value__" v-bind="ElCheckboxGroupProps"
+      @change="checkChange">
+      <el-checkbox v-for="(v, i) of options" :label="getValue(v, i)" :key="i"
+        v-bind="ElCheckBoxProps" :disabled="isDisabled(v, i)">
         {{ getLabel(v, i) }}
       </el-checkbox>
     </el-checkbox-group>
@@ -49,28 +38,28 @@ export default {
   watch: {
     value: {
       immediate: true,
-      handler (n, o) {
+      handler(n, o) {
         this.value__ = n || []
         this.checkChange(n)
       }
     },
     value__: {
-      handler (n, o) {
+      handler(n, o) {
         this.$emit('change', n)
       }
     }
   },
   computed: {
-    ElCheckBoxProps () {
+    ElCheckBoxProps() {
       return conclude([this.$attrs, globalAttrs])
     },
-    ElCheckAllBoxProps () {
+    ElCheckAllBoxProps() {
       return {
         ...this.ElCheckBoxProps,
         indeterminate: this.isIndeterminate,
       }
     },
-    ElCheckboxGroupProps () {
+    ElCheckboxGroupProps() {
       return conclude([
         this.elCheckboxGroupProps, globalProps.elCheckboxGroupProps
       ], {
@@ -78,19 +67,19 @@ export default {
         type: 'object'
       })
     },
-    itemTypeIsObject () {
+    itemTypeIsObject() {
       return typeof this.options?.[0] === 'object'
     },
-    valueType () {
+    valueType() {
       return this.validateProps('value')
     },
-    labelType () {
+    labelType() {
       return this.validateProps('label')
     },
-    disabledType () {
+    disabledType() {
       return this.validateProps('disabled')
     },
-    Props () {
+    Props() {
       return conclude([
         this.props, globalProps.props, {
           disabled: 'disabled',
@@ -101,7 +90,7 @@ export default {
       })
     }
   },
-  data () {
+  data() {
     return {
       value__: [],
       isIndeterminate: false,
@@ -109,26 +98,26 @@ export default {
     }
   },
   methods: {
-    checkAllChange (checked) {
+    checkAllChange(checked) {
       this.value__ = checked ?
         Array.from(this.options, (v, i) => this.getValue(v, i)) :
         []
       this.isIndeterminate = false
     },
-    checkChange (value) {
+    checkChange(value) {
       let checkedCount = value ? value.length : 0
       this.allChecked = checkedCount > 0 && checkedCount === this.options.length
       this.isIndeterminate = checkedCount > 0 && checkedCount < this.options.length
     },
-    validateProps (propKey) {
-      const result = typeOf(this.Props[propKey])
+    validateProps(propKey) {
+      const res = typeOf(this.Props[propKey])
       if (['undefined', 'boolean', 'symbol', 'string', 'number', 'null', 'function'].includes(result)) {
-        return result
+        return res
       } else {
-        throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}props.${propKey} 的类型仅能为 string / number / symbol / function`)
+        throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}props.${propKey} 的类型仅能为 string / number / symbol / function，得到：`, this.Props[propKey])
       }
     },
-    getValue (v, i) {
+    getValue(v, i) {
       let result = v
       if (this.valueType === 'function') {
         result = this.Props.value(v, i)
@@ -139,7 +128,7 @@ export default {
       }
       return result
     },
-    getLabel (v, i) {
+    getLabel(v, i) {
       let result = v
       if (this.labelType === 'function') {
         result = this.Props.label(v, i)
@@ -152,7 +141,7 @@ export default {
       }
       return isEmpty(result) ? '' : String(result)
     },
-    isDisabled (v, i) {
+    isDisabled(v, i) {
       let result = false
       if (this.disabledType === 'function') {
         result = this.Props.disabled(v, i)
