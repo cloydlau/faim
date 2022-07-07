@@ -78,17 +78,17 @@ export default {
 所有组件命名均符合[Vue官方风格指南](https://v3.cn.vuejs.org/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81)
 指导的 `组件名为多个单词`
 
-关于 `KiCheckAllBox` 和 `KiSelect` 组件中value和label的命名：
+关于 `KiCheckAllBox` 和 `KiSelect` 组件中 value 和 label 的命名：
 
 - `value`: 这里要表达的含义就是选中目标的“值”，等同于原生 `<input type="checkbox">` 和 `<select>`
-  元素的value属性，不一定是其唯一标识，所以不应该使用id或者key，且key与Vue的特殊attribute冲突
+  元素的 value 属性，不一定是其唯一标识，所以不应该使用 id 或者 key，且 key 与 Vue 的特殊 attribute 冲突
 
-- `label`: html中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以label天生是用来表达选中目标的“展示名称”的， 而name由于与原生input元素的name属性冲突故不考虑使用name
+- `label`: html 中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以 label 天生是用来表达选中目标的“展示名称”的， 而 name 由于与原生 input 元素的 name 属性冲突故不考虑使用 name
 
-> `Element` 本身没有做到命名的统一，`el-select` 中label表示选项的标签，
-> 但 `el-checkbox` 中label却表示的是选中状态的值
+> `Element` 本身没有做到命名的统一，`el-select` 中 label 表示选项的标签，
+> 但 `el-checkbox` 中 label 却表示的是选中状态的值
 
-UI组件库的标杆 `Ant Design` 也是使用value与label命名
+UI 组件库的标杆 `Ant Design` 也是使用 value 与 label 命名
 
 <br>
 
@@ -99,16 +99,16 @@ UI组件库的标杆 `Ant Design` 也是使用value与label命名
 
 ### Props
 
-| 参数              | 说明                               | 类型     | 可选值               | 默认值                              |
-| ----------------- | ---------------------------------- | -------- | -------------------- | ----------------------------------- |
-| show.sync         | 是否开启                           | boolean  |                      | false                               |
-| title             | 对话框标题                         | string   |                      |                                     |
-| readonly          | 是否只读                           | boolean  |                      | false                               |
-| v-model           | 表单数据对象（即 el-form 的model） | any      |                      | {}                                  |
-| elFormProps       | el-form 属性                       | object   | el-form 绝大部分参数 | {}                                  |
-| retrieve          | 获取数据                           | function |                      |                                     |
-| loading           | 加载状态                           | boolean  |                      | 默认由 retrieve 的 Promise 状态决定 |
-| submit            | 提交                               | function |                      |                                     |
+| 参数              | 说明                                | 类型     | 可选值               | 默认值                              |
+| ----------------- | ----------------------------------- | -------- | -------------------- | ----------------------------------- |
+| show.sync         | 是否开启                            | boolean  |                      | false                               |
+| title             | 对话框标题                          | string   |                      |                                     |
+| readonly          | 是否只读                            | boolean  |                      | false                               |
+| v-model           | 表单数据对象（即 el-form 的 model） | any      |                      | {}                                  |
+| elFormProps       | el-form 属性                        | object   | el-form 绝大部分参数 | {}                                  |
+| retrieve          | 获取数据                            | function |                      |                                     |
+| loading           | 加载状态                            | boolean  |                      | 默认由 retrieve 的 Promise 状态决定 |
+| submit            | 提交                                | function |                      |                                     |
 | ...el-dialog 属性 |
 
 **v-model**
@@ -251,10 +251,10 @@ export default {
 
 ### Events
 
-| name             | description | callback's arguments |
-| ---------------- | ----------- | -------------------- |
-| ...el-dialog事件 |
-| ...el-form事件   |
+| name              | description | callback's arguments |
+| ----------------- | ----------- | -------------------- |
+| ...el-dialog 事件 |
+| ...el-form 事件   |
 
 ### 完整示例
 
@@ -323,23 +323,23 @@ export default {
 
 ### Features
 
-- 如果启用了Popconfirm，则仅在点击了确认后才会触发change事件
+- 如果启用了 Popconfirm，则仅在点击了确认后才会触发 change 事件
 - 支持描述内嵌，宽度自适应
-- Popconfirm的顶部间隔不再那么违和地高了
-- Popover宽度自适应，而不是写死一个最小宽度
-- Tooltip非手动控制显隐时，点击开关后会自动关闭，以避免与Popconfirm和Popover冲突
-- Popconfirm, Popover, Tooltip的内容为空时，默认不启用
-- content属性支持html（但不再支持插槽）
+- Popconfirm 的顶部间隔不再那么违和地高了
+- Popover 宽度自适应，而不是写死一个最小宽度
+- Tooltip 非手动控制显隐时，点击开关后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
+- Popconfirm, Popover, Tooltip 的内容为空时，默认不启用
+- content 属性支持 html（但不再支持插槽）
 
 ### Props
 
-| Attribute         | Description       | Type    | Default |
-| ----------------- | ----------------- | ------- | ------- |
-| textInside        | 是否内嵌描述      | boolean | true    |
-| elPopconfirmProps | el-popconfirm属性 | object  |         |
-| elPopoverProps    | el-popover属性    | object  |         |
-| elTooltipProps    | el-tooltip属性    | object  |         |
-| ... el-switch属性 |
+| Attribute          | Description        | Type    | Default |
+| ------------------ | ------------------ | ------- | ------- |
+| textInside         | 是否内嵌描述       | boolean | true    |
+| elPopconfirmProps  | el-popconfirm 属性 | object  |         |
+| elPopoverProps     | el-popover 属性    | object  |         |
+| elTooltipProps     | el-tooltip 属性    | object  |         |
+| ... el-switch 属性 |
 
 <br>
 
@@ -349,21 +349,21 @@ export default {
 
 ### Features
 
-- 如果启用了Popconfirm，则仅在点击了确认后才会触发click事件
-- Popconfirm的顶部间隔不再那么违和地高了
-- Popover宽度自适应，而不是写死一个最小宽度
-- Tooltip非手动控制显隐时，点击按钮后会自动关闭，以避免与Popconfirm和Popover冲突
-- Popconfirm, Popover, Tooltip的内容为空时，默认不启用
-- content属性支持html（但不再支持插槽）
+- 如果启用了 Popconfirm，则仅在点击了确认后才会触发 click 事件
+- Popconfirm 的顶部间隔不再那么违和地高了
+- Popover 宽度自适应，而不是写死一个最小宽度
+- Tooltip 非手动控制显隐时，点击按钮后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
+- Popconfirm, Popover, Tooltip 的内容为空时，默认不启用
+- content 属性支持 html（但不再支持插槽）
 
 ### Props
 
-| Attribute         | Description       | Type   | Default |
-| ----------------- | ----------------- | ------ | ------- |
-| elPopconfirmProps | el-popconfirm属性 | object |         |
-| elPopoverProps    | el-popover属性    | object |         |
-| elTooltipProps    | el-tooltip属性    | object |         |
-| ... el-button属性 |
+| Attribute          | Description        | Type   | Default |
+| ------------------ | ------------------ | ------ | ------- |
+| elPopconfirmProps  | el-popconfirm 属性 | object |         |
+| elPopoverProps     | el-popover 属性    | object |         |
+| elTooltipProps     | el-tooltip 属性    | object |         |
+| ... el-button 属性 |
 
 <br>
 
@@ -373,27 +373,27 @@ export default {
 
 ### Features
 
-- 保留el-select及其子组件的所有特性。
-- 不需要自行循环 `el-option`，传options就好。
+- 保留 el-select 及其子组件的所有特性。
+- 不需要自行循环 `el-option`，传 options 就好。
 - 多选时，提供全选按钮（分组时不支持）。
-- options的数组元素支持任意类型。
-- 用更简单的方式来获取label和index，不需要加ref，不需要判空。
-- 用更简单的方式来异步获取options。
-- 支持对超长的label作溢出省略处理。
+- options 的数组元素支持任意类型。
+- 用更简单的方式来获取 label 和 index，不需要加 ref，不需要判空。
+- 用更简单的方式来异步获取 options。
+- 支持对超长的 label 作溢出省略处理。
 
 ### Props
 
-| 参数              | 说明                                                    | 类型                   | 可选值 | 默认值 |
-| ----------------- | ------------------------------------------------------- | ---------------------- | ------ | ------ |
-| v-model / value   | 绑定值                                                  | string, number, object |        |        |
-| label.sync        | 绑定值的标签                                            | string, number         |        |        |
-| index.sync        | 绑定值的数组下标                                        | number                 |        |        |
-| options(.sync)    | 选项                                                    | { label, value }[]     |        |        |
-| props             | 指定对象的属性                                          | object                 |        |        |
-| search            | 搜索获取options，（`remote-method` 封装）               | function               |        |        |
-| searchImmediately | 是否立即执行搜索                                        | boolean                |        | true   |
-| ellipsis          | 是否限宽并对超长的label作溢出省略处理（默认是超长撑开） | boolean                |        | false  |
-| ...el-select属性  |
+| 参数              | 说明                                                      | 类型                   | 可选值 | 默认值 |
+| ----------------- | --------------------------------------------------------- | ---------------------- | ------ | ------ |
+| v-model / value   | 绑定值                                                    | string, number, object |        |        |
+| label.sync        | 绑定值的标签                                              | string, number         |        |        |
+| index.sync        | 绑定值的数组下标                                          | number                 |        |        |
+| options(.sync)    | 选项                                                      | { label, value }[]     |        |        |
+| props             | 指定对象的属性                                            | object                 |        |        |
+| search            | 搜索获取 options，（`remote-method` 封装）                | function               |        |        |
+| searchImmediately | 是否立即执行搜索                                          | boolean                |        | true   |
+| ellipsis          | 是否限宽并对超长的 label 作溢出省略处理（默认是超长撑开） | boolean                |        | false  |
+| ...el-select 属性 |
 
 #### props
 
@@ -401,8 +401,8 @@ export default {
 {
   value: undefined, // 指定 options 中 key 的属性名（options 为对象数组时有效）
   label: undefined, // 指定 options 中 label 的属性名（options 为对象数组时有效）
-  labelRight: undefined, // 指定options中右浮label的属性名（options为对象数组时有效）
-  disabled: 'disabled', // 指定options中disabled的属性名（options为对象数组时有效）
+  labelRight: undefined, // 指定 options 中右浮 label 的属性名（options 为对象数组时有效）
+  disabled: 'disabled', // 指定 options 中 disabled 的属性名（options 为对象数组时有效）
   groupLabel: undefined, // 指定组名（分组时有效）
   groupOptions: undefined, // 指定子选项组的属性名（分组时有效）
   groupDisabled: 'disabled', // 指定子选项组是否禁用的属性名（分组时有效）
@@ -410,7 +410,7 @@ export default {
 ```
 
 ```vue
-<!-- props中所有属性均支持以function形式定制返回值 -->
+<!-- props 中所有属性均支持以 function 形式定制返回值 -->
 
 <template>
   <KiSelect
@@ -425,15 +425,15 @@ export default {
 
 ### label.sync, index.sync
 
-为避免与value冲突，index仅支持单向数据流（子→父），选中项依然以value为准。
+为避免与 value 冲突，index 仅支持单向数据流（子 → 父），选中项依然以 value 为准。
 
-当value在options中没有匹配到对应项时，label也可以正常展示。
+当 value 在 options 中没有匹配到对应项时，label 也可以正常展示。
 
-分组时，index为组下标。
+分组时，index 为组下标。
 
 ### Slots
 
-支持el-select全部slots
+支持 el-select 全部 slots
 
 ```html
 <!-- 使用默认插槽自定义选项内容 -->
@@ -447,20 +447,20 @@ export default {
 
 ### object类型
 
-如果options是对象数组且props.value是有效的对象键名时，value将得到选中项对应对象中指定value的值
+如果 options 是对象数组且 props.value 是有效的对象键名时，value 将得到选中项对应对象中指定 value 的值
 
-否则，value将得到选中项对应的数组元素
+否则，value 将得到选中项对应的数组元素
 
-Select默认将props.value用作 `value-key`
-options为对象数组且未指定value值时，绑定值将是object类型，此时必须按el-select的要求提供 `value-key`
+Select 默认将 props.value 用作 `value-key`
+options 为对象数组且未指定 value 值时，绑定值将是 object 类型，此时必须按 el-select 的要求提供 `value-key`
 
 ### 搜索
 
-- 无需操心loading状态
-- 清空输入时，自动恢复初始options
+- 无需操心 loading 状态
+- 清空输入时，自动恢复初始 options
 
 ```vue
-<!-- 异步获取options -->
+<!-- 异步获取 options -->
 
 <template>
   <KiSelect
@@ -476,7 +476,7 @@ options为对象数组且未指定value值时，绑定值将是object类型，�
 ```
 
 ```vue
-<!-- 双向绑定options -->
+<!-- 双向绑定 options -->
 
 <template>
   <KiSelect
@@ -503,7 +503,7 @@ export default {
 ```
 
 ```vue
-<!-- 同步获取options -->
+<!-- 同步获取 options -->
 
 <template>
   <KiSelect
@@ -580,11 +580,11 @@ export default {
 />
 ```
 
-多选且与el-form搭配时，会出现一开始就触发rule校验的问题（而不是blur或change以后）
+多选且与 el-form 搭配时，会出现一开始就触发 rule 校验的问题（而不是 blur 或 change 以后）
 
-这是el-select自身原因导致的，在多选时，el-select会将value初始化为 `[]`
+这是 el-select 自身原因导致的，在多选时，el-select 会将 value 初始化为 `[]`
 
-解决方式：给value赋初值 `[]`
+解决方式：给 value 赋初值 `[]`
 
 <br>
 
@@ -690,14 +690,14 @@ export default {
 
 ### Props
 
-| 参数             | 说明           | 类型   | 可选值 | 默认值 |
-| ---------------- | -------------- | ------ | ------ | ------ |
-| cd               | 冷却时间（秒） | number |        | 60     |
-| ...el-button属性 |
+| 参数              | 说明           | 类型   | 可选值 | 默认值 |
+| ----------------- | -------------- | ------ | ------ | ------ |
+| cd                | 冷却时间（秒） | number |        | 60     |
+| ...el-button 属性 |
 
-| 事件  | 说明                                | 回调参数 |
-| ----- | ----------------------------------- | -------- |
-| click | 点击后触发（返回值需为Promise类型） |          |
+| 事件  | 说明                                  | 回调参数 |
+| ----- | ------------------------------------- | -------- |
+| click | 点击后触发（返回值需为 Promise 类型） |          |
 
 ```vue
 <!-- 示例 -->

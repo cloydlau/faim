@@ -111,7 +111,7 @@ export default {
     },
     validateProps(propKey) {
       const res = typeOf(this.Props[propKey])
-      if (['undefined', 'boolean', 'symbol', 'string', 'number', 'null', 'function'].includes(result)) {
+      if (['undefined', 'boolean', 'symbol', 'string', 'number', 'null', 'function'].includes(res)) {
         return res
       } else {
         throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}props.${propKey} 的类型仅能为 string / number / symbol / function，得到：`, this.Props[propKey])
