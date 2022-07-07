@@ -1,6 +1,6 @@
 {
   "name": "kikimore",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "趁手小型组件库",
   "author": "cloydlau",
   "license": "MIT",
@@ -50,7 +50,7 @@
     "sass": "latest",
     "semver": "latest",
     "typescript": "latest",
-    "unocss": "latest",
+    "unocss": "0.43.1",
     "vite": "latest",
     "vite-plugin-vue2": "latest",
     "vue": "2.6.12",
