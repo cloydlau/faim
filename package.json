@@ -10,10 +10,10 @@
     "url": "https://github.com/cloydlau/kikimore"
   },
   "main": "./dist/kikimore.umd.js",
-  "module": "./dist/kikimore.es.js",
+  "module": "./dist/kikimore.mjs",
   "exports": {
     ".": {
-      "import": "./dist/kikimore.es.js",
+      "import": "./dist/kikimore.mjs",
       "require": "./dist/kikimore.umd.js"
     },
     "./dist/style.css": "./dist/style.css"
