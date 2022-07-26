@@ -19,17 +19,18 @@
     </div>
 
     <template #footer v-if="$scopedSlots['footer']">
-      <slot name="footer" />
+      <slot name="footer" :closing="closing" :submitting="submitting" :confirm="confirm"
+        :showConfirmButton="showConfirmButton" :close="close" />
     </template>
 
     <div v-if="!$scopedSlots['footer']" class="footer" z="1"
       pos="absolute bottom-0 right-0" py="10px" px="15px" box="border" text="right"
       style="backdrop-filter: blur(1px)">
-      <el-button @click="closeDialog" :disabled="closing">
-        {{ showConfirmBtn ? '取 消' : '关 闭' }}
+      <el-button @click="close" :disabled="closing">
+        {{ showConfirmButton ? '取 消' : '关 闭' }}
       </el-button>
       <el-button type="primary" @click="confirm" :disabled="closing" :loading="submitting"
-        v-if="showConfirmBtn">
+        v-if="showConfirmButton">
         确 定
       </el-button>
     </div>
@@ -85,7 +86,7 @@ export default {
       disabledStyle: null,
       scrollbar: null,
       // 作用是防止在关闭但关闭动画未结束时隐藏的确认按钮暴露出来
-      showConfirmBtn: false,
+      showConfirmButton: false,
       beforeCloseIsPassed: false,
       //osInstance: null,
       labelWidth: undefined
@@ -172,7 +173,7 @@ export default {
           if (result instanceof Promise) {
             result.catch(e => {
               console.error(import.meta.env.VITE_APP_CONSOLE_PREFIX, e)
-              this.closeDialog()
+              this.close()
             }).finally(e => {
               this.retrieving = false
             })
@@ -196,11 +197,11 @@ export default {
       immediate: true,
       handler(n) {
         if (!this.closing) {
-          this.showConfirmBtn = !n
+          this.showConfirmButton = !n
         }
       }
     },
-    showConfirmBtn: {
+    showConfirmButton: {
       immediate: true,
       handler(n) {
         if (!n) {
@@ -290,9 +291,9 @@ export default {
         }, 0)
       }
       this.closing = false
-      this.showConfirmBtn = !this.Readonly
+      this.showConfirmButton = !this.Readonly
     },
-    closeDialog() {
+    close() {
       if (this.beforeCloseIsPassed) {
         this.$refs.elDialog.beforeClose()
       } else {
@@ -309,17 +310,17 @@ export default {
               if (data?.show === true) {
                 this.submitting = false
               } else {
-                this.closeDialog()
+                this.close()
               }
             }).catch(e => {
               console.error(import.meta.env.VITE_APP_CONSOLE_PREFIX, e)
               this.submitting = false
             })
           } else if (result?.show !== true) {
-            this.closeDialog()
+            this.close()
           }
         } else {
-          this.closeDialog()
+          this.close()
         }
       }
 
