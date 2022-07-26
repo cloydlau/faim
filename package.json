@@ -37,10 +37,11 @@
     "vue-global-config": "latest"
   },
   "peerDependencies": {
-    "element-ui": "2"
+    "element-ui": "2",
+    "vue": "2"
   },
   "devDependencies": {
-    "@vue/composition-api": "latest",
+    "@vitejs/plugin-vue2": "latest",
     "chalk": "^4.1.2",
     "element-ui": "latest",
     "enquirer": "latest",
@@ -50,10 +51,8 @@
     "sass": "latest",
     "semver": "latest",
     "typescript": "latest",
-    "unocss": "0.43.1",
+    "unocss": "latest",
     "vite": "latest",
-    "vite-plugin-vue2": "latest",
-    "vue": "2.6.12",
-    "vue-template-compiler": "2.6.12"
+    "vue": "2.7"
   }
 }

@@ -246,11 +246,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .el-dialog__body {
+:deep(.el-dialog__body) {
   padding: 7.5px 20px 30px 20px;
 }
 
-::v-deep .pic-viewer {
+:deep(.pic-viewer) {
   & > ul.normal-flow {
     height: unset;
 

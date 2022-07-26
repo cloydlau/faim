@@ -1,11 +1,11 @@
 <template>
   <el-dialog :visible.sync="show" :title="Title" v-bind="ElDialogProps" v-on="Listeners"
     ref="elDialog" @closed="onClosed">
-    <template slot="title">
+    <template #title>
       <!-- 接收 slot -->
       <slot name="title" />
     </template>
-    <div v-loading="Loading" class="overflow-y-hidden flex flex-col">
+    <div v-loading="Loading" class="body" overflow="y-hidden" flex="~ col">
       <!-- 传 slot -->
       <div class="overflow-y-auto px-40px pb-85px pt-25px"
         style="max-height:calc(100vh - 45px);" ref="overlayScrollbar">
@@ -16,29 +16,22 @@
           <slot name="el-form" />
         </el-form>
       </div>
+    </div>
 
-      <div slot="footer"
-        class="z-1 absolute bottom-0 right-0 py-10px px-15px box-border absolute text-right"
-        style="backdrop-filter: blur(1px)">
-        <slot name="footer" v-if="$scopedSlots['footer']" />
-        <template v-else>
-          <el-button @click="closeDialog" :disabled="closing">
-            {{ showConfirmBtn ? '取 消' : '关 闭' }}
-          </el-button>
-          <!--<el-button
-            v-if="showConfirmBtn && $scopedSlots['el-form']"
-            type="info"
-            @click="reset"
-            :disabled="submitting||closing"
-          >
-            重 置
-          </el-button>-->
-          <el-button type="primary" @click="confirm" :disabled="closing"
-            :loading="submitting" v-if="showConfirmBtn">
-            确 定
-          </el-button>
-        </template>
-      </div>
+    <template #footer v-if="$scopedSlots['footer']">
+      <slot name="footer" />
+    </template>
+
+    <div v-if="!$scopedSlots['footer']" class="footer" z="1"
+      pos="absolute bottom-0 right-0" py="10px" px="15px" box="border" text="right"
+      style="backdrop-filter: blur(1px)">
+      <el-button @click="closeDialog" :disabled="closing">
+        {{ showConfirmBtn ? '取 消' : '关 闭' }}
+      </el-button>
+      <el-button type="primary" @click="confirm" :disabled="closing" :loading="submitting"
+        v-if="showConfirmBtn">
+        确 定
+      </el-button>
     </div>
   </el-dialog>
 </template>
@@ -372,31 +365,31 @@ export default {
   }
 }
 
-::v-deep .el-dialog__wrapper {
+.el-dialog__wrapper {
   transition-duration: 0.3s;
 }
 
-::v-deep .dialog-fade-enter-active {
+.dialog-fade-enter-active {
   animation: none !important;
 }
 
-::v-deep .dialog-fade-leave-active {
+.dialog-fade-leave-active {
   transition-duration: 0.15s !important;
   animation: none !important;
 }
 
-::v-deep .dialog-fade-enter-active .el-dialog,
-::v-deep .dialog-fade-leave-active .el-dialog {
+.dialog-fade-enter-active :deep(.el-dialog),
+.dialog-fade-leave-active :deep(.el-dialog) {
   animation-fill-mode: forwards;
 }
 
-::v-deep .dialog-fade-enter-active .el-dialog {
+.dialog-fade-enter-active :deep(.el-dialog) {
   animation-duration: 0.3s;
   animation-name: open;
   animation-timing-function: cubic-bezier(0.6, 0, 0.4, 1);
 }
 
-::v-deep .dialog-fade-leave-active .el-dialog {
+.dialog-fade-leave-active :deep(.el-dialog) {
   animation-duration: 0.3s;
   animation-name: close;
 }
@@ -407,7 +400,7 @@ export default {
   display: flex;
 }
 
-::v-deep .el-dialog {
+:deep(.el-dialog) {
   min-width: 800px;
 
   &:not(.is-fullscreen) {

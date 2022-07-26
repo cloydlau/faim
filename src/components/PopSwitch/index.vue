@@ -3,11 +3,10 @@
     <div slot="content" v-html="ElTooltipProps.content" />
     <el-popover v-bind="ElPopoverProps">
       <div v-html="ElPopoverProps.content" />
-      <el-popconfirm slot="reference" @confirm="onConfirm"
-        @onConfirm="onConfirm" v-bind="ElPopconfirmProps">
-        <el-switch slot="reference" v-bind="ElSwitchProps" ref="elSwitch"
-          :value="value" @click.native="onClick"
-          :class="TextInside && 'text-inside'" />
+      <el-popconfirm slot="reference" @confirm="onConfirm" @onConfirm="onConfirm"
+        v-bind="ElPopconfirmProps">
+        <el-switch slot="reference" v-bind="ElSwitchProps" ref="elSwitch" :value="value"
+          @click.native="onClick" :class="TextInside && 'text-inside'" />
       </el-popconfirm>
     </el-popover>
   </el-tooltip>
@@ -132,52 +131,50 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-::v-deep {
-  .text-inside {
-    .el-switch__label * {
-      font-size: 12px;
+:deep(.text-inside) {
+  .el-switch__label * {
+    font-size: 12px;
+  }
+
+  .el-switch__label--left,
+  .el-switch__label--right {
+    position: absolute;
+    z-index: 1;
+    margin: 0;
+
+    &:not(.is-active) {
+      display: none;
     }
+  }
 
-    .el-switch__label--left,
-    .el-switch__label--right {
-      position: absolute;
-      z-index: 1;
-      margin: 0;
+  .el-switch__label--left {
+    left: 23px;
+    color: gray !important;
+  }
 
-      &:not(.is-active) {
-        display: none;
-      }
+  .el-switch__label--right {
+    left: 9px;
+    color: white !important;
+  }
+
+  .el-switch__core {
+    border-radius: 12px;
+
+    &:after {
+      top: 1px;
     }
+  }
 
-    .el-switch__label--left {
-      left: 23px;
-      color: gray !important;
+  &:not(.is-checked) .el-switch__core {
+
+    &:after {
+      left: 2px;
     }
+  }
 
-    .el-switch__label--right {
-      left: 9px;
-      color: white !important;
-    }
-
-    .el-switch__core {
-      border-radius: 12px;
-
-      &:after {
-        top: 1px;
-      }
-    }
-
-    &:not(.is-checked) .el-switch__core {
-
-      &:after {
-        left: 2px;
-      }
-    }
-
-    &.is-checked .el-switch__core {
-      &:after {
-        background-color: white;
-      }
+  &.is-checked .el-switch__core {
+    &:after {
+      background-color: white;
     }
   }
 }
