@@ -14,7 +14,7 @@ import {
   UnivariateTable,
   Webcam,
   CountdownButton,
-} from '../dist/kikimore.mjs'
+} from '../src/index'
 
 [
   {

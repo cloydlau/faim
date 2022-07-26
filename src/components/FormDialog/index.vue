@@ -340,9 +340,9 @@ export default {
 }
 </script>
 
-<!--动画-->
 <style lang="scss" scoped>
-@keyframes open {
+// 动画
+/* @keyframes open {
   0% {
     opacity: 0;
     transform: scale3d(0, 0, 1);
@@ -392,7 +392,7 @@ export default {
 .dialog-fade-leave-active :deep(.el-dialog) {
   animation-duration: 0.3s;
   animation-name: close;
-}
+} */
 </style>
 
 <style lang="scss" scoped>
