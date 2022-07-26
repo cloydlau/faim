@@ -19,7 +19,7 @@ export default defineConfig({
   build: {
     lib: {
       name,
-      entry: 'src/main.ts'
+      entry: 'src/index.ts'
     },
     rollupOptions: {
       // 请确保外部化那些你的库中不需要的依赖
