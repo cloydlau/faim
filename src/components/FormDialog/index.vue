@@ -18,22 +18,18 @@
       </div>
     </div>
 
-    <template #footer v-if="$scopedSlots['footer']">
+    <template #footer>
       <slot name="footer" :close="close" :closing="closing" :confirm="confirm"
-        :submitting="submitting" />
+        :submitting="submitting">
+        <el-button @click="close" :disabled="closing">
+          {{ showConfirmButton ? '取 消' : '关 闭' }}
+        </el-button>
+        <el-button type="primary" @click="confirm" :disabled="closing"
+          :loading="submitting" v-if="showConfirmButton">
+          确 定
+        </el-button>
+      </slot>
     </template>
-
-    <div v-if="!$scopedSlots['footer']" class="footer" z="1"
-      pos="absolute bottom-0 right-0" py="10px" px="15px" box="border" text="right"
-      style="backdrop-filter: blur(1px)">
-      <el-button @click="close" :disabled="closing">
-        {{ showConfirmButton ? '取 消' : '关 闭' }}
-      </el-button>
-      <el-button type="primary" @click="confirm" :disabled="closing" :loading="submitting"
-        v-if="showConfirmButton">
-        确 定
-      </el-button>
-    </div>
   </el-dialog>
 </template>
 
@@ -487,6 +483,15 @@ export default {
       background: #ededed;
       border-radius: 10px;
     }
+  }
+
+  .el-dialog__footer {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    padding: 10px 15px;
+    backdrop-filter: blur(1px);
+    z-index: 1;
   }
 }
 </style>
