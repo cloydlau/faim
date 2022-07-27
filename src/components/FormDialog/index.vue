@@ -1,6 +1,6 @@
 <template>
   <el-dialog :visible.sync="show" :title="Title" v-bind="ElDialogProps" v-on="Listeners"
-    ref="elDialog" @closed="onClosed">
+    ref="elDialog" @closed="onClosed" :destroyOnClose="false" :key="key">
     <template #title>
       <!-- 接收 slot -->
       <slot name="title" />
@@ -89,7 +89,8 @@ export default {
       showConfirmButton: false,
       beforeCloseIsPassed: false,
       //osInstance: null,
-      labelWidth: undefined
+      labelWidth: undefined,
+      key: 0,
     }
   },
   computed: {
@@ -292,6 +293,11 @@ export default {
       }
       this.closing = false
       this.showConfirmButton = !this.Readonly
+      // el-dialog 内部的 key 是在 close 时改变
+      // 改为 closed 时改变，提升性能，在 DOM 较多时感受明显
+      if (['', true].includes(this.ElDialogProps.destroyOnClose)) {
+        this.key++
+      }
     },
     close() {
       if (this.beforeCloseIsPassed) {
