@@ -211,40 +211,18 @@ submit 没有返回值或者返回值不是 Promise 时，则 submit 执行完�
 
 #### footer
 
-```vue
-<template>
-  <KiFormDialog
-    :show.sync="form.show"
-    ref="kiFormDialog"
-  >
-    <div slot="footer" class="text-right pt-50px">
-      <el-button
-        type="primary"
-        v-if="kiFormDialog.readonly"
-        @click="kiFormDialog.confirm"
-        :loading="kiFormDialog.submitting"
-      >
-        提 交
-      </el-button>
-      <el-button @click="()=>{form.show=false}">
-        取 消
-      </el-button>
-    </div>
-  </KiFormDialog>
-</template>
+为了便于在自定义 footer 时不至于重写整个 footer 逻辑，footer 被提供为作用域插槽。
 
-<script>
-export default {
-  mounted () {
-    this.kiFormDialog = this.$refs.kiFormDialog
-  },
-  data () {
-    return {
-      kiFormDialog: {}
-    }
-  },
-}
-</script>
+```html
+<template #footer="{ close, closing, confirm, submitting }">
+  <el-button @click="close" :disabled="closing">
+    {{ form.status === 'r' ? '关 闭' : '取 消' }}
+  </el-button>
+  <el-button type="primary" @click="confirm" :disabled="closing"
+    :loading="submitting" v-if="form.status !== 'r'">
+    确 定
+  </el-button>
+</template>
 ```
 
 <br>

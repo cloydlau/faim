@@ -6,10 +6,11 @@
     全屏：
     <el-switch v-model="fullscreen" />
 
-    <KiFormDialog :fullscreen="fullscreen" :show.sync="showFormDialog" :retrieve="retrieve" :submit="submit"
-      title="FormDialog" ref="formDialog" v-model="form" @open="console.log('open')" @opened="console.log('opened')"
-      @close="console.log('close')" @closed="console.log('closed')" @validate="console.log('validate')"
-      :readonly="readonly" :elFormProps="{
+    <KiFormDialog :fullscreen="fullscreen" :show.sync="showFormDialog"
+      :retrieve="retrieve" :submit="submit" title="FormDialog" ref="formDialog"
+      v-model="form" @open="console.log('open')" @opened="console.log('opened')"
+      @close="console.log('close')" @closed="console.log('closed')"
+      @validate="console.log('validate')" :readonly="readonly" :elFormProps="{
         'labelPosition': 'top',
       }">
       <template #el-form>
@@ -26,8 +27,9 @@
                             :value="item"
                           />
                         </el-select>-->
-            <KiSelect v-model="form.KiSelect[0].value" :label.sync="form.KiSelect[0].label"
-              :index.sync="form.KiSelect[0].index" :options="form.KiSelect[0].options" placeholder="number[]">
+            <KiSelect v-model="form.KiSelect[0].value"
+              :label.sync="form.KiSelect[0].label" :index.sync="form.KiSelect[0].index"
+              :options="form.KiSelect[0].options" placeholder="number[]">
               <template v-slot="{ option, index }">
                 option: {{ option }}
                 index: {{ index }}
@@ -35,8 +37,9 @@
               <div slot="prefix">pre</div>
               <div slot="empty">empty</div>
             </KiSelect>
-            <KiSelect v-model="form.KiSelect[1].value" :label.sync="form.KiSelect[1].label"
-              :index.sync="form.KiSelect[1].index" :options="form.KiSelect[1].options" value-key="a" :props="{
+            <KiSelect v-model="form.KiSelect[1].value"
+              :label.sync="form.KiSelect[1].label" :index.sync="form.KiSelect[1].index"
+              :options="form.KiSelect[1].options" value-key="a" :props="{
                 value: null,
                 label: 'name',
                 labelRight: 'labelRight',
@@ -44,8 +47,9 @@
                 groupOptions: 'children',
                 groupLabel: 'label',
               }" placeholder="labelRight" :search="search" :searchImmediately="true" />
-            <KiSelect v-model="form.KiSelect[2].value" :label.sync="form.KiSelect[2].label"
-              :index.sync="form.KiSelect[2].index" :options="form.KiSelect[2].options" :props="{
+            <KiSelect v-model="form.KiSelect[2].value"
+              :label.sync="form.KiSelect[2].label" :index.sync="form.KiSelect[2].index"
+              :options="form.KiSelect[2].options" :props="{
                 value: 'a',
                 label: ({ name, b }) => `${name}-${b}`,
                 labelRight: ({ name, b }) => `${b}-${name}`
@@ -75,30 +79,35 @@
         </el-form-item>
 
         <el-form-item label="CheckAllBox: 对象数组，值为对象的某个属性" prop="CheckAllBox[0].value">
-          <KiCheckAllBox v-model="form.CheckAllBox[0].value" :options="form.CheckAllBox[0].options" :props="{
-            value: 'id',
-            label: 'name'
-          }" />
+          <KiCheckAllBox v-model="form.CheckAllBox[0].value"
+            :options="form.CheckAllBox[0].options" :props="{
+              value: 'id',
+              label: 'name'
+            }" />
           {{ form.CheckAllBox[0].value }}
         </el-form-item>
 
         <el-form-item label="CheckAllBox: 对象数组，值为对象本身" prop="CheckAllBox[1].value">
-          <KiCheckAllBox v-model="form.CheckAllBox[1].value" :options="form.CheckAllBox[1].options" :props="{
-            label: 'name'
-          }" />
+          <KiCheckAllBox v-model="form.CheckAllBox[1].value"
+            :options="form.CheckAllBox[1].options" :props="{
+              label: 'name'
+            }" />
           {{ form.CheckAllBox[1].value }}
         </el-form-item>
 
         <el-form-item label="CheckAllBox: 值类型数组" prop="CheckAllBox[2].value" required>
-          <KiCheckAllBox v-model="form.CheckAllBox[2].value" :options="form.CheckAllBox[2].options" />
+          <KiCheckAllBox v-model="form.CheckAllBox[2].value"
+            :options="form.CheckAllBox[2].options" />
           {{ form.CheckAllBox[2].value }}
         </el-form-item>
 
         <el-form-item label="PopSwitch" prop="PopSwitch">
-          <KiPopSwitch v-model="popSwitch" @click.native="console.log('[PopSwitch] click')"
+          <KiPopSwitch v-model="popSwitch"
+            @click.native="console.log('[PopSwitch] click')"
             :elTooltipProps="{ content: `<i class='el-icon-warning'/> 已停用` }"
             :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
-            :elPopconfirmProps="{ title: '确认启用吗？' }" active-text="启用" inactive-text="停用" />
+            :elPopconfirmProps="{ title: '确认启用吗？' }" active-text="启用"
+            inactive-text="停用" />
         </el-form-item>
 
         <el-form-item label="PopButton">

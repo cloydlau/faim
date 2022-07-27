@@ -19,8 +19,8 @@
     </div>
 
     <template #footer v-if="$scopedSlots['footer']">
-      <slot name="footer" :closing="closing" :submitting="submitting" :confirm="confirm"
-        :showConfirmButton="showConfirmButton" :close="close" />
+      <slot name="footer" :close="close" :closing="closing" :confirm="confirm"
+        :submitting="submitting" />
     </template>
 
     <div v-if="!$scopedSlots['footer']" class="footer" z="1"
