@@ -1,6 +1,7 @@
 <template>
   <el-dialog :visible.sync="show" :title="Title" v-bind="ElDialogProps" v-on="Listeners"
-    ref="elDialog" @closed="onClosed" :destroyOnClose="false" :key="key">
+    ref="elDialog" @closed="onClosed" :destroyOnClose="false" :appendToBody="false"
+    :key="key">
     <template #title>
       <!-- 接收 slot -->
       <slot name="title" />
@@ -67,7 +68,8 @@ export default {
       type: Boolean,
       default: undefined,
     },
-    title: {}
+    title: {},
+    getContainer: {},
   },
   model: {
     prop: 'value',
@@ -151,6 +153,13 @@ export default {
         type: 'object'
       })
     },
+    // 必须放在 ElDialogProps 下面
+    GetContainer() {
+      return conclude([this.getContainer, globalProps.getContainer, ['', true].includes(this.ElDialogProps.appendToBody) ? 'body' : undefined], {
+        name: 'getContainer',
+        type: ['string', 'function'],
+      })
+    },
   },
   created() {
     this.value__ = cloneDeep(this.value)
@@ -186,6 +195,14 @@ export default {
         // 首次不执行
         else if (this.initiated) {
           this.closing = true
+        }
+        if (this.GetContainer) {
+          this.$nextTick(() => {
+            (typeof this.GetContainer === 'function' ?
+              this.GetContainer() :
+              document.querySelector(this.GetContainer)
+            ).appendChild(this.$el)
+          })
         }
         this.initiated = true
       }
@@ -246,6 +263,11 @@ export default {
   },*/
   updated() {
     this.computeLabelWidth()
+  },
+  destroyed() {
+    if (this.GetContainer && this.$el?.parentNode) {
+      this.$el.parentNode.removeChild(this.$el)
+    }
   },
   methods: {
     /*

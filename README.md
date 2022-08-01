@@ -99,16 +99,17 @@ UI 组件库的标杆 `Ant Design` 也是使用 value 与 label 命名
 
 ### Props
 
-| 参数              | 说明                                | 类型     | 可选值               | 默认值                              |
-| ----------------- | ----------------------------------- | -------- | -------------------- | ----------------------------------- |
-| show.sync         | 是否开启                            | boolean  |                      | false                               |
-| title             | 对话框标题                          | string   |                      |                                     |
-| readonly          | 是否只读                            | boolean  |                      | false                               |
-| v-model           | 表单数据对象（即 el-form 的 model） | any      |                      | {}                                  |
-| elFormProps       | el-form 属性                        | object   | el-form 绝大部分参数 | {}                                  |
-| retrieve          | 获取数据                            | function |                      |                                     |
-| loading           | 加载状态                            | boolean  |                      | 默认由 retrieve 的 Promise 状态决定 |
-| submit            | 提交                                | function |                      |                                     |
+| 参数                                   | 说明                                | 类型                  | 可选值               | 默认值                              |
+| -------------------------------------- | ----------------------------------- | --------------------- | -------------------- | ----------------------------------- |
+| show.sync                              | 是否开启                            | boolean               |                      | false                               |
+| title                                  | 对话框标题                          | string                |                      |                                     |
+| readonly                               | 是否只读                            | boolean               |                      | false                               |
+| v-model                                | 表单数据对象（即 el-form 的 model） | any                   |                      | {}                                  |
+| elFormProps                            | el-form 属性                        | object                | el-form 绝大部分参数 | {}                                  |
+| retrieve                               | 获取数据                            | function              |                      |                                     |
+| loading                                | 加载状态                            | boolean               |                      | 默认由 retrieve 的 Promise 状态决定 |
+| submit                                 | 提交                                | function              |                      |                                     |
+| getContainer                           | 指定挂载的节点                      | string, () => Element |                      |                                     |
 | ...el-dialog 属性 |
 
 **v-model**
