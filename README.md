@@ -11,7 +11,7 @@
 
 ![NPM](https://nodei.co/npm/kikimore.png)
 
-```bash
+```sh
 npm add kikimore element-ui
 ```
 
