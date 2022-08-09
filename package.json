@@ -21,12 +21,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "serve": "vite preview",
-    "clean": "rd /s /q .\\node_modules",
-    "ri": "npm run clean && pnpm i",
-    "u": "node scripts/upgrade.js",
-    "r": "node scripts/release.js",
-    "rs": "node scripts/release.js --straightforward"
+    "serve": "vite preview"
   },
   "dependencies": {
     "cozyalert": "latest",
@@ -42,14 +37,9 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue2": "latest",
-    "chalk": "^4.1.2",
     "element-ui": "latest",
-    "enquirer": "latest",
-    "execa": "^4.1.0",
     "json-editor-vue": "latest",
-    "minimist": "latest",
     "sass": "latest",
-    "semver": "latest",
     "typescript": "latest",
     "unocss": "0.43.1",
     "vite": "latest",

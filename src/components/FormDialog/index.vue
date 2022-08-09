@@ -305,9 +305,7 @@ export default {
       this.submitting = false
       this.$emit('change', cloneDeep(this.value__))
       if (this.$scopedSlots['el-form']) {
-        setTimeout(() => {
-          this.$refs.elForm.clearValidate()
-        }, 0)
+        this.$refs.elForm.clearValidate()
       }
       this.closing = false
       this.showConfirmButton = !this.Readonly
