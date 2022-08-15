@@ -442,12 +442,10 @@ options 为对象数组且未指定 value 值时，绑定值将是 object 类型
 
 <template>
   <KiSelect
-    :search="keyword => new Promise((resolve, reject) => {
-      $POST('xxx', {
-        keyword
-      }).then(({ data }) => {
-        resolve(data)
-      })
+    :search="keyword => $POST('xxx', {
+      keyword
+    }).then(({ data }) => {
+      return data
     })"
   />
 </template>
@@ -458,12 +456,10 @@ options 为对象数组且未指定 value 值时，绑定值将是 object 类型
 
 <template>
   <KiSelect
-    :search="keyword => new Promise((resolve, reject) => {
-      $POST('xxx', {
-        keyword
-      }).then(({ data }) => {
-        resolve(data)
-      })
+    :search="keyword => $POST('xxx', {
+      keyword
+    }).then(({ data }) => {
+      return data
     })"
     :options.sync="options"
   />
