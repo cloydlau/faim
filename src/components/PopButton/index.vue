@@ -42,8 +42,7 @@ export default {
         this.elPopoverProps,
         globalProps.elPopoverProps,
       ], {
-        name: 'elPopoverProps',
-        type: 'object'
+        type: Object
       })
       const { title, content } = result || {}
       return {
@@ -56,8 +55,7 @@ export default {
         this.elPopconfirmProps,
         globalProps.elPopconfirmProps,
       ], {
-        name: 'elPopconfirmProps',
-        type: 'object'
+        type: Object
       })
       return {
         popperClass: 'pop-button',
@@ -70,8 +68,7 @@ export default {
         this.elTooltipProps,
         globalProps.elTooltipProps,
       ], {
-        name: 'elTooltipProps',
-        type: 'object'
+        type: Object
       })
       return {
         //openDelay: 400,

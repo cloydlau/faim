@@ -131,13 +131,12 @@ export default {
         loading: this.loading,
         placeholder,
       }], {
-        type: 'object',
+        type: Object,
       })
     },
     Ellipsis() {
       const res = conclude([this.ellipsis, globalProps.ellipsis, false], {
-        name: 'ellipsis',
-        type: 'boolean'
+        type: Boolean
       })
       if (res) {
         this.$nextTick(() => {
@@ -188,19 +187,17 @@ export default {
           groupDisabled: 'disabled',
         }
       ], {
-        name: 'props',
-        type: 'object'
+        type: Object
       })
     },
     Search() {
       return conclude([this.search, globalProps.search], {
-        type: ['function', 'asyncfunction']
+        type: Function
       })
     },
     SearchImmediately() {
       return conclude([this.searchImmediately, globalProps.searchImmediately, true], {
-        name: 'searchImmediately',
-        type: 'boolean'
+        type: Boolean
       })
     },
     isMultiple() {

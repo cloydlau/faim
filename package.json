@@ -11,10 +11,14 @@
   },
   "main": "./dist/kikimore.umd.js",
   "module": "./dist/kikimore.mjs",
+  "files": [
+    "dist"
+  ],
   "exports": {
     ".": {
       "import": "./dist/kikimore.mjs",
-      "require": "./dist/kikimore.umd.js"
+      "require": "./dist/kikimore.umd.js",
+      "browser": "./dist/kikimore.mjs"
     },
     "./dist/style.css": "./dist/style.css"
   },
@@ -36,6 +40,7 @@
     "vue": "2"
   },
   "devDependencies": {
+    "@cloydlau/scripts": "latest",
     "@vitejs/plugin-vue2": "latest",
     "element-ui": "latest",
     "json-editor-vue": "latest",

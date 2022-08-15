@@ -63,8 +63,7 @@ export default {
       return conclude([
         this.elCheckboxGroupProps, globalProps.elCheckboxGroupProps
       ], {
-        name: 'elCheckboxGroupProps',
-        type: 'object'
+        type: Object
       })
     },
     itemTypeIsObject() {
@@ -85,8 +84,7 @@ export default {
           disabled: 'disabled',
         }
       ], {
-        name: 'props',
-        type: 'object'
+        type: Object
       })
     }
   },

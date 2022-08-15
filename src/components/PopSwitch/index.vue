@@ -36,8 +36,7 @@ export default {
   computed: {
     TextInside() {
       return conclude([this.textInside, globalProps.textInside, true], {
-        name: 'textInside',
-        type: 'boolean'
+        type: Boolean
       })
     },
     ElSwitchProps() {
@@ -63,8 +62,7 @@ export default {
         this.elPopoverProps,
         globalProps.elPopoverProps,
       ], {
-        name: 'elPopoverProps',
-        type: 'object',
+        type: Object,
         default: userProp => ({
           popperClass: 'pop-switch',
           disabled: !Boolean(userProp && (userProp.title || userProp.content)),
@@ -77,8 +75,7 @@ export default {
         this.elPopconfirmProps,
         globalProps.elPopconfirmProps,
       ], {
-        name: 'elPopconfirmProps',
-        type: 'object',
+        type: Object,
         default: userProp => ({
           popperClass: 'pop-switch',
           disabled: [true, ''].includes(this.ElSwitchProps.disabled) || !Boolean(userProp?.title),
@@ -91,8 +88,7 @@ export default {
         this.elTooltipProps,
         globalProps.elTooltipProps,
       ], {
-        name: 'elTooltipProps',
-        type: 'object',
+        type: Object,
         default: userProp => ({
           //openDelay: 400,
           disabled: !Boolean(userProp?.content || this.$scopedSlots.elTooltipContent),

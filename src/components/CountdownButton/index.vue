@@ -34,8 +34,7 @@ export default {
         globalProps.cd,
         60
       ], {
-        name: 'cd',
-        type: 'number'
+        type: Number
       })
     },
     ElButtonProps () {

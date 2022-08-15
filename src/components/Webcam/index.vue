@@ -1,33 +1,23 @@
 <template>
-  <el-dialog
-    title='摄像头'
-    :close-on-click-modal="false"
-    append-to-body
-    destroy-on-close
-    v-bind="Attrs"
-    v-on="Listeners"
-    :visible.sync="show"
-    :before-close="()=>{$emit('update:show', false)}"
-  >
+  <el-dialog title='摄像头' :close-on-click-modal="false" append-to-body destroy-on-close
+    v-bind="Attrs" v-on="Listeners" :visible.sync="show"
+    :before-close="() => { $emit('update:show', false) }">
     <div v-loading="initializing">
       <div class="relative">
-        <video ref="video" class="w-full h-full"/>
-        <Screenshot ref="screenshot" @finish="()=>{performing=false}"/>
+        <video ref="video" class="w-full h-full" />
+        <Screenshot ref="screenshot" @finish="() => { performing = false }" />
       </div>
 
       <slot name="footer">
         <div slot="footer" class="flex justify-between p-0 pt-30px">
           <div>
-            <canvas ref="canvas" :width="width" :height="height" class="hidden"/>
-            <PicViewer :waterfall="false" ref="picViewer" :value="base64" style="font-size:0"/>
+            <canvas ref="canvas" :width="width" :height="height" class="hidden" />
+            <PicViewer :waterfall="false" ref="picViewer" :value="base64"
+              style="font-size:0" />
           </div>
           <div>
-            <el-button
-              @click="photograph"
-              :disabled="error"
-              :loading="Loading"
-              icon="el-icon-camera"
-            >
+            <el-button @click="photograph" :disabled="error" :loading="Loading"
+              icon="el-icon-camera">
               拍 照
             </el-button>
             <el-button type="primary" @click="confirm">
@@ -57,7 +47,7 @@ export default {
     show: Boolean,
     count: {}
   },
-  data () {
+  data() {
     return {
       error: false,
       initializing: true,
@@ -73,7 +63,7 @@ export default {
   watch: {
     show: {
       immediate: true,
-      handler (newVal) {
+      handler(newVal) {
         if (newVal) {
           this.$nextTick(() => {
             if (navigator.mediaDevices) {
@@ -129,45 +119,44 @@ export default {
     },
   },
   computed: {
-    Attrs () {
+    Attrs() {
       return conclude([this.$attrs, globalAttrs])
     },
-    Listeners () {
+    Listeners() {
       return getListeners.call(this, globalListeners)
     },
-    Count () {
+    Count() {
       return conclude([
         this.count,
         globalProps.count,
         1
       ], {
-        name: 'count',
-        type: ['number', 'array']
+        type: [Number, Array]
       })
     },
-    maxCount () {
+    maxCount() {
       if (this.Count) {
         return typeof this.Count === 'number' ? this.Count : this.Count[1]
       }
     },
-    minCount () {
+    minCount() {
       if (Array.isArray(this.Count)) {
         return this.Count[0]
       }
     },
-    CurrentCount () {
+    CurrentCount() {
       return this.file ?
         Array.isArray(this.file) ?
           this.file.length :
           1 :
         0
     },
-    Loading () {
+    Loading() {
       return !(!this.performing && !this.loading)
     }
   },
   methods: {
-    err () {
+    err() {
       error({
         titleText: '调用摄像头失败',
         html: `
@@ -179,7 +168,7 @@ export default {
         `,
       })
     },
-    confirm () {
+    confirm() {
       if (this.minCount && this.minCount > this.CurrentCount) {
         warning(`至少拍摄${this.minCount}张`)
         return
@@ -192,12 +181,12 @@ export default {
       })
       this.$emit('update:show', false)
     },
-    reset () {
+    reset() {
       this.base64 = null
       this.blob = null
       this.file = null
     },
-    async photograph () {
+    async photograph() {
       if (this.maxCount > 1 && this.maxCount === this.CurrentCount) {
         warning(`最多拍摄${this.maxCount}张`)
         return
@@ -251,10 +240,10 @@ export default {
 }
 
 :deep(.pic-viewer) {
-  & > ul.normal-flow {
+  &>ul.normal-flow {
     height: unset;
 
-    > li {
+    >li {
       margin-bottom: 0;
 
       img {

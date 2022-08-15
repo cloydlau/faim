@@ -25,8 +25,7 @@ export default {
       return conclude([
         this.title, globalProps.title
       ], {
-        name: 'title',
-        type: 'string'
+        type: String
       })
     }
   }

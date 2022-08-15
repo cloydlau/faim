@@ -94,8 +94,7 @@ export default {
   computed: {
     Title() {
       return conclude([this.title, globalProps.title], {
-        name: 'title',
-        type: 'string'
+        type: String
       })
     },
     Listeners() {
@@ -103,26 +102,22 @@ export default {
     },
     Loading() {
       return conclude([this.loading, globalProps.loading, this.retrieving], {
-        name: 'loading',
-        type: 'boolean'
+        type: Boolean
       })
     },
     Retrieve() {
       return conclude([this.retrieve, globalProps.retrieve], {
-        name: 'retrieve',
-        type: ['function', 'asyncfunction']
+        type: Function
       })
     },
     Submit() {
       return conclude([this.submit, globalProps.submit], {
-        name: 'submit',
-        type: ['function', 'asyncfunction']
+        type: Function
       })
     },
     Readonly() {
       return conclude([this.readonly, globalProps.readonly, false], {
-        name: 'readonly',
-        type: 'boolean'
+        type: Boolean
       })
     },
     ElDialogProps() {
@@ -149,15 +144,13 @@ export default {
           ref: 'elForm',
         }
       ], {
-        name: 'elFormProps',
-        type: 'object'
+        type: Object
       })
     },
     // 必须放在 ElDialogProps 下面
     GetContainer() {
       return conclude([this.getContainer, globalProps.getContainer, ['', true].includes(this.ElDialogProps.appendToBody) ? 'body' : undefined], {
-        name: 'getContainer',
-        type: ['string', 'function'],
+        type: [String, Function],
       })
     },
   },
