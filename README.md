@@ -441,13 +441,7 @@ options 为对象数组且未指定 value 值时，绑定值将是 object 类型
 <!-- 异步获取 options -->
 
 <template>
-  <KiSelect
-    :search="keyword => $POST('xxx', {
-      keyword
-    }).then(({ data }) => {
-      return data
-    })"
-  />
+  <KiSelect :search="(name) => $POST('', { name }).then(({ data }) => data)" />
 </template>
 ```
 
@@ -456,11 +450,7 @@ options 为对象数组且未指定 value 值时，绑定值将是 object 类型
 
 <template>
   <KiSelect
-    :search="keyword => $POST('xxx', {
-      keyword
-    }).then(({ data }) => {
-      return data
-    })"
+    :search="(name) => $POST('', { name }).then(({ data }) => data)"
     :options.sync="options"
   />
 </template>
@@ -501,7 +491,7 @@ export default {
 export default {
   watch: {
     'x' () {
-      this.$refs.kiSelect.remoteMethod()  
+      this.$refs.kiSelect.remoteMethod()
     }
   },
   mounted () {
