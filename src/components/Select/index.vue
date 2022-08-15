@@ -222,6 +222,7 @@ export default {
       allSelected: false,
       indeterminate: false,
       valueInitializedWhenMultiple: false,
+      previousQuery: null,
     }
   },
   watch: {
@@ -276,7 +277,7 @@ export default {
   methods: {
     // 下拉框隐藏时，如果没有选中，el-select 会清空搜索关键字，此时需要恢复 options
     onVisibleChange(isVisible) {
-      if (!isVisible && isEmpty(this.value__)) {
+      if (!isVisible && isEmpty(this.value__) && this.previousQuery) {
         // 加延迟的原因：在下拉框隐藏动画结束后再恢复
         setTimeout(() => {
           this.remoteMethod()
@@ -377,6 +378,7 @@ export default {
         return
       }
       this.loading = true
+      this.previousQuery = e
       const res = this.Search(e, isImmediate)
       if (res instanceof Promise) {
         res.then(res => {
