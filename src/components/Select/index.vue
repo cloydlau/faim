@@ -32,7 +32,7 @@
     <template v-else>
       <el-checkbox v-model="allSelected" @change='selectAll'
         :indeterminate="indeterminate" class="px-20px py-10px"
-        v-if="isMultiple && options__.length > 1">
+        v-if="AllowSelectAll && isMultiple && options__.length > 1">
         全选
       </el-checkbox>
       <el-option v-for="(v, i) of options__" :key="optionPropsList[i].key"
@@ -85,6 +85,10 @@ export default {
       type: Boolean,
       default: undefined,
     },
+    allowSelectAll: {
+      type: Boolean,
+      default: undefined,
+    },
     search: {},
     searchImmediately: {
       type: Boolean,
@@ -92,6 +96,9 @@ export default {
     },
   },
   computed: {
+    AllowSelectAll() {
+      return conclude([this.allowSelectAll, globalProps.allowSelectAll, true])
+    },
     Listeners() {
       return getListeners.call(this, globalListeners)
     },

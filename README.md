@@ -370,6 +370,7 @@ export default {
 | props             | 指定对象的属性                                            | object                 |        |        |
 | search            | 搜索获取 options，（`remote-method` 封装）                | function               |        |        |
 | searchImmediately | 是否立即执行搜索                                          | boolean                |        | true   |
+| allowSelectAll    | 开启多选时，是否允许全选                                  | boolean                |        | true   |
 | ellipsis          | 是否限宽并对超长的 label 作溢出省略处理（默认是超长撑开） | boolean                |        | false  |
 | ...el-select 属性 |
 
