@@ -488,13 +488,7 @@ export default {
 
     ::-webkit-scrollbar-thumb {
       border-radius: 10px;
-      background-color: rgba(0, 0, 0, .4);
-    }
-
-    ::-webkit-scrollbar-track {
-      box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
-      background: #ededed;
-      border-radius: 10px;
+      background-color: rgba(144, 147, 153, 0.302);
     }
   }
 
