@@ -59,15 +59,16 @@ export default (selectors: string | Element | NodeList = '.el-form .el-form-item
       } else {
         let scrollTimeout: number
 
-        function shake () {
-          // 滚动时会持续触发该回调
+        function shake() {
+          // 第二次触发会清除第一次，第三次触发会清除第二次...
+          // 直到最后一次超过100毫秒才清除，此时清除已经无效
+          // 100毫秒都没有触发，说明滚动停止
           clearTimeout(scrollTimeout)
-          // 100毫秒都没有触发 说明滚动停止
           scrollTimeout = setTimeout(() => {
             animateCSS(errFormItems, 'animate__headShake').catch(e => {
               console.warn(e)
             })
-            removeEventListener('scroll', shake)
+            container.removeEventListener('scroll', shake)
           }, 100)
         }
 
