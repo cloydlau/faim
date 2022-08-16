@@ -235,6 +235,15 @@ export default {
       immediate: true,
       handler(n, o) {
         this.value__ = n
+        // el-select 的逻辑是 value 没有匹配到选项时，显示 value，改为显示 label
+        if (this.label && notEmpty(n) && !this.isMultiple) {
+          this.$nextTick(() => {
+            // 如果 value 匹配上了，this.$refs.elSelect.selected 将会是一个 Vue 组件
+            if (!(this.$refs.elSelect.selected instanceof Vue)) {
+              this.$refs.elSelect.selectedLabel = this.label
+            }
+          })
+        }
         // 外部设值时，同步全选按钮状态
         this.syncSelectAllBtn(n)
       }
@@ -252,22 +261,6 @@ export default {
         if (isEmpty(n)) {
           this.$emit('update:index', undefined)
           this.remoteMethod()
-        }
-      }
-    },
-    label: {
-      immediate: true,
-      handler(n, o) {
-        // 没有匹配到选项时，显示 label
-        if (n) {
-          setTimeout(() => {
-            // 如果 value 匹配上了，this.$refs.elSelect.selected 将会是一个 Vue 组件
-            if (!(this.$refs.elSelect.selected instanceof Vue)) {
-              this.$refs.elSelect.selected.currentLabel = this.label
-              this.$refs.elSelect.selectedLabel = this.label
-              this.$refs.elSelect.query = this.label
-            }
-          })
         }
       }
     },

@@ -364,8 +364,8 @@ export default {
 | 参数              | 说明                                                      | 类型                   | 可选值 | 默认值 |
 | ----------------- | --------------------------------------------------------- | ---------------------- | ------ | ------ |
 | v-model / value   | 绑定值                                                    | string, number, object |        |        |
-| label.sync        | 绑定值的标签                                              | string, number         |        |        |
-| index.sync        | 绑定值的数组下标                                          | number                 |        |        |
+| label.sync        | 绑定值的标签（不支持多选）                                | string, number         |        |        |
+| index.sync        | 绑定值的数组下标（不支持多选）                            | number                 |        |        |
 | options(.sync)    | 选项                                                      | { label, value }[]     |        |        |
 | props             | 指定对象的属性                                            | object                 |        |        |
 | search            | 搜索获取 options，（`remote-method` 封装）                | function               |        |        |
