@@ -406,7 +406,6 @@ export default {
       this.$nextTick(() => {
         this.$emit('update:label', this.$refs.elSelect.selectedLabel)
       })
-      this.$emit('input', value)
     },
     getValue(v, i) {
       let res = v

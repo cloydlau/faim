@@ -23,7 +23,7 @@
     "./dist/style.css": "./dist/style.css"
   },
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --open",
     "build": "vite build",
     "serve": "vite preview"
   },
