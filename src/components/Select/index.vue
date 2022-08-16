@@ -230,7 +230,7 @@ export default {
     }
   },
   watch: {
-    // 没有使用v-model/:value时 resetFields不会触发
+    // 没有使用 v-model / value 时，resetFields 不会触发
     value: {
       immediate: true,
       handler(n, o) {
@@ -241,7 +241,7 @@ export default {
     },
     value__: {
       handler(n, o) {
-        // 多选时，value会被el-select初始化为[]，此时不应执行清空逻辑
+        // 多选时，value 会被 el-select 初始化为 []，此时不应执行清空逻辑
         if (this.isMultiple) {
           if (!this.valueInitializedWhenMultiple) {
             return
@@ -258,8 +258,17 @@ export default {
     label: {
       immediate: true,
       handler(n, o) {
-        // 没有匹配到选项时，显示label
-        this.initLabel()
+        // 没有匹配到选项时，显示 label
+        if (n) {
+          setTimeout(() => {
+            // 如果 value 匹配上了，this.$refs.elSelect.selected 将会是一个 Vue 组件
+            if (!(this.$refs.elSelect.selected instanceof Vue)) {
+              this.$refs.elSelect.selected.currentLabel = this.label
+              this.$refs.elSelect.selectedLabel = this.label
+              this.$refs.elSelect.query = this.label
+            }
+          })
+        }
       }
     },
     options: {
@@ -324,17 +333,6 @@ export default {
       }
 
       this.$emit('update:options', n)
-    },
-    initLabel() {
-      if (this.label) {
-        setTimeout(() => {
-          const { selected, selectedLabel } = this.$refs.elSelect
-          if (!(selected instanceof Vue) && selectedLabel === '') {
-            this.$refs.elSelect.selectedLabel = this.label
-            this.$refs.elSelect.query = this.label
-          }
-        })
-      }
     },
     selectAll() {
       if (this.allSelected) {
