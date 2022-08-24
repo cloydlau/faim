@@ -340,6 +340,7 @@ export default {
         this.value__ = []
       }
       this.onChange(this.value__)
+      this.$emit('input', this.value__)
     },
     // el-from 重置触发
     resetField() {
