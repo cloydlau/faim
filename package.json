@@ -20,7 +20,7 @@
       "require": "./dist/kikimore.umd.js",
       "browser": "./dist/kikimore.mjs"
     },
-    "./dist/style.css": "./dist/style.css"
+    "./*": "./*"
   },
   "scripts": {
     "dev": "vite --open",
@@ -43,7 +43,6 @@
     "@cloydlau/scripts": "latest",
     "@vitejs/plugin-vue2": "latest",
     "element-ui": "latest",
-    "json-editor-vue": "latest",
     "sass": "latest",
     "typescript": "latest",
     "unocss": "0.43.1",
