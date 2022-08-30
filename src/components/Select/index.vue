@@ -18,12 +18,12 @@
             <el-tooltip :disabled="!Ellipsis" effect="dark" placement="right"
               :content="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label">
               <span class="label-left">{{
-                  optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label
-              }}</span>
+                 optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label 
+                }}</span>
             </el-tooltip>
             <span class="label-right">{{
-                optionGroupPropsList[groupIndex].optionPropsList[optionIndex].labelRight
-            }}</span>
+               optionGroupPropsList[groupIndex].optionPropsList[optionIndex].labelRight 
+              }}</span>
           </template>
         </el-option>
       </el-option-group>
@@ -43,9 +43,9 @@
         <template v-else>
           <el-tooltip :disabled="!Ellipsis" effect="dark" placement="right"
             :content="optionPropsList[i].label">
-            <span class="label-left">{{ optionPropsList[i].label }}</span>
+            <span class="label-left">{{  optionPropsList[i].label  }}</span>
           </el-tooltip>
-          <span class="label-right">{{ optionPropsList[i].labelRight }}</span>
+          <span class="label-right">{{  optionPropsList[i].labelRight  }}</span>
         </template>
       </el-option>
     </template>
@@ -235,11 +235,14 @@ export default {
       immediate: true,
       handler(n, o) {
         this.value__ = n
-        // el-select 的逻辑是 value 没有匹配到选项时，显示 value，改为显示 label
-        if (this.label && notEmpty(n) && !this.isMultiple) {
+        if (notEmpty(n) && !this.isMultiple) {
           this.$nextTick(() => {
-            // 如果 value 匹配上了，this.$refs.elSelect.selected 将会是一个 Vue 组件
-            if (!(this.$refs.elSelect.selected instanceof Vue)) {
+            // value 匹配上选项时，this.$refs.elSelect.selected 将会是一个 Vue 组件
+            if (this.$refs.elSelect.selected instanceof Vue) {
+              this.$emit('update:label', this.$refs.elSelect.selectedLabel)
+            }
+            // 没匹上时，el-select 默认显示 value，改为显示 label
+            else if (this.label) {
               this.$refs.elSelect.selectedLabel = this.label
             }
           })
@@ -292,9 +295,9 @@ export default {
     },
     // 不写在 watch 里的原因：options__、optionPropsList、optionGroupPropsList 的长度必须保持同步
     setOptions__(n) {
-      if (!['undefined', 'null', 'array'].includes(typeOf(n))) {
-        throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}options 的类型仅能为 any[]，得到：`, n)
-      }
+      // 校验类型
+      conclude([n], { type: Array })
+
       // 必须先于 optionPropsList、optionGroupPropsList 执行，否则会影响 getValue 等的判断
       this.options__ = n || []
 
@@ -323,6 +326,15 @@ export default {
           labelRight: this.getLabelRight(v, i),
           disabled: this.isDisabled(v, i),
         }))
+      }
+
+      if (notEmpty(n) && !this.isMultiple) {
+        this.$nextTick(() => {
+          // 如果 value 匹配上了，this.$refs.elSelect.selected 将会是一个 Vue 组件
+          if (this.$refs.elSelect.selected instanceof Vue) {
+            this.$emit('update:label', this.$refs.elSelect.selectedLabel)
+          }
+        })
       }
 
       this.$emit('update:options', n)
