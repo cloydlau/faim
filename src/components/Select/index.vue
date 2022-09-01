@@ -18,12 +18,12 @@
             <el-tooltip :disabled="!Ellipsis" effect="dark" placement="right"
               :content="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label">
               <span class="label-left">{{
-                 optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label 
-                }}</span>
+                  optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label
+              }}</span>
             </el-tooltip>
             <span class="label-right">{{
-               optionGroupPropsList[groupIndex].optionPropsList[optionIndex].labelRight 
-              }}</span>
+                optionGroupPropsList[groupIndex].optionPropsList[optionIndex].labelRight
+            }}</span>
           </template>
         </el-option>
       </el-option-group>
@@ -43,9 +43,9 @@
         <template v-else>
           <el-tooltip :disabled="!Ellipsis" effect="dark" placement="right"
             :content="optionPropsList[i].label">
-            <span class="label-left">{{  optionPropsList[i].label  }}</span>
+            <span class="label-left">{{ optionPropsList[i].label }}</span>
           </el-tooltip>
-          <span class="label-right">{{  optionPropsList[i].labelRight  }}</span>
+          <span class="label-right">{{ optionPropsList[i].labelRight }}</span>
         </template>
       </el-option>
     </template>
@@ -78,7 +78,7 @@ export default {
     value: {},
     label: {},
     options: {
-      validator: value => ['null', 'array'].includes(typeOf(value)),
+      type: Array,
     },
     props: {},
     ellipsis: {
@@ -422,6 +422,8 @@ export default {
           res = v?.[this.Props.value]
         } else if (isEmpty(this.ElSelectProps.valueKey)) {
           throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX} 绑定值为 object 类型时，必须按 el-select 的要求指定 value-key`)
+        } else if (typeof this.value !== 'object') {
+
         }
       }
       return res
