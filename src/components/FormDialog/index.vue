@@ -171,7 +171,7 @@ export default {
           const result = this.Retrieve?.()
           if (result instanceof Promise) {
             result.catch(e => {
-              console.error(import.meta.env.VITE_APP_CONSOLE_PREFIX, e)
+              console.error(e)
               this.close()
             }).finally(e => {
               this.retrieving = false
@@ -328,7 +328,7 @@ export default {
                 this.close()
               }
             }).catch(e => {
-              console.error(import.meta.env.VITE_APP_CONSOLE_PREFIX, e)
+              console.error(e)
               this.submitting = false
             })
           } else if (result?.show !== true) {

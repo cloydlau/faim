@@ -47,6 +47,6 @@
     "typescript": "latest",
     "unocss": "0.43.1",
     "vite": "latest",
-    "vue": "~2.7.10"
+    "vue": "^2.7.10"
   }
 }

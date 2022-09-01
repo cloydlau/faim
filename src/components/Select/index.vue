@@ -106,7 +106,7 @@ export default {
       return notEmpty(this.Props.groupOptions)
     },
     itemTypeIsJSON() {
-      return typeof this.options__?.[0] === 'object'
+      return typeOf(this.options__?.[0]) === 'object'
     },
     valueComesFromObject() {
       if (isEmpty(this.Props.value) || this.valueType === 'function') {
@@ -371,12 +371,10 @@ export default {
       return []
     },
     validateProps(propKey) {
-      const res = typeOf(this.Props[propKey])
-      if (['undefined', 'boolean', 'symbol', 'string', 'number', 'null', 'function'].includes(res)) {
-        return res
-      } else {
-        throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}props.${propKey} 的类型仅能为 string / number / symbol / function，得到：`, this.Props[propKey])
-      }
+      conclude([this.Props[propKey]], {
+        type: [Boolean, Symbol, String, Number, Function],
+      })
+      return typeOf(this.Props[propKey])
     },
     onOptionClick(v, i) {
       this.$emit('update:index', i)
@@ -421,9 +419,9 @@ export default {
         if (notEmpty(this.Props.value)) {
           res = v?.[this.Props.value]
         } else if (isEmpty(this.ElSelectProps.valueKey)) {
-          throw Error(`${import.meta.env.VITE_APP_CONSOLE_PREFIX} 绑定值为 object 类型时，必须按 el-select 的要求指定 value-key`)
-        } else if (typeof this.value !== 'object') {
-
+          throw Error('\'value-key\' of \'el-select\' is required when binding value is an object.')
+        } else if (notEmpty(this.value) && typeOf(this.value) !== 'object') {
+          throw Error('Binding value must be an object when \'options\' is an object[] and \'props.value\' is unset.')
         }
       }
       return res

@@ -83,7 +83,7 @@ export default {
                   }
                 }).catch((err) => {
                   this.$emit('update:show', false)
-                  console.error(import.meta.env.VITE_APP_CONSOLE_PREFIX, err)
+                  console.error(err)
                   this.err()
                 }).finally(() => {
                   this.initializing = false
@@ -100,7 +100,7 @@ export default {
                   }
                 }).catch((err) => {
                   this.$emit('update:show', false)
-                  console.error(import.meta.env.VITE_APP_CONSOLE_PREFIX, err)
+                  console.error(err)
                   this.err()
                 }).finally(() => {
                   this.initializing = false
