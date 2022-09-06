@@ -12,7 +12,8 @@
   "main": "./dist/kikimore.umd.js",
   "module": "./dist/kikimore.mjs",
   "files": [
-    "dist"
+    "dist",
+    "docs"
   ],
   "exports": {
     ".": {
@@ -25,7 +26,8 @@
   "scripts": {
     "dev": "vite --open",
     "build": "vite build",
-    "serve": "vite preview"
+    "serve": "vite preview",
+    "release": "pnpm build && cl release"
   },
   "dependencies": {
     "cozyalert": "latest",
@@ -40,7 +42,6 @@
     "vue": "2"
   },
   "devDependencies": {
-    "@cloydlau/scripts": "latest",
     "@vitejs/plugin-vue2": "latest",
     "element-ui": "latest",
     "sass": "latest",
@@ -48,5 +49,8 @@
     "unocss": "0.43.1",
     "vite": "latest",
     "vue": "^2.7.10"
+  },
+  "publishConfig": {
+    "registry": "https://registry.npmjs.org/"
   }
 }
