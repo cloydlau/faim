@@ -7,22 +7,12 @@ Vue.use(ElementUI)
 
 import {
   FormDialog,
+  Select,
   PopButton,
   PopSwitch,
-  Select,
-  CheckAllBox,
-  UnivariateTable,
-  Webcam,
-  CountdownButton,
 } from '../src/index'
 
 [
-  {
-    component: PopButton,
-  },
-  {
-    component: PopSwitch,
-  },
   {
     component: FormDialog,
     config: {
@@ -34,19 +24,13 @@ import {
     }
   },
   {
-    component: CheckAllBox
-  },
-  {
     component: Select,
   },
   {
-    component: UnivariateTable
+    component: PopButton,
   },
   {
-    component: Webcam
-  },
-  {
-    component: CountdownButton
+    component: PopSwitch,
   },
 ].map(({ component, config }) => Vue.use(component, config))
 

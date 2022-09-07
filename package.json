@@ -1,33 +1,38 @@
 {
   "name": "kikimore",
   "version": "0.6.18",
-  "description": "趁手小型组件库",
+  "private": false,
+  "description": "几个 element-ui 组件的封装。",
   "author": "cloydlau",
   "license": "MIT",
-  "private": false,
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/cloydlau/kikimore"
-  },
-  "main": "./dist/kikimore.umd.js",
-  "module": "./dist/kikimore.mjs",
-  "files": [
-    "dist",
-    "docs"
-  ],
+  "repository": "https://github.com/cloydlau/kikimore",
   "exports": {
     ".": {
-      "import": "./dist/kikimore.mjs",
+      "types": "./dist/index.d.ts",
       "require": "./dist/kikimore.umd.js",
+      "import": "./dist/kikimore.mjs",
       "browser": "./dist/kikimore.mjs"
     },
     "./*": "./*"
   },
+  "main": "./dist/kikimore.umd.js",
+  "module": "./dist/kikimore.mjs",
+  "unpkg": "./dist/kikimore.umd.js",
+  "jsdelivr": "./dist/kikimore.umd.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "docs"
+  ],
   "scripts": {
     "dev": "vite --open",
     "build": "vite build",
     "serve": "vite preview",
     "release": "pnpm build && cl release"
+  },
+  "peerDependencies": {
+    "element-ui": "2",
+    "vue": "2"
   },
   "dependencies": {
     "@vueuse/core": "latest",
@@ -37,19 +42,26 @@
     "uuid": "latest",
     "vue-global-config": "latest"
   },
-  "peerDependencies": {
-    "element-ui": "2",
-    "vue": "2"
-  },
   "devDependencies": {
+    "@antfu/eslint-config": "latest",
     "@vitejs/plugin-vue2": "latest",
+    "case-police": "latest",
     "element-ui": "latest",
+    "eslint": "latest",
+    "husky": "latest",
+    "lint-staged": "latest",
     "sass": "latest",
     "typescript": "latest",
     "unocss": "0.43.1",
     "unplugin-auto-import": "latest",
     "vite": "latest",
+    "vite-plugin-dts": "latest",
     "vue": "^2.7.10"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,vue,md}": [
+      "eslint --fix"
+    ]
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org/"

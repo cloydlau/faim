@@ -1,9 +1,6 @@
-# kikimore / 趁手小型组件
+# kikimore
 
-## 特性
-
-- 所有组件均支持全局或局部引入
-- 所有组件均支持全局或局部参数
+几个 `element-ui` 组件的封装。
 
 <br>
 
@@ -11,74 +8,48 @@
 
 ![NPM](https://nodei.co/npm/kikimore.png)
 
+- 确保已安装外置依赖 `element-ui`
+
 ```sh
-npm add kikimore element-ui
+npm add kikimore
 ```
 
 ```ts
-// 全局引入
+// 全局注册 & 全局传参
 
+import Vue from 'vue'
 import 'kikimore/dist/style.css'
-import Kikimore from 'kikimore'
+import { FormDialog, Select, PopButton, PopSwitch } from 'kikimore'
 
-Vue.use(Kikimore)
-```
-
-```ts
-// 全局引入部分组件
-
-import 'kikimore/dist/style.css'
-import { FormDialog } from 'kikimore'
-
-Vue.use(FormDialog, {
-  // 全局配置
+[[FormDialog], [Select], [PopButton], [PopSwitch]].map(([component, config]) => {
+  Vue.use(FormDialog, config)
 })
 ```
 
-```vue
-<!-- 局部引入 -->
+```ts
+// 局部注册 & 局部传参
 
-<template>
-  <KiPopButton v-bind="config"/>
-</template>
-
-<script>
 import 'kikimore/dist/style.css'
-import { PopButton } from 'kikimore'
+import { FormDialog, Select, PopButton, PopSwitch } from 'kikimore'
 
 export default {
-  components: { [PopButton.name]: PopButton },
-  data () {
-    return {
-      config: {
-        // 局部配置
-      }
-    }
-  }
+  components: {
+    [FormDialog.name]: FormDialog,
+    [Select.name]: Select,
+    [PopButton.name]: PopButton,
+    [PopSwitch.name]: PopSwitch,
+  },
 }
-</script>
 ```
-
-<br>
-
-## 配置规则
-
-- 双向绑定参数（`v-model`, `*.sync`）仅支持局部配置
-- 其余参数均支持全局或局部配置
-
-权重：
-
-- 局部配置高于全局配置
-- 对于对象类型的参数 局部配置会与全局配置进行合并 同名属性会被局部配置覆盖
 
 <br>
 
 ## 命名风格
 
-所有组件命名均符合[Vue官方风格指南](https://v3.cn.vuejs.org/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81)
+所有组件命名均符合 [Vue 官方风格指南](https://v3.cn.vuejs.org/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81)
 指导的 `组件名为多个单词`
 
-关于 `KiCheckAllBox` 和 `KiSelect` 组件中 value 和 label 的命名：
+关于 `KiSelect` 组件中 value 和 label 的命名：
 
 - `value`: 这里要表达的含义就是选中目标的“值”，等同于原生 `<input type="checkbox">` 和 `<select>`
   元素的 value 属性，不一定是其唯一标识，所以不应该使用 id 或者 key，且 key 与 Vue 的特殊 attribute 冲突
@@ -94,30 +65,29 @@ UI 组件库的标杆 `Ant Design` 也是使用 value 与 label 命名
 
 ## FormDialog / 表单对话框
 
-[el-dialog](https://element.eleme.cn/#/zh-CN/component/dialog)
-与 [el-form](https://element.eleme.cn/#/zh-CN/component/form) 的结合，用于表单的展示、填写和提交
+[el-dialog](https://element.eleme.cn/#/zh-CN/component/dialog) 与 [el-form](https://element.eleme.cn/#/zh-CN/component/form) 的结合，用于表单的展示、填写和提交
 
 ### Props
 
 | 参数              | 说明                                | 类型     | 可选值               | 默认值                              |
 | ----------------- | ----------------------------------- | -------- | -------------------- | ----------------------------------- |
-| show.sync         | 是否开启                            | boolean  |                      | false                               |
+| show.sync         | 是否开启                            | boolean  |                      | `false`                             |
 | title             | 对话框标题                          | string   |                      |                                     |
-| readonly          | 是否只读                            | boolean  |                      | false                               |
-| v-model           | 表单数据对象（即 el-form 的 model） | any      |                      | {}                                  |
-| elFormProps       | el-form 属性                        | object   | el-form 绝大部分参数 | {}                                  |
+| readonly          | 是否只读                            | boolean  |                      | `false`                             |
+| v-model           | 表单数据对象（即 el-form 的 model） | any      |                      | `{}`                                |
+| elFormProps       | el-form 属性                        | object   | el-form 绝大部分参数 | `{}`                                |
 | retrieve          | 获取数据                            | function |                      |                                     |
 | loading           | 加载状态                            | boolean  |                      | 默认由 retrieve 的 Promise 状态决定 |
 | submit            | 提交                                | function |                      |                                     |
 | ...el-dialog 属性 |
 
-**v-model**
+#### v-model
 
 即使不使用 el-form 插槽，也建议传入，表单关闭时会将数据对象重置为初始状态（以避免二次打开时显示上一次的 value）
 
 <br>
 
-**retrieve**
+#### retrieve
 
 获取数据前后、提交前后的生命周期都是暴露出来的，如下所示
 
@@ -139,7 +109,7 @@ export default {
 
 <br>
 
-**submit**
+#### submit
 
 ```vue
 
@@ -295,61 +265,11 @@ export default {
 
 <br>
 
-## PopSwitch / 气泡开关
-
-四个组件的组合拳：`el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip`
-
-### Features
-
-- 如果启用了 Popconfirm，则仅在点击了确认后才会触发 change 事件
-- 支持描述内嵌，宽度自适应
-- Popconfirm 的顶部间隔不再那么违和地高了
-- Popover 宽度自适应，而不是写死一个最小宽度
-- Tooltip 非手动控制显隐时，点击开关后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
-- Popconfirm, Popover, Tooltip 的内容为空时，默认不启用
-- content 属性支持 html（但不再支持插槽）
-
-### Props
-
-| Attribute          | Description        | Type    | Default |
-| ------------------ | ------------------ | ------- | ------- |
-| textInside         | 是否内嵌描述       | boolean | true    |
-| elPopconfirmProps  | el-popconfirm 属性 | object  |         |
-| elPopoverProps     | el-popover 属性    | object  |         |
-| elTooltipProps     | el-tooltip 属性    | object  |         |
-| ... el-switch 属性 |
-
-<br>
-
-## PopButton / 气泡按钮
-
-四个组件的组合拳：`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip`
-
-### Features
-
-- 如果启用了 Popconfirm，则仅在点击了确认后才会触发 click 事件
-- Popconfirm 的顶部间隔不再那么违和地高了
-- Popover 宽度自适应，而不是写死一个最小宽度
-- Tooltip 非手动控制显隐时，点击按钮后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
-- Popconfirm, Popover, Tooltip 的内容为空时，默认不启用
-- content 属性支持 html（但不再支持插槽）
-
-### Props
-
-| Attribute          | Description        | Type   | Default |
-| ------------------ | ------------------ | ------ | ------- |
-| elPopconfirmProps  | el-popconfirm 属性 | object |         |
-| elPopoverProps     | el-popover 属性    | object |         |
-| elTooltipProps     | el-tooltip 属性    | object |         |
-| ... el-button 属性 |
-
-<br>
-
 ## Select / 下拉框
 
 [el-select](https://element.eleme.cn/#/zh-CN/component/select) 封装
 
-### Features
+### 特性
 
 - 保留 el-select 及其子组件的所有特性。
 - 不需要自行循环 `el-option`，传 options 就好。
@@ -357,7 +277,6 @@ export default {
 - options 的数组元素支持任意类型。
 - 用更简单的方式来获取 label 和 index，不需要加 ref，不需要判空。
 - 用更简单的方式来异步获取 options。
-- 支持对超长的 label 作溢出省略处理。
 
 ### Props
 
@@ -402,7 +321,7 @@ export default {
 </template>
 ```
 
-### label.sync, index.sync
+#### label.sync, index.sync
 
 为避免与 value 冲突，index 仅支持单向数据流（子 → 父），选中项依然以 value 为准。
 
@@ -424,14 +343,14 @@ export default {
 </KiSelect>
 ```
 
-### object类型
+### JSON 类型
 
 如果 options 是对象数组且 props.value 是有效的对象键名时，value 将得到选中项对应对象中指定 value 的值
 
 否则，value 将得到选中项对应的数组元素
 
 Select 默认将 props.value 用作 `value-key`
-options 为对象数组且未指定 value 值时，绑定值将是 object 类型，此时必须按 el-select 的要求提供 `value-key`
+options 为对象数组且未指定 value 值时，绑定值将是 JSON 类型，此时必须按 el-select 的要求提供 `value-key`
 
 ### 搜索
 
@@ -553,152 +472,52 @@ export default {
 
 <br>
 
-## Webcam / 摄像头拍照
+## PopSwitch / 气泡开关
+
+四个组件的组合拳：`el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip`
+
+### 特性
+
+- 如果启用了 Popconfirm，则仅在点击了确认后才会触发 change 事件
+- 支持描述内嵌，宽度自适应
+- Popconfirm 的顶部间隔不再那么违和地高了
+- Popover 宽度自适应，而不是写死一个最小宽度
+- Tooltip 非手动控制显隐时，点击开关后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
+- Popconfirm, Popover, Tooltip 的内容为空时，默认不启用
+- content 属性支持 html（但不再支持插槽）
 
 ### Props
 
-| 参数             | 说明         | 类型              | 可选值 | 默认值 |
-| ---------------- | ------------ | ----------------- | ------ | ------ |
-| show.sync        | 是否开启     | boolean           |        | false  |
-| count            | 拍照数量限制 | number / number[] |        | 1      |
-| ...el-dialog属性 |
-
-### Events
-
-| name             | description      | callback's arguments   |
-| ---------------- | ---------------- | ---------------------- |
-| ...el-dialog事件 |
-| confirm          | 点击确认按钮触发 | { base64, blob, file } |
-
-### 获取照片
-
-- 通过 `confirm` 事件获取
-
-```html
-
-<KiWebcam @confirm="({ base64, blob, file }) => {
-
-"/>
-```
-
-- 通过 `ref` 获取
-    - `this.$refs.webcam.base64`
-    - `this.$refs.webcam.blob`
-    - `this.$refs.webcam.file`
+| 名称               | 描述               | 类型    | 默认值 |
+| ------------------ | ------------------ | ------- | ------ |
+| textInside         | 是否内嵌描述       | boolean | `true` |
+| elPopconfirmProps  | el-popconfirm 属性 | object  |        |
+| elPopoverProps     | el-popover 属性    | object  |        |
+| elTooltipProps     | el-tooltip 属性    | object  |        |
+| ... el-switch 属性 |
 
 <br>
 
-## UnivariateTable / 一维表格
+## PopButton / 气泡按钮
 
-```html
+四个组件的组合拳：`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip`
 
-<KiUnivariateTable title="标题">
-  <tr>
-    <td>xxx</td>
-    <td>xxx</td>
-  </tr>
-  <tr>
-    <td>xxx</td>
-    <td>xxx</td>
-    <td>xxx</td>
-    <td>xxx</td>
-  </tr>
-</KiUnivariateTable>
-```
+### 特性
+
+- 如果启用了 Popconfirm，则仅在点击了确认后才会触发 click 事件
+- Popconfirm 的顶部间隔不再那么违和地高了
+- Popover 宽度自适应，而不是写死一个最小宽度
+- Tooltip 非手动控制显隐时，点击按钮后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
+- Popconfirm, Popover, Tooltip 的内容为空时，默认不启用
+- content 属性支持 html（但不再支持插槽）
 
 ### Props
 
-| 参数  | 说明 | 类型   | 可选值 | 默认值 |
-| ----- | ---- | ------ | ------ | ------ |
-| title | 标题 | string |        |        |
+| 名称               | 描述               | 类型   | 默认值 |
+| ------------------ | ------------------ | ------ | ------ |
+| elPopconfirmProps  | el-popconfirm 属性 | object |        |
+| elPopoverProps     | el-popover 属性    | object |        |
+| elTooltipProps     | el-tooltip 属性    | object |        |
+| ... el-button 属性 |
 
 <br>
-
-## CheckAllBox / 支持全选的复选框
-
-```html
-
-<KiCheckAllBox v-model="date" :options="[
-  {
-    value: 1,
-    label: '周一',
-  },
-  {
-    value: 2,
-    label: '周二',
-  },
-]"/>
-```
-
-### Props
-
-| 参数                 | 说明                   | 类型                      | 可选值 | 默认值 |
-| -------------------- | ---------------------- | ------------------------- | ------ | ------ |
-| v-model / value      | 绑定值                 | string / number / boolean |        |        |
-| options              | 选项                   | { label, value }[]        |        |        |
-| props                | 指定对象的属性         | object                    |        |        |
-| elCheckboxGroupProps | el-checkbox-group 属性 | object                    |        |        |
-| ...el-checkbox属性   |
-
-#### props
-
-```
-{
-  value: undefined, // 指定 options 中 key 的属性名
-  label: undefined, // 指定 options 中 label 的属性名
-}
-```
-
-<br>
-
-## CountdownButton / 倒计时按钮
-
-### Props
-
-| 参数              | 说明           | 类型   | 可选值 | 默认值 |
-| ----------------- | -------------- | ------ | ------ | ------ |
-| cd                | 冷却时间（秒） | number |        | 60     |
-| ...el-button 属性 |
-
-| 事件  | 说明                                  | 回调参数 |
-| ----- | ------------------------------------- | -------- |
-| click | 点击后触发（返回值需为 Promise 类型） |          |
-
-```vue
-<!-- 示例 -->
-
-<template>
-  <el-form-item label="手机号" prop="phone" ref="formItemPhone">
-    <el-input v-model="form.phone">
-      <KiCountdownButton slot="append" @click="send"/>
-    </el-input>
-  </el-form-item>
-</template>
-
-<script>
-export default {
-  // 如果发送短信前需要先校验手机号
-  methods: {
-    send (e) {
-      this.$refs.formItemPhone.elForm.validateField('phone', err => {
-        if (err) {
-          e.stopPropagation()
-        } else {
-          // 发送验证码短信
-        }
-      })
-    }
-  }
-}
-</script>
-```
-
-```html
-<!-- 作用域插槽示例 -->
-
-<KiCountdownButton>
-  <template v-slot="{remaining}">
-    {{ remaining ? `${remaining}s remaining` : `send verification code` }}
-  </template>
-</KiCountdownButton>
-```

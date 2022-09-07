@@ -3,11 +3,13 @@ import vue from '@vitejs/plugin-vue2'
 import Unocss from 'unocss/vite'
 import { presetUno, presetAttributify } from 'unocss'
 import { name } from './package.json'
+import dts from 'vite-plugin-dts'
 import AutoImport from 'unplugin-auto-import/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    dts(),
     vue(),
     AutoImport({
       // targets to transform

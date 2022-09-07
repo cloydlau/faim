@@ -58,13 +58,12 @@
 
 <script>
 import Vue from 'vue'
-import { isEmpty, notEmpty } from '../../utils'
+import { isEmpty, notEmpty, getListeners } from '../utils'
 import emitter from 'element-ui/src/mixins/emitter'
 import { cloneDeep } from 'lodash-es'
 import { globalProps, globalAttrs, globalListeners } from './index'
 import { conclude } from 'vue-global-config'
 import { v4 as uuidv4 } from 'uuid'
-import { getListeners } from '../../utils'
 
 export default {
   name: 'KiSelect',
@@ -278,12 +277,10 @@ export default {
         this.$nextTick(() => {
           // value 匹配上选项时，this.$refs.elSelect.selected 将会是一个 Vue 组件
           if (this.$refs.elSelect.selected instanceof Vue) {
-            console.log(1)
             this.$emit('update:label', this.$refs.elSelect.selectedLabel)
           }
           // 没匹上时，el-select 默认显示 value，改为显示 label
           else if (this.label) {
-            console.log(2)
             this.$refs.elSelect.selectedLabel = this.label
           }
         })
@@ -493,7 +490,7 @@ export default {
       if (isEmpty(res)) {
         return []
       } else if (!Array.isArray(res)) {
-        console.warn(`${import.meta.env.VITE_APP_CONSOLE_PREFIX}groupOptions 的值类型仅能为 any[]`)
+        console.warn('groupOptions 仅能为 any[] 类型')
         return []
       }
       return res

@@ -1,6 +1,6 @@
 <template>
   <div>
-    <el-button @click="showFormDialog = true">打开FormDialog</el-button>
+    <el-button @click="showFormDialog = true">打开 FormDialog</el-button>
     只读：
     <el-switch v-model="readonly" />
     全屏：
@@ -72,44 +72,6 @@
           </div>
         </el-form-item>
 
-        <el-form-item label="Webcam" prop="KiWebcam">
-          <el-button @click="showKiWebcam = true">打开摄像头</el-button>
-          <KiWebcam :show.sync="showKiWebcam" ref="webCam" />
-          <PicViewer :value="$refs.webCam && $refs.webCam.base64" />
-        </el-form-item>
-
-        <el-form-item label="CheckAllBox: 对象数组，值为对象的某个属性" prop="CheckAllBox[0].value">
-          <KiCheckAllBox v-model="form.CheckAllBox[0].value"
-            :options="form.CheckAllBox[0].options" :props="{
-              value: 'id',
-              label: 'name'
-            }" />
-          {{ form.CheckAllBox[0].value }}
-        </el-form-item>
-
-        <el-form-item label="CheckAllBox: 对象数组，值为对象本身" prop="CheckAllBox[1].value">
-          <KiCheckAllBox v-model="form.CheckAllBox[1].value"
-            :options="form.CheckAllBox[1].options" :props="{
-              label: 'name'
-            }" />
-          {{ form.CheckAllBox[1].value }}
-        </el-form-item>
-
-        <el-form-item label="CheckAllBox: 值类型数组" prop="CheckAllBox[2].value" required>
-          <KiCheckAllBox v-model="form.CheckAllBox[2].value"
-            :options="form.CheckAllBox[2].options" />
-          {{ form.CheckAllBox[2].value }}
-        </el-form-item>
-
-        <el-form-item label="PopSwitch" prop="PopSwitch">
-          <KiPopSwitch v-model="popSwitch"
-            @click.native="console.log('[PopSwitch] click')"
-            :elTooltipProps="{ content: `<i class='el-icon-warning'/> 已停用` }"
-            :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
-            :elPopconfirmProps="{ title: '确认启用吗？' }" active-text="启用"
-            inactive-text="停用" />
-        </el-form-item>
-
         <el-form-item label="PopButton">
           <KiPopButton @click="console.log('[PopButton] click')"
             :elTooltipProps="{ content: `<i class='el-icon-warning'/> 删除` }"
@@ -119,42 +81,13 @@
           </KiPopButton>
         </el-form-item>
 
-        <el-form-item label="UnivariateTable">
-          <KiUnivariateTable title="两列">
-            <tr>
-              <td>xxx</td>
-              <td>xxx</td>
-            </tr>
-            <tr>
-              <td>xxx</td>
-              <td>xxx</td>
-            </tr>
-          </KiUnivariateTable>
-
-          <KiUnivariateTable title="四列">
-            <tr>
-              <td>xxx</td>
-              <td>xxx</td>
-              <td>xxx</td>
-              <td>xxx</td>
-            </tr>
-            <tr>
-              <td>xxx</td>
-              <td>xxx</td>
-              <td>xxx</td>
-              <td>xxx</td>
-            </tr>
-          </KiUnivariateTable>
-        </el-form-item>
-
-        <el-form-item label="CountdownButton" prop="phone" ref="formItemPhone" required>
-          <el-input v-model="form.phone">
-            <KiCountdownButton slot="append" @click="send" :cd="3">
-              <!--<template v-slot="{remaining}">
-                {{ remaining ? `${remaining}s remaining` : `send verification code` }}
-              </template>-->
-            </KiCountdownButton>
-          </el-input>
+        <el-form-item label="PopSwitch" prop="PopSwitch">
+          <KiPopSwitch v-model="popSwitch"
+            @click.native="console.log('[PopSwitch] click')"
+            :elTooltipProps="{ content: `<i class='el-icon-warning'/> 已停用` }"
+            :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
+            :elPopconfirmProps="{ title: '确认启用吗？' }" active-text="启用"
+            inactive-text="停用" />
         </el-form-item>
       </template>
     </KiFormDialog>
@@ -172,42 +105,7 @@ export default {
   data() {
     return {
       popSwitch: false,
-      showKiWebcam: false,
       form: {
-        CheckAllBox: [
-          {
-            value: [1],
-            options: [
-              {
-                id: 1,
-                name: '周一',
-              }, {
-                id: 2,
-                name: '周二',
-              }
-            ]
-          },
-          {
-            value: [{
-              id: 1,
-              name: '周一',
-            }],
-            options: [
-              {
-                id: 1,
-                name: '周一',
-              }, {
-                id: 2,
-                name: '周二',
-              }
-            ]
-          },
-          {
-            value: ['周一'],
-            options: ['周一', '周二'],
-          },
-        ],
-        phone: '',
         KiSelect: [
           {
             value: undefined,
@@ -286,15 +184,6 @@ export default {
     }
   },
   methods: {
-    send(e) {
-      this.$refs.formItemPhone.elForm.validateField('phone', err => {
-        if (err) {
-          e.stopPropagation()
-        } else {
-          // 发送验证码短信
-        }
-      })
-    },
     retrieve() {
       console.log('表格打开之后、获取数据之前')
       return new Promise((resolve, reject) => {
@@ -330,6 +219,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-</style>

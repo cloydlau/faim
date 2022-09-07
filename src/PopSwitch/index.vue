@@ -14,7 +14,7 @@
 
 <script>
 import { globalProps, globalAttrs } from './index'
-import { getCharCount } from '../../utils'
+import { getCharCount } from '../utils'
 import { conclude } from 'vue-global-config'
 
 export default {
