@@ -1,8 +1,8 @@
 {
   "name": "kikimore",
-  "version": "0.6.18",
+  "version": "0.7.0",
   "private": false,
-  "description": "几个 element-ui 组件的封装。",
+  "description": "趁手小型组件库",
   "author": "cloydlau",
   "license": "MIT",
   "repository": "https://github.com/cloydlau/kikimore",
