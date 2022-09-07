@@ -30,8 +30,8 @@
     "release": "pnpm build && cl release"
   },
   "dependencies": {
+    "@vueuse/core": "latest",
     "cozyalert": "latest",
-    "kayran": "latest",
     "lodash-es": "latest",
     "pic-viewer": "latest",
     "uuid": "latest",
@@ -47,6 +47,7 @@
     "sass": "latest",
     "typescript": "latest",
     "unocss": "0.43.1",
+    "unplugin-auto-import": "latest",
     "vite": "latest",
     "vue": "^2.7.10"
   },

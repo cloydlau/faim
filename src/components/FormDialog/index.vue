@@ -36,7 +36,6 @@
 
 <script>
 import { globalProps, globalAttrs, globalListeners } from './index'
-import { loadStyle } from 'kayran'
 import { conclude } from 'vue-global-config'
 import highlightError from './highlightError'
 import { cloneDeep } from 'lodash-es'
@@ -81,7 +80,7 @@ export default {
       submitting: false,
       closing: false,
       initiated: false,
-      disabledStyle: null,
+      styleTag: null,
       scrollbar: null,
       // 作用是防止在关闭但关闭动画未结束时隐藏的确认按钮暴露出来
       showConfirmButton: false,
@@ -210,36 +209,39 @@ export default {
     },
     showConfirmButton: {
       immediate: true,
-      handler(n) {
-        if (!n) {
-          loadStyle(this.disabledStyle || `
-.el-form [disabled="disabled"],
-.el-form .is-disabled,
-.el-form .is-disabled *,
-.el-form .disabled {
-  color: unset !important;
-  cursor: initial !important;
-}
-.el-form .el-radio__input.is-disabled.is-checked .el-radio__inner {
-  border-color: #409EFF;
-  background: #409EFF;
-}
-.el-form .el-radio__input.is-disabled.is-checked .el-radio__inner::after {
-  cursor: unset;
-  background-color: #FFF;
-}
-          `).then(disabledStyle => {
-            this.disabledStyle = disabledStyle
-          })
-        } else if (this.disabledStyle) {
-          this.disabledStyle.remove()
-          this.disabledStyle = null
+      handler(showConfirmButton) {
+        if (!showConfirmButton) {
+          if (this.styleTag) {
+            this.styleTag.load()
+          } else {
+            this.styleTag = useStyleTag(
+              '.el-form [disabled="disabled"], .el-form .is-disabled, .el-form .is-disabled *, .el-form .disabled {' +
+              'color: unset !important;' +
+              'cursor: initial !important;' +
+              '} ' +
+              '.el-form .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner, .el-form .el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner {' +
+              'background-color: #409EFF;' +
+              'border-color: #409EFF;' +
+              '} ' +
+              '.el-form .el-radio__input.is-disabled.is-checked .el-radio__inner {' +
+              'border-color: #409EFF;' +
+              'background: #409EFF;' +
+              '} ' +
+              '.el-form .el-radio__input.is-disabled.is-checked .el-radio__inner::after {' +
+              'cursor: unset;' +
+              'background-color: #FFF;' +
+              '} '
+            )
+          }
+        } else if (this.styleTag) {
+          this.styleTag.unload()
+          this.styleTag = null
         }
       }
     }
   },
   /*mounted () {
-    // 不兼容tinymce
+    // 不兼容 tinymce
     const unwatch = this.$watch('loading', n => {
       if (!n) {
         this.$nextTick(() => {

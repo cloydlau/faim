@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import { isEmpty, notEmpty, typeOf } from 'kayran'
+import { isEmpty, notEmpty } from '../../utils'
 import { conclude } from 'vue-global-config'
 import { globalProps, globalAttrs } from './index'
 
@@ -26,7 +26,7 @@ export default {
   },
   props: {
     value: {
-      validator: value => ['array', 'null'].includes(typeOf(value))
+      validator: value => !value || Array.isArray(value)
     },
     options: {
       type: Array,
@@ -111,7 +111,7 @@ export default {
       conclude([this.Props[propKey]], {
         type: [Boolean, Symbol, String, Number, Function],
       })
-      return typeOf(this.Props[propKey])
+      return typeof this.Props[propKey]
     },
     getValue(v, i) {
       let result = v

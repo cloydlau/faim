@@ -18,11 +18,11 @@
             <el-tooltip :disabled="!Ellipsis" effect="dark" placement="right"
               :content="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label">
               <span class="label-left">{{
-                  optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label
+              optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label
               }}</span>
             </el-tooltip>
             <span class="label-right">{{
-                optionGroupPropsList[groupIndex].optionPropsList[optionIndex].labelRight
+            optionGroupPropsList[groupIndex].optionPropsList[optionIndex].labelRight
             }}</span>
           </template>
         </el-option>
@@ -58,7 +58,7 @@
 
 <script>
 import Vue from 'vue'
-import { typeOf, isEmpty, notEmpty } from 'kayran'
+import { isEmpty, notEmpty } from '../../utils'
 import emitter from 'element-ui/src/mixins/emitter'
 import { cloneDeep } from 'lodash-es'
 import { globalProps, globalAttrs, globalListeners } from './index'
@@ -106,7 +106,7 @@ export default {
       return notEmpty(this.Props.groupOptions)
     },
     itemTypeIsJSON() {
-      return typeOf(this.options__?.[0]) === 'object'
+      return typeof this.options__?.[0] === 'object'
     },
     valueComesFromObject() {
       if (isEmpty(this.Props.value) || this.valueType === 'function') {
@@ -376,7 +376,7 @@ export default {
       conclude([this.Props[propKey]], {
         type: [Boolean, Symbol, String, Number, Function],
       })
-      return typeOf(this.Props[propKey])
+      return typeof this.Props[propKey]
     },
     onOptionClick(v, i) {
       this.$emit('update:index', i)
@@ -422,7 +422,7 @@ export default {
           res = v?.[this.Props.value]
         } else if (isEmpty(this.ElSelectProps.valueKey)) {
           throw Error('\'value-key\' of \'el-select\' is required when binding value is an object.')
-        } else if (notEmpty(this.value) && typeOf(this.value) !== 'object') {
+        } else if (notEmpty(this.value) && typeof this.value !== 'object') {
           throw Error('Binding value must be an object when \'options\' is an object[] and \'props.value\' is unset.')
         }
       }

@@ -3,11 +3,26 @@ import vue from '@vitejs/plugin-vue2'
 import Unocss from 'unocss/vite'
 import { presetUno, presetAttributify } from 'unocss'
 import { name } from './package.json'
+import AutoImport from 'unplugin-auto-import/vite'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     vue(),
+    AutoImport({
+      // targets to transform
+      include: [
+        /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+        /\.vue$/, /\.vue\?vue/, // .vue
+        /\.md$/, // .md
+      ],
+      // global imports to register
+      imports: [
+        // presets
+        'vue',
+        '@vueuse/core',
+      ]
+    }),
     Unocss({
       presets: [
         presetAttributify({ /* options */ }),
