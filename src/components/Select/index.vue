@@ -235,18 +235,7 @@ export default {
       immediate: true,
       handler(n, o) {
         this.value__ = n
-        if (notEmpty(n) && !this.isMultiple) {
-          this.$nextTick(() => {
-            // value 匹配上选项时，this.$refs.elSelect.selected 将会是一个 Vue 组件
-            if (this.$refs.elSelect.selected instanceof Vue) {
-              this.$emit('update:label', this.$refs.elSelect.selectedLabel)
-            }
-            // 没匹上时，el-select 默认显示 value，改为显示 label
-            else if (this.label) {
-              this.$refs.elSelect.selectedLabel = this.label
-            }
-          })
-        }
+        this.handleLabel()
         // 外部设值时，同步全选按钮状态
         this.syncSelectAllBtn(n)
       }
@@ -284,13 +273,32 @@ export default {
     this.dispatch('ElForm', 'el.form.addField', [this])
   },
   methods: {
+    handleLabel() {
+      if (notEmpty(this.value__) && !this.isMultiple) {
+        this.$nextTick(() => {
+          // value 匹配上选项时，this.$refs.elSelect.selected 将会是一个 Vue 组件
+          if (this.$refs.elSelect.selected instanceof Vue) {
+            console.log(1)
+            this.$emit('update:label', this.$refs.elSelect.selectedLabel)
+          }
+          // 没匹上时，el-select 默认显示 value，改为显示 label
+          else if (this.label) {
+            console.log(2)
+            this.$refs.elSelect.selectedLabel = this.label
+          }
+        })
+      }
+    },
     // 下拉框隐藏时，如果没有选中，el-select 会清空搜索关键字，此时需要恢复 options
     onVisibleChange(isVisible) {
-      if (!isVisible && isEmpty(this.value__) && this.previousQuery) {
-        // 加延迟的原因：在下拉框隐藏动画结束后再恢复
-        setTimeout(() => {
-          this.remoteMethod()
-        }, 100)
+      if (!isVisible) {
+        this.handleLabel()
+        if (isEmpty(this.value__) && this.previousQuery) {
+          // 加延迟的原因：在下拉框隐藏动画结束后再恢复
+          setTimeout(() => {
+            this.remoteMethod()
+          }, 100)
+        }
       }
     },
     // 不写在 watch 里的原因：options__、optionPropsList、optionGroupPropsList 的长度必须保持同步
@@ -328,15 +336,9 @@ export default {
         }))
       }
 
-      if (notEmpty(n) && !this.isMultiple) {
-        this.$nextTick(() => {
-          // 如果 value 匹配上了，this.$refs.elSelect.selected 将会是一个 Vue 组件
-          if (this.$refs.elSelect.selected instanceof Vue) {
-            this.$emit('update:label', this.$refs.elSelect.selectedLabel)
-          }
-        })
+      if (notEmpty(n)) {
+        this.handleLabel()
       }
-
       this.$emit('update:options', n)
     },
     selectAll() {
