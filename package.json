@@ -28,7 +28,7 @@
     "dev": "vite --open",
     "build": "vite build",
     "serve": "vite preview",
-    "release": "pnpm build && cl release"
+    "release": "npx case-police --fix && npx lint-staged && pnpm build && cl release"
   },
   "peerDependencies": {
     "element-ui": "2",
@@ -59,7 +59,7 @@
     "vue": "^2.7.10"
   },
   "lint-staged": {
-    "*.{js,ts,tsx,vue,md}": [
+    "!(demo/**/*)*.{js,ts,tsx,vue,md}": [
       "eslint --fix"
     ]
   },
