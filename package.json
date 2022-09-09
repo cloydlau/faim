@@ -31,7 +31,7 @@
     "release": "npx case-police --fix && npx lint-staged && pnpm build && cl release"
   },
   "peerDependencies": {
-    "element-ui": "2",
+    "element-ui": ">=2",
     "vue": "2"
   },
   "dependencies": {
