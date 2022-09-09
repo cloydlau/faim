@@ -19,7 +19,7 @@ npm add kikimore
 
 import Vue from 'vue'
 import 'kikimore/dist/style.css'
-import { FormDialog, Select, PopButton, PopSwitch } from 'kikimore'
+import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 
 [[FormDialog], [Select], [PopButton], [PopSwitch]].map(([component, config]) => {
   Vue.use(FormDialog, config)
@@ -30,7 +30,7 @@ import { FormDialog, Select, PopButton, PopSwitch } from 'kikimore'
 // 局部注册 & 局部传参
 
 import 'kikimore/dist/style.css'
-import { FormDialog, Select, PopButton, PopSwitch } from 'kikimore'
+import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 
 export default {
   components: {
@@ -92,11 +92,10 @@ UI 组件库的标杆 `Ant Design` 也是使用 value 与 label 命名
 获取数据前后、提交前后的生命周期都是暴露出来的，如下所示
 
 ```vue
-
 <script>
 export default {
   methods: {
-    retrieve () {
+    retrieve() {
       // 表格打开之后、获取数据之前
       return request().then(() => {
         // 获取数据之后
@@ -112,11 +111,10 @@ export default {
 #### submit
 
 ```vue
-
 <script>
 export default {
   methods: {
-    submit () {
+    submit() {
       // 提交之前
       return this.$POST('').then(() => {
         // 提交之后
@@ -130,11 +128,10 @@ export default {
 提交拦截
 
 ```vue
-
 <script>
 export default {
   methods: {
-    submit () {
+    submit() {
       const valid = true
       if (valid) {
         return this.$POST('')
@@ -207,20 +204,21 @@ submit 没有返回值或者返回值不是 Promise 时，则 submit 执行完�
 ### 完整示例
 
 ```vue
-
 <template>
   <div>
-    <el-button @click="open('id')">打开</el-button>
+    <el-button @click="open('id')">
+      打开
+    </el-button>
 
     <KiFormDialog
-      :show.sync="form.show"
       v-model="form.data"
+      :show.sync="form.show"
       :retrieve="retrieve"
       :submit="submit"
     >
       <template #el-form>
         <el-form-item prop="a">
-          <el-input v-model="form.data.a"/>
+          <el-input v-model="form.data.a" />
         </el-form-item>
       </template>
     </KiFormDialog>
@@ -229,7 +227,7 @@ submit 没有返回值或者返回值不是 Promise 时，则 submit 执行完�
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       form: {
         show: false,
@@ -238,18 +236,18 @@ export default {
     }
   },
   methods: {
-    open (id) {
+    open(id) {
       this.form.data.id = id
       this.form.show = true
     },
-    retrieve () {
+    retrieve() {
       return this.$POST('', {
         id: this.form.data.id
       }).then(({ data }) => {
         this.form.data = data || {}
       })
     },
-    submit () {
+    submit() {
       return this.$POST('', this.form.data)
     },
   }
@@ -315,7 +313,7 @@ export default {
     :props="{
       value: (value, index) => String(index),
       label: ({ city, address }, index) => `${city} - ${address}`,
-      labelRight: ({ x, y }, index) => `${x + y}`
+      labelRight: ({ x, y }, index) => `${x + y}`,
     }"
   />
 </template>
@@ -377,7 +375,7 @@ options 为对象数组且未指定 value 值时，绑定值将是 JSON 类型�
 
 <script>
 export default {
-  data () {
+  data() {
     return {
       options: [],
     }
@@ -402,19 +400,19 @@ export default {
 
 <template>
   <KiSelect
-    :search="(keyword, isImmediate) => {}"
     ref="kiSelect"
+    :search="(keyword, isImmediate) => {}"
   />
 </template>
 
 <script>
 export default {
   watch: {
-    'x' () {
+    x() {
       this.$refs.kiSelect.remoteMethod()
     }
   },
-  mounted () {
+  mounted() {
     this.$refs.kiSelect.remoteMethod(undefined, true)
   }
 }
@@ -446,7 +444,7 @@ export default {
           code: '4401',
         },
       ]
-    }, 
+    },
     {
       name: '江苏省',
       children: [
@@ -519,5 +517,11 @@ export default {
 | elPopoverProps     | el-popover 属性    | object |        |
 | elTooltipProps     | el-tooltip 属性    | object |        |
 | ... el-button 属性 |
+
+<br>
+
+## 更新日志
+
+各版本详细改动请参考 [release notes](https://github.com/cloydlau/kikimore/releases) 。
 
 <br>
