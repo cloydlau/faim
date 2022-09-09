@@ -36,9 +36,10 @@
   },
   "dependencies": {
     "@vueuse/core": "latest",
-    "cozyalert": "latest",
     "lodash-es": "latest",
     "pic-viewer": "latest",
+    "sweetalert2": "latest",
+    "sweetalert2-preset": "latest",
     "uuid": "latest",
     "vue-global-config": "latest"
   },
