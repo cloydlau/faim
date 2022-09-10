@@ -9,7 +9,7 @@
       >
         <el-switch
           slot="reference" v-bind="ElSwitchProps" ref="elSwitch" :value="value"
-          :class="TextInside && 'text-inside'" @click.native="onClick"
+          :class="InlinePrompt && 'text-inside'" @click.native="onClick"
         />
       </el-popconfirm>
     </el-popover>
@@ -29,7 +29,7 @@ export default {
   },
   props: {
     value: {},
-    textInside: {
+    inlinePrompt: {
       type: Boolean,
       default: undefined,
     },
@@ -38,8 +38,8 @@ export default {
     elPopoverProps: {},
   },
   computed: {
-    TextInside() {
-      return conclude([this.textInside, globalProps.textInside, true], {
+    InlinePrompt() {
+      return conclude([this.inlinePrompt, globalProps.inlinePrompt, true], {
         type: Boolean,
       })
     },
@@ -54,7 +54,7 @@ export default {
             }
           })
           return {
-            ...this.TextInside && { width: 30 + maxTextWidth * 6 },
+            ...this.InlinePrompt && { width: 30 + maxTextWidth * 6 },
             ...userProp,
           }
         },
