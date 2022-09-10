@@ -58,10 +58,6 @@ import { globalAttrs, globalListeners, globalProps } from './index'
 
 export default {
   name: 'KiFormDialog',
-  model: {
-    prop: 'value',
-    event: 'change',
-  },
   props: {
     show: {
       type: Boolean,
@@ -308,7 +304,7 @@ export default {
     onClosed() {
       // 重置表单
       this.submitting = false
-      this.$emit('change', cloneDeep(this.value__))
+      this.$emit('input', cloneDeep(this.value__))
       if (this.$slots['el-form']) {
         this.$refs.elForm.clearValidate()
       }
