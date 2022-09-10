@@ -1,32 +1,42 @@
 <template>
-  <el-dialog :visible.sync="show" :title="Title" v-bind="ElDialogProps" v-on="Listeners"
-    ref="elDialog" @closed="onClosed" :destroyOnClose="false" :appendToBody="false"
-    :key="key">
+  <el-dialog
+    v-bind="ElDialogProps" ref="elDialog" :key="key" :visible.sync="show"
+    :title="Title" :destroyOnClose="false" :appendToBody="false" v-on="Listeners"
+    @closed="onClosed"
+  >
     <template #title>
       <!-- 接收 slot -->
       <slot name="title" />
     </template>
     <div v-loading="Loading" class="body" overflow="y-hidden" flex="~ col">
       <!-- 传 slot -->
-      <div class="overflow-y-auto px-40px pb-85px pt-25px"
-        style="max-height:calc(100vh - 45px);" ref="overlayScrollbar">
+      <div
+        ref="overlayScrollbar"
+        class="overflow-y-auto px-40px pb-85px pt-25px" style="max-height:calc(100vh - 45px);"
+      >
         <slot />
 
-        <el-form v-if="$scopedSlots['el-form']" :labelWidth="labelWidth"
-          v-bind="ElFormProps" v-on="Listeners">
+        <el-form
+          v-if="$slots['el-form']" :labelWidth="labelWidth"
+          v-bind="ElFormProps" v-on="Listeners"
+        >
           <slot name="el-form" />
         </el-form>
       </div>
     </div>
 
     <template #footer>
-      <slot name="footer" :close="close" :closing="closing" :confirm="confirm"
-        :submitting="submitting">
-        <el-button @click="close" :disabled="closing">
+      <slot
+        name="footer" :close="close" :closing="closing" :confirm="confirm"
+        :submitting="submitting"
+      >
+        <el-button :disabled="closing" @click="close">
           {{ showConfirmButton ? '取 消' : '关 闭' }}
         </el-button>
-        <el-button type="primary" @click="confirm" :disabled="closing"
-          :loading="submitting" v-if="showConfirmButton">
+        <el-button
+          v-if="showConfirmButton" type="primary" :disabled="closing"
+          :loading="submitting" @click="confirm"
+        >
           确 定
         </el-button>
       </slot>
@@ -35,23 +45,27 @@
 </template>
 
 <script>
-import { globalProps, globalAttrs, globalListeners } from './index'
 import { conclude } from 'vue-global-config'
-import highlightError from './highlightError'
 import { cloneDeep } from 'lodash-es'
 import { getListeners } from '../utils'
-//import Scrollbar from 'smooth-scrollbar'
-//import 'overlayscrollbars/css/OverlayScrollbars.min.css'
-//import OverlayScrollbars from 'overlayscrollbars'
+import highlightError from './highlightError'
+import { globalAttrs, globalListeners, globalProps } from './index'
+// import Scrollbar from 'smooth-scrollbar'
+// import 'overlayscrollbars/css/OverlayScrollbars.min.css'
+// import OverlayScrollbars from 'overlayscrollbars'
 // 在某项目中触发诡异 bug：el-input 输入时触发重绘，光标被强制后移
-//import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
+// import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 
 export default {
   name: 'KiFormDialog',
+  model: {
+    prop: 'value',
+    event: 'change',
+  },
   props: {
     show: {
       type: Boolean,
-      required: true
+      required: true,
     },
     value: {
       default: () => ({}),
@@ -70,10 +84,6 @@ export default {
     title: {},
     getContainer: {},
   },
-  model: {
-    prop: 'value',
-    event: 'change'
-  },
   data() {
     return {
       retrieving: true,
@@ -85,7 +95,7 @@ export default {
       // 作用是防止在关闭但关闭动画未结束时隐藏的确认按钮暴露出来
       showConfirmButton: false,
       beforeCloseIsPassed: false,
-      //osInstance: null,
+      // osInstance: null,
       labelWidth: undefined,
       key: 0,
     }
@@ -93,7 +103,7 @@ export default {
   computed: {
     Title() {
       return conclude([this.title, globalProps.title], {
-        type: String
+        type: String,
       })
     },
     Listeners() {
@@ -101,34 +111,34 @@ export default {
     },
     Loading() {
       return conclude([this.loading, globalProps.loading, this.retrieving], {
-        type: Boolean
+        type: Boolean,
       })
     },
     Retrieve() {
       return conclude([this.retrieve, globalProps.retrieve], {
-        type: Function
+        type: Function,
       })
     },
     Submit() {
       return conclude([this.submit, globalProps.submit], {
-        type: Function
+        type: Function,
       })
     },
     Readonly() {
       return conclude([this.readonly, globalProps.readonly, false], {
-        type: Boolean
+        type: Boolean,
       })
     },
     ElDialogProps() {
       return conclude([this.$attrs, globalAttrs], {
-        default: userProp => {
+        default: (userProp) => {
           this.beforeCloseIsPassed = Boolean(userProp.beforeClose)
           return {
             closeOnClickModal: false,
             ...!this.beforeCloseIsPassed && {
               beforeClose: () => {
                 this.$emit('update:show', false)
-              }
+              },
             },
           }
         },
@@ -141,9 +151,9 @@ export default {
           disabled: this.readonly || this.submitting,
           model: this.value,
           ref: 'elForm',
-        }
+        },
       ], {
-        type: Object
+        type: Object,
       })
     },
     // 必须放在 ElDialogProps 下面
@@ -153,26 +163,23 @@ export default {
       })
     },
   },
-  created() {
-    this.value__ = cloneDeep(this.value)
-  },
   watch: {
     show: {
       // 针对默认打开的情况 默认打开时 依然执行retrieve
       immediate: true,
       handler(n) {
         if (n) {
-          /*if (this.$scopedSlots['el-form'] && !this.labelWidthSettled) {
+          /* if (this.$scopedSlots['el-form'] && !this.labelWidthSettled) {
             this.labelWidth = await this.getLabelWidth()
             this.labelWidthSettled = true
-          }*/
+          } */
           this.retrieving = true
           const result = this.Retrieve?.()
           if (result instanceof Promise) {
-            result.catch(e => {
+            result.catch((e) => {
               console.error(e)
               this.close()
-            }).finally(e => {
+            }).finally((e) => {
               this.retrieving = false
             })
           } else {
@@ -180,9 +187,9 @@ export default {
           }
           this.computeLabelWidth()
           // 不兼容 tinymce
-          /*this.$nextTick(() => {
+          /* this.$nextTick(() => {
             this.osInstance = OverlayScrollbars(this.$refs.overlayScrollbar, {})
-          })*/
+          }) */
         }
         // 首次不执行
         else if (this.initiated) {
@@ -190,14 +197,14 @@ export default {
         }
         if (this.GetContainer) {
           this.$nextTick(() => {
-            (typeof this.GetContainer === 'function' ?
-              this.GetContainer() :
-              document.querySelector(this.GetContainer)
+            (typeof this.GetContainer === 'function'
+              ? this.GetContainer()
+              : document.querySelector(this.GetContainer)
             ).appendChild(this.$el)
           })
         }
         this.initiated = true
-      }
+      },
     },
     Readonly: {
       immediate: true,
@@ -205,7 +212,7 @@ export default {
         if (!this.closing) {
           this.showConfirmButton = !n
         }
-      }
+      },
     },
     showConfirmButton: {
       immediate: true,
@@ -215,32 +222,35 @@ export default {
             this.styleTag.load()
           } else {
             this.styleTag = useStyleTag(
-              '.el-form [disabled="disabled"], .el-form .is-disabled, .el-form .is-disabled *, .el-form .disabled {' +
-              'color: unset !important;' +
-              'cursor: initial !important;' +
-              '} ' +
-              '.el-form .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner, .el-form .el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner {' +
-              'background-color: #409EFF;' +
-              'border-color: #409EFF;' +
-              '} ' +
-              '.el-form .el-radio__input.is-disabled.is-checked .el-radio__inner {' +
-              'border-color: #409EFF;' +
-              'background: #409EFF;' +
-              '} ' +
-              '.el-form .el-radio__input.is-disabled.is-checked .el-radio__inner::after {' +
-              'cursor: unset;' +
-              'background-color: #FFF;' +
-              '} '
+              '.el-form [disabled="disabled"], .el-form .is-disabled, .el-form .is-disabled *, .el-form .disabled {'
+              + 'color: unset !important;'
+              + 'cursor: initial !important;'
+              + '} '
+              + '.el-form .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner, .el-form .el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner {'
+              + 'background-color: #409EFF;'
+              + 'border-color: #409EFF;'
+              + '} '
+              + '.el-form .el-radio__input.is-disabled.is-checked .el-radio__inner {'
+              + 'border-color: #409EFF;'
+              + 'background: #409EFF;'
+              + '} '
+              + '.el-form .el-radio__input.is-disabled.is-checked .el-radio__inner::after {'
+              + 'cursor: unset;'
+              + 'background-color: #FFF;'
+              + '} ',
             )
           }
         } else if (this.styleTag) {
           this.styleTag.unload()
           this.styleTag = null
         }
-      }
-    }
+      },
+    },
   },
-  /*mounted () {
+  created() {
+    this.value__ = cloneDeep(this.value)
+  },
+  /* mounted () {
     // 不兼容 tinymce
     const unwatch = this.$watch('loading', n => {
       if (!n) {
@@ -255,11 +265,11 @@ export default {
     }, {
       immediate: true
     })
-  },*/
+  }, */
   updated() {
     this.computeLabelWidth()
   },
-  destroyed() {
+  unmounted() {
     if (this.GetContainer && this.$el?.parentNode) {
       this.$el.parentNode.removeChild(this.$el)
     }
@@ -275,7 +285,7 @@ export default {
         this.$nextTick(() => {
           let max = 0
           // 首次执行时 this.$refs.elForm 为空
-          this.$refs.elForm?.$el.querySelectorAll('.el-form-item__label').forEach(item => {
+          this.$refs.elForm?.$el.querySelectorAll('.el-form-item__label').forEach((item) => {
             // updated 时，避免受之前设置的宽度影响
             const prevWidth = item.style.width
             item.style.width = 'unset'
@@ -292,14 +302,14 @@ export default {
         })
       }
     },
-    /*reset () {
+    /* reset () {
       this.$refs.elForm.resetFields()
-    },*/
+    }, */
     onClosed() {
       // 重置表单
       this.submitting = false
       this.$emit('change', cloneDeep(this.value__))
-      if (this.$scopedSlots['el-form']) {
+      if (this.$slots['el-form']) {
         this.$refs.elForm.clearValidate()
       }
       this.closing = false
@@ -323,13 +333,13 @@ export default {
           const result = this.Submit()
           if (result instanceof Promise) {
             this.submitting = true
-            result.then(data => {
+            result.then((data) => {
               if (data?.show === true) {
                 this.submitting = false
               } else {
                 this.close()
               }
-            }).catch(e => {
+            }).catch((e) => {
               console.error(e)
               this.submitting = false
             })
@@ -341,8 +351,8 @@ export default {
         }
       }
 
-      if (this.$scopedSlots['el-form']) {
-        this.$refs.elForm.validate(valid => {
+      if (this.$slots['el-form']) {
+        this.$refs.elForm.validate((valid) => {
           if (valid) {
             exec()
           } else {
@@ -354,7 +364,7 @@ export default {
       }
     },
     highlightError,
-  }
+  },
 }
 </script>
 

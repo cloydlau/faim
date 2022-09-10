@@ -3,55 +3,59 @@
     <div slot="content" v-html="ElTooltipProps.content" />
     <el-popover v-bind="ElPopoverProps">
       <div v-html="ElPopoverProps.content" />
-      <el-popconfirm slot="reference" @confirm="onConfirm" @onConfirm="onConfirm"
-        v-bind="ElPopconfirmProps">
-        <el-switch slot="reference" v-bind="ElSwitchProps" ref="elSwitch" :value="value"
-          @click.native="onClick" :class="TextInside && 'text-inside'" />
+      <el-popconfirm
+        slot="reference" v-bind="ElPopconfirmProps" @confirm="onConfirm"
+        @onConfirm="onConfirm"
+      >
+        <el-switch
+          slot="reference" v-bind="ElSwitchProps" ref="elSwitch" :value="value"
+          :class="TextInside && 'text-inside'" @click.native="onClick"
+        />
       </el-popconfirm>
     </el-popover>
   </el-tooltip>
 </template>
 
 <script>
-import { globalProps, globalAttrs } from './index'
-import { getCharCount } from '../utils'
 import { conclude } from 'vue-global-config'
+import { getCharCount } from '../utils'
+import { globalAttrs, globalProps } from './index'
 
 export default {
   name: 'KiPopSwitch',
+  model: {
+    prop: 'value',
+    event: 'change',
+  },
   props: {
     value: {},
     textInside: {
       type: Boolean,
-      default: undefined
+      default: undefined,
     },
     elPopconfirmProps: {},
     elTooltipProps: {},
     elPopoverProps: {},
   },
-  model: {
-    prop: 'value',
-    event: 'change'
-  },
   computed: {
     TextInside() {
       return conclude([this.textInside, globalProps.textInside, true], {
-        type: Boolean
+        type: Boolean,
       })
     },
     ElSwitchProps() {
       return conclude([this.$attrs, globalAttrs], {
-        default: userProp => {
+        default: (userProp) => {
           let maxTextWidth = 0;
-          ['active-text', 'inactive-text', 'activeText', 'inactiveText'].map(v => {
-            let textWidth = getCharCount(userProp[v])
+          ['active-text', 'inactive-text', 'activeText', 'inactiveText'].map((v) => {
+            const textWidth = getCharCount(userProp[v])
             if (textWidth > maxTextWidth) {
               maxTextWidth = textWidth
             }
           })
           return {
             ...this.TextInside && { width: 30 + maxTextWidth * 6 },
-            ...userProp
+            ...userProp,
           }
         },
         defaultIsDynamic: true,
@@ -65,7 +69,7 @@ export default {
         type: Object,
         default: userProp => ({
           popperClass: 'pop-switch',
-          disabled: !Boolean(userProp && (userProp.title || userProp.content)),
+          disabled: !(userProp && (userProp.title || userProp.content)),
         }),
         defaultIsDynamic: true,
       })
@@ -78,7 +82,7 @@ export default {
         type: Object,
         default: userProp => ({
           popperClass: 'pop-switch',
-          disabled: [true, ''].includes(this.ElSwitchProps.disabled) || !Boolean(userProp?.title),
+          disabled: [true, ''].includes(this.ElSwitchProps.disabled) || !userProp?.title,
         }),
         defaultIsDynamic: true,
       })
@@ -90,8 +94,8 @@ export default {
       ], {
         type: Object,
         default: userProp => ({
-          //openDelay: 400,
-          disabled: !Boolean(userProp?.content || this.$scopedSlots.elTooltipContent),
+          // openDelay: 400,
+          disabled: !(userProp?.content || this.$slots.elTooltipContent),
         }),
         defaultIsDynamic: true,
       })
@@ -109,8 +113,8 @@ export default {
       if (this.ElSwitchProps.disabled === false && this.ElPopconfirmProps.disabled) {
         this.onConfirm()
       }
-    }
-  }
+    },
+  },
 }
 </script>
 

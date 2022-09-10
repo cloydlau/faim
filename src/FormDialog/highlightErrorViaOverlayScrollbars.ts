@@ -5,15 +5,15 @@ export default (
   el: string | Element | NodeList = '.el-form .el-form-item.is-error',
   overlayScrollbar: object,
 ): void => {
-  const scrollIntoView = element => {
+  const scrollIntoView = (element) => {
     overlayScrollbar.scroll(element, 500)
   }
 
   const animateCSS = (el, animationName) =>
     new Promise<void>((resolve, reject) => {
       if (el) {
-        // @ts-ignore
-        for (let v of el instanceof NodeList ? el : [el]) {
+        // @ts-expect-error
+        for (const v of el instanceof NodeList ? el : [el]) {
           v.classList.add('animate__animated', animationName)
 
           const handleAnimationEnd = () => {
@@ -34,7 +34,7 @@ export default (
     const errFormItems = typeof el === 'string' ? document.querySelectorAll(el) : el
 
     // 打包后不生效
-    /*if (IntersectionObserver) {
+    /* if (IntersectionObserver) {
       const intersectionObserver = new IntersectionObserver((entries) => {
         let [entry] = entries
         if (entry.isIntersecting) {
@@ -48,19 +48,19 @@ export default (
         }
       })
       intersectionObserver.observe(errFormItems[0])
-    }*/
+    } */
 
     // 视图滚动至校验失败的第一个表单项
     if (errFormItems[0]) {
       if (elementIsVisible(errFormItems[0])) {
-        animateCSS(errFormItems, 'animate__headShake').catch(e => {
+        animateCSS(errFormItems, 'animate__headShake').catch((e) => {
           console.warn(e)
         })
       } else {
         scrollIntoView(errFormItems[0])
 
         setTimeout(() => {
-          animateCSS(errFormItems, 'animate__headShake').catch(e => {
+          animateCSS(errFormItems, 'animate__headShake').catch((e) => {
             console.warn(e)
           })
         }, 750)

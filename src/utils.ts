@@ -8,7 +8,7 @@ export function hasScrollbar(el: HTMLElement) {
 export function getCharCount(text: string): number {
   let count = 0
   if (text) {
-    for (let v of text) {
+    for (const v of text) {
       count += v.charCodeAt(0) > 255 ? 2 : 1
     }
   }
@@ -32,9 +32,9 @@ export function getListeners(globalListeners: { [key: string]: any }) {
 export function isEmpty(value: any): boolean {
   return {
     object: () =>
-      value === null ||
-      Array.isArray(value) && value.length === 0 ||
-      isPlainObject(value) && Object.getOwnPropertyNames(value).length === 0,
+      value === null
+      || Array.isArray(value) && value.length === 0
+      || isPlainObject(value) && Object.getOwnPropertyNames(value).length === 0,
     number: () => Number.isNaN(value),
     string: () => value === '',
     undefined: () => true,

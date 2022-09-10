@@ -1,13 +1,13 @@
 <template>
   <el-tooltip v-bind="ElTooltipProps" ref="elTooltip">
-    <div slot="content" v-html="ElTooltipProps.content"/>
+    <div slot="content" v-html="ElTooltipProps.content" />
     <el-popover v-bind="ElPopoverProps">
-      <div v-html="ElPopoverProps.content"/>
+      <div v-html="ElPopoverProps.content" />
       <el-popconfirm
         slot="reference"
+        v-bind="ElPopconfirmProps"
         @confirm="$emit('click', $event)"
         @onConfirm="$emit('click', $event)"
-        v-bind="ElPopconfirmProps"
       >
         <el-button
           slot="reference"
@@ -15,7 +15,7 @@
           v-bind="ElButtonProps"
           @click="onClick"
         >
-          <slot/>
+          <slot />
         </el-button>
       </el-popconfirm>
     </el-popover>
@@ -23,8 +23,8 @@
 </template>
 
 <script>
-import { globalProps, globalAttrs } from './index'
 import { conclude } from 'vue-global-config'
+import { globalAttrs, globalProps } from './index'
 
 export default {
   name: 'KiPopButton',
@@ -34,51 +34,51 @@ export default {
     elPopoverProps: {},
   },
   computed: {
-    ElButtonProps () {
+    ElButtonProps() {
       return conclude([this.$attrs, globalAttrs])
     },
-    ElPopoverProps () {
+    ElPopoverProps() {
       const result = conclude([
         this.elPopoverProps,
         globalProps.elPopoverProps,
       ], {
-        type: Object
+        type: Object,
       })
       const { title, content } = result || {}
       return {
-        disabled: !Boolean(title || content),
+        disabled: !(title || content),
         ...result,
       }
     },
-    ElPopconfirmProps () {
+    ElPopconfirmProps() {
       const result = conclude([
         this.elPopconfirmProps,
         globalProps.elPopconfirmProps,
       ], {
-        type: Object
+        type: Object,
       })
       return {
         popperClass: 'pop-button',
-        disabled: !Boolean(result?.title),
+        disabled: !result?.title,
         ...result,
       }
     },
-    ElTooltipProps () {
+    ElTooltipProps() {
       const result = conclude([
         this.elTooltipProps,
         globalProps.elTooltipProps,
       ], {
-        type: Object
+        type: Object,
       })
       return {
-        //openDelay: 400,
-        disabled: !Boolean(result?.content),
+        // openDelay: 400,
+        disabled: !result?.content,
         ...result,
       }
     },
   },
   methods: {
-    onClick (e) {
+    onClick(e) {
       if (!this.$refs.elTooltip.manual) {
         this.$refs.elTooltip.showPopper = false
       }
@@ -86,7 +86,7 @@ export default {
         this.$emit('click', e)
       }
     },
-  }
+  },
 }
 </script>
 

@@ -4,7 +4,7 @@ export default (
   el: string | Element | NodeList = '.el-form .el-form-item.is-error',
   smoothScrollbar: object,
 ): void => {
-  const scrollIntoView = element => {
+  const scrollIntoView = (element) => {
     smoothScrollbar.scrollIntoView(element)
   }
   const isVisible = element => smoothScrollbar.isVisible(element)
@@ -12,8 +12,8 @@ export default (
   const animateCSS = (el, animationName) =>
     new Promise<void>((resolve, reject) => {
       if (el) {
-        // @ts-ignore
-        for (let v of el instanceof NodeList ? el : [el]) {
+        // @ts-expect-error: none
+        for (const v of el instanceof NodeList ? el : [el]) {
           v.classList.add('animate__animated', animationName)
 
           const handleAnimationEnd = () => {
@@ -34,7 +34,7 @@ export default (
     const errFormItems = typeof el === 'string' ? document.querySelectorAll(el) : el
 
     // 打包后不生效
-    /*if (IntersectionObserver) {
+    /* if (IntersectionObserver) {
       const intersectionObserver = new IntersectionObserver((entries) => {
         let [entry] = entries
         if (entry.isIntersecting) {
@@ -48,12 +48,12 @@ export default (
         }
       })
       intersectionObserver.observe(errFormItems[0])
-    }*/
+    } */
 
     // 视图滚动至校验失败的第一个表单项
     if (errFormItems[0]) {
       if (isVisible(errFormItems[0])) {
-        animateCSS(errFormItems, 'animate__headShake').catch(e => {
+        animateCSS(errFormItems, 'animate__headShake').catch((e) => {
           console.warn(e)
         })
       } else {
@@ -64,7 +64,7 @@ export default (
           clearTimeout(scrollTimeout)
           // 100毫秒都没有触发 说明滚动停止
           scrollTimeout = setTimeout(() => {
-            animateCSS(errFormItems, 'animate__headShake').catch(e => {
+            animateCSS(errFormItems, 'animate__headShake').catch((e) => {
               console.warn(e)
             })
             smoothScrollbar.removeListener(shake)

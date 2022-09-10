@@ -1,28 +1,35 @@
 <template>
-  <el-select v-model="value__" v-bind="ElSelectProps" @change="onChange" v-on="Listeners"
-    ref="elSelect" @visible-change="onVisibleChange">
+  <el-select
+    v-bind="ElSelectProps" ref="elSelect" v-model="value__" @change="onChange"
+    v-on="Listeners" @visible-change="onVisibleChange"
+  >
     <template v-if="grouped">
-      <el-option-group v-for="(group, groupIndex) of options__"
+      <el-option-group
+        v-for="(group, groupIndex) of options__"
         :key="optionGroupPropsList[groupIndex].key"
         :label="optionGroupPropsList[groupIndex].label"
-        :disabled="optionGroupPropsList[groupIndex].disabled">
+        :disabled="optionGroupPropsList[groupIndex].disabled"
+      >
         <el-option
           v-for="(option, optionIndex) of optionGroupPropsList[groupIndex].options"
           :key="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].key"
           :label="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label"
           :value="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].value"
           :disabled="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled"
-          @click.native="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled ? undefined : onOptionClick(group, groupIndex)">
-          <slot v-if="$scopedSlots.default" :option="option" :index="optionIndex" />
+          @click.native="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled ? undefined : onOptionClick(group, groupIndex)"
+        >
+          <slot v-if="$slots.default" :option="option" :index="optionIndex" />
           <template v-else>
-            <el-tooltip :disabled="!Ellipsis" effect="dark" placement="right"
-              :content="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label">
+            <el-tooltip
+              :disabled="!Ellipsis" effect="dark" placement="right"
+              :content="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label"
+            >
               <span class="label-left">{{
-              optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label
+                optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label
               }}</span>
             </el-tooltip>
             <span class="label-right">{{
-            optionGroupPropsList[groupIndex].optionPropsList[optionIndex].labelRight
+              optionGroupPropsList[groupIndex].optionPropsList[optionIndex].labelRight
             }}</span>
           </template>
         </el-option>
@@ -30,19 +37,25 @@
     </template>
 
     <template v-else>
-      <el-checkbox v-model="allSelected" @change='selectAll'
+      <el-checkbox
+        v-if="AllowSelectAll && isMultiple && options__.length > 1" v-model="allSelected"
         :indeterminate="indeterminate" class="px-20px py-10px"
-        v-if="AllowSelectAll && isMultiple && options__.length > 1">
+        @change="selectAll"
+      >
         全选
       </el-checkbox>
-      <el-option v-for="(v, i) of options__" :key="optionPropsList[i].key"
+      <el-option
+        v-for="(v, i) of options__" :key="optionPropsList[i].key"
         :label="optionPropsList[i].label" :value="optionPropsList[i].value"
         :disabled="optionPropsList[i].disabled"
-        @click.native="optionPropsList[i].disabled ? undefined : onOptionClick(v, i)">
-        <slot v-if="$scopedSlots.default" :option="v" :index="i" />
+        @click.native="optionPropsList[i].disabled ? undefined : onOptionClick(v, i)"
+      >
+        <slot v-if="$slots.default" :option="v" :index="i" />
         <template v-else>
-          <el-tooltip :disabled="!Ellipsis" effect="dark" placement="right"
-            :content="optionPropsList[i].label">
+          <el-tooltip
+            :disabled="!Ellipsis" effect="dark" placement="right"
+            :content="optionPropsList[i].label"
+          >
             <span class="label-left">{{ optionPropsList[i].label }}</span>
           </el-tooltip>
           <span class="label-right">{{ optionPropsList[i].labelRight }}</span>
@@ -50,7 +63,7 @@
       </el-option>
     </template>
 
-    <template v-for="(v, k) in ScopedSlots" v-slot:[k]>
+    <template v-for="(v, k) in ScopedSlots" #[k]>
       <slot :name="k" />
     </template>
   </el-select>
@@ -58,20 +71,20 @@
 
 <script>
 import Vue from 'vue'
-import { isEmpty, notEmpty, getListeners } from '../utils'
 import emitter from 'element-ui/src/mixins/emitter'
 import { cloneDeep } from 'lodash-es'
-import { globalProps, globalAttrs, globalListeners } from './index'
 import { conclude } from 'vue-global-config'
 import { v4 as uuidv4 } from 'uuid'
+import { getListeners, isEmpty, notEmpty } from '../utils'
+import { globalAttrs, globalListeners, globalProps } from './index'
 
 export default {
   name: 'KiSelect',
   mixins: [emitter],
   inject: {
     elForm: {
-      default: {}
-    }
+      default: {},
+    },
   },
   props: {
     value: {},
@@ -94,6 +107,24 @@ export default {
       default: undefined,
     },
   },
+  data() {
+    return {
+      value__: this.value,
+      initialValue: undefined,
+      popper: null,
+      // showKiSelect: false
+      unwatchOptions: null,
+      loading: undefined,
+      // 在组件内部维护一份 options__ 的目的：search 时可以不绑定 options
+      options__: [],
+      optionGroupPropsList: [],
+      optionPropsList: [],
+      allSelected: false,
+      indeterminate: false,
+      valueInitializedWhenMultiple: false,
+      previousQuery: null,
+    }
+  },
   computed: {
     AllowSelectAll() {
       return conclude([this.allowSelectAll, globalProps.allowSelectAll, true])
@@ -115,10 +146,10 @@ export default {
       }
     },
     ScopedSlots() {
-      let res = {}
-      for (let k in this.$scopedSlots) {
+      const res = {}
+      for (const k in this.$slots) {
         if (k !== 'default') {
-          res[k] = this.$scopedSlots[k]
+          res[k] = this.$slots[k]
         }
       }
       return res
@@ -142,12 +173,12 @@ export default {
     },
     Ellipsis() {
       const res = conclude([this.ellipsis, globalProps.ellipsis, false], {
-        type: Boolean
+        type: Boolean,
       })
       if (res) {
         this.$nextTick(() => {
           this.popper = this.$refs.elSelect.$refs.popper
-          this.unwatchOptions = this.$watch('options__', newVal => {
+          this.unwatchOptions = this.$watch('options__', (newVal) => {
             if (newVal && newVal.length) {
               setTimeout(() => {
                 if (this.popper) {
@@ -191,42 +222,24 @@ export default {
         {
           disabled: 'disabled',
           groupDisabled: 'disabled',
-        }
+        },
       ], {
-        type: Object
+        type: Object,
       })
     },
     Search() {
       return conclude([this.search, globalProps.search], {
-        type: Function
+        type: Function,
       })
     },
     SearchImmediately() {
       return conclude([this.searchImmediately, globalProps.searchImmediately, true], {
-        type: Boolean
+        type: Boolean,
       })
     },
     isMultiple() {
       return [true, ''].includes(this.ElSelectProps.multiple)
-    }
-  },
-  data() {
-    return {
-      value__: this.value,
-      initialValue: undefined,
-      popper: null,
-      //showKiSelect: false
-      unwatchOptions: null,
-      loading: undefined,
-      // 在组件内部维护一份 options__ 的目的：search 时可以不绑定 options
-      options__: [],
-      optionGroupPropsList: [],
-      optionPropsList: [],
-      allSelected: false,
-      indeterminate: false,
-      valueInitializedWhenMultiple: false,
-      previousQuery: null,
-    }
+    },
   },
   watch: {
     // 没有使用 v-model / value 时，resetFields 不会触发
@@ -237,7 +250,7 @@ export default {
         this.handleLabel()
         // 外部设值时，同步全选按钮状态
         this.syncSelectAllBtn(n)
-      }
+      },
     },
     value__: {
       handler(n, o) {
@@ -253,13 +266,13 @@ export default {
           this.$emit('update:index', undefined)
           this.remoteMethod()
         }
-      }
+      },
     },
     options: {
       immediate: true,
       handler(n, o) {
         this.setOptions__(n)
-      }
+      },
     },
   },
   created() {
@@ -320,7 +333,7 @@ export default {
               label: this.getLabel(v, i),
               labelRight: this.getLabelRight(v, i),
               disabled: this.isDisabled(v, i),
-            }))
+            })),
           }
         })
       } else {
@@ -340,7 +353,7 @@ export default {
     },
     selectAll() {
       if (this.allSelected) {
-        let temp = []
+        const temp = []
         this.options__.map((v, i) => {
           if (!this.isDisabled(v, i)) {
             temp.push(this.getValue(v, i))
@@ -386,7 +399,7 @@ export default {
       this.previousQuery = e
       const res = this.Search(e, isImmediate)
       if (res instanceof Promise) {
-        res.then(res => {
+        res.then((res) => {
           this.setOptions__(res)
         }).finally(() => {
           this.loading = false
@@ -398,7 +411,7 @@ export default {
     },
     syncSelectAllBtn(value) {
       if (this.isMultiple && !this.grouped) {
-        let valueLen = value ? value.length : 0
+        const valueLen = value ? value.length : 0
         const optionsLen = this.options__.length
         this.allSelected = valueLen > 0 && valueLen === optionsLen
         this.indeterminate = valueLen > 0 && valueLen < optionsLen
@@ -418,9 +431,9 @@ export default {
         if (notEmpty(this.Props.value)) {
           res = v?.[this.Props.value]
         } else if (isEmpty(this.ElSelectProps.valueKey)) {
-          throw Error('\'value-key\' of \'el-select\' is required when binding value is an object.')
+          throw new Error('\'value-key\' of \'el-select\' is required when binding value is an object.')
         } else if (notEmpty(this.value) && typeof this.value !== 'object') {
-          throw Error('Binding value must be an object when \'options\' is an object[] and \'props.value\' is unset.')
+          throw new Error('Binding value must be an object when \'options\' is an object[] and \'props.value\' is unset.')
         }
       }
       return res
@@ -495,11 +508,11 @@ export default {
       }
       return res
     },
-    /*onVisibleChange (show) {
+    /* onVisibleChange (show) {
       this.showKiSelect = show
     },
-    isEllipsis*/
-  }
+    isEllipsis */
+  },
 }
 </script>
 
