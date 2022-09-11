@@ -11,14 +11,14 @@
     <div v-loading="Loading" class="body" overflow="y-hidden" flex="~ col">
       <!-- 传 slot -->
       <div
-        ref="overlayScrollbar"
-        class="overflow-y-auto px-40px pb-85px pt-25px" style="max-height:calc(100vh - 45px);"
+        ref="overlayScrollbar" class="overflow-y-auto px-40px pb-85px pt-25px"
+        style="max-height:calc(100vh - 45px);"
       >
         <slot />
 
         <el-form
-          v-if="$slots['el-form']" :labelWidth="labelWidth"
-          v-bind="ElFormProps" v-on="Listeners"
+          v-if="$slots['el-form']" :labelWidth="labelWidth" v-bind="ElFormProps"
+          v-on="Listeners"
         >
           <slot name="el-form" />
         </el-form>
