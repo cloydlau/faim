@@ -3,6 +3,7 @@ lockfileVersion: 5.4
 specifiers:
   '@antfu/eslint-config': latest
   '@vitejs/plugin-vue2': latest
+  '@vueuse/core': ^9.2.0
   case-police: latest
   element-ui: latest
   eslint: latest
@@ -20,6 +21,7 @@ specifiers:
   vue-global-config: latest
 
 dependencies:
+  '@vueuse/core': 9.2.0_vue@2.7.10
   lodash-es: 4.17.21
   uuid: 9.0.0
   vue-global-config: 0.2.4_vue@2.7.10
@@ -35,9 +37,9 @@ devDependencies:
   sass: 1.54.9
   typescript: 4.8.3
   unocss: 0.43.1_vite@3.1.0
-  unplugin-auto-import: 0.11.2_vite@3.1.0
+  unplugin-auto-import: 0.11.2_re6csl7eeastiiyshsk3b5ioaa
   vite: 3.1.0_sass@1.54.9
-  vite-plugin-dts: 1.4.1_vite@3.1.0
+  vite-plugin-dts: 1.5.0_vite@3.1.0
   vue: 2.7.10
 
 packages:
@@ -400,6 +402,9 @@ packages:
     resolution: {integrity: sha512-PBjIUxZHOuj0R15/xuwJYjFi+KZdNFrehocChv4g5hu6aFroHue8m0lBP0POdK2nKzbw0cgV1mws8+V/JAcEkQ==}
     dev: true
 
+  /@types/web-bluetooth/0.0.15:
+    resolution: {integrity: sha512-w7hEHXnPMEZ+4nGKl/KDRVpxkwYxYExuHOYXyzIzCDzEZ9ZCGMAewulr9IqJu2LR4N37fcnb1XVeuZ09qgOxhA==}
+
   /@typescript-eslint/eslint-plugin/5.36.2_2l2r3i3lm6jysqd4ac3ql4n2mm:
     resolution: {integrity: sha512-OwwR8LRwSnI98tdc2z7mJYgY60gf7I9ZfGjN5EjCwwns9bdTuQfAXcsjSB2wSQ/TVNYSGKf4kzVXbNGaZvwiXw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
@@ -678,6 +683,28 @@ packages:
       '@babel/parser': 7.19.0
       postcss: 8.4.16
       source-map: 0.6.1
+
+  /@vueuse/core/9.2.0_vue@2.7.10:
+    resolution: {integrity: sha512-/MZ6qpz6uSyaXrtoeBWQzAKRG3N7CvfVWvQxiM3ei3Xe5ydOjjtVbo7lGl9p8dECV93j7W8s63A8H0kFLpLyxg==}
+    dependencies:
+      '@types/web-bluetooth': 0.0.15
+      '@vueuse/metadata': 9.2.0
+      '@vueuse/shared': 9.2.0_vue@2.7.10
+      vue-demi: 0.13.11_vue@2.7.10
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
+
+  /@vueuse/metadata/9.2.0:
+    resolution: {integrity: sha512-exN4KE6iquxDCdt72BgEhb3tlOpECtD61AUdXnUqBTIUCl70x1Ar/QXo3bYcvxmdMS2/peQyfeTzBjRTpvL5xw==}
+
+  /@vueuse/shared/9.2.0_vue@2.7.10:
+    resolution: {integrity: sha512-NnRp/noSWuXW0dKhZK5D0YLrDi0nmZ18UeEgwXQq7Ul5TTP93lcNnKjrHtd68j2xFB/l59yPGFlCryL692bnrA==}
+    dependencies:
+      vue-demi: 0.13.11_vue@2.7.10
+    transitivePeerDependencies:
+      - '@vue/composition-api'
+      - vue
 
   /acorn-jsx/5.3.2_acorn@8.8.0:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
@@ -3687,7 +3714,7 @@ packages:
       - vite
     dev: true
 
-  /unplugin-auto-import/0.11.2_vite@3.1.0:
+  /unplugin-auto-import/0.11.2_re6csl7eeastiiyshsk3b5ioaa:
     resolution: {integrity: sha512-1+VwBfn9dtiYv9SQLKP1AvZolUbK9xTVeAT+iOcEk4EHSFUlmIqBVLEKI76cifSQTLOJ3rZyPrEgptf3SZNLlQ==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -3698,6 +3725,7 @@ packages:
     dependencies:
       '@antfu/utils': 0.5.2
       '@rollup/pluginutils': 4.2.1
+      '@vueuse/core': 9.2.0_vue@2.7.10
       local-pkg: 0.4.2
       magic-string: 0.26.3
       unimport: 0.6.7_vite@3.1.0
@@ -3772,8 +3800,8 @@ packages:
     engines: {node: '>= 0.10'}
     dev: true
 
-  /vite-plugin-dts/1.4.1_vite@3.1.0:
-    resolution: {integrity: sha512-jo7E4ZeheD2o48oGiI3EygPbej7ZkGFHg3GVTt7Wuo6NgzThLvuzGGuduaFpnhJOGi1piDFsu6oui/wDKIIORQ==}
+  /vite-plugin-dts/1.5.0_vite@3.1.0:
+    resolution: {integrity: sha512-O78YnwomiEu+vKMdj1gvJfi2PnSOdB/RKWSOaNDjzr5bGvB6G7AskSczy+74sLwj3hkh0qO0L0U1UuLSjAqtqA==}
     engines: {node: '>=12.0.0'}
     peerDependencies:
       vite: '>=2.4.4'
@@ -3831,7 +3859,6 @@ packages:
         optional: true
     dependencies:
       vue: 2.7.10
-    dev: false
 
   /vue-eslint-parser/9.1.0_eslint@8.23.0:
     resolution: {integrity: sha512-NGn/iQy8/Wb7RrRa4aRkokyCZfOUWk19OP5HP6JEozQFX5AoS/t+Z0ZN7FY4LlmWc4FNI922V7cvX28zctN8dQ==}

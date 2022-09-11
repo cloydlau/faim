@@ -35,6 +35,7 @@
     "vue": "2"
   },
   "dependencies": {
+    "@vueuse/core": "latest",
     "lodash-es": "latest",
     "uuid": "latest",
     "vue-global-config": "latest"
