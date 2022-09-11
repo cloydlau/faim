@@ -128,7 +128,7 @@ export default {
     ElDialogProps() {
       return conclude([this.$attrs, globalAttrs], {
         default: (userProp) => {
-          this.beforeCloseIsPassed = Boolean(userProp.beforeClose)
+          this.beforeCloseIsPassed = Boolean(userProp.beforeClose || userProp['before-close'])
           return {
             closeOnClickModal: false,
             ...!this.beforeCloseIsPassed && {
