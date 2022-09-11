@@ -22,7 +22,6 @@ export default defineConfig({
       imports: [
         // presets
         'vue',
-        '@vueuse/core',
       ],
     }),
     UnoCSS({

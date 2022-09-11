@@ -30,7 +30,7 @@
         name="footer" :close="close" :closing="closing" :confirm="confirm"
         :submitting="submitting"
       >
-        <el-button :disabled="closing" @click="close">
+        <el-button v-if="AllowClose" :disabled="closing" @click="close">
           {{ showConfirmButton ? '取 消' : '关 闭' }}
         </el-button>
         <el-button
@@ -79,6 +79,10 @@ export default {
     },
     title: {},
     getContainer: {},
+    allowClose: {
+      type: Boolean,
+      default: undefined,
+    },
   },
   data() {
     return {
@@ -97,6 +101,9 @@ export default {
     }
   },
   computed: {
+    AllowClose() {
+      return conclude([this.allowClose, globalProps.allowClose, true])
+    },
     Title() {
       return conclude([this.title, globalProps.title], {
         type: String,
@@ -126,9 +133,15 @@ export default {
       })
     },
     ElDialogProps() {
-      return conclude([this.$attrs, globalAttrs], {
+      return conclude([this.AllowClose
+        ? undefined
+        : {
+            closeOnClickModal: false,
+            showClose: false,
+            closeOnPressEscape: false,
+          }, this.$attrs, globalAttrs], {
         default: (userProp) => {
-          this.beforeCloseIsPassed = Boolean(userProp.beforeClose || userProp['before-close'])
+          this.beforeCloseIsPassed = Boolean(userProp.beforeClose)
           return {
             closeOnClickModal: false,
             ...!this.beforeCloseIsPassed && {
