@@ -1,18 +1,22 @@
 <template>
   <div>
-    <el-button @click="showFormDialog = true">打开 FormDialog</el-button>
+    <el-button @click="showFormDialog = true">
+      打开 FormDialog
+    </el-button>
     只读：
     <el-switch v-model="readonly" />
     全屏：
     <el-switch v-model="fullscreen" />
 
-    <KiFormDialog :fullscreen="fullscreen" :show.sync="showFormDialog"
-      :retrieve="retrieve" :submit="submit" title="FormDialog" ref="formDialog"
-      v-model="form" @open="console.log('open')" @opened="console.log('opened')"
-      @close="console.log('close')" @closed="console.log('closed')"
-      @validate="console.log('validate')" :readonly="readonly" :elFormProps="{
-        'labelPosition': 'top',
-      }">
+    <KiFormDialog
+      ref="formDialog" v-model="form" :fullscreen="fullscreen"
+      :show.sync="showFormDialog" :retrieve="retrieve" :submit="submit" title="FormDialog"
+      :readonly="readonly" :elFormProps="{
+        labelPosition: 'top',
+      }" @open="console.log('open')"
+      @opened="console.log('opened')" @close="console.log('close')" @closed="console.log('closed')"
+      @validate="console.log('validate')"
+    >
       <template #el-form>
         <el-form-item label="Select" required prop="KiSelect[0].value">
           <div class="flex justify-between">
@@ -26,34 +30,43 @@
                             :label="item"
                             :value="item"
                           />
-                        </el-select>-->
-            <KiSelect v-model="form.KiSelect[0].value"
-              :label.sync="form.KiSelect[0].label" :index.sync="form.KiSelect[0].index"
-              :options="form.KiSelect[0].options" placeholder="number[]">
-              <template v-slot="{ option, index }">
+                        </el-select> -->
+            <KiSelect
+              v-model="form.KiSelect[0].value" :label.sync="form.KiSelect[0].label"
+              :index.sync="form.KiSelect[0].index" :options="form.KiSelect[0].options"
+              placeholder="number[]"
+            >
+              <template #default="{ option, index }">
                 option: {{ option }}
                 index: {{ index }}
               </template>
-              <div slot="prefix">pre</div>
-              <div slot="empty">empty</div>
+              <div slot="prefix">
+                pre
+              </div>
+              <div slot="empty">
+                empty
+              </div>
             </KiSelect>
-            <KiSelect v-model="form.KiSelect[1].value"
-              :label.sync="form.KiSelect[1].label" :index.sync="form.KiSelect[1].index"
-              :options="form.KiSelect[1].options" value-key="a" :props="{
+            <KiSelect
+              v-model="form.KiSelect[1].value" :label.sync="form.KiSelect[1].label"
+              :index.sync="form.KiSelect[1].index" :options="form.KiSelect[1].options" value-key="a"
+              :props="{
                 value: null,
                 label: 'name',
                 labelRight: 'labelRight',
                 disabled: '__disabled',
                 groupOptions: 'children',
                 groupLabel: 'label',
-              }" placeholder="labelRight" :search="search" :searchImmediately="true" />
-            <KiSelect v-model="form.KiSelect[2].value"
-              :label.sync="form.KiSelect[2].label" :index.sync="form.KiSelect[2].index"
-              :options="form.KiSelect[2].options" :props="{
+              }" placeholder="labelRight" :search="search" :searchImmediately="true"
+            />
+            <KiSelect
+              v-model="form.KiSelect[2].value" :label.sync="form.KiSelect[2].label"
+              :index.sync="form.KiSelect[2].index" :options="form.KiSelect[2].options" :props="{
                 value: 'a',
                 label: ({ name, b }) => `${name}-${b}`,
-                labelRight: ({ name, b }) => `${b}-${name}`
-              }" placeholder="a/${name}-${b}/labelRight" />
+                labelRight: ({ name, b }) => `${b}-${name}`,
+              }" placeholder="a/${name}-${b}/labelRight"
+            />
           </div>
           <div class="flex justify-between">
             <div>{{ form.KiSelect[0].value }}</div>
@@ -73,21 +86,23 @@
         </el-form-item>
 
         <el-form-item label="PopButton">
-          <KiPopButton @click="console.log('[PopButton] click')"
+          <KiPopButton
             :elTooltipProps="{ content: `<i class='el-icon-warning'/> 删除` }"
             :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
-            :elPopconfirmProps="{ title: '确认删除吗？' }">
+            :elPopconfirmProps="{ title: '确认删除吗？' }"
+            @click="console.log('[PopButton] click')"
+          >
             删除
           </KiPopButton>
         </el-form-item>
 
         <el-form-item label="PopSwitch" prop="PopSwitch">
-          <KiPopSwitch v-model="popSwitch"
-            @click.native="console.log('[PopSwitch] click')"
-            :elTooltipProps="{ content: `<i class='el-icon-warning'/> 已停用` }"
+          <KiPopSwitch
+            v-model="popSwitch" :elTooltipProps="{ content: `<i class='el-icon-warning'/> 已停用` }"
             :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
-            :elPopconfirmProps="{ title: '确认启用吗？' }" active-text="启用"
-            inactive-text="停用" />
+            :elPopconfirmProps="{ title: '确认启用吗？' }"
+            active-text="启用" inactive-text="停用" @click.native="console.log('[PopSwitch] click')"
+          />
         </el-form-item>
       </template>
     </KiFormDialog>
@@ -95,13 +110,7 @@
 </template>
 
 <script>
-import 'pic-viewer/dist/style.css'
-import PicViewer from 'pic-viewer'
-
 export default {
-  components: {
-    PicViewer,
-  },
   data() {
     return {
       popSwitch: false,
@@ -124,7 +133,7 @@ export default {
                   b: 'bbb',
                   labelRight: 'labelRight111',
                   disabled: true,
-                  //__disabled: true,
+                  // __disabled: true,
                   name: 'name',
                 }, {
                   a: 3,
@@ -133,7 +142,7 @@ export default {
                   disabled: true,
                   name: '777',
                 },
-              ]
+              ],
             }, {
               label: 'label2',
               children: [
@@ -143,7 +152,7 @@ export default {
                   b: 'ccc',
                   labelRight: 'labelRight222',
                 },
-              ]
+              ],
             }],
           }, {
             value: undefined,
@@ -154,7 +163,7 @@ export default {
               b: 'bbb',
               labelRight: 'labelRight111',
               disabled: true,
-              //__disabled: true,
+              // __disabled: true,
               name: 'name',
             }, {
               a: 2,
@@ -176,7 +185,7 @@ export default {
         }, {
           value: 2,
           label: '周二',
-        }
+        },
       ],
       showFormDialog: true,
       readonly: false,
@@ -194,7 +203,7 @@ export default {
     },
     submit() {
       console.log('提交之前')
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         setTimeout(resolve, 500)
       }).then(() => {
         console.log('提交之后')
@@ -202,7 +211,7 @@ export default {
     },
     search(e, isImmediate) {
       console.log('是否为初始调用：', isImmediate)
-      return new Promise(resolve => {
+      return new Promise((resolve) => {
         resolve([{
           label: 'label2',
           children: [
@@ -212,10 +221,10 @@ export default {
               b: 'ccc',
               labelRight: 'labelRight222',
             },
-          ]
+          ],
         }])
       })
-    }
-  }
+    },
+  },
 }
 </script>
