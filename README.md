@@ -8,11 +8,9 @@
 
 ![NPM](https://nodei.co/npm/kikimore.png)
 
-- 确保已安装外置依赖 `element-ui`
+### 外置依赖
 
-```sh
-npm add kikimore
-```
+- `element-ui`
 
 ```ts
 // 全局注册 & 全局传参
