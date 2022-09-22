@@ -1,8 +1,7 @@
 <template>
   <el-dialog
-    v-bind="ElDialogProps" ref="elDialog" :key="key" :visible.sync="show"
-    :title="Title" :destroyOnClose="false" :appendToBody="false" v-on="Listeners"
-    @closed="onClosed"
+    v-bind="ElDialogProps" ref="elDialog" :key="key" :visible.sync="show" :title="Title"
+    :destroyOnClose="false" :appendToBody="false" v-on="Listeners" @closed="onClosed"
   >
     <template #title>
       <!-- 接收 slot -->
@@ -18,7 +17,7 @@
 
         <el-form
           v-if="$slots['el-form']" :labelWidth="labelWidth" v-bind="ElFormProps"
-          v-on="Listeners"
+          :class="!showConfirmButton && 'readonly'" v-on="Listeners"
         >
           <slot name="el-form" />
         </el-form>
@@ -34,8 +33,8 @@
           {{ showConfirmButton ? '取 消' : '关 闭' }}
         </el-button>
         <el-button
-          v-if="showConfirmButton" type="primary" :disabled="closing"
-          :loading="submitting" @click="confirm"
+          v-if="showConfirmButton" type="primary" :disabled="closing" :loading="submitting"
+          @click="confirm"
         >
           确 定
         </el-button>
@@ -220,38 +219,6 @@ export default {
       handler(n) {
         if (!this.closing) {
           this.showConfirmButton = !n
-        }
-      },
-    },
-    showConfirmButton: {
-      immediate: true,
-      handler(showConfirmButton) {
-        if (!showConfirmButton) {
-          if (this.styleTag) {
-            this.styleTag.load()
-          } else {
-            this.styleTag = useStyleTag(
-              '.el-form [disabled="disabled"], .el-form .is-disabled, .el-form .is-disabled *, .el-form .disabled {'
-              + 'color: unset !important;'
-              + 'cursor: initial !important;'
-              + '} '
-              + '.el-form .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner, .el-form .el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner {'
-              + 'background-color: #409EFF;'
-              + 'border-color: #409EFF;'
-              + '} '
-              + '.el-form .el-radio__input.is-disabled.is-checked .el-radio__inner {'
-              + 'border-color: #409EFF;'
-              + 'background: #409EFF;'
-              + '} '
-              + '.el-form .el-radio__input.is-disabled.is-checked .el-radio__inner::after {'
-              + 'cursor: unset;'
-              + 'background-color: #FFF;'
-              + '} ',
-            )
-          }
-        } else if (this.styleTag) {
-          this.styleTag.unload()
-          this.styleTag = null
         }
       },
     },
@@ -520,6 +487,57 @@ export default {
     padding: 10px 15px;
     backdrop-filter: blur(1px);
     z-index: 1;
+  }
+}
+
+:deep(.el-form.readonly) {
+  [disabled="disabled"],
+  .is-disabled,
+  .is-disabled *,
+  .disabled {
+    color: unset !important;
+    cursor: initial !important;
+  }
+
+  .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner,
+  .el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner {
+    background-color: #409EFF;
+    border-color: #409EFF;
+  }
+
+  .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner::after {
+    border-color: #FFF;
+    cursor: initial;
+  }
+
+  .el-radio__input.is-disabled.is-checked {
+    .el-radio__inner {
+      border-color: #409EFF;
+      background: #409EFF;
+    }
+
+    .el-radio__inner::after {
+      cursor: unset;
+      background-color: #FFF;
+      border-color: unset;
+    }
+  }
+
+  .el-slider__runway.disabled>.el-slider__button-wrapper {
+    cursor: initial;
+
+    &>.el-slider__button {
+      cursor: initial;
+      border-color: #409EFF;
+    }
+  }
+
+  .el-color-picker.is-disabled>.el-color-picker__mask {
+    display: none;
+  }
+
+  .el-upload {
+    cursor: initial;
   }
 }
 </style>
