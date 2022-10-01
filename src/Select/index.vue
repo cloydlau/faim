@@ -6,8 +6,7 @@
     <template v-if="grouped">
       <el-option-group
         v-for="(group, groupIndex) of options__"
-        :key="optionGroupPropsList[groupIndex].key"
-        :label="optionGroupPropsList[groupIndex].label"
+        :key="optionGroupPropsList[groupIndex].key" :label="optionGroupPropsList[groupIndex].label"
         :disabled="optionGroupPropsList[groupIndex].disabled"
       >
         <el-option
@@ -39,8 +38,7 @@
     <template v-else>
       <el-checkbox
         v-if="AllowSelectAll && isMultiple && options__.length > 1" v-model="allSelected"
-        :indeterminate="indeterminate" class="px-20px py-10px"
-        @change="selectAll"
+        :indeterminate="indeterminate" class="px-20px py-10px" @change="selectAll"
       >
         全选
       </el-checkbox>
@@ -247,7 +245,7 @@ export default {
       immediate: true,
       handler(n, o) {
         this.value__ = n
-        this.handleLabel()
+        this.showLabel()
         // 外部设值时，同步全选按钮状态
         this.syncSelectAllBtn(n)
       },
@@ -285,15 +283,11 @@ export default {
     this.dispatch('ElForm', 'el.form.addField', [this])
   },
   methods: {
-    handleLabel() {
-      if (notEmpty(this.value__) && !this.isMultiple) {
+    showLabel() {
+      if (this.label && !this.isMultiple) {
         this.$nextTick(() => {
-          // value 匹配上选项时，this.$refs.elSelect.selected 将会是一个 Vue 组件
-          if (this.$refs.elSelect.selected instanceof Vue) {
-            this.$emit('update:label', this.$refs.elSelect.selectedLabel)
-          }
-          // 没匹上时，el-select 默认显示 value，改为显示 label
-          else if (this.label) {
+          // value 没匹配上选项时，el-select 默认显示 value，改为显示 label
+          if (!(this.$refs.elSelect.selected instanceof Vue)) {
             this.$refs.elSelect.selectedLabel = this.label
           }
         })
@@ -302,7 +296,7 @@ export default {
     // 下拉框隐藏时，如果没有选中，el-select 会清空搜索关键字，此时需要恢复 options
     onVisibleChange(isVisible) {
       if (!isVisible) {
-        this.handleLabel()
+        this.showLabel()
         if (isEmpty(this.value__) && this.previousQuery) {
           // 加延迟的原因：在下拉框隐藏动画结束后再恢复
           setTimeout(() => {
@@ -347,7 +341,7 @@ export default {
       }
 
       if (notEmpty(n)) {
-        this.handleLabel()
+        this.showLabel()
       }
       this.$emit('update:options', n)
     },
