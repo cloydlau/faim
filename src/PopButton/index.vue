@@ -1,20 +1,13 @@
 <template>
-  <el-tooltip v-bind="ElTooltipProps" ref="elTooltip">
+  <el-tooltip v-bind="ElTooltipProps" ref="elTooltip" class="pop-button">
     <div slot="content" v-html="ElTooltipProps.content" />
     <el-popover v-bind="ElPopoverProps">
       <div v-html="ElPopoverProps.content" />
       <el-popconfirm
-        slot="reference"
-        v-bind="ElPopconfirmProps"
-        @confirm="$emit('click', $event)"
+        slot="reference" v-bind="ElPopconfirmProps" @confirm="$emit('click', $event)"
         @onConfirm="$emit('click', $event)"
       >
-        <el-button
-          slot="reference"
-          class="pop-button"
-          v-bind="ElButtonProps"
-          @click="onClick"
-        >
+        <el-button slot="reference" v-bind="ElButtonProps" @click="onClick">
           <slot />
         </el-button>
       </el-popconfirm>
@@ -58,7 +51,7 @@ export default {
         type: Object,
       })
       return {
-        popperClass: 'pop-button',
+        popperClass: 'pop-button-popper',
         disabled: !result?.title,
         ...result,
       }
@@ -92,13 +85,11 @@ export default {
 
 <style lang="scss" scoped>
 .pop-button {
-  margin-right: 5px;
-
-  &:not(:first-of-type) {
+  &+.pop-button {
     margin-left: 10px;
   }
 
-  &.is-circle {
+  .el-button.is-circle {
     // 固定原型按钮尺寸
     width: 36px;
     height: 36px;
@@ -115,12 +106,12 @@ export default {
 </style>
 
 <style lang="scss">
-.pop-button {
+.pop-button-popper {
   &.el-popover {
     min-width: fit-content;
   }
 
-  & .el-popconfirm__main {
+  &.el-popconfirm__main {
     margin-block-start: .5em;
   }
 }
