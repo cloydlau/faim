@@ -1,7 +1,8 @@
 <template>
   <el-dialog
-    v-bind="ElDialogProps" ref="elDialog" :key="key" :visible.sync="show" :title="Title"
-    :destroyOnClose="false" :appendToBody="false" v-on="Listeners" @closed="onClosed"
+    v-bind="ElDialogProps" ref="elDialog" :key="key" :visible.sync="show"
+    :title="Title" :destroyOnClose="false" :appendToBody="false" v-on="Listeners"
+    @closed="onClosed"
   >
     <template #title>
       <!-- 接收 slot -->
@@ -33,8 +34,8 @@
           {{ showConfirmButton ? '取 消' : '关 闭' }}
         </el-button>
         <el-button
-          v-if="showConfirmButton" type="primary" :disabled="closing" :loading="submitting"
-          @click="confirm"
+          v-if="showConfirmButton" type="primary" :disabled="closing"
+          :loading="submitting" @click="confirm"
         >
           确 定
         </el-button>
@@ -416,7 +417,6 @@ export default {
   }
 
   .el-dialog__header {
-    padding: 10px 15px;
     display: flex;
     justify-content: space-between;
 
@@ -484,13 +484,13 @@ export default {
     position: absolute;
     bottom: 0;
     right: 0;
-    padding: 10px 15px;
     backdrop-filter: blur(1px);
     z-index: 1;
   }
 }
 
 :deep(.el-form.readonly) {
+
   [disabled="disabled"],
   .is-disabled,
   .is-disabled *,

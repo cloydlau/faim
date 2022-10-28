@@ -1,6 +1,10 @@
 # kikimore
 
-几个 `element-ui` 组件的封装。
+<p align="left">
+  <a href="https://npmjs.com/package/kikimore"><img src="https://img.shields.io/npm/v/kikimore.svg" alt="npm package"></a>
+  <a href="https://npmjs.com/package/kikimore"><img src="http://img.badgesize.io/https://unpkg.com/kikimore/dist/kikimore.umd.js?compression=gzip&label=gziped" alt="gziped"></a>
+
+> 几个 `element-ui` 组件的封装。
 
 <br>
 
@@ -13,21 +17,11 @@
 - `vue`
 - `element-ui`
 
-```ts
-// 全局注册 & 全局传参
+<br>
 
-import Vue from 'vue'
-import 'kikimore/dist/style.css'
-import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
-
-[[FormDialog], [Select], [PopButton], [PopSwitch]].map(([component, config]) => {
-  Vue.use(FormDialog, config)
-})
-```
+### 局部注册
 
 ```ts
-// 局部注册 & 局部传参
-
 import 'kikimore/dist/style.css'
 import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 
@@ -39,6 +33,20 @@ export default {
     [PopSwitch.name]: PopSwitch,
   },
 }
+```
+
+<br>
+
+### 全局注册
+
+```ts
+import Vue from 'vue'
+import 'kikimore/dist/style.css'
+import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
+
+[[FormDialog], [Select], [PopButton], [PopSwitch]].map(([component, config]) => {
+  Vue.use(FormDialog, config)
+})
 ```
 
 <br>
