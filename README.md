@@ -1,4 +1,4 @@
-# kikimore
+# Kikimore
 
 <p align="left">
   <a href="https://npmjs.com/package/kikimore"><img src="https://img.shields.io/npm/v/kikimore.svg" alt="npm package"></a>
