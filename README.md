@@ -13,7 +13,7 @@
 
 ### 外置依赖
 
-- `vue`
+- `vue@2`
 - `element-ui`
 
 <br>
