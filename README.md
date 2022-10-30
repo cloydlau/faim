@@ -11,8 +11,6 @@
 
 ## 安装
 
-![NPM](https://nodei.co/npm/kikimore.png)
-
 ### 外置依赖
 
 - `vue`
