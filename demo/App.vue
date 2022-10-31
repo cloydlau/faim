@@ -13,11 +13,11 @@
       :show.sync="showFormDialog" :retrieve="retrieve" :submit="submit" title="FormDialog"
       :readonly="readonly" :elFormProps="{
         labelPosition: 'top',
-      }" @open="console.log('open')"
-      @opened="console.log('opened')" @close="console.log('close')" @closed="console.log('closed')"
+      }" @open="console.log('open')" @opened="console.log('opened')"
+      @close="console.log('close')" @closed="console.log('closed')"
       @validate="console.log('validate')"
     >
-      <template #el-form>
+      <template #default="{ formRef }">
         <el-form-item label="Select" required prop="KiSelect[0].value">
           <div class="flex justify-between">
             <!--            <el-select
@@ -32,9 +32,9 @@
                           />
                         </el-select> -->
             <KiSelect
-              v-model="form.KiSelect[0].value" :label.sync="form.KiSelect[0].label"
-              :index.sync="form.KiSelect[0].index" :options="form.KiSelect[0].options"
-              placeholder="number[]"
+              v-model="form.KiSelect[0].value"
+              :label.sync="form.KiSelect[0].label" :index.sync="form.KiSelect[0].index"
+              :options="form.KiSelect[0].options" placeholder="number[]"
             >
               <template #default="{ option, index }">
                 option: {{ option }}
@@ -48,9 +48,9 @@
               </div>
             </KiSelect>
             <KiSelect
-              v-model="form.KiSelect[1].value" :label.sync="form.KiSelect[1].label"
-              :index.sync="form.KiSelect[1].index" :options="form.KiSelect[1].options" value-key="a"
-              :props="{
+              v-model="form.KiSelect[1].value"
+              :label.sync="form.KiSelect[1].label" :index.sync="form.KiSelect[1].index"
+              :options="form.KiSelect[1].options" value-key="a" :props="{
                 value: null,
                 label: 'name',
                 labelRight: 'labelRight',
@@ -60,8 +60,9 @@
               }" placeholder="labelRight" :search="search" :searchImmediately="true"
             />
             <KiSelect
-              v-model="form.KiSelect[2].value" :label.sync="form.KiSelect[2].label"
-              :index.sync="form.KiSelect[2].index" :options="form.KiSelect[2].options" :props="{
+              v-model="form.KiSelect[2].value"
+              :label.sync="form.KiSelect[2].label" :index.sync="form.KiSelect[2].index"
+              :options="form.KiSelect[2].options" :props="{
                 value: 'a',
                 label: ({ name, b }) => `${name}-${b}`,
                 labelRight: ({ name, b }) => `${b}-${name}`,
@@ -98,12 +99,16 @@
 
         <el-form-item label="PopSwitch" prop="PopSwitch">
           <KiPopSwitch
-            v-model="popSwitch" :elTooltipProps="{ content: `<i class='el-icon-warning'/> 已停用` }"
+            v-model="popSwitch"
+            :elTooltipProps="{ content: `<i class='el-icon-warning'/> 已停用` }"
             :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
-            :elPopconfirmProps="{ title: '确认启用吗？' }"
-            active-text="启用" inactive-text="停用" @click.native="console.log('[PopSwitch] click')"
+            :elPopconfirmProps="{ title: '确认启用吗？' }" active-text="启用" inactive-text="停用"
+            @click.native="console.log('[PopSwitch] click')"
           />
         </el-form-item>
+        <el-button @click="() => { formRef.resetFields() }">
+          重置
+        </el-button>
       </template>
     </KiFormDialog>
   </div>

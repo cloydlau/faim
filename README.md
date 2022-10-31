@@ -69,28 +69,28 @@ UI 组件库的标杆 `Ant Design` 也是使用 value 与 label 命名
 
 <br>
 
-## FormDialog / 表单对话框
+## FormDialog
 
 [el-dialog](https://element.eleme.cn/#/zh-CN/component/dialog) 与 [el-form](https://element.eleme.cn/#/zh-CN/component/form) 的结合，用于表单的展示、填写和提交
 
 ### Props
 
-| 参数              | 说明                                | 类型     | 可选值               | 默认值                              |
-| ----------------- | ----------------------------------- | -------- | -------------------- | ----------------------------------- |
-| show.sync         | 是否开启                            | boolean  |                      | `false`                             |
-| title             | 对话框标题                          | string   |                      |                                     |
-| readonly          | 是否只读                            | boolean  |                      | `false`                             |
-| v-model           | 表单数据对象（即 el-form 的 model） | any      |                      | `{}`                                |
-| elFormProps       | el-form 属性                        | object   | el-form 绝大部分参数 | `{}`                                |
-| retrieve          | 获取数据                            | function |                      |                                     |
-| loading           | 加载状态                            | boolean  |                      | 默认由 retrieve 的 Promise 状态决定 |
-| submit            | 提交                                | function |                      |                                     |
-| allowClose        | 是否允许直接关闭                    | boolean  |                      | `true`                              |
+| 参数              | 说明                                | 类型     | 可选值 | 默认值                              |
+| ----------------- | ----------------------------------- | -------- | ------ | ----------------------------------- |
+| show.sync         | 是否开启                            | boolean  |        | `false`                             |
+| title             | 对话框标题                          | string   |        |                                     |
+| readonly          | 是否只读                            | boolean  |        | `false`                             |
+| v-model           | 表单数据对象（即 el-form 的 model） | any      |        | `{}`                                |
+| elFormProps       | el-form 属性                        | object   |        | `{}`                                |
+| retrieve          | 获取数据                            | function |        |                                     |
+| loading           | 加载状态                            | boolean  |        | 默认由 retrieve 的 Promise 状态决定 |
+| submit            | 提交                                | function |        |                                     |
+| allowClose        | 是否允许直接关闭                    | boolean  |        | `true`                              |
 | ...el-dialog 属性 |
 
 #### v-model
 
-即使不使用 el-form 插槽，也建议传入，表单关闭时会将数据对象重置为初始状态（以避免二次打开时显示上一次的 value）
+表单关闭时会将 `value` 的值重置为初始状态（避免显示脏数据）
 
 #### retrieve
 
@@ -162,22 +162,17 @@ submit 没有返回值或者返回值不是 Promise 时，则 submit 执行完�
 
 设置为 `false` 时，将仅能通过点击确认按钮关闭弹框，在需要用户输入必填项时会用到。
 
-### Slots
+#### 获取内部的 el-form
 
-| name             | description |
-| ---------------- | ----------- |
-| el-form          | el-form     |
-| ...el-dialog插槽 |
-
-#### el-form
-
-- 非必须
-- 提交前自动校验
-- 校验失败后自动平滑滚动至错误的表单项
-
-高度定制化场景：比如你的对话框内有多个 el-form，需要自定义校验，需要自定义平滑滚动的时机
-
-你可以调用 `this.$refs.kiFormDialog.highlightError()` 来平滑滚动至错误的表单项
+```html
+<KiFormDialog>
+  <template #default="{ elFormRef }">
+    <el-button @click="() => { elFormRef.resetFields() }">
+      重置
+    </el-button>
+  </template>
+</KiFormDialog>
+```
 
 #### footer
 
@@ -195,12 +190,15 @@ submit 没有返回值或者返回值不是 Promise 时，则 submit 执行完�
 </template>
 ```
 
+### Methods
+
+| Name             | Description                | Type                |
+| ---------------- | -------------------------- | ------------------- |
+| `highlightError` | 平滑滚动至校验失败的表单项 | `(selectors: string | Element | NodeList = '.el-form .el-form-item.is-error', container = window): void` |
+
 ### Events
 
-| name              | description | callback's arguments |
-| ----------------- | ----------- | -------------------- |
-| ...el-dialog 事件 |
-| ...el-form 事件   |
+`el-dialog` 的事件 + `el-form` 的事件
 
 ### 完整示例
 
@@ -217,11 +215,9 @@ submit 没有返回值或者返回值不是 Promise 时，则 submit 执行完�
       :retrieve="retrieve"
       :submit="submit"
     >
-      <template #el-form>
-        <el-form-item prop="a">
-          <el-input v-model="form.data.a" />
-        </el-form-item>
-      </template>
+      <el-form-item prop="a">
+        <el-input v-model="form.data.a" />
+      </el-form-item>
     </KiFormDialog>
   </div>
 </template>
@@ -264,7 +260,7 @@ export default {
 
 <br>
 
-## Select / 下拉框
+## Select
 
 [el-select](https://element.eleme.cn/#/zh-CN/component/select) 封装
 
@@ -279,17 +275,17 @@ export default {
 
 ### Props
 
-| 参数              | 说明                                                      | 类型                   | 可选值 | 默认值 |
-| ----------------- | --------------------------------------------------------- | ---------------------- | ------ | ------ |
-| v-model / value   | 绑定值                                                    | string, number, object |        |        |
-| label.sync        | 绑定值的标签（不支持多选）                                | string, number         |        |        |
-| index.sync        | 绑定值的数组下标（不支持多选）                            | number                 |        |        |
-| options(.sync)    | 选项                                                      | { label, value }[]     |        |        |
-| props             | 指定对象的属性                                            | object                 |        |        |
-| search            | 搜索获取 options，（`remote-method` 封装）                | function               |        |        |
-| searchImmediately | 是否立即执行搜索                                          | boolean                |        | true   |
-| allowSelectAll    | 开启多选时，是否允许全选                                  | boolean                |        | true   |
-| ellipsis          | 是否限宽并对超长的 label 作溢出省略处理（默认是超长撑开） | boolean                |        | false  |
+| Name              | Description                                               | Type                   | Options | Default |
+| ----------------- | --------------------------------------------------------- | ---------------------- | ------- | ------- |
+| v-model / value   | 绑定值                                                    | string, number, object |         |         |
+| label.sync        | 绑定值的标签（不支持多选）                                | string, number         |         |         |
+| index.sync        | 绑定值的数组下标（不支持多选）                            | number                 |         |         |
+| options(.sync)    | 选项                                                      | { label, value }[]     |         |         |
+| props             | 指定对象的属性                                            | object                 |         |         |
+| search            | 搜索获取 options，（`remote-method` 封装）                | function               |         |         |
+| searchImmediately | 是否立即执行搜索                                          | boolean                |         | true    |
+| allowSelectAll    | 开启多选时，是否允许全选                                  | boolean                |         | true    |
+| ellipsis          | 是否限宽并对超长的 label 作溢出省略处理（默认是超长撑开） | boolean                |         | false   |
 | ...el-select 属性 |
 
 #### props
@@ -401,7 +397,7 @@ export default {
 
 <template>
   <KiSelect
-    ref="kiSelect"
+    ref="selectRef"
     :search="(keyword, isImmediate) => {}"
   />
 </template>
@@ -410,11 +406,11 @@ export default {
 export default {
   watch: {
     x() {
-      this.$refs.kiSelect.remoteMethod()
+      this.$refs.selectRef.remoteMethod()
     }
   },
   mounted() {
-    this.$refs.kiSelect.remoteMethod(undefined, true)
+    this.$refs.selectRef.remoteMethod(undefined, true)
   }
 }
 </script>
@@ -487,17 +483,17 @@ export default {
 
 ### Props
 
-| 名称               | 描述               | 类型    | 默认值 |
-| ------------------ | ------------------ | ------- | ------ |
-| textInside         | 是否内嵌描述       | boolean | `true` |
-| elPopconfirmProps  | el-popconfirm 属性 | object  |        |
-| elPopoverProps     | el-popover 属性    | object  |        |
-| elTooltipProps     | el-tooltip 属性    | object  |        |
+| Name               | Description        | Type    | Default |
+| ------------------ | ------------------ | ------- | ------- |
+| textInside         | 是否内嵌描述       | boolean | `true`  |
+| elPopconfirmProps  | el-popconfirm 属性 | object  |         |
+| elPopoverProps     | el-popover 属性    | object  |         |
+| elTooltipProps     | el-tooltip 属性    | object  |         |
 | ... el-switch 属性 |
 
 <br>
 
-## PopButton / 气泡按钮
+## PopButton
 
 四个组件的组合拳：`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip`
 
@@ -512,11 +508,11 @@ export default {
 
 ### Props
 
-| 名称               | 描述               | 类型   | 默认值 |
-| ------------------ | ------------------ | ------ | ------ |
-| elPopconfirmProps  | el-popconfirm 属性 | object |        |
-| elPopoverProps     | el-popover 属性    | object |        |
-| elTooltipProps     | el-tooltip 属性    | object |        |
+| Name               | Description        | Type   | Default |
+| ------------------ | ------------------ | ------ | ------- |
+| elPopconfirmProps  | el-popconfirm 属性 | object |         |
+| elPopoverProps     | el-popover 属性    | object |         |
+| elTooltipProps     | el-tooltip 属性    | object |         |
 | ... el-button 属性 |
 
 <br>

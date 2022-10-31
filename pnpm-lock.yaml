@@ -26,7 +26,7 @@ dependencies:
 
 devDependencies:
   '@antfu/eslint-config': 0.27.0_wyqvi574yv7oiwfeinomdzmc3m
-  '@vitejs/plugin-vue2': 2.0.0_vite@3.2.1+vue@2.7.13
+  '@vitejs/plugin-vue2': 2.0.0_vite@3.2.2+vue@2.7.13
   case-police: 0.5.10
   element-ui: 2.15.10_vue@2.7.13
   eslint: 8.26.0
@@ -34,10 +34,10 @@ devDependencies:
   lint-staged: 13.0.3
   sass: 1.55.0
   typescript: 4.8.4
-  unocss: 0.43.1_vite@3.2.1
+  unocss: 0.43.1_vite@3.2.2
   unplugin-auto-import: 0.11.4
-  vite: 3.2.1_sass@1.55.0
-  vite-plugin-dts: 1.6.6_vite@3.2.1
+  vite: 3.2.2_sass@1.55.0
+  vite-plugin-dts: 1.6.6_vite@3.2.2
   vue: 2.7.13
 
 packages:
@@ -54,7 +54,7 @@ packages:
       eslint-plugin-import: 2.26.0_c2flhriocdzler6lrwbyxxyoca
       eslint-plugin-jsonc: 2.5.0_eslint@8.26.0
       eslint-plugin-markdown: 3.0.0_eslint@8.26.0
-      eslint-plugin-n: 15.3.0_eslint@8.26.0
+      eslint-plugin-n: 15.4.0_eslint@8.26.0
       eslint-plugin-promise: 6.1.1_eslint@8.26.0
       eslint-plugin-unicorn: 43.0.2_eslint@8.26.0
       eslint-plugin-yml: 1.2.0_eslint@8.26.0
@@ -92,7 +92,7 @@ packages:
     dependencies:
       '@antfu/eslint-config-ts': 0.27.0_wyqvi574yv7oiwfeinomdzmc3m
       eslint: 8.26.0
-      eslint-plugin-vue: 9.6.0_eslint@8.26.0
+      eslint-plugin-vue: 9.7.0_eslint@8.26.0
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
       - eslint-import-resolver-webpack
@@ -113,10 +113,10 @@ packages:
       eslint-plugin-html: 7.1.0
       eslint-plugin-import: 2.26.0_c2flhriocdzler6lrwbyxxyoca
       eslint-plugin-jsonc: 2.5.0_eslint@8.26.0
-      eslint-plugin-n: 15.3.0_eslint@8.26.0
+      eslint-plugin-n: 15.4.0_eslint@8.26.0
       eslint-plugin-promise: 6.1.1_eslint@8.26.0
       eslint-plugin-unicorn: 43.0.2_eslint@8.26.0
-      eslint-plugin-vue: 9.6.0_eslint@8.26.0
+      eslint-plugin-vue: 9.7.0_eslint@8.26.0
       eslint-plugin-yml: 1.2.0_eslint@8.26.0
       jsonc-eslint-parser: 2.1.0
       yaml-eslint-parser: 1.1.0
@@ -662,7 +662,7 @@ packages:
       '@unocss/core': 0.43.1
     dev: true
 
-  /@unocss/vite/0.43.1_vite@3.2.1:
+  /@unocss/vite/0.43.1_vite@3.2.2:
     resolution: {integrity: sha512-EsYSK+xcLZk/CH3K9Or0AHeTh4NxtWpMbScs4izfHS+zN17paku3/oWeiSeqvfRAdTEXOvUF8xk9qdLDpkTX0A==}
     peerDependencies:
       vite: ^2.9.0 || ^3.0.0-0
@@ -674,17 +674,17 @@ packages:
       '@unocss/scope': 0.43.1
       '@unocss/transformer-directives': 0.43.1
       magic-string: 0.26.7
-      vite: 3.2.1_sass@1.55.0
+      vite: 3.2.2_sass@1.55.0
     dev: true
 
-  /@vitejs/plugin-vue2/2.0.0_vite@3.2.1+vue@2.7.13:
+  /@vitejs/plugin-vue2/2.0.0_vite@3.2.2+vue@2.7.13:
     resolution: {integrity: sha512-VJOCDtBNcRv7kYLQRbbERDP0OqW0EKgMQp6wwbqZRpU3kg38OP891avx6Xl3szntGkf9mK4i8k3TjsAlmkzWFg==}
     engines: {node: ^14.18.0 || >= 16.0.0}
     peerDependencies:
       vite: ^3.0.0
       vue: ^2.7.0-0
     dependencies:
-      vite: 3.2.1_sass@1.55.0
+      vite: 3.2.2_sass@1.55.0
       vue: 2.7.13
     dev: true
 
@@ -1665,8 +1665,8 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-n/15.3.0_eslint@8.26.0:
-    resolution: {integrity: sha512-IyzPnEWHypCWasDpxeJnim60jhlumbmq0pubL6IOcnk8u2y53s5QfT8JnXy7skjHJ44yWHRb11PLtDHuu1kg/Q==}
+  /eslint-plugin-n/15.4.0_eslint@8.26.0:
+    resolution: {integrity: sha512-MkoKy9/lfd52TAXK4fkABgCp0aglk82Q3viy2UOWIEpTVE/Cem5P/UAxMBA4vSw7Gy+2egPqImE9euitLGp5aw==}
     engines: {node: '>=12.22.0'}
     peerDependencies:
       eslint: '>=7.0.0'
@@ -1714,8 +1714,8 @@ packages:
       strip-indent: 3.0.0
     dev: true
 
-  /eslint-plugin-vue/9.6.0_eslint@8.26.0:
-    resolution: {integrity: sha512-zzySkJgVbFCylnG2+9MDF7N+2Rjze2y0bF8GyUNpFOnT8mCMfqqtLDJkHBuYu9N/psW1A6DVbQhPkP92E+qakA==}
+  /eslint-plugin-vue/9.7.0_eslint@8.26.0:
+    resolution: {integrity: sha512-DrOO3WZCZEwcLsnd3ohFwqCoipGRSTKTBTnLwdhqAbYZtzWl0o7D+D8ZhlmiZvABKTEl8AFsqH1GHGdybyoQmw==}
     engines: {node: ^14.17.0 || >=16.0.0}
     peerDependencies:
       eslint: ^6.2.0 || ^7.0.0 || ^8.0.0
@@ -3578,7 +3578,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     dev: true
 
-  /unocss/0.43.1_vite@3.2.1:
+  /unocss/0.43.1_vite@3.2.2:
     resolution: {integrity: sha512-7PbfspIVURs+p7V9CS2y2d2tHWLm5jcHTTz3XgdSzrfrgZp+f4Lie4WsyzB6OiKg1lT7so0Nx2v6ZEuIKv8n8g==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -3601,7 +3601,7 @@ packages:
       '@unocss/transformer-compile-class': 0.43.1
       '@unocss/transformer-directives': 0.43.1
       '@unocss/transformer-variant-group': 0.43.1
-      '@unocss/vite': 0.43.1_vite@3.2.1
+      '@unocss/vite': 0.43.1_vite@3.2.2
     transitivePeerDependencies:
       - supports-color
       - vite
@@ -3674,7 +3674,7 @@ packages:
     engines: {node: '>= 0.10'}
     dev: true
 
-  /vite-plugin-dts/1.6.6_vite@3.2.1:
+  /vite-plugin-dts/1.6.6_vite@3.2.2:
     resolution: {integrity: sha512-XEZQlcAN5Bi1PWL0l/E08cI3VpjTCWY5x7C4/bVyC7lpS+/q9CDBCV8gGsqV97/g34N7gNNRNhqs8r0m6JAmIQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -3687,13 +3687,13 @@ packages:
       fs-extra: 10.1.0
       kolorist: 1.6.0
       ts-morph: 16.0.0
-      vite: 3.2.1_sass@1.55.0
+      vite: 3.2.2_sass@1.55.0
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /vite/3.2.1_sass@1.55.0:
-    resolution: {integrity: sha512-ADtMkfHuWq4tskJsri2n2FZkORO8ZyhI+zIz7zTrDAgDEtct1jdxOg3YsZBfHhKjmMoWLOSCr+64qrEDGo/DbQ==}
+  /vite/3.2.2_sass@1.55.0:
+    resolution: {integrity: sha512-pLrhatFFOWO9kS19bQ658CnRYzv0WLbsPih6R+iFeEEhDOuYgYCX2rztUViMz/uy/V8cLCJvLFeiOK7RJEzHcw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
     peerDependencies:

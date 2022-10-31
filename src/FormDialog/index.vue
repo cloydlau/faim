@@ -1,6 +1,6 @@
 <template>
   <el-dialog
-    v-bind="ElDialogProps" ref="elDialog" :key="key" :visible.sync="show"
+    v-bind="ElDialogProps" ref="elDialogRef" :key="key" :visible.sync="show"
     :title="Title" :destroyOnClose="false" :appendToBody="false" v-on="Listeners"
     @closed="onClosed"
   >
@@ -14,13 +14,11 @@
         ref="overlayScrollbar" class="overflow-y-auto px-40px pb-85px pt-25px"
         style="max-height:calc(100vh - 45px);"
       >
-        <slot />
-
         <el-form
-          v-if="$slots['el-form']" :labelWidth="labelWidth" v-bind="ElFormProps"
+          :labelWidth="labelWidth" v-bind="ElFormProps"
           :class="!showConfirmButton && 'readonly'" v-on="Listeners"
         >
-          <slot name="el-form" />
+          <slot :elFormRef="$refs.elFormRef" />
         </el-form>
       </div>
     </div>
@@ -159,7 +157,7 @@ export default {
         this.elFormProps, globalProps.elFormProps, {
           disabled: this.readonly || this.submitting,
           model: this.value,
-          ref: 'elForm',
+          ref: 'elFormRef',
         },
       ], {
         type: Object,
@@ -235,7 +233,7 @@ export default {
           /!*this.scrollbar = Scrollbar.init(this.$refs.scrollbar, {
             alwaysShowTracks: true,
           })*!/
-          //this.hasScrollbar = hasScrollbar(this.$refs.elDialog.$el.firstChild)
+          //this.hasScrollbar = hasScrollbar(this.$refs.elDialogRef.$el.firstChild)
           unwatch()
         })
       }
@@ -299,7 +297,7 @@ export default {
     },
     close() {
       if (this.beforeCloseIsPassed) {
-        this.$refs.elDialog.beforeClose()
+        this.$refs.elDialogRef.beforeClose()
       } else {
         this.$emit('update:show', false)
       }
