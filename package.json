@@ -1,6 +1,6 @@
 {
   "name": "kikimore",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "private": false,
   "description": "几个 element-ui 组件的封装。",
   "author": "cloydlau",
