@@ -330,13 +330,17 @@ export default {
         }
       }
 
-      this.$refs.elFormRef?.validate((valid) => {
-        if (valid) {
-          exec()
-        } else {
-          this.highlightError(undefined, this.$refs.overlayScrollbar)
-        }
-      })
+      if (this.$refs.elFormRef) {
+        this.$refs.elFormRef.validate((valid) => {
+          if (valid) {
+            exec()
+          } else {
+            this.highlightError(undefined, this.$refs.overlayScrollbar)
+          }
+        })
+      } else {
+        exec()
+      }
     },
     highlightError,
   },
