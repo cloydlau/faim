@@ -152,10 +152,14 @@ export default {
     },
     ElFormProps() {
       return conclude([
-        this.elFormProps, globalProps.elFormProps, {
-          disabled: this.readonly || this.submitting,
+        {
           model: this.value,
           ref: 'elFormRef',
+        },
+        this.elFormProps,
+        globalProps.elFormProps,
+        {
+          disabled: this.readonly || this.submitting,
         },
       ], {
         type: Object,
