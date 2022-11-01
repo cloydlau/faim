@@ -290,7 +290,7 @@ export default {
       // 重置表单
       this.submitting = false
       this.$emit('input', cloneDeep(this.value__))
-      this.$refs.elFormRef.clearValidate()
+      this.$refs.elFormRef?.clearValidate()
       this.closing = false
       this.showConfirmButton = !this.Readonly
       // el-dialog 内部的 key 是在 close 时改变
@@ -330,7 +330,7 @@ export default {
         }
       }
 
-      this.$refs.elFormRef.validate((valid) => {
+      this.$refs.elFormRef?.validate((valid) => {
         if (valid) {
           exec()
         } else {
