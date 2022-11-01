@@ -178,7 +178,7 @@ export default {
       immediate: true,
       handler(n) {
         if (n) {
-          /* if (this.$scopedSlots['el-form'] && !this.labelWidthSettled) {
+          /* if (!this.labelWidthSettled) {
             this.labelWidth = await this.getLabelWidth()
             this.labelWidthSettled = true
           } */
@@ -261,8 +261,8 @@ export default {
       if (labelPosition !== 'top' && [undefined, 'auto'].includes(labelWidth)) {
         this.$nextTick(() => {
           let max = 0
-          // 首次执行时 this.$refs.elForm 为空
-          this.$refs.elForm?.$el.querySelectorAll('.el-form-item__label').forEach((item) => {
+          // 首次执行时 this.$refs.elFormRef 为空
+          this.$refs.elFormRef?.$el.querySelectorAll('.el-form-item__label').forEach((item) => {
             // updated 时，避免受之前设置的宽度影响
             const prevWidth = item.style.width
             item.style.width = 'unset'
@@ -280,15 +280,13 @@ export default {
       }
     },
     /* reset () {
-      this.$refs.elForm.resetFields()
+      this.$refs.elFormRef.resetFields()
     }, */
     onClosed() {
       // 重置表单
       this.submitting = false
       this.$emit('input', cloneDeep(this.value__))
-      if (this.$slots['el-form']) {
-        this.$refs.elForm.clearValidate()
-      }
+      this.$refs.elFormRef.clearValidate()
       this.closing = false
       this.showConfirmButton = !this.Readonly
       // el-dialog 内部的 key 是在 close 时改变
@@ -328,17 +326,13 @@ export default {
         }
       }
 
-      if (this.$slots['el-form']) {
-        this.$refs.elForm.validate((valid) => {
-          if (valid) {
-            exec()
-          } else {
-            this.highlightError(undefined, this.$refs.overlayScrollbar)
-          }
-        })
-      } else {
-        exec()
-      }
+      this.$refs.elFormRef.validate((valid) => {
+        if (valid) {
+          exec()
+        } else {
+          this.highlightError(undefined, this.$refs.overlayScrollbar)
+        }
+      })
     },
     highlightError,
   },
