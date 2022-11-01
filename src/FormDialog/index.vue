@@ -15,11 +15,12 @@
         style="max-height:calc(100vh - 45px);"
       >
         <el-form
-          :labelWidth="labelWidth" v-bind="ElFormProps"
+          v-if="ValueIsPlainObject" :labelWidth="labelWidth" v-bind="ElFormProps"
           :class="!showConfirmButton && 'readonly'" v-on="Listeners"
         >
           <slot :elFormRef="$refs.elFormRef" />
         </el-form>
+        <slot v-else />
       </div>
     </div>
 
@@ -44,7 +45,7 @@
 
 <script>
 import { conclude } from 'vue-global-config'
-import { cloneDeep } from 'lodash-es'
+import { cloneDeep, isPlainObject } from 'lodash-es'
 import { getListeners } from '../utils'
 import highlightError from './highlightError'
 import { globalAttrs, globalListeners, globalProps } from './index'
@@ -97,6 +98,9 @@ export default {
     }
   },
   computed: {
+    ValueIsPlainObject() {
+      return isPlainObject(this.value)
+    },
     AllowClose() {
       return conclude([this.allowClose, globalProps.allowClose, true])
     },
