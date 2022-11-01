@@ -17,7 +17,7 @@
       @close="console.log('close')" @closed="console.log('closed')"
       @validate="console.log('validate')"
     >
-      <template #default="{ formRef }">
+      <template #default="{ elFormRef }">
         <el-form-item label="Select" required prop="KiSelect[0].value">
           <div class="flex justify-between">
             <!--            <el-select
@@ -106,7 +106,7 @@
             @click.native="console.log('[PopSwitch] click')"
           />
         </el-form-item>
-        <el-button @click="() => { formRef.resetFields() }">
+        <el-button @click="() => { elFormRef.resetFields() }">
           重置
         </el-button>
       </template>

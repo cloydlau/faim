@@ -75,17 +75,17 @@ UI 组件库的标杆 `Ant Design` 也是使用 value 与 label 命名
 
 ### Props
 
-| 参数              | 说明                                | 类型     | 可选值 | 默认值                              |
-| ----------------- | ----------------------------------- | -------- | ------ | ----------------------------------- |
-| show.sync         | 是否开启                            | boolean  |        | `false`                             |
-| title             | 对话框标题                          | string   |        |                                     |
-| readonly          | 是否只读                            | boolean  |        | `false`                             |
-| retrieve          | 获取数据                            | function |        |                                     |
-| loading           | 加载状态                            | boolean  |        | 默认由 retrieve 的 Promise 状态决定 |
-| submit            | 提交                                | function |        |                                     |
-| allowClose        | 是否允许直接关闭                    | boolean  |        | `true`                              |
+| 参数              | 说明                                  | 类型     | 可选值 | 默认值                              |
+| ----------------- | ------------------------------------- | -------- | ------ | ----------------------------------- |
+| show.sync         | 是否开启                              | boolean  |        | `false`                             |
+| title             | 对话框标题                            | string   |        |                                     |
+| readonly          | 是否只读                              | boolean  |        | `false`                             |
 | v-model           | 表单数据对象（即 el-form 的 `model`） | any      |        |                                     |
 | elFormProps       | el-form 属性（`model`, `ref` 不可用） | object   |        |                                     |
+| retrieve          | 获取数据                              | function |        |                                     |
+| loading           | 加载状态                              | boolean  |        | 默认由 retrieve 的 Promise 状态决定 |
+| submit            | 提交                                  | function |        |                                     |
+| allowClose        | 是否允许直接关闭                      | boolean  |        | `true`                              |
 | ...el-dialog 属性 |
 
 #### v-model
@@ -162,18 +162,6 @@ submit 没有返回值或者返回值不是 Promise 时，则 submit 执行完�
 
 设置为 `false` 时，将仅能通过点击确认按钮关闭弹框，在需要用户输入必填项时会用到。
 
-#### 获取内部的 el-form
-
-```html
-<KiFormDialog>
-  <template #default="{ elFormRef }">
-    <el-button @click="() => { elFormRef.resetFields() }">
-      重置
-    </el-button>
-  </template>
-</KiFormDialog>
-```
-
 #### footer
 
 为了便于在自定义 footer 时不至于重写整个 footer 逻辑，footer 被提供为作用域插槽。
@@ -188,6 +176,33 @@ submit 没有返回值或者返回值不是 Promise 时，则 submit 执行完�
     确 定
   </el-button>
 </template>
+```
+
+#### 获取内部的 el-form
+
+- 通过作用域插槽获取
+
+```html
+<KiFormDialog>
+  <template #default="{ elFormRef }">
+    <el-button @click="() => { elFormRef.resetFields() }">
+      重置
+    </el-button>
+  </template>
+</KiFormDialog>
+```
+
+- 通过 `$refs` 获取
+
+```vue
+<template>
+  <KiFormDialog ref="kiFormDialogRef" />
+</template>
+
+<script setup>
+const kiFormDialogRef = ref()
+kiFormDialogRef.value.$refs.elFormRef
+</script>
 ```
 
 ### Methods
@@ -252,7 +267,7 @@ export default {
 </script>
 ```
 
-### 「确定」和「取消」按钮的左右顺序
+### 「确定」和「取消」按钮的顺序
 
 可以看看这篇[知乎回答](https://www.zhihu.com/question/20694680/answer/1400624833)。
 
@@ -397,7 +412,7 @@ export default {
 
 <template>
   <KiSelect
-    ref="selectRef"
+    ref="kiSelectRef"
     :search="(keyword, isImmediate) => {}"
   />
 </template>
@@ -406,11 +421,11 @@ export default {
 export default {
   watch: {
     x() {
-      this.$refs.selectRef.remoteMethod()
+      this.$refs.kiSelectRef.remoteMethod()
     }
   },
   mounted() {
-    this.$refs.selectRef.remoteMethod(undefined, true)
+    this.$refs.kiSelectRef.remoteMethod(undefined, true)
   }
 }
 </script>
@@ -467,9 +482,9 @@ export default {
 
 <br>
 
-## PopSwitch / 气泡开关
+## PopSwitch
 
-四个组件的组合拳：`el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip`
+四个组件的组合拳: `el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip`
 
 ### 特性
 
@@ -495,7 +510,7 @@ export default {
 
 ## PopButton
 
-四个组件的组合拳：`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip`
+四个组件的组合拳: `el-button` + `el-popconfirm` + `el-popover` + `el-tooltip`
 
 ### 特性
 
