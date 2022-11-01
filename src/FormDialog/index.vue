@@ -61,9 +61,7 @@ export default {
       type: Boolean,
       required: true,
     },
-    value: {
-      default: () => ({}),
-    },
+    value: {},
     elFormProps: {},
     retrieve: {},
     submit: {},
