@@ -1,8 +1,8 @@
 {
   "name": "kikimore",
-  "version": "0.8.7",
+  "version": "0.9.0",
   "private": false,
-  "description": "趁手小型组件库",
+  "description": "几个 element-ui 组件的封装。",
   "author": "cloydlau",
   "license": "MIT",
   "repository": "https://github.com/cloydlau/kikimore",
@@ -50,7 +50,7 @@
     "sass": "latest",
     "typescript": "latest",
     "unocss": "0.43.1",
-    "unplugin-auto-import": "latest",
+    "unplugin-auto-import": "0.11.2",
     "vite": "latest",
     "vite-plugin-dts": "latest",
     "vue": "^2.7.13"

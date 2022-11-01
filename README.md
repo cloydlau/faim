@@ -5,7 +5,7 @@
   <a href="https://npmjs.com/package/kikimore"><img src="http://img.badgesize.io/https://unpkg.com/kikimore/dist/kikimore.umd.js?compression=gzip&label=gziped" alt="gziped"></a>
 </p>
 
-> 几个 `element-ui` 组件的封装。
+> 几个 element-ui 组件的封装。
 
 <br>
 
