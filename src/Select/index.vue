@@ -6,7 +6,8 @@
     <template v-if="grouped">
       <el-option-group
         v-for="(group, groupIndex) of options__"
-        :key="optionGroupPropsList[groupIndex].key" :label="optionGroupPropsList[groupIndex].label"
+        :key="optionGroupPropsList[groupIndex].key"
+        :label="optionGroupPropsList[groupIndex].label"
         :disabled="optionGroupPropsList[groupIndex].disabled"
       >
         <el-option
@@ -37,8 +38,9 @@
 
     <template v-else>
       <el-checkbox
-        v-if="AllowSelectAll && isMultiple && options__.length > 1" v-model="allSelected"
-        :indeterminate="indeterminate" class="px-20px py-10px" @change="selectAll"
+        v-if="AllowSelectAll && isMultiple && options__.length > 1"
+        v-model="allSelected" :indeterminate="indeterminate" class="px-20px py-10px"
+        @change="selectAll"
       >
         全选
       </el-checkbox>
@@ -69,7 +71,6 @@
 
 <script>
 import Vue from 'vue'
-import emitter from 'element-ui/src/mixins/emitter'
 import { cloneDeep } from 'lodash-es'
 import { conclude } from 'vue-global-config'
 import { v4 as uuidv4 } from 'uuid'
@@ -78,12 +79,6 @@ import { globalAttrs, globalListeners, globalProps } from './index'
 
 export default {
   name: 'KiSelect',
-  mixins: [emitter],
-  inject: {
-    elForm: {
-      default: {},
-    },
-  },
   props: {
     value: {},
     label: {},
@@ -280,7 +275,6 @@ export default {
   },
   mounted() {
     this.initialValue = cloneDeep(this.value)
-    this.dispatch('ElForm', 'el.form.addField', [this])
   },
   methods: {
     showLabel() {
