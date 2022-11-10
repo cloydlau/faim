@@ -158,6 +158,15 @@ submit 的返回值如果是一个 Promise，则 then 时默认关闭弹框，�
 
 submit 没有返回值或者返回值不是 Promise 时，则 submit 执行完毕后默认关闭弹框，你可以 `resolve({ show: true })` 或 `return { show: true }` 来控制该行为
 
+#### readonly
+
+跟 `<el-form disabled />` 的区别是在样式上，更方便用户阅读。
+
+如果希望部分组件不进入禁用状态:
+
+- 单独给这个组件设置 `:disabled="false"`
+- 给这部分组件包一层 `<el-form />`
+
 #### allowClose
 
 设置为 `false` 时，将仅能通过点击确认按钮关闭弹框，在需要用户输入必填项时会用到。
