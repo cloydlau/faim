@@ -52,7 +52,7 @@ import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 
 ## 命名风格
 
-所有组件命名均符合 [Vue 官方风格指南](https://v3.cn.vuejs.org/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81)
+所有组件命名均符合 [Vue 官方风格指南](https://v2.cn.vuejs.org/v2/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81)
 指导的 `组件名为多个单词`
 
 关于 `KiSelect` 组件中 value 和 label 的命名：
