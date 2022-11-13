@@ -29,12 +29,15 @@
         name="footer" :close="close" :closing="closing" :confirm="confirm"
         :submitting="submitting"
       >
-        <el-button v-if="AllowClose" :disabled="closing" @click="close">
+        <el-button
+          v-if="AllowClose" :disabled="closing" :class="closing && 'closing'"
+          @click="close"
+        >
           {{ showConfirmButton ? '取 消' : '关 闭' }}
         </el-button>
         <el-button
           v-if="showConfirmButton" type="primary" :disabled="closing"
-          :loading="submitting" @click="confirm"
+          :class="closing && 'closing'" :loading="submitting" @click="confirm"
         >
           确 定
         </el-button>
@@ -475,7 +478,7 @@ export default {
     backdrop-filter: blur(1px);
     z-index: 1;
 
-    .el-button.is-disabled {
+    .el-button.is-disabled.closing {
       cursor: revert;
     }
   }
