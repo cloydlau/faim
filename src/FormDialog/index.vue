@@ -269,7 +269,7 @@ export default {
           this.$refs.elFormRef?.$el.querySelectorAll('.el-form-item__label').forEach((item) => {
             // updated 时，避免受之前设置的宽度影响
             const prevWidth = item.style.width
-            item.style.width = 'unset'
+            item.style.width = 'revert'
             const computedWidth = Math.ceil(parseFloat(window.getComputedStyle(item).width))
             if (computedWidth > max) {
               max = computedWidth
@@ -423,7 +423,7 @@ export default {
     justify-content: space-between;
 
     &>.el-dialog__headerbtn {
-      position: unset;
+      position: revert;
 
       &>.el-dialog__close {
         font-size: 24px;
@@ -438,20 +438,6 @@ export default {
     padding: 0;
     display: flex;
     flex-direction: column;
-
-    /*.os-scrollbar {
-      z-index: 2;
-    }*/
-
-    /* 去掉输入框的上下箭头 */
-    input::-webkit-outer-spin-button,
-    input::-webkit-inner-spin-button {
-      -webkit-appearance: none;
-    }
-
-    input[type="number"] {
-      -moz-appearance: textfield;
-    }
 
     .el-form-item__content {
 
@@ -488,6 +474,10 @@ export default {
     right: 0;
     backdrop-filter: blur(1px);
     z-index: 1;
+
+    .el-button.is-disabled {
+      cursor: revert;
+    }
   }
 }
 
@@ -497,8 +487,8 @@ export default {
   .is-disabled,
   .is-disabled *,
   .disabled {
-    color: unset !important;
-    cursor: initial !important;
+    color: revert !important;
+    cursor: revert !important;
   }
 
   .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner,
@@ -509,7 +499,7 @@ export default {
 
   .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner::after {
     border-color: #FFF;
-    cursor: initial;
+    cursor: revert;
   }
 
   .el-radio__input.is-disabled.is-checked {
@@ -519,17 +509,17 @@ export default {
     }
 
     .el-radio__inner::after {
-      cursor: unset;
+      cursor: revert;
       background-color: #FFF;
-      border-color: unset;
+      border-color: revert;
     }
   }
 
   .el-slider__runway.disabled>.el-slider__button-wrapper {
-    cursor: initial;
+    cursor: revert;
 
     &>.el-slider__button {
-      cursor: initial;
+      cursor: revert;
       border-color: #409EFF;
     }
   }
@@ -539,7 +529,7 @@ export default {
   }
 
   .el-upload {
-    cursor: initial;
+    cursor: revert;
   }
 }
 </style>
