@@ -73,20 +73,28 @@ UI 组件库的标杆 `Ant Design` 也是使用 value 与 label 命名
 
 [el-dialog](https://element.eleme.cn/#/zh-CN/component/dialog) 与 [el-form](https://element.eleme.cn/#/zh-CN/component/form) 的结合，用于表单的展示、填写和提交
 
+### 特性
+
+- 编辑模式 & 只读模式 & 强制提交模式
+- 打开弹框时自动回显数据
+- 关闭弹框时自动重置数据
+- 校验失败将定位至相应位置并震动提示
+- 局部注册 + 局部传参，也可以全局注册 + 全局传参（[vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持）
+
 ### Props
 
-| 参数              | 说明                                  | 类型     | 可选值 | 默认值                              |
-| ----------------- | ------------------------------------- | -------- | ------ | ----------------------------------- |
-| show.sync         | 是否开启                              | boolean  |        | `false`                             |
-| title             | 对话框标题                            | string   |        |                                     |
-| readonly          | 是否只读                              | boolean  |        | `false`                             |
-| v-model           | 表单数据对象（即 el-form 的 `model`） | any      |        |                                     |
-| elFormProps       | el-form 属性（`model`, `ref` 不可用） | object   |        |                                     |
-| retrieve          | 获取数据                              | function |        |                                     |
-| loading           | 加载状态                              | boolean  |        | 默认由 retrieve 的 Promise 状态决定 |
-| submit            | 提交                                  | function |        |                                     |
-| allowClose        | 是否允许直接关闭                      | boolean  |        | `true`                              |
-| ...el-dialog 属性 |
+| 参数                  | 说明                                  | 类型     | 可选值 | 默认值                              |
+| --------------------- | ------------------------------------- | -------- | ------ | ----------------------------------- |
+| show.sync             | 是否开启                              | boolean  |        | `false`                             |
+| title                 | 对话框标题                            | string   |        |                                     |
+| readonly              | 是否只读                              | boolean  |        | `false`                             |
+| v-model               | 表单数据对象（即 el-form 的 `model`） | any      |        |                                     |
+| elFormProps           | el-form 属性（`model`, `ref` 不可用） | object   |        |                                     |
+| retrieve              | 获取数据                              | function |        |                                     |
+| loading               | 加载状态                              | boolean  |        | 默认由 retrieve 的 Promise 状态决定 |
+| submit                | 提交                                  | function |        |                                     |
+| allowClose            | 是否允许直接关闭                      | boolean  |        | `true`                              |
+| ...el-dialog 的 props |
 
 #### v-model
 
@@ -296,33 +304,34 @@ export default {
 - options 的数组元素支持任意类型。
 - 用更简单的方式来获取 label 和 index，不需要加 ref，不需要判空。
 - 用更简单的方式来异步获取 options。
+- 局部注册 + 局部传参，也可以全局注册 + 全局传参（[vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持）
 
 ### Props
 
-| Name              | Description                                               | Type                   | Options | Default |
-| ----------------- | --------------------------------------------------------- | ---------------------- | ------- | ------- |
-| v-model / value   | 绑定值                                                    | string, number, object |         |         |
-| label.sync        | 绑定值的标签（不支持多选）                                | string, number         |         |         |
-| index.sync        | 绑定值的数组下标（不支持多选）                            | number                 |         |         |
-| options(.sync)    | 选项                                                      | { label, value }[]     |         |         |
-| props             | 指定对象的属性                                            | object                 |         |         |
-| search            | 搜索获取 options，（`remote-method` 封装）                | function               |         |         |
-| searchImmediately | 是否立即执行搜索                                          | boolean                |         | true    |
-| allowSelectAll    | 开启多选时，是否允许全选                                  | boolean                |         | true    |
-| ellipsis          | 是否限宽并对超长的 label 作溢出省略处理（默认是超长撑开） | boolean                |         | false   |
-| ...el-select 属性 |
+| Name                  | Description                                               | Type                   | Options | Default |
+| --------------------- | --------------------------------------------------------- | ---------------------- | ------- | ------- |
+| v-model / value       | 绑定值                                                    | string, number, object |         |         |
+| label.sync            | 绑定值的标签（不支持多选）                                | string, number         |         |         |
+| index.sync            | 绑定值的数组下标（不支持多选）                            | number                 |         |         |
+| options(.sync)        | 选项                                                      | { label, value }[]     |         |         |
+| props                 | 指定对象的属性                                            | object                 |         |         |
+| search                | 搜索获取 options，（`remote-method` 封装）                | function               |         |         |
+| searchImmediately     | 是否立即执行搜索                                          | boolean                |         | true    |
+| allowSelectAll        | 开启多选时，是否允许全选                                  | boolean                |         | true    |
+| ellipsis              | 是否限宽并对超长的 label 作溢出省略处理（默认是超长撑开） | boolean                |         | false   |
+| ...el-select 的 props |
 
 #### props
 
-```
+```json
 {
-  value: undefined, // 指定 options 中 key 的属性名（options 为对象数组时有效）
-  label: undefined, // 指定 options 中 label 的属性名（options 为对象数组时有效）
-  labelRight: undefined, // 指定 options 中右浮 label 的属性名（options 为对象数组时有效）
-  disabled: 'disabled', // 指定 options 中 disabled 的属性名（options 为对象数组时有效）
-  groupLabel: undefined, // 指定组名（分组时有效）
-  groupOptions: undefined, // 指定子选项组的属性名（分组时有效）
-  groupDisabled: 'disabled', // 指定子选项组是否禁用的属性名（分组时有效）
+  "value": undefined, // 指定 options 中 key 的属性名（options 为对象数组时有效）
+  "label": undefined, // 指定 options 中 label 的属性名（options 为对象数组时有效）
+  "labelRight": undefined, // 指定 options 中右浮 label 的属性名（options 为对象数组时有效）
+  "disabled": "disabled", // 指定 options 中 disabled 的属性名（options 为对象数组时有效）
+  "groupLabel": undefined, // 指定组名（分组时有效）
+  "groupOptions": undefined, // 指定子选项组的属性名（分组时有效）
+  "groupDisabled": "disabled" // 指定子选项组是否禁用的属性名（分组时有效）
 }
 ```
 
@@ -504,16 +513,17 @@ export default {
 - Tooltip 非手动控制显隐时，点击开关后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
 - Popconfirm, Popover, Tooltip 的内容为空时，默认不启用
 - content 属性支持 html（但不再支持插槽）
+- 局部注册 + 局部传参，也可以全局注册 + 全局传参（[vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持）
 
 ### Props
 
-| Name               | Description        | Type    | Default |
-| ------------------ | ------------------ | ------- | ------- |
-| textInside         | 是否内嵌描述       | boolean | `true`  |
-| elPopconfirmProps  | el-popconfirm 属性 | object  |         |
-| elPopoverProps     | el-popover 属性    | object  |         |
-| elTooltipProps     | el-tooltip 属性    | object  |         |
-| ... el-switch 属性 |
+| Name                   | Description        | Type    | Default |
+| ---------------------- | ------------------ | ------- | ------- |
+| textInside             | 是否内嵌描述       | boolean | `true`  |
+| elPopconfirmProps      | el-popconfirm 属性 | object  |         |
+| elPopoverProps         | el-popover 属性    | object  |         |
+| elTooltipProps         | el-tooltip 属性    | object  |         |
+| ... el-switch 的 props |
 
 <br>
 
@@ -529,15 +539,16 @@ export default {
 - Tooltip 非手动控制显隐时，点击按钮后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
 - Popconfirm, Popover, Tooltip 的内容为空时，默认不启用
 - content 属性支持 html（但不再支持插槽）
+- 局部注册 + 局部传参，也可以全局注册 + 全局传参（[vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持）
 
 ### Props
 
-| Name               | Description        | Type   | Default |
-| ------------------ | ------------------ | ------ | ------- |
-| elPopconfirmProps  | el-popconfirm 属性 | object |         |
-| elPopoverProps     | el-popover 属性    | object |         |
-| elTooltipProps     | el-tooltip 属性    | object |         |
-| ... el-button 属性 |
+| Name                   | Description        | Type   | Default |
+| ---------------------- | ------------------ | ------ | ------- |
+| elPopconfirmProps      | el-popconfirm 属性 | object |         |
+| elPopoverProps         | el-popover 属性    | object |         |
+| elTooltipProps         | el-tooltip 属性    | object |         |
+| ... el-button 的 props |
 
 <br>
 
