@@ -1,15 +1,27 @@
 {
   "compilerOptions": {
-    "target": "esnext",
+    "baseUrl": ".",
+    "outDir": "dist",
+    "sourceMap": false,
+    "target": "es2016",
+    "newLine": "LF",
+    "useDefineForClassFields": false,
     "module": "esnext",
     "moduleResolution": "node",
+    "allowJs": false,
     "strict": true,
-    "jsx": "preserve",
-    "sourceMap": true,
+    "noUnusedLocals": true,
+    "experimentalDecorators": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "removeComments": false,
+    "jsx": "preserve",
     "lib": ["esnext", "dom"],
-    "types": ["vite/client"]
+    "types": ["jest", "puppeteer", "node"],
+    "rootDir": "."
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": [
+    "src",
+    "__tests__"
+  ]
 }
