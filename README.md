@@ -8,7 +8,7 @@
     <img alt="minzipped size" src="https://img.shields.io/bundlephobia/minzip/kikimore">
   </a>
   <a href="https://eslint.org">
-    <img alt="codestyle" src="https://img.shields.io/badge/codestyle-eslint-4B32C3.svg">
+    <img alt="code style" src="https://img.shields.io/badge/code_style-eslint-4B32C3.svg">
   </a>
 </p>
 
