@@ -41,6 +41,8 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "latest",
+    "@commitlint/cli": "latest",
+    "@commitlint/config-conventional": "latest",
     "@vitejs/plugin-vue2": "latest",
     "case-police": "latest",
     "element-ui": "latest",

@@ -1,15 +1,11 @@
 # Kikimore
 
 <p align="left">
-  <a href="https://npmjs.com/package/kikimore">
-    <img alt="npm package" src="https://img.shields.io/npm/v/kikimore.svg?logo=npm">
-  </a>
-  <a href="https://bundlephobia.com/package/kikimore">
-    <img alt="minzipped size" src="https://img.shields.io/bundlephobia/minzip/kikimore">
-  </a>
-  <a href="https://eslint.org">
-    <img alt="code style" src="https://img.shields.io/badge/code_style-eslint-4B32C3.svg">
-  </a>
+  <a href="https://npmjs.com/package/kikimore"><img alt="npm package" src="https://img.shields.io/npm/v/kikimore.svg?logo=npm"></a>
+  <a href="https://bundlephobia.com/package/kikimore"><img alt="minzipped size" src="https://img.shields.io/bundlephobia/minzip/kikimore"></a>
+  <br>
+  <a href="https://eslint.org"><img alt="code style" src="https://img.shields.io/badge/code_style-eslint-4B32C3.svg"></a>
+  <a href="https://conventionalcommits.org"><img alt="conventional commits" src="https://img.shields.io/badge/commits-conventional-fe5196.svg"></a>
 </p>
 
 > 几个 element-ui 组件的封装。
