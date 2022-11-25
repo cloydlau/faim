@@ -10,8 +10,7 @@
     ".": {
       "types": "./dist/index.d.ts",
       "require": "./dist/kikimore.umd.js",
-      "import": "./dist/kikimore.mjs",
-      "browser": "./dist/kikimore.mjs"
+      "import": "./dist/kikimore.mjs"
     },
     "./*": "./*"
   },
