@@ -38,6 +38,7 @@ export default defineConfig({
       name,
       entry: 'src/index.ts',
     },
+    sourcemap: true,
     rollupOptions: {
       external: ['element-ui', 'vue'],
       output: {
