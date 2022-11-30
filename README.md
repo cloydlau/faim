@@ -25,15 +25,14 @@
 ### 局部注册
 
 ```ts
-import 'kikimore/dist/style.css'
 import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 
 export default {
   components: {
     [FormDialog.name]: FormDialog,
-    [Select.name]: Select,
     [PopButton.name]: PopButton,
     [PopSwitch.name]: PopSwitch,
+    [Select.name]: Select,
   },
 }
 ```
@@ -44,10 +43,22 @@ export default {
 
 ```ts
 import Vue from 'vue'
-import 'kikimore/dist/style.css'
 import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 
-[[FormDialog], [Select], [PopButton], [PopSwitch]].map(([component, config]) => {
+;[
+  [FormDialog, {
+    // 全局配置
+  }],
+  [Select, {
+    // 全局配置
+  }],
+  [PopButton, {
+    // 全局配置
+  }],
+  [PopSwitch, {
+    // 全局配置
+  }]
+].map(([component, config]) => {
   Vue.use(FormDialog, config)
 })
 ```

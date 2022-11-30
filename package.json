@@ -3,7 +3,7 @@
   "pascalCasedName": "Kikimore",
   "version": "0.9.7",
   "private": false,
-  "description": "几个 element-ui 组件的封装。",
+  "description": "Several components wrapper for element-ui.",
   "author": "cloydlau",
   "license": "MIT",
   "repository": "https://github.com/cloydlau/kikimore",
@@ -53,9 +53,10 @@
     "lint-staged": "latest",
     "sass": "latest",
     "typescript": "latest",
-    "unocss": "0.43.1",
+    "unocss": "latest",
     "unplugin-auto-import": "latest",
     "vite": "latest",
+    "vite-plugin-css-injected-by-js": "latest",
     "vite-plugin-dts": "latest",
     "vue": "^2.7.14"
   },
@@ -65,6 +66,6 @@
     ]
   },
   "publishConfig": {
-    "registry": "https://registry.npmjs.org/"
+    "registry": "https://registry.npmjs.org"
   }
 }
