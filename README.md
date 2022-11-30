@@ -20,8 +20,6 @@
 - `vue@2`
 - `element-ui`
 
-<br>
-
 ### 局部注册
 
 ```ts
@@ -36,8 +34,6 @@ export default {
   },
 }
 ```
-
-<br>
 
 ### 全局注册
 
@@ -63,13 +59,9 @@ import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 })
 ```
 
-<br>
-
 ### CDN + ESM
 
 > ⚠ 暂不支持（ElementUI 未提供 ESM 导出）
-
-<br>
 
 ### CDN + UMD
 
