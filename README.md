@@ -54,6 +54,55 @@ import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 
 <br>
 
+### CDN + ESM
+
+> ⚠ 暂不支持（ElementUI 未提供 ESM 导出）
+
+<br>
+
+### CDN + UMD
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"
+  >
+</head>
+
+<body>
+  <div id="app">
+    <ki-form-dialog></ki-form-dialog>
+    <ki-pop-button></ki-pop-button>
+    <ki-pop-switch></ki-pop-switch>
+    <ki-select></ki-select>
+  </div>
+  <script src="https://unpkg.com/vue@2"></script>
+  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
+  <script src="https://unpkg.com/kikimore@0.10"></script>
+  <script>
+    const { FormDialog, PopButton, PopSwitch, Select } = Kikimore
+
+    new Vue({
+      components: {
+        [FormDialog.name]: FormDialog,
+        [PopButton.name]: PopButton,
+        [PopSwitch.name]: PopSwitch,
+        [Select.name]: Select,
+      },
+    }).$mount('#app')
+  </script>
+</body>
+
+</html>
+```
+
+<br>
+
 ## 命名风格
 
 所有组件命名均符合 [Vue 官方风格指南](https://v2.cn.vuejs.org/v2/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81)

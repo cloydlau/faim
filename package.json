@@ -1,5 +1,6 @@
 {
   "name": "kikimore",
+  "pascalCasedName": "Kikimore",
   "version": "0.9.7",
   "private": false,
   "description": "几个 element-ui 组件的封装。",
