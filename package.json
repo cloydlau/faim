@@ -7,6 +7,12 @@
   "author": "cloydlau",
   "license": "MIT",
   "repository": "https://github.com/cloydlau/kikimore",
+  "keywords": [
+    "vue",
+    "element",
+    "element-ui",
+    "element-plus"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
