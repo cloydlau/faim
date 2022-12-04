@@ -15,6 +15,10 @@
 
 ## 安装
 
+```shell
+npm add kikimore
+```
+
 ### 外置依赖
 
 - `vue@2`
