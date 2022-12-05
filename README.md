@@ -1,15 +1,18 @@
-# Kikimore <sup>[![Version Badge][npm-version-svg]][package-url]</sup>
+<h1 align="center">
+  <a href="https://npmjs.com/package/kikimore" target="_blank" rel="noopener noreferrer">
+    Kikimore <sup><img alt="version" src="https://versionbadg.es/cloydlau/kikimore.svg"></sup>
+  </a>
+</h1>
 
-[npm-version-svg]: https://versionbadg.es/cloydlau/kikimore.svg
-[package-url]: https://npmjs.com/package/kikimore
+<p align="center">
+  几个 element-ui 组件的封装
+</p>
 
-<p align="left">
+<p align="center">
   <a href="https://bundlephobia.com/package/kikimore"><img alt="minzipped size" src="https://img.shields.io/bundlephobia/minzip/kikimore"></a>
   <a href="https://eslint.org"><img alt="code style" src="https://img.shields.io/badge/code_style-ESLint-4B32C3.svg?logo=eslint"></a>
   <a href="https://conventionalcommits.org"><img alt="conventional commits" src="https://img.shields.io/badge/commits-Conventional-FE5196.svg?logo=conventionalcommits&logoColor=white"></a>
 </p>
-
-> 几个 element-ui 组件的封装。
 
 <br>
 
@@ -143,18 +146,18 @@ UI 组件库的标杆 `Ant Design` 也是使用 value 与 label 命名
 
 ### Props
 
-| 参数                  | 说明                                  | 类型     | 可选值 | 默认值                              |
-| --------------------- | ------------------------------------- | -------- | ------ | ----------------------------------- |
-| show.sync             | 是否开启                              | boolean  |        | `false`                             |
-| title                 | 对话框标题                            | string   |        |                                     |
-| readonly              | 是否只读                              | boolean  |        | `false`                             |
-| v-model               | 表单数据对象（即 el-form 的 `model`） | any      |        |                                     |
-| elFormProps           | el-form 属性（`model`, `ref` 不可用） | object   |        |                                     |
-| retrieve              | 获取数据                              | function |        |                                     |
-| loading               | 加载状态                              | boolean  |        | 默认由 retrieve 的 Promise 状态决定 |
-| submit                | 提交                                  | function |        |                                     |
-| allowClose            | 是否允许直接关闭                      | boolean  |        | `true`                              |
-| ...el-dialog 的 props |
+| 参数        | 说明                                  | 类型     | 可选值 | 默认值                                  |
+| ----------- | ------------------------------------- | -------- | ------ | --------------------------------------- |
+| show.sync   | 是否开启                              | boolean  |        | `false`                                 |
+| title       | 对话框标题                            | string   |        |                                         |
+| readonly    | 是否只读                              | boolean  |        | `false`                                 |
+| v-model     | 表单数据对象（即 el-form 的 `model`） | any      |        |                                         |
+| elFormProps | el-form 属性（`model`, `ref` 不可用） | object   |        |                                         |
+| retrieve    | 获取数据                              | function |        |                                         |
+| loading     | 加载状态                              | boolean  |        | 默认由 `retrieve` 的 `Promise` 状态决定 |
+| submit      | 提交                                  | function |        |                                         |
+| allowClose  | 是否允许直接关闭                      | boolean  |        | `true`                                  |
+| ...         | `el-dialog` 的 props                  |          |        |                                         |
 
 #### v-model
 
@@ -368,18 +371,18 @@ export default {
 
 ### Props
 
-| Name                  | Description                                               | Type                   | Options | Default |
-| --------------------- | --------------------------------------------------------- | ---------------------- | ------- | ------- |
-| v-model / value       | 绑定值                                                    | string, number, object |         |         |
-| label.sync            | 绑定值的标签（不支持多选）                                | string, number         |         |         |
-| index.sync            | 绑定值的数组下标（不支持多选）                            | number                 |         |         |
-| options(.sync)        | 选项                                                      | { label, value }[]     |         |         |
-| props                 | 指定对象的属性                                            | object                 |         |         |
-| search                | 搜索获取 options，（`remote-method` 封装）                | function               |         |         |
-| searchImmediately     | 是否立即执行搜索                                          | boolean                |         | true    |
-| allowSelectAll        | 开启多选时，是否允许全选                                  | boolean                |         | true    |
-| ellipsis              | 是否限宽并对超长的 label 作溢出省略处理（默认是超长撑开） | boolean                |         | false   |
-| ...el-select 的 props |
+| Name              | Description                                               | Type                   | Options | Default |
+| ----------------- | --------------------------------------------------------- | ---------------------- | ------- | ------- |
+| v-model / value   | 绑定值                                                    | string, number, object |         |         |
+| label.sync        | 绑定值的标签（不支持多选）                                | string, number         |         |         |
+| index.sync        | 绑定值的数组下标（不支持多选）                            | number                 |         |         |
+| options(.sync)    | 选项                                                      | { label, value }[]     |         |         |
+| props             | 指定对象的属性                                            | object                 |         |         |
+| search            | 搜索获取 options，（`remote-method` 封装）                | function               |         |         |
+| searchImmediately | 是否立即执行搜索                                          | boolean                |         | `true`  |
+| allowSelectAll    | 开启多选时，是否允许全选                                  | boolean                |         | `true`  |
+| ellipsis          | 是否限宽并对超长的 label 作溢出省略处理（默认是超长撑开） | boolean                |         | `false` |
+| ...               | `el-select` 的 props                                      |                        |         |         |
 
 #### props
 
@@ -577,13 +580,13 @@ export default {
 
 ### Props
 
-| Name                   | Description        | Type    | Default |
-| ---------------------- | ------------------ | ------- | ------- |
-| textInside             | 是否内嵌描述       | boolean | `true`  |
-| elPopconfirmProps      | el-popconfirm 属性 | object  |         |
-| elPopoverProps         | el-popover 属性    | object  |         |
-| elTooltipProps         | el-tooltip 属性    | object  |         |
-| ... el-switch 的 props |
+| Name              | Description          | Type    | Default |
+| ----------------- | -------------------- | ------- | ------- |
+| textInside        | 是否内嵌描述         | boolean | `true`  |
+| elPopconfirmProps | `el-popconfirm` 属性 | object  |         |
+| elPopoverProps    | `el-popover` 属性    | object  |         |
+| elTooltipProps    | `el-tooltip` 属性    | object  |         |
+| ...               | `el-switch` 的 props |         |         |
 
 <br>
 
@@ -603,12 +606,13 @@ export default {
 
 ### Props
 
-| Name                   | Description        | Type   | Default |
-| ---------------------- | ------------------ | ------ | ------- |
-| elPopconfirmProps      | el-popconfirm 属性 | object |         |
-| elPopoverProps         | el-popover 属性    | object |         |
-| elTooltipProps         | el-tooltip 属性    | object |         |
-| ... el-button 的 props |
+| Name              | Description          | Type   | Default |
+| ----------------- | -------------------- | ------ | ------- |
+| elPopconfirmProps | `el-popconfirm` 属性 | object |         |
+| elPopoverProps    | `el-popover` 属性    | object |         |
+| elTooltipProps    | `el-tooltip` 属性    | object |         |
+| ...               | `el-button` 的 props |        |         |
+
 
 <br>
 
