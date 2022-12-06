@@ -1,22 +1,37 @@
 <template>
   <el-dialog
-    v-bind="ElDialogProps" ref="elDialogRef" :key="key" :visible.sync="show"
-    :title="Title" :destroyOnClose="false" :appendToBody="false" v-on="Listeners"
+    v-bind="ElDialogProps"
+    ref="elDialogRef"
+    :key="key"
+    :visible.sync="show"
+    :title="Title"
+    :destroyOnClose="false"
+    :appendToBody="false"
+    v-on="Listeners"
     @closed="onClosed"
   >
+    <!-- 传 slot -->
     <template #title>
       <!-- 接收 slot -->
       <slot name="title" />
     </template>
-    <div v-loading="Loading" class="body" overflow="y-hidden" flex="~ col">
-      <!-- 传 slot -->
+    <div
+      v-loading="Loading"
+      class="body"
+      overflow="y-hidden"
+      flex="~ col"
+    >
       <div
-        ref="overlayScrollbar" class="overflow-y-auto px-40px pb-85px pt-25px"
+        ref="overlayScrollbar"
+        class="overflow-y-auto px-40px pb-85px pt-25px"
         style="max-height:calc(100vh - 45px);"
       >
         <el-form
-          v-if="ValueIsPlainObject" :labelWidth="labelWidth" v-bind="ElFormProps"
-          :class="!showConfirmButton && 'readonly'" v-on="Listeners"
+          v-if="ValueIsPlainObject"
+          :labelWidth="labelWidth"
+          v-bind="ElFormProps"
+          :class="!showConfirmButton && 'readonly'"
+          v-on="Listeners"
         >
           <slot :elFormRef="$refs.elFormRef" />
         </el-form>
@@ -26,18 +41,27 @@
 
     <template #footer>
       <slot
-        name="footer" :close="close" :closing="closing" :confirm="confirm"
+        name="footer"
+        :close="close"
+        :closing="closing"
+        :confirm="confirm"
         :submitting="submitting"
       >
         <el-button
-          v-if="AllowClose" :disabled="closing" :class="closing && 'closing'"
+          v-if="AllowClose"
+          :disabled="closing"
+          :class="closing && 'closing'"
           @click="close"
         >
           {{ showConfirmButton ? '取 消' : '关 闭' }}
         </el-button>
         <el-button
-          v-if="showConfirmButton" type="primary" :disabled="closing"
-          :class="closing && 'closing'" :loading="submitting" @click="confirm"
+          v-if="showConfirmButton"
+          type="primary"
+          :disabled="closing"
+          :class="closing && 'closing'"
+          :loading="submitting"
+          @click="confirm"
         >
           确 定
         </el-button>
