@@ -24,12 +24,13 @@
           v-if="(!fullscreenIsPassed)"
           :class="ElDialogProps.fullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
           cursor="pointer"
+          text="hover:[#409eff]"
           @click="(fullscreen = !fullscreen)"
         />
         <i
           class="el-icon-close"
           cursor="pointer"
-          text="20px"
+          text="20px hover:[#FF7575]"
           ml="15px"
           @click="close"
         />
