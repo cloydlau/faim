@@ -25,7 +25,7 @@
           :class="ElDialogProps.fullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
           cursor="pointer"
           text="hover:[#409eff]"
-          @click="(fullscreen = !fullscreen)"
+          @click="toggleFullscreen"
         />
         <i
           class="el-icon-close"
@@ -310,6 +310,10 @@ export default {
     }
   },
   methods: {
+    toggleFullscreen() {
+      this.fullscreen = !this.fullscreen
+      window.dispatchEvent(new Event('resize'))
+    },
     /*
       fix: https://github.com/ElemeFE/element/issues?q=label+width+auto
     */
