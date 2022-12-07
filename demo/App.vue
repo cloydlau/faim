@@ -6,67 +6,99 @@
     只读：
     <el-switch v-model="readonly" />
     全屏：
-    <el-switch v-model="fullscreen" />
+    <KiSelect
+      v-model="fullscreen"
+      :options="[
+        { dataName: '关闭', dataValue: false },
+        { dataName: '开启', dataValue: true },
+      ]"
+      :props="{ label: 'dataName', value: 'dataValue' }"
+      :clearable="false"
+    />
 
     <KiFormDialog
-      ref="formDialog" v-model="form" :fullscreen="fullscreen"
-      :show.sync="showFormDialog" :retrieve="retrieve" :submit="submit" title="FormDialog"
-      :readonly="readonly" :elFormProps="{
+      ref="formDialog"
+      v-model="form"
+      :show.sync="showFormDialog"
+      :fullscreen="fullscreen"
+      :retrieve="retrieve"
+      :submit="submit"
+      title="FormDialog"
+      :readonly="readonly"
+      :elFormProps="{
         labelPosition: 'top',
-      }" @open="console.log('open')" @opened="console.log('opened')"
-      @close="console.log('close')" @closed="console.log('closed')"
+      }"
+      @open="console.log('open')"
+      @opened="console.log('opened')"
+      @close="console.log('close')"
+      @closed="console.log('closed')"
       @validate="console.log('validate')"
     >
       <template #default="{ elFormRef }">
-        <el-form-item label="Select" required prop="KiSelect[0].value">
+        <el-form-item
+          label="Select"
+          required
+          prop="KiSelect[0].value"
+        >
           <div class="flex justify-between">
-            <!--            <el-select
-                          v-model="form.KiSelect[0].value"
-                          clearable
-                        >
-                          <el-option
-                            v-for="item in form.KiSelect[0].options"
-                            :key="item"
-                            :label="item"
-                            :value="item"
-                          />
-                        </el-select> -->
+            <!-- <el-select
+              v-model="form.KiSelect[0].value"
+              clearable
+            >
+              <el-option
+                v-for="item in form.KiSelect[0].options"
+                :key="item"
+                :label="item"
+                :value="item"
+              />
+            </el-select> -->
             <KiSelect
               v-model="form.KiSelect[0].value"
-              :label.sync="form.KiSelect[0].label" :index.sync="form.KiSelect[0].index"
-              :options="form.KiSelect[0].options" placeholder="number[]"
+              :label.sync="form.KiSelect[0].label"
+              :index.sync="form.KiSelect[0].index"
+              :options="form.KiSelect[0].options"
+              placeholder="number[]"
             >
               <template #default="{ option, index }">
                 option: {{ option }}
                 index: {{ index }}
               </template>
-              <div slot="prefix">
+              <template #prefix>
                 pre
-              </div>
-              <div slot="empty">
+              </template>
+              <template #empty>
                 empty
-              </div>
+              </template>
             </KiSelect>
             <KiSelect
               v-model="form.KiSelect[1].value"
-              :label.sync="form.KiSelect[1].label" :index.sync="form.KiSelect[1].index"
-              :options="form.KiSelect[1].options" value-key="a" :props="{
+              :label.sync="form.KiSelect[1].label"
+              :index.sync="form.KiSelect[1].index"
+              :options="form.KiSelect[1].options"
+              value-key="a"
+              :props="{
                 value: null,
                 label: 'name',
                 labelRight: 'labelRight',
                 disabled: '__disabled',
                 groupOptions: 'children',
                 groupLabel: 'label',
-              }" placeholder="labelRight" :search="search" :searchImmediately="true"
+              }"
+              placeholder="labelRight"
+              :search="search"
+              :searchImmediately="true"
             />
             <KiSelect
               v-model="form.KiSelect[2].value"
-              :label.sync="form.KiSelect[2].label" :index.sync="form.KiSelect[2].index"
-              :options="form.KiSelect[2].options" :props="{
+              :label.sync="form.KiSelect[2].label"
+              :index.sync="form.KiSelect[2].index"
+              :options="form.KiSelect[2].options"
+              :props="{
                 value: 'a',
                 label: ({ name, b }) => `${name}-${b}`,
                 labelRight: ({ name, b }) => `${b}-${name}`,
-              }" placeholder="a/${name}-${b}/labelRight"
+              }"
+              placeholder="a/${name}-${b}/labelRight"
             />
           </div>
           <div class="flex justify-between">
@@ -97,12 +129,17 @@
           </KiPopButton>
         </el-form-item>
 
-        <el-form-item label="PopSwitch" prop="PopSwitch">
+        <el-form-item
+          label="PopSwitch"
+          prop="PopSwitch"
+        >
           <KiPopSwitch
             v-model="popSwitch"
             :elTooltipProps="{ content: `<i class='el-icon-warning'/> 已停用` }"
             :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
-            :elPopconfirmProps="{ title: '确认启用吗？' }" active-text="启用" inactive-text="停用"
+            :elPopconfirmProps="{ title: '确认启用吗？' }"
+            active-text="启用"
+            inactive-text="停用"
             @click.native="console.log('[PopSwitch] click')"
           />
         </el-form-item>
@@ -194,7 +231,7 @@ export default {
       ],
       showFormDialog: true,
       readonly: false,
-      fullscreen: false,
+      fullscreen: undefined,
     }
   },
   methods: {

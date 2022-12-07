@@ -3,7 +3,7 @@
     v-bind="ElDialogProps"
     ref="elDialogRef"
     :key="key"
-    :visible.sync="show"
+    :visible="show"
     :title="Title"
     :destroyOnClose="false"
     :appendToBody="false"
@@ -13,7 +13,27 @@
     <!-- 传 slot -->
     <template #title>
       <!-- 接收 slot -->
-      <slot name="title" />
+      <slot name="title">
+        {{ Title }}
+      </slot>
+      <div
+        flex="~"
+        items="center"
+      >
+        <i
+          v-if="(!fullscreenIsPassed)"
+          :class="ElDialogProps.fullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
+          cursor="pointer"
+          @click="(fullscreen = !fullscreen)"
+        />
+        <i
+          class="el-icon-close"
+          cursor="pointer"
+          text="20px"
+          ml="15px"
+          @click="close"
+        />
+      </div>
     </template>
     <div
       v-loading="Loading"
@@ -116,10 +136,10 @@ export default {
       initiated: false,
       styleTag: null,
       scrollbar: null,
-      // 作用是防止在关闭但关闭动画未结束时隐藏的确认按钮暴露出来
-      showConfirmButton: false,
+      showConfirmButton: false, // 作用是防止在关闭但关闭动画未结束时隐藏的确认按钮暴露出来
       beforeCloseIsPassed: false,
-      // osInstance: null,
+      fullscreen: false,
+      fullscreenIsPassed: false,
       labelWidth: undefined,
       key: 0,
     }
@@ -160,17 +180,23 @@ export default {
       })
     },
     ElDialogProps() {
-      return conclude([this.AllowClose
-        ? undefined
-        : {
-            closeOnClickModal: false,
-            showClose: false,
-            closeOnPressEscape: false,
-          }, this.$attrs, globalAttrs], {
+      return conclude([
+        this.AllowClose
+          ? undefined
+          : {
+              closeOnClickModal: false,
+              showClose: false,
+              closeOnPressEscape: false,
+            },
+        this.$attrs,
+        globalAttrs,
+      ], {
         default: (userProp) => {
           this.beforeCloseIsPassed = Boolean(userProp.beforeClose)
+          this.fullscreenIsPassed = userProp.fullscreen !== undefined
           return {
             closeOnClickModal: false,
+            fullscreen: this.fullscreen,
             ...!this.beforeCloseIsPassed && {
               beforeClose: () => {
                 this.$emit('update:show', false)
@@ -448,14 +474,10 @@ export default {
   .el-dialog__header {
     display: flex;
     justify-content: space-between;
+    align-items: center;
 
     &>.el-dialog__headerbtn {
-      position: revert;
-
-      &>.el-dialog__close {
-        font-size: 24px;
-        font-weight: bolder;
-      }
+      display: none;
     }
   }
 
