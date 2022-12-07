@@ -142,6 +142,7 @@ UI 组件库的标杆 `Ant Design` 也是使用 value 与 label 命名
 - 打开弹框时自动回显数据
 - 关闭弹框时自动重置数据
 - 校验失败将定位至相应位置并震动提示
+- 全屏开关（显式指定全屏状态时不显示）
 - 局部注册 + 局部传参，也可以全局注册 + 全局传参（[vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持）
 
 ### Props
@@ -293,7 +294,11 @@ kiFormDialogRef.value.$refs.elFormRef
 
 ### Events
 
-`el-dialog` 的事件 + `el-form` 的事件
+| Name                | Description           | Parameters            |
+| ------------------- | --------------------- | --------------------- |
+| `fullscreen-change` | 切换全屏状态时触发    | `fullscreen: boolean` |
+| ...                 | `el-dialog` 的 events |                       |
+| ...                 | `el-form` 的 events   |                       |
 
 ### 完整示例
 

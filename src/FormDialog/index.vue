@@ -312,7 +312,10 @@ export default {
   methods: {
     toggleFullscreen() {
       this.fullscreen = !this.fullscreen
-      window.dispatchEvent(new Event('resize'))
+      this.$nextTick(() => {
+        window.dispatchEvent(new Event('resize'))
+        this.$emit('fullscreen-change', this.fullscreen)
+      })
     },
     /*
       fix: https://github.com/ElemeFE/element/issues?q=label+width+auto
