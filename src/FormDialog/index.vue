@@ -29,6 +29,7 @@
           @click="toggleFullscreen()"
         />
         <i
+          v-if="ElDialogProps.showClose !== false"
           class="el-icon-close"
           cursor="pointer"
           text="20px hover:[#FF7575]"
