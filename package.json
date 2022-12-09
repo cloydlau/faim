@@ -1,7 +1,7 @@
 {
   "name": "kikimore",
   "pascalCasedName": "Kikimore",
-  "version": "0.10.4",
+  "version": "0.10.5",
   "private": false,
   "description": "Several components wrapper for element-ui.",
   "author": "cloydlau",
