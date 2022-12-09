@@ -105,6 +105,14 @@ import { globalAttrs, globalListeners, globalProps } from './index'
 // 在某项目中触发诡异 bug：el-input 输入时触发重绘，光标被强制后移
 // import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 
+const boolProps = [
+  'show',
+  'readonly',
+  'loading',
+  'allowClose',
+  'showFullscreenButton',
+]
+
 export default {
   name: 'KiFormDialog',
   props: {
@@ -114,26 +122,10 @@ export default {
     submit: {},
     title: {},
     getContainer: {},
-    show: {
-      type: Boolean,
-      required: true,
-    },
-    readonly: {
+    ...Object.fromEntries(Array.from(boolProps, boolProp => [boolProp, {
       type: Boolean,
       default: undefined,
-    },
-    loading: {
-      type: Boolean,
-      default: undefined,
-    },
-    allowClose: {
-      type: Boolean,
-      default: undefined,
-    },
-    showFullscreenButton: {
-      type: Boolean,
-      default: undefined,
-    },
+    }])),
   },
   data() {
     return {
@@ -190,7 +182,7 @@ export default {
     },
     // 必须放在 ElDialogProps 下面
     GetContainer() {
-      return conclude([this.getContainer, globalProps.getContainer, ['', true].includes(this.ElDialogProps.appendToBody) ? 'body' : undefined], {
+      return conclude([this.getContainer, globalProps.getContainer, [true, ''].includes(this.ElDialogProps.appendToBody) ? 'body' : undefined], {
         type: [String, Function],
       })
     },
@@ -210,7 +202,7 @@ export default {
         default: (userProp) => {
           this.beforeCloseIsPassed = Boolean(userProp.beforeClose)
           if (userProp.fullscreen !== undefined && this.show) {
-            this.toggleFullscreen(userProp.fullscreen)
+            this.toggleFullscreen([true, ''].includes(userProp.fullscreen))
           }
           return {
             closeOnClickModal: false,
@@ -246,8 +238,8 @@ export default {
     show: {
       // 针对默认打开的情况 默认打开时 依然执行retrieve
       immediate: true,
-      handler(n) {
-        if (n) {
+      handler(newShow) {
+        if (newShow) {
           /* if (!this.labelWidthSettled) {
             this.labelWidth = await this.getLabelWidth()
             this.labelWidthSettled = true
@@ -287,9 +279,9 @@ export default {
     },
     Readonly: {
       immediate: true,
-      handler(n) {
+      handler(newReadonly) {
         if (!this.closing) {
-          this.showConfirmButton = !n
+          this.showConfirmButton = !newReadonly
         }
       },
     },
@@ -297,22 +289,6 @@ export default {
   created() {
     this.value__ = cloneDeep(this.value)
   },
-  /* mounted () {
-    // 不兼容 tinymce
-    const unwatch = this.$watch('loading', n => {
-      if (!n) {
-        this.$nextTick(() => {
-          /!*this.scrollbar = Scrollbar.init(this.$refs.scrollbar, {
-            alwaysShowTracks: true,
-          })*!/
-          //this.hasScrollbar = hasScrollbar(this.$refs.elDialogRef.$el.firstChild)
-          unwatch()
-        })
-      }
-    }, {
-      immediate: true
-    })
-  }, */
   updated() {
     this.computeLabelWidth()
   },
@@ -323,6 +299,9 @@ export default {
   },
   methods: {
     toggleFullscreen(newValue = !this.fullscreen) {
+      if (typeof newValue !== 'boolean') {
+        return
+      }
       this.fullscreen = newValue
       this.$nextTick(() => {
         window.dispatchEvent(new Event('resize'))
