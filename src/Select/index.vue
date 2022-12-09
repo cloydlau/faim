@@ -162,6 +162,7 @@ export default {
         placeholder,
       }], {
         type: Object,
+        camelizeObjectKeys: true,
       })
     },
     Ellipsis() {

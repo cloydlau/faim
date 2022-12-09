@@ -45,6 +45,8 @@ export default {
     },
     ElSwitchProps() {
       return conclude([this.$attrs, globalAttrs], {
+        type: Object,
+        camelizeObjectKeys: true,
         default: (userProp) => {
           let maxTextWidth = 0;
           ['active-text', 'inactive-text', 'activeText', 'inactiveText'].map((v) => {
@@ -67,6 +69,7 @@ export default {
         globalProps.elPopoverProps,
       ], {
         type: Object,
+        camelizeObjectKeys: true,
         default: userProp => ({
           popperClass: 'pop-switch',
           disabled: !(userProp && (userProp.title || userProp.content)),
@@ -80,6 +83,7 @@ export default {
         globalProps.elPopconfirmProps,
       ], {
         type: Object,
+        camelizeObjectKeys: true,
         default: userProp => ({
           popperClass: 'pop-switch',
           disabled: [true, ''].includes(this.ElSwitchProps.disabled) || !userProp?.title,
@@ -93,6 +97,7 @@ export default {
         globalProps.elTooltipProps,
       ], {
         type: Object,
+        camelizeObjectKeys: true,
         default: userProp => ({
           // openDelay: 400,
           disabled: !(userProp?.content || this.$slots.elTooltipContent),

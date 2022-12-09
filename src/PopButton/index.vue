@@ -28,7 +28,10 @@ export default {
   },
   computed: {
     ElButtonProps() {
-      return conclude([this.$attrs, globalAttrs])
+      return conclude([this.$attrs, globalAttrs], {
+        type: Object,
+        camelizeObjectKeys: true,
+      })
     },
     ElPopoverProps() {
       const result = conclude([
@@ -36,6 +39,7 @@ export default {
         globalProps.elPopoverProps,
       ], {
         type: Object,
+        camelizeObjectKeys: true,
       })
       const { title, content } = result || {}
       return {
@@ -49,6 +53,7 @@ export default {
         globalProps.elPopconfirmProps,
       ], {
         type: Object,
+        camelizeObjectKeys: true,
       })
       return {
         popperClass: 'pop-button-popper',
@@ -62,6 +67,7 @@ export default {
         globalProps.elTooltipProps,
       ], {
         type: Object,
+        camelizeObjectKeys: true,
       })
       return {
         // openDelay: 400,

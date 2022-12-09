@@ -199,6 +199,7 @@ export default {
         globalAttrs,
       ], {
         type: Object,
+        camelizeObjectKeys: true,
         default: (userProp) => {
           this.beforeCloseIsPassed = Boolean(userProp.beforeClose)
           if (userProp.fullscreen !== undefined && this.show) {
@@ -214,7 +215,6 @@ export default {
           }
         },
         defaultIsDynamic: true,
-        camelizeObjectKeys: true,
       })
     },
     ElFormProps() {
