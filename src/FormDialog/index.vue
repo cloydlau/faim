@@ -7,6 +7,7 @@
     :title="Title"
     :destroyOnClose="false"
     :appendToBody="false"
+    :fullscreen="fullscreen"
     v-on="Listeners"
     @closed="onClosed"
   >
@@ -21,11 +22,11 @@
         items="center"
       >
         <i
-          v-if="(!fullscreenIsPassed)"
-          :class="ElDialogProps.fullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
+          v-if="ShowFullscreenButton"
+          :class="fullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
           cursor="pointer"
           text="hover:[#409eff]"
-          @click="toggleFullscreen"
+          @click="toggleFullscreen()"
         />
         <i
           class="el-icon-close"
@@ -106,14 +107,16 @@ import { globalAttrs, globalListeners, globalProps } from './index'
 export default {
   name: 'KiFormDialog',
   props: {
-    show: {
-      type: Boolean,
-      required: true,
-    },
     value: {},
     elFormProps: {},
     retrieve: {},
     submit: {},
+    title: {},
+    getContainer: {},
+    show: {
+      type: Boolean,
+      required: true,
+    },
     readonly: {
       type: Boolean,
       default: undefined,
@@ -122,9 +125,11 @@ export default {
       type: Boolean,
       default: undefined,
     },
-    title: {},
-    getContainer: {},
     allowClose: {
+      type: Boolean,
+      default: undefined,
+    },
+    showFullscreenButton: {
       type: Boolean,
       default: undefined,
     },
@@ -140,12 +145,14 @@ export default {
       showConfirmButton: false, // 作用是防止在关闭但关闭动画未结束时隐藏的确认按钮暴露出来
       beforeCloseIsPassed: false,
       fullscreen: false,
-      fullscreenIsPassed: false,
       labelWidth: undefined,
       key: 0,
     }
   },
   computed: {
+    ShowFullscreenButton() {
+      return conclude([this.showFullscreenButton, globalProps.showFullscreenButton, true])
+    },
     ValueIsPlainObject() {
       return isPlainObject(this.value)
     },
@@ -180,6 +187,12 @@ export default {
         type: Boolean,
       })
     },
+    // 必须放在 ElDialogProps 下面
+    GetContainer() {
+      return conclude([this.getContainer, globalProps.getContainer, ['', true].includes(this.ElDialogProps.appendToBody) ? 'body' : undefined], {
+        type: [String, Function],
+      })
+    },
     ElDialogProps() {
       return conclude([
         this.AllowClose
@@ -192,12 +205,14 @@ export default {
         this.$attrs,
         globalAttrs,
       ], {
+        type: Object,
         default: (userProp) => {
           this.beforeCloseIsPassed = Boolean(userProp.beforeClose)
-          this.fullscreenIsPassed = userProp.fullscreen !== undefined
+          if (userProp.fullscreen !== undefined && this.show) {
+            this.toggleFullscreen(userProp.fullscreen)
+          }
           return {
             closeOnClickModal: false,
-            fullscreen: this.fullscreen,
             ...!this.beforeCloseIsPassed && {
               beforeClose: () => {
                 this.$emit('update:show', false)
@@ -206,6 +221,7 @@ export default {
           }
         },
         defaultIsDynamic: true,
+        camelizeObjectKeys: true,
       })
     },
     ElFormProps() {
@@ -221,12 +237,7 @@ export default {
         },
       ], {
         type: Object,
-      })
-    },
-    // 必须放在 ElDialogProps 下面
-    GetContainer() {
-      return conclude([this.getContainer, globalProps.getContainer, ['', true].includes(this.ElDialogProps.appendToBody) ? 'body' : undefined], {
-        type: [String, Function],
+        camelizeObjectKeys: true,
       })
     },
   },
@@ -310,8 +321,8 @@ export default {
     }
   },
   methods: {
-    toggleFullscreen() {
-      this.fullscreen = !this.fullscreen
+    toggleFullscreen(newValue = !this.fullscreen) {
+      this.fullscreen = newValue
       this.$nextTick(() => {
         window.dispatchEvent(new Event('resize'))
         this.$emit('fullscreen-change', this.fullscreen)

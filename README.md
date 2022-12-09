@@ -142,23 +142,24 @@ UI 组件库的标杆 `Ant Design` 也是使用 value 与 label 命名
 - 打开弹框时自动回显数据
 - 关闭弹框时自动重置数据
 - 校验失败将定位至相应位置并震动提示
-- 全屏开关（显式指定全屏状态时不显示）
+- 全屏开关
 - 局部注册 + 局部传参，也可以全局注册 + 全局传参（[vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持）
 
 ### Props
 
-| 名称        | 说明                                  | 类型     | 默认值                                  |
-| ----------- | ------------------------------------- | -------- | --------------------------------------- |
-| show.sync   | 是否开启                              | boolean  | `false`                                 |
-| title       | 对话框标题                            | string   |                                         |
-| readonly    | 是否只读                              | boolean  | `false`                                 |
-| v-model     | 表单数据对象（即 el-form 的 `model`） | any      |                                         |
-| elFormProps | el-form 属性（`model`, `ref` 不可用） | object   |                                         |
-| retrieve    | 获取数据                              | function |                                         |
-| loading     | 加载状态                              | boolean  | 默认由 `retrieve` 的 `Promise` 状态决定 |
-| submit      | 提交                                  | function |                                         |
-| allowClose  | 是否允许直接关闭                      | boolean  | `true`                                  |
-| ...         | `el-dialog` 的 props                  |          |                                         |
+| 名称                 | 说明                                  | 类型     | 默认值                                  |
+| -------------------- | ------------------------------------- | -------- | --------------------------------------- |
+| show.sync            | 是否开启                              | boolean  | `false`                                 |
+| title                | 对话框标题                            | string   |                                         |
+| readonly             | 是否只读                              | boolean  | `false`                                 |
+| v-model              | 表单数据对象（即 el-form 的 `model`） | any      |                                         |
+| elFormProps          | el-form 属性（`model`, `ref` 不可用） | object   |                                         |
+| retrieve             | 获取数据                              | function |                                         |
+| loading              | 加载状态                              | boolean  | 默认由 `retrieve` 的 `Promise` 状态决定 |
+| submit               | 提交                                  | function |                                         |
+| allowClose           | 是否允许直接关闭                      | boolean  | `true`                                  |
+| showFullscreenButton | 是否显示全屏开关                      | boolean  | `true`                                  |
+| ...                  | `el-dialog` 的 props                  |          |                                         |
 
 #### v-model
 
