@@ -93,7 +93,7 @@ import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
   </div>
   <script src="https://unpkg.com/vue@2"></script>
   <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-  <script src="https://unpkg.com/kikimore@0.10"></script>
+  <script src="https://unpkg.com/kikimore@0.11"></script>
   <script>
     const { FormDialog, PopButton, PopSwitch, Select } = Kikimore
 

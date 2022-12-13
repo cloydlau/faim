@@ -131,6 +131,7 @@ export default {
   },
   data() {
     return {
+      initialValue: undefined,
       retrieving: true,
       submitting: false,
       closing: false,
@@ -285,7 +286,7 @@ export default {
     },
   },
   mounted() {
-    this.value__ = cloneDeep(this.value)
+    this.initialValue = cloneDeep(this.value)
   },
   updated() {
     this.computeLabelWidth()
@@ -339,7 +340,7 @@ export default {
     onClosed() {
       // 重置表单
       this.submitting = false
-      this.$emit('input', cloneDeep(this.value__))
+      this.$emit('input', cloneDeep(this.initialValue))
       this.$refs.elFormRef?.clearValidate()
       this.closing = false
       this.showConfirmButton = !this.Readonly
