@@ -15,7 +15,7 @@
     <template #title>
       <!-- 接收 slot -->
       <slot name="title">
-        {{ Title }}
+        <span>{{ Title }}</span>
       </slot>
       <div
         flex="~"
