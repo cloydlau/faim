@@ -286,7 +286,7 @@ export default {
       },
     },
   },
-  created() {
+  mounted() {
     this.value__ = cloneDeep(this.value)
   },
   updated() {
