@@ -51,9 +51,11 @@
       >
         <el-form
           v-if="ValueIsPlainObject"
-          :labelWidth="labelWidth"
           v-bind="ElFormProps"
+          ref="elFormRef"
           :class="!showConfirmButton && 'readonly'"
+          :labelWidth="labelWidth"
+          :model="value"
           v-on="Listeners"
         >
           <slot :elFormRef="$refs.elFormRef" />
@@ -219,10 +221,6 @@ export default {
     },
     ElFormProps() {
       return conclude([
-        {
-          model: this.value,
-          ref: 'elFormRef',
-        },
         this.elFormProps,
         globalProps.elFormProps,
         {
