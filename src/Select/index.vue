@@ -156,7 +156,7 @@ export default {
         filterable: true,
         remote,
         reserveKeyword: true,
-        remoteMethod: this.remoteMethod,
+        remoteMethod: this.Search ? this.remoteMethod : undefined,
         valueKey: this.valueComesFromObject ? this.Props.value : undefined,
         loading: this.loading,
         placeholder,
