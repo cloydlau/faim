@@ -5,7 +5,7 @@
 </h1>
 
 <p align="center">
-  几个 element-ui 组件的封装
+  几个 element-ui 组件的封装。
 </p>
 
 <p align="center">
