@@ -1,7 +1,11 @@
 <template>
   <el-select
-    v-bind="ElSelectProps" ref="elSelect" v-model="value__" @change="onChange"
-    v-on="Listeners" @visible-change="onVisibleChange"
+    v-bind="ElSelectProps"
+    ref="elSelect"
+    v-model="value__"
+    @change="onChange"
+    v-on="Listeners"
+    @visible-change="onVisibleChange"
   >
     <template v-if="grouped">
       <el-option-group
@@ -18,10 +22,16 @@
           :disabled="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled"
           @click.native="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled ? undefined : onOptionClick(group, groupIndex)"
         >
-          <slot v-if="$slots.default" :option="option" :index="optionIndex" />
+          <slot
+            v-if="$slots.default"
+            :option="option"
+            :index="optionIndex"
+          />
           <template v-else>
             <el-tooltip
-              :disabled="!Ellipsis" effect="dark" placement="right"
+              :disabled="!Ellipsis"
+              effect="dark"
+              placement="right"
               :content="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label"
             >
               <span class="label-left">{{
@@ -39,21 +49,31 @@
     <template v-else>
       <el-checkbox
         v-if="AllowSelectAll && isMultiple && options__.length > 1"
-        v-model="allSelected" :indeterminate="indeterminate" class="px-20px py-10px"
+        v-model="allSelected"
+        :indeterminate="indeterminate"
+        class="px-20px py-10px"
         @change="selectAll"
       >
         全选
       </el-checkbox>
       <el-option
-        v-for="(v, i) of options__" :key="optionPropsList[i].key"
-        :label="optionPropsList[i].label" :value="optionPropsList[i].value"
+        v-for="(v, i) of options__"
+        :key="optionPropsList[i].key"
+        :label="optionPropsList[i].label"
+        :value="optionPropsList[i].value"
         :disabled="optionPropsList[i].disabled"
         @click.native="optionPropsList[i].disabled ? undefined : onOptionClick(v, i)"
       >
-        <slot v-if="$slots.default" :option="v" :index="i" />
+        <slot
+          v-if="$slots.default"
+          :option="v"
+          :index="i"
+        />
         <template v-else>
           <el-tooltip
-            :disabled="!Ellipsis" effect="dark" placement="right"
+            :disabled="!Ellipsis"
+            effect="dark"
+            placement="right"
             :content="optionPropsList[i].label"
           >
             <span class="label-left">{{ optionPropsList[i].label }}</span>
@@ -63,7 +83,10 @@
       </el-option>
     </template>
 
-    <template v-for="(v, k) in ScopedSlots" #[k]>
+    <template
+      v-for="(v, k) in ScopedSlots"
+      #[k]
+    >
       <slot :name="k" />
     </template>
   </el-select>
@@ -343,7 +366,7 @@ export default {
     selectAll() {
       if (this.allSelected) {
         const temp = []
-        this.options__.map((v, i) => {
+        this.options__.forEach((v, i) => {
           if (!this.isDisabled(v, i)) {
             temp.push(this.getValue(v, i))
           }
