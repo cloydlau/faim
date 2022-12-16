@@ -74,7 +74,7 @@ import Vue from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { conclude } from 'vue-global-config'
 import { v4 as uuidv4 } from 'uuid'
-import { getListeners, isEmpty, notEmpty } from '../utils'
+import { getListeners, isEmpty, isObject, notEmpty } from '../utils'
 import { globalAttrs, globalListeners, globalProps } from './index'
 
 export default {
@@ -129,7 +129,7 @@ export default {
       return notEmpty(this.Props.groupOptions)
     },
     itemTypeIsJSON() {
-      return typeof this.options__?.[0] === 'object'
+      return isObject(this.options__?.[0])
     },
     valueComesFromObject() {
       if (isEmpty(this.Props.value) || this.valueType === 'function') {
@@ -421,7 +421,7 @@ export default {
           res = v?.[this.Props.value]
         } else if (isEmpty(this.ElSelectProps.valueKey)) {
           throw new Error('\'value-key\' of \'el-select\' is required when binding value is an object.')
-        } else if (notEmpty(this.value) && typeof this.value !== 'object') {
+        } else if (notEmpty(this.value) && !isObject(this.value)) {
           throw new Error('Binding value must be an object when \'options\' is an object[] and \'props.value\' is unset.')
         }
       }
