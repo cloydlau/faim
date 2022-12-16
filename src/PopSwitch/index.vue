@@ -1,15 +1,27 @@
 <template>
-  <el-tooltip v-bind="ElTooltipProps" ref="elTooltip">
-    <div slot="content" v-html="ElTooltipProps.content" />
+  <el-tooltip
+    v-bind="ElTooltipProps"
+    ref="elTooltip"
+  >
+    <div
+      slot="content"
+      v-html="ElTooltipProps.content"
+    />
     <el-popover v-bind="ElPopoverProps">
       <div v-html="ElPopoverProps.content" />
       <el-popconfirm
-        slot="reference" v-bind="ElPopconfirmProps" @confirm="onConfirm"
+        slot="reference"
+        v-bind="ElPopconfirmProps"
+        @confirm="onConfirm"
         @onConfirm="onConfirm"
       >
         <el-switch
-          slot="reference" v-bind="ElSwitchProps" ref="elSwitch" :value="value"
-          :class="InlinePrompt && 'text-inside'" @click.native="onClick"
+          slot="reference"
+          v-bind="ElSwitchProps"
+          ref="elSwitch"
+          :value="value"
+          :class="InlinePrompt && 'text-inside'"
+          @click.native="onClick"
         />
       </el-popconfirm>
     </el-popover>
