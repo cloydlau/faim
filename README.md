@@ -624,6 +624,6 @@ export default {
 
 ## 更新日志
 
-各版本详细改动请参考 [release notes](https://github.com/cloydlau/kikimore/releases) 。
+各版本详细改动请参考 [release notes](https://github.com/cloydlau/kikimore/releases)
 
 <br>
