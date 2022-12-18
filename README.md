@@ -68,7 +68,7 @@ import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 
 ### CDN + ESM
 
-> ⚠ 暂不支持（ElementUI 未提供 ESM 导出）
+> ⚠ 暂不支持 (ElementUI 未提供 ESM 导出)
 
 ### CDN + UMD
 
@@ -120,10 +120,10 @@ import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 
 关于 `KiSelect` 组件中 value 和 label 的命名：
 
-- `value`: 这里要表达的含义就是选中目标的“值”，等同于原生 `<input type="checkbox">` 和 `<select>`
+- `value`：这里要表达的含义就是选中目标的 “值”，等同于原生 `<input type="checkbox">` 和 `<select>`
   元素的 value 属性，不一定是其唯一标识，所以不应该使用 id 或者 key，且 key 与 Vue 的特殊 attribute 冲突
 
-- `label`: html 中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以 label 天生是用来表达选中目标的“展示名称”的， 而 name 由于与原生 input 元素的 name 属性冲突故不考虑使用 name
+- `label`：html 中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以 label 天生是用来表达选中目标的 “展示名称” 的，而 name 由于与原生 input 元素的 name 属性冲突故不考虑使用 name
 
 > `Element` 本身没有做到命名的统一，`el-select` 中 label 表示选项的标签，
 > 但 `el-checkbox` 中 label 却表示的是选中状态的值
@@ -143,7 +143,7 @@ UI 组件库的标杆 `Ant Design` 也是使用 value 与 label 命名
 - 关闭弹框时自动重置数据
 - 校验失败将定位至相应位置并震动提示
 - 全屏开关
-- 局部注册 + 局部传参，也可以全局注册 + 全局传参（[vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持）
+- 局部注册 + 局部传参，也可以全局注册 + 全局传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
 
@@ -163,7 +163,7 @@ UI 组件库的标杆 `Ant Design` 也是使用 value 与 label 命名
 
 #### v-model
 
-表单关闭时会将 `value` 的值重置为初始状态（避免显示脏数据）
+表单关闭时会将 `value` 的值重置为初始状态 (避免显示脏数据)
 
 #### retrieve
 
@@ -235,7 +235,7 @@ submit 没有返回值或者返回值不是 Promise 时，则 submit 执行完�
 
 跟 `<el-form disabled />` 的区别是在样式上，更方便用户阅读。
 
-如果希望部分组件不进入禁用状态:
+如果希望部分组件不进入禁用状态：
 
 - 单独给这个组件设置 `:disabled="false"`
 - 给这部分组件包一层 `<el-form />`
@@ -353,7 +353,7 @@ export default {
 </script>
 ```
 
-### 「确定」和「取消」按钮的顺序
+### “确定” 和 “取消” 按钮的顺序
 
 可以看看这篇[知乎回答](https://www.zhihu.com/question/20694680/answer/1400624833)。
 
@@ -369,11 +369,11 @@ export default {
 
 - 保留 el-select 及其子组件的所有特性。
 - 不需要自行循环 `el-option`，传 options 就好。
-- 多选时，提供全选按钮（分组时不支持）。
+- 多选时，提供全选按钮 (分组时不支持)。
 - options 的数组元素支持任意类型。
 - 用更简单的方式来获取 label 和 index，不需要加 ref，不需要判空。
 - 用更简单的方式来异步获取 options。
-- 局部注册 + 局部传参，也可以全局注册 + 全局传参（[vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持）
+- 局部注册 + 局部传参，也可以全局注册 + 全局传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
 
@@ -418,9 +418,9 @@ export default {
 </template>
 ```
 
-#### label.sync, index.sync
+#### label.sync，index.sync
 
-为避免与 value 冲突，index 仅支持单向数据流（子 → 父），选中项依然以 value 为准。
+为避免与 value 冲突，index 仅支持单向数据流 (子 → 父)，选中项依然以 value 为准。
 
 当 value 在 options 中没有匹配到对应项时，label 也可以正常展示。
 
@@ -561,7 +561,7 @@ export default {
 />
 ```
 
-多选且与 el-form 搭配时，会出现一开始就触发 rule 校验的问题（而不是 blur 或 change 以后）
+多选且与 el-form 搭配时，会出现一开始就触发 rule 校验的问题 (而不是 blur 或 change 以后)
 
 这是 el-select 自身原因导致的，在多选时，el-select 会将 value 初始化为 `[]`
 
@@ -571,7 +571,7 @@ export default {
 
 ## PopSwitch
 
-四个组件的组合拳: `el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip`
+四个组件的组合拳：`el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip`
 
 ### 特性
 
@@ -580,9 +580,9 @@ export default {
 - Popconfirm 的顶部间隔不再那么违和地高了
 - Popover 宽度自适应，而不是写死一个最小宽度
 - Tooltip 非手动控制显隐时，点击开关后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
-- Popconfirm, Popover, Tooltip 的内容为空时，默认不启用
-- content 属性支持 html（但不再支持插槽）
-- 局部注册 + 局部传参，也可以全局注册 + 全局传参（[vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持）
+- Popconfirm，Popover，Tooltip 的内容为空时，默认不启用
+- content 属性支持 html (但不再支持插槽)
+- 局部注册 + 局部传参，也可以全局注册 + 全局传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
 
@@ -598,7 +598,7 @@ export default {
 
 ## PopButton
 
-四个组件的组合拳: `el-button` + `el-popconfirm` + `el-popover` + `el-tooltip`
+四个组件的组合拳：`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip`
 
 ### 特性
 
@@ -606,9 +606,9 @@ export default {
 - Popconfirm 的顶部间隔不再那么违和地高了
 - Popover 宽度自适应，而不是写死一个最小宽度
 - Tooltip 非手动控制显隐时，点击按钮后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
-- Popconfirm, Popover, Tooltip 的内容为空时，默认不启用
-- content 属性支持 html（但不再支持插槽）
-- 局部注册 + 局部传参，也可以全局注册 + 全局传参（[vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持）
+- Popconfirm，Popover，Tooltip 的内容为空时，默认不启用
+- content 属性支持 html (但不再支持插槽)
+- 局部注册 + 局部传参，也可以全局注册 + 全局传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
 
@@ -624,6 +624,6 @@ export default {
 
 ## 更新日志
 
-各版本详细改动请参考 [release notes](https://github.com/cloydlau/kikimore/releases) 。
+各版本详细改动请参考 [release notes](https://github.com/cloydlau/kikimore/releases)。
 
 <br>
