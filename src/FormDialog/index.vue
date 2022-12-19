@@ -382,12 +382,10 @@ export default {
       }
 
       if (this.$refs.elFormRef) {
-        this.$refs.elFormRef.validate((valid) => {
-          if (valid) {
-            exec()
-          } else {
-            this.highlightError(undefined, this.$refs.overlayScrollbar)
-          }
+        this.$refs.elFormRef.validate().then(() => {
+          exec()
+        }).catch((e) => {
+          this.highlightError(undefined, this.$refs.overlayScrollbar)
         })
       } else {
         exec()
