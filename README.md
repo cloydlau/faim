@@ -124,7 +124,7 @@ import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 
 - label：html 中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以 label 天生是用来表达选中目标的 “展示名称” 的，而 name 由于与原生 input 元素的 name 属性冲突故不考虑使用 name
 
-> Element 本身没有做到命名的统一，`el-select` 中 label 表示选项的标签，
+> ElementUI 本身没有做到命名的统一，`el-select` 中 label 表示选项的标签，
 > 但 `el-checkbox` 中 label 却表示的是选中状态的值
 
 UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
@@ -147,24 +147,34 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
 
 ### Props
 
-| 名称                 | 说明                                 | 类型     | 默认值                                |
-| -------------------- | ------------------------------------ | -------- | ------------------------------------- |
-| show.sync            | 是否开启                             | boolean  | `false`                               |
-| title                | 对话框标题                           | string   |                                       |
-| v-model              | 表单数据对象 (即 `el-form` 的 model) | any      |                                       |
-| elFormProps          | `el-form` 的 props                   | object   |                                       |
-| retrieve             | 获取数据                             | Function |                                       |
-| loading              | 加载状态                             | boolean  | 默认由 retrieve 的 `Promise` 状态决定 |
-| readonly             | 是否只读                             | boolean  | `false`                               |
-| confirm              | 确认                                 | Function |                                       |
-| confirmButtonText    | 确认按钮的文案                       | string   | `'OK'`                                |
-| cancelButtonText     | 取消按钮的文案                       | string   | `'Cancel'`                            |
-| showDenyButton       | 是否显示拒绝按钮                     | boolean  | `false`                               |
-| deny                 | 拒绝                                 | Function |                                       |
-| denyButtonText       | 拒绝按钮的文案                       | string   | `'No'`                                |
-| reverseButtons       | 是否反转按钮顺序                     | boolean  | `false`                               |
-| ...                  | `el-dialog` 的 props                 |          |                                       |
+| 名称                 | 说明                 | 类型     | 默认值      |
+| -------------------- | -------------------- | -------- | ----------- |
+| show[.sync]          | 是否开启             | boolean  | `false`     |
+| title                | 对话框标题           | string   |             |
+| v-model / value      | 表单数据对象         | any      |             |
+| elFormProps          | `el-form` 的 props   | object   |             |
+| retrieve             | 读取数据             | Function |             |
+| loading              | 读取状态             | boolean  | `false`     |
+| readonly             | 是否只读             | boolean  | `false`     |
 | showFullscreenToggle | 是否显示全屏开关     | boolean  | `true`      |
+| showConfirmButton    | 是否显示确认按钮     | boolean  | `!readonly` |
+| confirmButtonText    | 确认按钮的文案       | string   | `'OK'`      |
+| confirm              | 确认                 | Function |             |
+| showCancelButton     | 是否显示取消按钮     | boolean  | `!readonly` |
+| cancelButtonText     | 取消按钮的文案       | string   | `'Cancel'`  |
+| showDenyButton       | 是否显示拒绝按钮     | boolean  | `false`     |
+| denyButtonText       | 拒绝按钮的文案       | string   | `'No'`      |
+| deny                 | 拒绝                 | Function |             |
+| showResetButton      | 是否显示重置按钮     | boolean  | `false`     |
+| resetButtonText      | 重置按钮的文案       | string   | `'Reset'`   |
+| reverseButtons       | 是否反转按钮顺序     | boolean  | `false`     |
+| ...                  | `el-dialog` 的 props |          |             |
+
+#### v-model / value
+
+如果是 PlainObject 类型，将用于 `el-form` 的 model。
+
+关闭弹框时会被重置。
 
 #### elFormProps
 
@@ -177,8 +187,8 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
   <KiFormDialog
     :retrieve="() => {
       // 表格打开之后、获取数据之前
-      $POST('').then(() => {
-      // 获取数据之后
+      $POST('xxx').then(() => {
+        // 获取数据之后
       })
     }"
   />
@@ -203,8 +213,8 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
   <KiFormDialog
     :confirm="() => {
       // 确认之前
-      $POST('').then(() => {
-      // 确认之后
+      $POST('xxx').then(() => {
+        // 确认之后
       })
     }"
   />
@@ -219,7 +229,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
     :confirm="() => {
       const valid = true
       if (valid) {
-        return $POST('')
+        return $POST('xxx')
       }
       else {
         $swal.warning('校验失败')
@@ -241,8 +251,8 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
   <KiFormDialog
     :deny="() => {
       // 确认之前
-      $POST('').then(() => {
-      // 确认之后
+      $POST('xxx').then(() => {
+        // 确认之后
       })
     }"
   />
@@ -257,7 +267,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
     :deny="() => {
       const valid = true
       if (valid) {
-        return $POST('')
+        return $POST('xxx')
       }
       else {
         $swal.warning('校验失败')
@@ -340,9 +350,9 @@ kiFormDialogRef.value.$refs.elFormRef
 | 名称              | 说明                                   | 类型                   | 默认值 |
 | ----------------- | -------------------------------------- | ---------------------- | ------ |
 | v-model / value   | 绑定值                                 | string, number, object |        |
-| label.sync        | 绑定值的标签 (不支持多选)              | string, number         |        |
-| index.sync        | 绑定值的数组下标 (不支持多选)          | number                 |        |
-| options(.sync)    | 选项                                   | { label, value }[]     |        |
+| label[.sync]      | 绑定值的标签 (不支持多选)              | string, number         |        |
+| index[.sync]      | 绑定值的数组下标 (不支持多选)          | number                 |        |
+| options[.sync]    | 选项                                   | { label, value }[]     |        |
 | props             | 指定对象的属性                         | object                 |        |
 | search            | 搜索获取 options，(remote-method 封装) | function               |        |
 | searchImmediately | 是否立即执行搜索                       | boolean                | `true` |
@@ -417,7 +427,7 @@ options 为对象数组且未指定 value 值时，绑定值将是 JSON 类型�
 <!-- 异步获取 options -->
 
 <template>
-  <KiSelect :search="(name) => $POST('', { name }).then(({ data }) => data)" />
+  <KiSelect :search="(name) => $POST('xxx', { name }).then(({ data }) => data)" />
 </template>
 ```
 
@@ -426,7 +436,7 @@ options 为对象数组且未指定 value 值时，绑定值将是 JSON 类型�
 
 <template>
   <KiSelect
-    :search="(name) => $POST('', { name }).then(({ data }) => data)"
+    :search="(name) => $POST('xxx', { name }).then(({ data }) => data)"
     :options.sync="options"
   />
 </template>

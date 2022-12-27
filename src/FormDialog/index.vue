@@ -22,7 +22,7 @@
         items="center"
       >
         <i
-          v-if="ShowFullscreenButton"
+          v-if="ShowFullscreenToggle"
           :class="fullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
           cursor="pointer"
           text="hover:[#409eff]"
@@ -34,7 +34,7 @@
           cursor="pointer"
           text="20px hover:[#FF7575]"
           ml="15px"
-          @click="close"
+          @click="onCancel"
         />
       </div>
     </template>
@@ -53,7 +53,7 @@
           v-if="ValueIsPlainObject"
           v-bind="ElFormProps"
           ref="elFormRef"
-          :class="!showConfirmButton && 'readonly'"
+          :class="Readonly && 'readonly'"
           :labelWidth="labelWidth"
           :model="value"
           v-on="Listeners"
@@ -68,7 +68,7 @@
       <slot name="footer">
         <template v-if="ReverseButtons">
           <el-button
-            v-if="showConfirmButton"
+            v-if="ShowConfirmButton"
             type="primary"
             :disabled="closing || denying"
             :class="closing && 'closing'"
@@ -78,7 +78,7 @@
             {{ ConfirmButtonText }}
           </el-button>
           <el-button
-            v-if="showDenyButton"
+            v-if="ShowDenyButton"
             type="danger"
             :disabled="closing || confirming"
             :class="closing && 'closing'"
@@ -88,25 +88,42 @@
             {{ DenyButtonText }}
           </el-button>
           <el-button
-            v-if="AllowClose && showConfirmButton"
+            v-if="ShowResetButton && $refs.elFormRef"
+            type="info"
+            :disabled="closing || confirming || denying"
+            @click="onReset"
+          >
+            {{ ResetButtonText }}
+          </el-button>
+          <el-button
+            v-if="ShowCancelButton"
             :disabled="closing"
             :class="closing && 'closing'"
-            @click="close"
+            @click="onCancel"
           >
             {{ CancelButtonText }}
           </el-button>
         </template>
+
         <template v-else>
           <el-button
-            v-if="AllowClose && showConfirmButton"
+            v-if="ShowCancelButton"
             :disabled="closing"
             :class="closing && 'closing'"
-            @click="close"
+            @click="onCancel"
           >
             {{ CancelButtonText }}
           </el-button>
           <el-button
-            v-if="showDenyButton"
+            v-if="ShowResetButton && $refs.elFormRef"
+            type="info"
+            :disabled="closing || confirming || denying"
+            @click="onReset"
+          >
+            {{ ResetButtonText }}
+          </el-button>
+          <el-button
+            v-if="ShowDenyButton"
             type="danger"
             :disabled="closing || confirming"
             :class="closing && 'closing'"
@@ -116,7 +133,7 @@
             {{ DenyButtonText }}
           </el-button>
           <el-button
-            v-if="showConfirmButton"
+            v-if="ShowConfirmButton"
             type="primary"
             :disabled="closing || denying"
             :class="closing && 'closing'"
@@ -147,22 +164,26 @@ const boolProps = [
   'show',
   'readonly',
   'loading',
-  'reverseButtons',
   'showFullscreenToggle',
+  'showConfirmButton',
   'showDenyButton',
+  'showResetButton',
+  'showCancelButton',
+  'reverseButtons',
 ]
 
 export default {
   name: 'KiFormDialog',
   props: {
     value: {},
+    title: {},
     elFormProps: {},
     retrieve: {},
     confirm: {},
     deny: {},
-    title: {},
     getContainer: {},
     confirmButtonText: {},
+    denyButtonText: {},
     cancelButtonText: {},
     ...Object.fromEntries(Array.from(boolProps, boolProp => [boolProp, {
       type: Boolean,
@@ -172,13 +193,12 @@ export default {
   data() {
     return {
       initialValue: undefined,
-      retrieving: true,
-      denying: false,
-      confirming: false,
-      closing: false,
       initiated: false,
+      retrieving: true,
+      confirming: false,
+      denying: false,
+      closing: false,
       scrollbar: null,
-      showConfirmButton: false, // 作用是防止在关闭但关闭动画未结束时隐藏的确认按钮暴露出来
       beforeCloseIsPassed: false,
       fullscreen: false,
       labelWidth: undefined,
@@ -187,22 +207,54 @@ export default {
   },
   computed: {
     ConfirmButtonText() {
-      return conclude([this.confirmButtonText, globalProps.confirmButtonText, 'OK'])
+      return conclude([this.confirmButtonText, globalProps.confirmButtonText, 'OK'], {
+        type: String,
+      })
     },
     DenyButtonText() {
-      return conclude([this.denyButtonText, globalProps.denyButtonText, 'No'])
+      return conclude([this.denyButtonText, globalProps.denyButtonText, 'No'], {
+        type: String,
+      })
+    },
+    ResetButtonText() {
+      return conclude([this.resetButtonText, globalProps.resetButtonText, 'Reset'], {
+        type: String,
+      })
     },
     CancelButtonText() {
-      return conclude([this.cancelButtonText, globalProps.cancelButtonText, 'Cancel'])
+      return conclude([this.cancelButtonText, globalProps.cancelButtonText, 'Cancel'], {
+        type: String,
+      })
+    },
+    ShowFullscreenToggle() {
+      return conclude([this.showFullscreenToggle, globalProps.showFullscreenToggle, true], {
+        type: Boolean,
+      })
+    },
+    ShowConfirmButton() {
+      return conclude([this.showConfirmButton, globalProps.showConfirmButton, !this.Readonly], {
+        type: Boolean,
+      })
     },
     ShowDenyButton() {
-      return conclude([this.showDenyButton, globalProps.showDenyButton, false])
+      return conclude([this.showDenyButton, globalProps.showDenyButton, false], {
+        type: Boolean,
+      })
+    },
+    ShowResetButton() {
+      return conclude([this.showResetButton, globalProps.showResetButton, false], {
+        type: Boolean,
+      })
+    },
+    ShowCancelButton() {
+      return conclude([this.showCancelButton, globalProps.showCancelButton, !this.Readonly], {
+        type: Boolean,
+      })
     },
     ReverseButtons() {
-      return conclude([this.reverseButtons, globalProps.reverseButtons, false])
-    },
-    ShowFullscreenButton() {
-      return conclude([this.showFullscreenButton, globalProps.showFullscreenButton, true])
+      return conclude([this.reverseButtons, globalProps.reverseButtons, false], {
+        type: Boolean,
+      })
     },
     ValueIsPlainObject() {
       return isPlainObject(this.value)
@@ -295,7 +347,7 @@ export default {
           if (result instanceof Promise) {
             result.catch((e) => {
               console.error(e)
-              this.close()
+              this.onCancel()
             }).finally((e) => {
               this.retrieving = false
             })
@@ -321,14 +373,6 @@ export default {
           })
         }
         this.initiated = true
-      },
-    },
-    Readonly: {
-      immediate: true,
-      handler(newReadonly) {
-        if (!this.closing) {
-          this.showConfirmButton = !newReadonly
-        }
       },
     },
   },
@@ -381,24 +425,22 @@ export default {
         })
       }
     },
-    /* reset () {
+    onReset() {
       this.$refs.elFormRef.resetFields()
-    }, */
+    },
     onClosed() {
-      // 重置表单
-      this.confirming = false
-      this.denying = false
       this.$emit('input', cloneDeep(this.initialValue))
       this.$refs.elFormRef?.clearValidate()
+      this.confirming = false
+      this.denying = false
       this.closing = false
-      this.showConfirmButton = !this.Readonly
-      // el-dialog 内部的 key 是在 close 时改变
+      // el-dialog 内部的 key 是在 onCancel 时改变
       // 改为 closed 时改变，提升性能，在 DOM 较多时感受明显
       if (['', true].includes(this.ElDialogProps.destroyOnClose)) {
         this.key++
       }
     },
-    close() {
+    onCancel() {
       if (this.beforeCloseIsPassed) {
         this.$refs.elDialogRef.beforeClose()
       } else {
@@ -415,17 +457,17 @@ export default {
               if (data?.show === true) {
                 this.confirming = false
               } else {
-                this.close()
+                this.onCancel()
               }
             }).catch((e) => {
               console.error(e)
               this.confirming = false
             })
           } else if (result?.show !== true) {
-            this.close()
+            this.onCancel()
           }
         } else {
-          this.close()
+          this.onCancel()
         }
       }
 
@@ -449,17 +491,17 @@ export default {
               if (data?.show === true) {
                 this.denying = false
               } else {
-                this.close()
+                this.onCancel()
               }
             }).catch((e) => {
               console.error(e)
               this.denying = false
             })
           } else if (result?.show !== true) {
-            this.close()
+            this.onCancel()
           }
         } else {
-          this.close()
+          this.onCancel()
         }
       }
 
