@@ -276,21 +276,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
 
 ### Slots
 
-#### footer
-
-为了在自定义 footer 时不至于重写整个逻辑，footer 以作用域插槽的方式提供。
-
-```html
-<template #footer="{ close, closing, confirm, confirming }">
-  <el-button @click="close" :disabled="closing">
-    {{ form.status === 'r' ? '关 闭' : '取 消' }}
-  </el-button>
-  <el-button type="primary" @click="confirm" :disabled="closing"
-    :loading="confirming" v-if="form.status !== 'r'">
-    确 定
-  </el-button>
-</template>
-```
+同 `el-dialog` (`el-form` 没有 slot)。
 
 ### Events
 

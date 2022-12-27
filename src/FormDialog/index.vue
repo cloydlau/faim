@@ -65,13 +65,7 @@
     </div>
 
     <template #footer>
-      <slot
-        name="footer"
-        :close="close"
-        :closing="closing"
-        :onConfirm="onConfirm"
-        :confirming="confirming"
-      >
+      <slot name="footer">
         <template v-if="ReverseButtons">
           <el-button
             v-if="showConfirmButton"
