@@ -120,15 +120,14 @@ import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 
 关于 `KiSelect` 组件中 value 和 label 的命名：
 
-- `value`：这里要表达的含义就是选中目标的 “值”，等同于原生 `<input type="checkbox">` 和 `<select>`
-  元素的 value 属性，不一定是其唯一标识，所以不应该使用 id 或者 key，且 key 与 Vue 的特殊 attribute 冲突
+- `value`：这里要表达的含义就是选中目标的 “值”，等同于原生 `<input type="checkbox">` 元素的 value 属性，不一定是其唯一标识，所以不应该使用 id 或者 key，且 key 与 Vue 的特殊 attribute 冲突
 
 - `label`：html 中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以 label 天生是用来表达选中目标的 “展示名称” 的，而 name 由于与原生 input 元素的 name 属性冲突故不考虑使用 name
 
-> `Element` 本身没有做到命名的统一，`el-select` 中 label 表示选项的标签，
+> Element 本身没有做到命名的统一，`el-select` 中 label 表示选项的标签，
 > 但 `el-checkbox` 中 label 却表示的是选中状态的值
 
-UI 组件库的标杆 `Ant Design` 也是使用 value 与 label 命名
+UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
 
 <br>
 
@@ -138,42 +137,46 @@ UI 组件库的标杆 `Ant Design` 也是使用 value 与 label 命名
 
 ### 特性
 
-- 编辑模式 & 只读模式 & 强制提交模式
-- 打开弹框时自动回显数据
-- 关闭弹框时自动重置数据
-- 校验失败将定位至相应位置并震动提示
+- 打开弹框自动回显数据
+- 关闭弹框自动重置数据
+- 编辑模式 & 只读模式 & 强制确认模式
+- 校验失败将定位至错误项位置并震动提示
+- 操作按钮固定定位
+- 拒绝按钮
 - 全屏开关
 - 局部注册 + 局部传参，也可以全局注册 + 全局传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
 
-| 名称                 | 说明                                  | 类型     | 默认值                                  |
-| -------------------- | ------------------------------------- | -------- | --------------------------------------- |
-| show.sync            | 是否开启                              | boolean  | `false`                                 |
-| title                | 对话框标题                            | string   |                                         |
-| readonly             | 是否只读                              | boolean  | `false`                                 |
-| v-model              | 表单数据对象（即 el-form 的 `model`） | any      |                                         |
-| elFormProps          | el-form 属性（`model`, `ref` 不可用） | object   |                                         |
-| retrieve             | 获取数据                              | function |                                         |
-| loading              | 加载状态                              | boolean  | 默认由 `retrieve` 的 `Promise` 状态决定 |
-| confirm              | 提交                                  | function |                                         |
-| deny                 | 拒绝                                  | function |                                         |
-| allowClose           | 是否允许直接关闭                      | boolean  | `true`                                  |
-| showFullscreenButton | 是否显示全屏开关                      | boolean  | `true`                                  |
-| showDenyButton       | 是否显示拒绝按钮                      | boolean  | `false`                                 |
-| confirmButtonText    | 确认按钮的文案                        | string   | `'OK'`                                  |
-| denyButtonText       | 拒绝按钮的文案                        | string   | `'No'`                                  |
-| cancelButtonText     | 取消按钮的文案                        | string   | `'Cancel'`                              |
-| reverseButtons       | 是否反转按钮顺序                      | boolean  | `false`                                 |
-| ...                  | `el-dialog` 的 props                  |          |                                         |
+| 名称                 | 说明                                  | 类型     | 默认值                                |
+| -------------------- | ------------------------------------- | -------- | ------------------------------------- |
+| show.sync            | 是否开启                              | boolean  | `false`                               |
+| title                | 对话框标题                            | string   |                                       |
+| v-model              | 表单数据对象（即 el-form 的 `model`） | any      |                                       |
+| elFormProps          | el-form 属性                          | object   |                                       |
+| retrieve             | 获取数据                              | Function |                                       |
+| loading              | 加载状态                              | boolean  | 默认由 retrieve 的 `Promise` 状态决定 |
+| readonly             | 是否只读                              | boolean  | `false`                               |
+| allowClose           | 是否允许直接关闭                      | boolean  | `true`                                |
+| showFullscreenButton | 是否显示全屏开关                      | boolean  | `true`                                |
+| confirm              | 确认                                  | Function |                                       |
+| confirmButtonText    | 确认按钮的文案                        | string   | `'OK'`                                |
+| cancelButtonText     | 取消按钮的文案                        | string   | `'Cancel'`                            |
+| showDenyButton       | 是否显示拒绝按钮                      | boolean  | `false`                               |
+| deny                 | 拒绝                                  | Function |                                       |
+| denyButtonText       | 拒绝按钮的文案                        | string   | `'No'`                                |
+| reverseButtons       | 是否反转按钮顺序                      | boolean  | `false`                               |
+| ...                  | `el-dialog` 的 props                  |          |                                       |
 
 #### v-model
 
 表单关闭时会将 `value` 的值重置为初始状态 (避免显示脏数据)
 
-#### retrieve
+#### elFormProps
 
-获取数据前后、提交前后的生命周期都是暴露出来的，如下所示
+⚠ `model`、`ref`、`labelWidth` 不可用
+
+#### retrieve
 
 ```vue
 <script>
@@ -190,53 +193,6 @@ export default {
 </script>
 ```
 
-#### confirm
-
-```vue
-<script>
-export default {
-  methods: {
-    confirm() {
-      // 提交之前
-      return this.$POST('').then(() => {
-        // 提交之后
-      })
-    }
-  }
-}
-</script>
-```
-
-提交拦截
-
-```vue
-<script>
-export default {
-  methods: {
-    confirm() {
-      const valid = true
-      if (valid) {
-        return this.$POST('')
-      } else {
-        this.$swal.warning('校验失败')
-        return {
-          show: true,
-        }
-      }
-    }
-  }
-}
-</script>
-```
-
-confirm 的返回值如果是一个 Promise，则 then 时默认关闭弹框，而 reject 时不关闭
-
-注意：如果 catch 了 reject，则 reject 时也会关闭弹框，这是因为组件内部已无法获知被你捕获的 reject
-
-你可以在最后一个 then / catch 中 `resolve({ show: true })` 或 `return { show: true }` 来控制是否关闭弹框
-
-confirm 没有返回值或者返回值不是 Promise 时，则 confirm 执行完毕后默认关闭弹框，你可以 `resolve({ show: true })` 或 `return { show: true }` 来控制该行为
-
 #### readonly
 
 跟 `<el-form disabled />` 的区别是在样式上，更方便用户阅读。
@@ -250,9 +206,91 @@ confirm 没有返回值或者返回值不是 Promise 时，则 confirm 执行完
 
 设置为 `false` 时，将仅能通过点击确认按钮关闭弹框，在需要用户输入必填项时会用到。
 
+#### confirm
+
+如果返回一个 Promise，则在 Promise 完成以后表单才会关闭
+
+```vue
+<template>
+  <KiFormDialog
+    :confirm="() => {
+      // 确认之前
+      $POST('').then(() => {
+      // 确认之后
+      })
+    }"
+  />
+</template>
+```
+
+返回 `Promise.reject()` / `Promise.resolve({ show: true })` / `{ show: true }` 时弹框不会关闭
+
+```vue
+<template>
+  <KiFormDialog
+    :confirm="() => {
+      const valid = true
+      if (valid) {
+        return $POST('')
+      }
+      else {
+        $swal.warning('校验失败')
+        return {
+          show: true,
+        }
+      }
+    }"
+  />
+</template>
+```
+
+#### deny
+
+如果返回一个 Promise，则在 Promise 完成以后表单才会关闭
+
+```vue
+<template>
+  <KiFormDialog
+    :deny="() => {
+      // 确认之前
+      $POST('').then(() => {
+      // 确认之后
+      })
+    }"
+  />
+</template>
+```
+
+返回 `Promise.reject()` / `Promise.resolve({ show: true })` / `{ show: true }` 时弹框不会关闭
+
+```vue
+<template>
+  <KiFormDialog
+    :deny="() => {
+      const valid = true
+      if (valid) {
+        return $POST('')
+      }
+      else {
+        $swal.warning('校验失败')
+        return {
+          show: true,
+        }
+      }
+    }"
+  />
+</template>
+```
+
+#### reverseButtons
+
+关于“确定”和“取消”按钮的顺序，可以看看这篇[知乎回答](https://www.zhihu.com/question/20694680/answer/1400624833)。
+
+### Slots
+
 #### footer
 
-为了便于在自定义 footer 时不至于重写整个 footer 逻辑，footer 被提供为作用域插槽。
+为了便于在自定义 footer 时不至于重写整个 footer 逻辑，footer 以作用域插槽的方式提供。
 
 ```html
 <template #footer="{ close, closing, confirm, confirming }">
@@ -266,7 +304,21 @@ confirm 没有返回值或者返回值不是 Promise 时，则 confirm 执行完
 </template>
 ```
 
-#### 获取内部的 el-form
+### Events
+
+| 名称                | 说明                  | 回调参数                |
+| ------------------- | --------------------- | ----------------------- |
+| `fullscreen-change` | 切换全屏状态时触发    | `(fullscreen: boolean)` |
+| ...                 | `el-dialog` 的 events |                         |
+| ...                 | `el-form` 的 events   |                         |
+
+### Methods
+
+| 名称             | 说明                       | 参数                                                                                                       |
+| ---------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| `highlightError` | 平滑滚动至校验失败的表单项 | `(selectors: string \| Element \| NodeList = '.el-form .el-form-item.is-error', container = window): void` |
+
+### 获取内部的 el-form
 
 - 通过作用域插槽获取
 
@@ -292,76 +344,6 @@ const kiFormDialogRef = ref()
 kiFormDialogRef.value.$refs.elFormRef
 </script>
 ```
-
-### Methods
-
-| 名称             | 说明                       | 参数                |
-| ---------------- | -------------------------- | ------------------- |
-| `highlightError` | 平滑滚动至校验失败的表单项 | `(selectors: string | Element | NodeList = '.el-form .el-form-item.is-error', container = window): void` |
-
-### Events
-
-| 名称                | 说明                  | 回调参数                |
-| ------------------- | --------------------- | ----------------------- |
-| `fullscreen-change` | 切换全屏状态时触发    | `(fullscreen: boolean)` |
-| ...                 | `el-dialog` 的 events |                         |
-| ...                 | `el-form` 的 events   |                         |
-
-### 完整示例
-
-```vue
-<template>
-  <div>
-    <el-button @click="open('id')">
-      打开
-    </el-button>
-
-    <KiFormDialog
-      v-model="form.data"
-      :show.sync="form.show"
-      :retrieve="retrieve"
-      :submit="submit"
-    >
-      <el-form-item prop="a">
-        <el-input v-model="form.data.a" />
-      </el-form-item>
-    </KiFormDialog>
-  </div>
-</template>
-
-<script>
-export default {
-  data() {
-    return {
-      form: {
-        show: false,
-        data: {}
-      }
-    }
-  },
-  methods: {
-    open(id) {
-      this.form.data.id = id
-      this.form.show = true
-    },
-    retrieve() {
-      return this.$POST('', {
-        id: this.form.data.id
-      }).then(({ data }) => {
-        this.form.data = data || {}
-      })
-    },
-    submit() {
-      return this.$POST('', this.form.data)
-    },
-  }
-}
-</script>
-```
-
-### reverseButtons
-
-关于“确定”和“取消”按钮的顺序，可以看看这篇[知乎回答](https://www.zhihu.com/question/20694680/answer/1400624833)。
 
 <br>
 
