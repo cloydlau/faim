@@ -133,7 +133,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 
 ## FormDialog
 
-[el-dialog](https://element.eleme.cn/#/zh-CN/component/dialog) + [el-form](https://element.eleme.cn/#/zh-CN/component/form) 的组合拳。
+[el-dialog](https://element.eleme.cn/#/zh-CN/component/dialog) + [el-form](https://element.eleme.cn/#/zh-CN/component/form) 组合拳。
 
 ### 特性
 
@@ -540,7 +540,7 @@ export default {
 
 ## PopSwitch
 
-`el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip` 的组合拳。
+`el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip` 组合拳。
 
 ### 特性
 
@@ -567,7 +567,7 @@ export default {
 
 ## PopButton
 
-`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip` 的组合拳。
+`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip` 组合拳。
 
 ### 特性
 
