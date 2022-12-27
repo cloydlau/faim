@@ -156,7 +156,6 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
 | retrieve             | 获取数据                             | Function |                                       |
 | loading              | 加载状态                             | boolean  | 默认由 retrieve 的 `Promise` 状态决定 |
 | readonly             | 是否只读                             | boolean  | `false`                               |
-| allowClose           | 是否允许直接关闭                     | boolean  | `true`                                |
 | showFullscreenButton | 是否显示全屏开关                     | boolean  | `true`                                |
 | confirm              | 确认                                 | Function |                                       |
 | confirmButtonText    | 确认按钮的文案                       | string   | `'OK'`                                |
@@ -194,10 +193,6 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
 
 - 单独给这个组件设置 `:disabled="false"`
 - 给这部分组件包一层 `<el-form />`
-
-#### allowClose
-
-设置为 `false` 时，将仅能通过点击确认或拒绝按钮关闭弹框。
 
 #### confirm
 

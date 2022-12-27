@@ -153,7 +153,6 @@ const boolProps = [
   'show',
   'readonly',
   'loading',
-  'allowClose',
   'showFullscreenButton',
   'reverseButtons',
   'showDenyButton',
@@ -214,9 +213,6 @@ export default {
     ValueIsPlainObject() {
       return isPlainObject(this.value)
     },
-    AllowClose() {
-      return conclude([this.allowClose, globalProps.allowClose, true])
-    },
     Title() {
       return conclude([this.title, globalProps.title], {
         type: String,
@@ -257,17 +253,7 @@ export default {
       })
     },
     ElDialogProps() {
-      return conclude([
-        this.AllowClose
-          ? undefined
-          : {
-            closeOnClickModal: false,
-            showClose: false,
-            closeOnPressEscape: false,
-          },
-        this.$attrs,
-        globalAttrs,
-      ], {
+      return conclude([this.$attrs, globalAttrs], {
         type: Object,
         camelizeObjectKeys: true,
         default: (userProp) => {
