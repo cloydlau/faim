@@ -118,7 +118,7 @@ import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 所有组件命名均符合 [Vue 官方风格指南](https://v2.cn.vuejs.org/v2/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81)
 指导的 `组件名为多个单词`
 
-关于 `KiSelect` 组件中 value 和 label 的命名：
+关于 KiSelect 组件中 value 和 label 的命名：
 
 - value：这里要表达的含义就是选中目标的 “值”，等同于原生 `<input type="checkbox">` 元素的 value 属性，不一定是其唯一标识，所以不应该使用 id 或者 key，且 key 与 Vue 的特殊 attribute 冲突
 
@@ -133,13 +133,13 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
 
 ## FormDialog
 
-[el-dialog](https://element.eleme.cn/#/zh-CN/component/dialog) 与 [el-form](https://element.eleme.cn/#/zh-CN/component/form) 的结合，用于表单的展示、填写和提交
+[el-dialog](https://element.eleme.cn/#/zh-CN/component/dialog) 与 [el-form](https://element.eleme.cn/#/zh-CN/component/form) 的组合拳。
 
 ### 特性
 
 - 打开弹框自动回显数据，关闭弹框自动重置数据
 - 编辑模式 & 只读模式 & 强制确认模式
-- 校验失败将定位至错误项位置并震动提示
+- 校验失败时平滑定位至错误项并震动提示
 - 限制高度
 - 拒绝按钮
 - 全屏开关
