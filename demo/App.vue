@@ -22,7 +22,7 @@
       :show.sync="showFormDialog"
       :fullscreen="fullscreen"
       :retrieve="retrieve"
-      :submit="submit"
+      :confirm="confirm"
       title="FormDialog"
       :readonly="readonly"
       :elFormProps="{
@@ -243,7 +243,7 @@ export default {
         console.log('获取数据之后')
       })
     },
-    submit() {
+    confirm() {
       console.log('提交之前')
       return new Promise((resolve) => {
         setTimeout(resolve, 500)

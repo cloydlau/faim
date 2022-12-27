@@ -69,8 +69,8 @@
         name="footer"
         :close="close"
         :closing="closing"
-        :confirm="confirm"
-        :submitting="submitting"
+        :onConfirm="onConfirm"
+        :confirming="confirming"
       >
         <el-button
           v-if="AllowClose"
@@ -121,7 +121,7 @@ export default {
     value: {},
     elFormProps: {},
     retrieve: {},
-    submit: {},
+    confirm: {},
     title: {},
     getContainer: {},
     ...Object.fromEntries(Array.from(boolProps, boolProp => [boolProp, {
@@ -133,7 +133,7 @@ export default {
     return {
       initialValue: undefined,
       retrieving: true,
-      submitting: false,
+      confirming: false,
       closing: false,
       initiated: false,
       styleTag: null,
@@ -173,8 +173,8 @@ export default {
         type: Function,
       })
     },
-    Submit() {
-      return conclude([this.submit, globalProps.submit], {
+    Confirm() {
+      return conclude([this.confirm, globalProps.confirm], {
         type: Function,
       })
     },
@@ -225,7 +225,7 @@ export default {
         this.elFormProps,
         globalProps.elFormProps,
         {
-          disabled: this.readonly || this.submitting,
+          disabled: this.readonly || this.confirming,
         },
       ], {
         type: Object,
@@ -339,7 +339,7 @@ export default {
     }, */
     onClosed() {
       // 重置表单
-      this.submitting = false
+      this.confirming = false
       this.$emit('input', cloneDeep(this.initialValue))
       this.$refs.elFormRef?.clearValidate()
       this.closing = false
@@ -357,7 +357,40 @@ export default {
         this.$emit('update:show', false)
       }
     },
-    confirm() {
+    onConfirm() {
+      const exec = () => {
+        if (typeof this.Confirm === 'function') {
+          const result = this.Confirm()
+          if (result instanceof Promise) {
+            this.confirming = true
+            result.then((data) => {
+              if (data?.show === true) {
+                this.confirming = false
+              } else {
+                this.close()
+              }
+            }).catch((e) => {
+              console.error(e)
+              this.confirming = false
+            })
+          } else if (result?.show !== true) {
+            this.close()
+          }
+        } else {
+          this.close()
+        }
+      }
+
+      if (this.$refs.elFormRef) {
+        this.$refs.elFormRef.validate().then(() => {
+          exec()
+        }).catch((e) => {
+          this.highlightError(undefined, this.$refs.overlayScrollbar)
+        })
+      } else {
+        exec()
+      }
+    },
       const exec = () => {
         if (typeof this.Submit === 'function') {
           const result = this.Submit()

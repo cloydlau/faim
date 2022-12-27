@@ -156,9 +156,15 @@ UI 组件库的标杆 `Ant Design` 也是使用 value 与 label 命名
 | elFormProps          | el-form 属性（`model`, `ref` 不可用） | object   |                                         |
 | retrieve             | 获取数据                              | function |                                         |
 | loading              | 加载状态                              | boolean  | 默认由 `retrieve` 的 `Promise` 状态决定 |
-| submit               | 提交                                  | function |                                         |
+| confirm              | 提交                                  | function |                                         |
+| deny                 | 拒绝                                  | function |                                         |
 | allowClose           | 是否允许直接关闭                      | boolean  | `true`                                  |
 | showFullscreenButton | 是否显示全屏开关                      | boolean  | `true`                                  |
+| showDenyButton       | 是否显示拒绝按钮                      | boolean  | `false`                                 |
+| confirmButtonText    | 确认按钮的文案                        | string   | `'OK'`                                  |
+| denyButtonText       | 拒绝按钮的文案                        | string   | `'No'`                                  |
+| cancelButtonText     | 取消按钮的文案                        | string   | `'Cancel'`                              |
+| reverseButtons       | 是否反转按钮顺序                      | boolean  | `false`                                 |
 | ...                  | `el-dialog` 的 props                  |          |                                         |
 
 #### v-model
@@ -184,13 +190,13 @@ export default {
 </script>
 ```
 
-#### submit
+#### confirm
 
 ```vue
 <script>
 export default {
   methods: {
-    submit() {
+    confirm() {
       // 提交之前
       return this.$POST('').then(() => {
         // 提交之后
@@ -207,7 +213,7 @@ export default {
 <script>
 export default {
   methods: {
-    submit() {
+    confirm() {
       const valid = true
       if (valid) {
         return this.$POST('')
@@ -223,13 +229,13 @@ export default {
 </script>
 ```
 
-submit 的返回值如果是一个 Promise，则 then 时默认关闭弹框，而 reject 时不关闭
+confirm 的返回值如果是一个 Promise，则 then 时默认关闭弹框，而 reject 时不关闭
 
 注意：如果 catch 了 reject，则 reject 时也会关闭弹框，这是因为组件内部已无法获知被你捕获的 reject
 
 你可以在最后一个 then / catch 中 `resolve({ show: true })` 或 `return { show: true }` 来控制是否关闭弹框
 
-submit 没有返回值或者返回值不是 Promise 时，则 submit 执行完毕后默认关闭弹框，你可以 `resolve({ show: true })` 或 `return { show: true }` 来控制该行为
+confirm 没有返回值或者返回值不是 Promise 时，则 confirm 执行完毕后默认关闭弹框，你可以 `resolve({ show: true })` 或 `return { show: true }` 来控制该行为
 
 #### readonly
 
@@ -249,12 +255,12 @@ submit 没有返回值或者返回值不是 Promise 时，则 submit 执行完�
 为了便于在自定义 footer 时不至于重写整个 footer 逻辑，footer 被提供为作用域插槽。
 
 ```html
-<template #footer="{ close, closing, confirm, submitting }">
+<template #footer="{ close, closing, confirm, confirming }">
   <el-button @click="close" :disabled="closing">
     {{ form.status === 'r' ? '关 闭' : '取 消' }}
   </el-button>
   <el-button type="primary" @click="confirm" :disabled="closing"
-    :loading="submitting" v-if="form.status !== 'r'">
+    :loading="confirming" v-if="form.status !== 'r'">
     确 定
   </el-button>
 </template>
