@@ -156,6 +156,7 @@ const boolProps = [
   'allowClose',
   'showFullscreenButton',
   'reverseButtons',
+  'showDenyButton',
 ]
 
 export default {
@@ -165,6 +166,7 @@ export default {
     elFormProps: {},
     retrieve: {},
     confirm: {},
+    deny: {},
     title: {},
     getContainer: {},
     confirmButtonText: {},
@@ -178,10 +180,10 @@ export default {
     return {
       initialValue: undefined,
       retrieving: true,
+      denying: false,
       confirming: false,
       closing: false,
       initiated: false,
-      styleTag: null,
       scrollbar: null,
       showConfirmButton: false, // 作用是防止在关闭但关闭动画未结束时隐藏的确认按钮暴露出来
       beforeCloseIsPassed: false,
@@ -194,8 +196,14 @@ export default {
     ConfirmButtonText() {
       return conclude([this.confirmButtonText, globalProps.confirmButtonText, 'OK'])
     },
+    DenyButtonText() {
+      return conclude([this.denyButtonText, globalProps.denyButtonText, 'No'])
+    },
     CancelButtonText() {
       return conclude([this.cancelButtonText, globalProps.cancelButtonText, 'Cancel'])
+    },
+    ShowDenyButton() {
+      return conclude([this.showDenyButton, globalProps.showDenyButton, false])
     },
     ReverseButtons() {
       return conclude([this.reverseButtons, globalProps.reverseButtons, false])
@@ -232,6 +240,11 @@ export default {
         type: Function,
       })
     },
+    Deny() {
+      return conclude([this.deny, globalProps.deny], {
+        type: Function,
+      })
+    },
     Readonly() {
       return conclude([this.readonly, globalProps.readonly, false], {
         type: Boolean,
@@ -248,10 +261,10 @@ export default {
         this.AllowClose
           ? undefined
           : {
-              closeOnClickModal: false,
-              showClose: false,
-              closeOnPressEscape: false,
-            },
+            closeOnClickModal: false,
+            showClose: false,
+            closeOnPressEscape: false,
+          },
         this.$attrs,
         globalAttrs,
       ], {
@@ -394,6 +407,7 @@ export default {
     onClosed() {
       // 重置表单
       this.confirming = false
+      this.denying = false
       this.$emit('input', cloneDeep(this.initialValue))
       this.$refs.elFormRef?.clearValidate()
       this.closing = false
@@ -445,20 +459,21 @@ export default {
         exec()
       }
     },
+    onDeny() {
       const exec = () => {
-        if (typeof this.Submit === 'function') {
-          const result = this.Submit()
+        if (typeof this.Deny === 'function') {
+          const result = this.Deny()
           if (result instanceof Promise) {
-            this.submitting = true
+            this.denying = true
             result.then((data) => {
               if (data?.show === true) {
-                this.submitting = false
+                this.denying = false
               } else {
                 this.close()
               }
             }).catch((e) => {
               console.error(e)
-              this.submitting = false
+              this.denying = false
             })
           } else if (result?.show !== true) {
             this.close()
