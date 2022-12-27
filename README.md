@@ -116,7 +116,7 @@ import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 ## 命名风格
 
 所有组件命名均符合 [Vue 官方风格指南](https://v2.cn.vuejs.org/v2/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81)
-指导的 `组件名为多个单词`
+指导的“组件名为多个单词”
 
 关于 KiSelect 组件中 value 和 label 的命名：
 
@@ -133,13 +133,13 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
 
 ## FormDialog
 
-[el-dialog](https://element.eleme.cn/#/zh-CN/component/dialog) 与 [el-form](https://element.eleme.cn/#/zh-CN/component/form) 的组合拳。
+[el-dialog](https://element.eleme.cn/#/zh-CN/component/dialog) + [el-form](https://element.eleme.cn/#/zh-CN/component/form) 的组合拳。
 
 ### 特性
 
 - 打开弹框自动回显数据，关闭弹框自动重置数据
-- 编辑模式 & 只读模式 & 强制确认模式
 - 校验失败时平滑定位至错误项并震动提示
+- 编辑模式 & 只读模式 & 强制确认模式
 - 限制高度
 - 拒绝按钮
 - 全屏开关
@@ -167,10 +167,6 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
 | reverseButtons       | 是否反转按钮顺序                     | boolean  | `false`                               |
 | ...                  | `el-dialog` 的 props                 |          |                                       |
 
-#### v-model
-
-表单关闭时会将 value 的值重置为初始状态 (避免显示脏数据)。
-
 #### elFormProps
 
 ⚠ ref、model、labelWidth 不可用。
@@ -178,18 +174,16 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
 #### retrieve
 
 ```vue
-<script>
-export default {
-  methods: {
-    retrieve() {
+<template>
+  <KiFormDialog
+    :retrieve="() => {
       // 表格打开之后、获取数据之前
-      return request().then(() => {
-        // 获取数据之后
+      $POST('').then(() => {
+      // 获取数据之后
       })
-    }
-  }
-}
-</script>
+    }"
+  />
+</template>
 ```
 
 #### readonly
@@ -207,7 +201,7 @@ export default {
 
 #### confirm
 
-如果返回一个 Promise 实例，则在该 Promise 实例结束以后表单才会关闭。
+如果返回一个 Promise 实例，则在该 Promise 实例状态终结后弹框才会关闭。
 
 ```vue
 <template>
@@ -245,7 +239,7 @@ export default {
 
 #### deny
 
-如果返回一个 Promise 实例，则在该 Promise 实例结束以后表单才会关闭。
+如果返回一个 Promise 实例，则在该 Promise 实例状态终结后弹框才会关闭。
 
 ```vue
 <template>
@@ -289,7 +283,7 @@ export default {
 
 #### footer
 
-为了便于在自定义 footer 时不至于重写整个 footer 逻辑，footer 以作用域插槽的方式提供。
+为了在自定义 footer 时不至于重写整个逻辑，footer 以作用域插槽的方式提供。
 
 ```html
 <template #footer="{ close, closing, confirm, confirming }">
@@ -431,8 +425,8 @@ kiFormDialogRef.value.$refs.elFormRef
 
 否则，value 将得到选中项对应的数组元素。
 
-Select 默认将 props.value 用作 `value-key`，
-options 为对象数组且未指定 value 值时，绑定值将是 JSON 类型，此时必须按 el-select 的要求提供 `value-key`。
+Select 默认将 props.value 用作 value-key，
+options 为对象数组且未指定 value 值时，绑定值将是 JSON 类型，此时必须按 el-select 的要求提供 value-key。
 
 ### 搜索
 
@@ -546,9 +540,9 @@ export default {
 />
 ```
 
-多选且与 el-form 搭配时，会出现一开始就触发 rule 校验的问题 (而不是 blur 或 change 以后)，
+多选且与 `el-form` 搭配时，会出现一开始就触发 rule 校验的问题 (而不是 blur 或 change 以后)，
 
-这是 el-select 自身原因导致的，在多选时，el-select 会将 value 初始化为 `[]`，
+这是 `el-select` 自身原因导致的，在多选时，`el-select` 会将 value 初始化为 `[]`，
 
 解决方式：给 value 赋初值 `[]`。
 
@@ -556,7 +550,7 @@ export default {
 
 ## PopSwitch
 
-四个组件的组合拳：`el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip`。
+`el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip` 的组合拳。
 
 ### 特性
 
@@ -583,7 +577,7 @@ export default {
 
 ## PopButton
 
-四个组件的组合拳：`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip`。
+`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip` 的组合拳。
 
 ### 特性
 
