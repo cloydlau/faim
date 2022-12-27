@@ -72,24 +72,66 @@
         :onConfirm="onConfirm"
         :confirming="confirming"
       >
-        <el-button
-          v-if="AllowClose"
-          :disabled="closing"
-          :class="closing && 'closing'"
-          @click="close"
-        >
-          {{ showConfirmButton ? '取 消' : '关 闭' }}
-        </el-button>
-        <el-button
-          v-if="showConfirmButton"
-          type="primary"
-          :disabled="closing"
-          :class="closing && 'closing'"
-          :loading="submitting"
-          @click="confirm"
-        >
-          确 定
-        </el-button>
+        <template v-if="ReverseButtons">
+          <el-button
+            v-if="showConfirmButton"
+            type="primary"
+            :disabled="closing || denying"
+            :class="closing && 'closing'"
+            :loading="confirming"
+            @click="onConfirm"
+          >
+            {{ ConfirmButtonText }}
+          </el-button>
+          <el-button
+            v-if="showDenyButton"
+            type="danger"
+            :disabled="closing || confirming"
+            :class="closing && 'closing'"
+            :loading="denying"
+            @click="onDeny"
+          >
+            {{ DenyButtonText }}
+          </el-button>
+          <el-button
+            v-if="AllowClose && showConfirmButton"
+            :disabled="closing"
+            :class="closing && 'closing'"
+            @click="close"
+          >
+            {{ CancelButtonText }}
+          </el-button>
+        </template>
+        <template v-else>
+          <el-button
+            v-if="AllowClose && showConfirmButton"
+            :disabled="closing"
+            :class="closing && 'closing'"
+            @click="close"
+          >
+            {{ CancelButtonText }}
+          </el-button>
+          <el-button
+            v-if="showDenyButton"
+            type="danger"
+            :disabled="closing || confirming"
+            :class="closing && 'closing'"
+            :loading="denying"
+            @click="onDeny"
+          >
+            {{ DenyButtonText }}
+          </el-button>
+          <el-button
+            v-if="showConfirmButton"
+            type="primary"
+            :disabled="closing || denying"
+            :class="closing && 'closing'"
+            :loading="confirming"
+            @click="onConfirm"
+          >
+            {{ ConfirmButtonText }}
+          </el-button>
+        </template>
       </slot>
     </template>
   </el-dialog>
@@ -113,6 +155,7 @@ const boolProps = [
   'loading',
   'allowClose',
   'showFullscreenButton',
+  'reverseButtons',
 ]
 
 export default {
@@ -146,6 +189,9 @@ export default {
     }
   },
   computed: {
+    ReverseButtons() {
+      return conclude([this.reverseButtons, globalProps.reverseButtons, false])
+    },
     ShowFullscreenButton() {
       return conclude([this.showFullscreenButton, globalProps.showFullscreenButton, true])
     },
