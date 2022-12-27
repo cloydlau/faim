@@ -167,6 +167,8 @@ export default {
     confirm: {},
     title: {},
     getContainer: {},
+    confirmButtonText: {},
+    cancelButtonText: {},
     ...Object.fromEntries(Array.from(boolProps, boolProp => [boolProp, {
       type: Boolean,
       default: undefined,
@@ -189,6 +191,12 @@ export default {
     }
   },
   computed: {
+    ConfirmButtonText() {
+      return conclude([this.confirmButtonText, globalProps.confirmButtonText, 'OK'])
+    },
+    CancelButtonText() {
+      return conclude([this.cancelButtonText, globalProps.cancelButtonText, 'Cancel'])
+    },
     ReverseButtons() {
       return conclude([this.reverseButtons, globalProps.reverseButtons, false])
     },
