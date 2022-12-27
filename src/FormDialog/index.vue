@@ -147,8 +147,8 @@ const boolProps = [
   'show',
   'readonly',
   'loading',
-  'showFullscreenButton',
   'reverseButtons',
+  'showFullscreenToggle',
   'showDenyButton',
 ]
 

@@ -156,7 +156,6 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
 | retrieve             | 获取数据                             | Function |                                       |
 | loading              | 加载状态                             | boolean  | 默认由 retrieve 的 `Promise` 状态决定 |
 | readonly             | 是否只读                             | boolean  | `false`                               |
-| showFullscreenButton | 是否显示全屏开关                     | boolean  | `true`                                |
 | confirm              | 确认                                 | Function |                                       |
 | confirmButtonText    | 确认按钮的文案                       | string   | `'OK'`                                |
 | cancelButtonText     | 取消按钮的文案                       | string   | `'Cancel'`                            |
@@ -165,6 +164,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
 | denyButtonText       | 拒绝按钮的文案                       | string   | `'No'`                                |
 | reverseButtons       | 是否反转按钮顺序                     | boolean  | `false`                               |
 | ...                  | `el-dialog` 的 props                 |          |                                       |
+| showFullscreenToggle | 是否显示全屏开关     | boolean  | `true`      |
 
 #### elFormProps
 
