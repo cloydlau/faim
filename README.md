@@ -5,7 +5,7 @@
 </h1>
 
 <p align="center">
-  几个 element-ui 组件的封装。
+  几个 ElementUI 组件的封装。
 </p>
 
 <p align="center">
@@ -24,8 +24,8 @@ npm add kikimore
 
 ### 外置依赖
 
-- `vue@2`
-- `element-ui`
+- vue@2
+- element-ui
 
 ### 局部注册
 
@@ -120,9 +120,9 @@ import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 
 关于 `KiSelect` 组件中 value 和 label 的命名：
 
-- `value`：这里要表达的含义就是选中目标的 “值”，等同于原生 `<input type="checkbox">` 元素的 value 属性，不一定是其唯一标识，所以不应该使用 id 或者 key，且 key 与 Vue 的特殊 attribute 冲突
+- value：这里要表达的含义就是选中目标的 “值”，等同于原生 `<input type="checkbox">` 元素的 value 属性，不一定是其唯一标识，所以不应该使用 id 或者 key，且 key 与 Vue 的特殊 attribute 冲突
 
-- `label`：html 中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以 label 天生是用来表达选中目标的 “展示名称” 的，而 name 由于与原生 input 元素的 name 属性冲突故不考虑使用 name
+- label：html 中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以 label 天生是用来表达选中目标的 “展示名称” 的，而 name 由于与原生 input 元素的 name 属性冲突故不考虑使用 name
 
 > Element 本身没有做到命名的统一，`el-select` 中 label 表示选项的标签，
 > 但 `el-checkbox` 中 label 却表示的是选中状态的值
@@ -137,44 +137,43 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
 
 ### 特性
 
-- 打开弹框自动回显数据
-- 关闭弹框自动重置数据
+- 打开弹框自动回显数据，关闭弹框自动重置数据
 - 编辑模式 & 只读模式 & 强制确认模式
 - 校验失败将定位至错误项位置并震动提示
-- 操作按钮固定定位
+- 限制高度
 - 拒绝按钮
 - 全屏开关
 - 局部注册 + 局部传参，也可以全局注册 + 全局传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
 
-| 名称                 | 说明                                  | 类型     | 默认值                                |
-| -------------------- | ------------------------------------- | -------- | ------------------------------------- |
-| show.sync            | 是否开启                              | boolean  | `false`                               |
-| title                | 对话框标题                            | string   |                                       |
-| v-model              | 表单数据对象（即 el-form 的 `model`） | any      |                                       |
-| elFormProps          | el-form 属性                          | object   |                                       |
-| retrieve             | 获取数据                              | Function |                                       |
-| loading              | 加载状态                              | boolean  | 默认由 retrieve 的 `Promise` 状态决定 |
-| readonly             | 是否只读                              | boolean  | `false`                               |
-| allowClose           | 是否允许直接关闭                      | boolean  | `true`                                |
-| showFullscreenButton | 是否显示全屏开关                      | boolean  | `true`                                |
-| confirm              | 确认                                  | Function |                                       |
-| confirmButtonText    | 确认按钮的文案                        | string   | `'OK'`                                |
-| cancelButtonText     | 取消按钮的文案                        | string   | `'Cancel'`                            |
-| showDenyButton       | 是否显示拒绝按钮                      | boolean  | `false`                               |
-| deny                 | 拒绝                                  | Function |                                       |
-| denyButtonText       | 拒绝按钮的文案                        | string   | `'No'`                                |
-| reverseButtons       | 是否反转按钮顺序                      | boolean  | `false`                               |
-| ...                  | `el-dialog` 的 props                  |          |                                       |
+| 名称                 | 说明                                 | 类型     | 默认值                                |
+| -------------------- | ------------------------------------ | -------- | ------------------------------------- |
+| show.sync            | 是否开启                             | boolean  | `false`                               |
+| title                | 对话框标题                           | string   |                                       |
+| v-model              | 表单数据对象 (即 `el-form` 的 model) | any      |                                       |
+| elFormProps          | `el-form` 的 props                   | object   |                                       |
+| retrieve             | 获取数据                             | Function |                                       |
+| loading              | 加载状态                             | boolean  | 默认由 retrieve 的 `Promise` 状态决定 |
+| readonly             | 是否只读                             | boolean  | `false`                               |
+| allowClose           | 是否允许直接关闭                     | boolean  | `true`                                |
+| showFullscreenButton | 是否显示全屏开关                     | boolean  | `true`                                |
+| confirm              | 确认                                 | Function |                                       |
+| confirmButtonText    | 确认按钮的文案                       | string   | `'OK'`                                |
+| cancelButtonText     | 取消按钮的文案                       | string   | `'Cancel'`                            |
+| showDenyButton       | 是否显示拒绝按钮                     | boolean  | `false`                               |
+| deny                 | 拒绝                                 | Function |                                       |
+| denyButtonText       | 拒绝按钮的文案                       | string   | `'No'`                                |
+| reverseButtons       | 是否反转按钮顺序                     | boolean  | `false`                               |
+| ...                  | `el-dialog` 的 props                 |          |                                       |
 
 #### v-model
 
-表单关闭时会将 `value` 的值重置为初始状态 (避免显示脏数据)
+表单关闭时会将 value 的值重置为初始状态 (避免显示脏数据)。
 
 #### elFormProps
 
-⚠ `model`、`ref`、`labelWidth` 不可用
+⚠ ref、model、labelWidth 不可用。
 
 #### retrieve
 
@@ -204,11 +203,11 @@ export default {
 
 #### allowClose
 
-设置为 `false` 时，将仅能通过点击确认按钮关闭弹框，在需要用户输入必填项时会用到。
+设置为 `false` 时，将仅能通过点击确认或拒绝按钮关闭弹框。
 
 #### confirm
 
-如果返回一个 Promise，则在 Promise 完成以后表单才会关闭
+如果返回一个 Promise 实例，则在该 Promise 实例结束以后表单才会关闭。
 
 ```vue
 <template>
@@ -223,7 +222,7 @@ export default {
 </template>
 ```
 
-返回 `Promise.reject()` / `Promise.resolve({ show: true })` / `{ show: true }` 时弹框不会关闭
+返回 `Promise.reject()` / `Promise.resolve({ show: true })` / `{ show: true }` 时弹框不会关闭。
 
 ```vue
 <template>
@@ -246,7 +245,7 @@ export default {
 
 #### deny
 
-如果返回一个 Promise，则在 Promise 完成以后表单才会关闭
+如果返回一个 Promise 实例，则在该 Promise 实例结束以后表单才会关闭。
 
 ```vue
 <template>
@@ -261,7 +260,7 @@ export default {
 </template>
 ```
 
-返回 `Promise.reject()` / `Promise.resolve({ show: true })` / `{ show: true }` 时弹框不会关闭
+返回 `Promise.reject()` / `Promise.resolve({ show: true })` / `{ show: true }` 时弹框不会关闭。
 
 ```vue
 <template>
@@ -306,17 +305,17 @@ export default {
 
 ### Events
 
-| 名称                | 说明                  | 回调参数                |
-| ------------------- | --------------------- | ----------------------- |
-| `fullscreen-change` | 切换全屏状态时触发    | `(fullscreen: boolean)` |
-| ...                 | `el-dialog` 的 events |                         |
-| ...                 | `el-form` 的 events   |                         |
+| 名称              | 说明                  | 回调参数              |
+| ----------------- | --------------------- | --------------------- |
+| fullscreen-change | 切换全屏状态时触发    | (fullscreen: boolean) |
+| ...               | `el-dialog` 的 events |                       |
+| ...               | `el-form` 的 events   |                       |
 
 ### Methods
 
-| 名称             | 说明                       | 参数                                                                                                       |
-| ---------------- | -------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| `highlightError` | 平滑滚动至校验失败的表单项 | `(selectors: string \| Element \| NodeList = '.el-form .el-form-item.is-error', container = window): void` |
+| 名称           | 说明                       | 参数                                                                                                     |
+| -------------- | -------------------------- | -------------------------------------------------------------------------------------------------------- |
+| highlightError | 平滑滚动至校验失败的表单项 | (selectors: string \| Element \| NodeList = '.el-form .el-form-item.is-error', container = window): void |
 
 ### 获取内部的 el-form
 
@@ -349,49 +348,49 @@ kiFormDialogRef.value.$refs.elFormRef
 
 ## Select
 
-[el-select](https://element.eleme.cn/#/zh-CN/component/select) 封装
+[el-select](https://element.eleme.cn/#/zh-CN/component/select) 封装。
 
 ### 特性
 
-- 保留 el-select 及其子组件的所有特性。
-- 不需要自行循环 `el-option`，传 options 就好。
-- 多选时，提供全选按钮 (分组时不支持)。
-- options 的数组元素支持任意类型。
-- 用更简单的方式来获取 label 和 index，不需要加 ref，不需要判空。
-- 用更简单的方式来异步获取 options。
+- 保留 `el-select` 及其子组件的所有特性
+- 不需要自行循环 `el-option`，传 options 就好
+- 多选时，提供全选按钮 (分组时不支持)
+- options 的数组元素支持任意类型
+- 用更简单的方式来获取 label 和 index，不需要加 ref，不需要判空
+- 用更简单的方式来异步获取 options
 - 局部注册 + 局部传参，也可以全局注册 + 全局传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
 
-| 名称              | 说明                                                      | 类型                   | 默认值  |
-| ----------------- | --------------------------------------------------------- | ---------------------- | ------- |
-| v-model / value   | 绑定值                                                    | string, number, object |         |
-| label.sync        | 绑定值的标签（不支持多选）                                | string, number         |         |
-| index.sync        | 绑定值的数组下标（不支持多选）                            | number                 |         |
-| options(.sync)    | 选项                                                      | { label, value }[]     |         |
-| props             | 指定对象的属性                                            | object                 |         |
-| search            | 搜索获取 options，（`remote-method` 封装）                | function               |         |
-| searchImmediately | 是否立即执行搜索                                          | boolean                | `true`  |
-| allowSelectAll    | 开启多选时，是否允许全选                                  | boolean                | `true`  |
-| ellipsis          | 是否限宽并对超长的 label 作溢出省略处理（默认是超长撑开） | boolean                | `false` |
-| ...               | `el-select` 的 props                                      |                        |         |
+| 名称              | 说明                                                     | 类型                   | 默认值  |
+| ----------------- | -------------------------------------------------------- | ---------------------- | ------- |
+| v-model / value   | 绑定值                                                   | string, number, object |         |
+| label.sync        | 绑定值的标签 (不支持多选)                                | string, number         |         |
+| index.sync        | 绑定值的数组下标 (不支持多选)                            | number                 |         |
+| options(.sync)    | 选项                                                     | { label, value }[]     |         |
+| props             | 指定对象的属性                                           | object                 |         |
+| search            | 搜索获取 options，(remote-method 封装)                   | function               |         |
+| searchImmediately | 是否立即执行搜索                                         | boolean                | `true`  |
+| allowSelectAll    | 开启多选时，是否允许全选                                 | boolean                | `true`  |
+| ellipsis          | 是否限宽并对超长的 label 作溢出省略处理 (默认是超长撑开) | boolean                | `false` |
+| ...               | `el-select` 的 props                                     |                        |         |
 
 #### props
 
 ```json
 {
-  "value": undefined, // 指定 options 中 key 的属性名（options 为对象数组时有效）
-  "label": undefined, // 指定 options 中 label 的属性名（options 为对象数组时有效）
-  "labelRight": undefined, // 指定 options 中右浮 label 的属性名（options 为对象数组时有效）
-  "disabled": "disabled", // 指定 options 中 disabled 的属性名（options 为对象数组时有效）
-  "groupLabel": undefined, // 指定组名（分组时有效）
-  "groupOptions": undefined, // 指定子选项组的属性名（分组时有效）
-  "groupDisabled": "disabled" // 指定子选项组是否禁用的属性名（分组时有效）
+  "value": undefined, // 指定 options 中 key 的属性名 (options 为对象数组时有效)
+  "label": undefined, // 指定 options 中 label 的属性名 (options 为对象数组时有效)
+  "labelRight": undefined, // 指定 options 中右浮 label 的属性名 (options 为对象数组时有效)
+  "disabled": "disabled", // 指定 options 中 disabled 的属性名 (options 为对象数组时有效)
+  "groupLabel": undefined, // 指定组名 (分组时有效)
+  "groupOptions": undefined, // 指定子选项组的属性名 (分组时有效)
+  "groupDisabled": "disabled" // 指定子选项组是否禁用的属性名 (分组时有效)
 }
 ```
 
 ```vue
-<!-- props 中所有属性均支持以 function 形式定制返回值 -->
+<!-- props 中所有属性均支持以 Function 类型 -->
 
 <template>
   <KiSelect
@@ -414,7 +413,7 @@ kiFormDialogRef.value.$refs.elFormRef
 
 ### Slots
 
-支持 el-select 全部 slots
+支持 el-select 全部 slots。
 
 ```html
 <!-- 使用默认插槽自定义选项内容 -->
@@ -428,12 +427,12 @@ kiFormDialogRef.value.$refs.elFormRef
 
 ### JSON 类型
 
-如果 options 是对象数组且 props.value 是有效的对象键名时，value 将得到选中项对应对象中指定 value 的值
+如果 options 是对象数组且 props.value 是有效的对象键名时，value 将得到选中项对应对象中指定 value 的值，
 
-否则，value 将得到选中项对应的数组元素
+否则，value 将得到选中项对应的数组元素。
 
-Select 默认将 props.value 用作 `value-key`
-options 为对象数组且未指定 value 值时，绑定值将是 JSON 类型，此时必须按 el-select 的要求提供 `value-key`
+Select 默认将 props.value 用作 `value-key`，
+options 为对象数组且未指定 value 值时，绑定值将是 JSON 类型，此时必须按 el-select 的要求提供 `value-key`。
 
 ### 搜索
 
@@ -547,17 +546,17 @@ export default {
 />
 ```
 
-多选且与 el-form 搭配时，会出现一开始就触发 rule 校验的问题 (而不是 blur 或 change 以后)
+多选且与 el-form 搭配时，会出现一开始就触发 rule 校验的问题 (而不是 blur 或 change 以后)，
 
-这是 el-select 自身原因导致的，在多选时，el-select 会将 value 初始化为 `[]`
+这是 el-select 自身原因导致的，在多选时，el-select 会将 value 初始化为 `[]`，
 
-解决方式：给 value 赋初值 `[]`
+解决方式：给 value 赋初值 `[]`。
 
 <br>
 
 ## PopSwitch
 
-四个组件的组合拳：`el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip`
+四个组件的组合拳：`el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip`。
 
 ### 特性
 
@@ -584,7 +583,7 @@ export default {
 
 ## PopButton
 
-四个组件的组合拳：`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip`
+四个组件的组合拳：`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip`。
 
 ### 特性
 
@@ -604,7 +603,6 @@ export default {
 | elPopoverProps    | `el-popover` 属性    | object |        |
 | elTooltipProps    | `el-tooltip` 属性    | object |        |
 | ...               | `el-button` 的 props |        |        |
-
 
 <br>
 
