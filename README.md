@@ -339,10 +339,10 @@ kiFormDialogRef.value.$refs.elFormRef
 ### 特性
 
 - 不需要自行循环 `el-option`，传 options 就好
-- 多选时，提供全选按钮 (分组时不支持)
 - options 的数组元素支持任意类型
 - 用更简单的方式来获取 label 和 index，不需要加 ref，不需要判空
 - 用更简单的方式来异步获取 options
+- 多选时，提供全选按钮 (分组时不支持)
 - 局部注册 + 局部传参，也可以全局注册 + 全局传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
@@ -397,7 +397,7 @@ kiFormDialogRef.value.$refs.elFormRef
 
 ### Slots
 
-支持 el-select 全部 slots。
+同 `el-select`。
 
 ```html
 <!-- 使用默认插槽自定义选项内容 -->
