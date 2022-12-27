@@ -28,19 +28,13 @@
             :index="optionIndex"
           />
           <template v-else>
-            <el-tooltip
-              :disabled="!Ellipsis"
-              effect="dark"
-              placement="right"
-              :content="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label"
-            >
-              <span class="label-left">{{
-                optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label
-              }}</span>
-            </el-tooltip>
-            <span class="label-right">{{
-              optionGroupPropsList[groupIndex].optionPropsList[optionIndex].labelRight
-            }}</span>
+            <span class="label-left">
+              {{ optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label }}
+            </span>
+            <span class="label-right">
+              {{ optionGroupPropsList[groupIndex].optionPropsList[optionIndex].labelRight
+              }}
+            </span>
           </template>
         </el-option>
       </el-option-group>
@@ -70,14 +64,7 @@
           :index="i"
         />
         <template v-else>
-          <el-tooltip
-            :disabled="!Ellipsis"
-            effect="dark"
-            placement="right"
-            :content="optionPropsList[i].label"
-          >
-            <span class="label-left">{{ optionPropsList[i].label }}</span>
-          </el-tooltip>
+          <span class="label-left">{{ optionPropsList[i].label }}</span>
           <span class="label-right">{{ optionPropsList[i].labelRight }}</span>
         </template>
       </el-option>
@@ -109,10 +96,6 @@ export default {
       type: Array,
     },
     props: {},
-    ellipsis: {
-      type: Boolean,
-      default: undefined,
-    },
     allowSelectAll: {
       type: Boolean,
       default: undefined,
@@ -187,29 +170,6 @@ export default {
         type: Object,
         camelizeObjectKeys: true,
       })
-    },
-    Ellipsis() {
-      const res = conclude([this.ellipsis, globalProps.ellipsis, false], {
-        type: Boolean,
-      })
-      if (res) {
-        this.$nextTick(() => {
-          this.popper = this.$refs.elSelect.$refs.popper
-          this.unwatchOptions = this.$watch('options__', (newVal) => {
-            if (newVal && newVal.length) {
-              setTimeout(() => {
-                if (this.popper) {
-                  this.popper.$el.style.maxWidth = this.popper.minWidth
-                }
-              })
-            }
-          }, {
-            immediate: true,
-          })
-        })
-      } else {
-        this.unwatchOptions?.()
-      }
     },
     valueType() {
       return this.validateProps('value')
@@ -515,15 +475,11 @@ export default {
       if (isEmpty(res)) {
         return []
       } else if (!Array.isArray(res)) {
-        console.warn('groupOptions 仅能为 any[] 类型')
+        console.warn('\'groupOptions\' can only be type any[]')
         return []
       }
       return res
     },
-    /* onVisibleChange (show) {
-      this.showKiSelect = show
-    },
-    isEllipsis */
   },
 }
 </script>

@@ -356,18 +356,17 @@ kiFormDialogRef.value.$refs.elFormRef
 
 ### Props
 
-| 名称              | 说明                                                     | 类型                   | 默认值  |
-| ----------------- | -------------------------------------------------------- | ---------------------- | ------- |
-| v-model / value   | 绑定值                                                   | string, number, object |         |
-| label.sync        | 绑定值的标签 (不支持多选)                                | string, number         |         |
-| index.sync        | 绑定值的数组下标 (不支持多选)                            | number                 |         |
-| options(.sync)    | 选项                                                     | { label, value }[]     |         |
-| props             | 指定对象的属性                                           | object                 |         |
-| search            | 搜索获取 options，(remote-method 封装)                   | function               |         |
-| searchImmediately | 是否立即执行搜索                                         | boolean                | `true`  |
-| allowSelectAll    | 开启多选时，是否允许全选                                 | boolean                | `true`  |
-| ellipsis          | 是否限宽并对超长的 label 作溢出省略处理 (默认是超长撑开) | boolean                | `false` |
-| ...               | `el-select` 的 props                                     |                        |         |
+| 名称              | 说明                                   | 类型                   | 默认值 |
+| ----------------- | -------------------------------------- | ---------------------- | ------ |
+| v-model / value   | 绑定值                                 | string, number, object |        |
+| label.sync        | 绑定值的标签 (不支持多选)              | string, number         |        |
+| index.sync        | 绑定值的数组下标 (不支持多选)          | number                 |        |
+| options(.sync)    | 选项                                   | { label, value }[]     |        |
+| props             | 指定对象的属性                         | object                 |        |
+| search            | 搜索获取 options，(remote-method 封装) | function               |        |
+| searchImmediately | 是否立即执行搜索                       | boolean                | `true` |
+| allowSelectAll    | 是否允许全选 (开启多选时)              | boolean                | `true` |
+| ...               | `el-select` 的 props                   |                        |        |
 
 #### props
 
