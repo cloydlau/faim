@@ -116,7 +116,7 @@ import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 ## 命名风格
 
 所有组件命名均符合 [Vue 官方风格指南](https://v2.cn.vuejs.org/v2/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81)
-指导的“组件名为多个单词”
+指导的 “组件名为多个单词”
 
 关于 KiSelect 组件中 value 和 label 的命名：
 
@@ -283,7 +283,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
 
 #### reverseButtons
 
-关于“确定”和“取消”按钮的顺序，可以看看这篇[知乎回答](https://www.zhihu.com/question/20694680/answer/1400624833)。
+关于 “确定” 和 “取消” 按钮的顺序，可以看看这篇[知乎回答](https://www.zhihu.com/question/20694680/answer/1400624833)。
 
 ### Slots
 
