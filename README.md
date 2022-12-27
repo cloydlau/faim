@@ -139,10 +139,9 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
 
 - 打开弹框自动回显数据，关闭弹框自动重置数据
 - 校验失败时平滑定位至错误项并震动提示
-- 编辑模式 & 只读模式 & 强制确认模式
-- 限制高度
-- 拒绝按钮
-- 全屏开关
+- 提交、拒绝、重置、全屏一应俱全
+- 限制高度，无页面级滚动条
+- 只读模式
 - 局部注册 + 局部传参，也可以全局注册 + 全局传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
@@ -337,7 +336,6 @@ kiFormDialogRef.value.$refs.elFormRef
 
 ### 特性
 
-- 保留 `el-select` 及其子组件的所有特性
 - 不需要自行循环 `el-option`，传 options 就好
 - 多选时，提供全选按钮 (分组时不支持)
 - options 的数组元素支持任意类型
