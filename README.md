@@ -116,18 +116,18 @@ import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 ## 命名风格
 
 所有组件命名均符合 [Vue 官方风格指南](https://v2.cn.vuejs.org/v2/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81)
-指导的 “组件名为多个单词”
+指导的 “组件名为多个单词”。
 
 关于 KiSelect 组件中 value 和 label 的命名：
 
-- value：这里要表达的含义就是选中目标的 “值”，等同于原生 `<input type="checkbox">` 元素的 value 属性，不一定是其唯一标识，所以不应该使用 id 或者 key，且 key 与 Vue 的特殊 attribute 冲突
+- value：这里要表达的含义就是选中目标的 “值”，等同于原生 `<input type="checkbox">` 元素的 value 属性，不一定是其唯一标识，所以不应该使用 id 或者 key，且 key 与 Vue 的特殊 attribute 冲突。
 
-- label：html 中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以 label 天生是用来表达选中目标的 “展示名称” 的，而 name 由于与原生 input 元素的 name 属性冲突故不考虑使用 name
+- label：html 中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以 label 天生是用来表达选中目标的 “展示名称” 的，而 name 由于与原生 input 元素的 name 属性冲突故不考虑使用 name。
 
 > ElementUI 本身没有做到命名的统一，`el-select` 中 label 表示选项的标签，
-> 但 `el-checkbox` 中 label 却表示的是选中状态的值
+> 但 `el-checkbox` 中 label 却表示的是选中状态的值。
 
-UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
+UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 
 <br>
 
