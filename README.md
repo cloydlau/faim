@@ -303,7 +303,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名
 | -------------- | -------------------------- | -------------------------------------------------------------------------------------------------------- |
 | highlightError | 平滑滚动至校验失败的表单项 | (selectors: string \| Element \| NodeList = '.el-form .el-form-item.is-error', container = window): void |
 
-### 获取内部的 el-form
+### 获取内部 el-form 的引用
 
 - 通过作用域插槽获取
 
