@@ -19,7 +19,7 @@
 ## 安装
 
 ```shell
-npm add kikimore
+npm i kikimore
 ```
 
 ### 外置依赖
