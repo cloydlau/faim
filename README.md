@@ -137,7 +137,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 
 ### 特性
 
-- 打开弹框自动回显数据，关闭弹框自动重置数据
+- 打开对话框自动回显数据，关闭对话框自动重置数据
 - 校验失败时平滑滚动至错误项并震动提示
 - 提交、拒绝、重置、全屏一应俱全
 - 限制高度，无页面级滚动条
@@ -173,7 +173,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 
 如果是 PlainObject 类型，将用于 `el-form` 的 model。
 
-关闭弹框时会被重置。
+关闭对话框时会被重置。
 
 #### elFormProps
 
@@ -207,7 +207,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 
 #### confirm
 
-如果返回一个 Promise 实例，则在该 Promise 实例状态终结后弹框才会关闭。
+如果返回一个 Promise 实例，则在该 Promise 实例状态终结后对话框才会关闭。
 
 ```vue
 <template>
@@ -222,7 +222,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 </template>
 ```
 
-返回 `Promise.reject()` / `Promise.resolve({ show: true })` / `{ show: true }` 时弹框不会关闭。
+返回 `Promise.reject()` / `Promise.resolve({ show: true })` / `{ show: true }` 时对话框不会关闭。
 
 ```vue
 <template>
@@ -245,7 +245,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 
 #### deny
 
-如果返回一个 Promise 实例，则在该 Promise 实例状态终结后弹框才会关闭。
+如果返回一个 Promise 实例，则在该 Promise 实例状态终结后对话框才会关闭。
 
 ```vue
 <template>
@@ -260,7 +260,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 </template>
 ```
 
-返回 `Promise.reject()` / `Promise.resolve({ show: true })` / `{ show: true }` 时弹框不会关闭。
+返回 `Promise.reject()` / `Promise.resolve({ show: true })` / `{ show: true }` 时对话框不会关闭。
 
 ```vue
 <template>
