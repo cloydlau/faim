@@ -330,6 +330,25 @@ kiFormDialogRef.value.$refs.elFormRef
 </script>
 ```
 
+### 改变遮罩层定位
+
+```scss
+.el-dialog__wrapper, .v-modal {
+  position: absolute;
+}
+
+// 在原来的基础上减去 navbar + tab 的高度 (以 90px 为例)
+.el-dialog {
+  .el-dialog__body {
+    max-height: calc(100vh - 190px) !important;
+  }
+
+  &.is-fullscreen .el-dialog__body {
+    max-height: calc(100vh - 135px) !important;
+  }
+}
+```
+
 <br>
 
 ## Select
