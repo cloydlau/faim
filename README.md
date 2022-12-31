@@ -142,7 +142,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 - 提交、拒绝、重置、全屏一应俱全
 - 限制高度，无页面级滚动条
 - 只读模式
-- 局部注册 + 局部传参，也可以全局注册 + 全局传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
+- 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
 
@@ -362,7 +362,7 @@ kiFormDialogRef.value.$refs.elFormRef
 - 用更简单的方式来获取 label 和 index，不需要加 ref，不需要判空
 - 用更简单的方式来异步获取 options
 - 多选时，提供全选按钮 (分组时不支持)
-- 局部注册 + 局部传参，也可以全局注册 + 全局传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
+- 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
 
@@ -570,7 +570,7 @@ export default {
 - Tooltip 非手动控制显隐时，点击开关后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
 - Popconfirm，Popover，Tooltip 的内容为空时，默认不启用
 - content 属性支持 html (但不再支持插槽)
-- 局部注册 + 局部传参，也可以全局注册 + 全局传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
+- 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
 
@@ -596,7 +596,7 @@ export default {
 - Tooltip 非手动控制显隐时，点击按钮后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
 - Popconfirm，Popover，Tooltip 的内容为空时，默认不启用
 - content 属性支持 html (但不再支持插槽)
-- 局部注册 + 局部传参，也可以全局注册 + 全局传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
+- 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
 
