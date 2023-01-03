@@ -357,12 +357,9 @@ kiFormDialogRef.value.$refs.elFormRef
 
 ### 特性
 
-- 支持 plain object 类型的绑定值
-- 不需要自行循环 `el-option`，传 options 就好
-- options 的数组元素支持任意类型
-- 用更简单的方式来获取 label 和 index，不需要加 ref，不需要判空
-- 用更简单的方式来异步获取 options
-- 多选时，提供全选按钮 (暂不支持分组)
+- 任意类型绑定值
+- 没有 `el-option`
+- 多选时支持一键全选 (暂不支持分组)
 - 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
@@ -370,50 +367,43 @@ kiFormDialogRef.value.$refs.elFormRef
 | 名称              | 说明                                   | 类型                   | 默认值 |
 | ----------------- | -------------------------------------- | ---------------------- | ------ |
 | v-model / value   | 绑定值                                 | string, number, object |        |
-| label[.sync]      | 绑定值的标签 (暂不支持多选)            | string, number         |        |
-| index[.sync]      | 绑定值的数组下标 (暂不支持多选)        | number                 |        |
 | options[.sync]    | 选项                                   | { label, value }[]     |        |
-| props             | 指定对象的属性                         | object                 |        |
+| props             | 指定选项的各项属性                     | object                 |        |
 | search            | 搜索获取 options，(remote-method 封装) | function               |        |
 | searchImmediately | 是否立即执行搜索                       | boolean                | `true` |
-| allowSelectAll    | 是否允许全选 (开启多选时)              | boolean                | `true` |
+| label[.sync]      | 绑定值的文案 (暂不支持多选)            | string, number         |        |
+| allowSelectAll    | 是否允许全选 (开启多选且选项数量 > 1)  | boolean                | `true` |
 | ...               | `el-select` 的 props                   |                        |        |
 
 #### props
 
-```json
-{
-  "value": undefined, // 指定 options 中 key 的属性名 (options 为对象数组时有效)
-  "label": undefined, // 指定 options 中 label 的属性名 (options 为对象数组时有效)
-  "labelRight": undefined, // 指定 options 中右浮 label 的属性名 (options 为对象数组时有效)
-  "disabled": "disabled", // 指定 options 中 disabled 的属性名 (options 为对象数组时有效)
-  "groupLabel": undefined, // 指定组名 (分组时有效)
-  "groupOptions": undefined, // 指定子选项组的属性名 (分组时有效)
-  "groupDisabled": "disabled" // 指定子选项组是否禁用的属性名 (分组时有效)
+```ts
+interface Props {
+  // 定位 option 中的 value
+  'value': string | symbol | ((value: any) => any)
+  // 定位 option 中的 label
+  'label': string | symbol | ((value: any) => string)
+  // 定位 option 中的 disabled
+  'disabled': string | symbol | ((value: any) => boolean)
+  // 定位 option 中分组的 label
+  'groupLabel': string | symbol | ((value: any) => string)
+  // 定位 option 中分组的 options
+  'groupOptions': string | symbol | ((value: any) => any[])
+  // 定位 option 中分组的 disabled
+  'groupDisabled': string | symbol | ((value: any) => boolean)
 }
 ```
 
-```vue
-<!-- props 中所有属性均支持以 Function 类型 -->
+- 支持属性名，如 `'url'`
+- 支持属性路径，如 `'data[0].url'`
+- 支持 symbol 类型的属性名
+- 支持 Function，如 `value => value.url`
 
-<template>
-  <KiSelect
-    :props="{
-      value: (value, index) => String(index),
-      label: ({ city, address }, index) => `${city} - ${address}`,
-      labelRight: ({ x, y }, index) => `${x + y}`,
-    }"
-  />
-</template>
-```
-
-#### label.sync，index.sync
+#### label.sync
 
 为避免与 value 冲突，index 仅支持单向数据流 (子 → 父)，选中项依然以 value 为准。
 
 当 value 在 options 中没有匹配到对应项时，label 也可以正常展示。
-
-分组时，index 为组下标。
 
 ### Slots
 

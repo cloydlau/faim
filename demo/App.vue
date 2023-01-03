@@ -79,7 +79,6 @@
               :props="{
                 value: null,
                 label: 'name',
-                labelRight: 'labelRight',
                 disabled: '__disabled',
                 groupOptions: 'children',
                 groupLabel: 'label',
