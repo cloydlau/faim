@@ -77,7 +77,7 @@ import Vue from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { conclude } from 'vue-global-config'
 import { v4 as uuidv4 } from 'uuid'
-import { getListeners, isEmpty, isObject, notEmpty } from '../utils'
+import { getListeners, isEmpty, isObject, notEmpty, unwrap } from '../utils'
 import { globalAttrs, globalListeners, globalProps } from './index'
 
 export default {
@@ -163,24 +163,6 @@ export default {
         type: Object,
         camelizeObjectKeys: true,
       })
-    },
-    valueType() {
-      return this.validateProps('value')
-    },
-    labelType() {
-      return this.validateProps('label')
-    },
-    disabledType() {
-      return this.validateProps('disabled')
-    },
-    groupLabelType() {
-      return this.validateProps('groupLabel')
-    },
-    groupDisabledType() {
-      return this.validateProps('groupDisabled')
-    },
-    groupOptionsType() {
-      return this.validateProps('groupOptions')
     },
     Props() {
       return conclude([
@@ -296,20 +278,20 @@ export default {
             label: this.getGroupLabel(group, groupIndex),
             disabled: this.isGroupDisabled(group, groupIndex),
             options,
-            optionPropsList: Array.from(options || [], (v, i) => ({
+            optionPropsList: Array.from(options || [], v => ({
               key: uuidv4(),
-              value: this.getValue(v, i),
-              label: this.getLabel(v, i),
-              disabled: this.isDisabled(v, i),
+              value: this.getValue(v),
+              label: this.getLabel(v),
+              disabled: this.isDisabled(v),
             })),
           }
         })
       } else {
-        this.optionPropsList = Array.from(n || [], (v, i) => ({
+        this.optionPropsList = Array.from(n || [], v => ({
           key: uuidv4(),
-          value: this.getValue(v, i),
-          label: this.getLabel(v, i),
-          disabled: this.isDisabled(v, i),
+          value: this.getValue(v),
+          label: this.getLabel(v),
+          disabled: this.isDisabled(v),
         }))
       }
 
@@ -321,9 +303,9 @@ export default {
     selectAll() {
       if (this.allSelected) {
         const temp = []
-        this.options__.forEach((v, i) => {
-          if (!this.isDisabled(v, i)) {
-            temp.push(this.getValue(v, i))
+        this.options__.forEach((v) => {
+          if (!this.isDisabled(v)) {
+            temp.push(this.getValue(v))
           }
         })
         this.value__ = temp
@@ -348,12 +330,6 @@ export default {
     },
     getFilteredRule() {
       return []
-    },
-    validateProps(propKey) {
-      conclude([this.Props[propKey]], {
-        type: [Boolean, Symbol, String, Number, Function],
-      })
-      return typeof this.Props[propKey]
     },
     onOptionClick(v, i) {
       this.$emit('update:index', i)
@@ -390,79 +366,23 @@ export default {
         this.$emit('update:label', this.$refs.elSelect.selectedLabel)
       })
     },
-    getValue(v, i) {
-      let res = v
-      if (this.valueType === 'function') {
-        res = this.Props.value(v, i)
-      } else if (this.itemTypeIsJSON) {
-        if (notEmpty(this.Props.value)) {
-          res = v?.[this.Props.value]
-        } else if (isEmpty(this.ElSelectProps.valueKey)) {
-          throw new Error('\'value-key\' of \'el-select\' is required when binding value is an object.')
-        } else if (notEmpty(this.value) && !isObject(this.isMultiple ? this.value[0] : this.value)) {
-          throw new Error('Binding value must be an object when \'options\' is an object[] and \'props.value\' is unset.')
-        }
-      }
-      return res
+    getValue(v) {
+      return unwrap(v, this.Props.value)
     },
-    getLabel(v, i) {
-      let res = v
-      if (this.labelType === 'function') {
-        res = this.Props.label(v, i)
-      } else if (this.itemTypeIsJSON) {
-        if (notEmpty(this.Props.label)) {
-          res = v?.[this.Props.label]
-        } else {
-          res = JSON.stringify(v)
-        }
-      }
-      return isEmpty(res) ? '' : String(res)
+    getLabel(v) {
+      return unwrap(v, this.Props.label)
     },
-    getGroupLabel(v, i) {
-      let res = v
-      if (this.groupLabelType === 'function') {
-        res = this.Props.groupLabel(v, i)
-      } else if (this.itemTypeIsJSON) {
-        if (notEmpty(this.Props.groupLabel)) {
-          res = v?.[this.Props.groupLabel]
-        } else {
-          res = JSON.stringify(v)
-        }
-      }
-      return isEmpty(res) ? '' : String(res)
+    getGroupLabel(v) {
+      return unwrap(v, this.Props.groupLabel)
     },
-    isDisabled(v, i) {
-      let res = false
-      if (this.disabledType === 'function') {
-        res = this.Props.disabled(v, i)
-      } else if (this.itemTypeIsJSON && notEmpty(this.Props.disabled)) {
-        res = v?.[this.Props.disabled]
-      }
-      return Boolean(res)
+    isDisabled(v) {
+      return unwrap(v, this.Props.disabled)
     },
-    isGroupDisabled(v, i) {
-      let res = false
-      if (this.groupDisabledType === 'function') {
-        res = this.Props.groupDisabled(v, i)
-      } else if (this.itemTypeIsJSON && notEmpty(this.Props.groupDisabled)) {
-        res = v?.[this.Props.groupDisabled]
-      }
-      return Boolean(res)
+    isGroupDisabled(v) {
+      return unwrap(v, this.Props.groupDisabled)
     },
-    getGroupOptions(v, i) {
-      let res
-      if (this.groupOptionsType === 'function') {
-        res = this.Props.groupOptions(v, i)
-      } else if (this.itemTypeIsJSON) {
-        res = v?.[this.Props.groupOptions]
-      }
-      if (isEmpty(res)) {
-        return []
-      } else if (!Array.isArray(res)) {
-        console.warn('\'groupOptions\' can only be type any[]')
-        return []
-      }
-      return res
+    getGroupOptions(v) {
+      return unwrap(v, this.Props.groupOptions)
     },
   },
 }

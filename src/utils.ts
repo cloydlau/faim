@@ -1,5 +1,5 @@
 import { conclude, getLocalListeners } from 'vue-global-config'
-import { isPlainObject } from 'lodash-es'
+import { at, isPlainObject } from 'lodash-es'
 
 export function hasScrollbar(el: HTMLElement) {
   return el.scrollHeight > el.clientHeight
@@ -51,4 +51,21 @@ export function notEmpty(value: any): boolean {
 
 export function isObject(value: any) {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+export function unwrap<V = any>(value: V, path?: string | ((value: V) => any) | symbol): any {
+  if (!(value && path)) {
+    return value
+  }
+  switch (typeof path) {
+    case 'string':
+      // paths 为 undefined 或 '' 时结果为 undefined
+      return at(value, path)[0]
+    case 'function':
+      return path(value)
+    case 'symbol':
+      if (isPlainObject(value)) {
+        return value[path as keyof typeof value]
+      }
+  }
 }
