@@ -171,7 +171,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 
 #### v-model / value
 
-如果是 PlainObject 类型，将用于 `el-form` 的 model。
+如果是 plain object 类型，将用于 `el-form` 的 model。
 
 关闭对话框时会被重置。
 
