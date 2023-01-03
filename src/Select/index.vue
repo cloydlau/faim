@@ -28,13 +28,7 @@
             :index="optionIndex"
           />
           <template v-else>
-            <span class="label-left">
-              {{ optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label }}
-            </span>
-            <span class="label-right">
-              {{ optionGroupPropsList[groupIndex].optionPropsList[optionIndex].labelRight
-              }}
-            </span>
+            {{ optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label }}
           </template>
         </el-option>
       </el-option-group>
@@ -64,8 +58,7 @@
           :index="i"
         />
         <template v-else>
-          <span class="label-left">{{ optionPropsList[i].label }}</span>
-          <span class="label-right">{{ optionPropsList[i].labelRight }}</span>
+          {{ optionPropsList[i].label }}
         </template>
       </el-option>
     </template>
@@ -176,9 +169,6 @@ export default {
     },
     labelType() {
       return this.validateProps('label')
-    },
-    labelRightType() {
-      return this.validateProps('labelRight')
     },
     disabledType() {
       return this.validateProps('disabled')
@@ -310,7 +300,6 @@ export default {
               key: uuidv4(),
               value: this.getValue(v, i),
               label: this.getLabel(v, i),
-              labelRight: this.getLabelRight(v, i),
               disabled: this.isDisabled(v, i),
             })),
           }
@@ -320,7 +309,6 @@ export default {
           key: uuidv4(),
           value: this.getValue(v, i),
           label: this.getLabel(v, i),
-          labelRight: this.getLabelRight(v, i),
           disabled: this.isDisabled(v, i),
         }))
       }
@@ -430,17 +418,6 @@ export default {
       }
       return isEmpty(res) ? '' : String(res)
     },
-    getLabelRight(v, i) {
-      let res
-      if (this.labelRightType === 'function') {
-        res = this.Props.labelRight(v, i)
-      } else if (this.itemTypeIsJSON) {
-        if (notEmpty(this.Props.labelRight)) {
-          res = v?.[this.Props.labelRight]
-        }
-      }
-      return isEmpty(res) ? '' : String(res)
-    },
     getGroupLabel(v, i) {
       let res = v
       if (this.groupLabelType === 'function') {
@@ -490,30 +467,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss">
-.el-select-dropdown__item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-
-  &>.label-left {
-    text-overflow: ellipsis;
-    white-space: normal;
-    word-break: break-all;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
-    overflow: hidden;
-    line-height: normal;
-  }
-
-  &>.label-right {
-    flex-shrink: 0;
-    color: #8492a6;
-    font-size: 13px;
-    margin-left: 1rem;
-    font-weight: normal; // 默认选中时加粗
-  }
-}
-</style>
