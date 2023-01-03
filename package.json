@@ -1,7 +1,7 @@
 {
   "name": "kikimore",
   "PascalCasedName": "Kikimore",
-  "version": "0.12.0",
+  "version": "0.12.1",
   "private": false,
   "packageManager": "pnpm@7.21.0",
   "description": "Several components wrapper for element-ui.",
