@@ -633,7 +633,7 @@ export default {
 
     ::-webkit-scrollbar-thumb {
       border-radius: 10px;
-      background-color: rgba(144, 147, 153, 0.302);
+      background-color: #C0C0C0;
     }
   }
 
