@@ -261,15 +261,22 @@ export default {
     this.initialValue = cloneDeep(this.value)
   },
   methods: {
+    // value 没匹配上选项时，el-select 默认显示 value，改为显示 label
     showLabel() {
-      if (this.label && !this.isMultiple) {
-        this.$nextTick(() => {
-          // value 没匹配上选项时，el-select 默认显示 value，改为显示 label
-          if (!(this.$refs.elSelect.selected instanceof Vue)) {
-            this.$refs.elSelect.selectedLabel = this.label
+      this.$nextTick(() => {
+        if (this.isMultiple) {
+          this.$refs.elSelect.selected.forEach((v) => {
+            if (!v.currentLabel) {
+              v.currentLabel = this.getLabel(v.value)
+            }
+          })
+        } else if (!(this.$refs.elSelect.selected instanceof Vue)) {
+          const selectedLabel = this.getLabel(this.value__)
+          if (selectedLabel) {
+            this.$refs.elSelect.selectedLabel = selectedLabel
           }
-        })
-      }
+        }
+      })
     },
     // 下拉框隐藏时，如果没有选中，el-select 会清空搜索关键字，此时需要恢复 options
     onVisibleChange(isVisible) {
@@ -404,7 +411,7 @@ export default {
           res = v?.[this.Props.value]
         } else if (isEmpty(this.ElSelectProps.valueKey)) {
           throw new Error('\'value-key\' of \'el-select\' is required when binding value is an object.')
-        } else if (notEmpty(this.value) && !isObject(this.value)) {
+        } else if (notEmpty(this.value) && !isObject(this.isMultiple ? this.value[0] : this.value)) {
           throw new Error('Binding value must be an object when \'options\' is an object[] and \'props.value\' is unset.')
         }
       }

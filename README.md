@@ -357,11 +357,12 @@ kiFormDialogRef.value.$refs.elFormRef
 
 ### 特性
 
+- 支持 plain object 类型的绑定值
 - 不需要自行循环 `el-option`，传 options 就好
 - options 的数组元素支持任意类型
 - 用更简单的方式来获取 label 和 index，不需要加 ref，不需要判空
 - 用更简单的方式来异步获取 options
-- 多选时，提供全选按钮 (分组时不支持)
+- 多选时，提供全选按钮 (暂不支持分组)
 - 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
@@ -369,8 +370,8 @@ kiFormDialogRef.value.$refs.elFormRef
 | 名称              | 说明                                   | 类型                   | 默认值 |
 | ----------------- | -------------------------------------- | ---------------------- | ------ |
 | v-model / value   | 绑定值                                 | string, number, object |        |
-| label[.sync]      | 绑定值的标签 (不支持多选)              | string, number         |        |
-| index[.sync]      | 绑定值的数组下标 (不支持多选)          | number                 |        |
+| label[.sync]      | 绑定值的标签 (暂不支持多选)            | string, number         |        |
+| index[.sync]      | 绑定值的数组下标 (暂不支持多选)        | number                 |        |
 | options[.sync]    | 选项                                   | { label, value }[]     |        |
 | props             | 指定对象的属性                         | object                 |        |
 | search            | 搜索获取 options，(remote-method 封装) | function               |        |
