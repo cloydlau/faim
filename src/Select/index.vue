@@ -20,7 +20,6 @@
           :label="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label"
           :value="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].value"
           :disabled="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled"
-          @click.native="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled ? undefined : onOptionClick(group, groupIndex)"
         >
           <slot
             v-if="$slots.default"
@@ -50,7 +49,6 @@
         :label="optionPropsList[i].label"
         :value="optionPropsList[i].value"
         :disabled="optionPropsList[i].disabled"
-        @click.native="optionPropsList[i].disabled ? undefined : onOptionClick(v, i)"
       >
         <slot
           v-if="$slots.default"
@@ -212,7 +210,6 @@ export default {
         }
         // 清空时
         if (isEmpty(n)) {
-          this.$emit('update:index', undefined)
           this.remoteMethod()
         }
       },
@@ -330,9 +327,6 @@ export default {
     },
     getFilteredRule() {
       return []
-    },
-    onOptionClick(v, i) {
-      this.$emit('update:index', i)
     },
     remoteMethod(e, isImmediate = false) {
       if (!this.Search) {

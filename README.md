@@ -401,8 +401,6 @@ interface Props {
 
 #### label.sync
 
-为避免与 value 冲突，index 仅支持单向数据流 (子 → 父)，选中项依然以 value 为准。
-
 当 value 在 options 中没有匹配到对应项时，label 也可以正常展示。
 
 ### Slots
