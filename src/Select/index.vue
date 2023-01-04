@@ -41,7 +41,7 @@
         class="px-20px py-10px"
         @change="selectAll"
       >
-        全选
+        {{ SelectAllText }}
       </el-checkbox>
       <el-option
         v-for="(v, i) of options__"
@@ -81,6 +81,10 @@ import { globalAttrs, globalListeners, globalProps } from './index'
 
 const modelValueProp = isVue3 ? 'modelValue' : 'value'
 const updateModelValue = isVue3 ? 'update:modelValue' : 'input'
+const boolProps = [
+  'searchImmediately',
+  'allowSelectAll',
+]
 
 export default {
   name: 'KiSelect',
@@ -92,14 +96,11 @@ export default {
     },
     props: {},
     search: {},
-    searchImmediately: {
+    selectAllText: {},
+    ...Object.fromEntries(Array.from(boolProps, boolProp => [boolProp, {
       type: Boolean,
       default: undefined,
-    },
-    allowSelectAll: {
-      type: Boolean,
-      default: undefined,
-    },
+    }])),
   },
   emits: [updateModelValue, 'update:options', 'update:label'],
   data() {
@@ -122,7 +123,15 @@ export default {
   },
   computed: {
     AllowSelectAll() {
-      return conclude([this.allowSelectAll, globalProps.allowSelectAll, true])
+      return conclude([this.allowSelectAll, globalProps.allowSelectAll, true], {
+        type: Boolean,
+      })
+    },
+    SelectAllText() {
+      return conclude([this.selectAllText, globalProps.selectAllText, 'Select All'], {
+        type: String,
+        required: true,
+      })
     },
     Listeners() {
       return getListeners.call(this, globalListeners)

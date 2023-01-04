@@ -450,8 +450,9 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 | search            | 远程搜索 (remote-method 封装)               | (query:string) => Promise<any[]> \| any[] |        |
 | searchImmediately | 是否立即执行远程搜索                        | boolean                                   | `true` |
 | label[.sync]      | 绑定值对应的 label (单向数据流暂不支持多选) | string                                    |        |
-| allowSelectAll    | 是否允许全选 (多选时)                       | boolean                                   | `true` |
 | ...               | `el-select` 的 props                        |                                           |        |
+| allowSelectAll    | 是否允许全选 (多选时)                       | boolean                                   | `true`       |
+| selectAllText     | 全选按钮的文案                              | string                                    | `Select All` |
 
 #### props
 
