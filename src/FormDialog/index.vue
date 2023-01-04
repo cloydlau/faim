@@ -58,7 +58,7 @@
           :model="value"
           v-on="Listeners"
         >
-          <slot :elFormRef="$refs.elFormRef" />
+          <slot />
         </el-form>
         <slot v-else />
       </div>

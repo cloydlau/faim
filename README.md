@@ -177,7 +177,8 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 
 #### elFormProps
 
-⚠ ref、model、labelWidth 不可用。
+- model: 直接使用 v-model / value
+- ref: `kiFormDialogRef.value.$refs.elFormRef`
 
 #### retrieve
 
@@ -302,33 +303,6 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 | 名称           | 说明                       | 参数                                                                                                     |
 | -------------- | -------------------------- | -------------------------------------------------------------------------------------------------------- |
 | highlightError | 平滑滚动至校验失败的表单项 | (selectors: string \| Element \| NodeList = '.el-form .el-form-item.is-error', container = window): void |
-
-### 获取内部 `el-form` 的引用
-
-- 通过作用域插槽获取
-
-```html
-<KiFormDialog>
-  <template #default="{ elFormRef }">
-    <el-button @click="() => { elFormRef.resetFields() }">
-      重置
-    </el-button>
-  </template>
-</KiFormDialog>
-```
-
-- 通过 `$refs` 获取
-
-```vue
-<template>
-  <KiFormDialog ref="kiFormDialogRef" />
-</template>
-
-<script setup>
-const kiFormDialogRef = ref()
-kiFormDialogRef.value.$refs.elFormRef
-</script>
-```
 
 ### 改变遮罩层定位
 
