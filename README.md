@@ -400,6 +400,10 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 | elTooltipProps    | `el-tooltip` 属性    | object |        |
 | ...               | `el-button` 的 props |        |        |
 
+### Events
+
+继承 `el-button` + `el-popconfirm` + `el-popover` + `el-tooltip`。
+
 <br>
 
 ## PopSwitch
@@ -430,35 +434,42 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 
 ## Select
 
-[el-select](https://element.eleme.cn/#/zh-CN/component/select) + [el-option](https://element.eleme.cn/#/zh-CN/component/select#option-attributes) 组合拳。
+`el-select` + `el-option` + `el-option-group` 组合拳。
 
 ### 特性
 
 - 任意类型绑定值
-- 绑定 label (单向数据流)
-- 远程搜索无需关心 options & loading
-- 无匹配选项时展示 label (而不是 value)
+- 单向绑定 `label`
+- 远程搜索无需关心 `options` & `loading`
+- 无匹配选项时展示 `label` (而不是 `value`)
 - 多选时支持一键全选 (暂不支持分组)
 
 ### Props
 
-| 名称              | 说明                                        | 类型                                      | 默认值 |
-| ----------------- | ------------------------------------------- | ----------------------------------------- | ------ |
-| v-model / value   | 绑定值                                      | any                                       |        |
-| options[.sync]    | 选项                                        | any[]                                     |        |
-| props             | 定位选项的各项属性                          | object                                    |        |
-| search            | 远程搜索 (remote-method 封装)               | (query:string) => Promise<any[]> \| any[] |        |
-| searchImmediately | 是否立即执行远程搜索                        | boolean                                   | `true` |
-| label[.sync]      | 绑定值对应的 label (单向数据流暂不支持多选) | string                                    |        |
-| ...               | `el-select` 的 props                        |                                           |        |
-| allowSelectAll    | 是否允许全选 (多选时)                       | boolean                                   | `true`       |
-| selectAllText     | 全选按钮的文案                              | string                                    | `Select All` |
+| 名称              | 说明                            | 类型                                      | 默认值         |
+| ----------------- | ------------------------------- | ----------------------------------------- | -------------- |
+| v-model / value   | 绑定值                          | any                                       |                |
+| options[.sync]    | 选项                            | any[]                                     |                |
+| props             | 定位选项的各项属性              | object                                    |                |
+| search            | 远程搜索 (`remote-method` 封装) | (query:string) => Promise<any[]> \| any[] |                |
+| searchImmediately | 是否立即执行远程搜索            | boolean                                   | `true`         |
+| label[.sync]      | 绑定值对应的 label (单向数据流) | string \| string[]                        |                |
+| allowSelectAll    | 多选时是否允许全选              | boolean                                   | `true`         |
+| selectAllText     | 全选按钮的文案                  | string                                    | `'Select All'` |
+| ...               | `el-select` 的 props            |                                           |                |
+
+#### options
+
+默认情况下绑定值将得到选中项的数组元素本身。
+
+可使用 `props.value` 改变此行为 (比如选项的数组元素是 plain object，但绑定值只想要其中某个属性)。
 
 #### props
 
 ```ts
 interface Props {
   // 定位 option 中的 value
+  // 如果是 string 类型，将默认用于 el-select 的 value-key
   'value': string | symbol | ((value: any) => any)
   // 定位 option 中的 label
   'label': string | symbol | ((value: any) => string)
@@ -480,8 +491,8 @@ interface Props {
 
 ### search
 
-- 无需关心 options (也支持双向绑定传入初始值)
-- 无需关心 loading 状态
+- 无需关心 `options` (也支持双向绑定传入初始值)
+- 无需关心 `loading` 状态
 
 ```html
 <!-- 异步获取 options -->
@@ -520,11 +531,11 @@ onMounted(() => {
 
 ### Slots
 
-同 `el-select`。
+继承 `el-select` + `el-option` + `el-option-group`。
+
+#### 默认插槽
 
 ```html
-<!-- 使用默认插槽自定义选项内容 -->
-
 <KiSelect>
   <template v-slot="{option, index}">
     {{ option.label }}
@@ -532,69 +543,9 @@ onMounted(() => {
 </KiSelect>
 ```
 
-### plain object 类型
+### Events
 
-默认情况下 value 将得到 option 本身。
-
-如果 option 是一个 plain object 而绑定值只想要其中某个属性，可以使用 `props.value`。
-
-如果 options 是对象数组且 props.value 是有效的对象键名时，value 将得到选中项对应对象中指定 value 的值，
-
-否则，
-
-Select 默认将 props.value 用作 value-key，
-options 为对象数组且未指定 value 值时，绑定值将是 JSON 类型，此时必须按 el-select 的要求提供 value-key。
-
-### 分组
-
-```vue
-<!-- 示例 -->
-
-<template>
-  <KiSelect
-    :props="{
-      value: 'code',
-      label: 'name',
-      groupLabel: 'name',
-      groupOptions: 'children',
-    }"
-    :options="[
-      {
-        name: '广东省',
-        children: [
-          {
-            name: '深圳市',
-            code: '4403',
-          },
-          {
-            name: '广州市',
-            code: '4401',
-          },
-        ],
-      },
-      {
-        name: '江苏省',
-        children: [
-          {
-            name: '南京市',
-            code: '3201',
-          },
-          {
-            name: '苏州市',
-            code: '3205',
-          },
-        ],
-      },
-    ]"
-  />
-</template>
-```
-
-多选且与 `el-form` 搭配时，会出现一开始就触发 rule 校验的问题 (而不是 blur 或 change 以后)，
-
-这是 `el-select` 自身原因导致的，在多选时，`el-select` 会将 value 初始化为 `[]`，
-
-解决方式：给 value 赋初值 `[]`。
+继承 `el-select` + `el-option` + `el-option-group`。
 
 <br>
 

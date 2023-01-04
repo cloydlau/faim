@@ -1,13 +1,21 @@
 <template>
   <el-select
     v-bind="ElSelectProps"
-    ref="elSelect"
+    ref="elSelectRef"
     v-model="value__"
-    @change="onChange"
     v-on="Listeners"
     @visible-change="onVisibleChange"
   >
-    <template v-if="grouped">
+    <template v-if="isGrouped">
+      <el-checkbox
+        v-if="showSelectAll"
+        v-model="allSelected"
+        :indeterminate="indeterminate"
+        class="px-20px py-10px"
+        @change="selectAll"
+      >
+        {{ SelectAllText }}
+      </el-checkbox>
       <el-option-group
         v-for="(group, groupIndex) of options__"
         :key="optionGroupPropsList[groupIndex].key"
@@ -74,7 +82,6 @@
 import Vue from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { conclude } from 'vue-global-config'
-import { v4 as uuidv4 } from 'uuid'
 import { isVue3 } from 'vue-demi'
 import { getListeners, isEmpty, isObject, notEmpty, unwrap } from '../utils'
 import { globalAttrs, globalListeners, globalProps } from './index'
@@ -133,17 +140,14 @@ export default {
         required: true,
       })
     },
+    showSelectAll() {
+      return this.AllowSelectAll && this.isMultiple && this.options__.length > 1
+    },
     Listeners() {
       return getListeners.call(this, globalListeners)
     },
-    grouped() {
+    isGrouped() {
       return notEmpty(this.Props.groupOptions)
-    },
-    itemTypeIsJSON() {
-      return isObject(this.options__?.[0])
-    },
-    valueComesFromObject() {
-      return this.Props.value && typeof this.Props.value === 'string' && this.itemTypeIsJSON
     },
     ScopedSlots() {
       const res = {}
@@ -162,8 +166,8 @@ export default {
         filterable: true,
         remote,
         reserveKeyword: true,
-        remoteMethod: this.Search ? this.remoteMethod : undefined,
-        valueKey: this.valueComesFromObject ? this.Props.value : undefined,
+        remoteMethod: remote ? this.remoteMethod : undefined,
+        valueKey: (this.Props.value && typeof this.Props.value === 'string') ? this.Props.value : undefined,
         loading: this.loading,
       }], {
         type: Object,
@@ -171,7 +175,7 @@ export default {
       })
     },
     Props() {
-      return conclude([this.props, globalProps.props], {
+      return conclude([this.props, globalProps.props, {}], {
         type: Object,
       })
     },
@@ -190,18 +194,25 @@ export default {
     },
   },
   watch: {
+    // 必须放在 value 前面，否则会影响 syncSelectAllBtn 的判断
+    options: {
+      immediate: true,
+      handler(newOptions, o) {
+        this.setOptions__(newOptions)
+      },
+    },
     // 没有使用 v-model / value 时，resetFields 不会触发
     value: {
       immediate: true,
-      handler(n, o) {
-        this.value__ = n
+      handler(newValue, o) {
+        this.value__ = newValue
         this.showLabel()
         // 外部设值时，同步全选按钮状态
-        this.syncSelectAllBtn(n)
+        this.syncSelectAllBtn(newValue)
       },
     },
     value__: {
-      handler(n, o) {
+      handler(newValue__, o) {
         // 多选时，value 会被 el-select 初始化为 []，此时不应执行清空逻辑
         if (this.isMultiple) {
           if (!this.valueInitializedWhenMultiple) {
@@ -210,15 +221,16 @@ export default {
           this.valueInitializedWhenMultiple = true
         }
         // 清空时
-        if (isEmpty(n)) {
+        if (isEmpty(newValue__)) {
           this.remoteMethod()
         }
-      },
-    },
-    options: {
-      immediate: true,
-      handler(n, o) {
-        this.setOptions__(n)
+        this.syncSelectAllBtn(value)
+        this.$nextTick(() => {
+          this.$emit('update:label', this.isMultiple
+            ? this.$refs.elSelectRef.selected.map(({ currentLabel }) => currentLabel)
+            : this.$refs.elSelectRef.selectedLabel)
+        })
+        this.$emit(updateModelValue, this.value__)
       },
     },
   },
@@ -231,53 +243,24 @@ export default {
     this.initialValue = cloneDeep(this.value)
   },
   methods: {
-    // value 没匹配上选项时，el-select 默认显示 value，改为显示 label
-    showLabel() {
-      this.$nextTick(() => {
-        if (this.isMultiple) {
-          this.$refs.elSelect.selected.forEach((v) => {
-            if (!v.currentLabel) {
-              v.currentLabel = this.getLabel(v.value)
-            }
-          })
-        } else if (!(this.$refs.elSelect.selected instanceof Vue)) {
-          const selectedLabel = this.getLabel(this.value__)
-          if (selectedLabel) {
-            this.$refs.elSelect.selectedLabel = selectedLabel
-          }
-        }
-      })
-    },
-    // 下拉框隐藏时，如果没有选中，el-select 会清空搜索关键字，此时需要恢复 options
-    onVisibleChange(isVisible) {
-      if (!isVisible) {
-        this.showLabel()
-        if (isEmpty(this.value__) && this.previousQuery) {
-          // 加延迟的原因：在下拉框隐藏动画结束后再恢复
-          setTimeout(() => {
-            this.remoteMethod()
-          }, 100)
-        }
-      }
-    },
     // 不写在 watch 里的原因：options__、optionPropsList、optionGroupPropsList 的长度必须保持同步
-    setOptions__(n) {
+    setOptions__(newOptions) {
       // 校验类型
-      conclude([n], { type: Array })
+      conclude([newOptions], { type: Array })
 
       // 必须先于 optionPropsList、optionGroupPropsList 执行，否则会影响 getValue 等的判断
-      this.options__ = n || []
+      this.options__ = newOptions || []
 
-      if (this.grouped) {
-        this.optionGroupPropsList = Array.from(n || [], (group, groupIndex) => {
+      if (this.isGrouped) {
+        this.optionGroupPropsList = Array.from(newOptions || [], (group, groupIndex) => {
           const options = this.getGroupOptions(group, groupIndex)
           return {
-            key: uuidv4(),
+            key: this.getKey(group),
             label: this.getGroupLabel(group, groupIndex),
             disabled: this.isGroupDisabled(group, groupIndex),
             options,
             optionPropsList: Array.from(options || [], v => ({
-              key: uuidv4(),
+              key: this.getKey(v),
               value: this.getValue(v),
               label: this.getLabel(v),
               disabled: this.isDisabled(v),
@@ -285,49 +268,18 @@ export default {
           }
         })
       } else {
-        this.optionPropsList = Array.from(n || [], v => ({
-          key: uuidv4(),
+        this.optionPropsList = Array.from(newOptions || [], v => ({
+          key: this.getKey(v),
           value: this.getValue(v),
           label: this.getLabel(v),
           disabled: this.isDisabled(v),
         }))
       }
 
-      if (notEmpty(n)) {
+      if (notEmpty(newOptions)) {
         this.showLabel()
       }
-      this.$emit('update:options', n)
-    },
-    selectAll() {
-      if (this.allSelected) {
-        const temp = []
-        this.options__.forEach((v) => {
-          if (!this.isDisabled(v)) {
-            temp.push(this.getValue(v))
-          }
-        })
-        this.value__ = temp
-      } else {
-        this.value__ = []
-      }
-      this.onChange(this.value__)
-      this.$emit('input', this.value__)
-    },
-    // el-from 重置触发
-    resetField() {
-      const initialValue = cloneDeep(this.initialValue)
-      this.value__ = initialValue
-      this.onChange(initialValue)
-    },
-    validate(trigger, callback) {
-      callback()
-    },
-    clearValidate() { },
-    getRules() {
-      return []
-    },
-    getFilteredRule() {
-      return []
+      this.$emit('update:options', newOptions)
     },
     remoteMethod(e) {
       if (!this.Search) {
@@ -347,19 +299,74 @@ export default {
         this.loading = false
       }
     },
+    // value 没匹配上选项时，el-select 默认显示 value，改为显示 label
+    showLabel() {
+      this.$nextTick(() => {
+        if (this.isMultiple) {
+          this.$refs.elSelectRef.selected.forEach((v) => {
+            if (!v.currentLabel) {
+              v.currentLabel = this.getLabel(v.value)
+            }
+          })
+        } else if (!(this.$refs.elSelectRef.selected instanceof Vue)) {
+          const selectedLabel = this.getLabel(this.value__)
+          if (selectedLabel) {
+            this.$refs.elSelectRef.selectedLabel = selectedLabel
+          }
+        }
+      })
+    },
+    selectAll(checked) {
+      const value__ = cloneDeep(this.value__)
+
+      const callback = (disabled, value) => {
+        const valueToIndex = Object.fromEntries(Array.from(value__, (item, i) => [item, i]))
+        const i = valueToIndex[value]
+        if (checked) {
+          if (!disabled && i === undefined) {
+            value__.push(value)
+          }
+        } else if (i !== undefined) {
+          value__.splice(i, 1)
+        }
+      }
+
+      if (this.isGrouped) {
+        this.optionGroupPropsList.forEach(({ disabled, optionPropsList }) => {
+          if (!disabled) {
+            optionPropsList?.forEach(({ disabled, value }) => callback(disabled, value))
+          }
+        })
+      } else {
+        this.optionPropsList.forEach(({ disabled, value }) => callback(disabled, value))
+      }
+
+      this.value__ = value__
+    },
     syncSelectAllBtn(value) {
-      if (this.isMultiple && !this.grouped) {
-        const valueLen = value ? value.length : 0
-        const optionsLen = this.options__.length
+      if (this.showSelectAll) {
+        const valueLen = value?.length || 0
+        const optionsLen = this.isGrouped
+          ? this.optionGroupPropsList.reduce((pre, cur) => pre + cur.options.length, 0)
+          : this.optionPropsList.length
         this.allSelected = valueLen > 0 && valueLen === optionsLen
         this.indeterminate = valueLen > 0 && valueLen < optionsLen
       }
     },
-    onChange(value) {
-      this.syncSelectAllBtn(value)
-      this.$nextTick(() => {
-        this.$emit('update:label', this.$refs.elSelect.selectedLabel)
-      })
+    // 下拉框隐藏时，如果没有选中，el-select 会清空搜索关键字，此时需要恢复 options
+    onVisibleChange(isVisible) {
+      if (!isVisible) {
+        this.showLabel()
+        if (isEmpty(this.value__) && this.previousQuery) {
+          // 加延迟的原因：在下拉框隐藏动画结束后再恢复
+          setTimeout(() => {
+            this.remoteMethod()
+          }, 100)
+        }
+      }
+    },
+    getKey(v) {
+      return unwrap(v, this.ElSelectProps.valueKey)
     },
     getValue(v) {
       return unwrap(v, this.Props.value)
@@ -367,17 +374,17 @@ export default {
     getLabel(v) {
       return unwrap(v, this.Props.label)
     },
-    getGroupLabel(v) {
-      return unwrap(v, this.Props.groupLabel)
-    },
     isDisabled(v) {
-      return unwrap(v, this.Props.disabled)
+      return this.Props.disabled ? unwrap(v, this.Props.disabled) : undefined
     },
-    isGroupDisabled(v) {
-      return unwrap(v, this.Props.groupDisabled)
+    getGroupLabel(v) {
+      return this.Props.groupLabel ? unwrap(v, this.Props.groupLabel) : undefined
     },
     getGroupOptions(v) {
-      return unwrap(v, this.Props.groupOptions)
+      return this.Props.groupOptions ? unwrap(v, this.Props.groupOptions) : undefined
+    },
+    isGroupDisabled(v) {
+      return this.Props.groupDisabled ? unwrap(v, this.Props.groupDisabled) : undefined
     },
   },
 }

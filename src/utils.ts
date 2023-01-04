@@ -53,6 +53,7 @@ export function isObject(value: any) {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
+// value 是某个 option，path 是 Props.xxx
 export function unwrap<V = any>(value: V, path?: string | ((value: V) => any) | symbol): any {
   if (!(value && path)) {
     return value

@@ -397,30 +397,30 @@ export default {
         this.$emit('fullscreen-change', this.fullscreen)
       })
     },
-    /*
-      fix: https://github.com/ElemeFE/element/issues?q=label+width+auto
-    */
+    // fix: https://github.com/ElemeFE/element/issues?q=label+width+auto
     computeLabelWidth() {
       const { labelWidth, labelPosition } = this.ElFormProps
       // 如果 label 位置不为顶部 且 用户没有指定 label 宽度，则计算 label 宽度
       if (labelPosition !== 'top' && [undefined, 'auto'].includes(labelWidth)) {
         this.$nextTick(() => {
-          let max = 0
-          // 首次执行时 this.$refs.elFormRef 为空
-          this.$refs.elFormRef?.$el.querySelectorAll('.el-form-item__label').forEach((item) => {
-            // updated 时，避免受之前设置的宽度影响
-            const prevWidth = item.style.width
-            item.style.width = 'revert'
-            const computedWidth = Math.ceil(parseFloat(window.getComputedStyle(item).width))
-            if (computedWidth > max) {
-              max = computedWidth
+          // fix: show 的初始值为 true 时 this.$refs.elFormRef 为空
+          setTimeout(() => {
+            let max = 0
+            this.$refs.elFormRef?.$el.querySelectorAll('.el-form-item__label').forEach((item) => {
+              // updated 时，避免受之前设置的宽度影响
+              const prevWidth = item.style.width
+              item.style.width = 'revert'
+              const computedWidth = Math.ceil(parseFloat(window.getComputedStyle(item).width))
+              if (computedWidth > max) {
+                max = computedWidth
+              }
+              // 不还原会导致文案变成居左的（默认是居右）
+              item.style.width = prevWidth
+            })
+            if (max) {
+              this.labelWidth = `${max}px`
             }
-            // 不还原会导致文案变成居左的（默认是居右）
-            item.style.width = prevWidth
-          })
-          if (max) {
-            this.labelWidth = `${max}px`
-          }
+          }, 0)
         })
       }
     },
