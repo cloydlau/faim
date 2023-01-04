@@ -230,8 +230,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 
 #### elFormProps
 
-- model: 直接使用 v-model / value
-- ref: `kiFormDialogRef.value.$refs.elFormRef`
+`disabled`, `ref`, `labelWidth`, `model` 是有内部默认值的，使用时请留意。
 
 #### retrieve
 

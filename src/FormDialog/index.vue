@@ -52,10 +52,7 @@
         <el-form
           v-if="ValueIsPlainObject"
           v-bind="ElFormProps"
-          ref="elFormRef"
           :class="Readonly && 'readonly'"
-          :labelWidth="labelWidth"
-          :model="value"
           v-on="Listeners"
         >
           <slot />
@@ -88,7 +85,7 @@
             {{ DenyButtonText }}
           </el-button>
           <el-button
-            v-if="ShowResetButton && $refs.elFormRef"
+            v-if="ShowResetButton && $refs[ElFormProps.ref]"
             type="info"
             :disabled="closing || confirming || denying"
             @click="onReset"
@@ -115,7 +112,7 @@
             {{ CancelButtonText }}
           </el-button>
           <el-button
-            v-if="ShowResetButton && $refs.elFormRef"
+            v-if="ShowResetButton && $refs[ElFormProps.ref]"
             type="info"
             :disabled="closing || confirming || denying"
             @click="onReset"
@@ -324,6 +321,9 @@ export default {
         globalProps.elFormProps,
         {
           disabled: this.readonly || this.confirming,
+          ref: 'elFormRef',
+          labelWidth: this.labelWidth,
+          model: this.value,
         },
       ], {
         type: Object,
@@ -406,7 +406,7 @@ export default {
           // fix: show 的初始值为 true 时 this.$refs.elFormRef 为空
           setTimeout(() => {
             let max = 0
-            this.$refs.elFormRef?.$el.querySelectorAll('.el-form-item__label').forEach((item) => {
+            this.$refs[this.ElFormProps.ref]?.$el.querySelectorAll('.el-form-item__label').forEach((item) => {
               // updated 时，避免受之前设置的宽度影响
               const prevWidth = item.style.width
               item.style.width = 'revert'
@@ -425,11 +425,11 @@ export default {
       }
     },
     onReset() {
-      this.$refs.elFormRef.resetFields()
+      this.$refs[this.ElFormProps.ref].resetFields()
     },
     onClosed() {
       this.$emit('input', cloneDeep(this.initialValue))
-      this.$refs.elFormRef?.clearValidate()
+      this.$refs[this.ElFormProps.ref]?.clearValidate()
       this.confirming = false
       this.denying = false
       this.closing = false
@@ -470,8 +470,8 @@ export default {
         }
       }
 
-      if (this.$refs.elFormRef) {
-        this.$refs.elFormRef.validate().then(() => {
+      if (this.$refs[this.ElFormProps.ref]) {
+        this.$refs[this.ElFormProps.ref].validate().then(() => {
           exec()
         }).catch((e) => {
           this.highlightError(undefined, this.$refs.overlayScrollbar)
@@ -504,8 +504,8 @@ export default {
         }
       }
 
-      if (this.$refs.elFormRef) {
-        this.$refs.elFormRef.validate().then(() => {
+      if (this.$refs[this.ElFormProps.ref]) {
+        this.$refs[this.ElFormProps.ref].validate().then(() => {
           exec()
         }).catch((e) => {
           this.highlightError(undefined, this.$refs.overlayScrollbar)
