@@ -164,14 +164,7 @@ export default {
       })
     },
     Props() {
-      return conclude([
-        this.props,
-        globalProps.props,
-        {
-          disabled: 'disabled',
-          groupDisabled: 'disabled',
-        },
-      ], {
+      return conclude([this.props, globalProps.props], {
         type: Object,
       })
     },
