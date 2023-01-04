@@ -1,13 +1,13 @@
 import 'uno.css'
 
-import FormDialog from './FormDialog'
-import Select from './Select'
-import PopButton from './PopButton'
-import PopSwitch from './PopSwitch'
+import KiFormDialog from './FormDialog'
+import KiSelect from './Select'
+import KiPopButton from './PopButton'
+import KiPopSwitch from './PopSwitch'
 
 export {
-  FormDialog,
-  Select,
-  PopButton,
-  PopSwitch,
+  KiFormDialog,
+  KiSelect,
+  KiPopButton,
+  KiPopSwitch,
 }
