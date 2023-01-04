@@ -33,6 +33,7 @@
       label="ElSelect"
       prop="elSelect"
     >
+      {{ value.elSelect }}
       <el-select
         v-model="value.elSelect"
         value-key="a"

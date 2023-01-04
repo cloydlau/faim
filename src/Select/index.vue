@@ -2,7 +2,7 @@
   <el-select
     v-bind="ElSelectProps"
     ref="elSelectRef"
-    v-model="value__"
+    v-model="innerValue"
     v-on="Listeners"
     @visible-change="onVisibleChange"
   >
@@ -17,7 +17,7 @@
         {{ SelectAllText }}
       </el-checkbox>
       <el-option-group
-        v-for="(group, groupIndex) of options__"
+        v-for="(group, groupIndex) of innerOptions"
         :key="optionGroupPropsList[groupIndex].key"
         :label="optionGroupPropsList[groupIndex].label"
         :disabled="optionGroupPropsList[groupIndex].disabled"
@@ -43,7 +43,7 @@
 
     <template v-else>
       <el-checkbox
-        v-if="AllowSelectAll && isMultiple && options__.length > 1"
+        v-if="AllowSelectAll && isMultiple && innerOptions.length > 1"
         v-model="allSelected"
         :indeterminate="indeterminate"
         class="px-20px py-10px"
@@ -52,7 +52,7 @@
         {{ SelectAllText }}
       </el-checkbox>
       <el-option
-        v-for="(v, i) of options__"
+        v-for="(v, i) of innerOptions"
         :key="optionPropsList[i].key"
         :label="optionPropsList[i].label"
         :value="optionPropsList[i].value"
@@ -112,14 +112,14 @@ export default {
   emits: [updateModelValue, 'update:options', 'update:label'],
   data() {
     return {
-      value__: this.value,
+      innerValue: undefined,
       initialValue: undefined,
       popper: null,
       // showKiSelect: false
       unwatchOptions: null,
       loading: undefined,
-      // 在组件内部维护一份 options__ 的目的：search 时可以不绑定 options
-      options__: [],
+      // 在组件内部维护一份 innerOptions 的目的：search 时可以不绑定 options
+      innerOptions: [],
       optionGroupPropsList: [],
       optionPropsList: [],
       allSelected: false,
@@ -141,13 +141,10 @@ export default {
       })
     },
     showSelectAll() {
-      return this.AllowSelectAll && this.isMultiple && this.options__.length > 1
+      return this.AllowSelectAll && this.isMultiple && this.innerOptions.length > 1
     },
     Listeners() {
       return getListeners.call(this, globalListeners)
-    },
-    isGrouped() {
-      return notEmpty(this.Props.groupOptions)
     },
     ScopedSlots() {
       const res = {}
@@ -192,45 +189,46 @@ export default {
     isMultiple() {
       return [true, ''].includes(this.ElSelectProps.multiple)
     },
+    isGrouped() {
+      return notEmpty(this.Props.groupOptions)
+    },
   },
   watch: {
-    // 必须放在 value 前面，否则会影响 syncSelectAllBtn 的判断
+    // 必须放在 value 前面，否则会影响「更新全选按钮的勾选状态」的判断
     options: {
       immediate: true,
       handler(newOptions, o) {
-        this.setOptions__(newOptions)
+        this.setInnerOptions(newOptions)
       },
     },
-    // 没有使用 v-model / value 时，resetFields 不会触发
-    value: {
-      immediate: true,
-      handler(newValue, o) {
-        this.value__ = newValue
-        this.showLabel()
-        // 外部设值时，同步全选按钮状态
-        this.syncSelectAllBtn(newValue)
-      },
-    },
-    value__: {
-      handler(newValue__, o) {
+    innerValue: {
+      handler(newInnerValue) {
         // 多选时，value 会被 el-select 初始化为 []，此时不应执行清空逻辑
-        if (this.isMultiple) {
+        /* if (this.isMultiple) {
           if (!this.valueInitializedWhenMultiple) {
             return
           }
           this.valueInitializedWhenMultiple = true
-        }
+        } */
         // 清空时
-        if (isEmpty(newValue__)) {
+        if (isEmpty(newInnerValue)) {
           this.remoteMethod()
         }
-        this.syncSelectAllBtn(value)
+        this.updateSelectAll()
+        this.showLabel()
         this.$nextTick(() => {
           this.$emit('update:label', this.isMultiple
             ? this.$refs.elSelectRef.selected.map(({ currentLabel }) => currentLabel)
             : this.$refs.elSelectRef.selectedLabel)
         })
-        this.$emit(updateModelValue, this.value__)
+        this.$emit(updateModelValue, newInnerValue)
+      },
+    },
+    // 没有使用 v-model / value 时，resetFields 不会触发
+    value: {
+      immediate: true,
+      handler(newValue) {
+        this.innerValue = newValue
       },
     },
   },
@@ -243,13 +241,13 @@ export default {
     this.initialValue = cloneDeep(this.value)
   },
   methods: {
-    // 不写在 watch 里的原因：options__、optionPropsList、optionGroupPropsList 的长度必须保持同步
-    setOptions__(newOptions) {
+    // 不写在 watch 里的原因：innerOptions、optionPropsList、optionGroupPropsList 的长度必须保持同步
+    setInnerOptions(newOptions) {
       // 校验类型
       conclude([newOptions], { type: Array })
 
       // 必须先于 optionPropsList、optionGroupPropsList 执行，否则会影响 getValue 等的判断
-      this.options__ = newOptions || []
+      this.innerOptions = newOptions || []
 
       if (this.isGrouped) {
         this.optionGroupPropsList = Array.from(newOptions || [], (group, groupIndex) => {
@@ -290,12 +288,12 @@ export default {
       const res = this.Search(e)
       if (res instanceof Promise) {
         res.then((res) => {
-          this.setOptions__(res)
+          this.setInnerOptions(res)
         }).finally(() => {
           this.loading = false
         })
       } else {
-        this.setOptions__(res)
+        this.setInnerOptions(res)
         this.loading = false
       }
     },
@@ -309,7 +307,7 @@ export default {
             }
           })
         } else if (!(this.$refs.elSelectRef.selected instanceof Vue)) {
-          const selectedLabel = this.getLabel(this.value__)
+          const selectedLabel = this.getLabel(this.innerValue)
           if (selectedLabel) {
             this.$refs.elSelectRef.selectedLabel = selectedLabel
           }
@@ -317,17 +315,17 @@ export default {
       })
     },
     selectAll(checked) {
-      const value__ = cloneDeep(this.value__)
+      const innerValue = cloneDeep(this.innerValue)
 
       const callback = (disabled, value) => {
-        const valueToIndex = Object.fromEntries(Array.from(value__, (item, i) => [item, i]))
+        const valueToIndex = Object.fromEntries(Array.from(innerValue, (item, i) => [item, i]))
         const i = valueToIndex[value]
         if (checked) {
           if (!disabled && i === undefined) {
-            value__.push(value)
+            innerValue.push(value)
           }
         } else if (i !== undefined) {
-          value__.splice(i, 1)
+          innerValue.splice(i, 1)
         }
       }
 
@@ -341,23 +339,45 @@ export default {
         this.optionPropsList.forEach(({ disabled, value }) => callback(disabled, value))
       }
 
-      this.value__ = value__
+      this.innerValue = innerValue
     },
-    syncSelectAllBtn(value) {
+    // 更新全选按钮的勾选状态
+    updateSelectAll() {
       if (this.showSelectAll) {
-        const valueLen = value?.length || 0
-        const optionsLen = this.isGrouped
-          ? this.optionGroupPropsList.reduce((pre, cur) => pre + cur.options.length, 0)
-          : this.optionPropsList.length
-        this.allSelected = valueLen > 0 && valueLen === optionsLen
-        this.indeterminate = valueLen > 0 && valueLen < optionsLen
+        if (this.innerValue?.length) {
+          const valueToIndex = Object.fromEntries(Array.from(this.innerValue, (item, i) => [item, i]))
+          let matchCount = 0
+          let optionsCount = 0
+          if (this.isGrouped) {
+            this.optionGroupPropsList.forEach(({ optionPropsList }) => {
+              optionPropsList?.forEach(({ value }) => {
+                if (valueToIndex[value] !== undefined) {
+                  matchCount++
+                }
+                optionsCount++
+              })
+            })
+          } else {
+            this.optionPropsList.forEach(({ value }) => {
+              if (valueToIndex[value] !== undefined) {
+                matchCount++
+              }
+              optionsCount++
+            })
+          }
+          this.indeterminate = matchCount > 0 && matchCount < optionsCount
+          this.allSelected = matchCount > 0 && matchCount === optionsCount
+        } else {
+          this.indeterminate = false
+          this.allSelected = false
+        }
       }
     },
     // 下拉框隐藏时，如果没有选中，el-select 会清空搜索关键字，此时需要恢复 options
     onVisibleChange(isVisible) {
       if (!isVisible) {
         this.showLabel()
-        if (isEmpty(this.value__) && this.previousQuery) {
+        if (isEmpty(this.innerValue) && this.previousQuery) {
           // 加延迟的原因：在下拉框隐藏动画结束后再恢复
           setTimeout(() => {
             this.remoteMethod()
