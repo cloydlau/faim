@@ -75,28 +75,33 @@ import Vue from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { conclude } from 'vue-global-config'
 import { v4 as uuidv4 } from 'uuid'
+import { isVue3 } from 'vue-demi'
 import { getListeners, isEmpty, isObject, notEmpty, unwrap } from '../utils'
 import { globalAttrs, globalListeners, globalProps } from './index'
+
+const modelValueProp = isVue3 ? 'modelValue' : 'value'
+const updateModelValue = isVue3 ? 'update:modelValue' : 'input'
 
 export default {
   name: 'KiSelect',
   props: {
-    value: {},
+    [modelValueProp]: {},
     label: {},
     options: {
       type: Array,
     },
     props: {},
-    allowSelectAll: {
-      type: Boolean,
-      default: undefined,
-    },
     search: {},
     searchImmediately: {
       type: Boolean,
       default: undefined,
     },
+    allowSelectAll: {
+      type: Boolean,
+      default: undefined,
+    },
   },
+  emits: [updateModelValue, 'update:options', 'update:label'],
   data() {
     return {
       value__: this.value,
@@ -129,11 +134,7 @@ export default {
       return isObject(this.options__?.[0])
     },
     valueComesFromObject() {
-      if (isEmpty(this.Props.value) || this.valueType === 'function') {
-        return false
-      } else {
-        return this.itemTypeIsJSON
-      }
+      return this.Props.value && typeof this.Props.value === 'string' && this.itemTypeIsJSON
     },
     ScopedSlots() {
       const res = {}
@@ -223,7 +224,7 @@ export default {
   },
   created() {
     if (this.SearchImmediately) {
-      this.remoteMethod(undefined, true)
+      this.remoteMethod()
     }
   },
   mounted() {
@@ -328,13 +329,13 @@ export default {
     getFilteredRule() {
       return []
     },
-    remoteMethod(e, isImmediate = false) {
+    remoteMethod(e) {
       if (!this.Search) {
         return
       }
       this.loading = true
       this.previousQuery = e
-      const res = this.Search(e, isImmediate)
+      const res = this.Search(e)
       if (res instanceof Promise) {
         res.then((res) => {
           this.setOptions__(res)

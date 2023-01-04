@@ -3,27 +3,28 @@
     v-bind="ElTooltipProps"
     ref="elTooltip"
   >
-    <div
-      slot="content"
-      v-html="ElTooltipProps.content"
-    />
+    <template #content>
+      <div v-html="ElTooltipProps.content" />
+    </template>
     <el-popover v-bind="ElPopoverProps">
       <div v-html="ElPopoverProps.content" />
-      <el-popconfirm
-        slot="reference"
-        v-bind="ElPopconfirmProps"
-        @confirm="onConfirm"
-        @onConfirm="onConfirm"
-      >
-        <el-switch
-          slot="reference"
-          v-bind="ElSwitchProps"
-          ref="elSwitch"
-          :value="value"
-          :class="InlinePrompt && 'text-inside'"
-          @click.native="onClick"
-        />
-      </el-popconfirm>
+      <template #reference>
+        <el-popconfirm
+          v-bind="ElPopconfirmProps"
+          @confirm="onConfirm"
+          @onConfirm="onConfirm"
+        >
+          <template #reference>
+            <el-switch
+              v-bind="ElSwitchProps"
+              ref="elSwitch"
+              :value="value"
+              :class="InlinePrompt && 'text-inside'"
+              @click.native="onClick"
+            />
+          </template>
+        </el-popconfirm>
+      </template>
     </el-popover>
   </el-tooltip>
 </template>
@@ -49,6 +50,7 @@ export default {
     elTooltipProps: {},
     elPopoverProps: {},
   },
+  emits: ['change'],
   computed: {
     InlinePrompt() {
       return conclude([this.inlinePrompt, globalProps.inlinePrompt, true], {

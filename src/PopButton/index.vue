@@ -4,26 +4,27 @@
     ref="elTooltip"
     class="pop-button"
   >
-    <div
-      slot="content"
-      v-html="ElTooltipProps.content"
-    />
+    <template #content>
+      <div v-html="ElTooltipProps.content" />
+    </template>
     <el-popover v-bind="ElPopoverProps">
       <div v-html="ElPopoverProps.content" />
-      <el-popconfirm
-        slot="reference"
-        v-bind="ElPopconfirmProps"
-        @confirm="$emit('click', $event)"
-        @onConfirm="$emit('click', $event)"
-      >
-        <el-button
-          slot="reference"
-          v-bind="ElButtonProps"
-          @click="onClick"
+      <template #reference>
+        <el-popconfirm
+          v-bind="ElPopconfirmProps"
+          @confirm="$emit('click', $event)"
+          @onConfirm="$emit('click', $event)"
         >
-          <slot />
-        </el-button>
-      </el-popconfirm>
+          <template #reference>
+            <el-button
+              v-bind="ElButtonProps"
+              @click="onClick"
+            >
+              <slot />
+            </el-button>
+          </template>
+        </el-popconfirm>
+      </template>
     </el-popover>
   </el-tooltip>
 </template>
@@ -39,6 +40,7 @@ export default {
     elTooltipProps: {},
     elPopoverProps: {},
   },
+  emits: ['click'],
   computed: {
     ElButtonProps() {
       return conclude([this.$attrs, globalAttrs], {

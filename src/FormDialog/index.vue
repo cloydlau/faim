@@ -151,15 +151,13 @@
 <script>
 import { conclude } from 'vue-global-config'
 import { cloneDeep, isPlainObject } from 'lodash-es'
+import { isVue3 } from 'vue-demi'
 import { getListeners } from '../utils'
 import highlightError from './highlightError'
 import { globalAttrs, globalListeners, globalProps } from './index'
-// import Scrollbar from 'smooth-scrollbar'
-// import 'overlayscrollbars/css/OverlayScrollbars.min.css'
-// import OverlayScrollbars from 'overlayscrollbars'
-// 在某项目中触发诡异 bug：el-input 输入时触发重绘，光标被强制后移
-// import { OverlayScrollbarsComponent } from 'overlayscrollbars-vue'
 
+const modelValueProp = isVue3 ? 'modelValue' : 'value'
+const updateModelValue = isVue3 ? 'update:modelValue' : 'input'
 const boolProps = [
   'show',
   'readonly',
@@ -175,7 +173,7 @@ const boolProps = [
 export default {
   name: 'KiFormDialog',
   props: {
-    value: {},
+    [modelValueProp]: {},
     title: {},
     elFormProps: {},
     retrieve: {},
@@ -190,6 +188,7 @@ export default {
       default: undefined,
     }])),
   },
+  emits: [updateModelValue, 'update:show', 'fullscreen-change'],
   data() {
     return {
       initialValue: undefined,

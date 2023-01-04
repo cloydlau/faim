@@ -42,6 +42,8 @@ module.exports = {
 
 ### ElementPlus (Vue 3)
 
+⚠ 预计下个大版本可用。
+
 #### 局部注册
 
 ```vue
@@ -194,8 +196,6 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 - 提交、拒绝、重置、全屏一应俱全
 - 限制高度，无页面级滚动条
 - 只读模式
-- 支持 ElementPlus & ElementUI
-- 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
 
@@ -378,32 +378,80 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 
 <br>
 
+## PopButton
+
+`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip` 组合拳。
+
+### 特性
+
+- 如果启用了 Popconfirm，则仅在点击了确认后才会触发 click 事件
+- Popconfirm 的顶部间隔不再那么违和地高了
+- Popover 宽度自适应，而不是写死一个最小宽度
+- Tooltip 非手动控制显隐时，点击按钮后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
+- Popconfirm，Popover，Tooltip 的内容为空时，默认不启用
+- content 属性支持 html (但不再支持插槽)
+
+### Props
+
+| 名称              | 说明                 | 类型   | 默认值 |
+| ----------------- | -------------------- | ------ | ------ |
+| elPopconfirmProps | `el-popconfirm` 属性 | object |        |
+| elPopoverProps    | `el-popover` 属性    | object |        |
+| elTooltipProps    | `el-tooltip` 属性    | object |        |
+| ...               | `el-button` 的 props |        |        |
+
+<br>
+
+## PopSwitch
+
+`el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip` 组合拳。
+
+### 特性
+
+- 如果启用了 Popconfirm，则仅在点击了确认后才会触发 change 事件
+- 支持描述内嵌，宽度自适应
+- Popconfirm 的顶部间隔不再那么违和地高了
+- Popover 宽度自适应，而不是写死一个最小宽度
+- Tooltip 非手动控制显隐时，点击开关后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
+- Popconfirm，Popover，Tooltip 的内容为空时，默认不启用
+- content 属性支持 html (但不再支持插槽)
+
+### Props
+
+| 名称              | 说明                 | 类型    | 默认值 |
+| ----------------- | -------------------- | ------- | ------ |
+| textInside        | 是否内嵌描述         | boolean | `true` |
+| elPopconfirmProps | `el-popconfirm` 属性 | object  |        |
+| elPopoverProps    | `el-popover` 属性    | object  |        |
+| elTooltipProps    | `el-tooltip` 属性    | object  |        |
+| ...               | `el-switch` 的 props |         |        |
+
+<br>
+
 ## Select
 
-[el-select](https://element.eleme.cn/#/zh-CN/component/select) 封装。
+[el-select](https://element.eleme.cn/#/zh-CN/component/select) + [el-option](https://element.eleme.cn/#/zh-CN/component/select#option-attributes) 组合拳。
 
 ### 特性
 
 - 任意类型绑定值
-- 没有 `el-option`
-- 更完善的搜索功能
+- 绑定 label (单向数据流)
+- 远程搜索无需关心 options & loading
 - 无匹配选项时展示 label (而不是 value)
 - 多选时支持一键全选 (暂不支持分组)
-- 支持 ElementPlus & ElementUI
-- 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
 
-| 名称              | 说明                                   | 类型                   | 默认值 |
-| ----------------- | -------------------------------------- | ---------------------- | ------ |
-| v-model / value   | 绑定值                                 | string, number, object |        |
-| options[.sync]    | 选项                                   | { label, value }[]     |        |
-| props             | 指定选项的各项属性                     | object                 |        |
-| search            | 搜索获取 options，(remote-method 封装) | function               |        |
-| searchImmediately | 是否立即执行搜索                       | boolean                | `true` |
-| label[.sync]      | 绑定值的文案 (暂不支持多选)            | string, number         |        |
-| allowSelectAll    | 多选时是否允许全选                     | boolean                | `true` |
-| ...               | `el-select` 的 props                   |                        |        |
+| 名称              | 说明                                        | 类型                                      | 默认值 |
+| ----------------- | ------------------------------------------- | ----------------------------------------- | ------ |
+| v-model / value   | 绑定值                                      | any                                       |        |
+| options[.sync]    | 选项                                        | any[]                                     |        |
+| props             | 定位选项的各项属性                          | object                                    |        |
+| search            | 远程搜索 (remote-method 封装)               | (query:string) => Promise<any[]> \| any[] |        |
+| searchImmediately | 是否立即执行远程搜索                        | boolean                                   | `true` |
+| label[.sync]      | 绑定值对应的 label (单向数据流暂不支持多选) | string                                    |        |
+| allowSelectAll    | 是否允许全选 (多选时)                       | boolean                                   | `true` |
+| ...               | `el-select` 的 props                        |                                           |        |
 
 #### props
 
@@ -429,9 +477,45 @@ interface Props {
 - 支持 symbol 类型的属性名
 - 支持 Function，如 `value => value.url`
 
-#### label.sync
+### search
 
-当 value 在 options 中没有匹配到对应项时，label 也可以正常展示。
+- 无需关心 options (也支持双向绑定传入初始值)
+- 无需关心 loading 状态
+
+```html
+<!-- 异步获取 options -->
+
+<KiSelect :search="(name) => $POST('xxx', { name }).then(({ data }) => data)" />
+```
+
+```html
+<!-- 双向绑定 options -->
+
+<KiSelect
+  :search="(name) => $POST('xxx', { name }).then(({ data }) => data)"
+  :options.sync="options"
+/>
+```
+
+```vue
+<!-- 自行控制 search 时机 -->
+
+<template>
+  <KiSelect
+    ref="kiSelectRef"
+    :search="(name) => $POST('xxx', { name }).then(({ data }) => data)"
+    :searchImmediately="false"
+  />
+</template>
+
+<script setup>
+const kiSelectRef = ref()
+
+onMounted(() => {
+  kiSelectRef.value.remoteMethod()
+})
+</script>
+```
 
 ### Slots
 
@@ -442,88 +526,23 @@ interface Props {
 
 <KiSelect>
   <template v-slot="{option, index}">
-    {{ option.name }}
+    {{ option.label }}
   </template>
 </KiSelect>
 ```
 
-### JSON 类型
+### plain object 类型
+
+默认情况下 value 将得到 option 本身。
+
+如果 option 是一个 plain object 而绑定值只想要其中某个属性，可以使用 `props.value`。
 
 如果 options 是对象数组且 props.value 是有效的对象键名时，value 将得到选中项对应对象中指定 value 的值，
 
-否则，value 将得到选中项对应的数组元素。
+否则，
 
 Select 默认将 props.value 用作 value-key，
 options 为对象数组且未指定 value 值时，绑定值将是 JSON 类型，此时必须按 el-select 的要求提供 value-key。
-
-### 搜索
-
-- 无需操心 loading 状态
-- 清空输入时，自动恢复初始 options
-
-```vue
-<!-- 异步获取 options -->
-
-<template>
-  <KiSelect :search="(name) => $POST('xxx', { name }).then(({ data }) => data)" />
-</template>
-```
-
-```vue
-<!-- 双向绑定 options -->
-
-<template>
-  <KiSelect
-    :search="(name) => $POST('xxx', { name }).then(({ data }) => data)"
-    :options.sync="options"
-  />
-</template>
-
-<script>
-export default {
-  data() {
-    return {
-      options: [],
-    }
-  },
-}
-</script>
-```
-
-```vue
-<!-- 同步获取 options -->
-
-<template>
-  <KiSelect
-    :search="keyword => ['1', '2', '3'].filter(v => v === keyword)"
-  />
-</template>
-```
-
-```vue
-<!-- searchImmediately 为 true 时，search 将在 created 时被调用，可以用 search 方法的第二个参数 isImmediate 来判断是否为初始调用 -->
-<!-- 你可以通过如下方式来自定义 search 的调用时机 -->
-
-<template>
-  <KiSelect
-    ref="kiSelectRef"
-    :search="(keyword, isImmediate) => {}"
-  />
-</template>
-
-<script>
-export default {
-  watch: {
-    x() {
-      this.$refs.kiSelectRef.remoteMethod()
-    }
-  },
-  mounted() {
-    this.$refs.kiSelectRef.remoteMethod(undefined, true)
-  }
-}
-</script>
-```
 
 ### 分组
 
@@ -575,60 +594,6 @@ export default {
 这是 `el-select` 自身原因导致的，在多选时，`el-select` 会将 value 初始化为 `[]`，
 
 解决方式：给 value 赋初值 `[]`。
-
-<br>
-
-## PopSwitch
-
-`el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip` 组合拳。
-
-### 特性
-
-- 如果启用了 Popconfirm，则仅在点击了确认后才会触发 change 事件
-- 支持描述内嵌，宽度自适应
-- Popconfirm 的顶部间隔不再那么违和地高了
-- Popover 宽度自适应，而不是写死一个最小宽度
-- Tooltip 非手动控制显隐时，点击开关后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
-- Popconfirm，Popover，Tooltip 的内容为空时，默认不启用
-- content 属性支持 html (但不再支持插槽)
-- 支持 ElementPlus & ElementUI
-- 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
-
-### Props
-
-| 名称              | 说明                 | 类型    | 默认值 |
-| ----------------- | -------------------- | ------- | ------ |
-| textInside        | 是否内嵌描述         | boolean | `true` |
-| elPopconfirmProps | `el-popconfirm` 属性 | object  |        |
-| elPopoverProps    | `el-popover` 属性    | object  |        |
-| elTooltipProps    | `el-tooltip` 属性    | object  |        |
-| ...               | `el-switch` 的 props |         |        |
-
-<br>
-
-## PopButton
-
-`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip` 组合拳。
-
-### 特性
-
-- 如果启用了 Popconfirm，则仅在点击了确认后才会触发 click 事件
-- Popconfirm 的顶部间隔不再那么违和地高了
-- Popover 宽度自适应，而不是写死一个最小宽度
-- Tooltip 非手动控制显隐时，点击按钮后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
-- Popconfirm，Popover，Tooltip 的内容为空时，默认不启用
-- content 属性支持 html (但不再支持插槽)
-- 支持 ElementPlus & ElementUI
-- 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
-
-### Props
-
-| 名称              | 说明                 | 类型   | 默认值 |
-| ----------------- | -------------------- | ------ | ------ |
-| elPopconfirmProps | `el-popconfirm` 属性 | object |        |
-| elPopoverProps    | `el-popover` 属性    | object |        |
-| elTooltipProps    | `el-tooltip` 属性    | object |        |
-| ...               | `el-button` 的 props |        |        |
 
 <br>
 
