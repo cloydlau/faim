@@ -5,36 +5,38 @@ import App from './App.vue'
 
 import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
-Vue.use(ElementUI)
 
 import {
-  FormDialog,
-  Select,
-  PopButton,
-  PopSwitch,
-} from '../src/index'
+  KiFormDialog,
+  KiPopButton,
+  KiPopSwitch,
+  KiSelect,
+} from '../../src/index'
+Vue.use(ElementUI)
 
-[
+;[
   {
-    component: FormDialog,
+    component: KiFormDialog,
     config: {
-      '@closed'(e) {
+      '@closed': function (e) {
         console.log('@closed')
         console.log(e)
         console.log(this)
       },
-    }
+    },
   },
   {
-    component: Select,
+    component: KiPopButton,
   },
   {
-    component: PopButton,
+    component: KiPopSwitch,
   },
   {
-    component: PopSwitch,
+    component: KiSelect,
   },
-].map(({ component, config }) => Vue.use(component, config))
+].forEach(({ component, config }) => {
+  Vue.use(component, config)
+})
 
 Vue.config.productionTip = false
 

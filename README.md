@@ -5,7 +5,7 @@
 </h1>
 
 <p align="center">
-  几个 ElementUI 组件的封装。
+  几个 ElementPlus/ElementUI 组件的封装。
 </p>
 
 <p align="center">
@@ -22,55 +22,55 @@
 npm i kikimore
 ```
 
-### 外置依赖
-
-- vue@2
-- element-ui
-
-### 局部注册
-
 ```ts
-import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
+// vite.config.ts
 
-export default {
-  components: {
-    [FormDialog.name]: FormDialog,
-    [PopButton.name]: PopButton,
-    [PopSwitch.name]: PopSwitch,
-    [Select.name]: Select,
+export default defineConfig({
+  optimizeDeps: {
+    include: ['kikimore'],
   },
-}
-```
-
-### 全局注册
-
-```ts
-import Vue from 'vue'
-import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
-
-;[
-  [FormDialog, {
-    // 全局配置
-  }],
-  [Select, {
-    // 全局配置
-  }],
-  [PopButton, {
-    // 全局配置
-  }],
-  [PopSwitch, {
-    // 全局配置
-  }]
-].map(([component, config]) => {
-  Vue.use(FormDialog, config)
 })
 ```
 
-### CDN + ESM
+```js
+// vue.config.js
 
-> ⚠ 暂不支持 (ElementUI 未提供 ESM 导出)
+module.exports = {
+  transpileDependencies: ['json-editor-vue'],
+}
+```
 
-### CDN + UMD
+### ElementPlus (Vue 3)
+
+#### 局部注册
+
+```vue
+<script setup>
+import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
+</script>
+```
+
+#### 全局注册
+
+```ts
+import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
+
+app
+  .use(KiFormDialog, {
+    // 全局配置
+  })
+  .use(KiPopButton, {
+    // 全局配置
+  })
+  .use(KiPopSwitch, {
+    // 全局配置
+  })
+  .use(KiSelect, {
+    // 全局配置
+  })
+```
+
+#### CDN + ESM
 
 ```html
 <!DOCTYPE html>
@@ -78,10 +78,7 @@ import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
 
 <head>
   <meta charset="UTF-8" />
-  <link
-    rel="stylesheet"
-    href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"
-  >
+  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
 </head>
 
 <body>
@@ -91,25 +88,80 @@ import { FormDialog, PopButton, PopSwitch, Select } from 'kikimore'
     <ki-pop-switch></ki-pop-switch>
     <ki-select></ki-select>
   </div>
-  <script src="https://unpkg.com/vue@2"></script>
-  <script src="https://unpkg.com/element-ui/lib/index.js"></script>
-  <script src="https://unpkg.com/kikimore@0.12"></script>
-  <script>
-    const { FormDialog, PopButton, PopSwitch, Select } = Kikimore
 
-    new Vue({
-      components: {
-        [FormDialog.name]: FormDialog,
-        [PopButton.name]: PopButton,
-        [PopSwitch.name]: PopSwitch,
-        [Select.name]: Select,
-      },
-    }).$mount('#app')
+  <script type="importmap">
+    {
+      "imports": {
+        "vue": "https://unpkg.com/vue/dist/vue.esm-browser.prod.js",
+        "vue-demi": "https://unpkg.com/vue-demi/lib/v3/index.mjs",
+        "element-plus": "https://unpkg.com/element-plus"
+        "kikimore": "https://unpkg.com/element-plus@0.13"
+      }
+    }
+  </script>
+  <script type="module">
+    import { createApp } from 'vue'
+    import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
+
+    createApp()
+      .use(KiFormDialog)
+      .use(KiPopButton)
+      .use(KiPopSwitch)
+      .use(KiSelect)
+      .mount('#app')
   </script>
 </body>
-
-</html>
 ```
+
+#### CDN + UMD
+
+> ⚠ 暂不支持 (Kikimore 未提供 UMD 导出)
+
+### ElementUI (Vue 2)
+
+#### 局部注册
+
+```vue
+<script>
+import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
+
+export default {
+  components: { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect },
+}
+</script>
+```
+
+#### 全局注册
+
+```ts
+import Vue from 'vue'
+import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
+
+;[
+  [KiFormDialog, {
+    // 全局配置
+  }],
+  [KiPopButton, {
+    // 全局配置
+  }],
+  [KiPopSwitch, {
+    // 全局配置
+  }],
+  [KiSelect, {
+    // 全局配置
+  }]
+].forEach(([component, config]) => {
+  Vue.use(FormDialog, config)
+})
+```
+
+#### CDN + ESM
+
+> ⚠ 暂不支持 (ElementUI 未提供 ESM 导出)
+
+#### CDN + UMD
+
+> ⚠ 暂不支持 (Kikimore 未提供 UMD 导出)
 
 <br>
 
@@ -142,6 +194,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 - 提交、拒绝、重置、全屏一应俱全
 - 限制高度，无页面级滚动条
 - 只读模式
+- 支持 ElementPlus & ElementUI
 - 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
@@ -333,7 +386,10 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 
 - 任意类型绑定值
 - 没有 `el-option`
+- 更完善的搜索功能
+- 无匹配选项时展示 label (而不是 value)
 - 多选时支持一键全选 (暂不支持分组)
+- 支持 ElementPlus & ElementUI
 - 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
@@ -346,7 +402,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 | search            | 搜索获取 options，(remote-method 封装) | function               |        |
 | searchImmediately | 是否立即执行搜索                       | boolean                | `true` |
 | label[.sync]      | 绑定值的文案 (暂不支持多选)            | string, number         |        |
-| allowSelectAll    | 是否允许全选 (开启多选且选项数量 > 1)  | boolean                | `true` |
+| allowSelectAll    | 多选时是否允许全选                     | boolean                | `true` |
 | ...               | `el-select` 的 props                   |                        |        |
 
 #### props
@@ -474,42 +530,44 @@ export default {
 ```vue
 <!-- 示例 -->
 
-<KiSelect
-  :props="{
-    value: 'code',
-    label: 'name',
-    groupLabel: 'name',
-    groupOptions: 'children',
-  }"
-  :options="[
-    {
-      name: '广东省',
-      children: [
-        {
-          name: '深圳市',
-          code: '4403',
-        },
-        {
-          name: '广州市',
-          code: '4401',
-        },
-      ]
-    },
-    {
-      name: '江苏省',
-      children: [
-        {
-          name: '南京市',
-          code: '3201',
-        },
-        {
-          name: '苏州市',
-          code: '3205',
-        },
-      ]
-    }
-  ]"
-/>
+<template>
+  <KiSelect
+    :props="{
+      value: 'code',
+      label: 'name',
+      groupLabel: 'name',
+      groupOptions: 'children',
+    }"
+    :options="[
+      {
+        name: '广东省',
+        children: [
+          {
+            name: '深圳市',
+            code: '4403',
+          },
+          {
+            name: '广州市',
+            code: '4401',
+          },
+        ],
+      },
+      {
+        name: '江苏省',
+        children: [
+          {
+            name: '南京市',
+            code: '3201',
+          },
+          {
+            name: '苏州市',
+            code: '3205',
+          },
+        ],
+      },
+    ]"
+  />
+</template>
 ```
 
 多选且与 `el-form` 搭配时，会出现一开始就触发 rule 校验的问题 (而不是 blur 或 change 以后)，
@@ -533,6 +591,7 @@ export default {
 - Tooltip 非手动控制显隐时，点击开关后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
 - Popconfirm，Popover，Tooltip 的内容为空时，默认不启用
 - content 属性支持 html (但不再支持插槽)
+- 支持 ElementPlus & ElementUI
 - 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props
@@ -559,6 +618,7 @@ export default {
 - Tooltip 非手动控制显隐时，点击按钮后会自动关闭，以避免与 Popconfirm 和 Popover 冲突
 - Popconfirm，Popover，Tooltip 的内容为空时，默认不启用
 - content 属性支持 html (但不再支持插槽)
+- 支持 ElementPlus & ElementUI
 - 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### Props

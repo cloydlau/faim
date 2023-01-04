@@ -34,14 +34,13 @@
       @closed="console.log('closed')"
       @validate="console.log('validate')"
     >
-      <template #default="{ elFormRef }">
-        <el-form-item
-          label="Select"
-          required
-          prop="KiSelect[0].value"
-        >
-          <div class="flex justify-between">
-            <!-- <el-select
+      <el-form-item
+        label="Select"
+        required
+        prop="KiSelect[0].value"
+      >
+        <div class="flex justify-between">
+          <!-- <el-select
               v-model="form.KiSelect[0].value"
               clearable
             >
@@ -52,100 +51,96 @@
                 :value="item"
               />
             </el-select> -->
-            <KiSelect
-              v-model="form.KiSelect[0].value"
-              :label.sync="form.KiSelect[0].label"
-              :index.sync="form.KiSelect[0].index"
-              :options="form.KiSelect[0].options"
-              placeholder="number[]"
-            >
-              <template #default="{ option, index }">
-                option: {{ option }}
-                index: {{ index }}
-              </template>
-              <template #prefix>
-                pre
-              </template>
-              <template #empty>
-                empty
-              </template>
-            </KiSelect>
-            <KiSelect
-              v-model="form.KiSelect[1].value"
-              :label.sync="form.KiSelect[1].label"
-              :index.sync="form.KiSelect[1].index"
-              :options="form.KiSelect[1].options"
-              value-key="a"
-              :props="{
-                value: null,
-                label: 'name',
-                disabled: '__disabled',
-                groupOptions: 'children',
-                groupLabel: 'label',
-              }"
-              placeholder="labelRight"
-              :search="search"
-              :searchImmediately="true"
-            />
-            <KiSelect
-              v-model="form.KiSelect[2].value"
-              :label.sync="form.KiSelect[2].label"
-              :index.sync="form.KiSelect[2].index"
-              :options="form.KiSelect[2].options"
-              :props="{
-                value: 'a',
-                label: ({ name, b }) => `${name}-${b}`,
-                labelRight: ({ name, b }) => `${b}-${name}`,
-              }"
-              placeholder="a/${name}-${b}/labelRight"
-            />
-          </div>
-          <div class="flex justify-between">
-            <div>{{ form.KiSelect[0].value }}</div>
-            <div>{{ form.KiSelect[1].value }}</div>
-            <div>{{ form.KiSelect[2].value }}</div>
-          </div>
-          <div class="flex justify-between">
-            <div>{{ form.KiSelect[0].label }}</div>
-            <div>{{ form.KiSelect[1].label }}</div>
-            <div>{{ form.KiSelect[2].label }}</div>
-          </div>
-          <div class="flex justify-between">
-            <div>{{ form.KiSelect[0].index }}</div>
-            <div>{{ form.KiSelect[1].index }}</div>
-            <div>{{ form.KiSelect[2].index }}</div>
-          </div>
-        </el-form-item>
-
-        <el-form-item label="PopButton">
-          <KiPopButton
-            :elTooltipProps="{ content: `<i class='el-icon-warning'/> 删除` }"
-            :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
-            :elPopconfirmProps="{ title: '确认删除吗？' }"
-            @click="console.log('[PopButton] click')"
+          <KiSelect
+            v-model="form.KiSelect[0].value"
+            :label.sync="form.KiSelect[0].label"
+            :index.sync="form.KiSelect[0].index"
+            :options="form.KiSelect[0].options"
+            placeholder="number[]"
           >
-            删除
-          </KiPopButton>
-        </el-form-item>
-
-        <el-form-item
-          label="PopSwitch"
-          prop="PopSwitch"
-        >
-          <KiPopSwitch
-            v-model="popSwitch"
-            :elTooltipProps="{ content: `<i class='el-icon-warning'/> 已停用` }"
-            :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
-            :elPopconfirmProps="{ title: '确认启用吗？' }"
-            active-text="启用"
-            inactive-text="停用"
-            @click.native="console.log('[PopSwitch] click')"
+            <template #default="{ option, index }">
+              option: {{ option }}
+              index: {{ index }}
+            </template>
+            <template #prefix>
+              pre
+            </template>
+            <template #empty>
+              empty
+            </template>
+          </KiSelect>
+          <KiSelect
+            v-model="form.KiSelect[1].value"
+            :label.sync="form.KiSelect[1].label"
+            :index.sync="form.KiSelect[1].index"
+            :options="form.KiSelect[1].options"
+            value-key="a"
+            :props="{
+              value: null,
+              label: 'name',
+              disabled: '__disabled',
+              groupOptions: 'children',
+              groupLabel: 'label',
+            }"
+            placeholder="labelRight"
+            :search="search"
+            :searchImmediately="true"
           />
-        </el-form-item>
-        <el-button @click="() => { elFormRef.resetFields() }">
-          重置
-        </el-button>
-      </template>
+          <KiSelect
+            v-model="form.KiSelect[2].value"
+            :label.sync="form.KiSelect[2].label"
+            :index.sync="form.KiSelect[2].index"
+            :options="form.KiSelect[2].options"
+            :props="{
+              value: 'a',
+              label: ({ name, b }) => `${name}-${b}`,
+              labelRight: ({ name, b }) => `${b}-${name}`,
+            }"
+            placeholder="a/${name}-${b}/labelRight"
+          />
+        </div>
+        <div class="flex justify-between">
+          <div>{{ form.KiSelect[0].value }}</div>
+          <div>{{ form.KiSelect[1].value }}</div>
+          <div>{{ form.KiSelect[2].value }}</div>
+        </div>
+        <div class="flex justify-between">
+          <div>{{ form.KiSelect[0].label }}</div>
+          <div>{{ form.KiSelect[1].label }}</div>
+          <div>{{ form.KiSelect[2].label }}</div>
+        </div>
+        <div class="flex justify-between">
+          <div>{{ form.KiSelect[0].index }}</div>
+          <div>{{ form.KiSelect[1].index }}</div>
+          <div>{{ form.KiSelect[2].index }}</div>
+        </div>
+      </el-form-item>
+
+      <el-form-item label="PopButton">
+        <KiPopButton
+          :elTooltipProps="{ content: `<i class='el-icon-warning'/> 删除` }"
+          :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
+          :elPopconfirmProps="{ title: '确认删除吗？' }"
+          @click="console.log('[PopButton] click')"
+        >
+          删除
+        </KiPopButton>
+      </el-form-item>
+
+      <el-form-item
+        label="PopSwitch"
+        prop="PopSwitch"
+      >
+        <KiPopSwitch
+          v-model="popSwitch"
+          :elTooltipProps="{ content: `<i class='el-icon-warning'/> 已停用` }"
+          :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
+          :elPopconfirmProps="{ title: '确认启用吗？' }"
+          active-text="启用"
+          inactive-text="停用"
+          @click.native="console.log('[PopSwitch] click')"
+        />
+      </el-form-item>
     </KiFormDialog>
   </div>
 </template>
