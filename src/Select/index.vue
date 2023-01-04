@@ -156,7 +156,6 @@ export default {
     },
     ElSelectProps() {
       const remote = Boolean(this.Search)
-      const placeholder = remote ? '搜索' : '请选择'
 
       return conclude([this.$attrs, globalAttrs, {
         clearable: true,
@@ -166,7 +165,6 @@ export default {
         remoteMethod: this.Search ? this.remoteMethod : undefined,
         valueKey: this.valueComesFromObject ? this.Props.value : undefined,
         loading: this.loading,
-        placeholder,
       }], {
         type: Object,
         camelizeObjectKeys: true,
