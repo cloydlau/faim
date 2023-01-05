@@ -1,7 +1,6 @@
 <template>
   <el-select
     v-bind="ElSelectProps"
-    ref="elSelectRef"
     v-model="innerValue"
     v-on="Listeners"
     @visible-change="onVisibleChange"
@@ -122,9 +121,6 @@ export default {
     return {
       innerValue: undefined,
       initialValue: undefined,
-      popper: null,
-      // showKiSelect: false
-      unwatchOptions: null,
       loading: undefined,
       // 在组件内部维护一份 innerOptions 的目的：search 时可以不绑定 options
       innerOptions: [],
@@ -167,6 +163,7 @@ export default {
       const remote = Boolean(this.Search)
 
       return conclude([this.$attrs, globalAttrs, {
+        ref: 'elSelectRef',
         clearable: true,
         filterable: true,
         remote,
@@ -226,8 +223,8 @@ export default {
         this.showLabel()
         this.$nextTick(() => {
           this.$emit('update:label', this.isMultiple
-            ? this.$refs.elSelectRef.selected.map(({ currentLabel }) => currentLabel)
-            : this.$refs.elSelectRef.selectedLabel)
+            ? this.$refs[this.ElSelectProps.ref].selected.map(({ currentLabel }) => currentLabel)
+            : this.$refs[this.ElSelectProps.ref].selectedLabel)
         })
         this.$emit(updateModelValue, newInnerValue)
       },
@@ -309,15 +306,15 @@ export default {
     showLabel() {
       this.$nextTick(() => {
         if (this.isMultiple) {
-          this.$refs.elSelectRef.selected.forEach((v) => {
+          this.$refs[this.ElSelectProps.ref].selected.forEach((v) => {
             if (!v.currentLabel) {
               v.currentLabel = this.getLabel(v.value)
             }
           })
-        } else if (!(this.$refs.elSelectRef.selected instanceof Vue)) {
+        } else if (!(this.$refs[this.ElSelectProps.ref].selected instanceof Vue)) {
           const selectedLabel = this.getLabel(this.innerValue)
           if (selectedLabel) {
-            this.$refs.elSelectRef.selectedLabel = selectedLabel
+            this.$refs[this.ElSelectProps.ref].selectedLabel = selectedLabel
           }
         }
       })
