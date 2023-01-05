@@ -22,6 +22,8 @@
 npm i kikimore
 ```
 
+- Vite
+
 ```ts
 // vite.config.ts
 
@@ -31,6 +33,8 @@ export default defineConfig({
   },
 })
 ```
+
+- Vue CLI
 
 ```js
 // vue.config.js
