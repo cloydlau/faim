@@ -329,17 +329,17 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 事件
 
-| 名称              | 说明                               | 回调参数              |
-| ----------------- | ---------------------------------- | --------------------- |
-| fullscreen-change | 切换全屏状态时触发                 | (fullscreen: boolean) |
-| ...               | 继承 `el-dialog`、`el-form` 的事件 |                       |
+| 名称              | 说明                          | 回调参数              |
+| ----------------- | ----------------------------- | --------------------- |
+| fullscreen-change | 切换全屏状态时触发            | (fullscreen: boolean) |
+| ...               | `el-dialog`、`el-form` 的事件 |                       |
 
 ### 插槽
 
-| 名称 | 说明                    |
-| ---- | ----------------------- |
-| —    | `el-form` 的内容        |
-| ...  | 继承 `el-dialog` 的插槽 |
+| 名称 | 说明               |
+| ---- | ------------------ |
+| —    | `el-form` 的内容   |
+| ...  | `el-dialog` 的插槽 |
 
 ### 改变遮罩层定位
 
@@ -386,7 +386,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 事件
 
-继承 `el-popconfirm`、`el-popover`。
+`el-popconfirm`、`el-popover` 的事件。
 
 <br>
 
@@ -420,7 +420,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 事件
 
-继承 `el-switch`、`el-popconfirm`、`el-popover`。
+`el-switch`、`el-popconfirm`、`el-popover` 的事件。
 
 <br>
 
@@ -527,7 +527,7 @@ onMounted(() => {
 
 ### 事件
 
-继承 `el-select`。
+`el-select` 的事件。
 
 ### 插槽
 
