@@ -48,7 +48,7 @@
     <template v-else>
       <slot name="option-prepend">
         <el-checkbox
-          v-if="ShowSelectAllCheckbox && isMultiple && innerOptions.length > 1"
+          v-if="innerShowSelectAllCheckbox"
           v-model="allSelected"
           :indeterminate="indeterminate"
           class="px-20px py-10px"
@@ -321,10 +321,11 @@ export default {
     },
     selectAll(checked) {
       const innerValue = cloneDeep(this.innerValue)
+      const valueToIndex = Object.fromEntries(Array.from(this.innerValue, (item, i) =>
+        [isObject(item) ? item[this.ElSelectProps.valueKey] : item, i]))
 
-      const callback = (disabled, value) => {
-        const valueToIndex = Object.fromEntries(Array.from(innerValue, (item, i) => [item, i]))
-        const i = valueToIndex[value]
+      const callback = (disabled, value, key) => {
+        const i = valueToIndex[isObject(value) ? key : value]
         if (checked) {
           if (!disabled && i === undefined) {
             innerValue.push(value)
@@ -337,11 +338,11 @@ export default {
       if (this.isGrouped) {
         this.optionGroupPropsList.forEach(({ disabled, optionPropsList }) => {
           if (!disabled) {
-            optionPropsList?.forEach(({ disabled, value }) => callback(disabled, value))
+            optionPropsList?.forEach(({ disabled, value, key }) => callback(disabled, value, key))
           }
         })
       } else {
-        this.optionPropsList.forEach(({ disabled, value }) => callback(disabled, value))
+        this.optionPropsList.forEach(({ disabled, value, key }) => callback(disabled, value, key))
       }
 
       this.innerValue = innerValue

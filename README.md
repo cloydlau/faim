@@ -454,7 +454,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 默认情况下绑定值将得到选中项的数组元素本身。
 
-可使用 `props.value` 改变此行为 (比如选项的数组元素是 plain object，但绑定值只想要其中某个属性)。
+可使用 `props.value` 改变此行为 (比如选项的数组元素是 plain object 类型，而绑定值只想要其中某个属性)。
 
 #### props
 
