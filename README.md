@@ -322,17 +322,17 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 方法
 
-| 名称           | 说明                       | 参数                                                                                                     |
-| -------------- | -------------------------- | -------------------------------------------------------------------------------------------------------- |
-| highlightError | 平滑滚动至校验失败的表单项 | (selectors: string \| Element \| NodeList = '.el-form .el-form-item.is-error', container = window): void |
-| ...            | 通过 ref 调用内            |                                                                                                          |
+| 名称           | 说明                           | 参数                                                                                                     |
+| -------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| highlightError | 平滑滚动至校验失败的表单项     | (selectors: string \| Element \| NodeList = '.el-form .el-form-item.is-error', container = window): void |
+| ...            | 通过 ref 调用 `el-form` 的方法 |                                                                                                          |
 
 ### 事件
 
-| 名称              | 说明               | 回调参数              |
-| ----------------- | ------------------ | --------------------- |
-| fullscreen-change | 切换全屏状态时触发 | (fullscreen: boolean) |
-| ...               | 继承的事件         |                       |
+| 名称              | 说明                               | 回调参数              |
+| ----------------- | ---------------------------------- | --------------------- |
+| fullscreen-change | 切换全屏状态时触发                 | (fullscreen: boolean) |
+| ...               | 继承 `el-dialog`、`el-form` 的事件 |                       |
 
 ### 插槽
 
@@ -381,13 +381,9 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 | elTooltipProps    | `el-tooltip` 的属性    | object |        |
 | ...               | `el-button` 的属性     |        |        |
 
-### 方法
-
-通过 ref 调用。
-
 ### 事件
 
-继承。
+继承 `el-popconfirm`、`el-popover`。
 
 <br>
 
@@ -409,7 +405,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 | 名称              | 说明                   | 类型    | 默认值 |
 | ----------------- | ---------------------- | ------- | ------ |
-| inlinePrompt      | 是否内嵌描述           | boolean | `true` |
+| inlinePrompt      | 是否内嵌文本           | boolean | `true` |
 | elPopconfirmProps | `el-popconfirm` 的属性 | object  |        |
 | elPopoverProps    | `el-popover` 的属性    | object  |        |
 | elTooltipProps    | `el-tooltip` 的属性    | object  |        |
@@ -417,11 +413,11 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 方法
 
-通过 ref 调用。
+通过 ref 调用 `el-switch` 的方法。
 
 ### 事件
 
-继承。
+继承 `el-switch`、`el-popconfirm`、`el-popover`。
 
 <br>
 
@@ -524,11 +520,11 @@ onMounted(() => {
 
 ### 方法
 
-通过 ref 调用。
+通过 ref 调用 `el-select` 的方法。
 
 ### 事件
 
-继承。
+继承 `el-select`。
 
 ### 插槽
 
