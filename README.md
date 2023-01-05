@@ -167,24 +167,6 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 <br>
 
-## 命名风格
-
-所有组件命名均符合 [Vue 官方风格指南](https://v2.cn.vuejs.org/v2/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81)
-指导的 “组件名为多个单词”。
-
-关于 KiSelect 组件中 value 和 label 的命名：
-
-- value：这里要表达的含义就是选中目标的 “值”，等同于原生 `<input type="checkbox">` 元素的 value 属性，不一定是其唯一标识，所以不应该使用 id 或者 key，且 key 与 Vue 的特殊 attribute 冲突。
-
-- label：html 中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以 label 天生是用来表达选中目标的 “展示名称” 的，而 name 由于与原生 input 元素的 name 属性冲突故不考虑使用 name。
-
-> ElementUI 本身没有做到命名的统一，`el-select` 中 label 表示选项的标签，
-> 但 `el-checkbox` 中 label 却表示的是选中状态的值。
-
-UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
-
-<br>
-
 ## FormDialog
 
 [el-dialog](https://element.eleme.cn/#/zh-CN/component/dialog) + [el-form](https://element.eleme.cn/#/zh-CN/component/form) 组合拳。
@@ -197,40 +179,40 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 - 限制高度，无页面级滚动条
 - 只读模式
 
-### Props
+### 属性
 
-| 名称                 | 说明                 | 类型     | 默认值      |
-| -------------------- | -------------------- | -------- | ----------- |
-| show[.sync]          | 是否开启             | boolean  | `false`     |
-| title                | 对话框标题           | string   |             |
-| v-model / value      | 表单数据对象         | any      |             |
-| elFormProps          | `el-form` 的 props   | object   |             |
-| retrieve             | 读取数据             | Function |             |
-| loading              | 读取状态             | boolean  | `false`     |
-| readonly             | 是否只读             | boolean  | `false`     |
-| showFullscreenToggle | 是否显示全屏开关     | boolean  | `true`      |
-| showConfirmButton    | 是否显示确认按钮     | boolean  | `!readonly` |
-| confirmButtonText    | 确认按钮的文案       | string   | `'OK'`      |
-| confirm              | 确认                 | Function |             |
-| showCancelButton     | 是否显示取消按钮     | boolean  | `!readonly` |
-| cancelButtonText     | 取消按钮的文案       | string   | `'Cancel'`  |
-| showDenyButton       | 是否显示拒绝按钮     | boolean  | `false`     |
-| denyButtonText       | 拒绝按钮的文案       | string   | `'No'`      |
-| deny                 | 拒绝                 | Function |             |
-| showResetButton      | 是否显示重置按钮     | boolean  | `false`     |
-| resetButtonText      | 重置按钮的文案       | string   | `'Reset'`   |
-| reverseButtons       | 是否反转按钮顺序     | boolean  | `false`     |
-| ...                  | `el-dialog` 的 props |          |             |
+| 名称                 | 说明                                | 类型     | 默认值      |
+| -------------------- | ----------------------------------- | -------- | ----------- |
+| title                | 对话框标题                          | string   |             |
+| show[.sync]          | 是否开启                            | boolean  | `false`     |
+| v-model / value      | 表单数据对象 (`el-form` 的 `model`) | any      |             |
+| elFormProps          | `el-form` 的属性                    | object   |             |
+| retrieve             | 读取数据                            | Function |             |
+| loading              | 读取状态                            | boolean  | `false`     |
+| readonly             | 是否只读                            | boolean  | `false`     |
+| showFullscreenToggle | 是否显示全屏开关                    | boolean  | `true`      |
+| showConfirmButton    | 是否显示确认按钮                    | boolean  | `!readonly` |
+| confirmButtonText    | 确认按钮的文案                      | string   | `'OK'`      |
+| confirm              | 确认                                | Function |             |
+| showCancelButton     | 是否显示取消按钮                    | boolean  | `!readonly` |
+| cancelButtonText     | 取消按钮的文案                      | string   | `'Cancel'`  |
+| showDenyButton       | 是否显示拒绝按钮                    | boolean  | `false`     |
+| denyButtonText       | 拒绝按钮的文案                      | string   | `'No'`      |
+| deny                 | 拒绝                                | Function |             |
+| showResetButton      | 是否显示重置按钮                    | boolean  | `false`     |
+| resetButtonText      | 重置按钮的文案                      | string   | `'Reset'`   |
+| reverseButtons       | 是否反转按钮顺序                    | boolean  | `false`     |
+| ...                  | `el-dialog` 的属性                  |          |             |
 
 #### v-model / value
 
-如果是 plain object 类型，将用于 `el-form` 的 model。
+如果是 plain object 类型，将用于 `el-form` 的 `model`。
 
-关闭对话框时会被重置。
+`onMounted` 时记录初始值，关闭对话框时会重置至初始值。
 
 #### elFormProps
 
-`disabled`, `ref`, `labelWidth`, `model` 是有内部默认值的，使用时请留意。
+`disabled`, `ref`, `labelWidth`, `model` 存在内部默认值，使用时请留意。
 
 #### retrieve
 
@@ -249,7 +231,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 
 #### readonly
 
-跟 `<el-form disabled />` 的区别是在样式上，更方便用户阅读。
+跟 `<el-form disabled />` 的区别是在样式上，更便于用户阅读。
 
 开启只读模式时默认不显示确认和取消按钮。
 
@@ -338,23 +320,23 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 
 关于 “确定” 和 “取消” 按钮的顺序，可以看看这篇[知乎回答](https://www.zhihu.com/question/20694680/answer/1400624833)。
 
-### Slots
-
-同 `el-dialog` (`el-form` 没有 slot)。
-
-### Events
-
-| 名称              | 说明                  | 回调参数              |
-| ----------------- | --------------------- | --------------------- |
-| fullscreen-change | 切换全屏状态时触发    | (fullscreen: boolean) |
-| ...               | `el-dialog` 的 events |                       |
-| ...               | `el-form` 的 events   |                       |
-
-### Methods
+### 方法
 
 | 名称           | 说明                       | 参数                                                                                                     |
 | -------------- | -------------------------- | -------------------------------------------------------------------------------------------------------- |
 | highlightError | 平滑滚动至校验失败的表单项 | (selectors: string \| Element \| NodeList = '.el-form .el-form-item.is-error', container = window): void |
+
+### 事件
+
+| 名称              | 说明               | 回调参数              |
+| ----------------- | ------------------ | --------------------- |
+| fullscreen-change | 切换全屏状态时触发 | (fullscreen: boolean) |
+| ...               | `el-dialog` 的事件 |                       |
+| ...               | `el-form` 的事件   |                       |
+
+### 插槽
+
+继承 `el-dialog` (`el-form` 没有插槽)。
 
 ### 改变遮罩层定位
 
@@ -390,16 +372,16 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 - Popconfirm，Popover，Tooltip 的内容为空时，默认不启用
 - content 属性支持 html (但不再支持插槽)
 
-### Props
+### 属性
 
-| 名称              | 说明                 | 类型   | 默认值 |
-| ----------------- | -------------------- | ------ | ------ |
-| elPopconfirmProps | `el-popconfirm` 属性 | object |        |
-| elPopoverProps    | `el-popover` 属性    | object |        |
-| elTooltipProps    | `el-tooltip` 属性    | object |        |
-| ...               | `el-button` 的 props |        |        |
+| 名称              | 说明                   | 类型   | 默认值 |
+| ----------------- | ---------------------- | ------ | ------ |
+| elPopconfirmProps | `el-popconfirm` 的属性 | object |        |
+| elPopoverProps    | `el-popover` 的属性    | object |        |
+| elTooltipProps    | `el-tooltip` 的属性    | object |        |
+| ...               | `el-button` 的属性     |        |        |
 
-### Events
+### 事件
 
 继承 `el-button` + `el-popconfirm` + `el-popover` + `el-tooltip`。
 
@@ -419,15 +401,15 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 - Popconfirm，Popover，Tooltip 的内容为空时，默认不启用
 - content 属性支持 html (但不再支持插槽)
 
-### Props
+### 属性
 
-| 名称              | 说明                 | 类型    | 默认值 |
-| ----------------- | -------------------- | ------- | ------ |
-| textInside        | 是否内嵌描述         | boolean | `true` |
-| elPopconfirmProps | `el-popconfirm` 属性 | object  |        |
-| elPopoverProps    | `el-popover` 属性    | object  |        |
-| elTooltipProps    | `el-tooltip` 属性    | object  |        |
-| ...               | `el-switch` 的 props |         |        |
+| 名称              | 说明                   | 类型    | 默认值 |
+| ----------------- | ---------------------- | ------- | ------ |
+| textInside        | 是否内嵌描述           | boolean | `true` |
+| elPopconfirmProps | `el-popconfirm` 的属性 | object  |        |
+| elPopoverProps    | `el-popover` 的属性    | object  |        |
+| elTooltipProps    | `el-tooltip` 的属性    | object  |        |
+| ...               | `el-switch` 的属性     |         |        |
 
 <br>
 
@@ -443,7 +425,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 - 无匹配选项时展示 `label` (而不是 `value`)
 - 多选时支持一键全选
 
-### Props
+### 属性
 
 | 名称              | 说明                            | 类型                                      | 默认值         |
 | ----------------- | ------------------------------- | ----------------------------------------- | -------------- |
@@ -454,8 +436,8 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 | searchImmediately | 是否立即执行远程搜索            | boolean                                   | `true`         |
 | label[.sync]      | 绑定值对应的 label (单向数据流) | string \| string[]                        |                |
 | allowSelectAll    | 多选时是否允许全选              | boolean                                   | `true`         |
-| selectAllText     | 全选按钮的文案                  | string                                    | `'Select All'` |
-| ...               | `el-select` 的 props            |                                           |                |
+| selectAllText     | 全选框的文案                    | string                                    | `'Select All'` |
+| ...               | `el-select` 的属性              |                                           |                |
 
 #### options
 
@@ -528,19 +510,16 @@ onMounted(() => {
 </script>
 ```
 
-### Slots
+### 方法
 
-继承 `el-select` + `el-option` + `el-option-group`。
+继承 `el-select` (`el-option-group` 和 `el-option` 没有方法)。
 
-#### 默认插槽
+通过 ref 调用：`kiSelectRef.value.$refs.elSelectRef`。
 
-```html
-<KiSelect>
-  <template v-slot="{option, index}">
-    {{ option.label }}
-  </template>
-</KiSelect>
-```
+### 事件
+
+继承 `el-select` (`el-option-group` 和 `el-option` 没有事件)。
+
 ### 插槽
 
 | 名称           | 说明                                                                |
@@ -553,9 +532,23 @@ onMounted(() => {
 | option-prepend | `el-option` 的前置内容，默认内容为全选框                            |
 | option-append  | `el-option` 的后置内容                                              |
 
-### Events
+<br>
 
-继承 `el-select` + `el-option` + `el-option-group`。
+## 命名风格
+
+所有组件命名均符合 [Vue 官方风格指南](https://v2.cn.vuejs.org/v2/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81)
+指导的 “组件名为多个单词”。
+
+关于 `KiSelect` 组件中 `value` 和 `label` 的命名：
+
+- `value`：这里要表达的含义就是选中目标的 “值”，等同于原生 `<input type="checkbox">` 元素的 `value` 属性，不一定是其唯一标识，所以不应该使用 id 或者 key，且 key 与 Vue 的特殊 attribute 冲突。
+
+- `label`：HTML 中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以 `label` 天生是用来表达选中目标的 “展示名称” 的，而 name 由于与原生 `<input>` 元素的 `name` 属性冲突故不考虑使用 name。
+
+> ElementUI 本身没有做到命名的统一，`el-select` 中 `label` 表示选项的标签，
+> 但 `el-checkbox` 中 `label` 却表示的是选中状态的值。
+
+UI 组件库的标杆 Ant Design 也是使用 `value` 与 `label` 命名。
 
 <br>
 
