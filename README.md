@@ -40,7 +40,7 @@ export default defineConfig({
 // vue.config.js
 
 module.exports = {
-  transpileDependencies: ['json-editor-vue'],
+  transpileDependencies: ['kikimore'],
 }
 ```
 
