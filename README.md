@@ -212,7 +212,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 如果是 plain object 类型，将用于 `el-form` 的 `model`。
 
-`onMounted` 时记录初始值，关闭对话框时会重置至初始值。
+`onMounted` 时记录初始值 (与 `el-form-item` 保持一致)，关闭对话框时会重置至初始值。
 
 #### retrieve
 
