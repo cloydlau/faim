@@ -1,13 +1,13 @@
-import 'uno.css'
+// import 'uno.css'
 
 import KiFormDialog from './FormDialog'
-import KiSelect from './Select'
 import KiPopButton from './PopButton'
 import KiPopSwitch from './PopSwitch'
+import KiSelect from './Select'
 
 export {
   KiFormDialog,
-  KiSelect,
   KiPopButton,
   KiPopSwitch,
+  KiSelect,
 }
