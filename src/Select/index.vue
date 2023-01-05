@@ -14,7 +14,7 @@
           class="px-20px py-10px"
           @change="selectAll"
         >
-          {{ SelectAllText }}
+          {{ SelectAllCheckboxLabel }}
         </el-checkbox>
       </slot>
       <el-option-group
@@ -54,7 +54,7 @@
           class="px-20px py-10px"
           @change="selectAll"
         >
-          {{ SelectAllText }}
+          {{ SelectAllCheckboxLabel }}
         </el-checkbox>
       </slot>
       <el-option
@@ -110,7 +110,7 @@ export default {
     },
     props: {},
     search: {},
-    selectAllText: {},
+    selectAllCheckboxLabel: {},
     ...Object.fromEntries(Array.from(boolProps, boolProp => [boolProp, {
       type: Boolean,
       default: undefined,
@@ -141,6 +141,8 @@ export default {
     innerShowSelectAllCheckbox() {
       return this.ShowSelectAllCheckbox && this.isMultiple && this.innerOptions.length > 1
     },
+    SelectAllCheckboxLabel() {
+      return conclude([this.selectAllCheckboxLabel, globalProps.selectAllCheckboxLabel, 'Select All'], {
         type: String,
         required: true,
       })

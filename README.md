@@ -438,17 +438,17 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 属性
 
-| 名称              | 说明                            | 类型                                      | 默认值         |
-| ----------------- | ------------------------------- | ----------------------------------------- | -------------- |
-| v-model / value   | 绑定值                          | any                                       |                |
-| options[.sync]    | 选项                            | any[]                                     |                |
-| props             | 定位选项的各项属性              | object                                    |                |
-| search            | 远程搜索 (`remote-method` 封装) | (query:string) => Promise<any[]> \| any[] |                |
-| searchImmediately | 是否立即执行远程搜索            | boolean                                   | `true`         |
-| label[.sync]      | 绑定值对应的 label (单向数据流) | string \| string[]                        |                |
-| selectAllText     | 全选框的文案                    | string                                    | `'Select All'` |
-| ...               | `el-select` 的属性              |                                           |                |
+| 名称                   | 说明                            | 类型                                      | 默认值         |
+| ---------------------- | ------------------------------- | ----------------------------------------- | -------------- |
+| v-model / value        | 绑定值                          | any                                       |                |
+| options[.sync]         | 选项                            | any[]                                     |                |
+| props                  | 定位选项的各项属性              | object                                    |                |
+| search                 | 远程搜索 (`remote-method` 封装) | (query:string) => Promise<any[]> \| any[] |                |
+| searchImmediately      | 是否立即执行远程搜索            | boolean                                   | `true`         |
+| label[.sync]           | 绑定值对应的 label (单向数据流) | string \| string[]                        |                |
 | showSelectAllCheckbox  | 多选时是否显示全选框            | boolean                                   | `true`         |
+| selectAllCheckboxLabel | 全选框的文案                    | string                                    | `'Select All'` |
+| ...                    | `el-select` 的属性              |                                           |                |
 
 #### options
 
