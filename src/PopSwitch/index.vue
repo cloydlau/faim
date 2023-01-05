@@ -6,11 +6,18 @@
     <template #content>
       <div v-html="ElTooltipProps.content" />
     </template>
-    <el-popover v-bind="ElPopoverProps">
+    <el-popover
+      v-bind="ElPopoverProps"
+      @show="(...e) => { $emit('show', ...e) }"
+      @after-enter="(...e) => { $emit('after-enter', ...e) }"
+      @hide="(...e) => { $emit('hide', ...e) }"
+      @after-leave="(...e) => { $emit('after-leave', ...e) }"
+    >
       <div v-html="ElPopoverProps.content" />
       <template #reference>
         <el-popconfirm
           v-bind="ElPopconfirmProps"
+          @cancel="(...e) => { $emit('cancel', ...e) }"
           @confirm="onConfirm"
           @onConfirm="onConfirm"
         >
@@ -19,7 +26,7 @@
               v-bind="ElSwitchProps"
               ref="elSwitch"
               :value="value"
-              :class="InlinePrompt && 'text-inside'"
+              :class="InlinePrompt && 'inlinePrompt'"
               @click.native="onClick"
             />
           </template>
@@ -85,7 +92,7 @@ export default {
         type: Object,
         camelizeObjectKeys: true,
         default: userProp => ({
-          popperClass: 'pop-switch',
+          popperClass: 'ki-pop-switch',
           disabled: !(userProp && (userProp.title || userProp.content)),
         }),
         defaultIsDynamic: true,
@@ -99,7 +106,7 @@ export default {
         type: Object,
         camelizeObjectKeys: true,
         default: userProp => ({
-          popperClass: 'pop-switch',
+          popperClass: 'ki-pop-switch',
           disabled: [true, ''].includes(this.ElSwitchProps.disabled) || !userProp?.title,
         }),
         defaultIsDynamic: true,
@@ -121,8 +128,9 @@ export default {
     },
   },
   methods: {
-    onConfirm() {
+    onConfirm(...e) {
       const { checked, inactiveValue, activeValue } = this.$refs.elSwitch
+      this.$emit('confirm', ...e)
       this.$emit('change', checked ? inactiveValue : activeValue)
     },
     onClick() {
@@ -138,7 +146,7 @@ export default {
 </script>
 
 <style lang="scss">
-.pop-switch {
+.ki-pop-switch {
   &.el-popover {
     min-width: fit-content;
   }
@@ -150,7 +158,7 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-:deep(.text-inside) {
+:deep(.inlinePrompt) {
   .el-switch__label * {
     font-size: 12px;
   }

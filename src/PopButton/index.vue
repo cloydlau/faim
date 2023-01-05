@@ -7,11 +7,18 @@
     <template #content>
       <div v-html="ElTooltipProps.content" />
     </template>
-    <el-popover v-bind="ElPopoverProps">
+    <el-popover
+      v-bind="ElPopoverProps"
+      @show="(...e) => { $emit('show', ...e) }"
+      @after-enter="(...e) => { $emit('after-enter', ...e) }"
+      @hide="(...e) => { $emit('hide', ...e) }"
+      @after-leave="(...e) => { $emit('after-leave', ...e) }"
+    >
       <div v-html="ElPopoverProps.content" />
       <template #reference>
         <el-popconfirm
           v-bind="ElPopconfirmProps"
+          @cancel="(...e) => { $emit('cancel', ...e) }"
           @confirm="$emit('click', $event)"
           @onConfirm="$emit('click', $event)"
         >
@@ -71,7 +78,7 @@ export default {
         camelizeObjectKeys: true,
       })
       return {
-        popperClass: 'pop-button-popper',
+        popperClass: 'ki-pop-button-popper',
         disabled: !result?.title,
         ...result,
       }
@@ -92,12 +99,13 @@ export default {
     },
   },
   methods: {
-    onClick(e) {
+    onClick(...e) {
       if (!this.$refs.elTooltip.manual) {
         this.$refs.elTooltip.showPopper = false
       }
+      this.$emit('confirm', ...e)
       if (this.ElPopconfirmProps.disabled) {
-        this.$emit('click', e)
+        this.$emit('click', ...e)
       }
     },
   },
@@ -127,7 +135,7 @@ export default {
 </style>
 
 <style lang="scss">
-.pop-button-popper {
+.ki-pop-button-popper {
   &.el-popover {
     min-width: fit-content;
   }

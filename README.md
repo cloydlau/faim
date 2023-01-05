@@ -322,17 +322,17 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 方法
 
-| 名称           | 说明                       | 参数                                                                                                     |
-| -------------- | -------------------------- | -------------------------------------------------------------------------------------------------------- |
-| highlightError | 平滑滚动至校验失败的表单项 | (selectors: string \| Element \| NodeList = '.el-form .el-form-item.is-error', container = window): void |
+| 名称           | 说明                           | 参数                                                                                                     |
+| -------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| highlightError | 平滑滚动至校验失败的表单项     | (selectors: string \| Element \| NodeList = '.el-form .el-form-item.is-error', container = window): void |
+| ...            | 通过 ref 调用 `el-form` 的方法 |                                                                                                          |
 
 ### 事件
 
-| 名称              | 说明               | 回调参数              |
-| ----------------- | ------------------ | --------------------- |
-| fullscreen-change | 切换全屏状态时触发 | (fullscreen: boolean) |
-| ...               | `el-dialog` 的事件 |                       |
-| ...               | `el-form` 的事件   |                       |
+| 名称              | 说明                          | 回调参数              |
+| ----------------- | ----------------------------- | --------------------- |
+| fullscreen-change | 切换全屏状态时触发            | (fullscreen: boolean) |
+| ...               | `el-dialog` & `el-form`的事件 |                       |
 
 ### 插槽
 
@@ -370,7 +370,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 - `el-popover` 宽度自适应，而不是写死一个最小宽度
 - `el-tooltip` 非手动控制显隐时，点击按钮后会自动关闭，以避免与 `el-popconfirm` 和 Popover 冲突
 - `el-popconfirm`，`el-popover`，`el-tooltip` 的内容为空时，默认不启用
-- content 属性支持 html (但不再支持插槽)
+- content 属性支持动态渲染 HTML (但不再支持插槽)
 
 ### 属性
 
@@ -381,9 +381,13 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 | elTooltipProps    | `el-tooltip` 的属性    | object |        |
 | ...               | `el-button` 的属性     |        |        |
 
+### 方法
+
+通过 ref 调用。
+
 ### 事件
 
-继承 `el-button` + `el-popconfirm` + `el-popover` + `el-tooltip`。
+继承。
 
 <br>
 
@@ -399,7 +403,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 - `el-popover` 宽度自适应，而不是写死一个最小宽度
 - `el-tooltip` 非手动控制显隐时，点击开关后会自动关闭，以避免与 `el-popconfirm` 和 `el-popover` 冲突
 - `el-popconfirm`，`el-popover`，`el-tooltip` 的内容为空时，默认不启用
-- content 属性支持 html (但不再支持插槽)
+- content 属性支持动态渲染 HTML (但不再支持插槽)
 
 ### 属性
 
@@ -410,6 +414,14 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 | elPopoverProps    | `el-popover` 的属性    | object  |        |
 | elTooltipProps    | `el-tooltip` 的属性    | object  |        |
 | ...               | `el-switch` 的属性     |         |        |
+
+### 方法
+
+通过 ref 调用。
+
+### 事件
+
+继承。
 
 <br>
 
@@ -512,13 +524,11 @@ onMounted(() => {
 
 ### 方法
 
-继承 `el-select` (`el-option-group` 和 `el-option` 没有方法)。
-
-通过 ref 调用：`kiSelectRef.value.$refs.elSelectRef`。
+通过 ref 调用。
 
 ### 事件
 
-继承 `el-select` (`el-option-group` 和 `el-option` 没有事件)。
+继承。
 
 ### 插槽
 
