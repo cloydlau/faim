@@ -446,9 +446,9 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 | search            | 远程搜索 (`remote-method` 封装) | (query:string) => Promise<any[]> \| any[] |                |
 | searchImmediately | 是否立即执行远程搜索            | boolean                                   | `true`         |
 | label[.sync]      | 绑定值对应的 label (单向数据流) | string \| string[]                        |                |
-| allowSelectAll    | 多选时是否允许全选              | boolean                                   | `true`         |
 | selectAllText     | 全选框的文案                    | string                                    | `'Select All'` |
 | ...               | `el-select` 的属性              |                                           |                |
+| showSelectAllCheckbox  | 多选时是否显示全选框            | boolean                                   | `true`         |
 
 #### options
 

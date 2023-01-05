@@ -8,7 +8,7 @@
     <template v-if="isGrouped">
       <slot name="option-prepend">
         <el-checkbox
-          v-if="showSelectAll"
+          v-if="innerShowSelectAllCheckbox"
           v-model="allSelected"
           :indeterminate="indeterminate"
           class="px-20px py-10px"
@@ -48,7 +48,7 @@
     <template v-else>
       <slot name="option-prepend">
         <el-checkbox
-          v-if="AllowSelectAll && isMultiple && innerOptions.length > 1"
+          v-if="ShowSelectAllCheckbox && isMultiple && innerOptions.length > 1"
           v-model="allSelected"
           :indeterminate="indeterminate"
           class="px-20px py-10px"
@@ -97,7 +97,7 @@ const modelValueProp = isVue3 ? 'modelValue' : 'value'
 const updateModelValue = isVue3 ? 'update:modelValue' : 'input'
 const boolProps = [
   'searchImmediately',
-  'allowSelectAll',
+  'showSelectAllCheckbox',
 ]
 
 export default {
@@ -133,19 +133,17 @@ export default {
     }
   },
   computed: {
-    AllowSelectAll() {
-      return conclude([this.allowSelectAll, globalProps.allowSelectAll, true], {
+    ShowSelectAllCheckbox() {
+      return conclude([this.showSelectAllCheckbox, globalProps.showSelectAllCheckbox, true], {
         type: Boolean,
       })
     },
-    SelectAllText() {
-      return conclude([this.selectAllText, globalProps.selectAllText, 'Select All'], {
+    innerShowSelectAllCheckbox() {
+      return this.ShowSelectAllCheckbox && this.isMultiple && this.innerOptions.length > 1
+    },
         type: String,
         required: true,
       })
-    },
-    showSelectAll() {
-      return this.AllowSelectAll && this.isMultiple && this.innerOptions.length > 1
     },
     Listeners() {
       return getListeners.call(this, globalListeners)
@@ -348,7 +346,7 @@ export default {
     },
     // 更新全选按钮的勾选状态
     updateSelectAll() {
-      if (this.showSelectAll) {
+      if (this.innerShowSelectAllCheckbox) {
         if (this.innerValue?.length) {
           const valueToIndex = Object.fromEntries(Array.from(this.innerValue, (item, i) =>
             [isObject(item) ? item[this.ElSelectProps.valueKey] : item, i]))
