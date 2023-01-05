@@ -541,6 +541,17 @@ onMounted(() => {
   </template>
 </KiSelect>
 ```
+### 插槽
+
+| 名称           | 说明                                                                |
+| -------------- | ------------------------------------------------------------------- |
+| prefix         | `el-select` 的 `prefix` 插槽                                        |
+| empty          | `el-select` 的 `empty` 插槽                                         |
+| group-prepend  | `el-option-group` 的前置内容                                        |
+| group-append   | `el-option-group` 的后置内容                                        |
+| —              | `el-option` 的默认插槽，作用域参数为 `{option: any, index: number}` |
+| option-prepend | `el-option` 的前置内容，默认内容为全选框                            |
+| option-append  | `el-option` 的后置内容                                              |
 
 ### Events
 

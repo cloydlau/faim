@@ -7,21 +7,24 @@
     @visible-change="onVisibleChange"
   >
     <template v-if="isGrouped">
-      <el-checkbox
-        v-if="showSelectAll"
-        v-model="allSelected"
-        :indeterminate="indeterminate"
-        class="px-20px py-10px"
-        @change="selectAll"
-      >
-        {{ SelectAllText }}
-      </el-checkbox>
+      <slot name="option-prepend">
+        <el-checkbox
+          v-if="showSelectAll"
+          v-model="allSelected"
+          :indeterminate="indeterminate"
+          class="px-20px py-10px"
+          @change="selectAll"
+        >
+          {{ SelectAllText }}
+        </el-checkbox>
+      </slot>
       <el-option-group
         v-for="(group, groupIndex) of innerOptions"
         :key="optionGroupPropsList[groupIndex].key"
         :label="optionGroupPropsList[groupIndex].label"
         :disabled="optionGroupPropsList[groupIndex].disabled"
       >
+        <slot name="group-prepend" />
         <el-option
           v-for="(option, optionIndex) of optionGroupPropsList[groupIndex].options"
           :key="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].key"
@@ -38,19 +41,23 @@
             {{ optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label }}
           </template>
         </el-option>
+        <slot name="group-append" />
       </el-option-group>
+      <slot name="option-append" />
     </template>
 
     <template v-else>
-      <el-checkbox
-        v-if="AllowSelectAll && isMultiple && innerOptions.length > 1"
-        v-model="allSelected"
-        :indeterminate="indeterminate"
-        class="px-20px py-10px"
-        @change="selectAll"
-      >
-        {{ SelectAllText }}
-      </el-checkbox>
+      <slot name="option-prepend">
+        <el-checkbox
+          v-if="AllowSelectAll && isMultiple && innerOptions.length > 1"
+          v-model="allSelected"
+          :indeterminate="indeterminate"
+          class="px-20px py-10px"
+          @change="selectAll"
+        >
+          {{ SelectAllText }}
+        </el-checkbox>
+      </slot>
       <el-option
         v-for="(v, i) of innerOptions"
         :key="optionPropsList[i].key"
@@ -67,6 +74,7 @@
           {{ optionPropsList[i].label }}
         </template>
       </el-option>
+      <slot name="option-append" />
     </template>
 
     <template
