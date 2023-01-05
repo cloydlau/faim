@@ -214,10 +214,6 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 `onMounted` 时记录初始值，关闭对话框时会重置至初始值。
 
-#### elFormProps
-
-`disabled`, `ref`, `labelWidth`, `model` 存在内部默认值，使用时请留意。
-
 #### retrieve
 
 ```vue
