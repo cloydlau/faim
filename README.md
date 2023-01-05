@@ -189,7 +189,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 | -------------------- | ----------------------------------- | -------- | ----------- |
 | title                | 对话框标题                          | string   |             |
 | show[.sync]          | 是否开启                            | boolean  | `false`     |
-| v-model / value      | 表单数据对象 (`el-form` 的 `model`) | any      |             |
+| value / v-model      | 表单数据对象 (`el-form` 的 `model`) | any      |             |
 | elFormProps          | `el-form` 的属性                    | object   |             |
 | retrieve             | 读取数据                            | Function |             |
 | loading              | 读取状态                            | boolean  | `false`     |
@@ -208,7 +208,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 | reverseButtons       | 是否反转按钮顺序                    | boolean  | `false`     |
 | ...                  | `el-dialog` 的属性                  |          |             |
 
-#### v-model / value
+#### value / v-model
 
 如果是 plain object 类型，将用于 `el-form` 的 `model`。
 
@@ -440,7 +440,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 | 名称                   | 说明                            | 类型                                      | 默认值         |
 | ---------------------- | ------------------------------- | ----------------------------------------- | -------------- |
-| v-model / value        | 绑定值                          | any                                       |                |
+| value / v-model        | 绑定值                          | any                                       |                |
 | options[.sync]         | 选项                            | any[]                                     |                |
 | props                  | 定位选项的各项属性              | object                                    |                |
 | search                 | 远程搜索 (`remote-method` 封装) | (query:string) => Promise<any[]> \| any[] |                |

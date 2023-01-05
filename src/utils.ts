@@ -1,5 +1,6 @@
 import { conclude, getLocalListeners } from 'vue-global-config'
 import { at, isPlainObject } from 'lodash-es'
+import { isVue3 } from 'vue-demi'
 
 export function hasScrollbar(el: HTMLElement) {
   return el.scrollHeight > el.clientHeight
@@ -16,6 +17,10 @@ export function getCharCount(text: string): number {
 }
 
 export function getListeners(globalListeners: { [key: string]: any }) {
+  if (isVue3) {
+    return {}
+  }
+
   for (const k in globalListeners) {
     globalListeners[k] = globalListeners[k].bind(this)
   }

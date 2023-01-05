@@ -3,6 +3,7 @@
     v-bind="ElDialogProps"
     ref="elDialogRef"
     :key="key"
+    v-model="show"
     :visible="show"
     :title="Title"
     :destroyOnClose="false"
@@ -12,9 +13,9 @@
     @closed="onClosed"
   >
     <!-- 传 slot -->
-    <template #title>
+    <template #[headerSlotName]>
       <!-- 接收 slot -->
-      <slot name="title">
+      <slot :name="headerSlotName">
         <span>{{ Title }}</span>
       </slot>
       <div
@@ -199,9 +200,13 @@ export default {
       fullscreen: false,
       labelWidth: undefined,
       key: 0,
+      isVue3,
     }
   },
   computed: {
+    headerSlotName() {
+      return isVue3 ? 'header' : 'title'
+    },
     ConfirmButtonText() {
       return conclude([this.confirmButtonText, globalProps.confirmButtonText, 'OK'], {
         type: String,

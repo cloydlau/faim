@@ -86,7 +86,7 @@
 </template>
 
 <script>
-import Vue from 'vue'
+// import Vue from 'vue'
 import { cloneDeep } from 'lodash-es'
 import { conclude } from 'vue-global-config'
 import { isVue3 } from 'vue-demi'
