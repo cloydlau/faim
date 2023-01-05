@@ -336,7 +336,10 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 插槽
 
-继承。
+| 名称 | 说明                    |
+| ---- | ----------------------- |
+| —    | `el-form` 的内容        |
+| ...  | 继承 `el-dialog` 的插槽 |
 
 ### 改变遮罩层定位
 
