@@ -322,21 +322,21 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 方法
 
-| 名称           | 说明                           | 参数                                                                                                     |
-| -------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------- |
-| highlightError | 平滑滚动至校验失败的表单项     | (selectors: string \| Element \| NodeList = '.el-form .el-form-item.is-error', container = window): void |
-| ...            | 通过 ref 调用 `el-form` 的方法 |                                                                                                          |
+| 名称           | 说明                       | 参数                                                                                                     |
+| -------------- | -------------------------- | -------------------------------------------------------------------------------------------------------- |
+| highlightError | 平滑滚动至校验失败的表单项 | (selectors: string \| Element \| NodeList = '.el-form .el-form-item.is-error', container = window): void |
+| ...            | 通过 ref 调用内            |                                                                                                          |
 
 ### 事件
 
-| 名称              | 说明                          | 回调参数              |
-| ----------------- | ----------------------------- | --------------------- |
-| fullscreen-change | 切换全屏状态时触发            | (fullscreen: boolean) |
-| ...               | `el-dialog` & `el-form`的事件 |                       |
+| 名称              | 说明               | 回调参数              |
+| ----------------- | ------------------ | --------------------- |
+| fullscreen-change | 切换全屏状态时触发 | (fullscreen: boolean) |
+| ...               | 继承的事件         |                       |
 
 ### 插槽
 
-继承 `el-dialog` (`el-form` 没有插槽)。
+继承。
 
 ### 改变遮罩层定位
 
@@ -433,7 +433,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 - 任意类型绑定值
 - 单向绑定 `label`
-- 远程搜索无需关心 `options` & `loading`
+- 远程搜索时无需关心 `options` & `loading`
 - 无匹配选项时展示 `label` (而不是 `value`)
 - 多选时支持一键全选
 
@@ -542,14 +542,9 @@ onMounted(() => {
 | option-prepend | `el-option` 的前置内容，默认内容为全选框                            |
 | option-append  | `el-option` 的后置内容                                              |
 
-<br>
+### 命名
 
-## 命名风格
-
-所有组件命名均符合 [Vue 官方风格指南](https://v2.cn.vuejs.org/v2/style-guide/#%E7%BB%84%E4%BB%B6%E5%90%8D%E4%B8%BA%E5%A4%9A%E4%B8%AA%E5%8D%95%E8%AF%8D%E5%BF%85%E8%A6%81)
-指导的 “组件名为多个单词”。
-
-关于 `KiSelect` 组件中 `value` 和 `label` 的命名：
+关于 `value` 和 `label` 的命名：
 
 - `value`：这里要表达的含义就是选中目标的 “值”，等同于原生 `<input type="checkbox">` 元素的 `value` 属性，不一定是其唯一标识，所以不应该使用 id 或者 key，且 key 与 Vue 的特殊 attribute 冲突。
 
