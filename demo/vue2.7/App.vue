@@ -56,7 +56,9 @@
         v-model="value.kiSelect"
         :label.sync="value.kiSelectLabel"
         :options="options.kiSelect"
-        :props="{ label: 'name', value: 'code' }"
+        :props="{ label: 'name' }"
+        value-key="code"
+        multiple
       />
     </el-form-item>
   </KiFormDialog>
@@ -67,7 +69,10 @@ const console = window.console
 
 const value = reactive({
   elSelect: { a: 1, b: 1 },
-  kiSelect: '320000',
+  kiSelect: [{
+    name: 'n',
+    code: 'c',
+  }],
   kiSelectLabel: undefined,
   kiPopSwitch: true,
 })

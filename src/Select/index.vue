@@ -321,17 +321,21 @@ export default {
     },
     selectAll(checked) {
       const innerValue = cloneDeep(this.innerValue)
-      const valueToIndex = Object.fromEntries(Array.from(this.innerValue, (item, i) =>
+      // 便于高效判断一个选项是否被选中
+      const valueKeyToIndex = Object.fromEntries(Array.from(innerValue, (item, i) =>
         [isObject(item) ? item[this.ElSelectProps.valueKey] : item, i]))
 
       const callback = (disabled, value, key) => {
-        const i = valueToIndex[isObject(value) ? key : value]
+        const i = valueKeyToIndex[isObject(value) ? key : value]
+        // 全选时，选项处于启用状态且没有被选中，选中它
         if (checked) {
           if (!disabled && i === undefined) {
             innerValue.push(value)
           }
-        } else if (i !== undefined) {
-          innerValue.splice(i, 1)
+        }
+        // 全不选时，选项被选中了，取消选中它
+        else if (i !== undefined) {
+          innerValue[i] = undefined
         }
       }
 
@@ -345,12 +349,13 @@ export default {
         this.optionPropsList.forEach(({ disabled, value, key }) => callback(disabled, value, key))
       }
 
-      this.innerValue = innerValue
+      this.innerValue = innerValue.filter(v => v !== undefined)
     },
     // 更新全选按钮的勾选状态
     updateSelectAll() {
       if (this.innerShowSelectAllCheckbox) {
         if (this.innerValue?.length) {
+          // 便于高效判断一个选项是否被选中
           const valueToIndex = Object.fromEntries(Array.from(this.innerValue, (item, i) =>
             [isObject(item) ? item[this.ElSelectProps.valueKey] : item, i]))
           let matchCount = 0
