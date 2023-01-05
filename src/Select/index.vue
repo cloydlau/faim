@@ -345,25 +345,24 @@ export default {
     updateSelectAll() {
       if (this.showSelectAll) {
         if (this.innerValue?.length) {
-          const valueToIndex = Object.fromEntries(Array.from(this.innerValue, (item, i) => [item, i]))
+          const valueToIndex = Object.fromEntries(Array.from(this.innerValue, (item, i) =>
+            [isObject(item) ? item[this.ElSelectProps.valueKey] : item, i]))
           let matchCount = 0
           let optionsCount = 0
+
+          const callback = (value, key) => {
+            if (valueToIndex[isObject(value) ? key : value] !== undefined) {
+              matchCount++
+            }
+            optionsCount++
+          }
+
           if (this.isGrouped) {
             this.optionGroupPropsList.forEach(({ optionPropsList }) => {
-              optionPropsList?.forEach(({ value }) => {
-                if (valueToIndex[value] !== undefined) {
-                  matchCount++
-                }
-                optionsCount++
-              })
+              optionPropsList?.forEach(({ value, key }) => callback(value, key))
             })
           } else {
-            this.optionPropsList.forEach(({ value }) => {
-              if (valueToIndex[value] !== undefined) {
-                matchCount++
-              }
-              optionsCount++
-            })
+            this.optionPropsList.forEach(({ value, key }) => callback(value, key))
           }
           this.indeterminate = matchCount > 0 && matchCount < optionsCount
           this.allSelected = matchCount > 0 && matchCount === optionsCount
@@ -386,6 +385,9 @@ export default {
       }
     },
     getKey(v) {
+      if (isObject(v) && !this.Props.value && !this.ElSelectProps.valueKey) {
+        throw new Error('Either props.value or valueKey should be specified when option value is of type object.')
+      }
       return unwrap(v, this.ElSelectProps.valueKey)
     },
     getValue(v) {

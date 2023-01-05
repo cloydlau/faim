@@ -441,7 +441,7 @@ UI 组件库的标杆 Ant Design 也是使用 value 与 label 命名。
 - 单向绑定 `label`
 - 远程搜索无需关心 `options` & `loading`
 - 无匹配选项时展示 `label` (而不是 `value`)
-- 多选时支持一键全选 (暂不支持分组)
+- 多选时支持一键全选
 
 ### Props
 
