@@ -614,7 +614,7 @@ export default {
 // Element
 .el-dialog__wrapper,
 // Element Plus
-.el-overlay-dialog {
+:deep(.el-overlay-dialog) {
 
   display: flex;
 }
