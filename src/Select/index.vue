@@ -229,7 +229,7 @@ export default {
         this.$emit(updateModelValue, newInnerValue)
       },
     },
-    // 没有使用 v-model / value 时，resetFields 不会触发
+    // 没有使用 value / v-model 时，resetFields 不会触发
     value: {
       immediate: true,
       handler(newValue) {
