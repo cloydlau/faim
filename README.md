@@ -374,10 +374,10 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 特性
 
-- 如果启用了 `el-popconfirm`，则仅在点击了确认后才会触发 click 事件
+- 如果启用了 `el-popconfirm`，则仅在点击了确认后才会触发 `click` 事件
 - `el-popconfirm` 的顶部间隔不再那么违和地高了
 - `el-popover` 宽度自适应，而不是写死一个最小宽度
-- `el-tooltip` 非手动控制显隐时，点击按钮后会自动关闭，以避免与 `el-popconfirm` 和 Popover 冲突
+- `el-tooltip` 非手动控制显隐时，点击按钮后会自动关闭，以避免与 `el-popconfirm` 和 `el-popover` 冲突
 - `el-popconfirm`、`el-popover`、`el-tooltip` 内容为空时，默认不启用
 - `el-popover` 和 `el-tooltip` 的 `content` 属性均支持渲染 HTML
 
@@ -396,6 +396,13 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 `el-popconfirm`、`el-popover` 的事件。
 
+### 插槽
+
+| 名称            | 说明                           |
+| --------------- | ------------------------------ |
+| tooltip-content | `el-tooltip` 的 `content` 插槽 |
+| popover-content | `el-popover` 的 `content` 插槽 |
+
 <br>
 
 ## PopSwitch
@@ -404,7 +411,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 特性
 
-- 如果启用了 `el-popconfirm`，则仅在点击了确认后才会触发 change 事件
+- 如果启用了 `el-popconfirm`，则仅在点击了确认后才会触发 `change` 事件
 - 支持描述内嵌，宽度自适应
 - `el-popconfirm` 的顶部间隔不再那么违和地高了
 - `el-popover` 宽度自适应，而不是写死一个最小宽度
@@ -431,6 +438,13 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 ### 事件
 
 `el-switch`、`el-popconfirm`、`el-popover` 的事件。
+
+### 插槽
+
+| 名称            | 说明                           |
+| --------------- | ------------------------------ |
+| tooltip-content | `el-tooltip` 的 `content` 插槽 |
+| popover-content | `el-popover` 的 `content` 插槽 |
 
 <br>
 
