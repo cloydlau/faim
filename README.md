@@ -74,60 +74,9 @@ app
   })
 ```
 
-#### CDN + ESM
+#### CDN
 
-```html
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <link rel="stylesheet" href="//unpkg.com/element-plus/dist/index.css" />
-</head>
-
-<body>
-  <div id="app">
-    <ki-form-dialog></ki-form-dialog>
-    <ki-pop-button></ki-pop-button>
-    <ki-pop-switch></ki-pop-switch>
-    <ki-select></ki-select>
-  </div>
-
-  <script type="importmap">
-    {
-      "imports": {
-        "vue": "https://unpkg.com/vue/dist/vue.esm-browser.prod.js",
-        "vue-demi": "https://unpkg.com/vue-demi/lib/v3/index.mjs",
-        "element-plus": "https://unpkg.com/element-plus"
-        "kikimore": "https://unpkg.com/element-plus@0.13"
-      }
-    }
-  </script>
-  <script type="module">
-    import { createApp } from 'vue'
-    import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
-
-    createApp()
-      .use(KiFormDialog, {
-        // 全局配置
-      })
-      .use(KiPopButton, {
-        // 全局配置
-      })
-      .use(KiPopSwitch, {
-        // 全局配置
-      })
-      .use(KiSelect, {
-        // 全局配置
-      })
-      .mount('#app')
-  </script>
-</body>
-```
-
-#### CDN + UMD
-
-> ⚠ 暂不支持 (Kikimore 未提供 UMD 导出)
+⚠ 暂不支持。
 
 ### Element (Vue 2)
 
@@ -167,13 +116,9 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 })
 ```
 
-#### CDN + ESM
+#### CDN
 
-> ⚠ 暂不支持 (Element 未提供 ESM 导出)
-
-#### CDN + UMD
-
-> ⚠ 暂不支持 (Kikimore 未提供 UMD 导出)
+⚠ 暂不支持。
 
 <br>
 
@@ -191,30 +136,30 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 属性
 
-| 名称                 | 说明                                | 类型     | 默认值      |
-| -------------------- | ----------------------------------- | -------- | ----------- |
-| title                | 对话框标题                          | string   |             |
-| show[.sync]          | 是否开启                            | boolean  | `false`     |
-| value / v-model      | 表单数据对象 (`el-form` 的 `model`) | any      |             |
-| elFormProps          | `el-form` 的属性                    | object   |             |
-| retrieve             | 读取数据                            | Function |             |
-| loading              | 读取状态                            | boolean  | `false`     |
-| readonly             | 是否只读                            | boolean  | `false`     |
-| showFullscreenToggle | 是否显示全屏开关                    | boolean  | `true`      |
-| showConfirmButton    | 是否显示确认按钮                    | boolean  | `!readonly` |
-| confirmButtonText    | 确认按钮的文案                      | string   | `'OK'`      |
-| confirm              | 确认                                | Function |             |
-| showCancelButton     | 是否显示取消按钮                    | boolean  | `!readonly` |
-| cancelButtonText     | 取消按钮的文案                      | string   | `'Cancel'`  |
-| showDenyButton       | 是否显示拒绝按钮                    | boolean  | `false`     |
-| denyButtonText       | 拒绝按钮的文案                      | string   | `'No'`      |
-| deny                 | 拒绝                                | Function |             |
-| showResetButton      | 是否显示重置按钮                    | boolean  | `false`     |
-| resetButtonText      | 重置按钮的文案                      | string   | `'Reset'`   |
-| reverseButtons       | 是否反转按钮顺序                    | boolean  | `false`     |
-| ...                  | `el-dialog` 的属性                  |          |             |
+| 名称                                             | 说明                                | 类型     | 默认值      |
+| ------------------------------------------------ | ----------------------------------- | -------- | ----------- |
+| title                                            | 对话框标题                          | string   |             |
+| [v-model:]show (Vue 3) / <br>show[.sync] (Vue 2) | 是否显示                            | boolean  | `false`     |
+| modelValue (Vue 3) / <br>value (Vue 2) / v-model | 表单数据对象 (`el-form` 的 `model`) | any      |             |
+| elFormProps                                      | `el-form` 的属性                    | object   |             |
+| retrieve                                         | 读取数据                            | Function |             |
+| loading                                          | 读取状态                            | boolean  | `false`     |
+| readonly                                         | 是否只读                            | boolean  | `false`     |
+| showFullscreenToggle                             | 是否显示全屏开关                    | boolean  | `true`      |
+| showConfirmButton                                | 是否显示确认按钮                    | boolean  | `!readonly` |
+| confirmButtonText                                | 确认按钮的文案                      | string   | `'OK'`      |
+| confirm                                          | 确认                                | Function |             |
+| showCancelButton                                 | 是否显示取消按钮                    | boolean  | `!readonly` |
+| cancelButtonText                                 | 取消按钮的文案                      | string   | `'Cancel'`  |
+| showDenyButton                                   | 是否显示拒绝按钮                    | boolean  | `false`     |
+| denyButtonText                                   | 拒绝按钮的文案                      | string   | `'No'`      |
+| deny                                             | 拒绝                                | Function |             |
+| showResetButton                                  | 是否显示重置按钮                    | boolean  | `false`     |
+| resetButtonText                                  | 重置按钮的文案                      | string   | `'Reset'`   |
+| reverseButtons                                   | 是否反转按钮顺序                    | boolean  | `false`     |
+| ...                                              | `el-dialog` 的属性                  |          |             |
 
-#### value / v-model
+#### modelValue (Vue 3) / value (Vue 2) / v-model
 
 如果是 plain object 类型，将用于 `el-form` 的 `model`。
 
@@ -454,7 +399,6 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 特性
 
-- 任意类型绑定值
 - 单向绑定 `label`
 - 远程搜索时无需关心 `options` & `loading`
 - 无匹配选项时展示 `label` (而不是 `value`)
@@ -462,17 +406,17 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 属性
 
-| 名称                   | 说明                            | 类型                                      | 默认值         |
-| ---------------------- | ------------------------------- | ----------------------------------------- | -------------- |
-| value / v-model        | 绑定值                          | any                                       |                |
-| options[.sync]         | 选项                            | any[]                                     |                |
-| props                  | 定位选项的各项属性              | object                                    |                |
-| search                 | 远程搜索 (`remote-method` 封装) | (query:string) => Promise<any[]> \| any[] |                |
-| searchImmediately      | 是否立即执行远程搜索            | boolean                                   | `true`         |
-| label[.sync]           | 绑定值对应的 label (单向数据流) | string \| string[]                        |                |
-| showSelectAllCheckbox  | 多选时是否显示全选框            | boolean                                   | `true`         |
-| selectAllCheckboxLabel | 全选框的文案                    | string                                    | `'Select All'` |
-| ...                    | `el-select` 的属性              |                                           |                |
+| 名称                                                   | 说明                            | 类型                                       | 默认值         |
+| ------------------------------------------------------ | ------------------------------- | ------------------------------------------ | -------------- |
+| modelValue (Vue 3) / <br>value (Vue 2) / v-model       | 绑定值                          | any                                        |                |
+| [v-model]:options (Vue 3) / <br>options[.sync] (Vue 2) | 选项                            | any[]                                      |                |
+| props                                                  | 定位选项的各项属性              | object                                     |                |
+| search                                                 | 远程搜索 (`remote-method` 封装) | (query: string) => Promise<any[]> \| any[] |                |
+| searchImmediately                                      | 是否立即执行远程搜索            | boolean                                    | `true`         |
+| [v-model]:label (Vue 3) / <br>label[.sync] (Vue 2)     | 绑定值对应的 label (单向数据流) | string \| string[]                         |                |
+| showSelectAllCheckbox                                  | 多选时是否显示全选框            | boolean                                    | `true`         |
+| selectAllCheckboxLabel                                 | 全选框的文案                    | string                                     | `'Select All'` |
+| ...                                                    | `el-select` 的属性              |                                            |                |
 
 #### options
 
@@ -505,49 +449,12 @@ interface Props {
 - 支持 symbol 类型的属性名
 - 支持 Function，如 `value => value.url`
 
-### search
-
-- 无需关心 `options` (也支持双向绑定传入初始值)
-- 无需关心 `loading` 状态
-
-```html
-<!-- 异步获取 options -->
-
-<KiSelect :search="(name) => $POST('xxx', { name }).then(({ data }) => data)" />
-```
-
-```html
-<!-- 双向绑定 options -->
-
-<KiSelect
-  :search="(name) => $POST('xxx', { name }).then(({ data }) => data)"
-  :options.sync="options"
-/>
-```
-
-```vue
-<!-- 自行控制 search 时机 -->
-
-<template>
-  <KiSelect
-    ref="kiSelectRef"
-    :search="(name) => $POST('xxx', { name }).then(({ data }) => data)"
-    :searchImmediately="false"
-  />
-</template>
-
-<script setup>
-const kiSelectRef = ref()
-
-onMounted(() => {
-  kiSelectRef.value.remoteMethod()
-})
-</script>
-```
-
 ### 方法
 
-通过 ref 调用 `el-select` 的方法。
+| 名称         | 说明                                                             | 参数            |
+| ------------ | ---------------------------------------------------------------- | --------------- |
+| remoteMethod | `el-select` 的 `remoteMethod` 属性，自行控制 `search` 时机时使用 | (query: string) |
+| ...          | 通过 ref 调用 `el-select` 的方法                                 |                 |
 
 ### 事件
 

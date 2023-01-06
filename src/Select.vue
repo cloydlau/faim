@@ -107,6 +107,7 @@ const boolProps = [
 ]
 
 export default {
+  name: 'KiSelect',
   install(app, options = {}) {
     const { props, attrs, listeners, hooks } = useGlobalConfig(options, this.props)
     Object.assign(globalProps, props)
@@ -115,7 +116,6 @@ export default {
     Object.assign(globalHooks, hooks)
     app.component(this.name, this)
   },
-  name: 'KiSelect',
   props: {
     [model.prop]: {},
     label: {},

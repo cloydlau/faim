@@ -187,6 +187,7 @@ const boolProps = [
 ]
 
 export default {
+  name: 'KiFormDialog',
   install(app, options = {}) {
     const { props, attrs, listeners, hooks } = useGlobalConfig(options, this.props)
     Object.assign(globalProps, props)
@@ -195,7 +196,6 @@ export default {
     Object.assign(globalHooks, hooks)
     app.component(this.name, this)
   },
-  name: 'KiFormDialog',
   props: {
     [model.prop]: {},
     title: {},

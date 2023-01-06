@@ -55,7 +55,7 @@
     >
       <KiSelect
         v-model="value.kiSelect"
-        :label.sync="value.kiSelectLabel"
+        v-model:label="value.kiSelectLabel"
         :options="options.kiSelect"
         :props="{ label: 'name' }"
         value-key="code"

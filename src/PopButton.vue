@@ -67,6 +67,7 @@ const globalListeners = {}
 const globalHooks = {}
 
 export default {
+  name: 'KiPopButton',
   install(app, options = {}) {
     const { props, attrs, listeners, hooks } = useGlobalConfig(options, this.props)
     Object.assign(globalProps, props)
@@ -75,7 +76,6 @@ export default {
     Object.assign(globalHooks, hooks)
     app.component(this.name, this)
   },
-  name: 'KiPopButton',
   props: {
     elPopconfirmProps: {},
     elTooltipProps: {},
