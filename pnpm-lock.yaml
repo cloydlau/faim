@@ -6,10 +6,10 @@ specifiers:
   '@commitlint/config-conventional': ^17.4.0
   '@types/lodash-es': ^4.17.6
   '@types/node': ^18.11.18
-  '@vitejs/plugin-vue2': latest
-  '@vue/test-utils': '1'
+  '@vitejs/plugin-vue2': ^2.2.0
+  '@vue/test-utils': ^1.3.3
   case-police: ^0.5.10
-  element-ui: latest
+  element-ui: ^2.15.12
   eslint: ^8.31.0
   husky: ^8.0.3
   lint-staged: ^13.1.0
@@ -19,10 +19,10 @@ specifiers:
   unplugin-auto-import: ^0.12.1
   unplugin-vue-components: ^0.22.12
   vite: ^4.0.4
-  vue: '2.7'
+  vue: ~2.7.14
   vue-demi: ^0.13.11
   vue-global-config: ^0.3.1
-  vue-template-compiler: '2.7'
+  vue-template-compiler: ~2.7.14
   zhlint: ^0.7.1
 
 dependencies:
@@ -642,7 +642,7 @@ packages:
     dev: true
 
   /@nodelib/fs.scandir/2.1.5:
-    resolution: {integrity: sha1-dhnC6yGyVIP20WdUi0z9WnSIw9U=, tarball: '@nodelib/fs.scandir/download/@nodelib/fs.scandir-2.1.5.tgz'}
+    resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
     engines: {node: '>= 8'}
     dependencies:
       '@nodelib/fs.stat': 2.0.5
@@ -1469,7 +1469,7 @@ packages:
     dev: true
 
   /concat-map/0.0.1:
-    resolution: {integrity: sha1-2Klr13/Wjfd5OnMDajug1UBdR3s=, tarball: concat-map/download/concat-map-0.0.1.tgz}
+    resolution: {integrity: sha512-/Srv4dswyQNBfohGpz9o6Yb3Gz3SrUDqBH5rTuhGR7ahtlbYKnVxw2bCFMRljaA7EXHaXZ8wsHdodFvbkhKmqg==}
     dev: true
 
   /condense-newlines/0.2.1:
@@ -2984,8 +2984,8 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
-  /immutable/4.2.1:
-    resolution: {integrity: sha512-7WYV7Q5BTs0nlQm7tl92rDYYoyELLKHoDMBKhrxEoiV4mrfVdRz8hzPiYOzH7yWjzoVEamxRuAqhxL2PLRwZYQ==}
+  /immutable/4.2.2:
+    resolution: {integrity: sha512-fTMKDwtbvO5tldky9QZ2fMX7slR0mYpY5nbnFWYp0fOzDhHqhgIw9KoYgxLWsoNTS9ZHGauHj18DTyEw6BK3Og==}
     dev: true
 
   /import-fresh/3.3.0:
@@ -4436,7 +4436,7 @@ packages:
     hasBin: true
     dependencies:
       chokidar: 3.5.3
-      immutable: 4.2.1
+      immutable: 4.2.2
       source-map-js: 1.0.2
     dev: true
 
@@ -4837,7 +4837,7 @@ packages:
     dev: true
 
   /tty-browserify/0.0.1:
-    resolution: {integrity: sha1-PwUlHuF5BN/QZ3VGZw25ZRaCuBE=, tarball: tty-browserify/download/tty-browserify-0.0.1.tgz}
+    resolution: {integrity: sha512-C3TaO7K81YvjCgQH9Q1S3R3P3BtN3RIM8n+OvX4il1K1zgE8ZhI0op7kClgkxtutIE8hQrcrHBXvIheqKUUCxw==}
     dev: true
 
   /type-check/0.4.0:
@@ -4922,8 +4922,8 @@ packages:
       vfile: 4.2.1
     dev: true
 
-  /unimport/1.1.0:
-    resolution: {integrity: sha512-dSufi3POQWUVAMU6DxXu39U0cWzz5m3FtQBUbgDJTkCpeRfyiYhDg+BOz6UPKfDPtEhkbshV8JoMV3I8i/mQ+A==}
+  /unimport/1.2.0:
+    resolution: {integrity: sha512-yMok/ubppurBE7Png1QH70Om96AxIoWCcfdxW3J/pziozShMc1UGpPgWpSckfo9ndAO5M74yNnRDdLAZy/gWQg==}
     dependencies:
       '@rollup/pluginutils': 5.0.2
       escape-string-regexp: 5.0.0
@@ -4986,7 +4986,7 @@ packages:
       '@rollup/pluginutils': 5.0.2
       local-pkg: 0.4.2
       magic-string: 0.27.0
-      unimport: 1.1.0
+      unimport: 1.2.0
       unplugin: 1.0.1
     transitivePeerDependencies:
       - rollup
