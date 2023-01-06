@@ -11,7 +11,7 @@
           v-if="innerShowSelectAllCheckbox"
           v-model="allSelected"
           :indeterminate="indeterminate"
-          class="px-20px py-10px"
+          style="padding: 10px 20px;"
           @change="selectAll"
         >
           {{ SelectAllCheckboxLabel }}
@@ -51,7 +51,7 @@
           v-if="innerShowSelectAllCheckbox"
           v-model="allSelected"
           :indeterminate="indeterminate"
-          class="px-20px py-10px"
+          style="padding: 10px 20px;"
           @change="selectAll"
         >
           {{ SelectAllCheckboxLabel }}

@@ -1,10 +1,9 @@
-import 'uno.css'
-
 import { createApp } from 'vue'
 import App from './App.vue'
 
 import 'element-plus/dist/index.css'
 import ElementPlus from 'element-plus'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 
 import {
   KiFormDialog,
@@ -13,7 +12,7 @@ import {
   KiSelect,
 } from '../../src/index'
 
-createApp(App)
+const app = createApp(App)
   .use(ElementPlus)
   .use(KiFormDialog, {
     'confirmButtonText': '确 认',
@@ -29,4 +28,9 @@ createApp(App)
   .use(KiPopButton, {})
   .use(KiPopSwitch, {})
   .use(KiSelect, {})
-  .mount('#app')
+
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
+
+app.mount('#app')

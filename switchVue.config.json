@@ -3,6 +3,7 @@
     "element-ui": "latest"
   },
   "3": {
-    "element-plus": "latest"
+    "element-plus": "latest",
+    "@element-plus/icons-vue": "latest"
   }
 }

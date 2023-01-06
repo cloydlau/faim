@@ -1,138 +1,160 @@
 <template>
-  <el-dialog
-    v-bind="ElDialogProps"
-    ref="elDialogRef"
-    :key="key"
-    v-model="show"
-    :visible="show"
-    :title="Title"
-    :destroyOnClose="false"
-    :appendToBody="false"
-    :fullscreen="fullscreen"
-    v-on="Listeners"
-    @closed="onClosed"
-  >
-    <!-- 传 slot -->
-    <template #[headerSlotName]>
-      <!-- 接收 slot -->
-      <slot :name="headerSlotName">
-        <span>{{ Title }}</span>
-      </slot>
-      <div style="display: flex; align-items: center;">
-        <i
-          v-if="ShowFullscreenToggle"
-          :class="fullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
-          @click="toggleFullscreen()"
-        />
-        <i
-          v-if="ElDialogProps.showClose !== false"
-          class="el-icon-close"
-          @click="onCancel"
-        />
-      </div>
-    </template>
-    <div
-      v-loading="Loading"
-      style="display: flex; flex-direction: column; overflow-y: hidden;"
+  <!-- 为什么要套一个 div？ -->
+  <!-- https://github.com/element-plus/element-plus/issues/10515 -->
+  <div>
+    <el-dialog
+      v-bind="ElDialogProps"
+      ref="elDialogRef"
+      :key="key"
+      v-model="show"
+      :visible="show"
+      :title="Title"
+      :destroyOnClose="false"
+      :appendToBody="false"
+      :fullscreen="fullscreen"
+      v-on="Listeners"
+      @closed="onClosed"
     >
+      <!-- 传 slot -->
+      <template #[headerSlotName]>
+        <!-- 接收 slot -->
+        <slot :name="headerSlotName">
+          <span>{{ Title }}</span>
+        </slot>
+        <div style="display: flex; align-items: center;">
+          <template v-if="isVue3">
+            <el-icon
+              v-if="ShowFullscreenToggle"
+              :class="fullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
+              @click="toggleFullscreen()"
+            >
+              <Component :is="fullscreen ? 'CopyDocument' : 'FullScreen'" />
+            </el-icon>
+            <el-icon
+              v-if="ElDialogProps.showClose !== false"
+              class="el-icon-close"
+              @click="onCancel"
+            >
+              <Close />
+            </el-icon>
+          </template>
+          <template v-else>
+            <i
+              v-if="ShowFullscreenToggle"
+              :class="fullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
+              @click="toggleFullscreen()"
+            />
+            <i
+              v-if="ElDialogProps.showClose !== false"
+              class="el-icon-close"
+              @click="onCancel"
+            />
+          </template>
+        </div>
+      </template>
       <div
-        ref="overlayScrollbar"
-        style="overflow-y: auto; padding: 25px 40px 85px 40px; max-height:calc(100vh - 45px);"
+        v-loading="Loading"
+        style="display: flex; flex-direction: column; overflow-y: hidden;"
       >
-        <el-form
-          v-if="ValueIsPlainObject"
-          :class="Readonly && 'readonly'"
-          v-bind="ElFormProps"
-          v-on="Listeners"
+        <div
+          ref="overlayScrollbar"
+          style="overflow-y: auto; padding: 25px 40px 85px 40px; max-height:calc(100vh - 45px);"
         >
-          <slot />
-        </el-form>
-        <slot v-else />
+          <el-form
+            v-if="ValueIsPlainObject"
+            :class="Readonly && 'readonly'"
+            v-bind="ElFormProps"
+            v-on="Listeners"
+          >
+            <slot />
+          </el-form>
+          <slot v-else />
+        </div>
       </div>
-    </div>
 
-    <template #footer>
-      <slot name="footer">
-        <template v-if="ReverseButtons">
-          <el-button
-            v-if="ShowConfirmButton"
-            type="primary"
-            :disabled="closing || denying"
-            :class="closing && 'closing'"
-            :loading="confirming"
-            @click="onConfirm"
-          >
-            {{ ConfirmButtonText }}
-          </el-button>
-          <el-button
-            v-if="ShowDenyButton"
-            type="danger"
-            :disabled="closing || confirming"
-            :class="closing && 'closing'"
-            :loading="denying"
-            @click="onDeny"
-          >
-            {{ DenyButtonText }}
-          </el-button>
-          <el-button
-            v-if="ShowResetButton && $refs[ElFormProps.ref]"
-            type="info"
-            :disabled="closing || confirming || denying"
-            @click="onReset"
-          >
-            {{ ResetButtonText }}
-          </el-button>
-          <el-button
-            v-if="ShowCancelButton"
-            :disabled="closing"
-            :class="closing && 'closing'"
-            @click="onCancel"
-          >
-            {{ CancelButtonText }}
-          </el-button>
-        </template>
+      <template #footer>
+        <slot name="footer">
+          <template v-if="ReverseButtons">
+            <el-button
+              v-if="ShowConfirmButton"
+              type="primary"
+              :disabled="closing || denying"
+              :class="closing && 'closing'"
+              :loading="confirming"
+              @click="onConfirm"
+            >
+              {{ ConfirmButtonText }}
+            </el-button>
+            <el-button
+              v-if="ShowDenyButton"
+              type="danger"
+              :disabled="closing || confirming"
+              :class="closing && 'closing'"
+              :loading="denying"
+              @click="onDeny"
+            >
+              {{ DenyButtonText }}
+            </el-button>
+            <el-button
+              v-if="ShowResetButton && $refs[ElFormProps.ref]"
+              type="info"
+              :disabled="closing || confirming || denying"
+              @click="onReset"
+            >
+              {{ ResetButtonText }}
+            </el-button>
+            <el-button
+              v-if="ShowCancelButton"
+              :disabled="closing"
+              :class="closing && 'closing'"
+              @click="onCancel"
+            >
+              {{ CancelButtonText }}
+            </el-button>
+          </template>
 
-        <template v-else>
-          <el-button
-            v-if="ShowCancelButton"
-            :disabled="closing"
-            :class="closing && 'closing'"
-            @click="onCancel"
-          >
-            {{ CancelButtonText }}
-          </el-button>
-          <el-button
-            v-if="ShowResetButton && $refs[ElFormProps.ref]"
-            type="info"
-            :disabled="closing || confirming || denying"
-            @click="onReset"
-          >
-            {{ ResetButtonText }}
-          </el-button>
-          <el-button
-            v-if="ShowDenyButton"
-            type="danger"
-            :disabled="closing || confirming"
-            :class="closing && 'closing'"
-            :loading="denying"
-            @click="onDeny"
-          >
-            {{ DenyButtonText }}
-          </el-button>
-          <el-button
-            v-if="ShowConfirmButton"
-            type="primary"
-            :disabled="closing || denying"
-            :class="closing && 'closing'"
-            :loading="confirming"
-            @click="onConfirm"
-          >
-            {{ ConfirmButtonText }}
-          </el-button>
-        </template>
-      </slot>
-    </template>
-  </el-dialog>
+          <template v-else>
+            <el-button
+              v-if="ShowCancelButton"
+              :disabled="closing"
+              :class="closing && 'closing'"
+              @click="onCancel"
+            >
+              {{ CancelButtonText }}
+            </el-button>
+            <el-button
+              v-if="ShowResetButton && $refs[ElFormProps.ref]"
+              type="info"
+              :disabled="closing || confirming || denying"
+              @click="onReset"
+            >
+              {{ ResetButtonText }}
+            </el-button>
+            <el-button
+              v-if="ShowDenyButton"
+              type="danger"
+              :disabled="closing || confirming"
+              :class="closing && 'closing'"
+              :loading="denying"
+              @click="onDeny"
+            >
+              {{ DenyButtonText }}
+            </el-button>
+            <el-button
+              v-if="ShowConfirmButton"
+              type="primary"
+              :disabled="closing || denying"
+              :class="closing && 'closing'"
+              :loading="confirming"
+              @click="onConfirm"
+            >
+              {{ ConfirmButtonText }}
+            </el-button>
+          </template>
+        </slot>
+      </template>
+    </el-dialog>
+  </div>
 </template>
 
 <script>
@@ -205,6 +227,7 @@ export default {
       fullscreen: false,
       labelWidth: undefined,
       key: 0,
+      isVue3,
     }
   },
   computed: {
@@ -325,19 +348,23 @@ export default {
       })
     },
     ElFormProps() {
-      return conclude([
-        this.elFormProps,
-        globalProps.elFormProps,
-        {
-          disabled: this.readonly || this.confirming,
-          ref: 'elFormRef',
-          labelWidth: this.labelWidth,
-          model: this[model.prop],
-        },
-      ], {
-        type: Object,
-        camelizeObjectKeys: true,
-      })
+      return {
+        model: this[model.prop],
+        ...conclude([
+          this.elFormProps,
+          globalProps.elFormProps,
+          {
+            disabled: this.readonly || this.confirming,
+            ref: 'elFormRef',
+            labelWidth: this.labelWidth,
+            // model 不能写在这里因为会被深拷贝，将导致无法重置
+            // model: this[model.prop],
+          },
+        ], {
+          type: Object,
+          camelizeObjectKeys: true,
+        }),
+      }
     },
   },
   watch: {
@@ -437,7 +464,7 @@ export default {
       this.$refs[this.ElFormProps.ref].resetFields()
     },
     onClosed() {
-      this.$emit('input', cloneDeep(this.initialValue))
+      this.$emit(model.event, cloneDeep(this.initialValue))
       this.$refs[this.ElFormProps.ref]?.clearValidate()
       this.confirming = false
       this.denying = false
@@ -584,7 +611,11 @@ export default {
 </style>
 
 <style lang="scss" scoped>
-.el-dialog__wrapper {
+// Element
+.el-dialog__wrapper,
+// Element Plus
+.el-overlay-dialog {
+
   display: flex;
 }
 

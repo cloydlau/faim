@@ -1,5 +1,3 @@
-import 'uno.css'
-
 import Vue from 'vue'
 import App from './App.vue'
 
@@ -18,6 +16,10 @@ Vue.use(ElementUI)
   {
     component: KiFormDialog,
     config: {
+      'confirmButtonText': '确 认',
+      'resetButtonText': '重 置',
+      'cancelButtonText': '取 消',
+      'denyButtonText': '拒 绝',
       '@closed': function (e) {
         console.log('@closed')
         console.log(e)
