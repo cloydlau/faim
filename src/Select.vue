@@ -86,7 +86,6 @@
 </template>
 
 <script>
-// import Vue from 'vue'
 import { isVue3 } from 'vue-demi'
 import { conclude, useGlobalConfig } from 'vue-global-config'
 import { cloneDeep } from 'lodash-es'
@@ -326,11 +325,8 @@ export default {
               v.currentLabel = this.getLabel(v.value)
             }
           })
-        } else if (!(this.$refs[this.ElSelectProps.ref].selected instanceof Vue)) {
-          const selectedLabel = this.getLabel(this.innerValue)
-          if (selectedLabel) {
-            this.$refs[this.ElSelectProps.ref].selectedLabel = selectedLabel
-          }
+        } else if (!this.$refs[this.ElSelectProps.ref].selectedLabel) {
+          this.$refs[this.ElSelectProps.ref].selectedLabel = this.getLabel(this.innerValue)
         }
       })
     },
