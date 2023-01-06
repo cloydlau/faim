@@ -136,28 +136,28 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 属性
 
-| 名称                                             | 说明                                | 类型     | 默认值      |
-| ------------------------------------------------ | ----------------------------------- | -------- | ----------- |
-| title                                            | 对话框标题                          | string   |             |
-| [v-model:]show (Vue 3) / <br>show[.sync] (Vue 2) | 是否显示                            | boolean  | `false`     |
-| modelValue (Vue 3) / <br>value (Vue 2) / v-model | 表单数据对象 (`el-form` 的 `model`) | any      |             |
-| elFormProps                                      | `el-form` 的属性                    | object   |             |
-| retrieve                                         | 读取数据                            | Function |             |
-| loading                                          | 读取状态                            | boolean  | `false`     |
-| readonly                                         | 是否只读                            | boolean  | `false`     |
-| showFullscreenToggle                             | 是否显示全屏开关                    | boolean  | `true`      |
-| showConfirmButton                                | 是否显示确认按钮                    | boolean  | `!readonly` |
-| confirmButtonText                                | 确认按钮的文案                      | string   | `'OK'`      |
-| confirm                                          | 确认                                | Function |             |
-| showCancelButton                                 | 是否显示取消按钮                    | boolean  | `!readonly` |
-| cancelButtonText                                 | 取消按钮的文案                      | string   | `'Cancel'`  |
-| showDenyButton                                   | 是否显示拒绝按钮                    | boolean  | `false`     |
-| denyButtonText                                   | 拒绝按钮的文案                      | string   | `'No'`      |
-| deny                                             | 拒绝                                | Function |             |
-| showResetButton                                  | 是否显示重置按钮                    | boolean  | `false`     |
-| resetButtonText                                  | 重置按钮的文案                      | string   | `'Reset'`   |
-| reverseButtons                                   | 是否反转按钮顺序                    | boolean  | `false`     |
-| ...                                              | `el-dialog` 的属性                  |          |             |
+| 名称                                            | 说明                                | 类型     | 默认值      |
+| ----------------------------------------------- | ----------------------------------- | -------- | ----------- |
+| title                                           | 对话框标题                          | string   |             |
+| [v-model:]show (Vue 3) /<br>show[.sync] (Vue 2) | 是否显示                            | boolean  | `false`     |
+| modelValue (Vue 3) /<br>value (Vue 2) / v-model | 表单数据对象 (`el-form` 的 `model`) | any      |             |
+| elFormProps                                     | `el-form` 的属性                    | object   |             |
+| retrieve                                        | 读取数据                            | Function |             |
+| loading                                         | 读取状态                            | boolean  | `false`     |
+| readonly                                        | 是否只读                            | boolean  | `false`     |
+| showFullscreenToggle                            | 是否显示全屏开关                    | boolean  | `true`      |
+| showConfirmButton                               | 是否显示确认按钮                    | boolean  | `!readonly` |
+| confirmButtonText                               | 确认按钮的文案                      | string   | `'OK'`      |
+| confirm                                         | 确认                                | Function |             |
+| showCancelButton                                | 是否显示取消按钮                    | boolean  | `!readonly` |
+| cancelButtonText                                | 取消按钮的文案                      | string   | `'Cancel'`  |
+| showDenyButton                                  | 是否显示拒绝按钮                    | boolean  | `false`     |
+| denyButtonText                                  | 拒绝按钮的文案                      | string   | `'No'`      |
+| deny                                            | 拒绝                                | Function |             |
+| showResetButton                                 | 是否显示重置按钮                    | boolean  | `false`     |
+| resetButtonText                                 | 重置按钮的文案                      | string   | `'Reset'`   |
+| reverseButtons                                  | 是否反转按钮顺序                    | boolean  | `false`     |
+| ...                                             | `el-dialog` 的属性                  |          |             |
 
 #### modelValue (Vue 3) / value (Vue 2) / v-model
 
@@ -406,17 +406,17 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 属性
 
-| 名称                                                   | 说明                            | 类型                                       | 默认值         |
-| ------------------------------------------------------ | ------------------------------- | ------------------------------------------ | -------------- |
-| modelValue (Vue 3) / <br>value (Vue 2) / v-model       | 绑定值                          | any                                        |                |
-| [v-model]:options (Vue 3) / <br>options[.sync] (Vue 2) | 选项                            | any[]                                      |                |
-| props                                                  | 定位选项的各项属性              | object                                     |                |
-| search                                                 | 远程搜索 (`remote-method` 封装) | (query: string) => Promise<any[]> \| any[] |                |
-| searchImmediately                                      | 是否立即执行远程搜索            | boolean                                    | `true`         |
-| [v-model]:label (Vue 3) / <br>label[.sync] (Vue 2)     | 绑定值对应的 label (单向数据流) | string \| string[]                         |                |
-| showSelectAllCheckbox                                  | 多选时是否显示全选框            | boolean                                    | `true`         |
-| selectAllCheckboxLabel                                 | 全选框的文案                    | string                                     | `'Select All'` |
-| ...                                                    | `el-select` 的属性              |                                            |                |
+| 名称                                                  | 说明                            | 类型                                       | 默认值         |
+| ----------------------------------------------------- | ------------------------------- | ------------------------------------------ | -------------- |
+| modelValue (Vue 3) /<br>value (Vue 2) / v-model       | 绑定值                          | any                                        |                |
+| [v-model]:options (Vue 3) /<br>options[.sync] (Vue 2) | 选项                            | any[]                                      |                |
+| props                                                 | 定位选项的各项属性              | object                                     |                |
+| search                                                | 远程搜索 (`remote-method` 封装) | (query: string) => Promise<any[]> \| any[] |                |
+| searchImmediately                                     | 是否立即执行远程搜索            | boolean                                    | `true`         |
+| [v-model]:label (Vue 3) /<br>label[.sync] (Vue 2)     | 绑定值对应的 label (单向数据流) | string \| string[]                         |                |
+| showSelectAllCheckbox                                 | 多选时是否显示全选框            | boolean                                    | `true`         |
+| selectAllCheckboxLabel                                | 全选框的文案                    | string                                     | `'Select All'` |
+| ...                                                   | `el-select` 的属性              |                                            |                |
 
 #### options
 
