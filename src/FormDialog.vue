@@ -147,12 +147,16 @@
 </template>
 
 <script>
-import { conclude } from 'vue-global-config'
+import { conclude, useGlobalConfig } from 'vue-global-config'
 import { cloneDeep, isPlainObject } from 'lodash-es'
 import { isVue3 } from 'vue-demi'
-import { getListeners } from '../utils'
-import highlightError from './highlightError'
-import { globalAttrs, globalListeners, globalProps } from './index'
+import { getListeners } from './utils'
+import highlightError from './utils/highlightError'
+
+const globalProps = {}
+const globalAttrs = {}
+const globalListeners = {}
+const globalHooks = {}
 
 const modelValueProp = isVue3 ? 'modelValue' : 'value'
 const updateModelValue = isVue3 ? 'update:modelValue' : 'input'
@@ -169,6 +173,14 @@ const boolProps = [
 ]
 
 export default {
+  install(app, options = {}) {
+    const { props, attrs, listeners, hooks } = useGlobalConfig(options, this.props)
+    Object.assign(globalProps, props)
+    Object.assign(globalAttrs, attrs)
+    Object.assign(globalListeners, listeners)
+    Object.assign(globalHooks, hooks)
+    app.component(this.name, this)
+  },
   name: 'KiFormDialog',
   props: {
     [modelValueProp]: {},

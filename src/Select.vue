@@ -88,10 +88,14 @@
 <script>
 // import Vue from 'vue'
 import { cloneDeep } from 'lodash-es'
-import { conclude } from 'vue-global-config'
+import { conclude, useGlobalConfig } from 'vue-global-config'
 import { isVue3 } from 'vue-demi'
-import { getListeners, isEmpty, isObject, notEmpty, unwrap } from '../utils'
-import { globalAttrs, globalListeners, globalProps } from './index'
+import { getListeners, isEmpty, isObject, notEmpty, unwrap } from './utils'
+
+const globalProps = {}
+const globalAttrs = {}
+const globalListeners = {}
+const globalHooks = {}
 
 const modelValueProp = isVue3 ? 'modelValue' : 'value'
 const updateModelValue = isVue3 ? 'update:modelValue' : 'input'
@@ -101,6 +105,14 @@ const boolProps = [
 ]
 
 export default {
+  install(app, options = {}) {
+    const { props, attrs, listeners, hooks } = useGlobalConfig(options, this.props)
+    Object.assign(globalProps, props)
+    Object.assign(globalAttrs, attrs)
+    Object.assign(globalListeners, listeners)
+    Object.assign(globalHooks, hooks)
+    app.component(this.name, this)
+  },
   name: 'KiSelect',
   props: {
     [modelValueProp]: {},

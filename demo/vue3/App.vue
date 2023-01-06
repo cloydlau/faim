@@ -4,10 +4,11 @@
     show
     title="FormDialog"
     showResetButton
+    width="100%"
   >
     <el-form-item label="PopButton">
       <KiPopButton
-        :elTooltipProps="{ content: `<i class='el-icon-warning'/> 删除` }"
+        :elTooltipProps="{ rawContent: true, content: `<i class='el-icon-warning'/> 删除` }"
         :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
         :elPopconfirmProps="{ title: '确认删除吗？' }"
         @click="console.log('[PopButton] click')"
@@ -22,18 +23,22 @@
     >
       <KiPopSwitch
         v-model="value.kiPopSwitch"
-        :elTooltipProps="{ content: `<i class='el-icon-warning'/> 已停用` }"
+        :elTooltipProps="{ rawContent: true, content: `<i class='el-icon-warning'/> 已停用` }"
         :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
         :elPopconfirmProps="{ title: '确认启用吗？' }"
         active-text="启用"
         inactive-text="停用"
-      />
+      >
+        <template #reference>
+          123
+        </template>
+      </KiPopSwitch>
     </el-form-item>
+    {{ value.elSelect }}
     <el-form-item
       label="ElSelect"
       prop="elSelect"
     >
-      {{ value.elSelect }}
       <el-select
         v-model="value.elSelect"
         value-key="a"
@@ -46,12 +51,12 @@
         />
       </el-select>
     </el-form-item>
+    {{ value.kiSelect }}
+    {{ value.kiSelectLabel }}
     <el-form-item
       label="KiSelect"
       prop="kiSelect"
     >
-      {{ value.kiSelect }}
-      {{ value.kiSelectLabel }}
       <KiSelect
         v-model="value.kiSelect"
         :label.sync="value.kiSelectLabel"

@@ -4,13 +4,24 @@
     ref="elTooltip"
   >
     <template #content>
-      <div v-html="ElTooltipProps.content" />
+      <slot
+        v-if="$slots.content"
+        name="content"
+      />
+      <div
+        v-else-if="ElTooltipProps.rawContent"
+        v-html="ElTooltipProps.content"
+      />
+      <div
+        v-else
+        v-text="ElTooltipProps.content"
+      />
     </template>
     <el-popover
       v-bind="ElPopoverProps"
       @show="(...e) => { $emit('show', ...e) }"
-      @after-enter="(...e) => { $emit('after-enter', ...e) }"
       @hide="(...e) => { $emit('hide', ...e) }"
+      @after-enter="(...e) => { $emit('after-enter', ...e) }"
       @after-leave="(...e) => { $emit('after-leave', ...e) }"
     >
       <div v-html="ElPopoverProps.content" />
@@ -19,13 +30,12 @@
           v-bind="ElPopconfirmProps"
           @cancel="(...e) => { $emit('cancel', ...e) }"
           @confirm="onConfirm"
-          @onConfirm="onConfirm"
+          @on-confirm="onConfirm"
         >
           <template #reference>
             <el-switch
               v-bind="ElSwitchProps"
               ref="elSwitch"
-              :value="value"
               :class="InlinePrompt && 'inlinePrompt'"
               @click.native="onClick"
             />
@@ -37,50 +47,58 @@
 </template>
 
 <script>
-import { conclude } from 'vue-global-config'
-import { getCharCount } from '../utils'
-import { globalAttrs, globalProps } from './index'
+import { isVue3 } from 'vue-demi'
+import { conclude, useGlobalConfig } from 'vue-global-config'
+import { getCharCount } from './utils'
+
+const globalProps = {}
+const globalAttrs = {}
+const globalListeners = {}
+const globalHooks = {}
+
+const model = {
+  prop: isVue3 ? 'modelValue' : 'value',
+  event: isVue3 ? 'update:modelValue' : 'change',
+}
+
+const boolProps = [
+  'inlinePrompt',
+]
 
 export default {
   name: 'KiPopSwitch',
-  model: {
-    prop: 'value',
-    event: 'change',
+  model,
+  install(app, options = {}) {
+    const { props, attrs, listeners, hooks } = useGlobalConfig(options, this.props)
+    Object.assign(globalProps, props)
+    Object.assign(globalAttrs, attrs)
+    Object.assign(globalListeners, listeners)
+    Object.assign(globalHooks, hooks)
+    app.component(this.name, this)
   },
   props: {
-    value: {},
-    inlinePrompt: {
-      type: Boolean,
-      default: undefined,
-    },
+    [model.prop]: {},
     elPopconfirmProps: {},
     elTooltipProps: {},
     elPopoverProps: {},
+    ...Object.fromEntries(Array.from(boolProps, boolProp => [boolProp, {
+      type: Boolean,
+      default: undefined,
+    }])),
   },
-  emits: ['change'],
+  emits: [model.event, 'confirm', 'cancel', 'show', 'hide', 'after-enter', 'after-leave'],
   computed: {
-    InlinePrompt() {
-      return conclude([this.inlinePrompt, globalProps.inlinePrompt, true], {
-        type: Boolean,
-      })
-    },
-    ElSwitchProps() {
-      return conclude([this.$attrs, globalAttrs], {
+    ElTooltipProps() {
+      return conclude([
+        this.elTooltipProps,
+        globalProps.elTooltipProps,
+      ], {
         type: Object,
         camelizeObjectKeys: true,
-        default: (userProp) => {
-          let maxTextWidth = 0;
-          ['active-text', 'inactive-text', 'activeText', 'inactiveText'].map((v) => {
-            const textWidth = getCharCount(userProp[v])
-            if (textWidth > maxTextWidth) {
-              maxTextWidth = textWidth
-            }
-          })
-          return {
-            ...this.InlinePrompt && { width: 30 + maxTextWidth * 6 },
-            ...userProp,
-          }
-        },
+        default: userProp => ({
+          // openDelay: 400,
+          disabled: !(userProp?.content || this.$slots.elTooltipContent),
+        }),
         defaultIsDynamic: true,
       })
     },
@@ -112,17 +130,31 @@ export default {
         defaultIsDynamic: true,
       })
     },
-    ElTooltipProps() {
-      return conclude([
-        this.elTooltipProps,
-        globalProps.elTooltipProps,
-      ], {
+    InlinePrompt() {
+      return conclude([this.inlinePrompt, globalProps.inlinePrompt, true], {
+        type: Boolean,
+      })
+    },
+    ElSwitchProps() {
+      return conclude([{
+        [model.prop]: this.value,
+        inlinePrompt: this.InlinePrompt,
+      }, this.$attrs, globalAttrs], {
         type: Object,
         camelizeObjectKeys: true,
-        default: userProp => ({
-          // openDelay: 400,
-          disabled: !(userProp?.content || this.$slots.elTooltipContent),
-        }),
+        default: (userProp) => {
+          let maxTextWidth = 0;
+          ['active-text', 'inactive-text', 'activeText', 'inactiveText'].forEach((v) => {
+            const textWidth = getCharCount(userProp[v])
+            if (textWidth > maxTextWidth) {
+              maxTextWidth = textWidth
+            }
+          })
+          return {
+            ...this.InlinePrompt && { width: 30 + maxTextWidth * 6 },
+            ...userProp,
+          }
+        },
         defaultIsDynamic: true,
       })
     },
@@ -131,7 +163,7 @@ export default {
     onConfirm(...e) {
       const { checked, inactiveValue, activeValue } = this.$refs.elSwitch
       this.$emit('confirm', ...e)
-      this.$emit('change', checked ? inactiveValue : activeValue)
+      this.$emit(model.event, checked ? inactiveValue : activeValue)
     },
     onClick() {
       if (!this.$refs.elTooltip.manual) {

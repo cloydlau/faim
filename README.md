@@ -373,7 +373,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 - `el-popover` 宽度自适应，而不是写死一个最小宽度
 - `el-tooltip` 非手动控制显隐时，点击按钮后会自动关闭，以避免与 `el-popconfirm` 和 Popover 冲突
 - `el-popconfirm`，`el-popover`，`el-tooltip` 的内容为空时，默认不启用
-- content 属性支持动态渲染 HTML (但不再支持插槽)
+- content 属性支持动态渲染 HTML
 
 ### 属性
 
@@ -402,7 +402,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 - `el-popover` 宽度自适应，而不是写死一个最小宽度
 - `el-tooltip` 非手动控制显隐时，点击开关后会自动关闭，以避免与 `el-popconfirm` 和 `el-popover` 冲突
 - `el-popconfirm`，`el-popover`，`el-tooltip` 的内容为空时，默认不启用
-- content 属性支持动态渲染 HTML (但不再支持插槽)
+- content 属性支持动态渲染 HTML
 
 ### 属性
 

@@ -2,16 +2,27 @@
   <el-tooltip
     v-bind="ElTooltipProps"
     ref="elTooltip"
-    class="pop-button"
+    class="ki-pop-button"
   >
     <template #content>
-      <div v-html="ElTooltipProps.content" />
+      <slot
+        v-if="$slots.content"
+        name="content"
+      />
+      <div
+        v-else-if="ElTooltipProps.rawContent"
+        v-html="ElTooltipProps.content"
+      />
+      <div
+        v-else
+        v-text="ElTooltipProps.content"
+      />
     </template>
     <el-popover
       v-bind="ElPopoverProps"
       @show="(...e) => { $emit('show', ...e) }"
-      @after-enter="(...e) => { $emit('after-enter', ...e) }"
       @hide="(...e) => { $emit('hide', ...e) }"
+      @after-enter="(...e) => { $emit('after-enter', ...e) }"
       @after-leave="(...e) => { $emit('after-leave', ...e) }"
     >
       <div v-html="ElPopoverProps.content" />
@@ -20,7 +31,7 @@
           v-bind="ElPopconfirmProps"
           @cancel="(...e) => { $emit('cancel', ...e) }"
           @confirm="$emit('click', $event)"
-          @onConfirm="$emit('click', $event)"
+          @on-confirm="$emit('click', $event)"
         >
           <template #reference>
             <el-button
@@ -37,23 +48,43 @@
 </template>
 
 <script>
-import { conclude } from 'vue-global-config'
-import { globalAttrs, globalProps } from './index'
+import { conclude, useGlobalConfig } from 'vue-global-config'
+
+const globalProps = {}
+const globalAttrs = {}
+const globalListeners = {}
+const globalHooks = {}
 
 export default {
+  install(app, options = {}) {
+    const { props, attrs, listeners, hooks } = useGlobalConfig(options, this.props)
+    Object.assign(globalProps, props)
+    Object.assign(globalAttrs, attrs)
+    Object.assign(globalListeners, listeners)
+    Object.assign(globalHooks, hooks)
+    app.component(this.name, this)
+  },
   name: 'KiPopButton',
   props: {
     elPopconfirmProps: {},
     elTooltipProps: {},
     elPopoverProps: {},
   },
-  emits: ['click'],
+  emits: ['click', 'confirm', 'cancel', 'show', 'hide', 'after-enter', 'after-leave'],
   computed: {
-    ElButtonProps() {
-      return conclude([this.$attrs, globalAttrs], {
+    ElTooltipProps() {
+      const result = conclude([
+        this.elTooltipProps,
+        globalProps.elTooltipProps,
+      ], {
         type: Object,
         camelizeObjectKeys: true,
       })
+      return {
+        // openDelay: 400,
+        disabled: !result?.content,
+        ...result,
+      }
     },
     ElPopoverProps() {
       const result = conclude([
@@ -83,19 +114,11 @@ export default {
         ...result,
       }
     },
-    ElTooltipProps() {
-      const result = conclude([
-        this.elTooltipProps,
-        globalProps.elTooltipProps,
-      ], {
+    ElButtonProps() {
+      return conclude([this.$attrs, globalAttrs], {
         type: Object,
         camelizeObjectKeys: true,
       })
-      return {
-        // openDelay: 400,
-        disabled: !result?.content,
-        ...result,
-      }
     },
   },
   methods: {
@@ -113,8 +136,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.pop-button {
-  &+.pop-button {
+.ki-pop-button {
+  &+.ki-pop-button {
     margin-left: 10px;
   }
 

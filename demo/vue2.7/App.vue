@@ -7,7 +7,7 @@
   >
     <el-form-item label="PopButton">
       <KiPopButton
-        :elTooltipProps="{ content: `<i class='el-icon-warning'/> 删除` }"
+        :elTooltipProps="{ rawContent: true, content: `<i class='el-icon-warning'/> 删除` }"
         :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
         :elPopconfirmProps="{ title: '确认删除吗？' }"
         @click="console.log('[PopButton] click')"
@@ -22,7 +22,7 @@
     >
       <KiPopSwitch
         v-model="value.kiPopSwitch"
-        :elTooltipProps="{ content: `<i class='el-icon-warning'/> 已停用` }"
+        :elTooltipProps="{ rawContent: true, content: `<i class='el-icon-warning'/> 已停用` }"
         :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
         :elPopconfirmProps="{ title: '确认启用吗？' }"
         active-text="启用"
