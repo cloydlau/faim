@@ -5,7 +5,7 @@
 </h1>
 
 <p align="center">
-  几个 ElementPlus/ElementUI 组件的封装。
+  几个 Element Plus / Element 组件的封装。
 </p>
 
 <p align="center">
@@ -44,9 +44,7 @@ module.exports = {
 }
 ```
 
-### ElementPlus (Vue 3)
-
-⚠ 预计下个大版本可用。
+### Element Plus (Vue 3)
 
 #### 局部注册
 
@@ -110,10 +108,18 @@ app
     import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
     createApp()
-      .use(KiFormDialog)
-      .use(KiPopButton)
-      .use(KiPopSwitch)
-      .use(KiSelect)
+      .use(KiFormDialog, {
+        // 全局配置
+      })
+      .use(KiPopButton, {
+        // 全局配置
+      })
+      .use(KiPopSwitch, {
+        // 全局配置
+      })
+      .use(KiSelect, {
+        // 全局配置
+      })
       .mount('#app')
   </script>
 </body>
@@ -123,7 +129,7 @@ app
 
 > ⚠ 暂不支持 (Kikimore 未提供 UMD 导出)
 
-### ElementUI (Vue 2)
+### Element (Vue 2)
 
 #### 局部注册
 
@@ -163,7 +169,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 #### CDN + ESM
 
-> ⚠ 暂不支持 (ElementUI 未提供 ESM 导出)
+> ⚠ 暂不支持 (Element 未提供 ESM 导出)
 
 #### CDN + UMD
 
@@ -373,16 +379,18 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 - `el-popover` 宽度自适应，而不是写死一个最小宽度
 - `el-tooltip` 非手动控制显隐时，点击按钮后会自动关闭，以避免与 `el-popconfirm` 和 Popover 冲突
 - `el-popconfirm`，`el-popover`，`el-tooltip` 的内容为空时，默认不启用
-- content 属性支持动态渲染 HTML
+- `el-popover` 和 `el-tooltip` 的 `content` 属性均支持动态渲染 HTML
 
 ### 属性
 
-| 名称              | 说明                   | 类型   | 默认值 |
-| ----------------- | ---------------------- | ------ | ------ |
-| elPopconfirmProps | `el-popconfirm` 的属性 | object |        |
-| elPopoverProps    | `el-popover` 的属性    | object |        |
-| elTooltipProps    | `el-tooltip` 的属性    | object |        |
-| ...               | `el-button` 的属性     |        |        |
+| 名称                        | 说明                                       | 类型    | 默认值  |
+| --------------------------- | ------------------------------------------ | ------- | ------- |
+| elPopconfirmProps           | `el-popconfirm` 的属性                     | object  |         |
+| elPopoverProps              | `el-popover` 的属性                        | object  |         |
+| `elPopoverProps.rawContent` | `content` 中的内容是否作为 HTML 字符串处理 | boolean | `false` |
+| elTooltipProps              | `el-tooltip` 的属性                        | object  |         |
+| `elTooltipProps.rawContent` | `content` 中的内容是否作为 HTML 字符串处理 | boolean | `false` |
+| ...                         | `el-button` 的属性                         |         |         |
 
 ### 事件
 
@@ -402,17 +410,19 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 - `el-popover` 宽度自适应，而不是写死一个最小宽度
 - `el-tooltip` 非手动控制显隐时，点击开关后会自动关闭，以避免与 `el-popconfirm` 和 `el-popover` 冲突
 - `el-popconfirm`，`el-popover`，`el-tooltip` 的内容为空时，默认不启用
-- content 属性支持动态渲染 HTML
+- `el-popover` 和 `el-tooltip` 的 `content` 属性均支持动态渲染 HTML
 
 ### 属性
 
-| 名称              | 说明                   | 类型    | 默认值 |
-| ----------------- | ---------------------- | ------- | ------ |
-| inlinePrompt      | 是否内嵌文本           | boolean | `true` |
-| elPopconfirmProps | `el-popconfirm` 的属性 | object  |        |
-| elPopoverProps    | `el-popover` 的属性    | object  |        |
-| elTooltipProps    | `el-tooltip` 的属性    | object  |        |
-| ...               | `el-switch` 的属性     |         |        |
+| 名称                        | 说明                                       | 类型    | 默认值  |
+| --------------------------- | ------------------------------------------ | ------- | ------- |
+| inlinePrompt                | 是否内嵌文本                               | boolean | `true`  |
+| elPopconfirmProps           | `el-popconfirm` 的属性                     | object  |         |
+| elPopoverProps              | `el-popover` 的属性                        | object  |         |
+| `elPopoverProps.rawContent` | `content` 中的内容是否作为 HTML 字符串处理 | boolean | `false` |
+| elTooltipProps              | `el-tooltip` 的属性                        | object  |         |
+| `elTooltipProps.rawContent` | `content` 中的内容是否作为 HTML 字符串处理 | boolean | `false` |
+| ...                         | `el-switch` 的属性                         |         |         |
 
 ### 方法
 
@@ -549,7 +559,7 @@ onMounted(() => {
 
 - `label`：HTML 中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以 `label` 天生是用来表达选中目标的 “展示名称” 的，而 name 由于与原生 `<input>` 元素的 `name` 属性冲突故不考虑使用 name。
 
-> ElementUI 本身没有做到命名的统一，`el-select` 中 `label` 表示选项的标签，
+> Element 本身没有做到命名的统一，`el-select` 中 `label` 表示选项的标签，
 > 但 `el-checkbox` 中 `label` 却表示的是选中状态的值。
 
 UI 组件库的标杆 Ant Design 也是使用 `value` 与 `label` 命名。

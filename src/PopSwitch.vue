@@ -1,11 +1,8 @@
 <template>
-  <el-tooltip
-    v-bind="ElTooltipProps"
-    ref="elTooltip"
-  >
+  <el-tooltip v-bind="ElTooltipProps">
     <template #content>
       <slot
-        v-if="$slots.content"
+        v-if="$slots['tooltip-content']"
         name="content"
       />
       <div
@@ -17,32 +14,43 @@
         v-text="ElTooltipProps.content"
       />
     </template>
-    <el-popover
-      v-bind="ElPopoverProps"
-      @show="(...e) => { $emit('show', ...e) }"
-      @hide="(...e) => { $emit('hide', ...e) }"
-      @after-enter="(...e) => { $emit('after-enter', ...e) }"
-      @after-leave="(...e) => { $emit('after-leave', ...e) }"
-    >
-      <div v-html="ElPopoverProps.content" />
-      <template #reference>
-        <el-popconfirm
-          v-bind="ElPopconfirmProps"
-          @cancel="(...e) => { $emit('cancel', ...e) }"
-          @confirm="onConfirm"
-          @on-confirm="onConfirm"
-        >
-          <template #reference>
-            <el-switch
-              v-bind="ElSwitchProps"
-              ref="elSwitch"
-              :class="InlinePrompt && 'inlinePrompt'"
-              @click.native="onClick"
-            />
-          </template>
-        </el-popconfirm>
-      </template>
-    </el-popover>
+    <span>
+      <el-popover
+        v-bind="ElPopoverProps"
+        @show="(...e) => { $emit('show', ...e) }"
+        @hide="(...e) => { $emit('hide', ...e) }"
+        @after-enter="(...e) => { $emit('after-enter', ...e) }"
+        @after-leave="(...e) => { $emit('after-leave', ...e) }"
+      >
+        <slot v-if="$slots['popover-content']" />
+        <div
+          v-else-if="ElPopoverProps.rawContent"
+          v-html="ElPopoverProps.content"
+        />
+        <div
+          v-else
+          v-text="ElPopoverProps.content"
+        />
+        <template #reference>
+          <span>
+            <el-popconfirm
+              v-bind="ElPopconfirmProps"
+              @cancel="(...e) => { $emit('cancel', ...e) }"
+              @confirm="onConfirm"
+              @on-confirm="onConfirm"
+            >
+              <template #reference>
+                <el-switch
+                  v-bind="ElSwitchProps"
+                  :class="InlinePrompt && 'inlinePrompt'"
+                  @click.native="onClick"
+                />
+              </template>
+            </el-popconfirm>
+          </span>
+        </template>
+      </el-popover>
+    </span>
   </el-tooltip>
 </template>
 
@@ -92,6 +100,7 @@ export default {
       return conclude([
         this.elTooltipProps,
         globalProps.elTooltipProps,
+        { ref: 'elTooltipRef' },
       ], {
         type: Object,
         camelizeObjectKeys: true,
@@ -136,10 +145,15 @@ export default {
       })
     },
     ElSwitchProps() {
-      return conclude([{
-        [model.prop]: this.value,
-        inlinePrompt: this.InlinePrompt,
-      }, this.$attrs, globalAttrs], {
+      return conclude([
+        {
+          [model.prop]: this[model.prop],
+          inlinePrompt: this.InlinePrompt,
+        },
+        this.$attrs,
+        globalAttrs,
+        { ref: 'elSwitchRef' },
+      ], {
         type: Object,
         camelizeObjectKeys: true,
         default: (userProp) => {
@@ -160,18 +174,19 @@ export default {
     },
   },
   methods: {
-    onConfirm(...e) {
-      const { checked, inactiveValue, activeValue } = this.$refs.elSwitch
-      this.$emit('confirm', ...e)
-      this.$emit(model.event, checked ? inactiveValue : activeValue)
-    },
     onClick() {
-      if (!this.$refs.elTooltip.manual) {
-        this.$refs.elTooltip.showPopper = false
+      if (!this.$refs[this.ElTooltipProps.ref].manual) {
+        this.$refs[this.ElTooltipProps.ref].showPopper = false
       }
       if (this.ElSwitchProps.disabled === false && this.ElPopconfirmProps.disabled) {
         this.onConfirm()
       }
+    },
+    onConfirm(...e) {
+      this.$emit('confirm', ...e)
+      this.$emit(model.event, this.$refs[this.ElSwitchProps.ref].checked
+        ? (this.ElSwitchProps.inactiveValue ?? false)
+        : (this.ElSwitchProps.activeValue ?? true))
     },
   },
 }

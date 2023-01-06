@@ -18,42 +18,31 @@
       <slot :name="headerSlotName">
         <span>{{ Title }}</span>
       </slot>
-      <div
-        flex="~"
-        items="center"
-      >
+      <div style="display: flex; align-items: center;">
         <i
           v-if="ShowFullscreenToggle"
           :class="fullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
-          cursor="pointer"
-          text="hover:[#409eff]"
           @click="toggleFullscreen()"
         />
         <i
           v-if="ElDialogProps.showClose !== false"
           class="el-icon-close"
-          cursor="pointer"
-          text="20px hover:[#FF7575]"
-          ml="15px"
           @click="onCancel"
         />
       </div>
     </template>
     <div
       v-loading="Loading"
-      class="body"
-      overflow="y-hidden"
-      flex="~ col"
+      style="display: flex; flex-direction: column; overflow-y: hidden;"
     >
       <div
         ref="overlayScrollbar"
-        class="overflow-y-auto px-40px pb-85px pt-25px"
-        style="max-height:calc(100vh - 45px);"
+        style="overflow-y: auto; padding: 25px 40px 85px 40px; max-height:calc(100vh - 45px);"
       >
         <el-form
           v-if="ValueIsPlainObject"
-          v-bind="ElFormProps"
           :class="Readonly && 'readonly'"
+          v-bind="ElFormProps"
           v-on="Listeners"
         >
           <slot />
@@ -147,9 +136,9 @@
 </template>
 
 <script>
+import { isVue3 } from 'vue-demi'
 import { conclude, useGlobalConfig } from 'vue-global-config'
 import { cloneDeep, isPlainObject } from 'lodash-es'
-import { isVue3 } from 'vue-demi'
 import { getListeners } from './utils'
 import highlightError from './utils/highlightError'
 
@@ -158,8 +147,11 @@ const globalAttrs = {}
 const globalListeners = {}
 const globalHooks = {}
 
-const modelValueProp = isVue3 ? 'modelValue' : 'value'
-const updateModelValue = isVue3 ? 'update:modelValue' : 'input'
+const model = {
+  prop: isVue3 ? 'modelValue' : 'value',
+  event: isVue3 ? 'update:modelValue' : 'input',
+}
+
 const boolProps = [
   'show',
   'readonly',
@@ -183,7 +175,7 @@ export default {
   },
   name: 'KiFormDialog',
   props: {
-    [modelValueProp]: {},
+    [model.prop]: {},
     title: {},
     elFormProps: {},
     retrieve: {},
@@ -191,6 +183,7 @@ export default {
     deny: {},
     getContainer: {},
     confirmButtonText: {},
+    resetButtonText: {},
     denyButtonText: {},
     cancelButtonText: {},
     ...Object.fromEntries(Array.from(boolProps, boolProp => [boolProp, {
@@ -198,7 +191,7 @@ export default {
       default: undefined,
     }])),
   },
-  emits: [updateModelValue, 'update:show', 'fullscreen-change'],
+  emits: [model.event, 'update:show', 'fullscreen-change'],
   data() {
     return {
       initialValue: undefined,
@@ -212,7 +205,6 @@ export default {
       fullscreen: false,
       labelWidth: undefined,
       key: 0,
-      isVue3,
     }
   },
   computed: {
@@ -270,7 +262,7 @@ export default {
       })
     },
     ValueIsPlainObject() {
-      return isPlainObject(this.value)
+      return isPlainObject(this[model.prop])
     },
     Title() {
       return conclude([this.title, globalProps.title], {
@@ -340,7 +332,7 @@ export default {
           disabled: this.readonly || this.confirming,
           ref: 'elFormRef',
           labelWidth: this.labelWidth,
-          model: this.value,
+          model: this[model.prop],
         },
       ], {
         type: Object,
@@ -393,7 +385,7 @@ export default {
     },
   },
   mounted() {
-    this.initialValue = cloneDeep(this.value)
+    this.initialValue = cloneDeep(this[model.prop])
   },
   updated() {
     this.computeLabelWidth()
@@ -614,6 +606,25 @@ export default {
 
     &>.el-dialog__headerbtn {
       display: none;
+    }
+
+    .el-icon-copy-document,
+    .el-icon-full-screen {
+      cursor: pointer;
+
+      &:hover {
+        color: #409eff;
+      }
+    }
+
+    .el-icon-close {
+      cursor: pointer;
+      font-size: 20px;
+      margin-left: 15px;
+
+      &:hover {
+        color: #FF7575;
+      }
     }
   }
 

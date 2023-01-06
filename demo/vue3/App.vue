@@ -24,15 +24,11 @@
       <KiPopSwitch
         v-model="value.kiPopSwitch"
         :elTooltipProps="{ rawContent: true, content: `<i class='el-icon-warning'/> 已停用` }"
-        :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
+        :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足` }"
         :elPopconfirmProps="{ title: '确认启用吗？' }"
         active-text="启用"
         inactive-text="停用"
-      >
-        <template #reference>
-          123
-        </template>
-      </KiPopSwitch>
+      />
     </el-form-item>
     {{ value.elSelect }}
     <el-form-item
@@ -73,13 +69,13 @@
 const console = window.console
 
 const value = reactive({
+  kiPopSwitch: true,
   elSelect: { a: 1, b: 1 },
   kiSelect: [{
     name: 'n',
     code: 'c',
   }],
   kiSelectLabel: undefined,
-  kiPopSwitch: true,
 })
 
 const options = reactive({

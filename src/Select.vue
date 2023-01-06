@@ -87,9 +87,9 @@
 
 <script>
 // import Vue from 'vue'
-import { cloneDeep } from 'lodash-es'
-import { conclude, useGlobalConfig } from 'vue-global-config'
 import { isVue3 } from 'vue-demi'
+import { conclude, useGlobalConfig } from 'vue-global-config'
+import { cloneDeep } from 'lodash-es'
 import { getListeners, isEmpty, isObject, notEmpty, unwrap } from './utils'
 
 const globalProps = {}
@@ -97,8 +97,11 @@ const globalAttrs = {}
 const globalListeners = {}
 const globalHooks = {}
 
-const modelValueProp = isVue3 ? 'modelValue' : 'value'
-const updateModelValue = isVue3 ? 'update:modelValue' : 'input'
+const model = {
+  prop: isVue3 ? 'modelValue' : 'value',
+  event: isVue3 ? 'update:modelValue' : 'input',
+}
+
 const boolProps = [
   'searchImmediately',
   'showSelectAllCheckbox',
@@ -115,7 +118,7 @@ export default {
   },
   name: 'KiSelect',
   props: {
-    [modelValueProp]: {},
+    [model.prop]: {},
     label: {},
     options: {
       type: Array,
@@ -128,7 +131,7 @@ export default {
       default: undefined,
     }])),
   },
-  emits: [updateModelValue, 'update:options', 'update:label'],
+  emits: [model.event, 'update:options', 'update:label'],
   data() {
     return {
       innerValue: undefined,
@@ -238,11 +241,11 @@ export default {
             ? this.$refs[this.ElSelectProps.ref].selected.map(({ currentLabel }) => currentLabel)
             : this.$refs[this.ElSelectProps.ref].selectedLabel)
         })
-        this.$emit(updateModelValue, newInnerValue)
+        this.$emit(model.event, newInnerValue)
       },
     },
     // 没有使用 value / v-model 时，resetFields 不会触发
-    value: {
+    [model.prop]: {
       immediate: true,
       handler(newValue) {
         this.innerValue = newValue
@@ -255,7 +258,7 @@ export default {
     }
   },
   mounted() {
-    this.initialValue = cloneDeep(this.value)
+    this.initialValue = cloneDeep(this[model.prop])
   },
   methods: {
     // 不写在 watch 里的原因：innerOptions、optionPropsList、optionGroupPropsList 的长度必须保持同步

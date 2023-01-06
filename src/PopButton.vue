@@ -1,12 +1,11 @@
 <template>
   <el-tooltip
     v-bind="ElTooltipProps"
-    ref="elTooltip"
     class="ki-pop-button"
   >
     <template #content>
       <slot
-        v-if="$slots.content"
+        v-if="$slots['tooltip-content']"
         name="content"
       />
       <div
@@ -18,32 +17,44 @@
         v-text="ElTooltipProps.content"
       />
     </template>
-    <el-popover
-      v-bind="ElPopoverProps"
-      @show="(...e) => { $emit('show', ...e) }"
-      @hide="(...e) => { $emit('hide', ...e) }"
-      @after-enter="(...e) => { $emit('after-enter', ...e) }"
-      @after-leave="(...e) => { $emit('after-leave', ...e) }"
-    >
-      <div v-html="ElPopoverProps.content" />
-      <template #reference>
-        <el-popconfirm
-          v-bind="ElPopconfirmProps"
-          @cancel="(...e) => { $emit('cancel', ...e) }"
-          @confirm="$emit('click', $event)"
-          @on-confirm="$emit('click', $event)"
-        >
-          <template #reference>
-            <el-button
-              v-bind="ElButtonProps"
-              @click="onClick"
+    <span>
+      <el-popover
+        v-bind="ElPopoverProps"
+        @show="(...e) => { $emit('show', ...e) }"
+        @hide="(...e) => { $emit('hide', ...e) }"
+        @after-enter="(...e) => { $emit('after-enter', ...e) }"
+        @after-leave="(...e) => { $emit('after-leave', ...e) }"
+      >
+        <slot v-if="$slots['popover-content']" />
+        <div
+          v-else-if="ElPopoverProps.rawContent"
+          v-html="ElPopoverProps.content"
+        />
+        <div
+          v-else
+          v-text="ElPopoverProps.content"
+        />
+        <template #reference>
+          <span>
+            <el-popconfirm
+              v-bind="ElPopconfirmProps"
+              @cancel="(...e) => { $emit('cancel', ...e) }"
+              @confirm="$emit('click', $event)"
+              @on-confirm="$emit('click', $event)"
             >
-              <slot />
-            </el-button>
-          </template>
-        </el-popconfirm>
-      </template>
-    </el-popover>
+              <template #reference>
+                <el-button
+                  v-bind="ElButtonProps"
+                  @click="onClick"
+                >
+                  <slot />
+                </el-button>
+              </template>
+            </el-popconfirm>
+          </span>
+        </template>
+      </el-popover>
+    </span>
   </el-tooltip>
 </template>
 
@@ -76,6 +87,7 @@ export default {
       const result = conclude([
         this.elTooltipProps,
         globalProps.elTooltipProps,
+        { ref: 'elTooltipRef' },
       ], {
         type: Object,
         camelizeObjectKeys: true,
@@ -123,8 +135,8 @@ export default {
   },
   methods: {
     onClick(...e) {
-      if (!this.$refs.elTooltip.manual) {
-        this.$refs.elTooltip.showPopper = false
+      if (!this.$refs[this.ElTooltipProps.ref].manual) {
+        this.$refs[this.ElTooltipProps.ref].showPopper = false
       }
       this.$emit('confirm', ...e)
       if (this.ElPopconfirmProps.disabled) {
