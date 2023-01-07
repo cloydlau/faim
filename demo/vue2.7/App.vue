@@ -60,27 +60,6 @@
         value-key="code"
       />
     </el-form-item>
-    <!-- <el-form-item
-      label="KiUpload"
-      prop="kiUpload"
-    >
-      <KiUpload v-model="value.kiUpload" aspectRatio="1/1" />
-    </el-form-item> -->
-    <!-- <el-form-item
-      label="KiImage"
-      prop="kiImage"
-    >
-      <KiImage :value="value.kiImage" />
-    </el-form-item> -->
-    <!-- <el-form-item
-      label="KiMap"
-      prop="kiMap"
-    >
-      <KiMap :show.sync="value.kiMap" />
-      <el-button @click="() => { value.kiMap = true }">
-        打开 KiMap
-      </el-button>
-    </el-form-item> -->
   </KiFormDialog>
 </template>
 
@@ -95,9 +74,6 @@ const value = reactive({
   },
   kiSelectLabel: undefined,
   kiPopSwitch: true,
-  // kiUpload: 'https://picsum.photos/100',
-  // kiImage: 'https://picsum.photos/100',
-  // kiMap: false,
 })
 
 const options = reactive({

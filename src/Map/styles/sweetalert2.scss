@@ -1,3 +1,0 @@
-.swal2-container {
-  z-index: 99999 !important; /* 在项目中，build:prod 时，该样式会被默认样式覆盖为 1060，所以加 !important */
-}
