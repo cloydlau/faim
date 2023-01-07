@@ -48,6 +48,8 @@ module.exports = {
 }
 ```
 
+<br>
+
 ### Element Plus (Vue 3)
 
 #### 局部注册
@@ -81,6 +83,8 @@ app
 #### ~~CDN~~
 
 ⚠ 暂不支持。
+
+<br>
 
 ### Element (Vue 2)
 
