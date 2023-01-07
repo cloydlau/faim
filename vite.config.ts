@@ -1,11 +1,16 @@
 import { defineConfig } from 'vite'
+import dts from 'vite-plugin-dts'
 import vue from '@vitejs/plugin-vue2'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
+import { PascalCasedName, name } from './package.json'
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
+    dts({
+      outputDir: 'src',
+    }),
     vue(),
     AutoImport({
       // targets to transform
@@ -23,7 +28,7 @@ export default defineConfig({
     }),
     Components({ /* options */ }),
   ],
-  /* build: {
+  build: {
     lib: {
       name,
       entry: 'src/index.ts',
@@ -32,20 +37,20 @@ export default defineConfig({
     sourcemap: true,
     rollupOptions: {
       external: [
-        'element-plus',
-        'element-ui',
         'vue',
         'vue-demi',
+        'element-ui',
+        'element-plus',
       ],
       output: {
         globals: {
           [name]: PascalCasedName,
-          'element-plus': 'ElementPlus',
-          'element-ui': 'ElementUI',
           'vue': 'Vue',
           'vue-demi': 'VueDemi',
+          'element-ui': 'ElementUI',
+          'element-plus': 'ElementPlus',
         },
       },
     },
-  }, */
+  },
 })

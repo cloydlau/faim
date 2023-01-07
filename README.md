@@ -106,21 +106,17 @@ export default {
 import Vue from 'vue'
 import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
-;[
-  [KiFormDialog, {
-    // 全局配置
-  }],
-  [KiPopButton, {
-    // 全局配置
-  }],
-  [KiPopSwitch, {
-    // 全局配置
-  }],
-  [KiSelect, {
-    // 全局配置
-  }]
-].forEach(([component, config]) => {
-  Vue.use(FormDialog, config)
+Vue.use(FormDialog, {
+  // 全局配置
+})
+Vue.use(KiPopButton, {
+  // 全局配置
+})
+Vue.use(KiPopSwitch, {
+  // 全局配置
+})
+Vue.use(KiSelect, {
+  // 全局配置
 })
 ```
 
@@ -137,8 +133,8 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 ### 特性
 
 - 打开对话框自动回显数据，关闭对话框自动重置数据
-- 校验失败时平滑滚动至错误项并震动提示
 - 提交、拒绝、重置、全屏一应俱全
+- 校验失败时平滑滚动至错误项并震动提示
 - 限制高度，无页面级滚动条
 - 只读模式
 
@@ -281,10 +277,10 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 方法
 
-| 名称           | 说明                           | 参数                                                                                                     |
-| -------------- | ------------------------------ | -------------------------------------------------------------------------------------------------------- |
-| highlightError | 平滑滚动至校验失败的表单项     | (selectors: string \| Element \| NodeList = '.el-form .el-form-item.is-error', container = window): void |
-| ...            | 通过 ref 调用 `el-form` 的方法 |                                                                                                          |
+| 名称           | 说明                           | 类型                                                                                                       |
+| -------------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------- |
+| highlightError | 平滑滚动至校验失败的表单项     | (selectors: string \| Element \| NodeList = '.el-form .el-form-item.is-error', container = window) => void |
+| ...            | 通过 ref 调用 `el-form` 的方法 |                                                                                                            |
 
 ### 事件
 
@@ -486,7 +482,7 @@ interface Props {
 
 - `value`：这里要表达的含义就是选中目标的 “值”，等同于原生 `<input type="checkbox">` 元素的 `value` 属性，不一定是其唯一标识，所以不应该使用 id 或者 key，且 key 与 Vue 的特殊 attribute 冲突。
 
-- `label`：HTML 中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以 `label` 天生是用来表达选中目标的 “展示名称” 的，而 'name' 由于与原生 `<input>` 元素的 `name` 属性冲突故不考虑使用 'name'。
+- `label`：HTML 中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以 `label` 天生是用来表达选中目标的 “展示名称” 的，而 ‘name’ 由于与原生 `<input>` 元素的 `name` 属性冲突故不考虑使用 ‘name’。
 
 > Element 本身没有做到命名的统一，`el-select` 中 `label` 表示选项的标签，
 > 但 `el-checkbox` 中 `label` 却表示的是选中状态的值。
