@@ -327,7 +327,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 特性
 
-- 操作拦截 (`el-popconfirm` 点击确定后才会触发的 `click` 事件)
+- 操作拦截 (`el-popconfirm` 点击确定后才会触发 `click` 事件)
 - `el-popover` 和 `el-tooltip` 的 `content` 属性均支持渲染 HTML
 - `el-tooltip` 不与 `el-popconfirm`、`el-popover` 冲突
 - `el-popconfirm`、`el-popover`、`el-tooltip` 内容为空时，默认不启用
@@ -364,7 +364,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 特性
 
-- 操作拦截 (`el-popconfirm` 点击确定后才会触发的 `change` 事件)
+- 操作拦截 (`el-popconfirm` 点击确定后才会触发 `change` 事件)
 - 支持内嵌文字描述，宽度自适应
 - `el-popover` 和 `el-tooltip` 的 `content` 属性均支持渲染 HTML
 - `el-tooltip` 不与 `el-popconfirm`、`el-popover` 冲突
@@ -414,17 +414,17 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 属性
 
-| 名称                                              | 说明                              | 类型                                       | 默认值         |
-| ------------------------------------------------- | --------------------------------- | ------------------------------------------ | -------------- |
-| modelValue (Vue 3) /<br>value (Vue 2) / v-model   | 绑定值                            | any                                        |                |
-| v-model:options (Vue 3) /<br>options.sync (Vue 2) | 选项                              | any[]                                      |                |
-| props                                             | 定位选项的各项属性                | object                                     |                |
-| search                                            | 远程搜索 (`remote-method` 封装)   | (query: string) => Promise<any[]> \| any[] |                |
-| searchImmediately                                 | 是否立即执行远程搜索              | boolean                                    | `true`         |
-| v-model:label (Vue 3) /<br>label.sync (Vue 2)     | 绑定值对应的 `label` (单向数据流) | string \| string[]                         |                |
-| showSelectAllCheckbox                             | 多选时是否显示全选框              | boolean                                    | `true`         |
-| selectAllCheckboxLabel                            | 全选框的文案                      | string                                     | `'Select All'` |
-| ...                                               | `el-select` 的属性                |                                            |                |
+| 名称                                              | 说明                              | 类型                                          | 默认值         |
+| ------------------------------------------------- | --------------------------------- | --------------------------------------------- | -------------- |
+| modelValue (Vue 3) /<br>value (Vue 2) / v-model   | 绑定值                            | any                                           |                |
+| v-model:options (Vue 3) /<br>options.sync (Vue 2) | 选项                              | any[]                                         |                |
+| props                                             | 定位选项的各项属性                | object                                        |                |
+| search                                            | 远程搜索 (`remote-method` 封装)   | (query: string) =><br>Promise<any[]> \| any[] |                |
+| searchImmediately                                 | 是否立即执行远程搜索              | boolean                                       | `true`         |
+| v-model:label (Vue 3) /<br>label.sync (Vue 2)     | 绑定值对应的 `label` (单向数据流) | string \| string[]                            |                |
+| showSelectAllCheckbox                             | 多选时是否显示全选框              | boolean                                       | `true`         |
+| selectAllCheckboxLabel                            | 全选框的文案                      | string                                        | `'Select All'` |
+| ...                                               | `el-select` 的属性                |                                               |                |
 
 #### options
 
