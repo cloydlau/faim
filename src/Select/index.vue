@@ -118,10 +118,8 @@ export default {
   },
   props: {
     [model.prop]: {},
-    label: {},
-    options: {
-      type: Array,
-    },
+    label: [String, Array],
+    options: Array,
     props: {},
     search: {},
     selectAllCheckboxLabel: {},
