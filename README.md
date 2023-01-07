@@ -5,6 +5,10 @@
 </h1>
 
 <p align="center">
+  <img height="28px" src="https://user-images.githubusercontent.com/10731096/95823103-9ce15780-0d5f-11eb-8010-1bd1b5910d4f.png">
+  &nbsp;
+  <img height="28px" src="https://cdn.rawgit.com/ElemeFE/element/dev/element_logo.svg">
+  <br>
   几个 Element Plus / Element 组件的封装。
 </p>
 
@@ -74,7 +78,7 @@ app
   })
 ```
 
-#### CDN
+#### ~~CDN~~
 
 ⚠ 暂不支持。
 
@@ -116,7 +120,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 })
 ```
 
-#### CDN
+#### ~~CDN~~
 
 ⚠ 暂不支持。
 
