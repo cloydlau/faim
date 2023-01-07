@@ -140,7 +140,7 @@ export default {
       })
     },
     InlinePrompt() {
-      return conclude([this.inlinePrompt, globalProps.inlinePrompt, true], {
+      return conclude([this.inlinePrompt, globalProps.inlinePrompt, false], {
         type: Boolean,
       })
     },

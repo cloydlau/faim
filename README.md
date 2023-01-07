@@ -327,12 +327,12 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 特性
 
-- 如果启用了 `el-popconfirm`，则仅在点击了确认后才会触发 `click` 事件
-- `el-popconfirm` 的顶部间隔不再那么违和地高了
-- `el-popover` 宽度自适应，而不是写死一个最小宽度
-- `el-tooltip` 非手动控制显隐时，点击按钮后会自动关闭，以避免与 `el-popconfirm` 和 `el-popover` 冲突
-- `el-popconfirm`、`el-popover`、`el-tooltip` 内容为空时，默认不启用
+- 操作拦截 (`el-popconfirm` 点击确定后才会触发的 `click` 事件)
 - `el-popover` 和 `el-tooltip` 的 `content` 属性均支持渲染 HTML
+- `el-tooltip` 不与 `el-popconfirm`、`el-popover` 冲突
+- `el-popconfirm`、`el-popover`、`el-tooltip` 内容为空时，默认不启用
+- `el-popover` 宽度自适应，而不是写死一个最小宽度
+- `el-popconfirm` 的顶部间隔不再那么违和地高了
 
 ### 属性
 
@@ -364,19 +364,19 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 ### 特性
 
-- 如果启用了 `el-popconfirm`，则仅在点击了确认后才会触发 `change` 事件
-- 支持描述内嵌，宽度自适应
-- `el-popconfirm` 的顶部间隔不再那么违和地高了
-- `el-popover` 宽度自适应，而不是写死一个最小宽度
-- `el-tooltip` 非手动控制显隐时，点击开关后会自动关闭，以避免与 `el-popconfirm` 和 `el-popover` 冲突
-- `el-popconfirm`、`el-popover`、`el-tooltip` 内容为空时，默认不启用
+- 操作拦截 (`el-popconfirm` 点击确定后才会触发的 `change` 事件)
+- 支持内嵌文字描述，宽度自适应
 - `el-popover` 和 `el-tooltip` 的 `content` 属性均支持渲染 HTML
+- `el-tooltip` 不与 `el-popconfirm`、`el-popover` 冲突
+- `el-popconfirm`、`el-popover`、`el-tooltip` 内容为空时，默认不启用
+- `el-popover` 宽度自适应，而不是写死一个最小宽度
+- `el-popconfirm` 的顶部间隔不再那么违和地高了
 
 ### 属性
 
 | 名称                        | 说明                                       | 类型    | 默认值  |
 | --------------------------- | ------------------------------------------ | ------- | ------- |
-| inlinePrompt                | 是否内嵌文本                               | boolean | `true`  |
+| inlinePrompt                | 是否内嵌文字描述                           | boolean | `false` |
 | elPopconfirmProps           | `el-popconfirm` 的属性                     | object  |         |
 | elPopoverProps              | `el-popover` 的属性                        | object  |         |
 | `elPopoverProps.rawContent` | `content` 中的内容是否作为 HTML 字符串处理 | boolean | `false` |
@@ -408,7 +408,7 @@ import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 ### 特性
 
 - 单向绑定 `label`
-- 远程搜索时无需关心 `options` & `loading`
+- 远程搜索时无需关心 `options` 和 `loading`
 - 无匹配选项时展示 `label` (而不是 `value`)
 - 多选时支持一键全选
 
