@@ -89,7 +89,7 @@
 import { isVue3 } from 'vue-demi'
 import { conclude, useGlobalConfig } from 'vue-global-config'
 import { cloneDeep } from 'lodash-es'
-import { getListeners, isEmpty, isObject, notEmpty, unwrap } from './utils'
+import { getListeners, isEmpty, isObject, notEmpty, unwrap } from '../utils'
 
 const globalProps = {}
 const globalAttrs = {}
@@ -133,7 +133,7 @@ export default {
   emits: [model.event, 'update:options', 'update:label'],
   data() {
     return {
-      innerValue: undefined,
+      innerValue: this[model.prop],
       initialValue: undefined,
       loading: undefined,
       // 在组件内部维护一份 innerOptions 的目的：search 时可以不绑定 options
@@ -142,7 +142,6 @@ export default {
       optionPropsList: [],
       allSelected: false,
       indeterminate: false,
-      valueInitializedWhenMultiple: false,
       previousQuery: null,
     }
   },
@@ -213,41 +212,26 @@ export default {
     },
   },
   watch: {
-    // 必须放在 value 前面，否则会影响「更新全选按钮的勾选状态」的判断
     options: {
       immediate: true,
-      handler(newOptions, o) {
+      handler(newOptions) {
         this.setInnerOptions(newOptions)
+      },
+    },
+    [model.prop]: {
+      handler(newValue) {
+        this.innerValue = newValue
+        this.updateSelectAllStatus()
+        this.updateLabel()
       },
     },
     innerValue: {
       handler(newInnerValue) {
-        // 多选时，value 会被 el-select 初始化为 []，此时不应执行清空逻辑
-        /* if (this.isMultiple) {
-          if (!this.valueInitializedWhenMultiple) {
-            return
-          }
-          this.valueInitializedWhenMultiple = true
-        } */
         // 清空时
         if (isEmpty(newInnerValue)) {
           this.remoteMethod()
         }
-        this.updateSelectAll()
-        this.showLabel()
-        this.$nextTick(() => {
-          this.$emit('update:label', this.isMultiple
-            ? this.$refs[this.ElSelectProps.ref].selected.map(({ currentLabel }) => currentLabel)
-            : this.$refs[this.ElSelectProps.ref].selectedLabel)
-        })
         this.$emit(model.event, newInnerValue)
-      },
-    },
-    // 没有使用 value / v-model 时，resetFields 不会触发
-    [model.prop]: {
-      immediate: true,
-      handler(newValue) {
-        this.innerValue = newValue
       },
     },
   },
@@ -293,9 +277,8 @@ export default {
         }))
       }
 
-      if (notEmpty(newOptions)) {
-        this.showLabel()
-      }
+      this.updateSelectAllStatus()
+      this.updateLabel()
       this.$emit('update:options', newOptions)
     },
     remoteMethod(e) {
@@ -317,16 +300,22 @@ export default {
       }
     },
     // value 没匹配上选项时，el-select 默认显示 value，改为显示 label
-    showLabel() {
+    updateLabel() {
       this.$nextTick(() => {
         if (this.isMultiple) {
+          const label = []
           this.$refs[this.ElSelectProps.ref].selected.forEach((v) => {
             if (!v.currentLabel) {
               v.currentLabel = this.getLabel(v.value)
             }
+            label.push(v.currentLabel)
           })
-        } else if (!this.$refs[this.ElSelectProps.ref].selectedLabel) {
-          this.$refs[this.ElSelectProps.ref].selectedLabel = this.getLabel(this.innerValue)
+          this.$emit('update:label', label)
+        } else {
+          if (!this.$refs[this.ElSelectProps.ref].selectedLabel) {
+            this.$refs[this.ElSelectProps.ref].selectedLabel = this.getLabel(this.innerValue)
+          }
+          this.$emit('update:label', this.$refs[this.ElSelectProps.ref].selectedLabel)
         }
       })
     },
@@ -363,7 +352,7 @@ export default {
       this.innerValue = innerValue.filter(v => v !== undefined)
     },
     // 更新全选按钮的勾选状态
-    updateSelectAll() {
+    updateSelectAllStatus() {
       if (this.innerShowSelectAllCheckbox) {
         if (this.innerValue?.length) {
           // 便于高效判断一个选项是否被选中
@@ -397,7 +386,7 @@ export default {
     // 下拉框隐藏时，如果没有选中，el-select 会清空搜索关键字，此时需要恢复 options
     onVisibleChange(isVisible) {
       if (!isVisible) {
-        this.showLabel()
+        this.updateLabel()
         if (isEmpty(this.innerValue) && this.previousQuery) {
           // 加延迟的原因：在下拉框隐藏动画结束后再恢复
           setTimeout(() => {

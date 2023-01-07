@@ -2,20 +2,6 @@ import { conclude, getLocalListeners } from 'vue-global-config'
 import { at, isPlainObject } from 'lodash-es'
 import { isVue3 } from 'vue-demi'
 
-export function hasScrollbar(el: HTMLElement) {
-  return el.scrollHeight > el.clientHeight
-}
-
-export function getCharCount(text: string): number {
-  let count = 0
-  if (text) {
-    for (const v of text) {
-      count += v.charCodeAt(0) > 255 ? 2 : 1
-    }
-  }
-  return count
-}
-
 export function getListeners(globalListeners: { [key: string]: any }) {
   if (isVue3) {
     return {}
@@ -73,5 +59,16 @@ export function unwrap<V = any>(value: V, path?: string | ((value: V) => any) | 
       if (isPlainObject(value)) {
         return value[path as keyof typeof value]
       }
+  }
+}
+
+// 将 value 包装为符合 files 要求的格式
+export function wrap(value: any, url: string) {
+  if (url && typeof url === 'string') {
+    if (isObject(value)) {
+      value.url = url
+      return value
+    }
+    return { url }
   }
 }

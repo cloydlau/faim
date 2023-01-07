@@ -161,8 +161,8 @@
 import { isVue3 } from 'vue-demi'
 import { conclude, useGlobalConfig } from 'vue-global-config'
 import { cloneDeep, isPlainObject } from 'lodash-es'
-import { getListeners } from './utils'
-import highlightError from './utils/highlightError'
+import { getListeners } from '../utils'
+import highlightError from './highlightError'
 
 const globalProps = {}
 const globalAttrs = {}

@@ -1,8 +1,11 @@
 // import type { Plugin } from 'vue-demi'
-import KiFormDialog from './FormDialog.vue'
-import KiPopButton from './PopButton.vue'
-import KiPopSwitch from './PopSwitch.vue'
-import KiSelect from './Select.vue'
+import KiFormDialog from './FormDialog/index.vue'
+// import KiImage from './Image/index.vue'
+// import KiMap from './Map/index.vue'
+import KiPopButton from './PopButton/index.vue'
+import KiPopSwitch from './PopSwitch/index.vue'
+import KiSelect from './Select/index.vue'
+// import KiUpload from './Upload/index.vue'
 
 /* type SFCWithInstall<T> = T & Plugin
 
@@ -29,7 +32,10 @@ if (typeof window !== 'undefined' && window.Vue) {
 
 export {
   KiFormDialog,
+  // KiImage,
+  // KiMap,
   KiPopButton,
   KiPopSwitch,
   KiSelect,
+  // KiUpload,
 }

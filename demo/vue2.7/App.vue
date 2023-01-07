@@ -58,9 +58,29 @@
         :options="options.kiSelect"
         :props="{ label: 'name' }"
         value-key="code"
-        multiple
       />
     </el-form-item>
+    <!-- <el-form-item
+      label="KiUpload"
+      prop="kiUpload"
+    >
+      <KiUpload v-model="value.kiUpload" aspectRatio="1/1" />
+    </el-form-item> -->
+    <!-- <el-form-item
+      label="KiImage"
+      prop="kiImage"
+    >
+      <KiImage :value="value.kiImage" />
+    </el-form-item> -->
+    <!-- <el-form-item
+      label="KiMap"
+      prop="kiMap"
+    >
+      <KiMap :show.sync="value.kiMap" />
+      <el-button @click="() => { value.kiMap = true }">
+        打开 KiMap
+      </el-button>
+    </el-form-item> -->
   </KiFormDialog>
 </template>
 
@@ -69,12 +89,15 @@ const console = window.console
 
 const value = reactive({
   elSelect: { a: 1, b: 1 },
-  kiSelect: [{
+  kiSelect: {
     name: 'n',
     code: 'c',
-  }],
+  },
   kiSelectLabel: undefined,
   kiPopSwitch: true,
+  // kiUpload: 'https://picsum.photos/100',
+  // kiImage: 'https://picsum.photos/100',
+  // kiMap: false,
 })
 
 const options = reactive({
