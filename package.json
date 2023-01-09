@@ -1,7 +1,7 @@
 {
   "name": "kikimore",
   "PascalCasedName": "Kikimore",
-  "version": "0.13.1",
+  "version": "0.13.2",
   "private": false,
   "packageManager": "pnpm@7.23.0",
   "description": "Several components wrapper for Element Plus / Element.",
