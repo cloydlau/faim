@@ -372,6 +372,7 @@ Vue.use(KiSelect, {
 
 | 名称                        | 说明                                       | 类型    | 默认值  |
 | --------------------------- | ------------------------------------------ | ------- | ------- |
+| inlinePrompt                | 是否内嵌文字描述                           | boolean | `false` |
 | elPopconfirmProps           | `el-popconfirm` 的属性                     | object  |         |
 | elPopoverProps              | `el-popover` 的属性                        | object  |         |
 | `elPopoverProps.rawContent` | `content` 中的内容是否作为 HTML 字符串处理 | boolean | `false` |
