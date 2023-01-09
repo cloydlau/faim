@@ -32,13 +32,11 @@
           :disabled="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled"
         >
           <slot
-            v-if="$slots.default"
             :option="option"
             :index="optionIndex"
-          />
-          <template v-else>
+          >
             {{ optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label }}
-          </template>
+          </slot>
         </el-option>
         <slot name="group-append" />
       </el-option-group>
@@ -65,13 +63,11 @@
         :disabled="optionPropsList[i].disabled"
       >
         <slot
-          v-if="$slots.default"
           :option="v"
           :index="i"
-        />
-        <template v-else>
+        >
           {{ optionPropsList[i].label }}
-        </template>
+        </slot>
       </el-option>
       <slot name="option-append" />
     </template>
