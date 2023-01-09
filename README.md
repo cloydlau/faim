@@ -16,6 +16,7 @@
   <a href="https://bundlephobia.com/package/kikimore"><img alt="minzipped size" src="https://img.shields.io/bundlephobia/minzip/kikimore"></a>
   <a href="https://eslint.org"><img alt="code style" src="https://img.shields.io/badge/code_style-ESLint-4B32C3.svg?logo=eslint"></a>
   <a href="https://conventionalcommits.org"><img alt="conventional commits" src="https://img.shields.io/badge/commits-Conventional-FE5196.svg?logo=conventionalcommits&logoColor=white"></a>
+  <a href="https://github.com/cloydlau/kikimore#develop"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"></a>
 </p>
 
 <br>
@@ -494,5 +495,14 @@ UI 组件库的标杆 Ant Design 也是使用 `value` 与 `label` 命名。
 ## 更新日志
 
 各版本详细改动请参考 [release notes](https://github.com/cloydlau/kikimore/releases)。
+
+<br>
+
+## 开发
+
+1. [安装 Deno](https://x.deno.js.cn/#%E5%AE%89%E8%A3%85%E6%9C%80%E6%96%B0%E7%89%88)
+2. 执行 `npm i -g @cloydlau/scripts`
+3. 执行 `cl i` 并选择 pnpm
+4. 执行 `cl dev3`/`cl dev2.7`/`cl dev2.6`
 
 <br>
