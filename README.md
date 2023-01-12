@@ -328,8 +328,6 @@ Vue.use(KiSelect, {
 - `el-popover` 和 `el-tooltip` 的 `content` 属性均支持渲染 HTML
 - `el-tooltip` 不与 `el-popconfirm`、`el-popover` 冲突
 - `el-popconfirm`、`el-popover`、`el-tooltip` 内容为空时，默认不启用
-- `el-popover` 宽度自适应，而不是写死一个最小宽度
-- `el-popconfirm` 的顶部间隔不再那么违和地高了
 
 ### 属性
 
@@ -366,8 +364,6 @@ Vue.use(KiSelect, {
 - `el-popover` 和 `el-tooltip` 的 `content` 属性均支持渲染 HTML
 - `el-tooltip` 不与 `el-popconfirm`、`el-popover` 冲突
 - `el-popconfirm`、`el-popover`、`el-tooltip` 内容为空时，默认不启用
-- `el-popover` 宽度自适应，而不是写死一个最小宽度
-- `el-popconfirm` 的顶部间隔不再那么违和地高了
 
 ### 属性
 

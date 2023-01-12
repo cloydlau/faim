@@ -1,8 +1,5 @@
 <template>
-  <el-tooltip
-    v-bind="ElTooltipProps"
-    class="ki-pop-button"
-  >
+  <el-tooltip v-bind="ElTooltipProps">
     <template #content>
       <slot
         v-if="$slots['tooltip-content']"
@@ -113,18 +110,17 @@ export default {
       }
     },
     ElPopconfirmProps() {
-      const result = conclude([
+      return conclude([
         this.elPopconfirmProps,
         globalProps.elPopconfirmProps,
       ], {
         type: Object,
         camelizeObjectKeys: true,
+        default: userProp => ({
+          disabled: !userProp?.title,
+        }),
+        defaultIsDynamic: true,
       })
-      return {
-        popperClass: 'ki-pop-button-popper',
-        disabled: !result?.title,
-        ...result,
-      }
     },
     ElButtonProps() {
       return conclude([this.$attrs, globalAttrs], {
@@ -146,37 +142,3 @@ export default {
   },
 }
 </script>
-
-<style lang="scss" scoped>
-.ki-pop-button {
-  &+.ki-pop-button {
-    margin-left: 10px;
-  }
-
-  .el-button.is-circle {
-    // 固定原型按钮尺寸
-    width: 36px;
-    height: 36px;
-    padding: 0;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    // 设置图标大小
-    // & /deep/ *{
-    //     font-size: 16px;
-    // }
-  }
-}
-</style>
-
-<style lang="scss">
-.ki-pop-button-popper {
-  &.el-popover {
-    min-width: fit-content;
-  }
-
-  &.el-popconfirm__main {
-    margin-block-start: .5em;
-  }
-}
-</style>

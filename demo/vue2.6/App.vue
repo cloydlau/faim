@@ -59,65 +59,62 @@
         :options="options.kiSelect"
         :props="{ label: 'name' }"
         value-key="code"
-      >
-        <template #empty>
-          empty111
-        </template>
-        <template #default>
-          123123
-        </template>
-      </KiSelect>
+      />
     </el-form-item>
   </KiFormDialog>
 </template>
 
-<script setup>
-const console = window.console
-
-const value = reactive({
-  elSelect: { a: 1, b: 1 },
-  kiSelect: {
-    name: 'n',
-    code: 'c',
+<script>
+export default {
+  data() {
+    return {
+      console: window.console,
+      value: {
+        elSelect: { a: 1, b: 1 },
+        kiSelect: {
+          name: 'n',
+          code: 'c',
+        },
+        kiSelectLabel: undefined,
+        kiPopSwitch: true,
+      },
+      options: {
+        elSelect: [
+          { a: 2, b: 2 },
+          { a: 3, b: 3 },
+        ],
+        kiSelect: [
+          {
+            name: '广东省',
+            code: '440000',
+            children: [
+              {
+                name: '深圳市',
+                code: '440300',
+              },
+              {
+                name: '广州市',
+                code: '440100',
+              },
+            ],
+          },
+          {
+            name: '江苏省',
+            code: '320000',
+            children: [
+              {
+                name: '南京市',
+                code: '320100',
+              },
+              {
+                name: '苏州市',
+                code: '320500',
+              },
+            ],
+          },
+        ],
+      },
+    }
   },
-  kiSelectLabel: undefined,
-  kiPopSwitch: true,
-})
-
-const options = reactive({
-  elSelect: [
-    { a: 2, b: 2 },
-    { a: 3, b: 3 },
-  ],
-  kiSelect: [
-    {
-      name: '广东省',
-      code: '440000',
-      children: [
-        {
-          name: '深圳市',
-          code: '440300',
-        },
-        {
-          name: '广州市',
-          code: '440100',
-        },
-      ],
-    },
-    {
-      name: '江苏省',
-      code: '320000',
-      children: [
-        {
-          name: '南京市',
-          code: '320100',
-        },
-        {
-          name: '苏州市',
-          code: '320500',
-        },
-      ],
-    },
-  ],
-})
+}
 </script>

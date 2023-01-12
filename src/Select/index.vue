@@ -72,17 +72,48 @@
       <slot name="option-append" />
     </template>
 
+    <component
+      :is="{
+        render: h => h('template', {
+          slot: 'prefix',
+          attrs: {
+            slot: 'prefix',
+          },
+          props: {
+            slot: 'prefix',
+          },
+        }, '123123'),
+      }"
+    />
+
+    <!-- <h2 slot="prefix">
+      4444
+    </h2> -->
+
+    <!-- <template #prefix>
+      pre
+    </template> -->
+
     <template
       v-for="(v, k) in ScopedSlots"
-      #[k]
+      #[k]="data"
     >
-      <slot :name="k" />
+      <component
+        :is="v"
+        v-if="k.startsWith('#')"
+        :key="k"
+      />
+      <slot
+        v-else
+        :name="k"
+        v-bind="data"
+      />
     </template>
   </el-select>
 </template>
 
 <script>
-import { isVue3 } from 'vue-demi'
+import { h, isVue3 } from 'vue-demi'
 import { conclude, useGlobalConfig } from 'vue-global-config'
 import { cloneDeep } from 'lodash-es'
 import { getListeners, isEmpty, isObject, notEmpty, unwrap } from '../utils'
@@ -139,6 +170,16 @@ export default {
       previousQuery: null,
     }
   },
+  components: {
+    HelloWorld: {
+      functional: true,
+      render: h => h('h1', {
+        attrs: {
+          name: 'prefix',
+        },
+      }, '3333'),
+    },
+  },
   computed: {
     ShowSelectAllCheckbox() {
       return conclude([this.showSelectAllCheckbox, globalProps.showSelectAllCheckbox, true], {
@@ -158,12 +199,13 @@ export default {
       return getListeners.call(this, globalListeners)
     },
     ScopedSlots() {
-      const res = {}
-      for (const k in this.$slots) {
-        if (k !== 'default') {
-          res[k] = this.$slots[k]
-        }
+      const res = {
+        ...this.$slots,
+        '#prefix': {
+          render: h => h('h2', null, '123123'),
+        },
       }
+      debugger
       return res
     },
     ElSelectProps() {

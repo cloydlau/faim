@@ -42,7 +42,10 @@
               <template #reference>
                 <el-switch
                   v-bind="ElSwitchProps"
-                  :class="InlinePrompt && 'inlinePrompt'"
+                  class="ki-switch"
+                  :class="{
+                    'inline-prompt': InlinePrompt,
+                  }"
                   @click.native="onClick"
                 />
               </template>
@@ -119,7 +122,6 @@ export default {
         type: Object,
         camelizeObjectKeys: true,
         default: userProp => ({
-          popperClass: 'ki-pop-switch',
           disabled: !(userProp && (userProp.title || userProp.content)),
         }),
         defaultIsDynamic: true,
@@ -133,7 +135,6 @@ export default {
         type: Object,
         camelizeObjectKeys: true,
         default: userProp => ({
-          popperClass: 'ki-pop-switch',
           disabled: [true, ''].includes(this.ElSwitchProps.disabled) || !userProp?.title,
         }),
         defaultIsDynamic: true,
@@ -192,20 +193,9 @@ export default {
 }
 </script>
 
-<style lang="scss">
-.ki-pop-switch {
-  &.el-popover {
-    min-width: fit-content;
-  }
-
-  & .el-popconfirm__main {
-    margin-block-start: .5em;
-  }
-}
-</style>
-
 <style lang="scss" scoped>
-:deep(.inlinePrompt) {
+// 兼容 Vue 2.6
+::v-deep .ki-switch.inline-prompt {
   .el-switch__label * {
     font-size: 12px;
   }
@@ -232,7 +222,55 @@ export default {
   }
 
   .el-switch__core {
-    border-radius: 12px;
+    border-radius: 12px !important;
+
+    &:after {
+      top: 1px;
+    }
+  }
+
+  &:not(.is-checked) .el-switch__core {
+
+    &:after {
+      left: 2px;
+    }
+  }
+
+  &.is-checked .el-switch__core {
+    &:after {
+      background-color: white;
+    }
+  }
+}
+
+:deep(.ki-switch.inline-prompt) {
+  .el-switch__label * {
+    font-size: 12px;
+  }
+
+  .el-switch__label--left,
+  .el-switch__label--right {
+    position: absolute;
+    z-index: 1;
+    margin: 0;
+
+    &:not(.is-active) {
+      display: none;
+    }
+  }
+
+  .el-switch__label--left {
+    left: 23px;
+    color: gray !important;
+  }
+
+  .el-switch__label--right {
+    left: 9px;
+    color: white !important;
+  }
+
+  .el-switch__core {
+    border-radius: 12px !important;
 
     &:after {
       top: 1px;
