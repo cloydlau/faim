@@ -72,20 +72,6 @@
       <slot name="option-append" />
     </template>
 
-    <component
-      :is="{
-        render: h => h('template', {
-          slot: 'prefix',
-          attrs: {
-            slot: 'prefix',
-          },
-          props: {
-            slot: 'prefix',
-          },
-        }, '123123'),
-      }"
-    />
-
     <!-- <h2 slot="prefix">
       4444
     </h2> -->
@@ -95,18 +81,17 @@
     </template> -->
 
     <template
-      v-for="(v, k) in ScopedSlots"
-      #[k]="data"
+      v-for="(v, k) in Slots"
+      #[k]
     >
       <component
         :is="v"
-        v-if="k.startsWith('#')"
+        v-if="isComponentSlot(v)"
         :key="k"
       />
       <slot
         v-else
         :name="k"
-        v-bind="data"
       />
     </template>
   </el-select>
@@ -115,8 +100,9 @@
 <script>
 import { h, isVue3 } from 'vue-demi'
 import { conclude, useGlobalConfig } from 'vue-global-config'
-import { cloneDeep } from 'lodash-es'
+import { cloneDeep, isPlainObject } from 'lodash-es'
 import { getListeners, isEmpty, isObject, notEmpty, unwrap } from '../utils'
+import KiPopButton from '../PopButton/index.vue'
 
 const globalProps = {}
 const globalAttrs = {}
@@ -170,16 +156,6 @@ export default {
       previousQuery: null,
     }
   },
-  components: {
-    HelloWorld: {
-      functional: true,
-      render: h => h('h1', {
-        attrs: {
-          name: 'prefix',
-        },
-      }, '3333'),
-    },
-  },
   computed: {
     ShowSelectAllCheckbox() {
       return conclude([this.showSelectAllCheckbox, globalProps.showSelectAllCheckbox, true], {
@@ -198,14 +174,32 @@ export default {
     Listeners() {
       return getListeners.call(this, globalListeners)
     },
-    ScopedSlots() {
-      const res = {
-        ...this.$slots,
-        '#prefix': {
-          render: h => h('h2', null, '123123'),
-        },
+    Slots() {
+      // Vue 2.6/2.7
+      //   通过 <slot> 接收插槽
+      //     $slots：属性为数组类型
+      //     $scopedSlots：属性为函数类型，函数名为 normalized
+      //   通过 <component :is=""> 接收插槽
+      //     string：组件名
+      //     ComponentDefinition (直接书写或导入的 SFC)：POJO 类型
+      //     ComponentConstructor (Vue.extend)：函数类型，函数名为 VueComponent
+
+      // Vue 3
+      //   通过 <slot> 接收插槽
+      //     $slots：属性为函数类型，函数名为 renderFnWithContext
+      //   通过 <component :is=""> 接收插槽
+      //     string：组件名
+      //     Component (直接书写或导入的 SFC)：POJO 类型
+      //     虚拟 DOM (渲染函数 h/createVNode 的返回值)：POJO 类型
+
+      // 干掉默认插槽，默认插槽在 el-option 里使用
+      const res = {}
+      for (const k in this.$slots) {
+        if (k !== 'default') {
+          res[k] = this.$slots[k]
+        }
       }
-      debugger
+      console.log(res)
       return res
     },
     ElSelectProps() {
@@ -280,6 +274,9 @@ export default {
     this.initialValue = cloneDeep(this[model.prop])
   },
   methods: {
+    isComponentSlot(v) {
+      return typeof v === 'string' || isPlainObject(v) || (typeof v === 'function' && v.name === 'VueComponent')
+    },
     // 不写在 watch 里的原因：innerOptions、optionPropsList、optionGroupPropsList 的长度必须保持同步
     setInnerOptions(newOptions) {
       // 校验类型

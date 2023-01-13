@@ -60,7 +60,14 @@
         :props="{ label: 'name' }"
         value-key="code"
         multiple
-      />
+      >
+        <template #prefix>
+          empty111
+        </template>
+        <template #default="{ option }">
+          {{ option.name }}
+        </template>
+      </KiSelect>
     </el-form-item>
   </KiFormDialog>
 </template>
@@ -71,10 +78,7 @@ const console = window.console
 const value = reactive({
   kiPopSwitch: true,
   elSelect: { a: 1, b: 1 },
-  kiSelect: [{
-    name: 'n',
-    code: 'c',
-  }],
+  kiSelect: undefined,
   kiSelectLabel: undefined,
 })
 

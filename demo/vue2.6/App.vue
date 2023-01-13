@@ -59,7 +59,14 @@
         :options="options.kiSelect"
         :props="{ label: 'name' }"
         value-key="code"
-      />
+      >
+        <template #prefix>
+          empty111
+        </template>
+        <template #default>
+          123123
+        </template>
+      </KiSelect>
     </el-form-item>
   </KiFormDialog>
 </template>
