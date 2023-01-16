@@ -59,7 +59,7 @@
 
 <script>
 import { isVue3 } from 'vue-demi'
-import { conclude, useGlobalConfig } from 'vue-global-config'
+import { conclude, resolveConfig } from 'vue-global-config'
 import { getCharCount } from './utils'
 
 const globalProps = {}
@@ -79,7 +79,7 @@ const boolProps = [
 export default {
   name: 'KiPopSwitch',
   install(app, options = {}) {
-    const { props, attrs, listeners, hooks } = useGlobalConfig(options, this.props)
+    const { props, attrs, listeners, hooks } = resolveConfig(options, this.props)
     Object.assign(globalProps, props)
     Object.assign(globalAttrs, attrs)
     Object.assign(globalListeners, listeners)

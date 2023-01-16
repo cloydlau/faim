@@ -72,42 +72,37 @@
       <slot name="option-append" />
     </template>
 
-    <!-- <h2 slot="prefix">
-      4444
-    </h2> -->
-
-    <!-- <template #prefix>
-      pre
-    </template> -->
-
     <template
       v-for="(v, k) in Slots"
-      #[k]
+      #[k]="slotProps"
     >
+      <!-- Global Slots -->
       <component
-        :is="v"
-        v-if="isComponentSlot(v)"
+        :is="v(slotProps)"
+        v-if="typeof v === 'function' && v.name.startsWith('#')"
         :key="k"
       />
+      <!-- Local Slots -->
       <slot
         v-else
         :name="k"
+        v-bind="slotProps"
       />
     </template>
   </el-select>
 </template>
 
 <script>
-import { h, isVue3 } from 'vue-demi'
-import { conclude, useGlobalConfig } from 'vue-global-config'
+import { isVue3 } from 'vue-demi'
+import { conclude, resolveConfig } from 'vue-global-config'
 import { cloneDeep, isPlainObject } from 'lodash-es'
 import { getListeners, isEmpty, isObject, notEmpty, unwrap } from '../utils'
-import KiPopButton from '../PopButton/index.vue'
 
 const globalProps = {}
 const globalAttrs = {}
 const globalListeners = {}
 const globalHooks = {}
+const globalSlots = {}
 
 const model = {
   prop: isVue3 ? 'modelValue' : 'value',
@@ -122,11 +117,12 @@ const boolProps = [
 export default {
   name: 'KiSelect',
   install(app, options = {}) {
-    const { props, attrs, listeners, hooks } = useGlobalConfig(options, this.props)
+    const { props, attrs, listeners, hooks, slots } = resolveConfig(options, this.props)
     Object.assign(globalProps, props)
     Object.assign(globalAttrs, attrs)
     Object.assign(globalListeners, listeners)
     Object.assign(globalHooks, hooks)
+    Object.assign(globalSlots, slots)
     app.component(this.name, this)
   },
   props: {
@@ -175,31 +171,13 @@ export default {
       return getListeners.call(this, globalListeners)
     },
     Slots() {
-      // Vue 2.6/2.7
-      //   通过 <slot> 接收插槽
-      //     $slots：属性为数组类型
-      //     $scopedSlots：属性为函数类型，函数名为 normalized
-      //   通过 <component :is=""> 接收插槽
-      //     string：组件名
-      //     ComponentDefinition (直接书写或导入的 SFC)：POJO 类型
-      //     ComponentConstructor (Vue.extend)：函数类型，函数名为 VueComponent
-
-      // Vue 3
-      //   通过 <slot> 接收插槽
-      //     $slots：属性为函数类型，函数名为 renderFnWithContext
-      //   通过 <component :is=""> 接收插槽
-      //     string：组件名
-      //     Component (直接书写或导入的 SFC)：POJO 类型
-      //     虚拟 DOM (渲染函数 h/createVNode 的返回值)：POJO 类型
-
       // 干掉默认插槽，默认插槽在 el-option 里使用
-      const res = {}
-      for (const k in this.$slots) {
+      const res = globalSlots
+      for (const k in this.$scopedSlots) {
         if (k !== 'default') {
-          res[k] = this.$slots[k]
+          res[k] = this.$scopedSlots[k]
         }
       }
-      console.log(res)
       return res
     },
     ElSelectProps() {

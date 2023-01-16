@@ -159,7 +159,7 @@
 
 <script>
 import { isVue3 } from 'vue-demi'
-import { conclude, useGlobalConfig } from 'vue-global-config'
+import { conclude, resolveConfig } from 'vue-global-config'
 import { cloneDeep, isPlainObject } from 'lodash-es'
 import { getListeners } from '../utils'
 import highlightError from './highlightError'
@@ -189,7 +189,7 @@ const boolProps = [
 export default {
   name: 'KiFormDialog',
   install(app, options = {}) {
-    const { props, attrs, listeners, hooks } = useGlobalConfig(options, this.props)
+    const { props, attrs, listeners, hooks } = resolveConfig(options, this.props)
     Object.assign(globalProps, props)
     Object.assign(globalAttrs, attrs)
     Object.assign(globalListeners, listeners)

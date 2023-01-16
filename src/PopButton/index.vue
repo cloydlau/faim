@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { conclude, useGlobalConfig } from 'vue-global-config'
+import { conclude, resolveConfig } from 'vue-global-config'
 
 const globalProps = {}
 const globalAttrs = {}
@@ -66,7 +66,7 @@ const globalHooks = {}
 export default {
   name: 'KiPopButton',
   install(app, options = {}) {
-    const { props, attrs, listeners, hooks } = useGlobalConfig(options, this.props)
+    const { props, attrs, listeners, hooks } = resolveConfig(options, this.props)
     Object.assign(globalProps, props)
     Object.assign(globalAttrs, attrs)
     Object.assign(globalListeners, listeners)
