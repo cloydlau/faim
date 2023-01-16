@@ -1,10 +1,10 @@
 <template>
   <KiFormDialog
     v-model="value"
-    show
+    :show.sync="show"
     title="FormDialog"
     showResetButton
-    width="100%"
+    width="90%"
   >
     <el-form-item label="PopButton">
       <KiPopButton
@@ -61,10 +61,10 @@
         value-key="code"
       >
         <template #prefix>
-          empty111
+          Local Slot
         </template>
-        <template #default>
-          123123
+        <template #default="{ option, index }">
+          {{ option.name }} (From Local Scoped Slot)
         </template>
       </KiSelect>
     </el-form-item>
@@ -76,6 +76,7 @@ export default {
   data() {
     return {
       console: window.console,
+      show: true,
       value: {
         elSelect: { a: 1, b: 1 },
         kiSelect: {

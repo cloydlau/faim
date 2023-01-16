@@ -18,16 +18,24 @@ Vue.use(KiFormDialog, {
   'cancelButtonText': '取 消',
   'denyButtonText': '拒 绝',
   '@closed': function (e) {
-    console.log('@closed')
-    console.log(e)
-    console.log(this)
+    console.log('Global Closed Event')
   },
+  '#title': () => ({
+    render: h => h('b', undefined, 'Global Title')
+  }),
 })
 Vue.use(KiPopButton)
 Vue.use(KiPopSwitch, {
   inlinePrompt: true,
 })
-Vue.use(KiSelect)
+Vue.use(KiSelect, {
+  '#prefix': () => ({
+    render: h => h('span', undefined, 'Global Slot'),
+  }),
+  '#default': ({ option, index }) => ({
+    render: h => h('span', undefined, `${option.name} (From Global Scoped Slot)`),
+  }),
+})
 
 Vue.config.productionTip = false
 

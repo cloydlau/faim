@@ -1,10 +1,16 @@
 <template>
   <el-tooltip v-bind="ElTooltipProps">
     <template #content>
-      <slot
-        v-if="$slots['tooltip-content']"
-        name="content"
-      />
+      <template v-if="Slots['tooltip-content']">
+        <component
+          v-if="isGlobalSlot(Slots['tooltip-content'])"
+          :is="Slots['tooltip-content']()"
+        />
+        <slot
+          v-else
+          name="tooltip-content"
+        />
+      </template>
       <div
         v-else-if="ElTooltipProps.rawContent"
         v-html="ElTooltipProps.content"
@@ -19,7 +25,16 @@
         v-bind="ElPopoverConfig.attrs"
         v-on="ElPopoverConfig.listeners"
       >
-        <slot v-if="$slots['popover-content']" />
+        <template v-if="Slots['popover-content']">
+          <component
+            v-if="isGlobalSlot(Slots['popover-content'])"
+            :is="Slots['popover-content']()"
+          />
+          <slot
+            v-else
+            name="popover-content"
+          />
+        </template>
         <div
           v-else-if="ElPopoverConfig.attrs.rawContent"
           v-html="ElPopoverConfig.attrs.content"
@@ -57,12 +72,13 @@
 <script>
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
+import { getListeners, isGlobalSlot } from '../utils'
 import { getCharCount } from './utils'
 
 const globalProps = {}
 const globalAttrs = {}
 const globalListeners = {}
-const globalHooks = {}
+const globalSlots = {}
 
 const model = {
   prop: isVue3 ? 'modelValue' : 'value',
@@ -76,11 +92,11 @@ const boolProps = [
 export default {
   name: 'KiPopSwitch',
   install(app, options = {}) {
-    const { props, attrs, listeners, hooks } = resolveConfig(options, this.props)
+    const { props, attrs, listeners, slots } = resolveConfig(options, this.props)
     Object.assign(globalProps, props)
     Object.assign(globalAttrs, attrs)
     Object.assign(globalListeners, listeners)
-    Object.assign(globalHooks, hooks)
+    Object.assign(globalSlots, slots)
     app.component(this.name, this)
   },
   model,
@@ -94,8 +110,14 @@ export default {
       default: undefined,
     }])),
   },
-  emits: [model.event, 'confirm', 'cancel', 'show', 'hide', 'after-enter', 'after-leave'],
+  emits: [model.event, 'confirm'],
   computed: {
+    Listeners() {
+      return getListeners.call(this, globalListeners)
+    },
+    Slots() {
+      return conclude([isVue3 ? this.$slots : this.$scopedSlots, globalSlots])
+    },
     ElTooltipProps() {
       return conclude([
         this.elTooltipProps,
@@ -172,11 +194,12 @@ export default {
     },
   },
   methods: {
+    isGlobalSlot,
     onClick() {
       if (!this.$refs[this.ElTooltipProps.ref].manual) {
         this.$refs[this.ElTooltipProps.ref].showPopper = false
       }
-      if (this.ElSwitchProps.disabled === false && this.ElPopconfirmProps.disabled) {
+      if (![true, ''].includes(this.ElSwitchProps.disabled) && this.ElPopconfirmConfig.attrs.disabled) {
         this.onConfirm()
       }
     },

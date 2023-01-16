@@ -4,14 +4,14 @@
     show
     title="FormDialog"
     showResetButton
-    width="100%"
+    width="90%"
   >
     <el-form-item label="PopButton">
       <KiPopButton
         :elTooltipProps="{ rawContent: true, content: `<el-icon><Warning /></el-icon> 删除` }"
         :elPopoverProps="{ content: `<el-icon><Warning /></el-icon> 权限不足`, disabled: true }"
         :elPopconfirmProps="{ title: '确认删除吗？' }"
-        @click="console.log('[PopButton] click')"
+        @click="console.log('[KiPopButton] click')"
       >
         删除
       </KiPopButton>
@@ -28,6 +28,7 @@
         :elPopconfirmProps="{ title: '确认启用吗？' }"
         active-text="启用"
         inactive-text="停用"
+        @change="console.log('[KiPopSwitch] change')"
       />
     </el-form-item>
     {{ value.elSelect }}
@@ -62,12 +63,20 @@
         multiple
       >
         <template #prefix>
-          empty111
+          Local Slot
         </template>
-        <template #default="{ option }">
-          {{ option.name }}
+        <template #default="{ option, index }">
+          {{ option.name }} (From Local Scoped Slot)
         </template>
       </KiSelect>
+      <!-- <KiSelect
+        v-model="value.kiSelect"
+        v-model:label="value.kiSelectLabel"
+        :options="options.kiSelect"
+        :props="{ label: 'name' }"
+        value-key="code"
+        multiple
+      /> -->
     </el-form-item>
   </KiFormDialog>
 </template>

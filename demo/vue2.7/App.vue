@@ -4,14 +4,14 @@
     show
     title="FormDialog"
     showResetButton
-    width="100%"
+    width="90%"
   >
     <el-form-item label="PopButton">
       <KiPopButton
         :elTooltipProps="{ rawContent: true, content: `<i class='el-icon-warning'/> 删除` }"
         :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
         :elPopconfirmProps="{ title: '确认删除吗？' }"
-        @click="console.log('[PopButton] click')"
+        @click="console.log('[KiPopButton] click')"
       >
         删除
       </KiPopButton>
@@ -24,11 +24,26 @@
       <KiPopSwitch
         v-model="value.kiPopSwitch"
         :elTooltipProps="{ rawContent: true, content: `<i class='el-icon-warning'/> 已停用` }"
-        :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
-        :elPopconfirmProps="{ title: '确认启用吗？' }"
+        :elPopoverProps="{
+          trigger: 'manual',
+          value: value.showPopper,
+          '@input': (e) => {
+            value.showPopper = e
+          },
+          content: `<i class='el-icon-warning'/> 权限不足`,
+        }"
+        :elPopconfirmProps="{ title: '确认启用吗？', disabled: true, }"
         active-text="启用"
         inactive-text="停用"
+        @change="console.log('[KiPopSwitch] change')"
       />
+      <el-button
+        style="margin-left: 1rem;"
+        size="mini"
+        @click="() => {
+          value.showPopper = !value.showPopper
+        }"
+      >切换 showPopper</el-button>
     </el-form-item>
     <el-form-item
       label="ElSelect"
@@ -60,12 +75,12 @@
         :props="{ label: 'name' }"
         value-key="code"
       >
-        <template #prefix>
-          empty111
+        <!-- <template #prefix>
+          Local Slot
         </template>
-        <template #default>
-          123123
-        </template>
+        <template #default="{ option, index }">
+          {{ option.name }} (From Local Scoped Slot)
+        </template> -->
       </KiSelect>
     </el-form-item>
   </KiFormDialog>
@@ -82,6 +97,7 @@ const value = reactive({
   },
   kiSelectLabel: undefined,
   kiPopSwitch: true,
+  showPopper: false,
 })
 
 const options = reactive({

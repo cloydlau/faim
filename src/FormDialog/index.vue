@@ -18,7 +18,14 @@
       <!-- 向 el-dialog 传递 slot -->
       <template #[headerSlotName]>
         <!-- 接收 slot -->
-        <slot :name="headerSlotName">
+        <component
+          v-if="isGlobalSlot(Slots[headerSlotName])"
+          :is="Slots[headerSlotName]()"
+        />
+        <slot
+          v-else
+          :name="headerSlotName"
+        >
           <span>{{ Title }}</span>
         </slot>
         <div style="display: flex; align-items: center;">
@@ -66,14 +73,31 @@
             v-bind="ElFormProps"
             v-on="Listeners"
           >
-            <slot />
+            <component
+              v-if="isGlobalSlot(Slots['default'])"
+              :is="Slots['default']()"
+            />
+            <slot v-else />
           </el-form>
-          <slot v-else />
+          <template v-else>
+            <component
+              v-if="isGlobalSlot(Slots['default'])"
+              :is="Slots['default']()"
+            />
+            <slot v-else />
+          </template>
         </div>
       </div>
 
       <template #footer>
-        <slot name="footer">
+        <component
+          v-if="isGlobalSlot(Slots['footer'])"
+          :is="Slots['footer']()"
+        />
+        <slot
+          v-else
+          name="footer"
+        >
           <template v-if="ReverseButtons">
             <el-button
               v-if="ShowConfirmButton"
@@ -161,13 +185,13 @@
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
 import { cloneDeep, isPlainObject } from 'lodash-es'
-import { getListeners } from '../utils'
+import { getListeners, isGlobalSlot } from '../utils'
 import highlightError from './highlightError'
 
 const globalProps = {}
 const globalAttrs = {}
 const globalListeners = {}
-const globalHooks = {}
+const globalSlots = {}
 
 const model = {
   prop: isVue3 ? 'modelValue' : 'value',
@@ -189,11 +213,11 @@ const boolProps = [
 export default {
   name: 'KiFormDialog',
   install(app, options = {}) {
-    const { props, attrs, listeners, hooks } = resolveConfig(options, this.props)
+    const { props, attrs, listeners, slots } = resolveConfig(options, this.props)
     Object.assign(globalProps, props)
     Object.assign(globalAttrs, attrs)
     Object.assign(globalListeners, listeners)
-    Object.assign(globalHooks, hooks)
+    Object.assign(globalSlots, slots)
     app.component(this.name, this)
   },
   props: {
@@ -231,6 +255,12 @@ export default {
     }
   },
   computed: {
+    Listeners() {
+      return getListeners.call(this, globalListeners)
+    },
+    Slots() {
+      return conclude([isVue3 ? this.$slots : this.$scopedSlots, globalSlots])
+    },
     headerSlotName() {
       return isVue3 ? 'header' : 'title'
     },
@@ -291,9 +321,6 @@ export default {
       return conclude([this.title, globalProps.title], {
         type: String,
       })
-    },
-    Listeners() {
-      return getListeners.call(this, globalListeners)
     },
     Loading() {
       return conclude([this.loading, globalProps.loading, this.retrieving], {
@@ -423,6 +450,7 @@ export default {
     }
   },
   methods: {
+    isGlobalSlot,
     toggleFullscreen(newValue = !this.fullscreen) {
       if (typeof newValue !== 'boolean') {
         return

@@ -6,7 +6,14 @@
     @visible-change="onVisibleChange"
   >
     <template v-if="isGrouped">
-      <slot name="option-prepend">
+      <component
+        v-if="isGlobalSlot(Slots['option-prepend'])"
+        :is="Slots['option-prepend']()"
+      />
+      <slot
+        v-else
+        name="option-prepend"
+      >
         <el-checkbox
           v-if="innerShowSelectAllCheckbox"
           v-model="allSelected"
@@ -23,7 +30,14 @@
         :label="optionGroupPropsList[groupIndex].label"
         :disabled="optionGroupPropsList[groupIndex].disabled"
       >
-        <slot name="group-prepend" />
+        <component
+          v-if="isGlobalSlot(Slots['group-prepend'])"
+          :is="Slots['group-prepend']()"
+        />
+        <slot
+          v-else
+          name="group-prepend"
+        />
         <el-option
           v-for="(option, optionIndex) of optionGroupPropsList[groupIndex].options"
           :key="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].key"
@@ -31,20 +45,46 @@
           :value="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].value"
           :disabled="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled"
         >
+          <component
+            v-if="isGlobalSlot(Slots['default'])"
+            :is="Slots['default']({ option, index: optionIndex })"
+          />
           <slot
+            v-else
             :option="option"
             :index="optionIndex"
           >
             {{ optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label }}
           </slot>
         </el-option>
-        <slot name="group-append" />
+        <component
+          v-if="isGlobalSlot(Slots['group-append'])"
+          :is="Slots['group-append']()"
+        />
+        <slot
+          v-else
+          name="group-append"
+        />
       </el-option-group>
-      <slot name="option-append" />
+      <component
+        v-if="isGlobalSlot(Slots['option-append'])"
+        :is="Slots['option-append']()"
+      />
+      <slot
+        v-else
+        name="option-append"
+      />
     </template>
 
     <template v-else>
-      <slot name="option-prepend">
+      <component
+        v-if="isGlobalSlot(Slots['option-prepend'])"
+        :is="Slots['option-prepend']()"
+      />
+      <slot
+        v-else
+        name="option-prepend"
+      >
         <el-checkbox
           v-if="innerShowSelectAllCheckbox"
           v-model="allSelected"
@@ -62,31 +102,47 @@
         :value="optionPropsList[i].value"
         :disabled="optionPropsList[i].disabled"
       >
+        <component
+          v-if="isGlobalSlot(Slots['default'])"
+          :is="Slots['default']({ option: v, index: i })"
+        />
         <slot
+          v-else
           :option="v"
           :index="i"
         >
           {{ optionPropsList[i].label }}
         </slot>
       </el-option>
-      <slot name="option-append" />
-    </template>
-
-    <template
-      v-for="(v, k) in Slots"
-      #[k]="slotProps"
-    >
-      <!-- Global Slots -->
       <component
-        :is="v(slotProps)"
-        v-if="typeof v === 'function' && v.name.startsWith('#')"
-        :key="k"
+        v-if="isGlobalSlot(Slots['option-append'])"
+        :is="Slots['option-append']()"
       />
-      <!-- Local Slots -->
       <slot
         v-else
-        :name="k"
-        v-bind="slotProps"
+        name="option-append"
+      />
+    </template>
+
+    <template #prefix>
+      <component
+        v-if="isGlobalSlot(Slots['prefix'])"
+        :is="Slots['prefix']()"
+      />
+      <slot
+        v-else
+        name="prefix"
+      />
+    </template>
+
+    <template #empty>
+      <component
+        v-if="isGlobalSlot(Slots['empty'])"
+        :is="Slots['empty']()"
+      />
+      <slot
+        v-else
+        name="empty"
       />
     </template>
   </el-select>
@@ -96,12 +152,11 @@
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
 import { cloneDeep, isPlainObject } from 'lodash-es'
-import { getListeners, isEmpty, isObject, notEmpty, unwrap } from '../utils'
+import { getListeners, isEmpty, isObject, notEmpty, unwrap, isGlobalSlot } from '../utils'
 
 const globalProps = {}
 const globalAttrs = {}
 const globalListeners = {}
-const globalHooks = {}
 const globalSlots = {}
 
 const model = {
@@ -117,11 +172,10 @@ const boolProps = [
 export default {
   name: 'KiSelect',
   install(app, options = {}) {
-    const { props, attrs, listeners, hooks, slots } = resolveConfig(options, this.props)
+    const { props, attrs, listeners, slots } = resolveConfig(options, this.props)
     Object.assign(globalProps, props)
     Object.assign(globalAttrs, attrs)
     Object.assign(globalListeners, listeners)
-    Object.assign(globalHooks, hooks)
     Object.assign(globalSlots, slots)
     app.component(this.name, this)
   },
@@ -153,6 +207,12 @@ export default {
     }
   },
   computed: {
+    Listeners() {
+      return getListeners.call(this, globalListeners)
+    },
+    Slots() {
+      return conclude([isVue3 ? this.$slots : this.$scopedSlots, globalSlots])
+    },
     ShowSelectAllCheckbox() {
       return conclude([this.showSelectAllCheckbox, globalProps.showSelectAllCheckbox, true], {
         type: Boolean,
@@ -166,19 +226,6 @@ export default {
         type: String,
         required: true,
       })
-    },
-    Listeners() {
-      return getListeners.call(this, globalListeners)
-    },
-    Slots() {
-      // 干掉默认插槽，默认插槽在 el-option 里使用
-      const res = globalSlots
-      for (const k in this.$scopedSlots) {
-        if (k !== 'default') {
-          res[k] = this.$scopedSlots[k]
-        }
-      }
-      return res
     },
     ElSelectProps() {
       const remote = Boolean(this.Search)
@@ -252,9 +299,7 @@ export default {
     this.initialValue = cloneDeep(this[model.prop])
   },
   methods: {
-    isComponentSlot(v) {
-      return typeof v === 'string' || isPlainObject(v) || (typeof v === 'function' && v.name === 'VueComponent')
-    },
+    isGlobalSlot,
     // 不写在 watch 里的原因：innerOptions、optionPropsList、optionGroupPropsList 的长度必须保持同步
     setInnerOptions(newOptions) {
       // 校验类型

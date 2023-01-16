@@ -1,8 +1,9 @@
 import { conclude, getLocalListeners } from 'vue-global-config'
 import { at, isPlainObject } from 'lodash-es'
 import { isVue3 } from 'vue-demi'
+import type { ComponentPublicInstance } from 'vue-demi'
 
-export function getListeners(globalListeners: { [key: string]: any }) {
+export function getListeners(this: ComponentPublicInstance, globalListeners: Record<string, any>) {
   if (isVue3) {
     return {}
   }
@@ -18,6 +19,10 @@ export function getListeners(globalListeners: { [key: string]: any }) {
       globalEventListener(...args)
     },
   })
+}
+
+export function isGlobalSlot(slot: any) {
+  return typeof slot === 'function' && slot.name.startsWith('#')
 }
 
 export function isEmpty(value: any): boolean {

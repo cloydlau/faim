@@ -138,6 +138,7 @@ Vue.use(KiSelect, {
 - 校验失败时平滑滚动至错误项并震动提示
 - 限制高度，无页面级滚动条
 - 只读模式
+- 支持全局属性、全局事件、全局插槽 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### 属性
 
@@ -328,6 +329,7 @@ Vue.use(KiSelect, {
 - `el-popover` 和 `el-tooltip` 的 `content` 属性均支持渲染 HTML
 - `el-tooltip` 不与 `el-popconfirm`、`el-popover` 冲突
 - `el-popconfirm`、`el-popover`、`el-tooltip` 内容为空时，默认不启用
+- 支持全局属性、全局事件、全局插槽 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### 属性
 
@@ -364,6 +366,7 @@ Vue.use(KiSelect, {
 - `el-popover` 和 `el-tooltip` 的 `content` 属性均支持渲染 HTML
 - `el-tooltip` 不与 `el-popconfirm`、`el-popover` 冲突
 - `el-popconfirm`、`el-popover`、`el-tooltip` 内容为空时，默认不启用
+- 支持全局属性、全局事件、全局插槽 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### 属性
 
@@ -404,6 +407,7 @@ Vue.use(KiSelect, {
 - 远程搜索时无需关心 `options` 和 `loading`
 - 无匹配选项时展示 `label` (而不是 `value`)
 - 多选时支持一键全选
+- 支持全局属性、全局事件、全局插槽、全局作用域插槽 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 ### 属性
 
