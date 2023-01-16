@@ -16,26 +16,23 @@
     </template>
     <span>
       <el-popover
-        v-bind="ElPopoverProps"
-        @show="(...e) => { $emit('show', ...e) }"
-        @hide="(...e) => { $emit('hide', ...e) }"
-        @after-enter="(...e) => { $emit('after-enter', ...e) }"
-        @after-leave="(...e) => { $emit('after-leave', ...e) }"
+        v-bind="ElPopoverConfig.attrs"
+        v-on="ElPopoverConfig.listeners"
       >
         <slot v-if="$slots['popover-content']" />
         <div
-          v-else-if="ElPopoverProps.rawContent"
-          v-html="ElPopoverProps.content"
+          v-else-if="ElPopoverConfig.attrs.rawContent"
+          v-html="ElPopoverConfig.attrs.content"
         />
         <div
           v-else
-          v-text="ElPopoverProps.content"
+          v-text="ElPopoverConfig.attrs.content"
         />
         <template #reference>
           <span>
             <el-popconfirm
-              v-bind="ElPopconfirmProps"
-              @cancel="(...e) => { $emit('cancel', ...e) }"
+              v-bind="ElPopconfirmConfig.attrs"
+              v-on="ElPopconfirmConfig.listeners"
               @confirm="onConfirm"
               @on-confirm="onConfirm"
             >
@@ -114,8 +111,8 @@ export default {
         defaultIsDynamic: true,
       })
     },
-    ElPopoverProps() {
-      return conclude([
+    ElPopoverConfig() {
+      return resolveConfig(conclude([
         this.elPopoverProps,
         globalProps.elPopoverProps,
       ], {
@@ -125,10 +122,10 @@ export default {
           disabled: !(userProp && (userProp.title || userProp.content)),
         }),
         defaultIsDynamic: true,
-      })
+      }))
     },
-    ElPopconfirmProps() {
-      return conclude([
+    ElPopconfirmConfig() {
+      return resolveConfig(conclude([
         this.elPopconfirmProps,
         globalProps.elPopconfirmProps,
       ], {
@@ -138,7 +135,7 @@ export default {
           disabled: [true, ''].includes(this.ElSwitchProps.disabled) || !userProp?.title,
         }),
         defaultIsDynamic: true,
-      })
+      }))
     },
     InlinePrompt() {
       return conclude([this.inlinePrompt, globalProps.inlinePrompt, false], {
