@@ -10,3 +10,4 @@ TODOs.md
 .eslintcache
 .env.*
 src/**/*.d.ts
+.npmrc
