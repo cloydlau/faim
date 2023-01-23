@@ -3,9 +3,4 @@ import KiPopButton from './PopButton/index.vue'
 import KiPopSwitch from './PopSwitch/index.vue'
 import KiSelect from './Select/index.vue'
 
-export {
-  KiFormDialog,
-  KiPopButton,
-  KiPopSwitch,
-  KiSelect,
-}
+export { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect }
