@@ -5,7 +5,7 @@
   "private": false,
   "packageManager": "pnpm@7.25.0",
   "description": "Several components wrapper for Element Plus / Element.",
-  "author": "cloydlau",
+  "author": "Cloyd Lau",
   "license": "MIT",
   "repository": "https://github.com/cloydlau/kikimore",
   "keywords": [
