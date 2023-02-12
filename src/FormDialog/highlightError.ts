@@ -1,7 +1,10 @@
 import './highlightError.scss'
 import elementIsVisible from './elementIsVisible'
 
-export default (selectors: string | Element | NodeList = '.el-form .el-form-item.is-error', container = window): void => {
+export default (
+  selectors: string | Element | NodeList = '.el-form .el-form-item.is-error',
+  container = window,
+): void => {
   const scrollIntoView = (element) => {
     element.scrollIntoView({
       behavior: 'smooth',
@@ -31,7 +34,8 @@ export default (selectors: string | Element | NodeList = '.el-form .el-form-item
 
   // is-error类名需要异步才能获取到
   setTimeout(() => {
-    const errFormItems = typeof selectors === 'string' ? document.querySelectorAll(selectors) : selectors
+    const errFormItems =
+      typeof selectors === 'string' ? document.querySelectorAll(selectors) : selectors
 
     // 打包后不生效
     /* if (IntersectionObserver) {

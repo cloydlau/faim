@@ -14,10 +14,11 @@ export function getListeners(this: ComponentPublicInstance, globalListeners: Rec
 
   return conclude([getLocalListeners(this.$listeners)], {
     default: globalListeners,
-    mergeFunction: (localEventListener: Function, globalEventListener: Function) => (...args: any) => {
-      localEventListener(...args)
-      globalEventListener(...args)
-    },
+    mergeFunction:
+      (localEventListener: Function, globalEventListener: Function) => (...args: any) => {
+        localEventListener(...args)
+        globalEventListener(...args)
+      },
   })
 }
 
