@@ -1,16 +1,14 @@
-import { h, createApp } from 'vue'
-import App from './App.vue'
-
+import { createApp, h } from 'vue'
 import 'element-plus/dist/index.css'
 import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-
 import {
   KiFormDialog,
   KiPopButton,
   KiPopSwitch,
   KiSelect,
 } from '../../src/index'
+import App from './App.vue'
 
 const app = createApp(App)
   .use(ElementPlus)

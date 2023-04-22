@@ -19,8 +19,8 @@
       <template #[headerSlotName]>
         <!-- 接收 slot -->
         <component
-          v-if="isGlobalSlot(Slots[headerSlotName])"
           :is="Slots[headerSlotName]()"
+          v-if="isGlobalSlot(Slots[headerSlotName])"
         />
         <slot
           v-else
@@ -74,15 +74,15 @@
             v-on="Listeners"
           >
             <component
-              v-if="isGlobalSlot(Slots['default'])"
-              :is="Slots['default']()"
+              :is="Slots.default()"
+              v-if="isGlobalSlot(Slots.default)"
             />
             <slot v-else />
           </el-form>
           <template v-else>
             <component
-              v-if="isGlobalSlot(Slots['default'])"
-              :is="Slots['default']()"
+              :is="Slots.default()"
+              v-if="isGlobalSlot(Slots.default)"
             />
             <slot v-else />
           </template>
@@ -91,8 +91,8 @@
 
       <template #footer>
         <component
-          v-if="isGlobalSlot(Slots['footer'])"
-          :is="Slots['footer']()"
+          :is="Slots.footer()"
+          v-if="isGlobalSlot(Slots.footer)"
         />
         <slot
           v-else
@@ -421,9 +421,8 @@ export default {
           /* this.$nextTick(() => {
             this.osInstance = OverlayScrollbars(this.$refs.overlayScrollbar, {})
           }) */
-        }
         // 首次不执行
-        else if (this.initiated) {
+        } else if (this.initiated) {
           this.closing = true
         }
         if (this.GetContainer) {

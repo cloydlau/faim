@@ -7,8 +7,8 @@
   >
     <template v-if="isGrouped">
       <component
-        v-if="isGlobalSlot(Slots['option-prepend'])"
         :is="Slots['option-prepend']()"
+        v-if="isGlobalSlot(Slots['option-prepend'])"
       />
       <slot
         v-else
@@ -31,8 +31,8 @@
         :disabled="optionGroupPropsList[groupIndex].disabled"
       >
         <component
-          v-if="isGlobalSlot(Slots['group-prepend'])"
           :is="Slots['group-prepend']()"
+          v-if="isGlobalSlot(Slots['group-prepend'])"
         />
         <slot
           v-else
@@ -46,8 +46,8 @@
           :disabled="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled"
         >
           <component
-            v-if="isGlobalSlot(Slots['default'])"
-            :is="Slots['default']({ option, index: optionIndex })"
+            :is="Slots.default({ option, index: optionIndex })"
+            v-if="isGlobalSlot(Slots.default)"
           />
           <slot
             v-else
@@ -58,8 +58,8 @@
           </slot>
         </el-option>
         <component
-          v-if="isGlobalSlot(Slots['group-append'])"
           :is="Slots['group-append']()"
+          v-if="isGlobalSlot(Slots['group-append'])"
         />
         <slot
           v-else
@@ -67,8 +67,8 @@
         />
       </el-option-group>
       <component
-        v-if="isGlobalSlot(Slots['option-append'])"
         :is="Slots['option-append']()"
+        v-if="isGlobalSlot(Slots['option-append'])"
       />
       <slot
         v-else
@@ -78,8 +78,8 @@
 
     <template v-else>
       <component
-        v-if="isGlobalSlot(Slots['option-prepend'])"
         :is="Slots['option-prepend']()"
+        v-if="isGlobalSlot(Slots['option-prepend'])"
       />
       <slot
         v-else
@@ -103,8 +103,8 @@
         :disabled="optionPropsList[i].disabled"
       >
         <component
-          v-if="isGlobalSlot(Slots['default'])"
-          :is="Slots['default']({ option: v, index: i })"
+          :is="Slots.default({ option: v, index: i })"
+          v-if="isGlobalSlot(Slots.default)"
         />
         <slot
           v-else
@@ -115,8 +115,8 @@
         </slot>
       </el-option>
       <component
-        v-if="isGlobalSlot(Slots['option-append'])"
         :is="Slots['option-append']()"
+        v-if="isGlobalSlot(Slots['option-append'])"
       />
       <slot
         v-else
@@ -126,8 +126,8 @@
 
     <template #prefix>
       <component
-        v-if="isGlobalSlot(Slots['prefix'])"
-        :is="Slots['prefix']()"
+        :is="Slots.prefix()"
+        v-if="isGlobalSlot(Slots.prefix)"
       />
       <slot
         v-else
@@ -137,8 +137,8 @@
 
     <template #empty>
       <component
-        v-if="isGlobalSlot(Slots['empty'])"
-        :is="Slots['empty']()"
+        :is="Slots.empty()"
+        v-if="isGlobalSlot(Slots.empty)"
       />
       <slot
         v-else
@@ -151,8 +151,8 @@
 <script>
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
-import { cloneDeep, isPlainObject } from 'lodash-es'
-import { getListeners, isEmpty, isObject, notEmpty, unwrap, isGlobalSlot } from '../utils'
+import { cloneDeep } from 'lodash-es'
+import { getListeners, isEmpty, isGlobalSlot, isObject, notEmpty, unwrap } from '../utils'
 
 const globalProps = {}
 const globalAttrs = {}
@@ -388,9 +388,8 @@ export default {
           if (!disabled && i === undefined) {
             innerValue.push(value)
           }
-        }
         // 全不选时，选项被选中了，取消选中它
-        else if (i !== undefined) {
+        } else if (i !== undefined) {
           innerValue[i] = undefined
         }
       }

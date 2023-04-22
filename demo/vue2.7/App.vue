@@ -25,14 +25,14 @@
         v-model="value.kiPopSwitch"
         :elTooltipProps="{ rawContent: true, content: `<i class='el-icon-warning'/> 已停用` }"
         :elPopoverProps="{
-          trigger: 'manual',
-          value: value.showPopper,
+          'trigger': 'manual',
+          'value': value.showPopper,
           '@input': (e) => {
             value.showPopper = e
           },
-          content: `<i class='el-icon-warning'/> 权限不足`,
+          'content': `<i class='el-icon-warning'/> 权限不足`,
         }"
-        :elPopconfirmProps="{ title: '确认启用吗？', disabled: true, }"
+        :elPopconfirmProps="{ title: '确认启用吗？', disabled: true }"
         active-text="启用"
         inactive-text="停用"
         @change="console.log('[KiPopSwitch] change')"
@@ -43,7 +43,9 @@
         @click="() => {
           value.showPopper = !value.showPopper
         }"
-      >切换 showPopper</el-button>
+      >
+        切换 showPopper
+      </el-button>
     </el-form-item>
     <el-form-item
       label="ElSelect"

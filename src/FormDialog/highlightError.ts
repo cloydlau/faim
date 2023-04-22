@@ -27,15 +27,13 @@ export default (
 
           v.addEventListener('animationend', handleAnimationEnd)
         }
-      } else {
-        reject()
       }
     })
 
   // is-error类名需要异步才能获取到
   setTimeout(() => {
-    const errFormItems =
-      typeof selectors === 'string' ? document.querySelectorAll(selectors) : selectors
+    const errFormItems
+      = typeof selectors === 'string' ? document.querySelectorAll(selectors) : selectors
 
     // 打包后不生效
     /* if (IntersectionObserver) {

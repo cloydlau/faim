@@ -3,7 +3,6 @@
   "PascalCasedName": "Kikimore",
   "version": "0.13.3",
   "private": false,
-  "packageManager": "pnpm@7.25.0",
   "description": "Several components wrapper for Element Plus / Element.",
   "author": "Cloyd Lau",
   "license": "MIT",
@@ -58,42 +57,35 @@
     "vue-global-config": "latest"
   },
   "devDependencies": {
+    "@antfu/eslint-config": "latest",
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
+    "@element-plus/icons-vue": "latest",
     "@types/lodash-es": "latest",
     "@types/node": "latest",
-    "@vitejs/plugin-vue2": "latest",
-    "@vue/test-utils": "1",
+    "@vitejs/plugin-vue": "latest",
+    "@vue/compiler-sfc": "latest",
+    "@vue/test-utils": "latest",
     "case-police": "latest",
-    "element-ui": "latest",
+    "element-plus": "latest",
+    "eslint": "latest",
     "husky": "latest",
     "json-editor-vue": "latest",
     "lint-staged": "latest",
-    "rome": "latest",
     "sass": "latest",
-    "stylelint": "latest",
-    "stylelint-config-recommended-vue": "latest",
-    "stylelint-config-standard-scss": "latest",
     "typescript": "latest",
     "unplugin-auto-import": "latest",
     "unplugin-vue-components": "latest",
     "vanilla-jsoneditor": "latest",
     "vite": "latest",
-    "vite-plugin-checker": "latest",
     "vite-plugin-dts": "latest",
-    "vls": "latest",
-    "vti": "latest",
-    "vue": "2.7",
-    "vue-template-compiler": "2.7",
+    "vue": "latest",
     "vue-tsc": "latest",
     "zhlint": "latest"
   },
   "lint-staged": {
-    "{src,__tests__}/**.{js,ts}": "rome check",
-    "*.md": [
-      "case-police --fix",
-      "zhlint --fix"
-    ]
+    "*.md": ["case-police --fix", "zhlint --fix"],
+    "*": "eslint --fix"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"

@@ -63,7 +63,7 @@
         <template #prefix>
           Local Slot
         </template>
-        <template #default="{ option, index }">
+        <template #default="{ option }">
           {{ option.name }} (From Local Scoped Slot)
         </template>
       </KiSelect>

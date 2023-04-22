@@ -1,15 +1,13 @@
 import Vue from 'vue'
-import App from './App.vue'
-
 import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
-
 import {
   KiFormDialog,
   KiPopButton,
   KiPopSwitch,
   KiSelect,
 } from '../../src/index'
+import App from './App.vue'
 
 Vue.use(ElementUI)
 Vue.use(KiFormDialog, {
@@ -21,7 +19,7 @@ Vue.use(KiFormDialog, {
     console.log('Global Closed Event')
   },
   '#title': () => ({
-    render: h => h('b', undefined, 'Global Title')
+    render: h => h('b', undefined, 'Global Title'),
   }),
 })
 Vue.use(KiPopButton)

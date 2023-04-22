@@ -3,8 +3,8 @@
     <template #content>
       <template v-if="Slots['tooltip-content']">
         <component
-          v-if="isGlobalSlot(Slots['tooltip-content'])"
           :is="Slots['tooltip-content']()"
+          v-if="isGlobalSlot(Slots['tooltip-content'])"
         />
         <slot
           v-else
@@ -27,8 +27,8 @@
       >
         <template v-if="Slots['popover-content']">
           <component
-            v-if="isGlobalSlot(Slots['popover-content'])"
             :is="Slots['popover-content']()"
+            v-if="isGlobalSlot(Slots['popover-content'])"
           />
           <slot
             v-else
@@ -57,8 +57,8 @@
                   @click="onClick"
                 >
                   <component
-                    v-if="isGlobalSlot(Slots['default'])"
-                    :is="Slots['default']()"
+                    :is="Slots.default()"
+                    v-if="isGlobalSlot(Slots.default)"
                   />
                   <slot v-else />
                 </el-button>

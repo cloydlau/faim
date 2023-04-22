@@ -29,9 +29,9 @@ export function isGlobalSlot(slot: any) {
 export function isEmpty(value: any): boolean {
   return {
     object: () =>
-      value === null ||
-      (Array.isArray(value) && value.length === 0) ||
-      (isPlainObject(value) && Object.getOwnPropertyNames(value).length === 0),
+      value === null
+      || (Array.isArray(value) && value.length === 0)
+      || (isPlainObject(value) && Object.getOwnPropertyNames(value).length === 0),
     number: () => Number.isNaN(value),
     string: () => value === '',
     undefined: () => true,

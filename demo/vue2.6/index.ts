@@ -16,7 +16,7 @@ Vue.use(KiFormDialog, {
     console.log('Global Closed Event')
   },
   '#title': () => ({
-    render: h => h('b', undefined, 'Global Title')
+    render: h => h('b', undefined, 'Global Title'),
   }),
 })
 Vue.use(KiPopButton)
