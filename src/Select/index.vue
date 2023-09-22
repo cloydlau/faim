@@ -1,153 +1,3 @@
-<template>
-  <el-select
-    v-bind="ElSelectProps"
-    v-model="innerValue"
-    v-on="Listeners"
-    @visible-change="onVisibleChange"
-  >
-    <template v-if="isGrouped">
-      <component
-        :is="Slots['option-prepend']()"
-        v-if="isGlobalSlot(Slots['option-prepend'])"
-      />
-      <slot
-        v-else
-        name="option-prepend"
-      >
-        <el-checkbox
-          v-if="innerShowSelectAllCheckbox"
-          v-model="allSelected"
-          :indeterminate="indeterminate"
-          style="padding: 10px 20px;"
-          @change="selectAll"
-        >
-          {{ SelectAllCheckboxLabel }}
-        </el-checkbox>
-      </slot>
-      <el-option-group
-        v-for="(group, groupIndex) of innerOptions"
-        :key="optionGroupPropsList[groupIndex].key"
-        :label="optionGroupPropsList[groupIndex].label"
-        :disabled="optionGroupPropsList[groupIndex].disabled"
-      >
-        <component
-          :is="Slots['group-prepend']()"
-          v-if="isGlobalSlot(Slots['group-prepend'])"
-        />
-        <slot
-          v-else
-          name="group-prepend"
-        />
-        <el-option
-          v-for="(option, optionIndex) of optionGroupPropsList[groupIndex].options"
-          :key="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].key"
-          :label="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label"
-          :value="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].value"
-          :disabled="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled"
-        >
-          <component
-            :is="Slots.default({ option, index: optionIndex })"
-            v-if="isGlobalSlot(Slots.default)"
-          />
-          <slot
-            v-else
-            :option="option"
-            :index="optionIndex"
-          >
-            {{ optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label }}
-          </slot>
-        </el-option>
-        <component
-          :is="Slots['group-append']()"
-          v-if="isGlobalSlot(Slots['group-append'])"
-        />
-        <slot
-          v-else
-          name="group-append"
-        />
-      </el-option-group>
-      <component
-        :is="Slots['option-append']()"
-        v-if="isGlobalSlot(Slots['option-append'])"
-      />
-      <slot
-        v-else
-        name="option-append"
-      />
-    </template>
-
-    <template v-else>
-      <component
-        :is="Slots['option-prepend']()"
-        v-if="isGlobalSlot(Slots['option-prepend'])"
-      />
-      <slot
-        v-else
-        name="option-prepend"
-      >
-        <el-checkbox
-          v-if="innerShowSelectAllCheckbox"
-          v-model="allSelected"
-          :indeterminate="indeterminate"
-          style="padding: 10px 20px;"
-          @change="selectAll"
-        >
-          {{ SelectAllCheckboxLabel }}
-        </el-checkbox>
-      </slot>
-      <el-option
-        v-for="(v, i) of innerOptions"
-        :key="optionPropsList[i].key"
-        :label="optionPropsList[i].label"
-        :value="optionPropsList[i].value"
-        :disabled="optionPropsList[i].disabled"
-      >
-        <component
-          :is="Slots.default({ option: v, index: i })"
-          v-if="isGlobalSlot(Slots.default)"
-        />
-        <slot
-          v-else
-          :option="v"
-          :index="i"
-        >
-          {{ optionPropsList[i].label }}
-        </slot>
-      </el-option>
-      <component
-        :is="Slots['option-append']()"
-        v-if="isGlobalSlot(Slots['option-append'])"
-      />
-      <slot
-        v-else
-        name="option-append"
-      />
-    </template>
-
-    <template #prefix>
-      <component
-        :is="Slots.prefix()"
-        v-if="isGlobalSlot(Slots.prefix)"
-      />
-      <slot
-        v-else
-        name="prefix"
-      />
-    </template>
-
-    <template #empty>
-      <component
-        :is="Slots.empty()"
-        v-if="isGlobalSlot(Slots.empty)"
-      />
-      <slot
-        v-else
-        name="empty"
-      />
-    </template>
-  </el-select>
-</template>
-
 <script>
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
@@ -230,7 +80,7 @@ export default {
     ElSelectProps() {
       const remote = Boolean(this.Search)
 
-      return conclude([this.$attrs, globalAttrs, {
+      return conclude([this.$attrs, globalAttrs, isVue3 ? globalListeners : undefined, {
         ref: 'elSelectRef',
         clearable: true,
         filterable: true,
@@ -477,3 +327,153 @@ export default {
   },
 }
 </script>
+
+<template>
+  <el-select
+    v-bind="ElSelectProps"
+    v-model="innerValue"
+    v-on="Listeners"
+    @visible-change="onVisibleChange"
+  >
+    <template v-if="isGrouped">
+      <component
+        :is="Slots['option-prepend']()"
+        v-if="isGlobalSlot(Slots['option-prepend'])"
+      />
+      <slot
+        v-else
+        name="option-prepend"
+      >
+        <el-checkbox
+          v-if="innerShowSelectAllCheckbox"
+          v-model="allSelected"
+          :indeterminate="indeterminate"
+          style="padding: 10px 20px;"
+          @change="selectAll"
+        >
+          {{ SelectAllCheckboxLabel }}
+        </el-checkbox>
+      </slot>
+      <el-option-group
+        v-for="(group, groupIndex) of innerOptions"
+        :key="optionGroupPropsList[groupIndex].key"
+        :label="optionGroupPropsList[groupIndex].label"
+        :disabled="optionGroupPropsList[groupIndex].disabled"
+      >
+        <component
+          :is="Slots['group-prepend']()"
+          v-if="isGlobalSlot(Slots['group-prepend'])"
+        />
+        <slot
+          v-else
+          name="group-prepend"
+        />
+        <el-option
+          v-for="(option, optionIndex) of optionGroupPropsList[groupIndex].options"
+          :key="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].key"
+          :label="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label"
+          :value="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].value"
+          :disabled="optionGroupPropsList[groupIndex].optionPropsList[optionIndex].disabled"
+        >
+          <component
+            :is="Slots.default({ option, index: optionIndex })"
+            v-if="isGlobalSlot(Slots.default)"
+          />
+          <slot
+            v-else
+            :option="option"
+            :index="optionIndex"
+          >
+            {{ optionGroupPropsList[groupIndex].optionPropsList[optionIndex].label }}
+          </slot>
+        </el-option>
+        <component
+          :is="Slots['group-append']()"
+          v-if="isGlobalSlot(Slots['group-append'])"
+        />
+        <slot
+          v-else
+          name="group-append"
+        />
+      </el-option-group>
+      <component
+        :is="Slots['option-append']()"
+        v-if="isGlobalSlot(Slots['option-append'])"
+      />
+      <slot
+        v-else
+        name="option-append"
+      />
+    </template>
+
+    <template v-else>
+      <component
+        :is="Slots['option-prepend']()"
+        v-if="isGlobalSlot(Slots['option-prepend'])"
+      />
+      <slot
+        v-else
+        name="option-prepend"
+      >
+        <el-checkbox
+          v-if="innerShowSelectAllCheckbox"
+          v-model="allSelected"
+          :indeterminate="indeterminate"
+          style="padding: 10px 20px;"
+          @change="selectAll"
+        >
+          {{ SelectAllCheckboxLabel }}
+        </el-checkbox>
+      </slot>
+      <el-option
+        v-for="(v, i) of innerOptions"
+        :key="optionPropsList[i].key"
+        :label="optionPropsList[i].label"
+        :value="optionPropsList[i].value"
+        :disabled="optionPropsList[i].disabled"
+      >
+        <component
+          :is="Slots.default({ option: v, index: i })"
+          v-if="isGlobalSlot(Slots.default)"
+        />
+        <slot
+          v-else
+          :option="v"
+          :index="i"
+        >
+          {{ optionPropsList[i].label }}
+        </slot>
+      </el-option>
+      <component
+        :is="Slots['option-append']()"
+        v-if="isGlobalSlot(Slots['option-append'])"
+      />
+      <slot
+        v-else
+        name="option-append"
+      />
+    </template>
+
+    <template #prefix>
+      <component
+        :is="Slots.prefix()"
+        v-if="isGlobalSlot(Slots.prefix)"
+      />
+      <slot
+        v-else
+        name="prefix"
+      />
+    </template>
+
+    <template #empty>
+      <component
+        :is="Slots.empty()"
+        v-if="isGlobalSlot(Slots.empty)"
+      />
+      <slot
+        v-else
+        name="empty"
+      />
+    </template>
+  </el-select>
+</template>

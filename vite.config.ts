@@ -1,33 +1,39 @@
+import ScriptSetup from 'unplugin-vue2-script-setup'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
-import vue from '@vitejs/plugin-vue2'
 import AutoImport from 'unplugin-auto-import/vite'
 import Components from 'unplugin-vue-components/vite'
+import { parse } from 'semver'
+import type { SemVer } from 'semver'
+import { version } from 'vue'
+import UnoCSS from 'unocss/vite'
 import { PascalCasedName, name } from './package.json'
+
+UnoCSS()
+const { major, minor } = parse(version) as SemVer
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [
-    dts({
-      outputDir: 'src',
-    }),
-    vue(),
-    AutoImport({
-      // targets to transform
-      include: [
-        /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
-        /\.vue$/, /\.vue\?vue/, // .vue
-        /\.md$/, // .md
-      ],
-      // global imports to register
-      imports: [
-        // presets
-        'vue',
-        // '@vueuse/core',
-      ],
-    }),
-    Components({ /* options */ }),
-  ],
+  plugins: [{
+    name: 'html-transform',
+    transformIndexHtml(html: string) {
+      return html.replace(/\{\{NAME\}\}/, name).replace(/\{\{VUE_VERSION\}\}/g, String(major === 3 ? major : `${major}.${minor}`))
+    },
+  }, dts({
+    outDir: 'src',
+  }), AutoImport({
+    // targets to transform
+    include: [
+      /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
+      /\.vue$/, /\.vue\?vue/, // .vue
+      /\.md$/, // .md
+    ],
+    // global imports to register
+    imports: [
+      // presets
+      (major === 3 || (major === 2 && minor >= 7)) ? 'vue' : '@vue/composition-api',
+    ],
+  }), Components(), ScriptSetup()],
   build: {
     lib: {
       name,

@@ -1,0 +1,12 @@
+diff --git a/es/components/upload/src/upload2.mjs b/es/components/upload/src/upload2.mjs
+index 72301884f98afaa2445870fb77e261e7824c8a06..9ee3bfe985fff63553c3f9353fdcaa4c0c7bbdf0 100644
+--- a/es/components/upload/src/upload2.mjs
++++ b/es/components/upload/src/upload2.mjs
+@@ -50,6 +50,7 @@ const _sfc_main = /* @__PURE__ */ defineComponent({
+       abort,
+       submit,
+       clearFiles,
++      uploadFiles,
+       handleStart,
+       handleRemove
+     });

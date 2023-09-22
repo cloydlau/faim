@@ -1,74 +1,3 @@
-<template>
-  <el-tooltip v-bind="ElTooltipProps">
-    <template #content>
-      <template v-if="Slots['tooltip-content']">
-        <component
-          v-if="isGlobalSlot(Slots['tooltip-content'])"
-          :is="Slots['tooltip-content']()"
-        />
-        <slot
-          v-else
-          name="tooltip-content"
-        />
-      </template>
-      <div
-        v-else-if="ElTooltipProps.rawContent"
-        v-html="ElTooltipProps.content"
-      />
-      <div
-        v-else
-        v-text="ElTooltipProps.content"
-      />
-    </template>
-    <span>
-      <el-popover
-        v-bind="ElPopoverConfig.attrs"
-        v-on="ElPopoverConfig.listeners"
-      >
-        <template v-if="Slots['popover-content']">
-          <component
-            v-if="isGlobalSlot(Slots['popover-content'])"
-            :is="Slots['popover-content']()"
-          />
-          <slot
-            v-else
-            name="popover-content"
-          />
-        </template>
-        <div
-          v-else-if="ElPopoverConfig.attrs.rawContent"
-          v-html="ElPopoverConfig.attrs.content"
-        />
-        <div
-          v-else
-          v-text="ElPopoverConfig.attrs.content"
-        />
-        <template #reference>
-          <span>
-            <el-popconfirm
-              v-bind="ElPopconfirmConfig.attrs"
-              v-on="ElPopconfirmConfig.listeners"
-              @confirm="onConfirm"
-              @on-confirm="onConfirm"
-            >
-              <template #reference>
-                <el-switch
-                  v-bind="ElSwitchProps"
-                  :class="{
-                    'ki-switch': !isVue3,
-                    'inline-prompt': InlinePrompt,
-                  }"
-                  @click.native="onClick"
-                />
-              </template>
-            </el-popconfirm>
-          </span>
-        </template>
-      </el-popover>
-    </span>
-  </el-tooltip>
-</template>
-
 <script>
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
@@ -110,12 +39,12 @@ export default {
       default: undefined,
     }])),
   },
+  emits: [model.event, 'confirm'],
   data() {
     return {
       isVue3,
     }
   },
-  emits: [model.event, 'confirm'],
   computed: {
     Listeners() {
       return getListeners.call(this, globalListeners)
@@ -123,8 +52,8 @@ export default {
     Slots() {
       return conclude([isVue3 ? this.$slots : this.$scopedSlots, globalSlots])
     },
-    ElTooltipProps() {
-      return conclude([
+    ElTooltipConfig() {
+      return resolveConfig(conclude([
         this.elTooltipProps,
         globalProps.elTooltipProps,
         { ref: 'elTooltipRef' },
@@ -136,7 +65,7 @@ export default {
           disabled: !(userProp?.content || this.$slots.elTooltipContent),
         }),
         defaultIsDynamic: true,
-      })
+      }))
     },
     ElPopoverConfig() {
       return resolveConfig(conclude([
@@ -201,8 +130,8 @@ export default {
   methods: {
     isGlobalSlot,
     onClick() {
-      if (!this.$refs[this.ElTooltipProps.ref].manual) {
-        this.$refs[this.ElTooltipProps.ref].showPopper = false
+      if (!this.$refs[this.ElTooltipConfig.attrs.ref].manual) {
+        this.$refs[this.ElTooltipConfig.attrs.ref].showPopper = false
       }
       if (![true, ''].includes(this.ElSwitchProps.disabled) && this.ElPopconfirmConfig.attrs.disabled) {
         this.onConfirm()
@@ -217,6 +146,79 @@ export default {
   },
 }
 </script>
+
+<template>
+  <el-tooltip v-bind="ElTooltipConfig.attrs">
+    <template #content>
+      <template v-if="Slots['tooltip-content']">
+        <component
+          :is="Slots['tooltip-content']()"
+          v-if="isGlobalSlot(Slots['tooltip-content'])"
+        />
+        <slot
+          v-else
+          name="tooltip-content"
+        />
+      </template>
+      <!-- vue 3 中，element-plus & v-html 支持渲染原生元素，不支持渲染组件 -->
+      <!-- vue 2 中，element-ui 不支持将 content 当作 html 处理，v-html 待测试 -->
+      <div
+        v-else-if="ElTooltipConfig.attrs.rawContent"
+        v-html="ElTooltipConfig.attrs.content"
+      />
+      <div
+        v-else
+        v-text="ElTooltipConfig.attrs.content"
+      />
+    </template>
+    <span>
+      <el-popover
+        v-bind="ElPopoverConfig.attrs"
+        v-on="ElPopoverConfig.listeners"
+      >
+        <template v-if="Slots['popover-content']">
+          <component
+            :is="Slots['popover-content']()"
+            v-if="isGlobalSlot(Slots['popover-content'])"
+          />
+          <slot
+            v-else
+            name="popover-content"
+          />
+        </template>
+        <div
+          v-else-if="ElPopoverConfig.attrs.rawContent"
+          v-html="ElPopoverConfig.attrs.content"
+        />
+        <div
+          v-else
+          v-text="ElPopoverConfig.attrs.content"
+        />
+        <template #reference>
+          <span>
+            <el-popconfirm
+              v-bind="ElPopconfirmConfig.attrs"
+              v-on="ElPopconfirmConfig.listeners"
+              @confirm="onConfirm"
+              @on-confirm="onConfirm"
+            >
+              <template #reference>
+                <el-switch
+                  v-bind="ElSwitchProps"
+                  :class="{
+                    'ki-switch': !isVue3,
+                    'inline-prompt': InlinePrompt,
+                  }"
+                  @click.native="onClick"
+                />
+              </template>
+            </el-popconfirm>
+          </span>
+        </template>
+      </el-popover>
+    </span>
+  </el-tooltip>
+</template>
 
 <style lang="scss" scoped>
 // 兼容 Vue 2.6

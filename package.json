@@ -3,7 +3,7 @@
   "PascalCasedName": "Kikimore",
   "version": "0.13.3",
   "private": false,
-  "description": "Several components wrapper for Element Plus / Element.",
+  "description": "Several universal components wrapper for Element Plus (Vue 3) & Element (Vue 2).",
   "author": "Cloyd Lau",
   "license": "MIT",
   "repository": "https://github.com/cloydlau/kikimore",
@@ -17,8 +17,8 @@
   "exports": {
     ".": {
       "types": "./src/index.d.ts",
-      "require": "./src/index.ts",
-      "import": "./src/index.ts"
+      "import": "./src/index.ts",
+      "require": "./src/index.ts"
     },
     "./*": "./*"
   },
@@ -32,11 +32,12 @@
     "src"
   ],
   "scripts": {
-    "dev3": "cl switchVue 3 && vite --config ./demo/vue3/vite.config.ts --open",
-    "dev2.7": "cl switchVue 2.7 && vite --config ./demo/vue2.7/vite.config.ts --open",
-    "dev2.6": "cl switchVue 2.6 && vite --config ./demo/vue2.6/vite.config.ts --open",
+    "dev": "esno ./scripts/dev.mts",
     "build": "vite build",
-    "release": "npx lint-staged && pnpm build && cl release"
+    "serve": "vite preview",
+    "release": "esno ./scripts/release.mts",
+    "preinstall": "node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || npx only-allow pnpm",
+    "postinstall": "node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || npx simple-git-hooks"
   },
   "peerDependencies": {
     "element-plus": ">=2",
@@ -52,42 +53,74 @@
     }
   },
   "dependencies": {
+    "@vueuse/core": "latest",
+    "await-to-js": "latest",
+    "axios": "latest",
+    "axios-shortcut": "latest",
+    "cropperjs": "latest",
     "lodash-es": "latest",
+    "qrcode": "latest",
+    "sortablejs": "latest",
+    "sweetalert2": "latest",
+    "sweetalert2-preset": "latest",
+    "swiper": "latest",
+    "upng-js": "latest",
+    "validator": "latest",
+    "viewerjs": "latest",
     "vue-demi": "latest",
     "vue-global-config": "latest"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "latest",
+    "@antfu/eslint-config": "0.42.1",
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
-    "@element-plus/icons-vue": "latest",
     "@types/lodash-es": "latest",
     "@types/node": "latest",
-    "@vitejs/plugin-vue": "latest",
-    "@vue/compiler-sfc": "latest",
-    "@vue/test-utils": "latest",
+    "@types/validator": "latest",
+    "@vue/composition-api": "latest",
+    "@vue/test-utils": "legacy",
     "case-police": "latest",
+    "cross-spawn": "latest",
     "element-plus": "latest",
+    "element-ui": "latest",
     "eslint": "latest",
-    "husky": "latest",
+    "esno": "latest",
     "json-editor-vue": "latest",
+    "kikimore": "workspace:*",
+    "kolorist": "latest",
     "lint-staged": "latest",
+    "magicast": "latest",
+    "prompts": "latest",
     "sass": "latest",
+    "semver": "latest",
+    "simple-git-hooks": "latest",
     "typescript": "latest",
+    "unocss": "latest",
     "unplugin-auto-import": "latest",
     "unplugin-vue-components": "latest",
     "vanilla-jsoneditor": "latest",
     "vite": "latest",
+    "vite-plugin-css-injected-by-js": "latest",
     "vite-plugin-dts": "latest",
-    "vue": "latest",
+    "vite-plugin-vue2": "latest",
+    "vue": "~2.6.14",
+    "vue-template-compiler": "~2.6.14",
     "vue-tsc": "latest",
     "zhlint": "latest"
   },
-  "lint-staged": {
-    "*.md": ["case-police --fix", "zhlint --fix"],
-    "*": "eslint --fix"
+  "pnpm": {
+    "patchedDependencies": {
+      "element-plus@2.3.14": "patches/element-plus@2.3.14.patch"
+    }
   },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org"
+  "simple-git-hooks": {
+    "commit-msg": "npx --no -- commitlint --edit ${1}"
+  },
+  "lint-staged": {
+    "*.md": [
+      "case-police --fix",
+      "zhlint --fix"
+    ],
+    "*": "eslint --cache --fix"
   }
 }

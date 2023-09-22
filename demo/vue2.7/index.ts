@@ -3,6 +3,8 @@ import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
 import {
   KiFormDialog,
+  KiImage,
+  KiImageUpload,
   KiPopButton,
   KiPopSwitch,
   KiSelect,
@@ -19,9 +21,11 @@ Vue.use(KiFormDialog, {
     console.log('Global Closed Event')
   },
   '#title': () => ({
-    render: h => h('b', undefined, 'Global Title'),
+    render: h => h('b', undefined, 'Kikimore'),
   }),
 })
+Vue.use(KiImage)
+Vue.use(KiImageUpload)
 Vue.use(KiPopButton)
 Vue.use(KiPopSwitch, {
   inlinePrompt: true,

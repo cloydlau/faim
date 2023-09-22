@@ -1,3 +1,63 @@
+<script>
+import TestImage from '../TestImage.vue'
+import TestImageUpload from '../TestImageUpload.vue'
+
+export default {
+  components: { TestImage, TestImageUpload },
+  data() {
+    return {
+      console: window.console,
+      show: true,
+      value: {
+        elSelect: { a: 1, b: 1 },
+        kiSelect: {
+          name: 'n',
+          code: 'c',
+        },
+        kiSelectLabel: undefined,
+        kiPopSwitch: true,
+      },
+      options: {
+        elSelect: [
+          { a: 2, b: 2 },
+          { a: 3, b: 3 },
+        ],
+        kiSelect: [
+          {
+            name: '广东省',
+            code: '440000',
+            children: [
+              {
+                name: '深圳市',
+                code: '440300',
+              },
+              {
+                name: '广州市',
+                code: '440100',
+              },
+            ],
+          },
+          {
+            name: '江苏省',
+            code: '320000',
+            children: [
+              {
+                name: '南京市',
+                code: '320100',
+              },
+              {
+                name: '苏州市',
+                code: '320500',
+              },
+            ],
+          },
+        ],
+      },
+    }
+  },
+}
+</script>
+
 <template>
   <KiFormDialog
     v-model="value"
@@ -6,6 +66,14 @@
     showResetButton
     width="90%"
   >
+    <el-form-item label="Image">
+      <TestImage />
+    </el-form-item>
+
+    <el-form-item label="ImageUpload">
+      <TestImageUpload />
+    </el-form-item>
+
     <el-form-item label="PopButton">
       <KiPopButton
         :elTooltipProps="{ rawContent: true, content: `<i class='el-icon-warning'/> 删除` }"
@@ -70,59 +138,3 @@
     </el-form-item>
   </KiFormDialog>
 </template>
-
-<script>
-export default {
-  data() {
-    return {
-      console: window.console,
-      show: true,
-      value: {
-        elSelect: { a: 1, b: 1 },
-        kiSelect: {
-          name: 'n',
-          code: 'c',
-        },
-        kiSelectLabel: undefined,
-        kiPopSwitch: true,
-      },
-      options: {
-        elSelect: [
-          { a: 2, b: 2 },
-          { a: 3, b: 3 },
-        ],
-        kiSelect: [
-          {
-            name: '广东省',
-            code: '440000',
-            children: [
-              {
-                name: '深圳市',
-                code: '440300',
-              },
-              {
-                name: '广州市',
-                code: '440100',
-              },
-            ],
-          },
-          {
-            name: '江苏省',
-            code: '320000',
-            children: [
-              {
-                name: '南京市',
-                code: '320100',
-              },
-              {
-                name: '苏州市',
-                code: '320500',
-              },
-            ],
-          },
-        ],
-      },
-    }
-  },
-}
-</script>

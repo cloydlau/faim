@@ -1,186 +1,3 @@
-<template>
-  <!-- 为什么要套一个 div？ -->
-  <!-- https://github.com/element-plus/element-plus/issues/10515 -->
-  <div>
-    <el-dialog
-      v-bind="ElDialogProps"
-      ref="elDialogRef"
-      :key="key"
-      v-model="show"
-      :visible="show"
-      :title="Title"
-      :destroyOnClose="false"
-      :appendToBody="false"
-      :fullscreen="fullscreen"
-      v-on="Listeners"
-      @closed="onClosed"
-    >
-      <!-- 向 el-dialog 传递 slot -->
-      <template #[headerSlotName]>
-        <!-- 接收 slot -->
-        <component
-          :is="Slots[headerSlotName]()"
-          v-if="isGlobalSlot(Slots[headerSlotName])"
-        />
-        <slot
-          v-else
-          :name="headerSlotName"
-        >
-          <span>{{ Title }}</span>
-        </slot>
-        <div style="display: flex; align-items: center;">
-          <template v-if="isVue3">
-            <el-icon
-              v-if="ShowFullscreenToggle"
-              :class="fullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
-              @click="toggleFullscreen()"
-            >
-              <Component :is="fullscreen ? 'CopyDocument' : 'FullScreen'" />
-            </el-icon>
-            <el-icon
-              v-if="ElDialogProps.showClose !== false"
-              class="el-icon-close"
-              @click="onCancel"
-            >
-              <Close />
-            </el-icon>
-          </template>
-          <template v-else>
-            <i
-              v-if="ShowFullscreenToggle"
-              :class="fullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
-              @click="toggleFullscreen()"
-            />
-            <i
-              v-if="ElDialogProps.showClose !== false"
-              class="el-icon-close"
-              @click="onCancel"
-            />
-          </template>
-        </div>
-      </template>
-      <div
-        v-loading="Loading"
-        style="display: flex; flex-direction: column; overflow-y: hidden;"
-      >
-        <div
-          ref="overlayScrollbar"
-          style="overflow-y: auto; padding: 25px 40px 85px 40px; max-height:calc(100vh - 45px);"
-        >
-          <el-form
-            v-if="ValueIsPlainObject"
-            :class="Readonly && 'readonly'"
-            v-bind="ElFormProps"
-            v-on="Listeners"
-          >
-            <component
-              :is="Slots.default()"
-              v-if="isGlobalSlot(Slots.default)"
-            />
-            <slot v-else />
-          </el-form>
-          <template v-else>
-            <component
-              :is="Slots.default()"
-              v-if="isGlobalSlot(Slots.default)"
-            />
-            <slot v-else />
-          </template>
-        </div>
-      </div>
-
-      <template #footer>
-        <component
-          :is="Slots.footer()"
-          v-if="isGlobalSlot(Slots.footer)"
-        />
-        <slot
-          v-else
-          name="footer"
-        >
-          <template v-if="ReverseButtons">
-            <el-button
-              v-if="ShowConfirmButton"
-              type="primary"
-              :disabled="closing || denying"
-              :class="closing && 'closing'"
-              :loading="confirming"
-              @click="onConfirm"
-            >
-              {{ ConfirmButtonText }}
-            </el-button>
-            <el-button
-              v-if="ShowDenyButton"
-              type="danger"
-              :disabled="closing || confirming"
-              :class="closing && 'closing'"
-              :loading="denying"
-              @click="onDeny"
-            >
-              {{ DenyButtonText }}
-            </el-button>
-            <el-button
-              v-if="ShowResetButton && $refs[ElFormProps.ref]"
-              type="info"
-              :disabled="closing || confirming || denying"
-              @click="onReset"
-            >
-              {{ ResetButtonText }}
-            </el-button>
-            <el-button
-              v-if="ShowCancelButton"
-              :disabled="closing"
-              :class="closing && 'closing'"
-              @click="onCancel"
-            >
-              {{ CancelButtonText }}
-            </el-button>
-          </template>
-
-          <template v-else>
-            <el-button
-              v-if="ShowCancelButton"
-              :disabled="closing"
-              :class="closing && 'closing'"
-              @click="onCancel"
-            >
-              {{ CancelButtonText }}
-            </el-button>
-            <el-button
-              v-if="ShowResetButton && $refs[ElFormProps.ref]"
-              type="info"
-              :disabled="closing || confirming || denying"
-              @click="onReset"
-            >
-              {{ ResetButtonText }}
-            </el-button>
-            <el-button
-              v-if="ShowDenyButton"
-              type="danger"
-              :disabled="closing || confirming"
-              :class="closing && 'closing'"
-              :loading="denying"
-              @click="onDeny"
-            >
-              {{ DenyButtonText }}
-            </el-button>
-            <el-button
-              v-if="ShowConfirmButton"
-              type="primary"
-              :disabled="closing || denying"
-              :class="closing && 'closing'"
-              :loading="confirming"
-              @click="onConfirm"
-            >
-              {{ ConfirmButtonText }}
-            </el-button>
-          </template>
-        </slot>
-      </template>
-    </el-dialog>
-  </div>
-</template>
-
 <script>
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
@@ -354,7 +171,7 @@ export default {
       })
     },
     ElDialogProps() {
-      return conclude([this.$attrs, globalAttrs], {
+      return conclude([this.$attrs, globalAttrs, isVue3 ? globalListeners : undefined], {
         type: Object,
         camelizeObjectKeys: true,
         default: (userProp) => {
@@ -387,6 +204,7 @@ export default {
             // model 不能写在这里因为会被深拷贝，将导致无法重置
             // model: this[model.prop],
           },
+          isVue3 ? globalListeners : undefined,
         ], {
           type: Object,
           camelizeObjectKeys: true,
@@ -473,7 +291,7 @@ export default {
               // updated 时，避免受之前设置的宽度影响
               const prevWidth = item.style.width
               item.style.width = 'revert'
-              const computedWidth = Math.ceil(parseFloat(window.getComputedStyle(item).width))
+              const computedWidth = Math.ceil(Number.parseFloat(window.getComputedStyle(item).width))
               if (computedWidth > max) {
                 max = computedWidth
               }
@@ -582,6 +400,190 @@ export default {
 }
 </script>
 
+<template>
+  <!-- 为什么要套一个 div？ -->
+  <!-- https://github.com/element-plus/element-plus/issues/10515 -->
+  <div>
+    <el-dialog
+      v-bind="ElDialogProps"
+      ref="elDialogRef"
+      :key="key"
+      :modelValue="show"
+      :visible="show"
+      :title="Title"
+      :destroyOnClose="false"
+      :appendToBody="false"
+      :fullscreen="fullscreen"
+      v-on="Listeners"
+      @closed="onClosed"
+    >
+      <!-- 向 el-dialog 传递 slot -->
+      <template #[headerSlotName]>
+        <!-- 接收 slot -->
+        <component
+          :is="Slots[headerSlotName]()"
+          v-if="isGlobalSlot(Slots[headerSlotName])"
+        />
+        <slot
+          v-else
+          :name="headerSlotName"
+        >
+          <span>{{ Title }}</span>
+        </slot>
+        <div style="display: flex; align-items: center;">
+          <template v-if="isVue3">
+            <el-icon
+              v-if="ShowFullscreenToggle"
+              :class="fullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
+              @click="toggleFullscreen()"
+            >
+              <Component :is="fullscreen ? 'CopyDocument' : 'FullScreen'" />
+            </el-icon>
+            <el-icon
+              v-if="ElDialogProps.showClose !== false"
+              class="el-icon-close"
+              @click="onCancel"
+            >
+              <Close />
+            </el-icon>
+          </template>
+          <template v-else>
+            <i
+              v-if="ShowFullscreenToggle"
+              :class="fullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
+              @click="toggleFullscreen()"
+            />
+            <i
+              v-if="ElDialogProps.showClose !== false"
+              class="el-icon-close"
+              @click="onCancel"
+            />
+          </template>
+        </div>
+      </template>
+      <div
+        v-loading="Loading"
+        style="display: flex; flex-direction: column; overflow-y: hidden;"
+      >
+        <div
+          ref="overlayScrollbar"
+          style="overflow-y: auto; padding: 10px 40px 40px 40px; max-height:calc(100vh - 45px);"
+          :style="{ paddingBottom: fullscreen ? '40px' : '85px' }"
+        >
+          <el-form
+            v-if="ValueIsPlainObject"
+            :class="Readonly && 'readonly'"
+            v-bind="ElFormProps"
+            v-on="Listeners"
+          >
+            <component
+              :is="Slots.default()"
+              v-if="isGlobalSlot(Slots.default)"
+            />
+            <slot v-else />
+          </el-form>
+          <template v-else>
+            <component
+              :is="Slots.default()"
+              v-if="isGlobalSlot(Slots.default)"
+            />
+            <slot v-else />
+          </template>
+        </div>
+      </div>
+
+      <template #footer>
+        <component
+          :is="Slots.footer()"
+          v-if="isGlobalSlot(Slots.footer)"
+        />
+        <slot
+          v-else
+          name="footer"
+        >
+          <template v-if="ReverseButtons">
+            <el-button
+              v-if="ShowConfirmButton"
+              type="primary"
+              :disabled="closing || denying"
+              :class="closing && 'closing'"
+              :loading="confirming"
+              @click="onConfirm"
+            >
+              {{ ConfirmButtonText }}
+            </el-button>
+            <el-button
+              v-if="ShowDenyButton"
+              type="danger"
+              :disabled="closing || confirming"
+              :class="closing && 'closing'"
+              :loading="denying"
+              @click="onDeny"
+            >
+              {{ DenyButtonText }}
+            </el-button>
+            <el-button
+              v-if="ShowResetButton && $refs[ElFormProps.ref]"
+              type="info"
+              :disabled="closing || confirming || denying"
+              @click="onReset"
+            >
+              {{ ResetButtonText }}
+            </el-button>
+            <el-button
+              v-if="ShowCancelButton"
+              :disabled="closing"
+              :class="closing && 'closing'"
+              @click="onCancel"
+            >
+              {{ CancelButtonText }}
+            </el-button>
+          </template>
+
+          <template v-else>
+            <el-button
+              v-if="ShowCancelButton"
+              :disabled="closing"
+              :class="closing && 'closing'"
+              @click="onCancel"
+            >
+              {{ CancelButtonText }}
+            </el-button>
+            <el-button
+              v-if="ShowResetButton && $refs[ElFormProps.ref]"
+              type="info"
+              :disabled="closing || confirming || denying"
+              @click="onReset"
+            >
+              {{ ResetButtonText }}
+            </el-button>
+            <el-button
+              v-if="ShowDenyButton"
+              type="danger"
+              :disabled="closing || confirming"
+              :class="closing && 'closing'"
+              :loading="denying"
+              @click="onDeny"
+            >
+              {{ DenyButtonText }}
+            </el-button>
+            <el-button
+              v-if="ShowConfirmButton"
+              type="primary"
+              :disabled="closing || denying"
+              :class="closing && 'closing'"
+              :loading="confirming"
+              @click="onConfirm"
+            >
+              {{ ConfirmButtonText }}
+            </el-button>
+          </template>
+        </slot>
+      </template>
+    </el-dialog>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 // 动画
 /* @keyframes open {
@@ -644,13 +646,13 @@ export default {
   display: flex;
 
   .el-dialog {
-    min-width: 800px;
+    //min-width: 800px;
 
     &:not(.is-fullscreen) {
       margin: auto !important;
 
       .el-dialog__body {
-        max-height: calc(100vh - 100px);
+        max-height: calc(100vh - 75px);
       }
     }
 
@@ -690,7 +692,7 @@ export default {
       display: flex;
       flex-direction: column;
 
-      .el-form-item__content {
+      /* .el-form-item__content {
 
         .el-input,
         .el-input-number,
@@ -702,7 +704,7 @@ export default {
         .el-cascader {
           width: 100%;
         }
-      }
+      } */
 
       .el-form-item:last-child {
         margin-bottom: 0;
@@ -789,13 +791,13 @@ export default {
   display: flex;
 
   .el-dialog {
-    min-width: 800px;
+    //min-width: 800px;
 
     &:not(.is-fullscreen) {
       margin: auto !important;
 
       .el-dialog__body {
-        max-height: calc(100vh - 100px);
+        max-height: calc(100vh - 75px);
       }
     }
 
@@ -835,7 +837,7 @@ export default {
       display: flex;
       flex-direction: column;
 
-      .el-form-item__content {
+      /* .el-form-item__content {
 
         .el-input,
         .el-input-number,
@@ -847,7 +849,7 @@ export default {
         .el-cascader {
           width: 100%;
         }
-      }
+      } */
 
       .el-form-item:last-child {
         margin-bottom: 0;

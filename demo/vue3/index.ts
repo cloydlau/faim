@@ -4,6 +4,8 @@ import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import {
   KiFormDialog,
+  KiImage,
+  KiImageUpload,
   KiPopButton,
   KiPopSwitch,
   KiSelect,
@@ -20,8 +22,11 @@ const app = createApp(App)
     '@closed': function (e) {
       console.log('Global Closed Event')
     },
-    '#header': () => h('b', undefined, 'Global Title'),
+    // '#header': () => h('b', undefined, 'Kikimore'),
+    'title': 'Kikimore',
   })
+  .use(KiImage)
+  .use(KiImageUpload)
   .use(KiPopButton, {})
   .use(KiPopSwitch, {
     inlinePrompt: true,

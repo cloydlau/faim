@@ -15,7 +15,7 @@ export function getListeners(this: ComponentPublicInstance, globalListeners: Rec
   return conclude([getLocalListeners(this.$listeners)], {
     default: globalListeners,
     mergeFunction:
-      (localEventListener: Function, globalEventListener: Function) => (...args: any) => {
+      (localEventListener: (...args: any) => unknown, globalEventListener: (...args: any) => unknown) => (...args: any) => {
         localEventListener(...args)
         globalEventListener(...args)
       },
