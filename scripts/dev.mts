@@ -104,7 +104,7 @@ async function dev() {
   }
 
   addVitePlugin(mod, {
-    from: 'unplugin-vue2-script-setup',
+    from: vueVersionToVitePlugin[targetVersion],
     imported: targetVersion === '2.6' ? 'createVuePlugin' : 'default',
     constructor: 'vue',
   })
@@ -117,30 +117,8 @@ async function dev() {
     })
   }
 
-  // 没有 vue 插件，添加
-  if (!mod.imports.vue) {
-    mod.imports.$add({
-      imported: targetVersion === '2.6' ? 'createVuePlugin' : 'default',
-      local: 'vue',
-      from: vueVersionToVitePlugin[targetVersion],
-    })
-    isViteConfigChanged = true
-  }
-
-  // vue 2.6 没有 unplugin-vue2-script-setup，添加
-  /* if (targetVersion === '2.6' && !mod.imports.ScriptSetup) {
-    mod.imports.ScriptSetup = {
-      imported: 'ScriptSetup',
-      local: 'ScriptSetup',
-      from: 'unplugin-vue2-script-setup',
-    } as ProxifiedImportItem
-    isViteConfigChanged = true
-  } */
-
-  if (isViteConfigChanged) {
-    await writeFile(mod as unknown as ASTNode, './vite.config.ts')
-    spawn.sync('npx', ['eslint', './vite.config.ts', '--fix'], { stdio: 'inherit' })
-  }
+  await writeFile(mod as unknown as ASTNode, './vite.config.ts')
+  spawn.sync('npx', ['eslint', './vite.config.ts', '--fix'], { stdio: 'inherit' })
   return
 
   let isDepsChanged = false
