@@ -69,8 +69,6 @@ async function dev() {
 
   const mod = await loadFile('./vite.config.ts')
 
-  let isViteConfigChanged = false
-
   // imported 表示命名导入的值，默认导入是 default
   // k 和 mod.imports[k].local 和 constructor 三者一致，表示导入取的别名
 
@@ -81,7 +79,6 @@ async function dev() {
       // 非 vue 2.6 或导入名称非 ScriptSetup，删除 unplugin-vue2-script-setup
       || (mod.imports[k].from === 'unplugin-vue2-script-setup' && targetVersion !== '2.6')) {
         delete mod.imports[k]
-        isViteConfigChanged = true
       }
     }
   }
