@@ -3,7 +3,7 @@ import { execSync } from 'node:child_process'
 import prompts from 'prompts'
 import spawn from 'cross-spawn'
 import { loadFile, writeFile } from 'magicast'
-import type { ASTNode, ProxifiedImportItem } from 'magicast'
+import type { ASTNode } from 'magicast'
 import { cyan } from 'kolorist'
 import { addVitePlugin, findVitePluginCall } from 'magicast/helpers'
 
@@ -90,18 +90,31 @@ async function dev() {
     from: plugin,
     imported: 'default',
   })) */
-  console.log(addVitePlugin(mod, {
-    from: 'unplugin-vue2-script-setup',
-    constructor: 'ScriptSetup',
-  }))
   const options = mod.exports.default.$type === 'function-call'
     ? mod.exports.default.$args[0]
     : mod.exports.default
-  options.plugins?.find(
-    (p: any) => p && p.$type === 'function-call' && p.$callee === constructor,
-  )
-  for (const v of options.plugins) {
+  if (options.plugins) {
+    const newPlugins = options.plugins.filter(
+      (p: any) => p && p.$type === 'function-call' && p.$callee === constructor,
+    )
+    options.plugins = newPlugins
+    for (const v of options.plugins) {
     // console.log(3, v.$ast.callee?.loc.identifierName === 'ScriptSetup')
+    }
+  }
+
+  addVitePlugin(mod, {
+    from: 'unplugin-vue2-script-setup',
+    imported: targetVersion === '2.6' ? 'createVuePlugin' : 'default',
+    constructor: 'vue',
+  })
+
+  if (targetVersion === '2.6') {
+    addVitePlugin(mod, {
+      from: 'unplugin-vue2-script-setup',
+      imported: 'default',
+      constructor: 'ScriptSetup',
+    })
   }
 
   // 没有 vue 插件，添加
