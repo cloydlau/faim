@@ -7,7 +7,7 @@ import to from 'await-to-js'
 import { isVue3 } from 'vue-demi'
 import ImgEditor from './ImgEditor.vue'
 import { equalOrWithin, isObject, sizeToText, toBinary, toImageTag, toLocalURL, tryParsingJSONArray, unwrap, wrap } from './utils'
-import './index.scss'
+import './index.css'
 
 const globalProps = {}
 const globalAttrs = {}

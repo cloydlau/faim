@@ -1,4 +1,4 @@
-import './highlightError.scss'
+import './highlightError.css'
 import elementIsVisible from './elementIsVisible'
 
 export default (
