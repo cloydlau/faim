@@ -337,6 +337,7 @@ Vue.use(KiSelect, {
 
 ### 特性
 
+- 不依赖 Element，任意 UI 框架中均能使用，支持移动端
 - 多样的展示形式：文档流/瀑布流/轮播图/表格嵌套
 - 灵活的数据类型：URL/Base64/二维码/[object URL](https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications#example_using_object_urls_to_display_images)
 - 任意绑定值类型
@@ -395,7 +396,7 @@ Vue.use(KiSelect, {
 </KiImage>
 ```
 
-Image 故意没有使用 `el-image`，以便其在移动端也能使用，可以通过默认插槽来使用 `el-image`：
+通过默认插槽来使用 `el-image`：
 
 ```html
 <KiImage>
@@ -461,7 +462,7 @@ const kiImageRef = ref()
 
 ## ImageUpload
 
-图片上传一站式解决方案。
+`el-upload` 封装，图片上传一站式解决方案。
 
 ### 特性
 

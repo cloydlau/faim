@@ -9,10 +9,14 @@ const docsPath = ['./README.md']
 
 async function release() {
   console.log(cyan('Fetching origin...'))
-  spawn.sync('git', ['pull'], { stdio: 'inherit' })
+  if (spawn.sync('git', ['pull'], { stdio: 'inherit' }).status === 1) {
+    return
+  }
 
   console.log(cyan('Upgrading dependencies...'))
-  spawn.sync('pnpm', ['up'], { stdio: 'inherit' })
+  if (spawn.sync('pnpm', ['up'], { stdio: 'inherit' }).status === 1) {
+    return
+  }
 
   console.log(cyan('Linting staged...'))
   if (spawn.sync('npx', ['lint-staged'], { stdio: 'inherit' }).status === 1) {
@@ -30,7 +34,9 @@ async function release() {
   }
 
   console.log(cyan('Packing...'))
-  spawn.sync('npm', ['pack'], { stdio: 'inherit' })
+  if (spawn.sync('npm', ['pack'], { stdio: 'inherit' }).status === 1) {
+    return
+  }
 
   const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
   const { name, version: currentVersion } = pkg
@@ -39,7 +45,15 @@ async function release() {
     title,
     value: semver.inc(currentVersion, title as semver.ReleaseType),
   }))
-    .concat(Array.from(['prerelease'], title => ({
+    .concat(Array.from(['prepatch'], title => ({
+      title,
+      value: title,
+    })))
+    .concat(Array.from(['preminor'], title => ({
+      title,
+      value: title,
+    })))
+    .concat(Array.from(['premajor'], title => ({
       title,
       value: title,
     })))
@@ -55,23 +69,25 @@ async function release() {
     choices,
   }))
 
-  const targetVersion = t === 'prerelease'
-    ? (await prompts({
-        type: 'select',
-        name: 'value',
-        message: 'Select prerelease type',
-        choices: Array.from(['alpha', 'beta', 'rc'], title => ({
-          title,
-          value: semver.inc(currentVersion, 'prerelease'),
-        })),
-      })).value
-    : t === 'custom'
-      ? (await prompts({
-          type: 'text',
-          name: 'value',
-          message: 'Input custom version',
-        })).value
-      : t
+  let targetVersion = t
+
+  if (t.startsWith('pre')) {
+    targetVersion = (await prompts({
+      type: 'select',
+      name: 'value',
+      message: 'Select prerelease type',
+      choices: Array.from(['alpha', 'beta', 'rc'], title => ({
+        title,
+        value: semver.inc(currentVersion, t, title),
+      })),
+    })).value
+  } else if (t === 'custom') {
+    targetVersion = (await prompts({
+      type: 'text',
+      name: 'value',
+      message: 'Input custom version',
+    })).value
+  }
 
   if (!semver.valid(targetVersion)) {
     throw new Error(`invalid target version: ${targetVersion}`)
@@ -109,13 +125,23 @@ async function release() {
   }
 
   console.log(cyan('Committing...'))
-  spawn.sync('git', ['add', '-A'], { stdio: 'inherit' })
-  spawn.sync('git', ['commit', '-m', `release: v${targetVersion}`], { stdio: 'inherit' })
+  if (spawn.sync('git', ['add', '-A'], { stdio: 'inherit' }).status === 1) {
+    return
+  }
+  if (spawn.sync('git', ['commit', '-m', `release: v${targetVersion}`], { stdio: 'inherit' }).status === 1) {
+    return
+  }
 
   console.log(cyan('Pushing...'))
-  spawn.sync('git', ['push'], { stdio: 'inherit' })
-  spawn.sync('git', ['tag', `v${targetVersion}`], { stdio: 'inherit' })
-  spawn.sync('git', ['push', 'origin', `refs/tags/v${targetVersion}`], { stdio: 'inherit' })
+  if (spawn.sync('git', ['push'], { stdio: 'inherit' }).status === 1) {
+    return
+  }
+  if (spawn.sync('git', ['tag', `v${targetVersion}`], { stdio: 'inherit' }).status === 1) {
+    return
+  }
+  if (spawn.sync('git', ['push', 'origin', `refs/tags/v${targetVersion}`], { stdio: 'inherit' }).status === 1) {
+    return
+  }
 
   spawn.sync('cnpm', ['sync'], { stdio: 'inherit' })
 }
