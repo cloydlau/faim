@@ -5,7 +5,7 @@ import spawn from 'cross-spawn'
 import { loadFile, writeFile } from 'magicast'
 import type { ASTNode } from 'magicast'
 import { cyan } from 'kolorist'
-import { addVitePlugin, findVitePluginCall } from 'magicast/helpers'
+import { addVitePlugin } from 'magicast/helpers'
 
 type VueVersion = '3' | '2.7' | '2.6'
 
@@ -22,7 +22,6 @@ const vueVersionToDeps: Record<VueVersion, Record<string, string>> = {
     '@vitejs/plugin-vue': 'latest',
     '@vue/compiler-sfc': 'latest',
     '@vue/test-utils': 'latest',
-    'unplugin-vue2-script-setup': 'latest',
     'vue': 'latest',
     '@element-plus/icons-vue': 'latest',
     'element-plus': 'latest',
@@ -38,6 +37,7 @@ const vueVersionToDeps: Record<VueVersion, Record<string, string>> = {
     '@vue/composition-api': 'latest',
     '@vue/test-utils': 'legacy',
     'vite-plugin-vue2': 'latest',
+    'unplugin-vue2-script-setup': 'latest',
     'vue': '~2.6.14',
     'vue-template-compiler': '~2.6.14',
     'element-ui': 'latest',
@@ -56,59 +56,54 @@ async function dev() {
     return
   }
 
-  const { shouldUpgradeDependencies } = await prompts({
+  /* const { shouldUpgradeDependencies } = await prompts({
     type: 'confirm',
     name: 'shouldUpgradeDependencies',
     message: 'Upgrade dependencies',
-  })
+  }) */
 
   console.log(cyan('Fetching origin...'))
   spawn.sync('git', ['pull'], { stdio: 'inherit' })
 
   console.log(cyan(`Switching to Vue ${targetVersion}...`))
-
   const mod = await loadFile('./vite.config.ts')
 
   // imported 表示命名导入的值，默认导入是 default
   // k 和 mod.imports[k].local 和 constructor 三者一致，表示导入取的别名
 
+  // 删掉 vue 相关引入
+  const existedVuePlugins: Record<string, boolean> = {}
   for (const k in mod.imports) {
     for (const vueVersion in vueVersionToVitePlugin) {
-      // 删掉非目标版本的 vue 插件
-      if ((mod.imports[k].from === vueVersionToVitePlugin[vueVersion as VueVersion] && targetVersion !== vueVersion)
-      // 非 vue 2.6 或导入名称非 ScriptSetup，删除 unplugin-vue2-script-setup
-      || (mod.imports[k].from === 'unplugin-vue2-script-setup' && targetVersion !== '2.6')) {
+      if (mod.imports[k] && [vueVersionToVitePlugin[vueVersion as VueVersion], 'unplugin-vue2-script-setup/vite'].includes(mod.imports[k].from)) {
         delete mod.imports[k]
+        existedVuePlugins[k] = true
       }
     }
   }
 
-  /* console.log(findVitePluginCall(mod, {
-    from: plugin,
-    imported: 'default',
-  })) */
+  // 删掉 vue 相关插件
   const options = mod.exports.default.$type === 'function-call'
     ? mod.exports.default.$args[0]
     : mod.exports.default
-  if (options.plugins) {
-    const newPlugins = options.plugins.filter(
-      (p: any) => p && p.$type === 'function-call' && p.$callee === constructor,
-    )
-    options.plugins = newPlugins
-    for (const v of options.plugins) {
-    // console.log(3, v.$ast.callee?.loc.identifierName === 'ScriptSetup')
+  if (Object.keys(existedVuePlugins).length && options.plugins?.length) {
+    for (let i = options.plugins.length - 1; i > 0; i--) {
+      const p = options.plugins[i]
+      if (p?.$type === 'function-call' && existedVuePlugins[p.$callee]) {
+        options.plugins.splice(i, 1)
+      }
     }
   }
 
+  // 添加 vue 相关插件
   addVitePlugin(mod, {
     from: vueVersionToVitePlugin[targetVersion],
     imported: targetVersion === '2.6' ? 'createVuePlugin' : 'default',
     constructor: 'vue',
   })
-
   if (targetVersion === '2.6') {
     addVitePlugin(mod, {
-      from: 'unplugin-vue2-script-setup',
+      from: 'unplugin-vue2-script-setup/vite',
       imported: 'default',
       constructor: 'ScriptSetup',
     })
@@ -116,7 +111,6 @@ async function dev() {
 
   await writeFile(mod as unknown as ASTNode, './vite.config.ts')
   spawn.sync('npx', ['eslint', './vite.config.ts', '--fix'], { stdio: 'inherit' })
-  return
 
   let isDepsChanged = false
 
@@ -147,14 +141,14 @@ async function dev() {
     fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2))
     console.log(cyan('Linting package.json...'))
     spawn.sync('npx', ['eslint', './package.json', '--fix'], { stdio: 'inherit' })
-    if (!shouldUpgradeDependencies) {
-      installDependencies()
-    }
+    // if (!shouldUpgradeDependencies) {
+    installDependencies()
+    // }
   }
 
-  if (shouldUpgradeDependencies) {
+  /* if (shouldUpgradeDependencies) {
     installDependencies()
-  }
+  } */
 
   spawn.sync('npx', ['vite', '--open'], { stdio: 'inherit' })
 

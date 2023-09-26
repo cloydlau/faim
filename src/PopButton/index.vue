@@ -1,5 +1,5 @@
 <script>
-import { h, isVue3 } from 'vue-demi'
+import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
 import { getListeners, isGlobalSlot } from '../utils'
 

@@ -3,16 +3,30 @@
   "PascalCasedName": "Kikimore",
   "version": "0.13.3",
   "private": false,
-  "description": "Several universal components wrapper for Element Plus (Vue 3) & Element (Vue 2).",
+  "description": "Several universal components wrapper for Element Plus (Vue 3) & Element UI (Vue 2.7/2.6).",
   "author": "Cloyd Lau",
   "license": "MIT",
   "repository": "https://github.com/cloydlau/kikimore",
   "keywords": [
-    "vue",
+    "carousel",
+    "crop",
+    "cropper",
+    "dropzone",
+    "el-upload",
+    "filepond",
+    "gallery",
+    "img",
+    "image",
+    "masonry",
+    "qrcode",
+    "qr code",
+    "sortable",
+    "swiper",
+    "upload",
+    "uploader",
+    "viewer",
     "vue-demi",
-    "element",
-    "element-ui",
-    "element-plus"
+    "waterfall"
   ],
   "exports": {
     ".": {
@@ -71,13 +85,13 @@
     "vue-global-config": "latest"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "0.42.1",
+    "@antfu/eslint-config": "~0.42.1",
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
     "@types/lodash-es": "latest",
     "@types/node": "latest",
     "@types/validator": "latest",
-    "@vue/composition-api": "latest",
+    "@vitejs/plugin-vue2": "latest",
     "@vue/test-utils": "legacy",
     "case-police": "latest",
     "cross-spawn": "latest",
@@ -102,9 +116,8 @@
     "vite": "latest",
     "vite-plugin-css-injected-by-js": "latest",
     "vite-plugin-dts": "latest",
-    "vite-plugin-vue2": "latest",
-    "vue": "~2.6.14",
-    "vue-template-compiler": "~2.6.14",
+    "vue": "~2.7.14",
+    "vue-template-compiler": "~2.7.14",
     "vue-tsc": "latest",
     "zhlint": "latest"
   },
@@ -114,6 +127,7 @@
     }
   },
   "simple-git-hooks": {
+    "pre-commit": "pnpm exec lint-staged --concurrent false",
     "commit-msg": "npx --no -- commitlint --edit ${1}"
   },
   "lint-staged": {
@@ -121,6 +135,6 @@
       "case-police --fix",
       "zhlint --fix"
     ],
-    "*": "eslint --cache --fix"
+    "*": "eslint --cache --ignore-pattern 'demo/' --fix"
   }
 }

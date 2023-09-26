@@ -781,3 +781,53 @@ export default {
   cursor: grabbing !important;
 }
 </style>
+
+<style lang="scss" scoped>
+::v-deep .el-dialog {
+  min-width: 850px;
+}
+
+::v-deep .el-upload-list--picture-card {
+  font-size: 0;
+
+  .el-upload-list__item {
+    user-select: none;
+    transition: none !important;
+
+    .el-upload-list__item-thumbnail {
+      object-fit: contain;
+    }
+  }
+}
+
+::v-deep .el-upload--picture-card {
+  position: relative;
+  margin-bottom: 8px;
+
+  .el-upload__tip {
+    position: absolute;
+    margin-top: 0;
+    top: 85px;
+    width: 100%;
+    color: rgba(33, 150, 243, 0.8);
+    line-height: 16px;
+    transform-origin: top;
+    transform: scale(0.9);
+    text-align: center;
+  }
+}
+
+.canSort ::v-deep .el-upload-list__item-actions {
+  cursor: grab;
+}
+
+.isFull {
+  ::v-deep .el-upload-list--picture-card>.el-upload-list__item:last-child {
+    margin-right: 0;
+  }
+
+  ::v-deep .el-upload--picture-card {
+    display: none;
+  }
+}
+</style>

@@ -147,13 +147,13 @@ async function onChooseFile(e) {
         <div
           border="1px solid red"
           display="inline-block"
+          pb="8px"
         >
           <KiImageUpload
             v-model="value"
             v-bind="props"
             list-type="text"
             class="custom-trigger"
-            mb="8px"
           >
             <el-button>自定义 trigger</el-button>
           </KiImageUpload>
@@ -203,10 +203,21 @@ async function onChooseFile(e) {
 <style lang="scss" scoped>
 .custom-trigger {
 
-  :deep(.pic-viewer),
+  :deep(.ki-image),
   :deep(.el-upload-list),
   :deep(.el-upload__tip),
   :deep(.el-upload__text) {
+    display: none;
+  }
+}
+</style>
+
+<style lang="scss" scoped>
+.custom-trigger {
+  ::v-deep .ki-image,
+  ::v-deep .el-upload-list,
+  ::v-deep .el-upload__tip,
+  ::v-deep .el-upload__text {
     display: none;
   }
 }

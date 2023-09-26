@@ -59,82 +59,85 @@ export default {
 </script>
 
 <template>
-  <KiFormDialog
-    v-model="value"
-    :show.sync="show"
-    title="FormDialog"
-    showResetButton
-    width="90%"
-  >
-    <el-form-item label="Image">
-      <TestImage />
-    </el-form-item>
-
-    <el-form-item label="ImageUpload">
-      <TestImageUpload />
-    </el-form-item>
-
-    <el-form-item label="PopButton">
-      <KiPopButton
-        :elTooltipProps="{ rawContent: true, content: `<i class='el-icon-warning'/> 删除` }"
-        :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
-        :elPopconfirmProps="{ title: '确认删除吗？' }"
-        @click="console.log('[PopButton] click')"
-      >
-        删除
-      </KiPopButton>
-    </el-form-item>
-
-    <el-form-item
-      label="PopSwitch"
-      prop="kiPopSwitch"
+  <div>
+    <el-button @click="show = true">打开</el-button>
+    <KiFormDialog
+      v-model="value"
+      :show.sync="show"
+      title="FormDialog"
+      showResetButton
+      width="90%"
     >
-      <KiPopSwitch
-        v-model="value.kiPopSwitch"
-        :elTooltipProps="{ rawContent: true, content: `<i class='el-icon-warning'/> 已停用` }"
-        :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
-        :elPopconfirmProps="{ title: '确认启用吗？' }"
-        active-text="启用"
-        inactive-text="停用"
-      />
-    </el-form-item>
-    <el-form-item
-      label="ElSelect"
-      prop="elSelect"
-    >
-      {{ value.elSelect }}
-      <el-select
-        v-model="value.elSelect"
-        value-key="a"
+      <el-form-item label="Image">
+        <TestImage />
+      </el-form-item>
+
+      <el-form-item label="ImageUpload">
+        <TestImageUpload />
+      </el-form-item>
+
+      <el-form-item label="PopButton">
+        <KiPopButton
+          :elTooltipProps="{ rawContent: true, content: `<i class='el-icon-warning'/> 删除` }"
+          :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
+          :elPopconfirmProps="{ title: '确认删除吗？' }"
+          @click="console.log('[PopButton] click')"
+        >
+          删除
+        </KiPopButton>
+      </el-form-item>
+
+      <el-form-item
+        label="PopSwitch"
+        prop="kiPopSwitch"
       >
-        <el-option
-          v-for="v of options.elSelect"
-          :key="v.a"
-          :value="v.a"
-          :label="v.b"
+        <KiPopSwitch
+          v-model="value.kiPopSwitch"
+          :elTooltipProps="{ rawContent: true, content: `<i class='el-icon-warning'/> 已停用` }"
+          :elPopoverProps="{ content: `<i class='el-icon-warning'/> 权限不足`, disabled: true }"
+          :elPopconfirmProps="{ title: '确认启用吗？' }"
+          active-text="启用"
+          inactive-text="停用"
         />
-      </el-select>
-    </el-form-item>
-    <el-form-item
-      label="KiSelect"
-      prop="kiSelect"
-    >
-      {{ value.kiSelect }}
-      {{ value.kiSelectLabel }}
-      <KiSelect
-        v-model="value.kiSelect"
-        :label.sync="value.kiSelectLabel"
-        :options="options.kiSelect"
-        :props="{ label: 'name' }"
-        value-key="code"
+      </el-form-item>
+      <el-form-item
+        label="ElSelect"
+        prop="elSelect"
       >
-        <template #prefix>
-          Local Slot
-        </template>
-        <template #default="{ option }">
-          {{ option.name }} (From Local Scoped Slot)
-        </template>
-      </KiSelect>
-    </el-form-item>
-  </KiFormDialog>
+        {{ value.elSelect }}
+        <el-select
+          v-model="value.elSelect"
+          value-key="a"
+        >
+          <el-option
+            v-for="v of options.elSelect"
+            :key="v.a"
+            :value="v.a"
+            :label="v.b"
+          />
+        </el-select>
+      </el-form-item>
+      <el-form-item
+        label="KiSelect"
+        prop="kiSelect"
+      >
+        {{ value.kiSelect }}
+        {{ value.kiSelectLabel }}
+        <KiSelect
+          v-model="value.kiSelect"
+          :label.sync="value.kiSelectLabel"
+          :options="options.kiSelect"
+          :props="{ label: 'name' }"
+          value-key="code"
+        >
+          <template #prefix>
+            Local Slot
+          </template>
+          <template #default="{ option }">
+            {{ option.name }} (From Local Scoped Slot)
+          </template>
+        </KiSelect>
+      </el-form-item>
+    </KiFormDialog>
+  </div>
 </template>

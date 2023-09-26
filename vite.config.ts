@@ -1,4 +1,4 @@
-import ScriptSetup from 'unplugin-vue2-script-setup'
+import vue from '@vitejs/plugin-vue2'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -7,9 +7,9 @@ import { parse } from 'semver'
 import type { SemVer } from 'semver'
 import { version } from 'vue'
 import UnoCSS from 'unocss/vite'
+import { presetAttributify, presetUno } from 'unocss'
 import { PascalCasedName, name } from './package.json'
 
-UnoCSS()
 const { major, minor } = parse(version) as SemVer
 
 // https://vitejs.dev/config/
@@ -21,6 +21,11 @@ export default defineConfig({
     },
   }, dts({
     outDir: 'src',
+  }), UnoCSS({
+    presets: [
+      presetAttributify(),
+      presetUno(),
+    ],
   }), AutoImport({
     // targets to transform
     include: [
@@ -33,7 +38,7 @@ export default defineConfig({
       // presets
       (major === 3 || (major === 2 && minor >= 7)) ? 'vue' : '@vue/composition-api',
     ],
-  }), Components(), ScriptSetup()],
+  }), Components(), vue()],
   build: {
     lib: {
       name,

@@ -221,8 +221,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-// 兼容 Vue 2.6
-// TODO: Vue 3 中报警告
 ::v-deep .ki-switch.inline-prompt {
   .el-switch__label * {
     font-size: 12px;

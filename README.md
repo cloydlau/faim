@@ -9,7 +9,7 @@
   &nbsp;
   <img height="28px" src="https://cdn.rawgit.com/ElemeFE/element/dev/element_logo.svg">
   <br>
-  几个 Element Plus (Vue 3) & Element (Vue 2) 通用组件的封装。
+  几个 Element Plus (Vue 3) & Element UI (Vue 2.7/2.6) 通用组件的封装。
 </p>
 
 <p align="center">
@@ -93,7 +93,7 @@ app
 
 <br>
 
-### Element (Vue 2)
+### Element UI (Vue 2.7/2.6)
 
 #### 局部注册
 
@@ -333,9 +333,10 @@ Vue.use(KiSelect, {
 
 ## Image
 
+[Viewer.js](https://github.com/fengyuanchen/viewerjs) + [Swiper](https://swiperjs.com) + [node-qrcode](https://github.com/soldair/node-qrcode) 组合拳。
+
 ### 特性
 
-- [Viewer.js](https://github.com/fengyuanchen/viewerjs) + [Swiper](https://swiperjs.com) + [node-qrcode](https://github.com/soldair/node-qrcode) 组合拳
 - 多样的展示形式：文档流/瀑布流/轮播图/表格嵌套
 - 灵活的数据类型：URL/Base64/二维码/[object URL](https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications#example_using_object_urls_to_display_images)
 - 任意绑定值类型
@@ -408,6 +409,12 @@ Image 故意没有使用 `el-image`，以便其在移动端也能使用，可以
 ### 获取 Swiper 实例
 
 ```vue
+<script setup>
+import KiImage from 'ki-image'
+
+const kiImageRef = ref()
+</script>
+
 <template>
   <KiImage
     ref="kiImageRef"
@@ -423,12 +430,6 @@ Image 故意没有使用 `el-image`，以便其在移动端也能使用，可以
     }"
   />
 </template>
-
-<script setup>
-import KiImage from 'ki-image'
-
-const kiImageRef = ref()
-</script>
 ```
 
 ### 二维码清晰度
@@ -447,7 +448,8 @@ const kiImageRef = ref()
   />
 </template>
 
-<style scoped>
+<style lang="scss" scoped>
+// Vue 2.6 需要将 :deep 替换为 ::v-deep
 :deep(.ki-image) img {
   width: 300px;
   height: 300px;
@@ -458,6 +460,8 @@ const kiImageRef = ref()
 <br>
 
 ## ImageUpload
+
+图片上传一站式解决方案。
 
 ### 特性
 
@@ -726,18 +730,19 @@ console.log(kiImageUploadRef.value.uploading)
 
 ```vue
 <template>
-  <KiImageUpload
-    class="custom-trigger"
-    list-type="text"
-    mb="8px"
-  >
-    <el-button>自定义 trigger</el-button>
-  </KiImageUpload>
+  <div pb="8px">
+    <KiImageUpload
+      class="custom-trigger"
+      list-type="text"
+    >
+      <el-button>自定义 trigger</el-button>
+    </KiImageUpload>
+  </div>
 </template>
 
 <style lang="scss" scoped>
+// Vue 2.6 需要将 :deep 替换为 ::v-deep
 .custom-trigger {
-
   :deep(.ki-image),
   :deep(.el-upload-list),
   :deep(.el-upload__tip),
@@ -771,6 +776,8 @@ console.log(kiImageUploadRef.value.uploading)
 以宽高 `50px` 为例，修改为如下样式：
 
 ```scss
+// Vue 2.6 需要将 :deep 替换为 ::v-deep
+
 :deep(.ki-image li) {
   margin: 0 !important; // 如果允许多张，则去掉这行
 

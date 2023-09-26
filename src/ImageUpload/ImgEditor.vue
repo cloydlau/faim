@@ -5,9 +5,8 @@ import SwalPreset from 'sweetalert2-preset'
 import { throttle } from 'lodash-es'
 import UPNG from 'upng-js'
 import { useEventListener } from '@vueuse/core'
-import { isVue3, markRaw } from 'vue-demi'
+import { isVue3 } from 'vue-demi'
 import KiFormDialog from '../FormDialog/index.vue'
-import { getListeners } from '../utils'
 import { binaryToArrayBuffer, blobToFile, sizeToText, toBinary, toImageTag, toLocalURL } from './utils'
 
 function initialSettings() {
@@ -105,12 +104,15 @@ export default {
         }
 
         await this.$nextTick()
-        this.cropper ??= new Cropper(this.$refs.cropper, {
-          'overflow-hidden': true,
-          'preview': '.preview',
-          'background': true,
-          'ready': this.onReady,
-        })
+        // Vue 2 中，二次打开时，不覆盖的话，会导致图片溢出
+        if (!this.cropper || !isVue3) {
+          this.cropper = new Cropper(this.$refs.cropper, {
+            'overflow-hidden': true,
+            'preview': '.preview',
+            'background': true,
+            'ready': this.onReady,
+          })
+        }
 
         this.initDimension()
 
@@ -156,6 +158,34 @@ export default {
     } catch (e) { }
   },
   methods: {
+    onReady() {
+      const { width, height, left, top } = this.cropper.getCanvasData()
+      // this.canvas = { width, height, left, top }
+      if (this.aspectRatioSpecified && this.aspectRatio) {
+        this.$nextTick(() => {
+          // 默认裁剪框在图片之内（避免裁剪出白边），也可以放大以完全框住图片（避免遗漏信息）
+          // this.cropBox = this.cropper.getCropBoxData()
+          // 扁图
+          if (this.aspectRatio > width / height) {
+            this.cropper.setCropBoxData({ width, left })
+            const { width: containerWidth, height: containerHeight } = this.cropper.getContainerData()
+            const { width: cropBoxWidth, height: cropBoxHeight } = this.cropper.getCropBoxData() // 不能提前拿
+            this.cropper.setCropBoxData({ top: (containerHeight - cropBoxHeight) / 2 })
+            // 高图
+          } else {
+            this.cropper.setCropBoxData({ height, top })
+            const { width: containerWidth, height: containerHeight } = this.cropper.getContainerData()
+            const { width: cropBoxWidth, height: cropBoxHeight } = this.cropper.getCropBoxData() // 不能提前拿
+            this.cropper.setCropBoxData({ left: (containerWidth - cropBoxWidth) / 2 })
+          }
+          this.loading = false
+        })
+      } else {
+        // this.cropBox = { ...this.canvas }
+        this.cropper.setCropBoxData({ width, height, left, top })
+        this.loading = false
+      }
+    },
     initDimension() {
       this.outputWidth = this.width.target ?? this.imageTag.width
       this.outputHeight = this.height.target ?? this.imageTag.height
@@ -304,34 +334,6 @@ export default {
 
       this.submitting = false
     },
-    onReady() {
-      const { width, height, left, top } = this.cropper.getCanvasData()
-      // this.canvas = { width, height, left, top }
-      if (this.aspectRatioSpecified && this.aspectRatio) {
-        this.$nextTick(() => {
-          // 默认裁剪框在图片之内（避免裁剪出白边），也可以放大以完全框住图片（避免遗漏信息）
-          // this.cropBox = this.cropper.getCropBoxData()
-          // 扁图
-          if (this.aspectRatio > width / height) {
-            this.cropper.setCropBoxData({ width, left })
-            const { width: containerWidth, height: containerHeight } = this.cropper.getContainerData()
-            const { width: cropBoxWidth, height: cropBoxHeight } = this.cropper.getCropBoxData() // 不能提前拿
-            this.cropper.setCropBoxData({ top: (containerHeight - cropBoxHeight) / 2 })
-          // 高图
-          } else {
-            this.cropper.setCropBoxData({ height, top })
-            const { width: containerWidth, height: containerHeight } = this.cropper.getContainerData()
-            const { width: cropBoxWidth, height: cropBoxHeight } = this.cropper.getCropBoxData() // 不能提前拿
-            this.cropper.setCropBoxData({ left: (containerWidth - cropBoxWidth) / 2 })
-          }
-          this.loading = false
-        })
-      } else {
-        // this.cropBox = { ...this.canvas }
-        this.cropper.setCropBoxData({ width, height, left, top })
-        this.loading = false
-      }
-    },
     flipX() {
       this.flippedX = !this.flippedX
       const dom = this.$refs.flipX.$el
@@ -427,7 +429,10 @@ export default {
       v-loading="loading"
       element-loading-text="图片加载中..."
     >
-      <div :style="{ height: `${fullscreen ? '700' : '500'}px` }">
+      <div
+        :style="{ height: `${fullscreen ? '700' : '500'}px` }"
+        overflow="hidden"
+      >
         <img
           ref="cropper"
           display="block"
@@ -670,6 +675,9 @@ export default {
         items-center
         justify-end
       >
+        <el-button @click="() => { $emit('cancel') }">
+          取 消
+        </el-button>
         <el-button
           :disabled="loading"
           style="margin-left: 10px;"
@@ -677,9 +685,6 @@ export default {
           @click="reset"
         >
           重 置
-        </el-button>
-        <el-button @click="() => { $emit('cancel') }">
-          取 消
         </el-button>
         <el-button
           :disabled="loading"
@@ -730,12 +735,41 @@ export default {
   margin-bottom: unset;
 }
 
-:deep(.cropper-hidden) {
+:deep(.cropper-hidden){
   display: none !important;
   max-height: 100% !important;
 }
 
 .el-form--inline .el-form-item {
   margin-right: 12px;
+}
+</style>
+
+<style lang="scss" scoped>
+::v-deep .flipX>.el-icon-sort, ::v-deep .flipX>.el-icon {
+  transform: rotate(90deg);
+}
+
+::v-deep .cropper-point {
+  width: 8px !important;
+  height: 8px !important;
+  border-radius: 50%;
+}
+
+.rotateDegree.el-slider {
+  width: 551px;
+
+  ::v-deep .el-slider__marks-text:last-child {
+    width: 36.406px;
+  }
+}
+
+::v-deep .el-form-item__label-wrap {
+  margin-left: unset !important;
+}
+
+::v-deep .cropper-hidden {
+  display: none !important;
+  max-height: 100% !important;
 }
 </style>
