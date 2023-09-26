@@ -45,6 +45,10 @@ async function release() {
     title,
     value: semver.inc(currentVersion, title as semver.ReleaseType),
   }))
+    .concat(Array.from(['prerelease'], title => ({
+      title,
+      value: title,
+    })))
     .concat(Array.from(['prepatch'], title => ({
       title,
       value: title,
