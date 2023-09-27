@@ -64,9 +64,15 @@ import { KiFormDialog, KiImage, KiImageUpload, KiPopButton, KiPopSwitch, KiSelec
 #### 全局注册
 
 ```ts
+import { createApp, h } from 'vue'
+import 'element-plus/dist/index.css'
+import ElementPlus from 'element-plus'
+import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import { KiFormDialog, KiImage, KiImageUpload, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
+import App from './App.vue'
 
-app
+const app = createApp(App)
+  .use(ElementPlus)
   .use(KiFormDialog, {
     // 全局配置
   })
@@ -85,6 +91,12 @@ app
   .use(KiSelect, {
     // 全局配置
   })
+
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+  app.component(key, component)
+}
+
+app.mount('#app')
 ```
 
 #### ~~CDN~~
@@ -111,8 +123,12 @@ export default {
 
 ```ts
 import Vue from 'vue'
+import 'element-ui/lib/theme-chalk/index.css'
+import ElementUI from 'element-ui'
 import { KiFormDialog, KiImage, KiImageUpload, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
+import App from './App.vue'
 
+Vue.use(ElementUI)
 Vue.use(FormDialog, {
   // 全局配置
 })
@@ -131,6 +147,10 @@ Vue.use(KiPopSwitch, {
 Vue.use(KiSelect, {
   // 全局配置
 })
+
+new Vue({
+  render: h => h(App),
+}).$mount('#app')
 ```
 
 #### ~~CDN~~

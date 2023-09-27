@@ -645,6 +645,8 @@ export default {
   display: flex;
 
   &>.el-dialog {
+    min-width: 855px;
+
     &:not(.is-fullscreen) {
       margin: auto !important;
 
@@ -791,6 +793,8 @@ export default {
   display: flex;
 
   &>.el-dialog {
+    min-width: 855px;
+
     &:not(.is-fullscreen) {
       margin: auto !important;
 

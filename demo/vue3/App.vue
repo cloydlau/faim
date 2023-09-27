@@ -58,7 +58,6 @@ const options = reactive({
     :show.sync="show"
     title="FormDialog"
     showResetButton
-    width="90%"
   >
     <el-form-item label="Image">
       <TestImage />

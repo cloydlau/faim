@@ -1,14 +1,7 @@
 import Vue from 'vue'
 import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
-import {
-  KiFormDialog,
-  KiImage,
-  KiImageUpload,
-  KiPopButton,
-  KiPopSwitch,
-  KiSelect,
-} from '../../src/index'
+import { KiFormDialog, KiImage, KiImageUpload, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 import App from './App.vue'
 
 Vue.use(ElementUI)
