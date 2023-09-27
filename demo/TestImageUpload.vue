@@ -108,8 +108,7 @@ async function onChooseFile(e) {
       <div>
         <div>
           <el-form
-            border="1px solid red"
-            display="inline-block"
+            style="display: inline-block; border: 1px solid red;"
           >
             <KiImageUpload
               ref="KiImageUploadRef"
@@ -131,8 +130,7 @@ async function onChooseFile(e) {
       <br>
       <div>
         <div
-          border="1px solid red"
-          display="inline-block"
+          style="display: inline-block; border: 1px solid red;"
         >
           <el-form>
             <el-form-item>
@@ -145,9 +143,7 @@ async function onChooseFile(e) {
       <br>
       <div>
         <div
-          border="1px solid red"
-          display="inline-block"
-          pb="8px"
+          style="display: inline-block; border: 1px solid red; padding-bottom: 8px;"
         >
           <KiImageUpload
             v-model="value"
@@ -163,8 +159,7 @@ async function onChooseFile(e) {
       <br>
       <div>
         <input
-          mb="5px"
-          display="!block"
+          style="display: block !important; margin-bottom: 5px;"
           type="file"
           @change="onChooseFile"
         >
@@ -182,7 +177,7 @@ async function onChooseFile(e) {
         </el-radio-group>
         <el-button
           :disabled="!source"
-          display="!block"
+          style="display: block !important;"
           @click="() => {
             $refs.KiImageUploadRef.openEditor(sourceOptions[source])
           }"
@@ -200,24 +195,12 @@ async function onChooseFile(e) {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style>
 .custom-trigger {
-
-  :deep(.ki-image),
-  :deep(.el-upload-list),
-  :deep(.el-upload__tip),
-  :deep(.el-upload__text) {
-    display: none;
-  }
-}
-</style>
-
-<style lang="scss" scoped>
-.custom-trigger {
-  ::v-deep .ki-image,
-  ::v-deep .el-upload-list,
-  ::v-deep .el-upload__tip,
-  ::v-deep .el-upload__text {
+  .ki-image,
+  .el-upload-list,
+  .el-upload__tip,
+  .el-upload__text {
     display: none;
   }
 }

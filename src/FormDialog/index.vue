@@ -414,6 +414,7 @@ export default {
       :destroyOnClose="false"
       :appendToBody="false"
       :fullscreen="fullscreen"
+      class="ki-form-dialog"
       v-on="Listeners"
       @closed="onClosed"
     >
@@ -643,9 +644,7 @@ export default {
 :deep(.el-overlay-dialog) {
   display: flex;
 
-  .el-dialog {
-    //min-width: 800px;
-
+  &>.el-dialog {
     &:not(.is-fullscreen) {
       margin: auto !important;
 
@@ -786,13 +785,12 @@ export default {
 }
 </style>
 
-<style lang="scss" scoped>
-::v-deep .el-dialog__wrapper {
+<!-- 与上方保持一致，适用于 vue 2.6 -->
+<style lang="scss">
+.ki-form-dialog.el-dialog__wrapper {
   display: flex;
 
-  .el-dialog {
-    //min-width: 800px;
-
+  &>.el-dialog {
     &:not(.is-fullscreen) {
       margin: auto !important;
 

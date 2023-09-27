@@ -1,7 +1,7 @@
 {
   "name": "kikimore",
   "PascalCasedName": "Kikimore",
-  "version": "0.14.0-alpha.3",
+  "version": "0.14.0-alpha.4",
   "private": false,
   "description": "Several universal components wrapper for Element Plus (Vue 3) & Element UI (Vue 2.7/2.6).",
   "author": "Cloyd Lau",
@@ -56,7 +56,6 @@
   "peerDependencies": {
     "element-plus": ">=2",
     "element-ui": ">=2",
-    "unocss": ">=0",
     "vue": "2||3"
   },
   "peerDependenciesMeta": {
@@ -99,6 +98,7 @@
     "@vue/test-utils": "latest",
     "case-police": "latest",
     "cross-spawn": "latest",
+    "del": "latest",
     "element-plus": "latest",
     "element-ui": "latest",
     "eslint": "latest",
@@ -112,7 +112,6 @@
     "semver": "latest",
     "simple-git-hooks": "latest",
     "typescript": "latest",
-    "unocss": "latest",
     "unplugin-auto-import": "latest",
     "unplugin-vue-components": "latest",
     "vanilla-jsoneditor": "latest",

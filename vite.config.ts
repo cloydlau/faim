@@ -6,8 +6,6 @@ import Components from 'unplugin-vue-components/vite'
 import { parse } from 'semver'
 import type { SemVer } from 'semver'
 import { version } from 'vue'
-import UnoCSS from 'unocss/vite'
-import { presetAttributify, presetUno } from 'unocss'
 import { PascalCasedName, name } from './package.json'
 
 const { major, minor } = parse(version) as SemVer
@@ -21,11 +19,6 @@ export default defineConfig({
     },
   }, dts({
     outDir: 'src',
-  }), UnoCSS({
-    presets: [
-      presetAttributify(),
-      presetUno(),
-    ],
   }), AutoImport({
     // targets to transform
     include: [

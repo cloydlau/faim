@@ -1,9 +1,12 @@
+// pnpm add prompts semver cross-spawn kolorist del -D -w
+
 import fs from 'node:fs'
 import prompts from 'prompts'
 import * as semver from 'semver'
 import type { SemVer } from 'semver'
 import spawn from 'cross-spawn'
 import { cyan } from 'kolorist'
+import { deleteAsync } from 'del'
 
 const docsPath = ['./README.md']
 
@@ -37,6 +40,7 @@ async function release() {
   if (spawn.sync('npm', ['pack'], { stdio: 'inherit' }).status === 1) {
     return
   }
+  await deleteAsync(['./*.tgz'])
 
   const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
   const { name, version: currentVersion } = pkg

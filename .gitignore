@@ -11,4 +11,3 @@ TODOs.md
 .env.*
 src/**/*.d.ts
 .npmrc
-*.tgz

@@ -220,8 +220,8 @@ export default {
   </el-tooltip>
 </template>
 
-<style lang="scss" scoped>
-::v-deep .ki-switch.inline-prompt {
+<style lang="scss">
+.ki-switch.inline-prompt {
   .el-switch__label * {
     font-size: 12px;
   }

@@ -575,14 +575,14 @@ export default {
             animation: 500,
             filter: '.el-upload-list__item-preview, .el-upload-list__item-delete',
             onStart: (e) => {
-              document.documentElement.classList.toggle('ki-image-upload__cursor-grabbing', true)
+              document.documentElement.classList.toggle('cursor-grabbing', true)
             },
             onEnd: ({ newIndex, oldIndex }) => {
               if (newIndex !== oldIndex) {
                 this.files.splice(newIndex, 0, this.files.splice(oldIndex, 1)[0])
                 this.emitInput()
               }
-              document.documentElement.classList.toggle('ki-image-upload__cursor-grabbing', false)
+              document.documentElement.classList.toggle('cursor-grabbing', false)
             },
           })
         })
@@ -622,14 +622,12 @@ export default {
   <!-- font="leading-initial" 作用：避免 .el-form-item__content { line-height: 40px; } 导致上方出现空隙 -->
   <div
     class="ki-image-upload"
-    font="leading-12px"
+    style="line-height: 12px;"
   >
     <el-upload
       v-show="!Disabled"
       v-loading="uploading"
-      font="leading-initial"
-      display="inline-block"
-      mb="-8px"
+      style="line-height: initial; display: inline-block; margin-bottom: -8px;"
       v-bind="ElUploadProps"
     >
       <!-- 无论什么 list-type -->
@@ -718,116 +716,62 @@ export default {
   </div>
 </template>
 
-<style lang="scss" scoped>
-:deep(.el-dialog) {
-  min-width: 800px;
-}
+<style lang="scss">
+.ki-image-upload {
+  .cursor-grabbing,
+  .cursor-grabbing *,
+  .cursor-grabbing .canSort .el-upload-list__item-actions {
+    cursor: grabbing !important;
+  }
 
-:deep(.el-upload-list--picture-card) {
-  font-size: 0;
+  .ellipsis-1 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 
-  .el-upload-list__item {
-    user-select: none;
-    transition: none !important;
+  .el-upload-list--picture-card {
+    font-size: 0;
 
-    .el-upload-list__item-thumbnail {
-      object-fit: contain;
+    .el-upload-list__item {
+      user-select: none;
+      transition: none !important;
+
+      .el-upload-list__item-thumbnail {
+        object-fit: contain;
+      }
     }
   }
-}
 
-:deep(.el-upload--picture-card) {
-  position: relative;
-  margin-bottom: 8px;
+  .el-upload--picture-card {
+    position: relative;
+    margin-bottom: 8px;
 
-  .el-upload__tip {
-    position: absolute;
-    margin-top: 0;
-    top: 85px;
-    width: 100%;
-    color: rgba(33, 150, 243, 0.8);
-    line-height: 16px;
-    transform-origin: top;
-    transform: scale(0.9);
-    text-align: center;
-  }
-}
-
-.canSort :deep(.el-upload-list__item-actions) {
-  cursor: grab;
-}
-
-.isFull {
-  :deep(.el-upload-list--picture-card>.el-upload-list__item:last-child) {
-    margin-right: 0;
-  }
-
-  :deep(.el-upload--picture-card) {
-    display: none;
-  }
-}
-
-.ellipsis-1 {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-</style>
-
-<style>
-.ki-image-upload__cursor-grabbing,
-.ki-image-upload__cursor-grabbing *,
-.ki-image-upload__cursor-grabbing .canSort .el-upload-list__item-actions {
-  cursor: grabbing !important;
-}
-</style>
-
-<style lang="scss" scoped>
-::v-deep .el-dialog {
-  min-width: 850px;
-}
-
-::v-deep .el-upload-list--picture-card {
-  font-size: 0;
-
-  .el-upload-list__item {
-    user-select: none;
-    transition: none !important;
-
-    .el-upload-list__item-thumbnail {
-      object-fit: contain;
+    .el-upload__tip {
+      position: absolute;
+      margin-top: 0;
+      top: 85px;
+      width: 100%;
+      color: rgba(33, 150, 243, 0.8);
+      line-height: 16px;
+      transform-origin: top;
+      transform: scale(0.9);
+      text-align: center;
     }
   }
-}
 
-::v-deep .el-upload--picture-card {
-  position: relative;
-  margin-bottom: 8px;
-
-  .el-upload__tip {
-    position: absolute;
-    margin-top: 0;
-    top: 85px;
-    width: 100%;
-    color: rgba(33, 150, 243, 0.8);
-    line-height: 16px;
-    transform-origin: top;
-    transform: scale(0.9);
-    text-align: center;
-  }
-}
-
-.canSort ::v-deep .el-upload-list__item-actions {
-  cursor: grab;
-}
-
-.isFull {
-  ::v-deep .el-upload-list--picture-card>.el-upload-list__item:last-child {
-    margin-right: 0;
+  .canSort .el-upload-list__item-actions {
+    cursor: grab;
   }
 
-  ::v-deep .el-upload--picture-card {
-    display: none;
+  .isFull {
+    .el-upload-list--picture-card>.el-upload-list__item:last-child {
+      margin-right: 0;
+    }
+
+    .el-upload--picture-card {
+      display: none;
+    }
   }
 }
 </style>

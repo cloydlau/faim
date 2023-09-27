@@ -422,6 +422,7 @@ export default {
     append-to-body
     destroy-on-close
     center
+    class="ki-image-editor"
     @update:show="$emit('update:show', false)"
     @fullscreen-change="onFullscreenChange"
   >
@@ -430,23 +431,17 @@ export default {
       element-loading-text="图片加载中..."
     >
       <div
-        :style="{ height: `${fullscreen ? '700' : '500'}px` }"
-        overflow="hidden"
+        :style="{ height: `${fullscreen ? '700' : '500'}px`, overflow: 'hidden' }"
       >
         <img
           ref="cropper"
-          display="block"
-          max-w="full"
           :src="localURL"
+          style="display: block; max-width: 100%"
         >
       </div>
 
       <div
-        flex
-        flex-col
-        items-center
-        mt-25px
-        gap-10px
+        style="display: flex; flex-direction: column; align-items: center; margin-top: 25px; gap: 10px;"
       >
         <el-button-group>
           <el-button @click.prevent="zoom(0.1)">
@@ -548,10 +543,7 @@ export default {
     <el-form
       v-show="!loading"
       inline
-      flex
-      justify-center
-      items-center
-      :style="{ marginTop: isVue3 ? '25px' : '15px' }"
+      :style="{ 'marginTop': isVue3 ? '25px' : '15px', 'display': 'flex', 'justify-content': 'center', 'align-items': 'center' }"
     >
       <el-form-item>
         <template #label>
@@ -671,9 +663,7 @@ export default {
     </el-form>
     <template #footer>
       <div
-        flex
-        items-center
-        justify-end
+        style="display: flex; align-items: center; justify-content: flex-end;"
       >
         <el-button @click="() => { $emit('cancel') }">
           取 消
@@ -701,22 +691,8 @@ export default {
 
 <style lang="scss" scoped>
 // .el-icon-sort 针对 vue2，.el-icon 针对 vue3
-:deep(.flipX>.el-icon-sort), :deep(.flipX>.el-icon) {
-  transform: rotate(90deg);
-}
-
-:deep(.cropper-point) {
-  width: 8px !important;
-  height: 8px !important;
-  border-radius: 50%;
-}
-
 .rotateDegree.el-slider {
   width: 551px;
-
-  :deep(.el-slider__marks-text:last-child) {
-    width: 36.406px;
-  }
 }
 
 .quality.el-slider {
@@ -727,17 +703,8 @@ export default {
   width: 105px !important;
 }
 
-:deep(.el-form-item__label-wrap) {
-  margin-left: unset !important;
-}
-
 .el-form-item {
   margin-bottom: unset;
-}
-
-:deep(.cropper-hidden){
-  display: none !important;
-  max-height: 100% !important;
 }
 
 .el-form--inline .el-form-item {
@@ -745,31 +712,33 @@ export default {
 }
 </style>
 
-<style lang="scss" scoped>
-::v-deep .flipX>.el-icon-sort, ::v-deep .flipX>.el-icon {
-  transform: rotate(90deg);
-}
+<style lang="scss">
+.ki-image-editor {
+  .flipX>.el-icon-sort, .flipX>.el-icon {
+    transform: rotate(90deg);
+  }
 
-::v-deep .cropper-point {
-  width: 8px !important;
-  height: 8px !important;
-  border-radius: 50%;
-}
+  .el-dialog {
+    min-width: 850px;
+  }
 
-.rotateDegree.el-slider {
-  width: 551px;
+  .cropper-point {
+    width: 8px !important;
+    height: 8px !important;
+    border-radius: 50%;
+  }
 
-  ::v-deep .el-slider__marks-text:last-child {
+  .rotateDegree.el-slider .el-slider__marks-text:last-child {
     width: 36.406px;
   }
-}
 
-::v-deep .el-form-item__label-wrap {
-  margin-left: unset !important;
-}
+  .el-form-item__label-wrap {
+    margin-left: unset !important;
+  }
 
-::v-deep .cropper-hidden {
-  display: none !important;
-  max-height: 100% !important;
+  .cropper-hidden {
+    display: none !important;
+    max-height: 100% !important;
+  }
 }
 </style>

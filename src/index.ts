@@ -1,5 +1,3 @@
-import 'uno.css'
-
 import KiFormDialog from './FormDialog/index.vue'
 import KiImage from './Image/index.vue'
 import KiImageUpload from './ImageUpload/index.vue'

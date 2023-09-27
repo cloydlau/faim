@@ -1,3 +1,5 @@
+// pnpm add prompts cross-spawn kolorist magicast -D -w
+
 import fs from 'node:fs'
 import { execSync } from 'node:child_process'
 import prompts from 'prompts'
@@ -142,7 +144,7 @@ async function dev() {
     console.log(cyan('Linting package.json...'))
     spawn.sync('npx', ['eslint', './package.json', '--fix'], { stdio: 'inherit' })
     // if (!shouldUpgradeDependencies) {
-    installDependencies()
+    await installDependencies()
     // }
   }
 
@@ -152,7 +154,7 @@ async function dev() {
 
   spawn.sync('npx', ['vite', '--open'], { stdio: 'inherit' })
 
-  function installDependencies() {
+  async function installDependencies() {
     console.log(cyan('Checking pnpm version...'))
     const latestPNPMVersion = spawn.sync('npm', ['view', 'pnpm', 'version']).stdout.toString().trim()
     const currentPNPMVersion = spawn.sync('pnpm', ['-v']).stdout.toString().trim()
