@@ -1,7 +1,7 @@
 {
   "name": "kikimore",
   "PascalCasedName": "Kikimore",
-  "version": "0.14.0-alpha.5",
+  "version": "0.14.0-alpha.6",
   "private": false,
   "description": "Several universal components wrapper for Element Plus (Vue 3) & Element UI (Vue 2.7/2.6).",
   "author": "Cloyd Lau",
@@ -43,7 +43,6 @@
   "types": "./src/index.d.ts",
   "files": [
     "docs",
-    "patches",
     "src"
   ],
   "scripts": {
@@ -51,8 +50,9 @@
     "build": "vite build",
     "serve": "vite preview",
     "release": "esno ./scripts/release.mts",
+    "patch-el-upload": "esno ./scripts/patch-el-upload.mts",
     "preinstall": "node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || npx only-allow pnpm",
-    "postinstall": "node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || npx simple-git-hooks"
+    "postinstall": "esno ./scripts/postinstall.mts"
   },
   "peerDependencies": {
     "element-plus": ">=2",
@@ -122,11 +122,6 @@
     "vue": "latest",
     "vue-tsc": "latest",
     "zhlint": "latest"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "element-plus@2.3.14": "patches/element-plus@2.3.14.patch"
-    }
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm exec lint-staged --concurrent false",

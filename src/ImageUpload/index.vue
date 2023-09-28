@@ -699,6 +699,8 @@ export default {
       srcAt="url"
     />
 
+    <!-- 不使用 v-model:show="crop.show" 的原因： -->
+    <!-- v-model:show 会被 vue 2 识别为 v-model 导致 value 参数校验失败 -->
     <ImgEditor
       :show.sync="crop.show"
       :value="crop.value"
@@ -707,6 +709,7 @@ export default {
       :aspectRatioTolerance="AspectRatioTolerance"
       :size="Size"
       :outputType="OutputType"
+      @update:show="(e) => { crop.show = e }"
       @confirm="onCropConfirm"
       @cancel="onCropCancel"
       @open="onCropOpen"
