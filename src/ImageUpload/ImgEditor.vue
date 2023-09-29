@@ -1,9 +1,9 @@
 <script>
 import 'cropperjs/dist/cropper.min.css'
 import Cropper from 'cropperjs'
-import SwalPreset from 'sweetalert2-preset'
+//import SwalPreset from 'sweetalert2-preset'
 import { throttle } from 'lodash-es'
-import UPNG from 'upng-js'
+//import UPNG from 'upng-js'
 import { useEventListener } from '@vueuse/core'
 import { isVue3 } from 'vue-demi'
 import KiFormDialog from '../FormDialog/index.vue'

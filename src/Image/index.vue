@@ -3,10 +3,14 @@ import 'viewerjs/dist/viewer.min.css'
 import 'swiper/css'
 import Swiper from 'swiper'
 import Viewer from 'viewerjs'
-import QRCode from 'qrcode'
+//import QRCode from 'qrcode'
 import isURL from 'validator/es/lib/isURL'
 import { conclude, resolveConfig } from 'vue-global-config'
 import { isBase64WithScheme, isObject, tryParsingJSONArray, unwrap } from './utils'
+
+const model = {
+  prop: isVue3 ? 'modelValue' : 'value',
+}
 
 const globalProps = {}
 const globalAttrs = {}
@@ -24,7 +28,7 @@ export default {
     app.component(this.name, this)
   },
   props: {
-    value: {},
+    [model.prop]: {},
     srcAt: {},
     pattern: {},
     swiperProps: {},
@@ -40,6 +44,7 @@ export default {
     viewerjsProps: {},
   },
   emits: ['click'],
+  expose: ['viewer'],
   data() {
     return {
       files: [],
@@ -103,7 +108,7 @@ export default {
       })
     },
     Value() {
-      return conclude([this.value, globalProps.value], {
+      return conclude([this[model.prop], globalProps[model.prop]], {
         type: [String, Array, Object],
       })
     },

@@ -1,5 +1,5 @@
 <script>
-import SwalPreset from 'sweetalert2-preset'
+//import SwalPreset from 'sweetalert2-preset'
 import Sortable from 'sortablejs'
 import { conclude, resolveConfig } from 'vue-global-config'
 import { isPlainObject } from 'lodash-es'

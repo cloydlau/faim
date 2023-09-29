@@ -365,16 +365,16 @@ new Vue({
 
 ### Props
 
-| 名称          | 说明                                                  | 类型                                  | 默认值                                                              |
-|---------------|-----------------------------------------------------|---------------------------------------|---------------------------------------------------------------------|
-| value         | 绑定值                                                | any                                   |                                                                     |
-| pattern       | 展示模式（`'waterfall'`, `'swiper'` 或 `'table-cell'`） | string                                | `undefined`（即文档流）                                               |
-| srcAt         | 图片 `src` 的位置                                     | string / symbol / (value: any) => any |                                                                     |
-| viewerjs      | 是否启用 Viewer.js                                    | boolean                               | `true`                                                              |
-| viewerjsProps | Viewer.js 的参数                                      | object                                | `{ zIndex: 5000, zoomRatio: 0.4 }`                                  |
-| swiperProps   | Swiper 的参数                                         | object                                | `{ observer: true }`                                                |
-| qrcode        | 是否将 `value` 转换为二维码                           | boolean / `'auto'`                    | `false`                                                             |
-| qrcodeProps   | node-qrcode 的参数                                    | object                                | `{ margin: 0, errorCorrectionLevel: 'L', width: 444, height: 444 }` |
+| 名称                                  | 说明                                                  | 类型                                  | 默认值                                                              |
+|---------------------------------------|-----------------------------------------------------|---------------------------------------|---------------------------------------------------------------------|
+| modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                                                | any                                   |                                                                     |
+| pattern                               | 展示模式（`'waterfall'`, `'swiper'` 或 `'table-cell'`） | string                                | `undefined`（即文档流）                                               |
+| srcAt                                 | 图片 `src` 的位置                                     | string / symbol / (value: any) => any |                                                                     |
+| viewerjs                              | 是否启用 Viewer.js                                    | boolean                               | `true`                                                              |
+| viewerjsProps                         | Viewer.js 的参数                                      | object                                | `{ zIndex: 5000, zoomRatio: 0.4 }`                                  |
+| swiperProps                           | Swiper 的参数                                         | object                                | `{ observer: true }`                                                |
+| qrcode                                | 是否将 `value` 转换为二维码                           | boolean / `'auto'`                    | `false`                                                             |
+| qrcodeProps                           | node-qrcode 的参数                                    | object                                | `{ margin: 0, errorCorrectionLevel: 'L', width: 444, height: 444 }` |
 
 #### qrcode
 
