@@ -3,9 +3,11 @@ import 'viewerjs/dist/viewer.min.css'
 import 'swiper/css'
 import Swiper from 'swiper'
 import Viewer from 'viewerjs'
-//import QRCode from 'qrcode'
+
+// import QRCode from 'qrcode'
 import isURL from 'validator/es/lib/isURL'
 import { conclude, resolveConfig } from 'vue-global-config'
+import { isVue3 } from 'vue-demi'
 import { isBase64WithScheme, isObject, tryParsingJSONArray, unwrap } from './utils'
 
 const model = {
@@ -15,7 +17,7 @@ const model = {
 const globalProps = {}
 const globalAttrs = {}
 const globalListeners = {}
-const globalSlots = {}
+const globalSlots = { }
 
 export default {
   name: 'KiImage',
