@@ -140,6 +140,7 @@ export default {
   watch: {
     Value: {
       immediate: true,
+      deep: true,
       async handler(newValue) {
         // 将 value 统一为对象数组
         this.loading = true

@@ -6,10 +6,8 @@ import { deleteAsync } from 'del'
 declare const process: NodeJS.Process
 
 async function postinstall() {
-  console.log('postinstall')
   // 开发环境，配置 git 钩子
   if (process.env.INIT_CWD === process.cwd()) {
-    console.log(1)
     spawn.sync('npx', ['simple-git-hooks'], { stdio: 'inherit' })
   }
 

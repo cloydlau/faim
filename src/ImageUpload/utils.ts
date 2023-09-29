@@ -153,10 +153,15 @@ export function isObject(value: any) {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
+type BlobWithURL = typeof Blob & {
+  url: string
+}
+
 // 在输入的 value 中获取图片链接用于回显
 export function unwrap<V = any>(value: V, path?: string | ((value: V) => any) | symbol): any {
   if (!(value && path)) {
-    return value
+    const isBlobWithURL = (value: any): value is BlobWithURL => value instanceof Blob
+    return isBlobWithURL(value) ? value.url : value
   }
   switch (typeof path) {
     case 'string':

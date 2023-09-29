@@ -1,5 +1,5 @@
 <script>
-//import SwalPreset from 'sweetalert2-preset'
+// import SwalPreset from 'sweetalert2-preset'
 import Sortable from 'sortablejs'
 import { conclude, resolveConfig } from 'vue-global-config'
 import { isPlainObject } from 'lodash-es'
@@ -356,6 +356,7 @@ export default {
       }
 
       // 上传返回值为空，且编辑产物为二进制，输出该二进制，附带其 object URL 用于回显
+      // 未配置 upload 时也会进入该分支：点击确认会手动调用 httpRequest，output 为 File
       if (!res && output instanceof Blob) {
         output.url = URL.createObjectURL(output)
         this.files.push(output)
@@ -570,21 +571,24 @@ export default {
         this.sortablejs.option('disabled', !this.canSort)
       } else if (this.canSort) {
         this.$nextTick(() => {
-          this.sortablejs = Sortable.create(this.$refs.elUploadRef.$el.firstChild, {
-            forceFallback: true,
-            animation: 500,
-            filter: '.el-upload-list__item-preview, .el-upload-list__item-delete',
-            onStart: (e) => {
-              document.documentElement.classList.toggle('cursor-grabbing', true)
-            },
-            onEnd: ({ newIndex, oldIndex }) => {
-              if (newIndex !== oldIndex) {
-                this.files.splice(newIndex, 0, this.files.splice(oldIndex, 1)[0])
-                this.emitInput()
-              }
-              document.documentElement.classList.toggle('cursor-grabbing', false)
-            },
-          })
+          // list-type="text" 时，this.$refs.elUploadRef.$el.firstChild 是一个注释节点
+          if (this.$refs.elUploadRef.$el.firstChild?.nodeType === Node.ELEMENT_NODE) {
+            this.sortablejs = Sortable.create(this.$refs.elUploadRef.$el.firstChild, {
+              forceFallback: true,
+              animation: 500,
+              filter: '.el-upload-list__item-preview, .el-upload-list__item-delete',
+              onStart: (e) => {
+                document.documentElement.classList.toggle('cursor-grabbing', true)
+              },
+              onEnd: ({ newIndex, oldIndex }) => {
+                if (newIndex !== oldIndex) {
+                  this.files.splice(newIndex, 0, this.files.splice(oldIndex, 1)[0])
+                  this.emitInput()
+                }
+                document.documentElement.classList.toggle('cursor-grabbing', false)
+              },
+            })
+          }
         })
       }
     },
