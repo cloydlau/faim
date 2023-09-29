@@ -14,7 +14,7 @@ async function postinstall() {
   }
 
   console.log(cyan('Patching el-upload source code'))
-  const elUploadSourcePath = './node_modules/element-plus/es/components/upload/src/upload2.mjs'
+  const elUploadSourcePath = `${process.env.INIT_CWD}/node_modules/element-plus/es/components/upload/src/upload2.mjs`
   let mod = await loadFile(elUploadSourcePath)
   let { code } = generateCode(mod)
   const whitespaces = code.match(/(?<=expose\({)\s*/)?.[0] || '\n'
@@ -23,7 +23,7 @@ async function postinstall() {
   await writeFile(mod, elUploadSourcePath)
 
   console.log(cyan('Re-bundling vite deps'))
-  console.log(await deleteAsync(['./node_modules/.vite/deps/element-plus.js*']))
+  console.log(await deleteAsync([`${process.env.INIT_CWD}/node_modules/.vite/deps/element-plus.js*`]))
 }
 
 try {

@@ -1,4 +1,4 @@
-// pnpm add prompts semver cross-spawn kolorist del -D -w
+// pnpm add esno prompts semver cross-spawn kolorist del -D -w
 
 import fs from 'node:fs'
 import prompts from 'prompts'
@@ -111,7 +111,7 @@ async function release() {
     return
   }
 
-  if (!['patch', 'prerelease'].includes(t)) {
+  if (['minor', 'major'].includes(t)) {
     const parsedCurrentVersion = semver.parse(currentVersion) as SemVer
     const parsedTargetVersion = semver.parse(targetVersion) as SemVer
     const pattern = new RegExp(`${name}@${parsedCurrentVersion.major}.${parsedCurrentVersion.minor}`, 'g')
