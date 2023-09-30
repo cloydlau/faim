@@ -17,7 +17,7 @@ export default defineConfig({
       return html.replace(/\{\{NAME\}\}/, name).replace(/\{\{VUE_VERSION\}\}/g, String(major === 3 ? major : `${major}.${minor}`))
     },
   }, dts({
-    outDir: 'src',
+    outDir: './',
   }), AutoImport({
     // targets to transform
     include: [
