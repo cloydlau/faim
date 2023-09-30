@@ -1,9 +1,7 @@
-import KiFormDialog from './FormDialog/index.vue'
-import KiImage from './Image/index.vue'
-import KiImageUpload from './ImageUpload/index.vue'
-import KiMessageBox from './MessageBox/index.ts'
-import KiPopButton from './PopButton/index.vue'
-import KiPopSwitch from './PopSwitch/index.vue'
-import KiSelect from './Select/index.vue'
-
-export { KiFormDialog, KiImage, KiImageUpload, KiMessageBox, KiPopButton, KiPopSwitch, KiSelect }
+export { KiFormDialog } from './FormDialog/index.vue'
+export { KiImage } from './Image/index.vue'
+export { KiImageUpload } from './ImageUpload/index.vue'
+export { KiMessageBox } from './MessageBox/index.ts'
+export { KiPopButton } from './PopButton/index.vue'
+export { KiPopSwitch } from './PopSwitch/index.vue'
+export { KiSelect } from './Select/index.vue'

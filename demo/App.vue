@@ -1,7 +1,6 @@
 <script setup>
 import axios from 'axios'
 import createAxiosShortcut from 'axios-shortcut'
-import Swal from 'sweetalert2'
 import { ref } from 'vue-demi'
 import { KiMessageBox } from 'kikimore'
 import JsonEditorVue from 'json-editor-vue'
@@ -155,7 +154,7 @@ const options = reactive({
   ],
 })
 
-const $swal = Object.assign(Swal, KiMessageBox)
+const $swal = KiMessageBox
 </script>
 
 <template>

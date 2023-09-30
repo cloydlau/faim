@@ -106,4 +106,4 @@ function confirm(options: string | SweetAlertOptions) {
   })
 }
 
-export default { success, warning, info, error, confirm }
+export default Object.assign(Swal, { success, warning, info, error, confirm })

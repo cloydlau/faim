@@ -64,10 +64,9 @@ module.exports = {
 
 ```vue
 <script setup>
-import Swal from 'sweetalert2'
 import { KiFormDialog, KiImage, KiImageUpload, KiMessageBox, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
-const $swal = Object.assign(Swal, KiMessageBox)
+const $swal = KiMessageBox
 </script>
 ```
 
@@ -78,7 +77,6 @@ import { createApp, h } from 'vue'
 import 'element-plus/dist/index.css'
 import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import Swal from 'sweetalert2'
 import { KiFormDialog, KiImage, KiImageUpload, KiMessageBox, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 import App from './App.vue'
 
@@ -103,7 +101,7 @@ const app = createApp(App)
     // 全局配置
   })
 
-app.config.globalProperties.$swal = Object.assign(Swal, KiMessageBox)
+app.config.globalProperties.$swal = KiMessageBox
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
@@ -124,10 +122,9 @@ app.mount('#app')
 
 ```vue
 <script>
-import Swal from 'sweetalert2'
 import { KiFormDialog, KiImage, KiImageUpload, KiMessageBox, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
-const $swal = Object.assign(Swal, KiMessageBox)
+const $swal = KiMessageBox
 
 export default {
   components: { KiFormDialog, KiImage, KiImageUpload, KiPopButton, KiPopSwitch, KiSelect },
@@ -141,7 +138,6 @@ export default {
 import Vue from 'vue'
 import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
-import Swal from 'sweetalert2'
 import { KiFormDialog, KiImage, KiImageUpload, KiMessageBox, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 import App from './App.vue'
 
@@ -166,7 +162,7 @@ Vue.use(KiSelect, {
 })
 
 Object.defineProperty(Vue.prototype, '$swal', {
-  value: Object.assign(Swal, KiMessageBox)
+  value: KiMessageBox
 })
 
 new Vue({
@@ -881,23 +877,23 @@ console.log(kiImageUploadRef.value.uploading)
 ### 生命周期
 
 ```ts
-SwalPreset.success('Operation Success').then(() => {
+KiMessageBox.success('Operation Success').then(() => {
   // onClose
 })
 
-SwalPreset.info('Information').then(() => {
+KiMessageBox.info('Information').then(() => {
   // onClose
 })
 
-SwalPreset.warning('Warning').then(() => {
+KiMessageBox.warning('Warning').then(() => {
   // onClose
 })
 
-SwalPreset.error('Error Occurred').then(() => {
+KiMessageBox.error('Error Occurred').then(() => {
   // onClose
 })
 
-SwalPreset.confirm('Are You Sure?').then(() => {
+KiMessageBox.confirm('Are You Sure?').then(() => {
   // onConfirmed
 }).catch((e) => {
   if (e.isDenied) {
@@ -913,7 +909,7 @@ SwalPreset.confirm('Are You Sure?').then(() => {
 无取消，必须确认
 
 ```ts
-SwalPreset.confirm({
+KiMessageBox.confirm({
   titleText: 'Confirm to continue',
   showCancelButton: false,
   allowOutsideClick: false,
@@ -925,7 +921,7 @@ SwalPreset.confirm({
 
 ```ts
 // form with async submitting
-SwalPreset.confirm({
+KiMessageBox.confirm({
   input: 'text',
   inputAttributes: {
     placeholder: 'Remark'
@@ -954,7 +950,7 @@ SwalPreset.confirm({
         alert('Deny Failed')
       })
     } else {
-      Swal.showValidationMessage('Please fill in the remark')
+      KiMessageBox.showValidationMessage('Please fill in the remark')
       return false
     }
   },

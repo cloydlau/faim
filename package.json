@@ -65,6 +65,9 @@
     },
     "element-ui": {
       "optional": true
+    },
+    "vue": {
+      "optional": true
     }
   },
   "dependencies": {
@@ -94,11 +97,13 @@
     "@antfu/eslint-config": "~0.42.1",
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
+    "@element-plus/icons-vue": "latest",
     "@types/lodash-es": "latest",
     "@types/node": "latest",
     "@types/validator": "latest",
-    "@vue/composition-api": "latest",
-    "@vue/test-utils": "legacy",
+    "@vitejs/plugin-vue": "latest",
+    "@vue/compiler-sfc": "latest",
+    "@vue/test-utils": "latest",
     "case-police": "latest",
     "element-plus": "latest",
     "element-ui": "latest",
@@ -112,14 +117,11 @@
     "typescript": "latest",
     "unplugin-auto-import": "latest",
     "unplugin-vue-components": "latest",
-    "unplugin-vue2-script-setup": "latest",
     "vanilla-jsoneditor": "latest",
     "vite": "latest",
     "vite-plugin-css-injected-by-js": "latest",
     "vite-plugin-dts": "latest",
-    "vite-plugin-vue2": "latest",
-    "vue": "~2.6.14",
-    "vue-template-compiler": "~2.6.14",
+    "vue": "latest",
     "vue-tsc": "latest",
     "zhlint": "latest"
   },

@@ -1,5 +1,4 @@
-import ScriptSetup from 'unplugin-vue2-script-setup/vite'
-import { createVuePlugin as vue } from 'vite-plugin-vue2'
+import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -35,7 +34,7 @@ export default defineConfig({
       // presets
       (major === 3 || (major === 2 && minor >= 7)) ? 'vue' : '@vue/composition-api',
     ],
-  }), Components(), vue(), ScriptSetup()],
+  }), Components(), vue()],
   build: {
     lib: {
       name,
