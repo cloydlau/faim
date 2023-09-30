@@ -111,6 +111,7 @@
     "json-editor-vue": "latest",
     "kikimore": "workspace:*",
     "lint-staged": "latest",
+    "open": "latest",
     "prompts": "latest",
     "semver": "latest",
     "simple-git-hooks": "latest",
