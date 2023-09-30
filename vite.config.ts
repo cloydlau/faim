@@ -10,11 +10,7 @@ import { PascalCasedName, name } from './package.json'
 
 const { major, minor } = parse(version) as SemVer
 
-// https://vitejs.dev/config/
 export default defineConfig({
-  optimizeDeps: {
-    include: ['element-ui'],
-  },
   plugins: [{
     name: 'html-transform',
     transformIndexHtml(html: string) {

@@ -163,15 +163,6 @@ importers:
         specifier: latest
         version: 0.7.1(sass@1.68.0)
 
-  vite-project:
-    devDependencies:
-      kikimore:
-        specifier: workspace:0.14.0-beta.1
-        version: link:..
-      vite:
-        specifier: ^4.4.5
-        version: 4.4.9(@types/node@20.8.0)(sass@1.68.0)
-
 packages:
 
   /@aashutoshrathi/word-wrap@1.2.6:

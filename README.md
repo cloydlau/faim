@@ -9,7 +9,7 @@
   &nbsp;
   <img height="28px" src="https://cdn.rawgit.com/ElemeFE/element/dev/element_logo.svg">
   <br>
-  Element Plus (Vue 3) & Element UI (Vue 2.7/2.6) 一体式通用组件库。
+  Element Plus (Vue 3) & Element UI (Vue 2.7/2.6) 一体通用组件库。
 </p>
 
 <p align="center">

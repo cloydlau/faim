@@ -142,7 +142,7 @@ async function dev() {
     await installDependencies()
   }
 
-  spawn.sync('npx', ['vite', '--open', '--force'], { stdio: 'inherit' })
+  spawn.sync('npx', ['vite', '--open'], { stdio: 'inherit' })
 
   async function installDependencies() {
     if (['darwin', 'linux'].includes(process.platform)) {
