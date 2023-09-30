@@ -2,6 +2,7 @@ import spawn from 'cross-spawn'
 import { generateCode, loadFile, parseModule, writeFile } from 'magicast'
 import { cyan } from 'kolorist'
 import { deleteAsync } from 'del'
+import { isVue3 } from 'vue-demi'
 
 declare const process: NodeJS.Process
 
@@ -11,17 +12,19 @@ async function postinstall() {
     spawn.sync('npx', ['simple-git-hooks'], { stdio: 'inherit' })
   }
 
-  console.log(cyan('Patching el-upload source code'))
-  const elUploadSourcePath = `${process.env.INIT_CWD}/node_modules/element-plus/es/components/upload/src/upload2.mjs`
-  let mod = await loadFile(elUploadSourcePath)
-  let { code } = generateCode(mod)
-  const whitespaces = code.match(/(?<=expose\({)\s*/)?.[0] || '\n'
-  code = code.replace(/expose\({(?!\s*uploadFiles,)/, `expose({${whitespaces}uploadFiles,`)
-  mod = parseModule(code)
-  await writeFile(mod, elUploadSourcePath)
+  if (isVue3) {
+    console.log(cyan('Patching el-upload source code'))
+    const elUploadSourcePath = `${process.env.INIT_CWD}/node_modules/element-plus/es/components/upload/src/upload2.mjs`
+    let mod = await loadFile(elUploadSourcePath)
+    let { code } = generateCode(mod)
+    const whitespaces = code.match(/(?<=expose\({)\s*/)?.[0] || '\n'
+    code = code.replace(/expose\({(?!\s*uploadFiles,)/, `expose({${whitespaces}uploadFiles,`)
+    mod = parseModule(code)
+    await writeFile(mod, elUploadSourcePath)
 
-  console.log(cyan('Re-bundling vite deps'))
-  console.log(await deleteAsync([`${process.env.INIT_CWD}/node_modules/.vite/deps/element-plus.js*`]))
+    console.log(cyan('Re-bundling vite deps'))
+    console.log(await deleteAsync([`${process.env.INIT_CWD}/node_modules/.vite/deps/element-plus.js*`]))
+  }
 }
 
 try {

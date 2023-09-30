@@ -261,9 +261,7 @@ export default {
               referrerpolicy="no-referrer"
               :width="width"
               :height="height"
-              :class="{
-                'cursor-pointer': Viewerjs,
-              }"
+              :style="{ cursor: Viewerjs ? 'zoom-in' : undefined }"
             >
           </slot>
         </div>

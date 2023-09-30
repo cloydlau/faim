@@ -221,7 +221,7 @@ packages:
       '@typescript-eslint/eslint-plugin': 6.7.3(@typescript-eslint/parser@6.7.3)(eslint@8.50.0)(typescript@5.2.2)
       '@typescript-eslint/parser': 6.7.3(eslint@8.50.0)(typescript@5.2.2)
       eslint: 8.50.0
-      eslint-plugin-jest: 27.4.0(@typescript-eslint/eslint-plugin@6.7.3)(eslint@8.50.0)(typescript@5.2.2)
+      eslint-plugin-jest: 27.4.2(@typescript-eslint/eslint-plugin@6.7.3)(eslint@8.50.0)(typescript@5.2.2)
       typescript: 5.2.2
     transitivePeerDependencies:
       - eslint-import-resolver-typescript
@@ -847,8 +847,8 @@ packages:
       - '@types/node'
     dev: true
 
-  /@microsoft/api-extractor@7.37.2(@types/node@20.7.2):
-    resolution: {integrity: sha512-b4tr1rTto9/utTjbuqRwfQP2mzP0ACCmJMUY0JIOfOQ3tewGOkMCIRpIS5kcv5/nURekoAY06hNwHmkVsv/s1g==}
+  /@microsoft/api-extractor@7.37.3(@types/node@20.7.2):
+    resolution: {integrity: sha512-daC5IKZw/Qg8DYucnQVvagihKsTr5L7Bgf5VJYe/FwQhQuR9VRqKZfr2JkqoszsVqOf8C0KtFNTaqyB7chD/HQ==}
     hasBin: true
     dependencies:
       '@microsoft/api-extractor-model': 7.28.2(@types/node@20.7.2)
@@ -2811,8 +2811,8 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-jest@27.4.0(@typescript-eslint/eslint-plugin@6.7.3)(eslint@8.50.0)(typescript@5.2.2):
-    resolution: {integrity: sha512-ukVeKmMPAUA5SWjHenvyyXnirKfHKMdOsTZdn5tZx5EW05HGVQwBohigjFZGGj3zuv1cV6hc82FvWv6LdIbkgg==}
+  /eslint-plugin-jest@27.4.2(@typescript-eslint/eslint-plugin@6.7.3)(eslint@8.50.0)(typescript@5.2.2):
+    resolution: {integrity: sha512-3Nfvv3wbq2+PZlRTf2oaAWXWwbdBejFRBR2O8tAO67o+P8zno+QGbcDYaAXODlreXVg+9gvWhKKmG2rgfb8GEg==}
     engines: {node: ^14.15.0 || ^16.10.0 || >=18.0.0}
     peerDependencies:
       '@typescript-eslint/eslint-plugin': ^5.0.0 || ^6.0.0
@@ -5626,7 +5626,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      '@microsoft/api-extractor': 7.37.2(@types/node@20.7.2)
+      '@microsoft/api-extractor': 7.37.3(@types/node@20.7.2)
       '@rollup/pluginutils': 5.0.4
       '@vue/language-core': 1.8.15(typescript@5.2.2)
       debug: 4.3.4

@@ -38,7 +38,7 @@ export default {
       <div border="1px solid red">
         <KiImage
           :value="value[0]"
-          qrcode
+          :modelValue="value[0]"
         />
       </div>
       <br><br>
@@ -47,6 +47,7 @@ export default {
       <div border="1px solid red">
         <KiImage
           :value="value"
+          :modelValue="value"
           pattern="swiper"
           :swiperProps="{
             slidesPerView: 3,
@@ -68,6 +69,7 @@ export default {
       <div border="1px solid red">
         <KiImage
           :value="JSON.stringify(value)"
+          :modelValue="JSON.stringify(value)"
           qrcode="auto"
           :qrcodeProps="{
             width: 48,
@@ -81,6 +83,7 @@ export default {
       <div border="1px solid red">
         <KiImage
           :value="value"
+          :modelValue="value"
           pattern="waterfall"
         />
       </div>
@@ -106,6 +109,7 @@ export default {
             <div border="1px solid red">
               <KiImage
                 :value="row.img"
+                :modelValue="row.img"
               />
             </div>
           </template>
@@ -116,9 +120,11 @@ export default {
         v-show="false"
         ref="kiImageRef"
         :value="value"
+        :modelValue="value"
       />
       <KiImage
         :value="value[0]"
+        :modelValue="value[0]"
         :viewerjs="false"
         @click="onClick"
       />
