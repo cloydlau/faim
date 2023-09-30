@@ -873,6 +873,7 @@ console.log(kiImageUploadRef.value.uploading)
 ### Features
 
 - 不依赖 Element，任意 UI 框架中均能使用，支持移动端
+- 不依赖 Vue，任意框架中均能使用
 
 ### 生命周期
 
@@ -963,6 +964,12 @@ KiMessageBox.confirm({
     alert('Dismissed')
   }
 })
+```
+
+### Vanilla 用法
+
+```ts
+import KiMessageBox from 'kikimore/src/MessageBox/index.ts'
 ```
 
 <br>
