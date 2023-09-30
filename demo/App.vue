@@ -4,8 +4,8 @@ import createAxiosShortcut from 'axios-shortcut'
 import Swal from 'sweetalert2'
 import { ref } from 'vue-demi'
 import { KiMessageBox } from 'kikimore'
+import JsonEditorVue from 'json-editor-vue'
 import { binaryToBase64, fileToBlob } from '../src/ImageUpload/utils'
-import JsonEditorVue from './json-editor-vue'
 
 function onInput(e) {
   // console.log('绑定值输出（可能未上传）: ', e)
@@ -170,9 +170,10 @@ const $swal = Object.assign(Swal, KiMessageBox)
       append-to-body
     >
       <p>
-        {{ data.value }}
         <JsonEditorVue
           v-model="data.value"
+          :main-menu-bar="false"
+          :navigation-bar="false"
         />
       </p>
       <el-form-item label="KiImageUpload">

@@ -1,4 +1,5 @@
-import vue from '@vitejs/plugin-vue2'
+import ScriptSetup from 'unplugin-vue2-script-setup/vite'
+import { createVuePlugin as vue } from 'vite-plugin-vue2'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -12,6 +13,9 @@ const { major, minor } = parse(version) as SemVer
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  optimizeDeps: {
+    include: ['element-ui'],
+  },
   plugins: [{
     name: 'html-transform',
     transformIndexHtml(html: string) {
@@ -31,7 +35,7 @@ export default defineConfig({
       // presets
       (major === 3 || (major === 2 && minor >= 7)) ? 'vue' : '@vue/composition-api',
     ],
-  }), Components(), vue()],
+  }), Components(), vue(), ScriptSetup()],
   build: {
     lib: {
       name,

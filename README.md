@@ -9,7 +9,7 @@
   &nbsp;
   <img height="28px" src="https://cdn.rawgit.com/ElemeFE/element/dev/element_logo.svg">
   <br>
-  几个 Element Plus (Vue 3) & Element UI (Vue 2.7/2.6) 通用组件的封装。
+  Element Plus (Vue 3) & Element UI (Vue 2.7/2.6) 一体式通用组件库。
 </p>
 
 <p align="center">
@@ -195,28 +195,28 @@ new Vue({
 
 ### Props
 
-| 名称                                            | 说明                                | 类型     | 默认值      |
-|-------------------------------------------------|-----------------------------------|----------|-------------|
-| title                                           | 对话框标题                          | string   |             |
-| v-model:show (Vue 3) /<br>show.sync (Vue 2)     | 是否显示                            | boolean  | `false`     |
-| modelValue (Vue 3) /<br>value (Vue 2) / v-model | 表单数据对象 (`el-form` 的 `model`) | any      |             |
-| elFormProps                                     | `el-form` 的属性                    | object   |             |
-| retrieve                                        | 读取数据                            | Function |             |
-| loading                                         | 读取状态                            | boolean  | `false`     |
-| readonly                                        | 是否只读                            | boolean  | `false`     |
-| showFullscreenToggle                            | 是否显示全屏开关                    | boolean  | `true`      |
-| showConfirmButton                               | 是否显示确认按钮                    | boolean  | `!readonly` |
-| confirmButtonText                               | 确认按钮的文案                      | string   | `'OK'`      |
-| confirm                                         | 确认                                | Function |             |
-| showCancelButton                                | 是否显示取消按钮                    | boolean  | `!readonly` |
-| cancelButtonText                                | 取消按钮的文案                      | string   | `'Cancel'`  |
-| showDenyButton                                  | 是否显示拒绝按钮                    | boolean  | `false`     |
-| denyButtonText                                  | 拒绝按钮的文案                      | string   | `'No'`      |
-| deny                                            | 拒绝                                | Function |             |
-| showResetButton                                 | 是否显示重置按钮                    | boolean  | `false`     |
-| resetButtonText                                 | 重置按钮的文案                      | string   | `'Reset'`   |
-| reverseButtons                                  | 是否反转按钮顺序                    | boolean  | `false`     |
-| ...                                             | `el-dialog` 的属性                  |          |             |
+| 名称                                               | 说明                                | 类型     | 默认值      |
+|----------------------------------------------------|-----------------------------------|----------|-------------|
+| title                                              | 对话框标题                          | string   |             |
+| v-model:show (Vue 3) /<br>show.sync (Vue 2)        | 是否显示                            | boolean  | `false`     |
+| modelValue (Vue 3) /<br>value (Vue 2) /<br>v-model | 表单数据对象 (`el-form` 的 `model`) | any      |             |
+| elFormProps                                        | `el-form` 的属性                    | object   |             |
+| retrieve                                           | 读取数据                            | Function |             |
+| loading                                            | 读取状态                            | boolean  | `false`     |
+| readonly                                           | 是否只读                            | boolean  | `false`     |
+| showFullscreenToggle                               | 是否显示全屏开关                    | boolean  | `true`      |
+| showConfirmButton                                  | 是否显示确认按钮                    | boolean  | `!readonly` |
+| confirmButtonText                                  | 确认按钮的文案                      | string   | `'OK'`      |
+| confirm                                            | 确认                                | Function |             |
+| showCancelButton                                   | 是否显示取消按钮                    | boolean  | `!readonly` |
+| cancelButtonText                                   | 取消按钮的文案                      | string   | `'Cancel'`  |
+| showDenyButton                                     | 是否显示拒绝按钮                    | boolean  | `false`     |
+| denyButtonText                                     | 拒绝按钮的文案                      | string   | `'No'`      |
+| deny                                               | 拒绝                                | Function |             |
+| showResetButton                                    | 是否显示重置按钮                    | boolean  | `false`     |
+| resetButtonText                                    | 重置按钮的文案                      | string   | `'Reset'`   |
+| reverseButtons                                     | 是否反转按钮顺序                    | boolean  | `false`     |
+| ...                                                | `el-dialog` 的属性                  |          |             |
 
 #### modelValue (Vue 3) / value (Vue 2) / v-model
 
@@ -530,22 +530,22 @@ const kiImageRef = ref()
 
 ### Props
 
-| 名称                 | 说明                             | 类型                                                                            | 默认值      |
-|----------------------|--------------------------------|---------------------------------------------------------------------------------|-------------|
-| value / v-model      | 绑定值                           | any                                                                             |             |
-| arrayed              | 绑定值是否为数组类型，默认自动    | boolean                                                                         |             |
-| srcAt                | 图片链接的位置                   | string / symbol / (value: any) => any                                           |             |
-| upload               | 调用接口上传图片，返回图片链接    | (output: File \| Blob) => Promise<string \| object> \| string \| object \| void |             |
-| count                | 数量限制                         | number / [number?, number?]                                                     |             |
-| size                 | 大小限制 (MB)                    | number / [number?, number?]                                                     |             |
-| accept               | 图片格式筛选                     | string                                                                          | `'image/*'` |
-| outputType           | 图片输出格式 (编辑后)，默认原格式 | string                                                                          |             |
-| validator            | 自定义数据源校验器               | (source: File \| Blob \| string) => boolean                                     |             |
-| disabled             | 禁用状态                         | boolean                                                                         | `false`     |
-| editable             | 是否开启编辑功能                 | boolean                                                                         | `true`      |
-| width                | 宽度或宽度范围 (像素)            | number / [number?, number?]                                                     |             |
-| height               | 高度或高度范围 (像素)            | number / [number?, number?]                                                     |             |
-| aspectRatioTolerance | 锁定裁剪比例的公差               | number                                                                          | `0`         |
+| 名称                                               | 说明                             | 类型                                                                            | 默认值      |
+|----------------------------------------------------|--------------------------------|---------------------------------------------------------------------------------|-------------|
+| modelValue (Vue 3) /<br>value (Vue 2) /<br>v-model | 绑定值                           | any                                                                             |             |
+| arrayed                                            | 绑定值是否为数组类型，默认自动    | boolean                                                                         |             |
+| srcAt                                              | 图片链接的位置                   | string / symbol / (value: any) => any                                           |             |
+| upload                                             | 调用接口上传图片，返回图片链接    | (output: File \| Blob) => Promise<string \| object> \| string \| object \| void |             |
+| count                                              | 数量限制                         | number / [number?, number?]                                                     |             |
+| size                                               | 大小限制 (MB)                    | number / [number?, number?]                                                     |             |
+| accept                                             | 图片格式筛选                     | string                                                                          | `'image/*'` |
+| outputType                                         | 图片输出格式 (编辑后)，默认原格式 | string                                                                          |             |
+| validator                                          | 自定义数据源校验器               | (source: File \| Blob \| string) => boolean                                     |             |
+| disabled                                           | 禁用状态                         | boolean                                                                         | `false`     |
+| editable                                           | 是否开启编辑功能                 | boolean                                                                         | `true`      |
+| width                                              | 宽度或宽度范围 (像素)            | number / [number?, number?]                                                     |             |
+| height                                             | 高度或高度范围 (像素)            | number / [number?, number?]                                                     |             |
+| aspectRatioTolerance                               | 锁定裁剪比例的公差               | number                                                                          | `0`         |
 
 #### arrayed
 
@@ -872,7 +872,11 @@ console.log(kiImageUploadRef.value.uploading)
 
 ## MessageBox
 
-基于 <a href="https://sweetalert2.github.io">sweetalert2</a> 的 5 个开箱即用的预设。
+ <a href="https://sweetalert2.github.io">sweetalert2</a> + `ElMessageBox` 组合拳。
+
+### Features
+
+- 不依赖 Element，任意 UI 框架中均能使用，支持移动端
 
 ### 生命周期
 
@@ -1057,17 +1061,17 @@ SwalPreset.confirm({
 
 ### Props
 
-| 名称                                              | 说明                              | 类型                                          | 默认值         |
-|---------------------------------------------------|---------------------------------|-----------------------------------------------|----------------|
-| modelValue (Vue 3) /<br>value (Vue 2) / v-model   | 绑定值                            | any                                           |                |
-| v-model:options (Vue 3) /<br>options.sync (Vue 2) | 选项                              | any[]                                         |                |
-| props                                             | 定位选项的各项属性                | object                                        |                |
-| search                                            | 远程搜索 (`remote-method` 封装)   | (query: string) =><br>Promise<any[]> \| any[] |                |
-| searchImmediately                                 | 是否立即执行远程搜索              | boolean                                       | `true`         |
-| v-model:label (Vue 3) /<br>label.sync (Vue 2)     | 绑定值对应的 `label` (单向数据流) | string \| string[]                            |                |
-| showSelectAllCheckbox                             | 多选时是否显示全选框              | boolean                                       | `true`         |
-| selectAllCheckboxLabel                            | 全选框的文案                      | string                                        | `'Select All'` |
-| ...                                               | `el-select` 的属性                |                                               |                |
+| 名称                                               | 说明                              | 类型                                          | 默认值         |
+|----------------------------------------------------|---------------------------------|-----------------------------------------------|----------------|
+| modelValue (Vue 3) /<br>value (Vue 2) /<br>v-model | 绑定值                            | any                                           |                |
+| v-model:options (Vue 3) /<br>options.sync (Vue 2)  | 选项                              | any[]                                         |                |
+| props                                              | 定位选项的各项属性                | object                                        |                |
+| search                                             | 远程搜索 (`remote-method` 封装)   | (query: string) =><br>Promise<any[]> \| any[] |                |
+| searchImmediately                                  | 是否立即执行远程搜索              | boolean                                       | `true`         |
+| v-model:label (Vue 3) /<br>label.sync (Vue 2)      | 绑定值对应的 `label` (单向数据流) | string \| string[]                            |                |
+| showSelectAllCheckbox                              | 多选时是否显示全选框              | boolean                                       | `true`         |
+| selectAllCheckboxLabel                             | 全选框的文案                      | string                                        | `'Select All'` |
+| ...                                                | `el-select` 的属性                |                                               |                |
 
 #### options
 

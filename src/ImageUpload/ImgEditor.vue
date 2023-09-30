@@ -1,11 +1,11 @@
 <script>
 import 'cropperjs/dist/cropper.min.css'
 import Cropper from 'cropperjs'
-import KiMessageBox from '../MessageBox'
 import { throttle } from 'lodash-es'
 import UPNG from 'upng-js'
 import { useEventListener } from '@vueuse/core'
 import { isVue3 } from 'vue-demi'
+import KiMessageBox from '../MessageBox'
 import KiFormDialog from '../FormDialog/index.vue'
 import { binaryToArrayBuffer, blobToFile, sizeToText, toBinary, toImageTag, toLocalURL } from './utils'
 
