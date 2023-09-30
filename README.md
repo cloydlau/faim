@@ -21,6 +21,13 @@
 
 <br>
 
+## 规划
+
+ - Map
+ - FileUpload
+
+<br>
+
 ## 安装
 
 ```shell
@@ -34,7 +41,7 @@ npm i kikimore
 
 export default defineConfig({
   optimizeDeps: {
-    include: ['kikimore'],
+    include: ['kikimore > qrcode', 'kikimore > sweetalert2', 'kikimore > upng-js'],
   },
 })
 ```
@@ -57,7 +64,10 @@ module.exports = {
 
 ```vue
 <script setup>
-import { KiFormDialog, KiImage, KiImageUpload, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
+import Swal from 'sweetalert2'
+import { KiFormDialog, KiImage, KiImageUpload, KiMessageBox, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
+
+const $swal = Object.assign(Swal, KiMessageBox)
 </script>
 ```
 
@@ -68,7 +78,8 @@ import { createApp, h } from 'vue'
 import 'element-plus/dist/index.css'
 import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import { KiFormDialog, KiImage, KiImageUpload, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
+import Swal from 'sweetalert2'
+import { KiFormDialog, KiImage, KiImageUpload, KiMessageBox, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -92,6 +103,8 @@ const app = createApp(App)
     // 全局配置
   })
 
+app.config.globalProperties.$swal = Object.assign(Swal, KiMessageBox)
+
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
 }
@@ -111,7 +124,10 @@ app.mount('#app')
 
 ```vue
 <script>
-import { KiFormDialog, KiImage, KiImageUpload, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
+import Swal from 'sweetalert2'
+import { KiFormDialog, KiImage, KiImageUpload, KiMessageBox, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
+
+const $swal = Object.assign(Swal, KiMessageBox)
 
 export default {
   components: { KiFormDialog, KiImage, KiImageUpload, KiPopButton, KiPopSwitch, KiSelect },
@@ -125,7 +141,8 @@ export default {
 import Vue from 'vue'
 import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
-import { KiFormDialog, KiImage, KiImageUpload, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
+import Swal from 'sweetalert2'
+import { KiFormDialog, KiImage, KiImageUpload, KiMessageBox, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 import App from './App.vue'
 
 Vue.use(ElementUI)
@@ -146,6 +163,10 @@ Vue.use(KiPopSwitch, {
 })
 Vue.use(KiSelect, {
   // 全局配置
+})
+
+Object.defineProperty(Vue.prototype, '$swal', {
+  value: Object.assign(Swal, KiMessageBox)
 })
 
 new Vue({
@@ -845,6 +866,103 @@ console.log(kiImageUploadRef.value.uploading)
     display: none;
   }
 }
+```
+
+<br>
+
+## MessageBox
+
+基于 <a href="https://sweetalert2.github.io">sweetalert2</a> 的 5 个开箱即用的预设。
+
+### 生命周期
+
+```ts
+SwalPreset.success('Operation Success').then(() => {
+  // onClose
+})
+
+SwalPreset.info('Information').then(() => {
+  // onClose
+})
+
+SwalPreset.warning('Warning').then(() => {
+  // onClose
+})
+
+SwalPreset.error('Error Occurred').then(() => {
+  // onClose
+})
+
+SwalPreset.confirm('Are You Sure?').then(() => {
+  // onConfirmed
+}).catch((e) => {
+  if (e.isDenied) {
+    // onDenied
+  } else if (e.isDismissed) {
+    // onDismissed
+  }
+})
+```
+
+### 案例: 强制确认
+
+无取消，必须确认
+
+```ts
+SwalPreset.confirm({
+  titleText: 'Confirm to continue',
+  showCancelButton: false,
+  allowOutsideClick: false,
+  allowEscapeKey: false,
+})
+```
+
+### 案例: 复杂确认
+
+```ts
+// form with async submitting
+SwalPreset.confirm({
+  input: 'text',
+  inputAttributes: {
+    placeholder: 'Remark'
+  },
+  confirmButtonText: 'Agree',
+  showLoaderOnConfirm: true,
+  preConfirm: (input) => {
+    return new Promise((resolve) => {
+      setTimeout(resolve, 500)
+    }).then(() => {
+      alert('Agree Success')
+    }).catch((e) => {
+      alert('Agree Failed')
+    })
+  },
+  showDenyButton: true,
+  denyButtonText: 'Deny',
+  returnInputValueOnDeny: true,
+  preDeny: (input) => {
+    if (input) {
+      return new Promise((resolve, reject) => {
+        setTimeout(reject, 500)
+      }).then(() => {
+        alert('Deny Success')
+      }).catch((e) => {
+        alert('Deny Failed')
+      })
+    } else {
+      Swal.showValidationMessage('Please fill in the remark')
+      return false
+    }
+  },
+}).then((e) => {
+  alert('Agreed')
+}).catch((e) => {
+  if (e.isDenied) {
+    alert('Denied')
+  } else if (e.isDismissed) {
+    alert('Dismissed')
+  }
+})
 ```
 
 <br>

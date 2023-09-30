@@ -10,7 +10,7 @@ import {
   KiPopButton,
   KiPopSwitch,
   KiSelect,
-} from '../../src'
+} from 'kikimore'
 import App from './App.vue'
 
 Vue.use(ElementUI)

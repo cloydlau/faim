@@ -1,4 +1,4 @@
-import vue from '@vitejs/plugin-vue'
+import vue from '@vitejs/plugin-vue2'
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 import AutoImport from 'unplugin-auto-import/vite'

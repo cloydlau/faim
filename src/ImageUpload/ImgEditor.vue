@@ -1,7 +1,7 @@
 <script>
 import 'cropperjs/dist/cropper.min.css'
 import Cropper from 'cropperjs'
-import SwalPreset from 'sweetalert2-preset'
+import KiMessageBox from '../MessageBox'
 import { throttle } from 'lodash-es'
 import UPNG from 'upng-js'
 import { useEventListener } from '@vueuse/core'
@@ -98,7 +98,7 @@ export default {
             this.cnum = 2 ** depth
           }
         } catch (e) {
-          SwalPreset.error(e instanceof Error ? e.message : e)
+          KiMessageBox.error(e instanceof Error ? e.message : e)
           this.$emit('update:show', false)
           return
         }
@@ -300,7 +300,7 @@ export default {
       } else {
         const sizeTooltip = this.getSizeTooltip(this.binary)
         if (sizeTooltip) {
-          SwalPreset.warning({
+          KiMessageBox.warning({
             html: `<div style="text-align:center">${sizeTooltip}</div>`,
           })
         } else {
@@ -310,7 +310,7 @@ export default {
     },
     doConfirm(blob) {
       if (!blob) {
-        SwalPreset.error('导出失败，请尝试降低图片尺寸')
+        KiMessageBox.error('导出失败，请尝试降低图片尺寸')
         this.submitting = false
         return
       }
@@ -323,7 +323,7 @@ export default {
       const sizeDiffText = this.getSizeDiffText(this.binary.size, binary.size)
       const sizeTooltip = this.getSizeTooltip(binary)
       if (sizeTooltip) {
-        SwalPreset.warning({
+        KiMessageBox.warning({
           html: `<div style="text-align:center">${sizeDiffText}</div>
                      <div style="text-align:center">${sizeTooltip}</div>`,
         })
@@ -714,7 +714,7 @@ export default {
 
 <style lang="scss">
 .ki-image-editor {
-  .flipX>.el-icon-sort, .flipX>.el-icon {
+  .flipX>.el-icon-sort, .flipX>span>.el-icon {
     transform: rotate(90deg);
   }
 

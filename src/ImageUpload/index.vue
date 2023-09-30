@@ -1,10 +1,10 @@
 <script>
-import SwalPreset from 'sweetalert2-preset'
 import Sortable from 'sortablejs'
 import { conclude, resolveConfig } from 'vue-global-config'
 import { isPlainObject } from 'lodash-es'
 import to from 'await-to-js'
 import { isVue3 } from 'vue-demi'
+import KiMessageBox from '../MessageBox'
 import ImgEditor from './ImgEditor.vue'
 import { equalOrWithin, isObject, sizeToText, toBinary, toImageTag, toLocalURL, tryParsingJSONArray, unwrap, wrap } from './utils'
 import './index.css'
@@ -366,7 +366,7 @@ export default {
         if (!url) {
           console.error('upload 的返回值或 srcAt 的解析结果不是有效的图片链接:',
             '\n  res: ', res)
-          SwalPreset.error('上传失败')
+          KiMessageBox.error('上传失败')
           this.$emit('error', '上传失败', output, this.$refs.elUploadRef.uploadFiles)
           return
         }
@@ -418,13 +418,13 @@ export default {
       file = await toBinary(file)
 
       if (this.Size.max !== undefined && file.size > this.Size._max) {
-        SwalPreset.warning({
+        KiMessageBox.warning({
           titleText: `“${file.name}”\n大小超过${this.Size.maxText}`,
           timer: 5000,
         })
         sizeError = true
       } else if (this.Size.min !== undefined && file.size < this.Size._min) {
-        SwalPreset.warning({
+        KiMessageBox.warning({
           titleText: `“${file.name}”\n大小不足${this.Size.minText}`,
           timer: 5000,
         })
@@ -472,7 +472,7 @@ export default {
         titleText = `“${file.name}”\n高度不足${this.Height.min}像素`
       }
       if (eventName) {
-        SwalPreset.warning({
+        KiMessageBox.warning({
           titleText,
           timer: 5000,
         })
@@ -593,7 +593,7 @@ export default {
       }
     },
     onExceed(files, fileList) {
-      SwalPreset.warning(`图片数量不能超过${this.Count.max}张`)
+      KiMessageBox.warning(`图片数量不能超过${this.Count.max}张`)
       this.$emit('exceed', files, fileList)
     },
     onPreview(file) {
@@ -605,7 +605,7 @@ export default {
     },
     onBeforeRemove(file, fileList) {
       if (this.Count.min !== undefined && this.files.length <= this.Count.min) {
-        SwalPreset.warning(`图片数量不能低于${this.Count.min}张`)
+        KiMessageBox.warning(`图片数量不能低于${this.Count.min}张`)
         return false
       }
       this.$emit('before-remove', file, fileList)
