@@ -1,4 +1,4 @@
-export default (element) => {
+export default (element: Element) => {
   const { top, right, bottom, left } = element.getBoundingClientRect()
   const yInView
     = top >= 0 && top <= window.innerHeight && bottom >= 0 && bottom <= window.innerHeight

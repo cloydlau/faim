@@ -296,7 +296,7 @@ export default {
   watch: {
     canSort: {
       immediate: true,
-      handler(n) {
+      handler() {
         this.sort()
       },
     },
@@ -578,7 +578,7 @@ export default {
               forceFallback: true,
               animation: 500,
               filter: '.el-upload-list__item-preview, .el-upload-list__item-delete',
-              onStart: (e) => {
+              onStart: () => {
                 document.documentElement.classList.toggle('cursor-grabbing', true)
               },
               onEnd: ({ newIndex, oldIndex }) => {

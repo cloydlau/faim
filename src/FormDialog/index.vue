@@ -228,7 +228,7 @@ export default {
             result.catch((e) => {
               console.error(e)
               this.onCancel()
-            }).finally((e) => {
+            }).finally(() => {
               this.retrieving = false
             })
           } else {
@@ -354,7 +354,7 @@ export default {
       if (this.$refs[this.ElFormProps.ref]) {
         this.$refs[this.ElFormProps.ref].validate().then(() => {
           exec()
-        }).catch((e) => {
+        }).catch(() => {
           this.highlightError(undefined, this.$refs.overlayScrollbar)
         })
       } else {
@@ -388,7 +388,7 @@ export default {
       if (this.$refs[this.ElFormProps.ref]) {
         this.$refs[this.ElFormProps.ref].validate().then(() => {
           exec()
-        }).catch((e) => {
+        }).catch(() => {
           this.highlightError(undefined, this.$refs.overlayScrollbar)
         })
       } else {

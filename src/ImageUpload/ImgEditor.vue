@@ -168,14 +168,14 @@ export default {
           // 扁图
           if (this.aspectRatio > width / height) {
             this.cropper.setCropBoxData({ width, left })
-            const { width: containerWidth, height: containerHeight } = this.cropper.getContainerData()
-            const { width: cropBoxWidth, height: cropBoxHeight } = this.cropper.getCropBoxData() // 不能提前拿
+            const { height: containerHeight } = this.cropper.getContainerData()
+            const { height: cropBoxHeight } = this.cropper.getCropBoxData() // 不能提前拿
             this.cropper.setCropBoxData({ top: (containerHeight - cropBoxHeight) / 2 })
             // 高图
           } else {
             this.cropper.setCropBoxData({ height, top })
-            const { width: containerWidth, height: containerHeight } = this.cropper.getContainerData()
-            const { width: cropBoxWidth, height: cropBoxHeight } = this.cropper.getCropBoxData() // 不能提前拿
+            const { width: containerWidth } = this.cropper.getContainerData()
+            const { width: cropBoxWidth } = this.cropper.getCropBoxData() // 不能提前拿
             this.cropper.setCropBoxData({ left: (containerWidth - cropBoxWidth) / 2 })
           }
           this.loading = false

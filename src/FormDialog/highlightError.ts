@@ -5,22 +5,21 @@ export default (
   selectors: string | Element | NodeList = '.el-form .el-form-item.is-error',
   container = window,
 ): void => {
-  const scrollIntoView = (element) => {
+  const scrollIntoView = (element: Element) => {
     element.scrollIntoView({
       behavior: 'smooth',
       block: 'center',
     })
   }
 
-  const animateCSS = (el, animationName) =>
-    new Promise<void>((resolve, reject) => {
+  const animateCSS = (el: Element | NodeList, animationName: string) =>
+    new Promise<void>((resolve) => {
       if (el) {
-        // @ts-expect-error: none
-        for (const v of el instanceof NodeList ? el : [el]) {
-          v.classList.add('animate__animated', animationName)
+        for (const v of el instanceof NodeList ? Array.from(el) : [el]) {
+          (v as Element).classList.add('animate__animated', animationName)
 
           const handleAnimationEnd = () => {
-            v.classList.remove('animate__animated', animationName)
+            (v as Element).classList.remove('animate__animated', animationName)
             v.removeEventListener('animationend', handleAnimationEnd)
             resolve()
           }
@@ -33,7 +32,7 @@ export default (
   // is-error类名需要异步才能获取到
   setTimeout(() => {
     const errFormItems
-      = typeof selectors === 'string' ? document.querySelectorAll(selectors) : selectors
+      = typeof selectors === 'string' ? document.querySelectorAll(selectors) : selectors as NodeList
 
     // 打包后不生效
     /* if (IntersectionObserver) {
@@ -53,8 +52,8 @@ export default (
     } */
 
     // 视图滚动至校验失败的第一个表单项
-    if (errFormItems[0]) {
-      if (elementIsVisible(errFormItems[0])) {
+    if (errFormItems.item(0)) {
+      if (elementIsVisible(errFormItems.item(0) as Element)) {
         animateCSS(errFormItems, 'animate__headShake').catch((e) => {
           console.warn(e)
         })
@@ -66,7 +65,7 @@ export default (
           // 直到最后一次超过100毫秒才清除，此时清除已经无效
           // 100毫秒都没有触发，说明滚动停止
           clearTimeout(scrollTimeout)
-          scrollTimeout = setTimeout(() => {
+          scrollTimeout = window.setTimeout(() => {
             animateCSS(errFormItems, 'animate__headShake').catch((e) => {
               console.warn(e)
             })
@@ -75,7 +74,7 @@ export default (
         }
 
         container.addEventListener('scroll', shake)
-        scrollIntoView(errFormItems[0])
+        scrollIntoView(errFormItems.item(0) as Element)
       }
     }
   }, 0)
