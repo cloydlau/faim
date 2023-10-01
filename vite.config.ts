@@ -1,4 +1,4 @@
-import vue from '@vitejs/plugin-vue'
+import vue from "@vitejs/plugin-vue";
 import { defineConfig } from 'vite'
 import dts from 'vite-plugin-dts'
 import AutoImport from 'unplugin-auto-import/vite'
@@ -14,7 +14,7 @@ export default defineConfig({
   plugins: [{
     name: 'html-transform',
     transformIndexHtml(html: string) {
-      return html.replace(/\{\{NAME\}\}/, name).replace(/\{\{VUE_VERSION\}\}/g, String(major === 3 ? major : `${major}.${minor}`))
+      return html.replace(/\{\{NAME\}\}/, name).replace(/\{\{VUE_VERSION\}\}/g, String(major === 3 ? major : `${major}.${minor}`));
     },
   }, dts({
     outDir: './',

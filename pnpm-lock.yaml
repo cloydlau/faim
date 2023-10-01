@@ -116,7 +116,7 @@ importers:
         version: 8.50.0
       json-editor-vue:
         specifier: latest
-        version: 0.10.18(vanilla-jsoneditor@0.18.7)(vue@3.3.4)
+        version: 0.10.19(vanilla-jsoneditor@0.18.7)(vue@3.3.4)
       kikimore:
         specifier: workspace:*
         version: 'link:'
@@ -3866,8 +3866,8 @@ packages:
     resolution: {integrity: sha512-4bV5BfR2mqfQTJm+V5tPPdf+ZpuhiIvTuAB5g8kcrXOZpTT/QwwVRWBywX1ozr6lEuPdbHxwaJlm9G6mI2sfSQ==}
     dev: true
 
-  /json-editor-vue@0.10.18(vanilla-jsoneditor@0.18.7)(vue@3.3.4):
-    resolution: {integrity: sha512-wcZUZgvPDInUHHINWJpI4Swq6TwOlEm4KdJukqdC5+3Jb9H5E3ln0RITRyZWGbAsrck/gzmVgm2naB4+tJk3eQ==}
+  /json-editor-vue@0.10.19(vanilla-jsoneditor@0.18.7)(vue@3.3.4):
+    resolution: {integrity: sha512-LuoN+iCHAiXtg3jC07+ATn1u56loyA4S12fDyN/uODqZ7e7dTuH0Kqkm9rDGsQZYASgi7E5lWwnn0yoXDNdLDw==}
     requiresBuild: true
     peerDependencies:
       '@vue/composition-api': '>=1'
