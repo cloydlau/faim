@@ -45,7 +45,7 @@
 npm i kikimore
 ```
 
-- Vite
+### Vite
 
 ```ts
 // vite.config.ts
@@ -57,7 +57,12 @@ export default defineConfig({
 })
 ```
 
-- Vue CLI
+### Vue CLI
+
+```shell
+# 需要 TS 环境
+npm i @vue/cli-plugin-typescript -D
+```
 
 ```js
 // vue.config.js
@@ -67,7 +72,64 @@ module.exports = {
 }
 ```
 
-<br>
+### webpack
+
+```shell
+# 需要 TS 环境
+npm i typescript ts-loader -D
+```
+
+```js
+// webpack.config.js
+
+module.exports = {
+  resolve: {
+    extensions: ['.ts', '.tsx'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/,
+        loader: 'ts-loader',
+        include: [/src/, /node_modules\/kikimore/],
+        options: { allowTsInNodeModules: true },
+      },
+    ],
+  },
+}
+```
+
+```json
+// tsconfig.json
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    // "noEmit": true,
+    "jsx": "preserve",
+
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": [
+    "src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue",
+    "node_modules/kikimore/**/*.ts", "node_modules/kikimore/**/*.d.ts", "node_modules/kikimore/**/*.tsx", "node_modules/kikimore/**/*.vue"
+  ],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
+```
 
 ### Element Plus (Vue 3)
 
@@ -124,8 +186,6 @@ app.mount('#app')
 #### ~~CDN~~
 
 ⚠ 暂不支持。
-
-<br>
 
 ### Element UI (Vue 2.7/2.6)
 
@@ -883,7 +943,7 @@ console.log(kiImageUploadRef.value.uploading)
 
 ## MessageBox
 
- <a href="https://sweetalert2.github.io">sweetalert2</a> + `ElMessageBox` 组合拳。
+<a href="https://sweetalert2.github.io">sweetalert2</a> + `ElMessageBox` 组合拳。
 
 ### 特性
 
@@ -920,7 +980,7 @@ KiMessageBox.confirm('Are You Sure?').then(() => {
 })
 ```
 
-### 案例: 强制确认
+### 案例：强制确认
 
 无取消，必须确认
 
@@ -933,7 +993,7 @@ KiMessageBox.confirm({
 })
 ```
 
-### 案例: 复杂确认
+### 案例：复杂确认
 
 ```ts
 // form with async submitting
