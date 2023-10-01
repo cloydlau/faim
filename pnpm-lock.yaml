@@ -8,6 +8,12 @@ importers:
 
   .:
     dependencies:
+      '@types/lodash-es':
+        specifier: latest
+        version: 4.17.9
+      '@types/validator':
+        specifier: latest
+        version: 13.11.2
       '@vueuse/core':
         specifier: latest
         version: 10.4.1(vue@3.3.4)
@@ -84,15 +90,9 @@ importers:
       '@element-plus/icons-vue':
         specifier: latest
         version: 2.1.0(vue@3.3.4)
-      '@types/lodash-es':
-        specifier: latest
-        version: 4.17.9
       '@types/node':
         specifier: latest
         version: 20.8.0
-      '@types/validator':
-        specifier: latest
-        version: 13.11.2
       '@vitejs/plugin-vue':
         specifier: latest
         version: 4.3.4(vite@4.4.9)(vue@3.3.4)
@@ -996,11 +996,9 @@ packages:
     resolution: {integrity: sha512-ZTcmhiI3NNU7dEvWLZJkzG6ao49zOIjEgIE0RgV7wbPxU0f2xT3VSAHw2gmst8swH6V0YkLRGp4qPlX/6I90MQ==}
     dependencies:
       '@types/lodash': 4.14.199
-    dev: true
 
   /@types/lodash@4.14.199:
     resolution: {integrity: sha512-Vrjz5N5Ia4SEzWWgIVwnHNEnb1UE1XMkvY5DGXrAeOGE9imk0hgTHh5GyDjLDJi9OTCn9oo9dXH1uToK1VRfrg==}
-    dev: true
 
   /@types/mdast@3.0.13:
     resolution: {integrity: sha512-HjiGiWedR0DVFkeNljpa6Lv4/IZU1+30VY5d747K7lBudFc3R0Ibr6yJ9lN3BE28VnZyDfLF/VB1Ql1ZIbKrmg==}
@@ -1034,7 +1032,7 @@ packages:
 
   /@types/validator@13.11.2:
     resolution: {integrity: sha512-nIKVVQKT6kGKysnNt+xLobr+pFJNssJRi2s034wgWeFBUx01fI8BeHTW2TcRp7VcFu9QCYG8IlChTuovcm0oKQ==}
-    dev: true
+    dev: false
 
   /@types/web-bluetooth@0.0.16:
     resolution: {integrity: sha512-oh8q2Zc32S6gd/j50GowEjKLoOVOwHP/bWVjKJInBwQqdOYMdPrf1oVlelTlyfFK3CKxL1uahMDAr+vy8T7yMQ==}

@@ -1,7 +1,7 @@
 {
   "name": "kikimore",
   "PascalCasedName": "Kikimore",
-  "version": "0.14.0-rc.0",
+  "version": "0.14.0-rc.1",
   "private": false,
   "description": "Element Plus (Vue 3) & Element UI (Vue 2.7/2.6) all-in-one universal component library. ❄️ More than Element.",
   "author": "Cloyd Lau",
