@@ -34,8 +34,9 @@
 
 ## 规划
 
- - Map
- - FileUpload
+- FileUpload 组件
+- Map 组件
+- i18n 支持
 
 <br>
 
