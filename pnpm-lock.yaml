@@ -847,8 +847,8 @@ packages:
       - '@types/node'
     dev: true
 
-  /@microsoft/api-extractor@7.37.3(@types/node@20.8.0):
-    resolution: {integrity: sha512-daC5IKZw/Qg8DYucnQVvagihKsTr5L7Bgf5VJYe/FwQhQuR9VRqKZfr2JkqoszsVqOf8C0KtFNTaqyB7chD/HQ==}
+  /@microsoft/api-extractor@7.38.0(@types/node@20.8.0):
+    resolution: {integrity: sha512-e1LhZYnfw+JEebuY2bzhw0imDCl1nwjSThTrQqBXl40hrVo6xm3j/1EpUr89QyzgjqmAwek2ZkIVZbrhaR+cqg==}
     hasBin: true
     dependencies:
       '@microsoft/api-extractor-model': 7.28.2(@types/node@20.8.0)
@@ -5713,7 +5713,7 @@ packages:
       vite:
         optional: true
     dependencies:
-      '@microsoft/api-extractor': 7.37.3(@types/node@20.8.0)
+      '@microsoft/api-extractor': 7.38.0(@types/node@20.8.0)
       '@rollup/pluginutils': 5.0.4
       '@vue/language-core': 1.8.15(typescript@5.2.2)
       debug: 4.3.4

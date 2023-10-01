@@ -11,15 +11,24 @@
   <br>
   Element Plus (Vue 3) & Element UI (Vue 2.7/2.6) 一体通用组件库。
   <br>
-  不止于 Element。
+  ❄️ 不止于 Element。
 </p>
 
 <p align="center">
-  <a href="https://bundlephobia.com/package/kikimore"><img alt="minzipped size" src="https://img.shields.io/bundlephobia/minzip/kikimore"></a>
   <a href="https://conventionalcommits.org"><img alt="conventional commits" src="https://img.shields.io/badge/commits-Conventional-FE5196.svg?logo=conventionalcommits"></a>
   <a href="https://github.com/antfu/eslint-config"><img alt="code style" src="https://antfu.me/badge-code-style.svg"></a>
   <a href="https://github.com/cloydlau/kikimore#develop"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"></a>
 </p>
+
+<br>
+
+## 特性
+
+ - Vue 2.6/2.7/3 一体通用
+ - Element UI / Element Plus 一体通用
+ - 支持 Vite，Vue CLI，webpack...
+ - 部分组件不依赖 Element 甚至不依赖 Vue，任意框架均能使用，支持移动端
+ - 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 <br>
 
