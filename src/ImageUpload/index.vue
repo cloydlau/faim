@@ -5,6 +5,7 @@ import { isPlainObject } from 'lodash-es'
 import to from 'await-to-js'
 import { isVue3 } from 'vue-demi'
 import KiMessageBox from '../MessageBox'
+import KiImage from '../Image'
 import ImgEditor from './ImgEditor.vue'
 import { equalOrWithin, isObject, sizeToText, toBinary, toImageTag, toLocalURL, tryParsingJSONArray, unwrap, wrap } from './utils'
 import './index.css'
@@ -34,7 +35,7 @@ export default {
     Object.assign(globalSlots, slots)
     app.component(this.name, this)
   },
-  components: { ImgEditor },
+  components: { ImgEditor, KiImage },
   inject: {
     elForm: {
       default: {},

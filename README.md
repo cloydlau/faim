@@ -10,6 +10,8 @@
   <img height="28px" src="https://cdn.rawgit.com/ElemeFE/element/dev/element_logo.svg">
   <br>
   Element Plus (Vue 3) & Element UI (Vue 2.7/2.6) 一体通用组件库。
+  <br>
+  不止于 Element。
 </p>
 
 <p align="center">
@@ -524,6 +526,10 @@ const kiImageRef = ref()
 - 预览图片 ([ki-image](https://github.com/cloydlau/ki-image) 提供技术支持)
 - 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
+### 安装
+
+> ⚠ 由于 Element Plus 的 `el-upload` 对外暴露的属性非常局限，需要修改 `el-upload` 源码才能得以实现 ImageUpload，故 Element Plus 不能晚于 Kikimore 安装。
+
 ### Props
 
 | 名称                                               | 说明                             | 类型                                                                            | 默认值      |
@@ -870,7 +876,7 @@ console.log(kiImageUploadRef.value.uploading)
 
  <a href="https://sweetalert2.github.io">sweetalert2</a> + `ElMessageBox` 组合拳。
 
-### Features
+### 特性
 
 - 不依赖 Element，任意 UI 框架中均能使用，支持移动端
 - 不依赖 Vue，任意框架中均能使用
