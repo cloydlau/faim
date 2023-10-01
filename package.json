@@ -71,6 +71,8 @@
     }
   },
   "dependencies": {
+    "@types/lodash-es": "latest",
+    "@types/validator": "latest",
     "@vueuse/core": "latest",
     "await-to-js": "latest",
     "axios": "latest",
@@ -98,9 +100,7 @@
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
     "@element-plus/icons-vue": "latest",
-    "@types/lodash-es": "latest",
     "@types/node": "latest",
-    "@types/validator": "latest",
     "@vitejs/plugin-vue": "latest",
     "@vue/compiler-sfc": "latest",
     "@vue/test-utils": "latest",
