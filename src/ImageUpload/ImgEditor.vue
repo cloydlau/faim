@@ -714,7 +714,7 @@ export default {
 
 <style lang="scss">
 .ki-image-editor {
-  .flipX>.el-icon-sort, .flipX>span>.el-icon {
+  .flipX>span>.el-icon-sort, .flipX>span>.el-icon {
     transform: rotate(90deg);
   }
 
