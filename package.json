@@ -51,7 +51,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "release": "esno ./scripts/release.mts",
-    "preinstall": "node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || npx only-allow pnpm",
+    "preinstall": "node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || esno ./scripts/preinstall.mts",
     "postinstall": "esno ./scripts/postinstall.mts"
   },
   "peerDependencies": {
