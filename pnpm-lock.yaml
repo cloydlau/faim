@@ -118,11 +118,14 @@ importers:
         specifier: latest
         version: 0.10.19(vanilla-jsoneditor@0.18.8)(vue@3.3.4)
       kikimore:
-        specifier: workspace:*
+        specifier: workspace:latest
         version: 'link:'
       lint-staged:
         specifier: latest
         version: 14.0.1
+      only-allow:
+        specifier: latest
+        version: 1.2.0
       open:
         specifier: latest
         version: 9.1.0
@@ -4470,6 +4473,13 @@ packages:
       mimic-fn: 4.0.0
     dev: true
 
+  /only-allow@1.2.0:
+    resolution: {integrity: sha512-+Az7oIvw87Pduo9A7Bu3eZw8XLI6QJnUzOOUuTWoB0Y88aEjnf8GyoiF3Y3rMge0IB3HLDQ+U1amfpLir3VuMA==}
+    hasBin: true
+    dependencies:
+      which-pm-runs: 1.1.0
+    dev: true
+
   /open@9.1.0:
     resolution: {integrity: sha512-OS+QTnw1/4vrf+9hh1jc1jnYjzSG4ttTBB8UxOwAnInG3Uo4ssetzC1ihqaIHjLJnA5GGlRl6QlZXOTQhRBUvg==}
     engines: {node: '>=14.16'}
@@ -5932,6 +5942,11 @@ packages:
   /which-module@2.0.1:
     resolution: {integrity: sha512-iBdZ57RDvnOR9AGBhML2vFZf7h8vmBjhoaZqODJBFWHVtKkDmKuHai3cx5PgVMrX5YDNp27AofYbAwctSS+vhQ==}
     dev: false
+
+  /which-pm-runs@1.1.0:
+    resolution: {integrity: sha512-n1brCuqClxfFfq/Rb0ICg9giSZqCS+pLtccdag6C2HyufBrh3fBOiy9nb6ggRMvWOVH5GrdJskj5iGTZNxd7SA==}
+    engines: {node: '>=4'}
+    dev: true
 
   /which-typed-array@1.1.11:
     resolution: {integrity: sha512-qe9UWWpkeG5yzZ0tNYxDmd7vo58HDBc39mZ0xWWpolAGADdFOzkfamWLDxkOWcvHQKVmdTyQdLD4NOfjLWTKew==}
