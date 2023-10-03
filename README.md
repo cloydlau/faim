@@ -46,6 +46,10 @@
 npm i kikimore
 ```
 
+### Bun
+
+等待 Bun 修复这个 Bug：https://github.com/oven-sh/bun/issues/4738
+
 ### Vite
 
 ```ts
