@@ -1,7 +1,7 @@
 {
   "name": "kikimore",
   "PascalCasedName": "Kikimore",
-  "version": "0.14.0-rc.2",
+  "version": "0.14.0",
   "private": false,
   "description": "Element Plus (Vue 3) & Element UI (Vue 2.7/2.6) isomorphic component library. ❄️ More than Element.",
   "author": "Cloyd Lau (https://github.com/cloydlau)",
@@ -123,7 +123,6 @@
     "vite-plugin-css-injected-by-js": "latest",
     "vite-plugin-dts": "latest",
     "vue": "latest",
-    "vue-tsc": "latest",
     "zhlint": "latest"
   },
   "simple-git-hooks": {
