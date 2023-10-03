@@ -62,7 +62,7 @@ export default defineConfig({
 
 ```shell
 # 需要 TS 环境
-npm i @vue/cli-plugin-typescript -D
+npm i @vue/cli-plugin-typescript typescript -D
 ```
 
 ```js
@@ -77,7 +77,7 @@ module.exports = {
 
 ```shell
 # 需要 TS 环境
-npm i typescript ts-loader -D
+npm i ts-loader typescript -D
 ```
 
 ```js
