@@ -116,7 +116,6 @@ module.exports = {
 
     /* Bundler mode */
     "moduleResolution": "bundler",
-    "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     // "noEmit": true,
