@@ -55,7 +55,7 @@ export default function upload(file, progress, abortController) {
         timeout: 0,
         onUploadProgress({ event }) {
           if (event.lengthComputable) {
-            progress((CHUNK_SIZE * count + event.loaded) / file.size * 100)
+            progress(((CHUNK_SIZE * count + event.loaded) / file.size) * 100)
           }
         },
         signal: abortController?.signal,

@@ -25,7 +25,7 @@ export default {
       domainId: '1',
       ...this.$attrs.requestParam,
     }, {
-      baseURL: '', // 针对 prod 环境中 baseAPI 为相对路径的情况
+      baseURL: '', // 针对 baseAPI 为相对路径的情况
       timeout: 20000,
     }).then(res => res.data.data)
   }, */
