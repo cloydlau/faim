@@ -5,10 +5,6 @@ import type { SemVer } from 'semver'
 import { version } from 'vue'
 import { PascalCasedName, name } from './package.json'
 
-// import dts from 'vite-plugin-dts'
-// import AutoImport from 'unplugin-auto-import/vite'
-// import Components from 'unplugin-vue-components/vite'
-
 const { major, minor } = parse(version) as SemVer
 
 export default defineConfig({
@@ -17,13 +13,12 @@ export default defineConfig({
     transformIndexHtml(html: string) {
       return html.replace(/\{\{ NAME \}\}/, name).replace(/\{\{ VUE_VERSION \}\}/g, String(major === 3 ? major : `${major}.${minor}`))
     },
-  }, /* dts({
-    outDir: './',
-  }), */ vue()],
+  }, vue()],
   build: {
     lib: {
       name,
       entry: 'src/index.ts',
+      fileName: 'index',
     },
     cssCodeSplit: true,
     sourcemap: true,
