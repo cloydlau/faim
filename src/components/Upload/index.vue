@@ -8,7 +8,7 @@ import FilePondPluginImageValidateSize from 'filepond-plugin-image-validate-size
 import { conclude, resolveConfig } from 'vue-global-config'
 import { isPlainObject, throttle } from 'lodash-es'
 import to from 'await-to-js'
-import { lookup as toMIME } from 'mrmime'
+import { getType } from 'mime'
 import { useFormDisabled } from 'element-plus/es/components/form/src/hooks/use-form-common-props.mjs'
 import FaMessageBox from '../MessageBox/index'
 import { isBase64WithScheme, isObject, tryParsingJSONArray, unwrap } from '../../utils'
@@ -307,7 +307,7 @@ export default {
         if (!FilePondOptions.acceptedFileTypes) {
           const set = new Set()
           for (const extension of extensions) {
-            const mime = toMIME(extension)
+            const mime = getType(extension)
             mime && set.add(mime)
           }
           FilePondOptions.acceptedFileTypes = Array.from(set)
@@ -315,7 +315,7 @@ export default {
         if (!FilePondOptions.fileValidateTypeLabelExpectedTypesMap) {
           FilePondOptions.fileValidateTypeLabelExpectedTypesMap = {}
           for (const extension of extensions) {
-            const mime = toMIME(extension)
+            const mime = getType(extension)
             if (mime && extension) {
               FilePondOptions.fileValidateTypeLabelExpectedTypesMap[mime]
               = FilePondOptions.fileValidateTypeLabelExpectedTypesMap[mime]
@@ -337,7 +337,7 @@ export default {
         FilePondOptions.fileValidateTypeDetectType ??= (file, type) => new Promise((resolve, reject) => {
           const extension = file.name.replace(/.+\./, '.').toLowerCase()
           // File.name (扩展名) 和 File.type (MIME) 不匹配
-          if (toMIME(extension) !== type) {
+          if (getType(extension) !== type) {
             reject(Error('File extension does not match file type'))
           } else if (extensions.includes(extension)) {
             resolve(type)
