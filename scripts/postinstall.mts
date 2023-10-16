@@ -23,7 +23,8 @@ async function postinstall() {
     fs.writeFileSync(elUploadSourcePath, elUploadSource.replace(/expose\({(?!\s*uploadFiles,)/, `expose({${whitespaces}uploadFiles,`))
 
     console.log(cyan('[INFO] Vite re-bundling element-plus'))
-    await deleteAsync([`${process.env.INIT_CWD}/node_modules/.vite/deps/element-plus.js*`])
+    // Cannot delete files/directories outside the current working directory. Can be overridden with the `force` option.
+    await deleteAsync([`${process.env.INIT_CWD}/node_modules/.vite/deps/element-plus.js*`], { force: true })
   }
 
   const useFormDisabledSources = [
@@ -47,7 +48,8 @@ async function postinstall() {
     spawn.sync('npx', ['simple-git-hooks'], { stdio: 'inherit' })
   } else {
     console.log(cyan(`[INFO] Vite re-bundling ${name}`))
-    await deleteAsync([`${process.env.INIT_CWD}/node_modules/.vite/deps/${name}`])
+    // Cannot delete files/directories outside the current working directory. Can be overridden with the `force` option.
+    await deleteAsync([`${process.env.INIT_CWD}/node_modules/.vite/deps/${name}`], { force: true })
   }
 }
 
