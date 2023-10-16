@@ -38,9 +38,6 @@ importers:
       filepond:
         specifier: ^4.30.4
         version: 4.30.4
-      filepond-plugin-drag-reorder:
-        specifier: ^1.0.2
-        version: 1.0.2(filepond@4.30.4)
       filepond-plugin-file-validate-size:
         specifier: ^2.2.8
         version: 2.2.8(filepond@4.30.4)
@@ -3313,14 +3310,6 @@ packages:
     dependencies:
       flat-cache: 3.1.1
     dev: true
-
-  /filepond-plugin-drag-reorder@1.0.2(filepond@4.30.4):
-    resolution: {integrity: sha512-pObPZ7H5p7/Q678WGZFDQ6wo/2npFlXpq390uKFavzKu7NL76IwQBtE4ZjB8fyX8VibKdywWIDAJLKRRTfmMjA==}
-    peerDependencies:
-      filepond: ^4.5.0
-    dependencies:
-      filepond: 4.30.4
-    dev: false
 
   /filepond-plugin-file-validate-size@2.2.8(filepond@4.30.4):
     resolution: {integrity: sha512-yzb8scATmkWqPTP7oKQz6L8WwJm6Xmgc/fuq6DFGRaLz0I7372BUvBsxagBk/hypMIjvieNzhggm33Y60x3rcw==}

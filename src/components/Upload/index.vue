@@ -2,7 +2,6 @@
 import { isVue3, reactive } from 'vue-demi'
 import 'filepond/dist/filepond.min.css'
 import * as FilePond from 'filepond'
-import FilepondPluginDragReorder from 'filepond-plugin-drag-reorder'
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 import FilePondPluginImageValidateSize from 'filepond-plugin-image-validate-size'
@@ -15,6 +14,7 @@ import FaMessageBox from '../MessageBox/index'
 import { isBase64WithScheme, isObject, tryParsingJSONArray, unwrap } from '../../utils'
 import Uploading from './Uploading.vue'
 
+// import FilepondPluginDragReorder from 'filepond-plugin-drag-reorder';
 // import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 // import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 // import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css'
@@ -36,10 +36,10 @@ import Uploading from './Uploading.vue'
 // import FilePondPluginPdfPreview from 'filepond-plugin-pdf-preview'
 
 FilePond.registerPlugin(
-  FilepondPluginDragReorder,
   FilePondPluginFileValidateSize,
   FilePondPluginFileValidateType,
   FilePondPluginImageValidateSize,
+  // FilepondPluginDragReorder,
   // FilePondPluginFileEncode,
   // FilePondPluginFileRename,
   // FilePondPluginFileMetadata,
@@ -218,7 +218,6 @@ export default {
           itemInsertLocation: 'after',
           allowMultiple: true,
           allowReorder: true,
-          dataAllowReorder: true,
           dropValidation: true,
           credits: false,
           files: this.files,

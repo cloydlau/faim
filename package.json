@@ -81,7 +81,6 @@
     "del": "^7.1.0",
     "esno": "^0.17.0",
     "filepond": "^4.30.4",
-    "filepond-plugin-drag-reorder": "^1.0.2",
     "filepond-plugin-file-validate-size": "^2.2.8",
     "filepond-plugin-file-validate-type": "^1.2.8",
     "filepond-plugin-image-validate-size": "^1.2.7",
