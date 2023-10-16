@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/one-component-per-file -->
 <script>
 import { isVue3 } from 'vue-demi'
-import fileTypeToLocalConfig from '../../useUpload/localConfig'
+import presets from '../../useUpload/presets'
 
 let vm
 
@@ -47,7 +47,7 @@ export default {
   },
   data() {
     return {
-      fileTypeToLocalConfig,
+      presets,
       show: false,
       type: null,
       formData: createInitialFormData(),
@@ -105,7 +105,7 @@ export default {
     >
       <FaUpload
         v-model="formData.file"
-        v-bind="fileTypeToLocalConfig[type]"
+        v-bind="presets[type]"
       />
     </el-form-item>
     <template v-else-if="type === 'audio'">
@@ -126,7 +126,7 @@ export default {
       >
         <FaUpload
           v-model="formData.file"
-          v-bind="fileTypeToLocalConfig[type]"
+          v-bind="presets[type]"
         />
       </el-form-item>
     </template>

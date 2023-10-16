@@ -1,10 +1,10 @@
 // 任意类型文件的配置预设
-const localConfig = {
+const common = {
   maxFiles: 5,
 }
 
 // 不同类型文件的配置预设 (优先级更高)
-const localConfigByFileType = {
+const catalog = {
   image: {
     maxFiles: 5,
     imageValidateSizeMaxWidth: 5000,
@@ -40,6 +40,6 @@ const localConfigByFileType = {
 }
 
 export default Object.fromEntries(Array.from(
-  Object.keys(localConfigByFileType),
-  fileType => [fileType, { ...localConfig, ...localConfigByFileType[fileType] }],
+  Object.keys(catalog),
+  fileType => [fileType, { ...common, ...catalog[fileType] }],
 ))

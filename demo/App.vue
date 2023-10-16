@@ -2,7 +2,7 @@
 import { reactive, ref } from 'vue-demi'
 import JsonEditorVue from 'json-editor-vue'
 import { binaryToBase64, fileToBlob } from '../src/components/ImageUpload/utils'
-import fileTypeToLocalConfig from './useUpload/localConfig'
+import presets from './useUpload/presets'
 
 const console = window.console
 const show = ref(true)
@@ -186,7 +186,7 @@ const options = reactive({
         prop="FaUpload"
       >
         <FaUpload
-          v-bind="fileTypeToLocalConfig.image"
+          v-bind="presets.image"
           ref="faUploadRef"
           v-model="data.value.files"
         />
