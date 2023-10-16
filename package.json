@@ -28,26 +28,25 @@
   ],
   "exports": {
     ".": {
-      "types": "./src/index.d.ts",
-      "import": "./src/index.ts",
-      "require": "./src/index.ts"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.mjs"
     },
     "./*": "./*"
   },
-  "main": "./src/index.ts",
-  "module": "./src/index.ts",
-  "unpkg": "./src/index.ts",
-  "jsdelivr": "./src/index.ts",
-  "types": "./src/index.d.ts",
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "unpkg": "./dist/index.mjs",
+  "jsdelivr": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
-    "demo",
+    "dist",
     "docs",
-    "scripts/postinstall.mts",
-    "src"
+    "scripts/postinstall.mts"
   ],
   "scripts": {
     "dev": "esno ./scripts/dev.mts",
-    "build": "vite build",
+    "build": "npx mkdist",
     "serve": "vite preview",
     "release": "esno ./scripts/release.mts",
     "pnpm:devPreinstall": "node ./scripts/devPreinstall.js",
@@ -119,6 +118,7 @@
     "lint-staged": "latest",
     "magicast": "latest",
     "mammoth": "latest",
+    "mkdist": "latest",
     "only-allow": "latest",
     "open": "latest",
     "prompts": "latest",
@@ -127,8 +127,6 @@
     "typescript": "latest",
     "vanilla-jsoneditor": "latest",
     "vite": "latest",
-    "vite-plugin-css-injected-by-js": "latest",
-    "vite-plugin-dts": "latest",
     "vue": "latest",
     "zhlint": "latest"
   },

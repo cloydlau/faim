@@ -1,11 +1,11 @@
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
-import dts from 'vite-plugin-dts'
 import { parse } from 'semver'
 import type { SemVer } from 'semver'
 import { version } from 'vue'
 import { PascalCasedName, name } from './package.json'
 
+// import dts from 'vite-plugin-dts'
 // import AutoImport from 'unplugin-auto-import/vite'
 // import Components from 'unplugin-vue-components/vite'
 
@@ -17,9 +17,9 @@ export default defineConfig({
     transformIndexHtml(html: string) {
       return html.replace(/\{\{ NAME \}\}/, name).replace(/\{\{ VUE_VERSION \}\}/g, String(major === 3 ? major : `${major}.${minor}`))
     },
-  }, dts({
+  }, /* dts({
     outDir: './',
-  }), vue()],
+  }), */ vue()],
   build: {
     lib: {
       name,

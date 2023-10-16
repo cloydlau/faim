@@ -60,74 +60,11 @@ export default defineConfig({
 
 ### Vue CLI
 
-```shell
-# 需要 TS 环境
-npm i @vue/cli-plugin-typescript typescript -D
-```
-
 ```js
 // vue.config.js
 
 module.exports = {
   transpileDependencies: ['faim'],
-}
-```
-
-### webpack
-
-```shell
-# 需要 TS 环境
-npm i ts-loader typescript -D
-```
-
-```js
-// webpack.config.js
-
-module.exports = {
-  resolve: {
-    extensions: ['.ts', '.tsx'],
-  },
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        loader: 'ts-loader',
-        include: [/src/, /node_modules\/faim/],
-        options: { allowTsInNodeModules: true },
-      },
-    ],
-  },
-}
-```
-
-```json
-// tsconfig.json
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
-
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    // "noEmit": true,
-    "jsx": "preserve",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
-  },
-  "include": [
-    "src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue",
-    "node_modules/faim/**/*.ts", "node_modules/faim/**/*.d.ts", "node_modules/faim/**/*.tsx", "node_modules/faim/**/*.vue"
-  ],
-  "references": [{ "path": "./tsconfig.node.json" }]
 }
 ```
 
@@ -971,7 +908,7 @@ FaMessageBox.confirm({
 ### 在非 Vue 环境中使用
 
 ```ts
-import FaMessageBox from 'faim/src/components/MessageBox/index'
+import FaMessageBox from 'faim/dist/components/MessageBox/index'
 ```
 
 <br>
@@ -1082,12 +1019,12 @@ import FaMessageBox from 'faim/src/components/MessageBox/index'
 
 ### Props
 
-| 名称                                                | 说明                                                   | 类型    | 默认值                              |
-|-----------------------------------------------------|------------------------------------------------------|---------|-------------------------------------|
-| modelValue (Vue 3) /<br>value (Vue 2) /<br> v-model | 绑定值                                                 | string  |                                     |
-| disabled                                            | 禁用状态                                               | boolean | `false`                             |
-| outputFormat                                        | 输出格式，`'html'` 或 `'text'`                          | string  | `'html'`                            |
-| ...                                                 | [TinyMCE 配置](https://www.tiny.cloud/docs/tinymce/6/) | /       | [查看代码](./src/RichText/index.ts) |
+| 名称                                                | 说明                                                   | 类型    | 默认值                                         |
+|-----------------------------------------------------|------------------------------------------------------|---------|------------------------------------------------|
+| modelValue (Vue 3) /<br>value (Vue 2) /<br> v-model | 绑定值                                                 | string  |                                                |
+| disabled                                            | 禁用状态                                               | boolean | `false`                                        |
+| outputFormat                                        | 输出格式，`'html'` 或 `'text'`                          | string  | `'html'`                                       |
+| ...                                                 | [TinyMCE 配置](https://www.tiny.cloud/docs/tinymce/6/) | /       | [查看代码](./src/components/RichText/index.ts) |
 
 <br>
 
