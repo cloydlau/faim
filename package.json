@@ -1,0 +1,147 @@
+{
+  "name": "faim",
+  "PascalCasedName": "Faim",
+  "version": "0.0.0",
+  "private": false,
+  "description": "Element Plus (Vue 3) & Element UI (Vue 2.7/2.6) isomorphic UI component library. ❄️ More than Element.",
+  "author": {
+    "name": "Cloyd Lau",
+    "url": "https://github.com/cloydlau"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/cloydlau/faim",
+  "keywords": [
+    "crop",
+    "cropper",
+    "el-upload",
+    "filepond",
+    "offline",
+    "qrcode",
+    "qr code",
+    "richtext",
+    "rich text",
+    "tinymce",
+    "upload",
+    "uploader",
+    "viewer",
+    "WYSIWYG"
+  ],
+  "exports": {
+    ".": {
+      "types": "./src/index.d.ts",
+      "import": "./src/index.ts",
+      "require": "./src/index.ts"
+    },
+    "./*": "./*"
+  },
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "unpkg": "./src/index.ts",
+  "jsdelivr": "./src/index.ts",
+  "types": "./src/index.d.ts",
+  "files": [
+    "demo",
+    "docs",
+    "scripts/postinstall.mts",
+    "src"
+  ],
+  "scripts": {
+    "dev": "esno ./scripts/dev.mts",
+    "build": "vite build",
+    "serve": "vite preview",
+    "release": "esno ./scripts/release.mts",
+    "pnpm:devPreinstall": "node ./scripts/devPreinstall.js",
+    "preinstall": "node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || npx only-allow pnpm",
+    "postinstall": "esno ./scripts/postinstall.mts"
+  },
+  "peerDependencies": {
+    "element-plus": ">=2",
+    "element-ui": ">=2",
+    "vue": "2||3"
+  },
+  "peerDependenciesMeta": {
+    "element-plus": {
+      "optional": true
+    },
+    "element-ui": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@types/lodash-es": "^4.17.9",
+    "@types/uuid": "^9.0.5",
+    "@types/validator": "^13.11.3",
+    "@vueuse/core": "^10.5.0",
+    "await-to-js": "^3.0.0",
+    "cropperjs": "^1.6.1",
+    "cross-spawn": "^7.0.3",
+    "del": "^7.1.0",
+    "esno": "^0.17.0",
+    "filepond": "^4.30.4",
+    "filepond-plugin-drag-reorder": "^1.0.2",
+    "filepond-plugin-file-validate-size": "^2.2.8",
+    "filepond-plugin-file-validate-type": "^1.2.8",
+    "filepond-plugin-image-validate-size": "^1.2.7",
+    "kolorist": "^1.8.0",
+    "lodash-es": "^4.17.21",
+    "mrmime": "^1.0.1",
+    "qrcode": "^1.5.3",
+    "sass": "^1.69.3",
+    "sortablejs": "^1.15.0",
+    "sweetalert2": "^11.7.32",
+    "swiper": "^10.3.1",
+    "tinymce": "^6.7.0",
+    "upng-js": "^2.1.0",
+    "uuid": "^9.0.1",
+    "validator": "^13.11.0",
+    "viewerjs": "^1.11.6",
+    "vue-demi": "^0.14.6",
+    "vue-global-config": "^0.4.2"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "~0.42.1",
+    "@commitlint/cli": "latest",
+    "@commitlint/config-conventional": "latest",
+    "@element-plus/icons-vue": "latest",
+    "@types/node": "latest",
+    "@vitejs/plugin-vue": "latest",
+    "@vue/compiler-sfc": "latest",
+    "@vue/test-utils": "latest",
+    "axios": "latest",
+    "axios-shortcut": "latest",
+    "case-police": "latest",
+    "element-plus": "latest",
+    "element-ui": "latest",
+    "faim": "workspace:*",
+    "json-editor-vue": "latest",
+    "lint-staged": "latest",
+    "magicast": "latest",
+    "mammoth": "latest",
+    "only-allow": "latest",
+    "open": "latest",
+    "prompts": "latest",
+    "semver": "latest",
+    "simple-git-hooks": "latest",
+    "typescript": "latest",
+    "vanilla-jsoneditor": "latest",
+    "vite": "latest",
+    "vite-plugin-css-injected-by-js": "latest",
+    "vite-plugin-dts": "latest",
+    "vue": "latest",
+    "zhlint": "latest"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm exec lint-staged --concurrent false",
+    "commit-msg": "npx --no -- commitlint --edit ${1}"
+  },
+  "lint-staged": {
+    "*.md": [
+      "case-police --fix",
+      "zhlint --fix"
+    ],
+    "{scripts,src}": "eslint --cache --fix"
+  }
+}
