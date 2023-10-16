@@ -53,7 +53,7 @@ npm i faim
 
 export default defineConfig({
   optimizeDeps: {
-    include: ['faim > qrcode', 'faim > sweetalert2', 'faim > upng-js'],
+    include: ['faim > mime', 'faim > qrcode', 'faim > sweetalert2', 'faim > upng-js'],
   },
 })
 ```
@@ -1394,19 +1394,19 @@ Ant Design 也是使用 `value` 与 `label` 命名。
 
 ### Props
 
-| 名称                                               | 说明                          | 类型                                                                                                                                             | 默认值       |
-|----------------------------------------------------|-----------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------|--------------|
-| modelValue (Vue 3) /<br>value (Vue 2) /<br>v-model | 绑定值                        | any                                                                                                                                              |              |
+| 名称                                               | 说明                          | 类型                                                                                                                                          | 默认值       |
+|----------------------------------------------------|-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|--------------|
+| modelValue (Vue 3) /<br>value (Vue 2) /<br>v-model | 绑定值                        | any                                                                                                                                           |              |
 | upload                                             | 调用接口上传文件，返回 URL/ID  | (file: File, progress: (progress: number) => void, abortController: AbortController) => Promise<string \| object> \| string \| object \| void |              |
-| arrayed                                            | 绑定值是否为数组类型，默认自动 | boolean                                                                                                                                          |              |
-| srcAt                                              | 文件 URL/ID 的位置            | string / symbol / (value: any) => any                                                                                                            |              |
-| extensions                                         | 文件扩展名                    | string                                                                                                                                           |              |
-| minFiles                                           | 最小数量                      | number                                                                                                                                           |              |
-| labelCount                                         | 数量文案                      | string                                                                                                                                           | 'Count'      |
-| labelSize                                          | 体积文案                      | string                                                                                                                                           | 'Size'       |
-| labelWidth                                         | 宽度文案                      | string                                                                                                                                           | 'Width'      |
-| labelHeight                                        | 高度文案                      | string                                                                                                                                           | 'Height'     |
-| labelResolution                                    | 分辨率文案                    | string                                                                                                                                           | 'Resolution' |
+| arrayed                                            | 绑定值是否为数组类型，默认自动 | boolean                                                                                                                                       |              |
+| srcAt                                              | 文件 URL/ID 的位置            | string / symbol / (value: any) => any                                                                                                         |              |
+| extensions                                         | 文件扩展名                    | string                                                                                                                                        |              |
+| minFiles                                           | 最小数量                      | number                                                                                                                                        |              |
+| labelCount                                         | 数量文案                      | string                                                                                                                                        | 'Count'      |
+| labelSize                                          | 体积文案                      | string                                                                                                                                        | 'Size'       |
+| labelWidth                                         | 宽度文案                      | string                                                                                                                                        | 'Width'      |
+| labelHeight                                        | 高度文案                      | string                                                                                                                                        | 'Height'     |
+| labelResolution                                    | 分辨率文案                    | string                                                                                                                                        | 'Resolution' |
 | labelExtensions                                        | 格式文案                                                                      | string                                                                          | 'Extensions'                                                                                                                                  |                                                                             |                                                                                                                                           |
 | labelMinFilesExceeded                              | 触发最小数量限制时的提示文案                                                  | string                                                                          | 'Minimum file count: {minFiles}'                                                                                                          |
 | labelMaxFilesExceeded                              | 触发最大数量限制时的提示文案                                                  | string                                                                          | 'Maximum file count: {maxFiles}'                                                                                                          |
