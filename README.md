@@ -596,7 +596,8 @@ const faImageRef = ref()
 
 ### 安装
 
-> ⚠ 由于 Element Plus 的 `el-upload` 对外暴露的属性非常局限，需要修改 `el-upload` 源码才能得以实现 FaImageUpload，故 Element Plus 不能晚于 faim 安装。
+> **Note**
+> 由于 Element Plus 的 `el-upload` 对外暴露的属性非常局限，需要修改 `el-upload` 源码才能得以实现 FaImageUpload，故 Element Plus 不能晚于 faim 安装。
 
 ### Props
 
