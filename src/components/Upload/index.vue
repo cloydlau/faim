@@ -204,9 +204,9 @@ export default {
         type: String,
       })
     },
-    progress() {
+    percentage() {
       return this.queue.length
-        ? this.queue.reduce((pre, cur) => pre + cur.progress, 0) / this.queue.length
+        ? this.queue.reduce((pre, cur) => pre + cur.progress, 0) / (this.queue.length * 100)
         : 0
     },
     FilePondOptions() {
@@ -240,7 +240,7 @@ export default {
                 [err, res] = await to(res)
                 if (err) {
                   console.error(err)
-                  task.setProgress(1)
+                  task.setProgress(100)
                   this.queue.shift()
                   return
                 }
@@ -249,7 +249,7 @@ export default {
               const file = await this.valueToFile(res)
               if (!file) {
                 console.error('Invalid upload result')
-                task.setProgress(1)
+                task.setProgress(100)
                 this.queue.shift()
                 return
               }
@@ -260,7 +260,7 @@ export default {
                 this.files.unshift(file)
               }
               this.emitInput()
-              task.setProgress(1)
+              task.setProgress(100)
               this.queue.shift()
             }, 0)
             return false
@@ -614,7 +614,7 @@ export default {
     />
     <Uploading
       v-show="uploading"
-      :progress="progress"
+      :percentage="percentage"
       :abort="abort"
     />
   </div>

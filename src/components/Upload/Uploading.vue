@@ -1,7 +1,7 @@
 <script>
 export default {
   props: {
-    progress: {
+    percentage: {
       type: Number,
       required: true,
     },
@@ -11,8 +11,8 @@ export default {
     },
   },
   computed: {
-    percentage() {
-      return `${Math.min(100, Math.round(this.progress * 100))}%`
+    Percentage() {
+      return `${Math.min(100, Math.round(this.percentage * 100))}%`
     },
   },
 }
@@ -23,11 +23,11 @@ export default {
     <div class="container">
       <div
         class="progress-bar"
-        :style="{ width: percentage }"
+        :style="{ width: Percentage }"
       />
-      {{ percentage }}
+      {{ Percentage }}
       <svg
-        v-if="progress < 1"
+        v-if="percentage < 1"
         xmlns="http://www.w3.org/2000/svg"
         width="20"
         height="20"

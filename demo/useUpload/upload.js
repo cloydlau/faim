@@ -32,7 +32,7 @@ function sliceFile(file, CHUNK_SIZE = 10 * MB) {
 }
 
 // 分片上传文件
-export default function upload(file, setProgress, abortController) {
+export default function upload(file, progress, abortController) {
   let failTimes = 0
 
   const chunks = sliceFile(file, CHUNK_SIZE)
@@ -55,7 +55,7 @@ export default function upload(file, setProgress, abortController) {
         timeout: 0,
         onUploadProgress({ event }) {
           if (event.lengthComputable) {
-            setProgress((CHUNK_SIZE * count + event.loaded) / file.size)
+            progress((CHUNK_SIZE * count + event.loaded) / file.size * 100)
           }
         },
         signal: abortController?.signal,
