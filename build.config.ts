@@ -5,4 +5,5 @@ export default defineBuildConfig({
     { builder: 'mkdist', input: './src', format: 'cjs' },
     { builder: 'mkdist', input: './src', format: 'esm' },
   ],
+  declaration: true,
 })
