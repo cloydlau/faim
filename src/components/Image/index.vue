@@ -38,7 +38,7 @@ export default {
       default: undefined,
     },
     qrcodeOptions: {},
-    viewer: {
+    viewable: {
       type: Boolean,
       default: undefined,
     },
@@ -55,8 +55,8 @@ export default {
     }
   },
   computed: {
-    Viewer() {
-      return conclude([this.viewer, globalProps.viewer, true], {
+    Viewable() {
+      return conclude([this.viewable, globalProps.viewable, true], {
         type: Boolean,
       })
     },
@@ -182,15 +182,15 @@ export default {
       if (newFiles.length) {
         this.$nextTick(() => {
           if (this.Pattern === 'swiper' && !this.swiper) {
-            this.swiper = new Swiper(this.$refs.faImage, this.SwiperOptions)
+            this.swiper = new Swiper(this.$refs.faImageRef, this.SwiperOptions)
           }
 
-          if (this.Viewer) {
+          if (this.Viewable) {
             if (this.viewer) {
               // this.viewer.update() // 无效（非必现）
               this.viewer.destroy()
             }
-            this.viewer = new Viewer(this.$refs.viewer, this.ViewerOptions)
+            this.viewer = new Viewer(this.$refs.viewerRef, this.ViewerOptions)
           }
         })
       }
@@ -240,14 +240,14 @@ export default {
 <template>
   <div
     v-if="files.length"
-    ref="faImage"
+    ref="faImageRef"
     class="fa-image"
     :class="{
       'swiper-container': Pattern === 'swiper',
     }"
   >
     <ul
-      ref="viewer"
+      ref="viewerRef"
       :class="(Pattern === 'swiper' ? 'swiper-wrapper' : Pattern) || 'normal-flow'"
     >
       <li
@@ -266,7 +266,7 @@ export default {
             referrerpolicy="no-referrer"
             :width="width"
             :height="height"
-            :style="{ cursor: Viewer ? 'zoom-in' : undefined }"
+            :style="{ cursor: Viewable ? 'zoom-in' : undefined }"
           >
         </slot>
       </li>

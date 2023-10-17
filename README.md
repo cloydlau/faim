@@ -455,7 +455,7 @@ WIP
 | modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                                                | any                                   |                                                                     |
 | pattern                               | 展示模式（`'waterfall'`, `'swiper'` 或 `'table-cell'`） | string                                | `undefined`（即文档流）                                               |
 | srcAt                                 | 图片 `src` 的位置                                     | string / symbol / (value: any) => any |                                                                     |
-| viewer                                | 是否启用 Viewer.js                                    | boolean                               | `true`                                                              |
+| viewable                              | 是否启用 Viewer.js                                    | boolean                               | `true`                                                              |
 | viewerOptions                         | Viewer.js 的参数                                      | object                                | `{ zIndex: 5000, zoomRatio: 0.4 }`                                  |
 | swiperOptions                         | Swiper 的参数                                         | object                                | `{ observer: true }`                                                |
 | qrcode                                | 是否将 `value` 转换为二维码                           | boolean / `'auto'`                    | `false`                                                             |
@@ -485,6 +485,7 @@ WIP
 | 名称   | 说明           | 类型   |
 |--------|--------------|--------|
 | viewer | Viewer.js 实例 | Object |
+| swiper | Swiper 实例    | Object |
 
 ```html
 <FaImage>
@@ -1386,14 +1387,14 @@ Vue 3
 
 ```vue
 <script setup>
-const faUpload = ref()
+const faUploadRef = ref()
 </script>
 
 <template>
   <FaUpload
-    ref="faUpload"
+    ref="faUploadRef"
     @vue:mounted="() => {
-      faUpload.filePond.on('init', () => {
+      faUploadRef.filePond.on('init', () => {
 
       })
     }"
@@ -1406,9 +1407,9 @@ Vue 2
 ```vue
 <template>
   <FaUpload
-    ref="faUpload"
+    ref="faUploadRef"
     @hook:mounted="() => {
-      $refs.faUpload.filePond.on('init', () => {
+      $refs.faUploadRef.filePond.on('init', () => {
 
       })
     }"
