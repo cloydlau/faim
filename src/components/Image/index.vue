@@ -44,7 +44,7 @@ export default {
     },
     viewerOptions: {},
   },
-  expose: ['viewer'],
+  expose: ['viewer', 'swiper'],
   data() {
     return {
       files: [],

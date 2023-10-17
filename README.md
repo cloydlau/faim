@@ -719,8 +719,8 @@ item 具体是什么格式？
 
 | 名称       | 说明                             | 参数                                                                     |
 |------------|--------------------------------|--------------------------------------------------------------------------|
-| uploading  | 图片上传状态                     | boolean                                                                  |
 | openEditor | 打开图片编辑对话框               | (source: File \| Blob \| string \| File[] \| Blob[] \| string[]) => void |
+| uploading  | 图片上传状态                     | boolean                                                                  |
 | ...        | 通过 ref 调用 `el-upload` 的方法 |                                                                          |
 
 openEditor 参数为输入的数据源，支持的数据类型有：
@@ -1421,8 +1421,8 @@ Vue 2
 
 | 名称      | 说明                                                          |
 |-----------|-------------------------------------------------------------|
-| uploading | 上传状态                                                      |
 | filePond  | [FilePond 实例](https://pqina.nl/filepond/docs/api/instance/) |
+| uploading | 上传状态                                                      |
 
 ### 大文件上传
 

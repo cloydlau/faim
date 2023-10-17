@@ -96,7 +96,7 @@ export default defineComponent({
   },
   emits: [model.event, 'init'],
   setup(props, { emit, expose, attrs }) {
-    const loading = ref(true)
+    // const loading = ref(true)
     const id = ref(`minimce-${uuidv4()}`)
     const preventSettingContent = ref(false)
     const preventUpdatingModelValue = ref(false)
@@ -232,7 +232,7 @@ export default defineComponent({
               },
             )
 
-            loading.value = false
+            // loading.value = false
           },
         },
       ],
@@ -269,7 +269,7 @@ export default defineComponent({
     // 在 Vue 2.6 中，return 出去的数据不需要 expose
     return {
       id,
-      loading,
+      // loading,
       // height: (Options.value.height ?? '400') + 'px',
     }
   },

@@ -403,7 +403,7 @@ export default {
   },
   // mounted() { this.computeIsTipOverflowed() },
   // updated() { this.computeIsTipOverflowed() },
-  expose: ['uploading', 'openEditor'],
+  expose: ['openEditor', 'uploading'],
   methods: {
     /* computeIsTipOverflowed() {
       for (const e of document.querySelectorAll(isVue3
