@@ -6,8 +6,23 @@ import { isVue3 } from 'vue-demi'
 import { name } from '../package.json'
 
 declare const process: NodeJS.Process
+type Format = 'cjs' | 'esm'
 
-const componentsRelyOnElFormDisabled = ['ImageUpload/index.vue', 'RichText/index.ts', 'Upload/index.vue']
+const formats: Format[] = ['cjs', 'esm']
+const componentsRelyOnElFormDisabled = {
+  cjs: ['RichText/index.js'],
+  esm: ['ImageUpload/index.vue', 'RichText/index.mjs', 'Upload/index.vue'],
+}
+const useFormDisabledSources: Record<Format, [string, string]> = {
+  cjs: [
+    'require("element-plus/es/components/form/src/hooks/use-form-common-props.mjs")',
+    '() => undefined',
+  ],
+  esm: [
+    'import \{ useFormDisabled \} from \'element-plus/es/components/form/src/hooks/use-form-common-props.mjs\'',
+    'const useFormDisabled = () => undefined',
+  ],
+}
 
 async function postinstall() {
   const cwd = process.cwd()
@@ -27,20 +42,18 @@ async function postinstall() {
     await deleteAsync([`${process.env.INIT_CWD}/node_modules/.vite/deps/element-plus.js*`], { force: true })
   }
 
-  const useFormDisabledSources = [
-    'import \{ useFormDisabled \} from \'element-plus/es/components/form/src/hooks/use-form-common-props.mjs\'',
-    'const useFormDisabled = () => undefined',
-  ] as [string, string]
-  if (isElementPlusAvailable) {
-    useFormDisabledSources.reverse()
-  }
-  for (const component of componentsRelyOnElFormDisabled) {
-    const componentPath = `${cwd}/src/components/${component}`
-    console.log(cyan(`[INFO] Patching ${componentPath}`))
-    fs.writeFileSync(componentPath, fs.readFileSync(componentPath, 'utf-8').replace(...useFormDisabledSources))
-    if (isDev) {
-      console.log(cyan(`[INFO] Linting ${componentPath}`))
-      spawn('npx', ['eslint', componentPath, '--fix'], { stdio: 'inherit' })
+  for (const format of formats) {
+    if (isElementPlusAvailable) {
+      useFormDisabledSources[format].reverse()
+    }
+    for (const component of componentsRelyOnElFormDisabled[format]) {
+      const componentPath = `${cwd}/dist/components/${component}`
+      console.log(cyan(`[INFO] Patching ${componentPath}`))
+      fs.writeFileSync(componentPath, fs.readFileSync(componentPath, 'utf-8').replace(...useFormDisabledSources[format as Format]))
+      if (isDev) {
+        console.log(cyan(`[INFO] Linting ${componentPath}`))
+        spawn('npx', ['eslint', componentPath, '--fix'], { stdio: 'inherit' })
+      }
     }
   }
 
