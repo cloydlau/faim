@@ -38,11 +38,11 @@ export default {
       default: undefined,
     },
     qrcodeOptions: {},
-    viewerjs: {
+    viewer: {
       type: Boolean,
       default: undefined,
     },
-    viewerjsOptions: {},
+    viewerOptions: {},
   },
   expose: ['viewer'],
   data() {
@@ -55,13 +55,13 @@ export default {
     }
   },
   computed: {
-    ViewerJS() {
-      return conclude([this.viewerjs, globalProps.viewerjs, true], {
+    Viewer() {
+      return conclude([this.viewer, globalProps.viewer, true], {
         type: Boolean,
       })
     },
-    ViewerJSOptions() {
-      return conclude([this.viewerjsOptions, globalProps.viewerjsOptions, {
+    ViewerOptions() {
+      return conclude([this.viewerOptions, globalProps.viewerOptions, {
         zIndex: 5000,
         zoomRatio: 0.5,
         show() {
@@ -185,12 +185,12 @@ export default {
             this.swiper = new Swiper(this.$refs.faImage, this.SwiperOptions)
           }
 
-          if (this.ViewerJS) {
+          if (this.Viewer) {
             if (this.viewer) {
               // this.viewer.update() // 无效（非必现）
               this.viewer.destroy()
             }
-            this.viewer = new Viewer(this.$refs.viewer, this.ViewerJSOptions)
+            this.viewer = new Viewer(this.$refs.viewer, this.ViewerOptions)
           }
         })
       }
@@ -266,7 +266,7 @@ export default {
             referrerpolicy="no-referrer"
             :width="width"
             :height="height"
-            :style="{ cursor: ViewerJS ? 'zoom-in' : undefined }"
+            :style="{ cursor: Viewer ? 'zoom-in' : undefined }"
           >
         </slot>
       </li>

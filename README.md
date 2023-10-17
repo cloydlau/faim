@@ -455,8 +455,8 @@ WIP
 | modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                                                | any                                   |                                                                     |
 | pattern                               | 展示模式（`'waterfall'`, `'swiper'` 或 `'table-cell'`） | string                                | `undefined`（即文档流）                                               |
 | srcAt                                 | 图片 `src` 的位置                                     | string / symbol / (value: any) => any |                                                                     |
-| viewerjs                              | 是否启用 Viewer.js                                    | boolean                               | `true`                                                              |
-| viewerjsOptions                       | Viewer.js 的参数                                      | object                                | `{ zIndex: 5000, zoomRatio: 0.4 }`                                  |
+| viewer                                | 是否启用 Viewer.js                                    | boolean                               | `true`                                                              |
+| viewerOptions                         | Viewer.js 的参数                                      | object                                | `{ zIndex: 5000, zoomRatio: 0.4 }`                                  |
 | swiperOptions                         | Swiper 的参数                                         | object                                | `{ observer: true }`                                                |
 | qrcode                                | 是否将 `value` 转换为二维码                           | boolean / `'auto'`                    | `false`                                                             |
 | qrcodeOptions                         | node-qrcode 的参数                                    | object                                | `{ margin: 0, errorCorrectionLevel: 'L', width: 444, height: 444 }` |

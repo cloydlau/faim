@@ -321,7 +321,7 @@ const options = reactive({
         <FaImage
           :value="data.value.FaImage[0]"
           :modelValue="data.value.FaImage[0]"
-          :viewerjs="false"
+          :viewer="false"
           @click="onClick"
         />
 
