@@ -440,7 +440,7 @@ export default {
       return FilePondOptions
     },
   },
-  expose: ['filePond'],
+  expose: ['filePond', 'uploading'],
   watch: {
     [model.prop]: {
       immediate: true,
