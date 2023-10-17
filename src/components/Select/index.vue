@@ -45,6 +45,7 @@ export default {
     }])),
   },
   emits: [model.event, 'update:options', 'update:label'],
+  expose: ['remoteMethod'],
   data() {
     return {
       innerValue: this[model.prop],
@@ -189,13 +190,13 @@ export default {
       this.updateLabel()
       this.$emit('update:options', newOptions)
     },
-    remoteMethod(e) {
+    remoteMethod(query) {
       if (!this.Search) {
         return
       }
       this.loading = true
-      this.previousQuery = e
-      const res = this.Search(e)
+      this.previousQuery = query
+      const res = this.Search(query)
       if (res instanceof Promise) {
         res.then((res) => {
           this.setInnerOptions(res)

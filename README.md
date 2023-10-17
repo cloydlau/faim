@@ -1217,10 +1217,10 @@ TinyMCE 的 `urlconverter_callback`、`paste_postprocess` API 不支持异步操
 |----------------------------------------------------|-----------------------------------|-----------------------------------------------|--------------------------------|
 | modelValue (Vue 3) /<br>value (Vue 2) /<br>v-model | 绑定值                            | any                                           |                                |
 | v-model:options (Vue 3) /<br>options.sync (Vue 2)  | 选项                              | any[]                                         |                                |
+| v-model:label (Vue 3) /<br>label.sync (Vue 2)      | 绑定值对应的 `label` (单向数据流) | string \| string[]                            |                                |
 | props                                              | 定位选项的各项属性                | object                                        |                                |
 | search                                             | 远程搜索 (`remote-method` 封装)   | (query: string) =><br>Promise<any[]> \| any[] |                                |
 | searchImmediately                                  | 是否立即执行远程搜索              | boolean                                       | `true`                         |
-| v-model:label (Vue 3) /<br>label.sync (Vue 2)      | 绑定值对应的 `label` (单向数据流) | string \| string[]                            |                                |
 | showSelectAllCheckbox                              | 多选时是否显示全选框              | boolean                                       | `true`                         |
 | locale                                             | i18n                              | Record<string, string>                        | [查看代码](./src/locale/en.ts) |
 | ...                                                | `el-select` 的属性                |                                               |                                |
