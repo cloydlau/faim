@@ -502,7 +502,7 @@ export default {
       }
 
       let sizeError = false
-      file = await toBinary(source)
+      const file = await toBinary(source)
 
       if (this.Size.max !== undefined && file.size > this.Size._max) {
         FaMessageBox.warning({
