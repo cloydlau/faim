@@ -217,7 +217,7 @@ export default {
                   :class="{
                     'inline-prompt': InlinePrompt,
                   }"
-                  @click.native="onClick"
+                  @click.stop.native="onClick"
                 />
               </template>
             </el-popconfirm>

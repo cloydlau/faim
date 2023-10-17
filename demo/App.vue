@@ -32,6 +32,7 @@ const data = reactive({
       '123',
     ],
     FaUpload: undefined,
+    ElSwitch: 0,
     FaPopSwitch: true,
     ElSelect: { a: 1, b: 1 },
     FaSelect: undefined,
@@ -130,6 +131,29 @@ const options = reactive({
         />
       </p>
 
+      <el-form-item
+        label="ElSwitch"
+        prop="ElSwitch"
+      >
+        <el-switch
+          v-model="data.value.ElSwitch"
+        />
+      </el-form-item>
+      <el-form-item
+        label="FaPopSwitch"
+        prop="FaPopSwitch"
+      >
+        <FaPopSwitch
+          v-model="data.value.FaPopSwitch"
+          :elTooltipProps="{ rawContent: true, content: '已停用' }"
+          :elPopoverProps="{ content: `权限不足` }"
+          :elPopconfirmProps="{ title: '确认启用吗？' }"
+          active-text="启用"
+          inactive-text="停用"
+          inlinePrompt
+          @change="console.log('[FaPopSwitch] change')"
+        />
+      </el-form-item>
       <el-form-item
         label="FaRichText"
         prop="FaRichText"
@@ -345,20 +369,6 @@ const options = reactive({
         >
           删除
         </FaPopButton>
-      </el-form-item>
-      <el-form-item
-        label="FaPopSwitch"
-        prop="FaPopSwitch"
-      >
-        <FaPopSwitch
-          v-model="data.value.FaPopSwitch"
-          :elTooltipProps="{ rawContent: true, content: '已停用' }"
-          :elPopoverProps="{ content: `权限不足` }"
-          :elPopconfirmProps="{ title: '确认启用吗？' }"
-          active-text="启用"
-          inactive-text="停用"
-          @change="console.log('[FaPopSwitch] change')"
-        />
       </el-form-item>
       <el-form-item label="FaMessageBox">
         <el-button-group>
