@@ -30,11 +30,11 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs",
-      "require": "./dist/index.mjs"
+      "require": "./dist/index.js"
     },
     "./*": "./*"
   },
-  "main": "./dist/index.mjs",
+  "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "unpkg": "./dist/index.mjs",
   "jsdelivr": "./dist/index.mjs",
