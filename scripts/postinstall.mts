@@ -8,22 +8,6 @@ import { name } from '../package.json'
 declare const process: NodeJS.Process
 type Format = 'cjs' | 'esm'
 
-const formats: Format[] = ['cjs', 'esm']
-const componentsRelyOnElFormDisabled = {
-  cjs: ['RichText/index.js'],
-  esm: ['ImageUpload/index.vue', 'RichText/index.mjs', 'Upload/index.vue'],
-}
-const useFormDisabledSources: Record<Format, [string, string]> = {
-  cjs: [
-    'require("element-plus/es/components/form/src/hooks/use-form-common-props.mjs")',
-    '() => undefined',
-  ],
-  esm: [
-    'import \{ useFormDisabled \} from \'element-plus/es/components/form/src/hooks/use-form-common-props.mjs\'',
-    'const useFormDisabled = () => undefined',
-  ],
-}
-
 async function postinstall() {
   const cwd = process.cwd()
   const isDev = process.env.INIT_CWD === cwd
@@ -42,12 +26,31 @@ async function postinstall() {
     await deleteAsync([`${process.env.INIT_CWD}/node_modules/.vite/deps/element-plus.js*`], { force: true })
   }
 
+  const dir = isDev ? 'src' : 'dist'
+  const formats: Format[] = ['esm']
+  if (!isDev) {
+    formats.unshift('cjs')
+  }
+  const componentsRelyOnElFormDisabled = {
+    cjs: ['RichText/index.js'],
+    esm: ['ImageUpload/index.vue', 'Upload/index.vue', ...isDev ? ['RichText/index.ts'] : ['RichText/index.mjs']],
+  }
+  const useFormDisabledSources: Record<Format, [string, string]> = {
+    cjs: [
+      'require("element-plus/es/components/form/src/hooks/use-form-common-props.mjs")',
+      '() => undefined',
+    ],
+    esm: [
+      'import \{ useFormDisabled \} from \'element-plus/es/components/form/src/hooks/use-form-common-props.mjs\'',
+      'const useFormDisabled = () => undefined',
+    ],
+  }
   for (const format of formats) {
     if (isElementPlusAvailable) {
       useFormDisabledSources[format].reverse()
     }
     for (const component of componentsRelyOnElFormDisabled[format]) {
-      const componentPath = `${cwd}/dist/components/${component}`
+      const componentPath = `${cwd}/${dir}/components/${component}`
       console.log(cyan(`[INFO] Patching ${componentPath}`))
       fs.writeFileSync(componentPath, fs.readFileSync(componentPath, 'utf-8').replace(...useFormDisabledSources[format as Format]))
       if (isDev) {

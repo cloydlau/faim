@@ -1,4 +1,4 @@
-import { FaMessageBox } from 'faim'
+import { FaMessageBox } from '../../src/index'
 import { POST } from '../request'
 
 // const GB = 1024 ** 3

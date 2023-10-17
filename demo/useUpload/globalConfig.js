@@ -1,4 +1,4 @@
-import FaimLocale from 'faim/dist/locale/zh-cn.mjs'
+import FaimLocale from '../../src/locale/zh-cn'
 import upload from './upload'
 
 export default {

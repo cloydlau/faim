@@ -1,5 +1,5 @@
 import mammoth from 'mammoth/mammoth.browser.min.js'
-import { FaMessageBox } from 'faim'
+import { FaMessageBox } from '../../../src/index'
 
 export default {
   open: editor => FaMessageBox.confirm({
