@@ -1,7 +1,7 @@
 {
   "name": "faim",
   "PascalCasedName": "Faim",
-  "version": "0.4.0-alpha.3",
+  "version": "0.4.0-alpha.4",
   "private": false,
   "description": "Element Plus (Vue 3) & Element UI (Vue 2.7/2.6) isomorphic UI component library. ❄️ More than Element.",
   "author": {
@@ -83,7 +83,7 @@
     "lodash-es": "^4.17.21",
     "mime": "^3.0.0",
     "qrcode": "^1.5.3",
-    "sass": "^1.69.3",
+    "sass": "^1.69.4",
     "sortablejs": "^1.15.0",
     "sweetalert2": "^11.7.32",
     "swiper": "^10.3.1",
