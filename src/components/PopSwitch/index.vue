@@ -1,7 +1,7 @@
 <script>
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
-import { getListeners, isGlobalSlot } from '../../utils'
+import { isGlobalSlot } from '../../utils'
 
 const globalProps = {}
 const globalAttrs = {}
