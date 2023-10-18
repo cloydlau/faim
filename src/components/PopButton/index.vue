@@ -25,9 +25,6 @@ export default {
   },
   emits: ['click', 'confirm'],
   computed: {
-    Listeners() {
-      return getListeners.call(this, globalListeners)
-    },
     Slots() {
       return conclude([isVue3 ? this.$slots : this.$scopedSlots, globalSlots])
     },

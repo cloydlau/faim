@@ -55,17 +55,13 @@
   },
   "peerDependencies": {
     "element-plus": ">=2",
-    "element-ui": ">=2",
     "vue": "2||3"
   },
   "peerDependenciesMeta": {
-    "element-plus": {
-      "optional": true
-    },
-    "element-ui": {
-      "optional": true
-    },
     "vue": {
+      "optional": true
+    },
+    "element-plus": {
       "optional": true
     }
   },
@@ -112,7 +108,6 @@
     "axios-shortcut": "latest",
     "case-police": "latest",
     "element-plus": "latest",
-    "element-ui": "latest",
     "faim": "workspace:*",
     "json-editor-vue": "latest",
     "lint-staged": "latest",

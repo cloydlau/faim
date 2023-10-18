@@ -10,7 +10,7 @@ const globalSlots = {}
 
 const model = {
   prop: isVue3 ? 'modelValue' : 'value',
-  event: isVue3 ? 'update:modelValue' : 'change',
+  event: isVue3 ? 'update:modelValue' : 'input',
 }
 
 const boolProps = [
@@ -38,16 +38,13 @@ export default {
       default: undefined,
     }])),
   },
-  emits: [model.event, 'confirm'],
+  emits: [model.event, 'confirm', 'change'],
   data() {
     return {
       isVue3,
     }
   },
   computed: {
-    Listeners() {
-      return getListeners.call(this, globalListeners)
-    },
     Slots() {
       return conclude([isVue3 ? this.$slots : this.$scopedSlots, globalSlots])
     },
@@ -138,9 +135,11 @@ export default {
     },
     onConfirm(...e) {
       this.$emit('confirm', ...e)
-      this.$emit(model.event, this.$refs[this.ElSwitchProps.ref].checked
+      const value = this.$refs[this.ElSwitchProps.ref].checked
         ? (this.ElSwitchProps.inactiveValue ?? false)
-        : (this.ElSwitchProps.activeValue ?? true))
+        : (this.ElSwitchProps.activeValue ?? true)
+      this.$emit(model.event, value)
+      this.$emit('change', value)
     },
     getCharCount(text) {
       let count = 0
@@ -217,7 +216,7 @@ export default {
                   :class="{
                     'inline-prompt': InlinePrompt,
                   }"
-                  @click.stop.native="onClick"
+                  @click.native="onClick"
                 />
               </template>
             </el-popconfirm>

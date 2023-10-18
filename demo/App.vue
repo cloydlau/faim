@@ -118,6 +118,7 @@ const options = reactive({
     <FaFormDialog
       v-model:show="show"
       v-model="data.value"
+      title="Faim"
       :show.sync="show"
       fullscreen
       append-to-body
@@ -137,6 +138,15 @@ const options = reactive({
       >
         <el-switch
           v-model="data.value.ElSwitch"
+          @change="() => {
+            console.log('change')
+          }"
+          @input="() => {
+            console.log('input')
+          }"
+          @update:modelValue="() => {
+            console.log('update:modelValue')
+          }"
         />
       </el-form-item>
       <el-form-item
@@ -146,7 +156,7 @@ const options = reactive({
         <FaPopSwitch
           v-model="data.value.FaPopSwitch"
           :elTooltipProps="{ rawContent: true, content: '已停用' }"
-          :elPopoverProps="{ content: `权限不足` }"
+          :elPopoverProps="{ content: `权限不足`, trigger: 'hover' }"
           :elPopconfirmProps="{ title: '确认启用吗？' }"
           active-text="启用"
           inactive-text="停用"
