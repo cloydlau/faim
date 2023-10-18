@@ -854,7 +854,7 @@ FaMessageBox.confirm('Are You Sure?').then(() => {
 FaMessageBox.confirm({
   titleText: 'Confirm to continue',
   showCancelButton: false,
-  allowOutsideFaick: false,
+  allowOutsideClick: false,
   allowEscapeKey: false,
 })
 ```
