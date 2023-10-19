@@ -2,6 +2,7 @@
 import { reactive, ref } from 'vue-demi'
 import JsonEditorVue from 'json-editor-vue'
 import { binaryToBase64, fileToBlob } from '../src/components/ImageUpload/utils'
+import { FaMessageBox } from '../src'
 import presets from './useUpload/presets'
 
 const console = window.console
@@ -110,6 +111,15 @@ const options = reactive({
     },
   ],
 })
+
+function loading() {
+  FaMessageBox.loading().then(() => {
+    console.log('结束')
+  })
+  setTimeout(() => {
+    FaMessageBox.close()
+  }, 1000)
+}
 </script>
 
 <template>
@@ -427,6 +437,11 @@ const options = reactive({
             }"
           >
             confirm
+          </el-button>
+          <el-button
+            @click="loading"
+          >
+            loading
           </el-button>
         </el-button-group>
       </el-form-item>

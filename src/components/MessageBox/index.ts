@@ -92,7 +92,7 @@ function warning() {
     confirmButtonColor: '#66b1ff',
     timer: 5000,
     timerProgressBar: true,
-    didOpen: (toast) => {
+    didOpen(toast) {
       toast.addEventListener('mouseenter', Swal.stopTimer)
       toast.addEventListener('mouseleave', Swal.resumeTimer)
     },
@@ -159,4 +159,30 @@ function confirm() {
   })
 }
 
-export default Object.assign(Swal, { success, warning, info, error, confirm })
+function loading<T = any>(options: SweetAlertOptions): Promise<SweetAlertResult<Awaited<T>>>
+function loading<T = any>(title?: string, html?: string, icon?: SweetAlertIcon): Promise<SweetAlertResult<Awaited<T>>>
+function loading() {
+  const [titleOrOptions, html, icon] = arguments
+
+  const options = typeof titleOrOptions === 'string'
+    ? {
+        title: titleOrOptions,
+        ...html && { html },
+        ...icon && { icon },
+      }
+    : titleOrOptions
+
+  return Swal.fire({
+    showCancelButton: false,
+    allowOutsideClick: false,
+    allowEscapeKey: false,
+    background: 'transparent',
+    width: 'unset',
+    didOpen() {
+      Swal.showLoading()
+    },
+    ...options,
+  })
+}
+
+export default Object.assign(Swal, { success, warning, info, error, confirm, loading })
