@@ -844,6 +844,11 @@ FaMessageBox.confirm('Are You Sure?').then(() => {
     // onDismissed
   }
 })
+
+FaMessageBox.loading().then((value) => {
+  // onClose
+})
+FaMessageBox.close()
 ```
 
 ### 案例：强制确认
