@@ -845,7 +845,7 @@ FaMessageBox.confirm('Are You Sure?').then(() => {
   }
 })
 
-FaMessageBox.loading().then((value) => {
+FaMessageBox.loading().then(() => {
   // onClose
 })
 FaMessageBox.close()
