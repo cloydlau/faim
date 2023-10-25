@@ -42,9 +42,13 @@
 npm i faim
 ```
 
-### Bun
-
-除 Vue 3 下 FaImageUpload 组件外均可用，等待 Bun 修复这个 Bug：https://github.com/oven-sh/bun/issues/4738
+> **Note**
+> 由于需要修改 `el-upload` 源码才能得以实现 FaImageUpload，故**该组件**存在以下限制：
+> - element-plus 不能晚于 faim 安装
+>
+> - 暂不支持通过 CDN 的方式使用 element-plus
+>
+> - 暂不支持通过 Bun 安装依赖，等待 Bun 修复这个 Bug：https://github.com/oven-sh/bun/issues/4738
 
 ### Vite
 
@@ -240,8 +244,19 @@ WIP
 ```json
 // package.json
 {
+  // npm/cnpm/bun
   "overrides": {
-    "xxx": "x.x.x"
+    "xxx": "xxx"
+  },
+  // yarn/bun
+  "resolutions": {
+    "faim/xxx": "xxx"
+  },
+  // pnpm
+  "pnpm": {
+    "overrides": {
+      "xxx": "xxx"
+    }
   }
 }
 ```
@@ -594,11 +609,6 @@ const faImageRef = ref()
 - 拖拉拽上传、拖拉拽排序
 - 使用 FaImage 来预览图片
 - 支持表格嵌套，适配 `<table>` & `<el-table>`
-
-### 安装
-
-> **Note**
-> 由于 Element Plus 的 `el-upload` 对外暴露的属性非常局限，需要修改 `el-upload` 源码才能得以实现 FaImageUpload，故 Element Plus 不能晚于 faim 安装。
 
 ### Props
 
