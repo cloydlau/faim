@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import spawn from 'cross-spawn'
-import { cyan, red } from 'kolorist'
+import { cyan, green, red } from 'kolorist'
 import { deleteAsync } from 'del'
 import { isVue3 } from 'vue-demi'
 import { name } from '../package.json'
@@ -12,18 +12,26 @@ async function postinstall() {
   const cwd = process.cwd()
   const isDev = process.env.INIT_CWD === cwd
   const elementPlusPath = `${process.env.INIT_CWD}/node_modules/element-plus`
-  const isElementPlusAvailable = isVue3 && fs.existsSync(elementPlusPath)
 
-  if (isElementPlusAvailable) {
-    console.log(red('[INFO] Patching el-upload source code'))
-    const elUploadSourcePath = `${elementPlusPath}/es/components/upload/src/upload2.mjs`
-    const elUploadSource = fs.readFileSync(elUploadSourcePath, 'utf-8')
-    const whitespaces = elUploadSource.match(/(?<=expose\({)\s*/)?.[0] || '\n'
-    fs.writeFileSync(elUploadSourcePath, elUploadSource.replace(/expose\({(?!\s*uploadFiles,)/, `expose({${whitespaces}uploadFiles,`))
-
-    console.log(cyan('[INFO] Vite re-bundling element-plus'))
-    // Cannot delete files/directories outside the current working directory. Can be overridden with the `force` option.
-    await deleteAsync([`${process.env.INIT_CWD}/node_modules/.vite/deps/element-plus.js*`], { force: true })
+  if (isVue3) {
+    if (fs.existsSync(elementPlusPath)) {
+      console.log(cyan('[INFO] Patching el-upload source code'))
+      const elUploadSourcePath = `${elementPlusPath}/es/components/upload/src/upload2.mjs`
+      const elUploadSource = fs.readFileSync(elUploadSourcePath, 'utf-8')
+      const whitespaces = elUploadSource.match(/(?<=expose\({)\s*/)?.[0] || '\n'
+      const elUploadSourceNew = elUploadSource.replace(/expose\({(?!\s*uploadFiles,)/, `expose({${whitespaces}uploadFiles,`)
+      if (elUploadSource === elUploadSourceNew) {
+        console.log(red('[ERROR] Failed to patch el-upload source code'))
+      } else {
+        fs.writeFileSync(elUploadSourcePath, elUploadSourceNew)
+        console.log(green('[INFO] Successfully patched el-upload source code'))
+        console.log(cyan('[INFO] Vite re-bundling element-plus'))
+        // Cannot delete files/directories outside the current working directory. Can be overridden with the `force` option.
+        await deleteAsync([`${process.env.INIT_CWD}/node_modules/.vite/deps/element-plus.js*`], { force: true })
+      }
+    } else {
+      console.log(red('[ERROR] Element Plus not installed'))
+    }
   }
 
   const dir = isDev ? 'src' : 'dist'
@@ -46,13 +54,15 @@ async function postinstall() {
     ],
   }
   for (const format of formats) {
-    if (isElementPlusAvailable) {
+    if (isVue3) {
       useFormDisabledSources[format].reverse()
     }
     for (const component of componentsRelyOnElFormDisabled[format]) {
       const componentPath = `${cwd}/${dir}/components/${component}`
       console.log(cyan(`[INFO] Patching ${componentPath}`))
-      fs.writeFileSync(componentPath, fs.readFileSync(componentPath, 'utf-8').replace(...useFormDisabledSources[format as Format]))
+      const componentSource = fs.readFileSync(componentPath, 'utf-8')
+      const componentSourceNew = componentSource.replace(...useFormDisabledSources[format as Format])
+      fs.writeFileSync(componentPath, componentSourceNew)
       if (isDev) {
         console.log(cyan(`[INFO] Linting ${componentPath}`))
         spawn('npx', ['eslint', componentPath, '--fix'], { stdio: 'inherit' })
