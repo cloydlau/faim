@@ -1,11 +1,9 @@
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
-import dts from 'vite-plugin-dts'
-import AutoImport from 'unplugin-auto-import/vite'
-import Components from 'unplugin-vue-components/vite'
 import { parse } from 'semver'
 import type { SemVer } from 'semver'
 import { version } from 'vue'
+import dts from 'vite-plugin-dts'
 import { PascalCasedName, name } from './package.json'
 
 const { major, minor } = parse(version) as SemVer
@@ -14,27 +12,14 @@ export default defineConfig({
   plugins: [{
     name: 'html-transform',
     transformIndexHtml(html: string) {
-      return html.replace(/\{\{NAME\}\}/, name).replace(/\{\{VUE_VERSION\}\}/g, String(major === 3 ? major : `${major}.${minor}`))
+      return html.replace(/\{\{ NAME \}\}/, name).replace(/\{\{ VUE_VERSION \}\}/g, String(major === 3 ? major : `${major}.${minor}`))
     },
-  }, dts({
-    outDir: './',
-  }), AutoImport({
-    // targets to transform
-    include: [
-      /\.[tj]sx?$/, // .ts, .tsx, .js, .jsx
-      /\.vue$/, /\.vue\?vue/, // .vue
-      /\.md$/, // .md
-    ],
-    // global imports to register
-    imports: [
-      // presets
-      (major === 3 || (major === 2 && minor >= 7)) ? 'vue' : '@vue/composition-api',
-    ],
-  }), Components(), vue()],
+  }, dts({ rollupTypes: true }), vue()],
   build: {
     lib: {
       name,
       entry: 'src/index.ts',
+      fileName: 'index',
     },
     cssCodeSplit: true,
     sourcemap: true,

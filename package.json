@@ -4,26 +4,21 @@
   "version": "0.14.0",
   "private": false,
   "description": "Element Plus (Vue 3) & Element UI (Vue 2.7/2.6) isomorphic component library. ❄️ More than Element.",
-  "author": "Cloyd Lau (https://github.com/cloydlau)",
+  "author": {
+    "name": "Cloyd Lau",
+    "url": "https://github.com/cloydlau"
+  },
   "license": "MIT",
   "repository": "https://github.com/cloydlau/kikimore",
   "keywords": [
     "carousel",
-    "crop",
-    "cropper",
-    "dropzone",
-    "el-upload",
-    "filepond",
     "gallery",
     "img",
     "image",
     "masonry",
     "qrcode",
     "qr code",
-    "sortable",
     "swiper",
-    "upload",
-    "uploader",
     "viewer",
     "vue-demi",
     "waterfall"
@@ -51,75 +46,53 @@
     "build": "vite build",
     "serve": "vite preview",
     "release": "esno ./scripts/release.mts",
-    "pnpm:devPreinstall": "esno ./scripts/devPreinstall.mts",
-    "preinstall": "node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || npx only-allow pnpm",
-    "postinstall": "esno ./scripts/postinstall.mts"
+    "preinstall": "node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || npx only-allow pnpm"
   },
   "peerDependencies": {
     "element-plus": ">=2",
-    "element-ui": ">=2",
     "vue": "2||3"
   },
   "peerDependenciesMeta": {
-    "element-plus": {
-      "optional": true
-    },
-    "element-ui": {
-      "optional": true
-    },
     "vue": {
+      "optional": true
+    },
+    "element-plus": {
       "optional": true
     }
   },
   "dependencies": {
-    "@types/lodash-es": "latest",
-    "@types/validator": "latest",
-    "@vueuse/core": "latest",
-    "await-to-js": "latest",
-    "axios": "latest",
-    "axios-shortcut": "latest",
-    "cropperjs": "latest",
-    "cross-spawn": "latest",
-    "del": "latest",
-    "esno": "latest",
-    "kolorist": "latest",
-    "lodash-es": "latest",
-    "magicast": "latest",
-    "qrcode": "latest",
-    "sass": "latest",
-    "sortablejs": "latest",
-    "sweetalert2": "latest",
-    "swiper": "latest",
-    "upng-js": "latest",
-    "validator": "latest",
-    "viewerjs": "latest",
-    "vue-demi": "latest",
-    "vue-global-config": "latest"
+    "lodash-es": "^4.17.21",
+    "sass": "^1.69.5",
+    "vue-demi": "^0.14.6",
+    "vue-global-config": "^0.4.2"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "~0.42.1",
+    "@antfu/eslint-config": "0.42.1",
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
     "@element-plus/icons-vue": "latest",
+    "@types/lodash-es": "latest",
     "@types/node": "latest",
     "@vitejs/plugin-vue": "latest",
     "@vue/compiler-sfc": "latest",
     "@vue/test-utils": "latest",
     "case-police": "latest",
+    "cross-spawn": "latest",
+    "del": "latest",
     "element-plus": "latest",
-    "element-ui": "latest",
     "eslint": "latest",
+    "esno": "latest",
     "json-editor-vue": "latest",
     "kikimore": "workspace:*",
+    "kolorist": "latest",
     "lint-staged": "latest",
+    "magicast": "latest",
     "only-allow": "latest",
     "open": "latest",
     "prompts": "latest",
     "semver": "latest",
     "simple-git-hooks": "latest",
     "typescript": "latest",
-    "unplugin-auto-import": "latest",
-    "unplugin-vue-components": "latest",
     "vanilla-jsoneditor": "latest",
     "vite": "latest",
     "vite-plugin-css-injected-by-js": "latest",

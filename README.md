@@ -16,28 +16,27 @@
 
 <p align="center">
   <a href="https://bundlephobia.com/package/kikimore"><img alt="minzipped size" src="https://img.shields.io/bundlephobia/minzip/kikimore"></a>
-  <a href="https://github.com/antfu/eslint-config"><img alt="code style" src="https://antfu.me/badge-code-style.svg"></a>
   <a href="https://conventionalcommits.org"><img alt="conventional commits" src="https://img.shields.io/badge/commits-Conventional-FE5196.svg?logo=conventionalcommits"></a>
+  <a href="https://github.com/antfu/eslint-config"><img alt="code style" src="https://antfu.me/badge-code-style.svg"></a>
   <a href="https://github.com/cloydlau/kikimore#develop"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"></a>
 </p>
 
 <br>
 
-## 特性
+## ⚠ DEPRECATED
 
- - Vue 2.6/2.7/3 一体通用
- - Element UI / Element Plus 一体通用
- - 支持 Vite，Vue CLI，webpack...
- - 部分组件不依赖 Element 甚至不依赖 Vue，任意框架均能使用，支持移动端
- - 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
+- kikimore 已升级至原作者 [cloydlau](https://github.com/cloydlau) 的 [faim](https://github.com/cloydlau/faim)
+- 除了 faim 的众多新组件和能力增强以外，为了后续的漏洞修复和迭代优化，建议尽快迁移
 
 <br>
 
-## 规划
+## 特性
 
-- FileUpload 组件
-- Map 组件
-- i18n 支持
+- Vue 2.6/2.7/3 一体通用
+- Element UI / Element Plus 一体通用
+- 支持微前端 ([wujie](https://github.com/Tencent/wujie)，[qiankun](https://github.com/umijs/qiankun)，[single-spa](https://github.com/single-spa/single-spa)...)
+- 支持 Vite，Vue CLI，webpack...
+- 支持全局属性、全局事件、全局插槽、全局作用域插槽 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
 <br>
 
@@ -47,10 +46,6 @@
 npm i kikimore
 ```
 
-### Bun
-
-等待 Bun 修复这个 Bug：https://github.com/oven-sh/bun/issues/4738
-
 ### Vite
 
 ```ts
@@ -58,17 +53,12 @@ npm i kikimore
 
 export default defineConfig({
   optimizeDeps: {
-    include: ['kikimore > qrcode', 'kikimore > sweetalert2', 'kikimore > upng-js'],
+    include: ['kikimore'],
   },
 })
 ```
 
 ### Vue CLI
-
-```shell
-# 需要 TS 环境
-npm i @vue/cli-plugin-typescript typescript -D
-```
 
 ```js
 // vue.config.js
@@ -78,73 +68,13 @@ module.exports = {
 }
 ```
 
-### webpack
-
-```shell
-# 需要 TS 环境
-npm i ts-loader typescript -D
-```
-
-```js
-// webpack.config.js
-
-module.exports = {
-  resolve: {
-    extensions: ['.ts', '.tsx'],
-  },
-  module: {
-    rules: [
-      {
-        test: /\.tsx?$/,
-        loader: 'ts-loader',
-        include: [/src/, /node_modules\/kikimore/],
-        options: { allowTsInNodeModules: true },
-      },
-    ],
-  },
-}
-```
-
-```json
-// tsconfig.json
-{
-  "compilerOptions": {
-    "target": "ES2020",
-    "useDefineForClassFields": true,
-    "module": "ESNext",
-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
-    "skipLibCheck": true,
-
-    /* Bundler mode */
-    "moduleResolution": "bundler",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    // "noEmit": true,
-    "jsx": "preserve",
-
-    /* Linting */
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true
-  },
-  "include": [
-    "src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue",
-    "node_modules/kikimore/**/*.ts", "node_modules/kikimore/**/*.d.ts", "node_modules/kikimore/**/*.tsx", "node_modules/kikimore/**/*.vue"
-  ],
-  "references": [{ "path": "./tsconfig.node.json" }]
-}
-```
-
 ### Element Plus (Vue 3)
 
 #### 局部注册
 
 ```vue
 <script setup>
-import { KiFormDialog, KiImage, KiImageUpload, KiMessageBox, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
-
-const $swal = KiMessageBox
+import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 </script>
 ```
 
@@ -155,18 +85,12 @@ import { createApp, h } from 'vue'
 import 'element-plus/dist/index.css'
 import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import { KiFormDialog, KiImage, KiImageUpload, KiMessageBox, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
+import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 import App from './App.vue'
 
 const app = createApp(App)
   .use(ElementPlus)
   .use(KiFormDialog, {
-    // 全局配置
-  })
-  .use(KiImage, {
-    // 全局配置
-  })
-  .use(KiImageUpload, {
     // 全局配置
   })
   .use(KiPopButton, {
@@ -178,8 +102,6 @@ const app = createApp(App)
   .use(KiSelect, {
     // 全局配置
   })
-
-app.config.globalProperties.$swal = KiMessageBox
 
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
   app.component(key, component)
@@ -198,12 +120,10 @@ app.mount('#app')
 
 ```vue
 <script>
-import { KiFormDialog, KiImage, KiImageUpload, KiMessageBox, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
-
-const $swal = KiMessageBox
+import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 
 export default {
-  components: { KiFormDialog, KiImage, KiImageUpload, KiPopButton, KiPopSwitch, KiSelect },
+  components: { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect },
 }
 </script>
 ```
@@ -214,17 +134,11 @@ export default {
 import Vue from 'vue'
 import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
-import { KiFormDialog, KiImage, KiImageUpload, KiMessageBox, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
+import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 import App from './App.vue'
 
 Vue.use(ElementUI)
 Vue.use(FormDialog, {
-  // 全局配置
-})
-Vue.use(KiImage, {
-  // 全局配置
-})
-Vue.use(KiImageUpload, {
   // 全局配置
 })
 Vue.use(KiPopButton, {
@@ -235,10 +149,6 @@ Vue.use(KiPopSwitch, {
 })
 Vue.use(KiSelect, {
   // 全局配置
-})
-
-Object.defineProperty(Vue.prototype, '$swal', {
-  value: KiMessageBox
 })
 
 new Vue({
@@ -440,616 +350,6 @@ new Vue({
     max-height: calc(100vh - 135px) !important;
   }
 }
-```
-
-<br>
-
-## Image
-
-[Viewer.js](https://github.com/fengyuanchen/viewerjs) + [Swiper](https://swiperjs.com) + [node-qrcode](https://github.com/soldair/node-qrcode) 组合拳。
-
-### 特性
-
-- 不依赖 Element，任意 UI 框架中均能使用，支持移动端
-- 多样的展示形式：文档流/瀑布流/轮播图/表格嵌套
-- 灵活的数据类型：URL/Base64/二维码/[object URL](https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications#example_using_object_urls_to_display_images)
-- 任意绑定值类型
-- 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
-
-### Props
-
-| 名称                                  | 说明                                                  | 类型                                  | 默认值                                                              |
-|---------------------------------------|-----------------------------------------------------|---------------------------------------|---------------------------------------------------------------------|
-| modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                                                | any                                   |                                                                     |
-| pattern                               | 展示模式（`'waterfall'`, `'swiper'` 或 `'table-cell'`） | string                                | `undefined`（即文档流）                                               |
-| srcAt                                 | 图片 `src` 的位置                                     | string / symbol / (value: any) => any |                                                                     |
-| viewerjs                              | 是否启用 Viewer.js                                    | boolean                               | `true`                                                              |
-| viewerjsProps                         | Viewer.js 的参数                                      | object                                | `{ zIndex: 5000, zoomRatio: 0.4 }`                                  |
-| swiperProps                           | Swiper 的参数                                         | object                                | `{ observer: true }`                                                |
-| qrcode                                | 是否将 `value` 转换为二维码                           | boolean / `'auto'`                    | `false`                                                             |
-| qrcodeProps                           | node-qrcode 的参数                                    | object                                | `{ margin: 0, errorCorrectionLevel: 'L', width: 444, height: 444 }` |
-
-#### qrcode
-
-如果将 `qrcode` 设为 `'auto'`，KiImage 会自动判断是否需要转换 (`value` 为 Base64 或 URL 时不会转换)。
-
-#### srcAt
-
-用于定位 `value` 中的图片 `src`，适用于绑定值非 `src` 本身的情况。
-
-- 支持属性名，如 `'url'`
-- 支持属性路径，如 `'data[0].url'`
-- 支持 symbol 类型的属性名
-- 支持 Function，如 `({ url }) => url`
-
-### Events
-
-| 名称  | 说明           | 回调参数                     |
-|-------|--------------|------------------------------|
-| click | 点击图片后触发 | (src: string, index: number) |
-
-### Slots
-
-| 名称     | 说明           |
-|--------|--------------|
-| 默认插槽 | 自定义图片标签 |
-
-### Exposes
-
-| 名称   | 说明           | 类型   |
-|--------|--------------|--------|
-| viewer | Viewer.js 实例 | Object |
-
-```html
-<KiImage>
-  <template #default="{ src, index }">
-    <img :src="src">
-    <div>第{{ index + 1 }}张</div>
-  </template>
-</KiImage>
-```
-
-通过默认插槽来使用 `el-image`：
-
-```html
-<KiImage>
-  <template #default="{ src, index }">
-    <el-image :src="src"></el-image>
-    <div>第{{ index + 1 }}张</div>
-  </template>
-</KiImage>
-```
-
-### 获取 Swiper 实例
-
-```vue
-<script setup>
-import KiImage from 'ki-image'
-
-const kiImageRef = ref()
-</script>
-
-<template>
-  <KiImage
-    ref="kiImageRef"
-    pattern="swiper"
-    :swiperProps="{
-      on: {
-        init: () => {
-          $nextTick(() => {
-            console.log(kiImageRef.swiper)
-          })
-        },
-      },
-    }"
-  />
-</template>
-```
-
-### 二维码清晰度
-
-默认的图片 CSS 高度为 148px (与 `el-upload` 保持一致)，默认的二维码分辨率为 444 × 444 (三倍图)，如果你增大了图片的 CSS 尺寸，将导致图片变模糊。
-
-解决方式：将二维码分辨率设置为展示尺寸的三倍。
-
-```vue
-<template>
-  <KiImage
-    :qrcodeProps="{
-      width: 900,
-      height: 900,
-    }"
-  />
-</template>
-
-<style lang="scss" scoped>
-// Vue 2.6 需要将 :deep 替换为 ::v-deep
-:deep(.ki-image) img {
-  width: 300px;
-  height: 300px;
-}
-</style>
-```
-
-<br>
-
-## ImageUpload
-
-`el-upload` 封装，图片上传一站式解决方案。
-
-### 特性
-
-- 数据双向绑定 `v-model`，支持任意绑定值类型
-- 数据源
-  - 用户选择本地文件 (File)
-  - 编程式提供数据源 (File/Blob/Base64/URL/[object URL](https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications#example_using_object_urls_to_display_images))
-- 编辑图片
-  - 格式转换
-  - 尺寸指定
-  - 品质调节
-  - 自由裁剪 & 锁定比例裁剪
-  - 翻转、缩放、无级角度旋转
-- 限制图片
-  - 格式筛选
-  - 尺寸或尺寸范围 (间接限制宽高比例)
-  - 大小上限、下限
-  - 数量上限、下限
-  - 自定义校验
-- 多选
-- 拖拉拽排序
-- 预览图片 ([ki-image](https://github.com/cloydlau/ki-image) 提供技术支持)
-- 局部注册并传参，或全局注册并传参 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
-
-### 安装
-
-> ⚠ 由于 Element Plus 的 `el-upload` 对外暴露的属性非常局限，需要修改 `el-upload` 源码才能得以实现 ImageUpload，故 Element Plus 不能晚于 Kikimore 安装。
-
-### Props
-
-| 名称                                               | 说明                             | 类型                                                                            | 默认值      |
-|----------------------------------------------------|--------------------------------|---------------------------------------------------------------------------------|-------------|
-| modelValue (Vue 3) /<br>value (Vue 2) /<br>v-model | 绑定值                           | any                                                                             |             |
-| arrayed                                            | 绑定值是否为数组类型，默认自动    | boolean                                                                         |             |
-| srcAt                                              | 图片链接的位置                   | string / symbol / (value: any) => any                                           |             |
-| upload                                             | 调用接口上传图片，返回图片链接    | (output: File \| Blob) => Promise<string \| object> \| string \| object \| void |             |
-| count                                              | 数量限制                         | number / [number?, number?]                                                     |             |
-| size                                               | 大小限制 (MB)                    | number / [number?, number?]                                                     |             |
-| accept                                             | 图片格式筛选                     | string                                                                          | `'image/*'` |
-| outputType                                         | 图片输出格式 (编辑后)，默认原格式 | string                                                                          |             |
-| validator                                          | 自定义数据源校验器               | (source: File \| Blob \| string) => boolean                                     |             |
-| disabled                                           | 禁用状态                         | boolean                                                                         | `false`     |
-| editable                                           | 是否开启编辑功能                 | boolean                                                                         | `true`      |
-| width                                              | 宽度或宽度范围 (像素)            | number / [number?, number?]                                                     |             |
-| height                                             | 高度或高度范围 (像素)            | number / [number?, number?]                                                     |             |
-| aspectRatioTolerance                               | 锁定裁剪比例的公差               | number                                                                          | `0`         |
-
-#### arrayed
-
-如果数量上限和图片数量均不超过 1，则处于单选状态，否则为多选
-
-默认情况下，在单选时输出的绑定值形如：item，多选时输出的绑定值形如：[item，item]
-
-item 具体是什么格式？
-
-未配置 srcAt 时，会提取图片链接作为 item，配置了则不会
-
-如果将 arrayed 设置为 `true` 则强制输出数组类型，无论单选还是多选
-
-如果将 arrayed 设置为 `false` 则强制输出非数组类型，如果此时图片数量为多个，则会执行 `JSON.stringify`
-
-#### srcAt
-
-用于定位 value 和 upload 返回值中的图片链接，适用于绑定值非图片链接本身的情况
-
-- 支持属性名，如 `'url'`
-- 支持属性路径，如 `'data[0].url'`
-- 支持 symbol 类型的属性名
-- 支持 Function，如 `value => value.url`
-
-#### upload
-
-开启编辑功能时，会在编辑完成后调用，未开启编辑功能时，会在选择图片后调用
-
-未配置或函数返回值为空时，绑定值将输出二进制文件
-
-参数为编辑产物：
-
-用户选择本地文件、编程式提供 File 类型的数据源时，编辑产物的类型为 File
-
-编程式提供非 File 类型的数据源且编辑了图片时，编辑产物的类型为 Blob
-
-未开启编辑功能或未编辑时，编辑产物即输入值
-
-编程式提供 string 类型的数据源且未编辑时，不需要上传，该方法不会被调用
-
-返回值类型为 Promise\<object\> 或 object 时需要配置 srcAt
-
-#### count
-
-- `10`：限制数量上限为 10 张
-- `[1]`：限制数量下限为 1 张
-- `[, 10]`：限制数量上限为 10 张
-- `[1, 10]`：限制数量下限为 1 张，且上限为 10 张
-
-#### size
-
-- `10`：限制大小上限为 10 MB
-- `[1]`：限制大小下限为 1 MB
-- `[, 10]`：限制大小上限为 10 MB
-- `[1, 10]`：限制大小下限为 1 MB，且上限为 10 MB
-
-#### width
-
-- `100`：限制宽度为 100 像素
-- `[100]`：限制宽度下限为 100 像素
-- `[, 200]`：限制宽度上限为 200 像素
-- `[100, 200]`：限制宽度下限 100 像素，且上限为 200 像素
-
-#### height
-
-- `100`：限制高度为 100 像素
-- `[100]`：限制高度下限为 100 像素
-- `[, 200]`：限制高度上限为 200 像素
-- `[100, 200]`：限制高度下限 100 像素，且上限为 200 像素
-
-#### accept
-
-通过文件对话框选择图片时，优先展示指定类型的文件，同[原生 input 的 accept](https://developer.mozilla.org/en-US/docs/Web/HTML/Attributes/accept)
-
-> ⚠ 用户仍可以选择其它类型，文件类型校验应使用 validator
-
-可选值：
-
-- 文件扩展名，不区分大小写，如 `'.jpg.jpeg.png'`
-- [MIME type](https://www.iana.org/assignments/media-types/media-types.xhtml#image)，如 `'image/jpeg,image/png'`
-
-#### outputType
-
-开启编辑模式时，可以指定输出的图片格式，可选值参考 [MIME type](https://www.iana.org/assignments/media-types/media-types.xhtml#image)
-
-### Events
-
-| 名称         | 说明                                                  | 回调参数        |
-|--------------|-----------------------------------------------------|-----------------|
-| size-error   | 未开启编辑模式，且图片大小不符合要求时触发             | 图片体积 (Byte) |
-| width-error  | 未开启编辑模式，且图片宽度不符合要求时触发             | 图片宽度 (像素) |
-| height-error | 未开启编辑模式，且图片高度不符合要求时触发             | 图片高度 (像素) |
-| ...          | `el-upload` 的事件 (Function 类型的属性，去掉 on 前缀) |                 |
-
-```html
-<KiImageUpload
-  @remove="onRemove"
-  @beforeUpload="onBeforeUpload"
-/>
-```
-
-### Slots
-
-同 `el-upload`
-
-### Exposes
-
-| 名称       | 说明                             | 参数                                                                     |
-|------------|--------------------------------|--------------------------------------------------------------------------|
-| openEditor | 打开图片编辑对话框               | (source: File \| Blob \| string \| File[] \| Blob[] \| string[]) => void |
-| ...        | 通过 ref 调用 `el-upload` 的方法 |                                                                          |
-
-参数为输入的数据源，支持的数据类型有：
-
-- File
-- Blob
-- Base64
-- URL：需要跨域支持
-- object URL：需要在当前 `document` 创建
-
-如果没有编辑图片，则输出值类型不变 (与输入值一致)
-
-如果编辑了图片，输入类型为 File 时，输出类型也为 File，其它情况均输出 Blob 类型
-
-如果未开启编辑模式，且限制了图片大小或宽高，则需要 `await openEditor(...)`
-
-### 编程式提供数据源
-
-```vue
-<!-- 示例: 输入图片链接进行编辑 -->
-<!-- 如果需要附加图片名称，可以先转换为 File 类型再输入 -->
-
-<script setup>
-const kiImageUploadRef = ref()
-
-async function urlToFile(url, fileName) {
-  const blob = await (await fetch(url)).blob()
-  return new File([blob], fileName, { type: blob.type })
-}
-
-async function openEditor() {
-  const file = urlToFile('https://picsum.photos/100', '100x100.jpg')
-  await kiImageUploadRef.value.openEditor(file)
-}
-
-function upload(file) {
-  return POST.upload(import.meta.env.VITE_APP_UPLOAD_API, {
-    file,
-  }).then(res => res.data.data)
-}
-</script>
-
-<template>
-  <KiImageUpload
-    v-show="false"
-    ref="kiImageUploadRef"
-    :upload="upload"
-  />
-
-  <el-button @click="openEditor">
-    编辑图片
-  </el-button>
-</template>
-```
-
-### 校验文件扩展名
-
-```vue
-<script setup>
-const accept = '.jpg,.jpeg,.png'
-const extension = accept.split(',')
-
-function validator(source) {
-  let valid = true
-  if (source instanceof File) {
-    valid = extension.includes(source.name.replace(/.+\./, '.').toLowerCase())
-    if (!valid) {
-      alert(`"${source.name}" 的格式不在可支持范围: ${accept}`)
-    }
-  }
-  return valid
-}
-</script>
-
-<template>
-  <KiImageUpload
-    :accept="accept"
-    :validator="validator"
-  />
-</template>
-```
-
-### 输出体积
-
-图片经过编辑后，输出的体积与以下因素相关：
-
-- 原图体积
-- 配置或用户设置的图片宽度
-- 配置或用户设置的图片高度
-- 配置的图片格式
-- 用户设置的品质系数
-
-### 上传状态
-
-```vue
-<script setup>
-const kiImageUploadRef = ref()
-
-console.log(kiImageUploadRef.value.uploading)
-</script>
-
-<template>
-  <KiImageUpload ref="kiImageUploadRef" />
-</template>
-```
-
-### 自定义上传时机
-
-1. 不配置 upload，绑定值得到二进制文件
-2. 将 srcAt 配置为 `'url'`，使图片能够正常预览
-3. 在适当时机自行上传
-
-### 自定义 trigger
-
-```vue
-<template>
-  <div pb="8px">
-    <KiImageUpload
-      class="custom-trigger"
-      list-type="text"
-    >
-      <el-button>自定义 trigger</el-button>
-    </KiImageUpload>
-  </div>
-</template>
-
-<style lang="scss" scoped>
-// Vue 2.6 需要将 :deep 替换为 ::v-deep
-.custom-trigger {
-  :deep(.ki-image),
-  :deep(.el-upload-list),
-  :deep(.el-upload__tip),
-  :deep(.el-upload__text) {
-    display: none;
-  }
-}
-</style>
-```
-
-### 自定义 tip
-
-```vue
-<KiImageUpload
-  :width="200"
-  :height="100"
-  :size="10"
-  :count="1"
->
-  <template #tip="{ count, size, dimension, accept }">
-    <div>{{ count }}</div>
-    <div>{{ size }}</div>
-    <div>{{ dimension }}</div>
-    <div>{{ accept }}</div>
-  </template>
-</KiImageUpload>
-```
-
-### 嵌套在表格中
-
-以宽高 `50px` 为例，修改为如下样式：
-
-```scss
-// Vue 2.6 需要将 :deep 替换为 ::v-deep
-
-:deep(.ki-image li) {
-  margin: 0 !important; // 如果允许多张，则去掉这行
-
-  img {
-    height: 50px !important;
-  }
-}
-
-:deep(.el-upload-list__item) {
-  width: 50px;
-  height: 50px;
-  margin: 0; // 如果允许多张，则去掉这行
-
-  &>.el-upload-list__item-status-label {
-    width: 34px;
-    height: 18px;
-
-    &>i {
-      margin-top: 0;
-    }
-  }
-
-  .el-upload-list__item-actions {
-    line-height: 50px;
-    font-size: 16px;
-
-    &>span+span {
-      margin-left: 4px;
-    }
-  }
-}
-
-:deep(.el-upload) {
-  width: 50px;
-  height: 50px;
-  line-height: 50px;
-  margin: 0;
-
-  &>.el-icon-plus {
-    font-size: initial;
-  }
-
-  &>.el-upload__text {
-    display: none;
-  }
-}
-```
-
-<br>
-
-## MessageBox
-
-<a href="https://sweetalert2.github.io">sweetalert2</a> + `ElMessageBox` 组合拳。
-
-### 特性
-
-- 不依赖 Element，任意 UI 框架中均能使用，支持移动端
-- 不依赖 Vue，任意框架中均能使用
-
-### 生命周期
-
-```ts
-KiMessageBox.success('Operation Success').then(() => {
-  // onClose
-})
-
-KiMessageBox.info('Information').then(() => {
-  // onClose
-})
-
-KiMessageBox.warning('Warning').then(() => {
-  // onClose
-})
-
-KiMessageBox.error('Error Occurred').then(() => {
-  // onClose
-})
-
-KiMessageBox.confirm('Are You Sure?').then(() => {
-  // onConfirmed
-}).catch((e) => {
-  if (e.isDenied) {
-    // onDenied
-  } else if (e.isDismissed) {
-    // onDismissed
-  }
-})
-```
-
-### 案例：强制确认
-
-无取消，必须确认
-
-```ts
-KiMessageBox.confirm({
-  titleText: 'Confirm to continue',
-  showCancelButton: false,
-  allowOutsideClick: false,
-  allowEscapeKey: false,
-})
-```
-
-### 案例：复杂确认
-
-```ts
-// form with async submitting
-KiMessageBox.confirm({
-  input: 'text',
-  inputAttributes: {
-    placeholder: 'Remark'
-  },
-  confirmButtonText: 'Agree',
-  showLoaderOnConfirm: true,
-  preConfirm: (input) => {
-    return new Promise((resolve) => {
-      setTimeout(resolve, 500)
-    }).then(() => {
-      alert('Agree Success')
-    }).catch((e) => {
-      alert('Agree Failed')
-    })
-  },
-  showDenyButton: true,
-  denyButtonText: 'Deny',
-  returnInputValueOnDeny: true,
-  preDeny: (input) => {
-    if (input) {
-      return new Promise((resolve, reject) => {
-        setTimeout(reject, 500)
-      }).then(() => {
-        alert('Deny Success')
-      }).catch((e) => {
-        alert('Deny Failed')
-      })
-    } else {
-      KiMessageBox.showValidationMessage('Please fill in the remark')
-      return false
-    }
-  },
-}).then((e) => {
-  alert('Agreed')
-}).catch((e) => {
-  if (e.isDenied) {
-    alert('Denied')
-  } else if (e.isDismissed) {
-    alert('Dismissed')
-  }
-})
-```
-
-### Vanilla 用法
-
-```ts
-import KiMessageBox from 'kikimore/src/MessageBox/index.ts'
 ```
 
 <br>

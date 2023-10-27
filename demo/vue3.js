@@ -2,7 +2,7 @@ import { createApp, h } from 'vue'
 import 'element-plus/dist/index.css'
 import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
-import { KiFormDialog, KiImage, KiImageUpload, KiMessageBox, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
+import { KiFormDialog, KiPopButton, KiPopSwitch, KiSelect } from 'kikimore'
 import App from './App.vue'
 
 const app = createApp(App)
@@ -18,8 +18,6 @@ const app = createApp(App)
     // '#header': () => h('b', undefined, 'Kikimore'),
     'title': 'Kikimore',
   })
-  .use(KiImage)
-  .use(KiImageUpload)
   .use(KiPopButton, {})
   .use(KiPopSwitch, {
     inlinePrompt: true,
