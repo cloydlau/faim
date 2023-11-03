@@ -20,9 +20,7 @@ async function postinstall() {
       const elUploadSource = fs.readFileSync(elUploadSourcePath, 'utf-8')
       const whitespaces = elUploadSource.match(/(?<=expose\({)\s*/)?.[0] || '\n'
       const elUploadSourceNew = elUploadSource.replace(/expose\({(?!\s*uploadFiles,)/, `expose({${whitespaces}uploadFiles,`)
-      if (elUploadSource === elUploadSourceNew) {
-        console.log(red('[ERROR] Failed to patch el-upload source code'))
-      } else {
+      if (elUploadSource !== elUploadSourceNew) {
         fs.writeFileSync(elUploadSourcePath, elUploadSourceNew)
         console.log(green('[INFO] Successfully patched el-upload source code'))
         console.log(cyan('[INFO] Vite re-bundling element-plus'))
@@ -30,7 +28,7 @@ async function postinstall() {
         await deleteAsync([`${process.env.INIT_CWD}/node_modules/.vite/deps/element-plus.js*`], { force: true })
       }
     } else {
-      console.log(red('[ERROR] Element Plus not installed'))
+      throw new Error('Element Plus not installed')
     }
   }
 
@@ -43,25 +41,20 @@ async function postinstall() {
     cjs: ['RichText/index.js'],
     esm: ['ImageUpload/index.vue', 'Upload/index.vue', ...isDev ? ['RichText/index.ts'] : ['RichText/index.mjs']],
   }
-  const useFormDisabledSources: Record<Format, [string, string]> = {
-    cjs: [
-      'require("element-plus/es/components/form/src/hooks/use-form-common-props.mjs")',
-      '() => undefined',
-    ],
-    esm: [
-      'import \{ useFormDisabled \} from \'element-plus/es/components/form/src/hooks/use-form-common-props.mjs\'',
-      'const useFormDisabled = () => undefined',
-    ],
+  const useFormDisabledSources: [string, string] = [
+    'element-plus/es/components/form/src/hooks/use-form-common-props.mjs',
+    '../../use-form-common-props',
+  ]
+  if (isVue3) {
+    useFormDisabledSources.reverse()
   }
+
   for (const format of formats) {
-    if (isVue3) {
-      useFormDisabledSources[format].reverse()
-    }
     for (const component of componentsRelyOnElFormDisabled[format]) {
       const componentPath = `${cwd}/${dir}/components/${component}`
       console.log(cyan(`[INFO] Patching ${componentPath}`))
       const componentSource = fs.readFileSync(componentPath, 'utf-8')
-      const componentSourceNew = componentSource.replace(...useFormDisabledSources[format as Format])
+      const componentSourceNew = componentSource.replace(...useFormDisabledSources)
       fs.writeFileSync(componentPath, componentSourceNew)
       if (isDev) {
         console.log(cyan(`[INFO] Linting ${componentPath}`))
@@ -79,8 +72,4 @@ async function postinstall() {
   }
 }
 
-try {
-  postinstall()
-} catch (e) {
-  console.error(e)
-}
+postinstall()
