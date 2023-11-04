@@ -8,7 +8,7 @@ import FilePondPluginImageValidateSize from 'filepond-plugin-image-validate-size
 import { conclude, resolveConfig } from 'vue-global-config'
 import { isPlainObject, throttle } from 'lodash-es'
 import to from 'await-to-js'
-import { getType } from 'mime'
+import mime from 'mime'
 import { useFormDisabled } from 'element-plus/es/components/form/src/hooks/use-form-common-props.mjs'
 import FaMessageBox from '../MessageBox/index'
 import { isBase64WithScheme, isObject, tryParsingJSONArray, unwrap } from '../../utils'
@@ -95,7 +95,6 @@ export default {
     },
     upload: {},
     minFiles: {},
-    extensions: {},
     labelMinFilesExceeded: {},
     labelMaxFilesExceeded: {},
     labelBrowserNotSupported: {},
@@ -149,8 +148,6 @@ export default {
         }, */
       })
     },
-    Extensions() {
-      return conclude([this.extensions, globalProps.extensions], {
         type: String,
       })
     },
@@ -199,8 +196,6 @@ export default {
         type: String,
       })
     },
-    LabelExtensions() {
-      return conclude([this.labelExtensions, globalProps.labelExtensions, 'Extension'], {
         type: String,
       })
     },
@@ -298,53 +293,53 @@ export default {
         imageValidateSizeMinResolution,
         imageValidateSizeMaxResolution,
         labelFileTypeNotAllowed,
+        acceptedFileTypes,
+        fileValidateTypeLabelExpectedTypesMap,
       } = FilePondOptions
 
+      // 限制条件可视化
       const limitation = []
-      // extensions 生成 acceptedFileTypes 和 fileValidateTypeLabelExpectedTypesMap
-      const extensions = this.Extensions?.split(',').map(extension => extension?.trim().toLowerCase()).filter(v => v) || []
-      if (extensions.length) {
-        if (!FilePondOptions.acceptedFileTypes) {
-          const set = new Set()
-          for (const extension of extensions) {
-            const mime = getType(extension)
-            mime && set.add(mime)
-          }
-          FilePondOptions.acceptedFileTypes = Array.from(set)
-        }
-        if (!FilePondOptions.fileValidateTypeLabelExpectedTypesMap) {
-          FilePondOptions.fileValidateTypeLabelExpectedTypesMap = {}
-          for (const extension of extensions) {
-            const mime = getType(extension)
-            if (mime && extension) {
-              FilePondOptions.fileValidateTypeLabelExpectedTypesMap[mime]
-              = FilePondOptions.fileValidateTypeLabelExpectedTypesMap[mime]
-                  ? `${FilePondOptions.fileValidateTypeLabelExpectedTypesMap[mime]}, ${extension}`
-                  : extension
+
+      // 格式
+      // acceptedFileTypes 转 extensions
+      if (acceptedFileTypes?.length) {
+        const extensions = []
+        for (let i = 0; i < acceptedFileTypes.length; i++) {
+          let extension
+          acceptedFileTypes[i] = acceptedFileTypes[i]?.trim().toLowerCase() // 便于扩展名校验，且原生的 accept 就支持空格和大写
+          if (acceptedFileTypes[i]) {
+            if (acceptedFileTypes[i].startsWith('.')) {
+              extension = acceptedFileTypes[i]
+              // filepond 不支持扩展名：https://github.com/pqina/filepond-plugin-file-validate-type/issues/13
+              acceptedFileTypes[i] = mime.getType(acceptedFileTypes[i])
+            } else if (fileValidateTypeLabelExpectedTypesMap) {
+              extension = fileValidateTypeLabelExpectedTypesMap[acceptedFileTypes[i]]
             }
           }
+          if (extension) {
+            extensions.push(extension)
+          } else {
+            extensions.push(...Array.from(mime.getAllExtensions(acceptedFileTypes[i]) || [], extension => `.${extension}`))
+          }
         }
-      // acceptedFileTypes 和 fileValidateTypeLabelExpectedTypesMap 生成 extensions
-      } else if (FilePondOptions.acceptedFileTypes?.length && FilePondOptions.fileValidateTypeLabelExpectedTypesMap) {
-        for (const acceptedFileType of FilePondOptions.acceptedFileTypes) {
-          const extension = FilePondOptions.fileValidateTypeLabelExpectedTypesMap[acceptedFileType]
-          extension && extensions.push(extension)
+        // extensions 生成 labelIdle 和 fileValidateTypeDetectType
+        if (extensions.length) {
+          limitation.push(`${this.LabelAccept} ${extensions.join(',')}`)
+          // 校验文件扩展名
+          FilePondOptions.fileValidateTypeDetectType ??= (file, type) => new Promise((resolve, reject) => {
+            const extension = file.name.replace(/.+\./, '.').toLowerCase()
+            // File.name (扩展名) 和 File.type (MIME) 不匹配（经测试不会出现这种情况）
+            /* if (getType(extension) !== type) {
+              reject(Error('File extension does not match file type'))
+            } else */
+            if (extensions.includes(extension)) {
+              resolve(type)
+            } else {
+              reject(new Error(labelFileTypeNotAllowed || 'File of invalid type'))
+            }
+          })
         }
       }
-      // extensions 生成 labelIdle 和 fileValidateTypeDetectType
-      if (extensions.length) {
-        limitation.push(`${this.LabelExtensions} ${extensions.join(',')}`)
-        FilePondOptions.fileValidateTypeDetectType ??= (file, type) => new Promise((resolve, reject) => {
-          const extension = file.name.replace(/.+\./, '.').toLowerCase()
-          // File.name (扩展名) 和 File.type (MIME) 不匹配
-          if (getType(extension) !== type) {
-            reject(Error('File extension does not match file type'))
-          } else if (extensions.includes(extension)) {
-            resolve(type)
-          } else {
-            reject(Error(labelFileTypeNotAllowed || 'File of invalid type'))
-          }
-        })
       }
       if (minFileSize && maxFileSize) {
         if (minFileSize < maxFileSize) {

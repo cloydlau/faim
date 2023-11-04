@@ -1374,9 +1374,9 @@ Ant Design 也是使用 `value` 与 `label` 命名。
   - 用户选择本地文件 (File)
   - 编程式提供数据源 (File/Blob/Base64/URL/[object URL](https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications#example_using_object_urls_to_display_images))
 - 限制文件
-  - 格式筛选，扩展名校验 (防篡改)
   - 图片尺寸或尺寸范围 (间接限制宽高比例)
   - 图片分辨率或分辨率范围
+  - 格式筛选、扩展名校验 (`acceptedFileTypes` 同时支持 [MIME](https://www.iana.org/assignments/media-types/media-types.xhtml#image) 和扩展名)
   - 体积上限、下限
   - 数量上限、下限
   - 自定义校验
@@ -1395,7 +1395,6 @@ Ant Design 也是使用 `value` 与 `label` 命名。
 | upload                                             | 调用接口上传文件，返回 URL/ID  | (file: File, progress: (progress: number) => void, abortController: AbortController) => Promise<string \| object> \| string \| object \| void |              |
 | arrayed                                            | 绑定值是否为数组类型，默认自动 | boolean                                                                                                                                       |              |
 | srcAt                                              | 文件 URL/ID 的位置            | string / symbol / (value: any) => any                                                                                                         |              |
-| extensions                                         | 文件扩展名                    | string                                                                                                                                        |              |
 | minFiles                                           | 最小数量                      | number                                                                                                                                        |              |
 | labelCount                                         | 数量文案                      | string                                                                                                                                        | 'Count'      |
 | labelSize                                          | 体积文案                      | string                                                                                                                                        | 'Size'       |

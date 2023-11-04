@@ -87,6 +87,5 @@ export default {
     labelWidth: '宽度',
     labelHeight: '高度',
     labelResolution: '分辨率',
-    labelExtensions: '格式',
   },
 }
