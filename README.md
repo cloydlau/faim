@@ -82,6 +82,28 @@ module.exports = {
 }
 ```
 
+### webpack
+
+```js
+// webpack.config.js
+module.exports = {
+  resolve: {
+    extensions: ['.mjs', '...'],
+  },
+  module: {
+    rules: [
+      {
+        test: /\.m?js/,
+        type: 'javascript/auto',
+        resolve: {
+          fullySpecified: false,
+        },
+      },
+    ]
+  }
+}
+```
+
 ### Element Plus (Vue 3)
 
 #### 局部注册
