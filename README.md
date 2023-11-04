@@ -48,8 +48,17 @@ npm i faim
 > - element-plus 不能晚于 faim 安装
 >
 > - 暂不支持通过 CDN 的方式使用 element-plus
->
-> - 暂不支持通过 Bun 安装依赖，等待 Bun 修复这个 Bug：https://github.com/oven-sh/bun/issues/4738
+
+### Bun
+
+允许 faim 执行生命周期脚本：
+
+```json
+// package.json
+{
+  "trustedDependencies": ["faim"]
+}
+```
 
 ### Vite
 
