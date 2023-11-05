@@ -652,7 +652,6 @@ const faImageRef = ref()
 | srcAt                                              | 图片 URL/ID 的位置               | string / symbol / (value: any) => any                                           |                                |
 | disabled                                           | 禁用状态                         | boolean                                                                         | `false`                        |
 | editable                                           | 是否开启编辑功能                 | boolean                                                                         | `true`                         |
-| extensions                                         | 文件扩展名                       | string                                                                          |                                |
 | size                                               | 体积限制 (MB)                    | number / [number?, number?]                                                     |                                |
 | count                                              | 数量限制                         | number / [number?, number?]                                                     |                                |
 | width                                              | 宽度或宽度范围 (像素)            | number / [number?, number?]                                                     |                                |
@@ -705,12 +704,6 @@ item 具体是什么格式？
 - 支持 symbol 类型的属性名
 - 支持 Function，如 `value => value.url`
 
-#### extensions
-
-对比 accept：
-
-- 可选值不同：accept 接受扩展名、MIME 和两者的混合，详见 <https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/file#unique_file_type_specifiers>，extensions 只接受扩展名
-- 功能不同：accept 仅在用户选择文件时做一个默认的格式筛选，但这个筛选是可以修改的，用户仍然可以选择其他类型的文件，extensions 除了格式筛选，还做扩展名校验，一是防止用户选择其它类型的文件，二是防止用户篡改扩展名
 
 #### size
 

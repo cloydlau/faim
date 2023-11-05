@@ -12,8 +12,6 @@ export default {
     height: '高度',
     dimension: '尺寸',
     resolution: '分辨率',
-    extensions: '格式',
-    extensionNotAllowed: '允许的格式：{extensions}',
     quality: '品质',
     edit: '编辑',
     fixedAspectRatio: '固定比例',

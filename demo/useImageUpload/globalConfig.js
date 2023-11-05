@@ -8,7 +8,7 @@ export default {
   // height: 800,
   // resolution: 640000,
   count: 5,
-  extensions: '.jpg,.jpeg,.png',
+  accept: '.jpg,.jpeg,.png,.gif',
   editable: true,
   arrayed: undefined,
   aspectRatioTolerance: 0.1,

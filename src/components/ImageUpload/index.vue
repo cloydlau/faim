@@ -3,6 +3,7 @@ import Sortable from 'sortablejs'
 import { conclude, resolveConfig } from 'vue-global-config'
 import to from 'await-to-js'
 import { isVue3 } from 'vue-demi'
+import mime from 'mime'
 import { useFormDisabled } from 'element-plus/es/components/form/src/hooks/use-form-common-props.mjs'
 import FaMessageBox from '../MessageBox'
 import FaImage from '../Image/index.vue'
@@ -58,7 +59,6 @@ export default {
     resolution: {},
     count: {},
     upload: {},
-    extensions: {},
     outputType: {},
     validator: {},
     aspectRatioTolerance: {},
@@ -277,16 +277,6 @@ export default {
         type: Number,
       })
     },
-    Extensions() {
-      const extensions = conclude([this.extensions, globalProps.extensions], {
-        type: String,
-      })
-      return {
-        target: extensions,
-        label: `${this.Locale.extensions} ${extensions}`,
-        list: extensions?.split(',').map(extension => extension?.trim().toLowerCase()).filter(v => v),
-      }
-    },
     OutputType() {
       return conclude([this.outputType, globalProps.outputType], {
         type: String,
@@ -340,13 +330,14 @@ export default {
       return false
     },
     ElUploadProps() {
-      const ElUploadProps = conclude([this.$attrs, globalAttrs, {
+      return conclude([this.$attrs, globalAttrs, {
         ref: 'elUploadRef',
         action: '#',
         listType: 'picture-card',
+        accept: 'image/*',
+        fileList: this.files,
         autoUpload: false,
         drag: true,
-        fileList: this.files,
         disabled: this.Disabled,
         limit: this.Count.max,
         multiple: this.Count.max !== 1,
@@ -360,8 +351,30 @@ export default {
         type: Object,
         camelizeObjectKeys: true,
       })
-      ElUploadProps.accept ??= this.Extensions.target || 'image/*'
-      return ElUploadProps
+    },
+    // accept 转 extensions
+    Extensions() {
+      const list = this.ElUploadProps.accept
+        ?.split(',')
+        .map((accept) => {
+          accept = accept?.trim().toLowerCase() // 便于扩展名校验，且原生的 accept 就支持空格和大写
+          if (accept) {
+            if (accept.startsWith('.')) {
+              return accept
+            } else {
+              return Array.from(mime.getAllExtensions(accept) || [], extension => `.${extension}`)
+            }
+          }
+          return null
+        })
+        .filter(v => v)
+        .flat(1) || []
+      const text = list.join(',')
+      return {
+        target: text,
+        label: text ? `${this.Locale.accept} ${text}` : '',
+        list,
+      }
     },
   },
   watch: {
@@ -491,7 +504,7 @@ export default {
         extension = source.replace(/.+\./, '.').toLowerCase()
       }
       if (extension && !this.Extensions.list.includes(extension)) {
-        FaMessageBox.warning(`${this.Locate.extensionNotAllowed.replaceAll('{extensions}', this.Extensions.target)}`)
+        FaMessageBox.warning(`${this.Locate.typeNotAllowed.replaceAll('{accept}', this.Extensions.target)}`)
         return false
       }
       return true

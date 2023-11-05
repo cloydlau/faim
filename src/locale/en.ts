@@ -12,8 +12,6 @@ export default {
     height: 'Height',
     dimension: 'Dimension',
     resolution: 'Resolution',
-    extensions: 'Extensions',
-    extensionNotAllowed: 'Expected extensions are {extensions}',
     quality: 'Quality',
     edit: 'Edit',
     fixedAspectRatio: 'Fixed Aspect Ratio',
