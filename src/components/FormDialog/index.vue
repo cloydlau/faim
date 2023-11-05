@@ -717,6 +717,7 @@ export default {
         .is-disabled,
         .is-disabled *,
         .disabled {
+          -webkit-text-fill-color: revert !important;
           color: revert !important;
           cursor: revert !important;
         }
