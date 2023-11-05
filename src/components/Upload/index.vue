@@ -97,7 +97,6 @@ export default {
     minFiles: {},
     labelMinFilesExceeded: {},
     labelMaxFilesExceeded: {},
-    labelBrowserNotSupported: {},
     labelCount: {},
     labelSize: {},
     labelWidth: {},
@@ -161,8 +160,8 @@ export default {
         type: String,
       })
     },
-    LabelBrowserNotSupported() {
-      return conclude([this.labelBrowserNotSupported, globalProps.labelBrowserNotSupported, 'Current browser does not support the file upload component FilePond, we recommend using the latest stable version of Chrome/Safari/Edge'], {
+    LabelSize() {
+      return conclude([this.labelSize, globalProps.labelSize], {
         type: String,
       })
     },
@@ -482,8 +481,7 @@ export default {
   mounted() {
     if (!FilePond.supported()) {
       this.isSupported = false
-      FaMessageBox.error(this.LabelBrowserNotSupported)
-      throw new Error(this.LabelBrowserNotSupported)
+      throw new Error('Current browser does not support FilePond')
     }
     this.filePond = FilePond.create(this.$refs.filePond, this.FilePondOptions)
     this.filePond.on('removefile', () => {
