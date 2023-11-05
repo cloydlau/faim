@@ -11,10 +11,11 @@ import to from 'await-to-js'
 import mime from 'mime'
 import { useFormDisabled } from 'element-plus/es/components/form/src/hooks/use-form-common-props.mjs'
 import FaMessageBox from '../MessageBox/index'
-import { isBase64WithScheme, isObject, tryParsingJSONArray, unwrap } from '../../utils'
+import { getAudioMetadata, getVideoMetadata, handleNumericalProp, isBase64WithScheme, isObject, secondsToHHMMSS, toImageTag, toLocalURL, tryParsingJSONArray, unwrap } from '../../utils'
+import defaultLocale from '../../locale/en'
 import Uploading from './Uploading.vue'
 
-// import FilepondPluginDragReorder from 'filepond-plugin-drag-reorder';
+// import FilepondPluginDragReorder from 'filepond-plugin-drag-reorder'
 // import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 // import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
 // import 'filepond-plugin-file-poster/dist/filepond-plugin-file-poster.css'
@@ -95,15 +96,58 @@ export default {
     },
     upload: {},
     minFiles: {},
+    imageAspectRatio: {},
+    videoWidth: {},
+    videoHeight: {},
+    videoAspectRatio: {},
+    videoResolution: {},
+    videoDuration: {},
+    audioDuration: {},
+    labelAccept: {},
+    labelCount: {},
     labelMinFilesExceeded: {},
     labelMaxFilesExceeded: {},
-    labelCount: {},
     labelSize: {},
-    labelWidth: {},
-    labelHeight: {},
-    // labelDimension: {},
-    labelResolution: {},
-    labelExtensions: {},
+    labelImageWidth: {},
+    labelImageWidthNotMatch: {},
+    labelMinImageWidthExceeded: {},
+    labelMaxImageWidthExceeded: {},
+    labelImageHeight: {},
+    labelImageHeightNotMatch: {},
+    labelMinImageHeightExceeded: {},
+    labelMaxImageHeightExceeded: {},
+    labelImageDimension: {},
+    labelImageAspectRatio: {},
+    labelImageAspectRatioNotMatch: {},
+    labelMinImageAspectRatioExceeded: {},
+    labelMaxImageAspectRatioExceeded: {},
+    labelImageResolution: {},
+    labelImageResolutionNotMatch: {},
+    labelVideoWidth: {},
+    labelVideoWidthNotMatch: {},
+    labelMinVideoWidthExceeded: {},
+    labelMaxVideoWidthExceeded: {},
+    labelVideoHeight: {},
+    labelVideoHeightNotMatch: {},
+    labelMinVideoHeightExceeded: {},
+    labelMaxVideoHeightExceeded: {},
+    labelVideoDimension: {},
+    labelVideoResolution: {},
+    labelVideoResolutionNotMatch: {},
+    labelMinVideoResolutionExceeded: {},
+    labelMaxVideoResolutionExceeded: {},
+    labelVideoAspectRatio: {},
+    labelVideoAspectRatioNotMatch: {},
+    labelMinVideoAspectRatioExceeded: {},
+    labelMaxVideoAspectRatioExceeded: {},
+    labelVideoDuration: {},
+    labelVideoDurationNotMatch: {},
+    labelMinVideoDurationExceeded: {},
+    labelMaxVideoDurationExceeded: {},
+    labelAudioDuration: {},
+    labelAudioDurationNotMatch: {},
+    labelMinAudioDurationExceeded: {},
+    labelMaxAudioDurationExceeded: {},
   },
   emits: [model.event, 'uploading'],
   setup: () => ({ elFormDisabled: useFormDisabled() }),
@@ -120,6 +164,11 @@ export default {
   computed: {
     uploading() {
       return this.queue.length > 0
+    },
+    percentage() {
+      return this.queue.length
+        ? this.queue.reduce((pre, cur) => pre + cur.progress, 0) / (this.queue.length * 100)
+        : 0
     },
     SrcAt() {
       return conclude([this.srcAt, globalProps.srcAt], {
@@ -138,25 +187,26 @@ export default {
     },
     MinFiles() {
       return conclude([this.minFiles, globalProps.minFiles], {
-        type: String,
-        /* validator(value) {
-          if (value && this.maxFiles && value > this.maxFiles) {
-            return false
-          }
-          return true
-        }, */
+        type: Number,
       })
     },
+    LabelAccept() {
+      return conclude([this.labelAccept, globalProps.labelAccept], {
+        type: String,
+      })
+    },
+    LabelCount() {
+      return conclude([this.labelCount, globalProps.labelCount], {
         type: String,
       })
     },
     LabelMinFilesExceeded() {
-      return conclude([this.labelMinFilesExceeded, globalProps.labelMinFilesExceeded, 'Minimum file count: {minFiles}'], {
+      return conclude([this.labelMinFilesExceeded, globalProps.labelMinFilesExceeded], {
         type: String,
       })
     },
     LabelMaxFilesExceeded() {
-      return conclude([this.labelMaxFilesExceeded, globalProps.labelMaxFilesExceeded, 'Maximum file count: {maxFiles}'], {
+      return conclude([this.labelMaxFilesExceeded, globalProps.labelMaxFilesExceeded], {
         type: String,
       })
     },
@@ -165,49 +215,319 @@ export default {
         type: String,
       })
     },
-    LabelCount() {
-      return conclude([this.labelCount, globalProps.labelCount, 'Count'], {
+    LabelImageWidth() {
+      return conclude([this.labelImageWidth, globalProps.labelImageWidth], {
         type: String,
       })
     },
-    LabelSize() {
-      return conclude([this.labelSize, globalProps.labelSize, 'Size'], {
+    LabelImageWidthNotMatch() {
+      return conclude([this.labelImageWidthNotMatch, globalProps.labelImageWidthNotMatch], {
         type: String,
       })
     },
-    LabelWidth() {
-      return conclude([this.labelWidth, globalProps.labelWidth, 'Width'], {
+    LabelMinImageWidthExceeded() {
+      return conclude([this.labelMinImageWidthExceeded, globalProps.labelMinImageWidthExceeded], {
         type: String,
       })
     },
-    LabelHeight() {
-      return conclude([this.labelHeight, globalProps.labelHeight, 'Height'], {
+    LabelMaxImageWidthExceeded() {
+      return conclude([this.labelMaxImageWidthExceeded, globalProps.labelMaxImageWidthExceeded], {
         type: String,
       })
     },
-    /* LabelDimension() {
-      return conclude([this.labelDimension, globalProps.labelDimension, 'Dimension'], {
-        type: String,
-      })
-    }, */
-    LabelResolution() {
-      return conclude([this.labelResolution, globalProps.labelResolution, 'Resolution'], {
+    LabelImageHeight() {
+      return conclude([this.labelImageHeight, globalProps.labelImageHeight], {
         type: String,
       })
     },
+    LabelImageHeightNotMatch() {
+      return conclude([this.labelImageHeightNotMatch, globalProps.labelImageHeightNotMatch], {
         type: String,
       })
     },
-    percentage() {
-      return this.queue.length
-        ? this.queue.reduce((pre, cur) => pre + cur.progress, 0) / (this.queue.length * 100)
-        : 0
+    LabelMinImageHeightExceeded() {
+      return conclude([this.labelMinImageHeightExceeded, globalProps.labelMinImageHeightExceeded], {
+        type: String,
+      })
+    },
+    LabelMaxImageHeightExceeded() {
+      return conclude([this.labelMaxImageHeightExceeded, globalProps.labelMaxImageHeightExceeded], {
+        type: String,
+      })
+    },
+    LabelImageDimension() {
+      return conclude([this.labelImageDimension, globalProps.labelImageDimension], {
+        type: String,
+      })
+    },
+    LabelImageAspectRatio() {
+      return conclude([this.labelImageAspectRatio, globalProps.labelImageAspectRatio], {
+        type: String,
+      })
+    },
+    LabelImageAspectRatioNotMatch() {
+      return conclude([this.labelImageAspectRatioNotMatch, globalProps.labelImageAspectRatioNotMatch], {
+        type: String,
+      })
+    },
+    LabelMinImageAspectRatioExceeded() {
+      return conclude([this.labelMinImageAspectRatioExceeded, globalProps.labelMinImageAspectRatioExceeded], {
+        type: String,
+      })
+    },
+    LabelMaxImageAspectRatioExceeded() {
+      return conclude([this.labelMaxImageAspectRatioExceeded, globalProps.labelMaxImageAspectRatioExceeded], {
+        type: String,
+      })
+    },
+    LabelImageResolution() {
+      return conclude([this.labelImageResolution, globalProps.labelImageResolution], {
+        type: String,
+      })
+    },
+    LabelImageResolutionNotMatch() {
+      return conclude([this.labelImageResolutionNotMatch, globalProps.labelImageResolutionNotMatch], {
+        type: String,
+      })
+    },
+    LabelVideoWidth() {
+      return conclude([this.labelVideoWidth, globalProps.labelVideoWidth], {
+        type: String,
+      })
+    },
+    LabelVideoWidthNotMatch() {
+      return conclude([this.labelVideoWidthNotMatch, globalProps.labelVideoWidthNotMatch], {
+        type: String,
+      })
+    },
+    LabelMinVideoWidthExceeded() {
+      return conclude([this.labelMinVideoWidthExceeded, globalProps.labelMinVideoWidthExceeded], {
+        type: String,
+      })
+    },
+    LabelMaxVideoWidthExceeded() {
+      return conclude([this.labelMaxVideoWidthExceeded, globalProps.labelMaxVideoWidthExceeded], {
+        type: String,
+      })
+    },
+    LabelVideoHeight() {
+      return conclude([this.labelVideoHeight, globalProps.labelVideoHeight], {
+        type: String,
+      })
+    },
+    LabelVideoHeightNotMatch() {
+      return conclude([this.labelVideoHeightNotMatch, globalProps.labelVideoHeightNotMatch], {
+        type: String,
+      })
+    },
+    LabelMinVideoHeightExceeded() {
+      return conclude([this.labelMinVideoHeightExceeded, globalProps.labelMinVideoHeightExceeded], {
+        type: String,
+      })
+    },
+    LabelMaxVideoHeightExceeded() {
+      return conclude([this.labelMaxVideoHeightExceeded, globalProps.labelMaxVideoHeightExceeded], {
+        type: String,
+      })
+    },
+    LabelVideoDimension() {
+      return conclude([this.labelVideoDimension, globalProps.labelVideoDimension], {
+        type: String,
+      })
+    },
+    LabelVideoResolution() {
+      return conclude([this.labelVideoResolution, globalProps.labelVideoResolution], {
+        type: String,
+      })
+    },
+    LabelVideoResolutionNotMatch() {
+      return conclude([this.labelVideoResolutionNotMatch, globalProps.labelVideoResolutionNotMatch], {
+        type: String,
+      })
+    },
+    LabelMinVideoResolutionExceeded() {
+      return conclude([this.labelMinVideoResolutionExceeded, globalProps.labelMinVideoResolutionExceeded], {
+        type: String,
+      })
+    },
+    LabelMaxVideoResolutionExceeded() {
+      return conclude([this.labelMaxVideoResolutionExceeded, globalProps.labelMaxVideoResolutionExceeded], {
+        type: String,
+      })
+    },
+    LabelVideoAspectRatio() {
+      return conclude([this.labelVideoAspectRatio, globalProps.labelVideoAspectRatio], {
+        type: String,
+      })
+    },
+    LabelVideoAspectRatioNotMatch() {
+      return conclude([this.labelVideoAspectRatioNotMatch, globalProps.labelVideoAspectRatioNotMatch], {
+        type: String,
+      })
+    },
+    LabelMinVideoAspectRatioExceeded() {
+      return conclude([this.labelMinVideoAspectRatioExceeded, globalProps.labelMinVideoAspectRatioExceeded], {
+        type: String,
+      })
+    },
+    LabelMaxVideoAspectRatioExceeded() {
+      return conclude([this.labelMaxVideoAspectRatioExceeded, globalProps.labelMaxVideoAspectRatioExceeded], {
+        type: String,
+      })
+    },
+    LabelVideoDuration() {
+      return conclude([this.labelVideoDuration, globalProps.labelVideoDuration], {
+        type: String,
+      })
+    },
+    LabelVideoDurationNotMatch() {
+      return conclude([this.labelVideoDurationNotMatch, globalProps.labelVideoDurationNotMatch], {
+        type: String,
+      })
+    },
+    LabelMinVideoDurationExceeded() {
+      return conclude([this.labelMinVideoDurationExceeded, globalProps.labelMinVideoDurationExceeded], {
+        type: String,
+      })
+    },
+    LabelMaxVideoDurationExceeded() {
+      return conclude([this.labelMaxVideoDurationExceeded, globalProps.labelMaxVideoDurationExceeded], {
+        type: String,
+      })
+    },
+    LabelAudioDuration() {
+      return conclude([this.labelAudioDuration, globalProps.labelAudioDuration], {
+        type: String,
+      })
+    },
+    LabelAudioDurationNotMatch() {
+      return conclude([this.labelAudioDurationNotMatch, globalProps.labelAudioDurationNotMatch], {
+        type: String,
+      })
+    },
+    LabelMinAudioDurationExceeded() {
+      return conclude([this.labelMinAudioDurationExceeded, globalProps.labelMinAudioDurationExceeded], {
+        type: String,
+      })
+    },
+    LabelMaxAudioDurationExceeded() {
+      return conclude([this.labelMaxAudioDurationExceeded, globalProps.labelMaxAudioDurationExceeded], {
+        type: String,
+      })
+    },
+    ImageAspectRatio() {
+      const { tip, validate, min, minLabel, max, maxLabel, options, optionsLabel, target, targetLabel } = handleNumericalProp({
+        config: [this.imageAspectRatio, globalProps.imageAspectRatio],
+        labelTip: this.LabelImageAspectRatio,
+        createTitleTextOfNotMatch: imageAspectRatio => this.LabelImageAspectRatioNotMatch.replaceAll('{imageAspectRatio}', imageAspectRatio),
+        createTitleTextOfMinExceeded: minImageAspectRatio => this.LabelMinImageAspectRatioExceeded.replaceAll('{minImageAspectRatio}', minImageAspectRatio),
+        createTitleTextOfMaxExceeded: maxImageAspectRatio => this.LabelMaxImageAspectRatioExceeded.replaceAll('{maxImageAspectRatio}', maxImageAspectRatio),
+        getValue: (value) => {
+          if (!/[1-9]+:[1-9]+/.test(value)) {
+            throw new TypeError('Expect prop imageAspectRatio to be a string like \'1:1\'')
+          }
+          const [w, h] = value.split(':')
+          return w / h
+        },
+      })
+
+      // aspectRatio 参数的值不能与 width & height 冲突
+      const { imageValidateSizeMaxWidth, imageValidateSizeMaxHeight } = this.FilePondOptions
+      if (target && imageValidateSizeMaxWidth && imageValidateSizeMaxHeight && target !== (imageValidateSizeMaxWidth / imageValidateSizeMaxHeight)) {
+        throw new Error('Value of prop \'imageAspectRatio\' conflicts with values of \'imageValidateSizeMaxWidth\' and \'imageValidateSizeMaxHeight\'')
+      }
+
+      return { tip, validate, min, minLabel, max, maxLabel, options, optionsLabel, target, targetLabel }
+    },
+    VideoWidth() {
+      return handleNumericalProp({
+        config: [this.videoWidth, globalProps.videoWidth],
+        labelTip: this.LabelVideoWidth,
+        createTitleTextOfNotMatch: videoWidth => this.LabelVideoWidthNotMatch.replaceAll('{videoWidth}', videoWidth),
+        createTitleTextOfMinExceeded: minVideoWidth => this.LabelMinVideoWidthExceeded.replaceAll('{minVideoWidth}', minVideoWidth),
+        createTitleTextOfMaxExceeded: maxVideoWidth => this.LabelMaxVideoWidthExceeded.replaceAll('{maxVideoWidth}', maxVideoWidth),
+      })
+    },
+    VideoHeight() {
+      return handleNumericalProp({
+        config: [this.videoHeight, globalProps.videoHeight],
+        labelTip: this.LabelVideoHeight,
+        createTitleTextOfNotMatch: videoHeight => this.LabelVideoHeightNotMatch.replaceAll('{videoHeight}', videoHeight),
+        createTitleTextOfMinExceeded: minVideoHeight => this.LabelMinVideoHeightExceeded.replaceAll('{minVideoHeight}', minVideoHeight),
+        createTitleTextOfMaxExceeded: maxVideoHeight => this.LabelMaxVideoHeightExceeded.replaceAll('{maxVideoHeight}', maxVideoHeight),
+      })
+    },
+    VideoResolution() {
+      const { tip, validate, min, minLabel, max, maxLabel, options, optionsLabel, target, targetLabel } = handleNumericalProp({
+        config: [this.videoResolution, globalProps.videoResolution],
+        labelTip: this.LabelVideoResolution,
+        createTitleTextOfNotMatch: videoResolution => this.LabelVideoResolutionNotMatch.replaceAll('{videoResolution}', videoResolution),
+        createTitleTextOfMinExceeded: minVideoResolution => this.LabelMinVideoResolutionExceeded.replaceAll('{minVideoResolution}', minVideoResolution),
+        createTitleTextOfMaxExceeded: maxVideoResolution => this.LabelMaxVideoResolutionExceeded.replaceAll('{maxVideoResolution}', maxVideoResolution),
+      })
+
+      // resolution 参数的值不能与 width & height 冲突
+      if ((target && this.VideoWidth.target && this.VideoHeight.target && target !== (this.VideoWidth.target * this.VideoHeight.target))
+       || (max && this.VideoWidth.max && this.VideoHeight.max && max !== (this.VideoWidth.max * this.VideoHeight.max))
+       || (min && this.VideoWidth.min && this.VideoHeight.min && min !== (this.VideoWidth.min * this.VideoHeight.min))
+      ) {
+        throw new Error('Value of prop \'videoResolution\' conflicts with values of \'videoWidth\' and \'videoHeight\'')
+      }
+
+      return { tip, validate, min, minLabel, max, maxLabel, options, optionsLabel, target, targetLabel }
+    },
+    VideoAspectRatio() {
+      const { tip, validate, min, minLabel, max, maxLabel, options, optionsLabel, target, targetLabel } = handleNumericalProp({
+        config: [this.videoAspectRatio, globalProps.videoAspectRatio],
+        labelTip: this.LabelVideoAspectRatio,
+        createTitleTextOfNotMatch: videoAspectRatio => this.LabelVideoAspectRatioNotMatch.replaceAll('{videoAspectRatio}', videoAspectRatio),
+        createTitleTextOfMinExceeded: minVideoAspectRatio => this.LabelMinVideoAspectRatioExceeded.replaceAll('{minVideoAspectRatio}', minVideoAspectRatio),
+        createTitleTextOfMaxExceeded: maxVideoAspectRatio => this.LabelMaxVideoAspectRatioExceeded.replaceAll('{maxVideoAspectRatio}', maxVideoAspectRatio),
+        getValue: (value) => {
+          if (!/[1-9]+:[1-9]+/.test(value)) {
+            throw new TypeError('Expect prop videoAspectRatio to be a string like \'16:9\'')
+          }
+          const [w, h] = value.split(':')
+          return w / h
+        },
+      })
+
+      // aspectRatio 参数的值不能与 width & height 冲突
+      if ((target && this.VideoWidth.target && this.VideoHeight.target && target !== (this.VideoWidth.target / this.VideoHeight.target))
+       || (max && this.VideoWidth.max && this.VideoHeight.min && max !== (this.VideoWidth.max / this.VideoHeight.min))
+       || (min && this.VideoWidth.min && this.VideoHeight.max && min !== (this.VideoWidth.min / this.VideoHeight.max))
+      ) {
+        throw new Error('Value of prop \'videoAspectRatio\' conflicts with values of \'videoWidth\' and \'videoHeight\'')
+      }
+
+      return { tip, validate, min, minLabel, max, maxLabel, options, optionsLabel, target, targetLabel }
+    },
+    VideoDuration() {
+      return handleNumericalProp({
+        config: [this.videoDuration, globalProps.videoDuration],
+        labelTip: this.LabelVideoDuration,
+        createTitleTextOfNotMatch: videoDuration => this.LabelVideoDurationNotMatch.replaceAll('{videoDuration}', videoDuration),
+        createTitleTextOfMinExceeded: minVideoDuration => this.LabelMinVideoDurationExceeded.replaceAll('{minVideoDuration}', minVideoDuration),
+        createTitleTextOfMaxExceeded: maxVideoDuration => this.LabelMaxVideoDurationExceeded.replaceAll('{maxVideoDuration}', maxVideoDuration),
+        withUnit: secondsToHHMMSS,
+      })
+    },
+    AudioDuration() {
+      return handleNumericalProp({
+        config: [this.audioDuration, globalProps.audioDuration],
+        labelTip: this.LabelAudioDuration,
+        createTitleTextOfNotMatch: audioDuration => this.LabelAudioDurationNotMatch.replaceAll('{audioDuration}', audioDuration),
+        createTitleTextOfMinExceeded: minAudioDuration => this.LabelMinAudioDurationExceeded.replaceAll('{minAudioDuration}', minAudioDuration),
+        createTitleTextOfMaxExceeded: maxAudioDuration => this.LabelMaxAudioDurationExceeded.replaceAll('{maxAudioDuration}', maxAudioDuration),
+        withUnit: secondsToHHMMSS,
+      })
     },
     FilePondOptions() {
       const FilePondOptions = conclude([
         this.$attrs,
         globalAttrs,
         {
+          ...defaultLocale.FaUpload,
           disabled: isVue3 ? this.elFormDisabled : this.elForm.disabled,
           itemInsertLocation: 'after',
           allowMultiple: true,
@@ -218,6 +538,33 @@ export default {
           beforeAddFile: (item) => {
             // 不延迟的话，会导致最大数量限制计算错误
             setTimeout(async () => {
+              if (item.file.type.startsWith('image/')) {
+                const imageTag = await toImageTag(await toLocalURL(item.file))
+                if (!this.ImageAspectRatio.validate(imageTag.width / imageTag.height)) {
+                  return
+                }
+              } else if (item.file.type.startsWith('video/')) {
+                const { videoWidth, videoHeight, duration } = await getVideoMetadata(item.file)
+                // console.log('videoWidth: ', videoWidth)
+                // console.log('videoHeight: ', videoHeight)
+                // console.log('duration: ', duration)
+                if (!(
+                  this.VideoWidth.validate(videoWidth)
+                  && this.VideoHeight.validate(videoHeight)
+                  && this.VideoResolution.validate(videoWidth * videoHeight)
+                  && this.VideoAspectRatio.validate(videoWidth / videoHeight)
+                  && this.VideoDuration.validate(duration)
+                )) {
+                  return
+                }
+              } else if (item.file.type.startsWith('audio/')) {
+                const { duration } = await getAudioMetadata(item.file)
+                // console.log('duration: ', duration)
+                if (!this.AudioDuration.validate(duration)) {
+                  return
+                }
+              }
+
               const task = reactive({
                 progress: 0,
                 setProgress(progress) {
@@ -339,12 +686,26 @@ export default {
           })
         }
       }
+      // 数量
+      if (minFiles && maxFiles) {
+        if (minFiles < maxFiles) {
+          limitation.push(`${this.LabelCount} ${minFiles.toLocaleString()} ~ ${maxFiles.toLocaleString()}`)
+        } else if (minFiles === maxFiles) {
+          limitation.push(`${this.LabelCount} ${minFiles.toLocaleString()}`)
+        } else {
+          throw new Error('minFiles cannot be greater than maxFiles')
+        }
+      } else if (maxFiles) {
+        limitation.push(`${this.LabelCount} ≤ ${maxFiles}`)
+      } else if (minFiles) {
+        limitation.push(`${this.LabelCount} ≥ ${minFiles}`)
       }
+      // 体积
       if (minFileSize && maxFileSize) {
         if (minFileSize < maxFileSize) {
-          limitation.push(`${this.LabelSize} ${minFileSize.toLocaleString()} ~ ${maxFileSize.toLocaleString()}`)
+          limitation.push(`${this.LabelSize} ${minFileSize} ~ ${maxFileSize}`)
         } else if (minFileSize === maxFileSize) {
-          limitation.push(`${this.LabelSize} ${minFileSize.toLocaleString()}`)
+          limitation.push(`${this.LabelSize} ${minFileSize}`)
         } else {
           throw new Error('minFileSize cannot be greater than maxFileSize')
         }
@@ -353,35 +714,44 @@ export default {
       } else if (minFileSize) {
         limitation.push(`${this.LabelSize} ≥ ${minFileSize}`)
       }
-      // let isWidthFixed = false
+      // 图片尺寸
+      let isWidthFixed = false
       if (imageValidateSizeMinWidth && imageValidateSizeMaxWidth) {
         if (imageValidateSizeMinWidth < imageValidateSizeMaxWidth) {
-          limitation.push(`${this.LabelWidth} ${imageValidateSizeMinWidth.toLocaleString()} ~ ${imageValidateSizeMaxWidth.toLocaleString()}`)
+          limitation.push(`${this.LabelImageWidth} ${imageValidateSizeMinWidth.toLocaleString()} ~ ${imageValidateSizeMaxWidth.toLocaleString()}`)
         } else if (imageValidateSizeMinWidth === imageValidateSizeMaxWidth) {
-          // isWidthFixed = true
-          limitation.push(`${this.LabelWidth} ${imageValidateSizeMinWidth.toLocaleString()}`)
+          isWidthFixed = true
         } else {
           throw new Error('imageValidateSizeMinWidth cannot be greater than imageValidateSizeMaxWidth')
         }
       } else if (imageValidateSizeMaxWidth) {
-        limitation.push(`${this.LabelWidth} ≤ ${imageValidateSizeMaxWidth.toLocaleString()}`)
+        limitation.push(`${this.LabelImageWidth} ≤ ${imageValidateSizeMaxWidth.toLocaleString()}`)
       } else if (imageValidateSizeMinWidth) {
-        limitation.push(`${this.LabelWidth} ≥ ${imageValidateSizeMinWidth.toLocaleString()}`)
+        limitation.push(`${this.LabelImageWidth} ≥ ${imageValidateSizeMinWidth.toLocaleString()}`)
       }
-      // let isHeightFixed = false
+      let isHeightFixed = false
       if (imageValidateSizeMinHeight && imageValidateSizeMaxHeight) {
         if (imageValidateSizeMinHeight < imageValidateSizeMaxHeight) {
-          limitation.push(`${this.LabelHeight} ${imageValidateSizeMinHeight.toLocaleString()} ~ ${imageValidateSizeMaxHeight.toLocaleString()}`)
+          limitation.push(`${this.LabelImageHeight} ${imageValidateSizeMinHeight.toLocaleString()} ~ ${imageValidateSizeMaxHeight.toLocaleString()}`)
         } else if (imageValidateSizeMinHeight === imageValidateSizeMaxHeight) {
-          // isHeightFixed = true
-          limitation.push(`${this.LabelHeight} ${imageValidateSizeMinHeight.toLocaleString()}`)
+          isHeightFixed = true
         } else {
           throw new Error('imageValidateSizeMinHeight cannot be greater than imageValidateSizeMaxHeight')
         }
       } else if (imageValidateSizeMaxHeight) {
-        limitation.push(`${this.LabelHeight} ≤ ${imageValidateSizeMaxHeight.toLocaleString()}`)
+        limitation.push(`${this.LabelImageHeight} ≤ ${imageValidateSizeMaxHeight.toLocaleString()}`)
       } else if (imageValidateSizeMinHeight) {
-        limitation.push(`${this.LabelHeight} ≥ ${imageValidateSizeMinHeight.toLocaleString()}`)
+        limitation.push(`${this.LabelImageHeight} ≥ ${imageValidateSizeMinHeight.toLocaleString()}`)
+      }
+      if (isWidthFixed && isHeightFixed) {
+        limitation.push(`${this.LabelImageDimension} ${imageValidateSizeMinHeight.toLocaleString()} × ${imageValidateSizeMinHeight.toLocaleString()}`)
+      } else {
+        if (isWidthFixed) {
+          limitation.push(`${this.LabelImageWidth} ${imageValidateSizeMinWidth.toLocaleString()}`)
+        }
+        if (isHeightFixed) {
+          limitation.push(`${this.LabelImageHeight} ${imageValidateSizeMinHeight.toLocaleString()}`)
+        }
       }
       /* if (imageValidateSizeMinWidth && imageValidateSizeMinHeight) {
         FilePondOptions.imageValidateSizeLabelExpectedMinSize = `允许的${isWidthFixed && isHeightFixed ? '' : '最小'}尺寸: {minWidth} × {minHeight}`
@@ -397,31 +767,50 @@ export default {
       } else if (imageValidateSizeMaxHeight) {
         FilePondOptions.imageValidateSizeLabelExpectedMaxSize = `允许的${isHeightFixed ? '' : '最大'}高度: {maxHeight}`
       } */
+      // 图片分辨率
       if (imageValidateSizeMinResolution && imageValidateSizeMaxResolution) {
         if (imageValidateSizeMinResolution < imageValidateSizeMaxResolution) {
-          limitation.push(`${this.LabelResolution} ${imageValidateSizeMinResolution.toLocaleString()} ~ ${imageValidateSizeMaxResolution.toLocaleString()}`)
+          limitation.push(`${this.LabelImageResolution} ${imageValidateSizeMinResolution.toLocaleString()} ~ ${imageValidateSizeMaxResolution.toLocaleString()}`)
         } else if (imageValidateSizeMinResolution === imageValidateSizeMaxResolution) {
-          limitation.push(`${this.LabelResolution} ${imageValidateSizeMinResolution.toLocaleString()}`)
+          limitation.push(`${this.LabelImageResolution} ${imageValidateSizeMinResolution.toLocaleString()}`)
         } else {
           throw new Error('imageValidateSizeMinResolution cannot be greater than imageValidateSizeMaxResolution')
         }
       } else if (imageValidateSizeMaxResolution) {
-        limitation.push(`${this.LabelResolution} ≤ ${imageValidateSizeMaxResolution.toLocaleString()}`)
+        limitation.push(`${this.LabelImageResolution} ≤ ${imageValidateSizeMaxResolution.toLocaleString()}`)
       } else if (imageValidateSizeMinResolution) {
-        limitation.push(`${this.LabelResolution} ≥ ${imageValidateSizeMinResolution.toLocaleString()}`)
+        limitation.push(`${this.LabelImageResolution} ≥ ${imageValidateSizeMinResolution.toLocaleString()}`)
       }
-      if (minFiles && maxFiles) {
-        if (minFiles < maxFiles) {
-          limitation.push(`${this.LabelCount} ${minFiles.toLocaleString()} ~ ${maxFiles.toLocaleString()}`)
-        } else if (minFiles === maxFiles) {
-          limitation.push(`${this.LabelCount} ${minFiles.toLocaleString()}`)
-        } else {
-          throw new Error('minFiles cannot be greater than maxFiles')
+      // 图片比例
+      if (this.ImageAspectRatio.tip) {
+        limitation.push(this.ImageAspectRatio.tip)
+      }
+      // 视频尺寸
+      if (this.VideoWidth.targetLabel && this.VideoHeight.targetLabel) {
+        limitation.push(`${this.LabelVideoDimension} ${this.VideoWidth.targetLabel} × ${this.VideoHeight.targetLabel}`)
+      } else {
+        if (this.VideoWidth.tip) {
+          limitation.push(this.VideoWidth.tip)
         }
-      } else if (maxFiles) {
-        limitation.push(`${this.LabelCount} ≤ ${maxFiles}`)
-      } else if (minFiles) {
-        limitation.push(`${this.LabelCount} ≥ ${minFiles}`)
+        if (this.VideoHeight.tip) {
+          limitation.push(this.VideoHeight.tip)
+        }
+      }
+      // 视频分辨率
+      if (this.VideoResolution.tip) {
+        limitation.push(this.VideoResolution.tip)
+      }
+      // 视频比例
+      if (this.VideoAspectRatio.tip) {
+        limitation.push(this.VideoAspectRatio.tip)
+      }
+      // 视频时长
+      if (this.VideoDuration.tip) {
+        limitation.push(this.VideoDuration.tip)
+      }
+      // 音频时长
+      if (this.AudioDuration.tip) {
+        limitation.push(this.AudioDuration.tip)
       }
 
       if (limitation.length) {

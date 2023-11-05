@@ -40,5 +40,65 @@ export default {
   FaSelect: {
     selectAll: 'Select All',
   },
-  FaUpload: {},
+  FaUpload: {
+    labelAccept: 'Accept',
+
+    labelCount: 'Count',
+    labelMinFilesExceeded: 'Minimum file count: {minFiles}',
+    labelMaxFilesExceeded: 'Maximum file count: {maxFiles}',
+
+    labelSize: 'Size',
+
+    labelImageWidth: 'Image Width',
+    labelImageWidthNotMatch: 'Expected image width is {imageWidth}',
+    labelMinImageWidthExceeded: 'Minimum image width is {minImageWidth}',
+    labelMaxImageWidthExceeded: 'Maximum image width is {maxImageWidth}',
+
+    labelImageHeight: 'Image Height',
+    labelImageHeightNotMatch: 'Expected image height is {imageHeight}',
+    labelMinImageHeightExceeded: 'Minimum image height is {minImageHeight}',
+    labelMaxImageHeightExceeded: 'Maximum image height is {maxImageHeight}',
+
+    labelImageDimension: 'Image Dimension',
+
+    labelImageResolution: 'Image Resolution',
+    labelImageResolutionNotMatch: 'Expected image resolution is {imageResolution}',
+
+    labelImageAspectRatio: 'Image Aspect Ratio',
+    labelImageAspectRatioNotMatch: 'Expected image aspect ratio is {imageAspectRatio}',
+    labelMinImageAspectRatioExceeded: 'Minimum image aspect ratio is {minImageAspectRatio}',
+    labelMaxImageAspectRatioExceeded: 'Maximum image aspect ratio is {maxImageAspectRatio}',
+
+    labelVideoWidth: 'Video Width',
+    labelVideoWidthNotMatch: 'Expected video width is {videoWidth}',
+    labelMinVideoWidthExceeded: 'Minimum video width is {minVideoWidth}',
+    labelMaxVideoWidthExceeded: 'Maximum video width is {maxVideoWidth}',
+
+    labelVideoHeight: 'Video Height',
+    labelVideoHeightNotMatch: 'Expected video height is {videoHeight}',
+    labelMinVideoHeightExceeded: 'Minimum video height is {minVideoHeight}',
+    labelMaxVideoHeightExceeded: 'Maximum video height is {maxVideoHeight}',
+
+    labelVideoDimension: 'Video Dimension',
+
+    labelVideoResolution: 'Video Resolution',
+    labelVideoResolutionNotMatch: 'Expected video resolution is {videoResolution}',
+    labelMinVideoResolutionExceeded: 'Minimum video resolution is {minVideoResolution}',
+    labelMaxVideoResolutionExceeded: 'Maximum video resolution is {maxVideoResolution}',
+
+    labelVideoAspectRatio: 'Video Aspect Ratio',
+    labelVideoAspectRatioNotMatch: 'Expected video aspect ratio is {videoAspectRatio}',
+    labelMinVideoAspectRatioExceeded: 'Minimum video aspect ratio is {minVideoAspectRatio}',
+    labelMaxVideoAspectRatioExceeded: 'Maximum video aspect ratio is {maxVideoAspectRatio}',
+
+    labelVideoDuration: 'Video Duration',
+    labelVideoDurationNotMatch: 'Expected video duration is {videoDuration}',
+    labelMinVideoDurationExceeded: 'Minimum video duration is {minVideoDuration}',
+    labelMaxVideoDurationExceeded: 'Maximum video duration is {maxVideoDuration}',
+
+    labelAudioDuration: 'Audio Duration',
+    labelAudioDurationNotMatch: 'Expected audio duration is {audioDuration}',
+    labelMinAudioDurationExceeded: 'Minimum audio duration is {minAudioDuration}',
+    labelMaxAudioDurationExceeded: 'Maximum audio duration is {maxAudioDuration}',
+  },
 }

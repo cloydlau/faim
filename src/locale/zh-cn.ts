@@ -41,51 +41,68 @@ export default {
     selecttAll: '全选',
   },
   FaUpload: {
-    labelFileWaitingForSize: '正在获取文件体积...',
-    labelInvalidField: '无效文件',
-    labelFileSizeNotAvailable: '文件体积不可用',
-    labelFileLoadError: '加载失败',
-    labelFileLoading: '正在加载...',
-    labelTapToCancel: '点击取消',
-    labelTapToRetry: '点击重试',
-    labelFileProcessing: '正在上传...',
-    labelFileProcessingComplete: '上传成功',
-    labelFileProcessingAborted: '上传中止',
-    labelFileProcessingError: '上传失败',
-    labelFileProcessingRevertError: '还原失败',
-    labelFileRemoveError: '删除失败',
-    labelTapToUndo: '',
-    labelButtonRemoveItem: '删除',
-    labelButtonAbortItemLoad: '中止',
-    labelButtonRetryItemLoad: '重试',
-    labelButtonAbortItemProcessing: '取消',
-    labelButtonUndoItemProcessing: '撤销',
-    labelButtonRetryItemProcessing: '重试',
-    labelButtonProcessItem: '上传',
-    imageValidateSizeLabelFormatError: '不支持的格式 (未上传)',
-    imageValidateSizeLabelImageSizeTooSmall: '图片尺寸过小 (未上传)',
-    imageValidateSizeLabelImageSizeTooBig: '图片尺寸过大 (未上传)',
-    imageValidateSizeLabelExpectedMinSize: '允许的最小尺寸：{minWidth} × {minHeight}',
-    imageValidateSizeLabelExpectedMaxSize: '允许的最大尺寸：{maxWidth} × {maxHeight}',
-    imageValidateSizeLabelImageResolutionTooLow: '图片分辨率过小 (未上传)',
-    imageValidateSizeLabelImageResolutionTooHigh: '图片分辨率过大 (未上传)',
-    imageValidateSizeLabelExpectedMinResolution: '允许的最小分辨率：{minResolution}',
-    imageValidateSizeLabelExpectedMaxResolution: '允许的最大分辨率：{maxResolution}',
-    labelMaxFileSizeExceeded: '文件体积过大 (未上传)',
-    labelMinFileSizeExceeded: '文件体积过小 (未上传)',
-    labelMaxFileSize: '允许的最大体积：{filesize}',
-    labelMinFileSize: '允许的最小体积：{filesize}',
-    labelMaxTotalFileSizeExceeded: '文件总体积过大 (未上传)',
-    labelMaxTotalFileSize: '允许的最大总体积：{filesize}',
-    labelFileTypeNotAllowed: '不允许的文件格式 (未上传)',
-    fileValidateTypeLabelExpectedTypes: '允许的文件格式：{allTypes}',
-    labelMinFilesExceeded: '允许的最小数量：{minFiles}',
-    labelMaxFilesExceeded: '允许的最大数量：{maxFiles}',
-    labelBrowserNotSupported: '当前浏览器不支持文件上传组件 FilePond，建议使用最新稳定版的 Chrome/Safari/Edge',
-    labelCount: '数量',
-    labelSize: '体积',
-    labelWidth: '宽度',
-    labelHeight: '高度',
-    labelResolution: '分辨率',
+    ...filePondLocale,
+
+    labelAccept: '格式', // FaUpload 新增
+
+    labelCount: '数量', // FaUpload 新增
+    labelMinFilesExceeded: '允许的最小数量：{minFiles}', // FaUpload 新增
+    labelMaxFilesExceeded: '允许的最大数量：{maxFiles}', // FaUpload 新增
+
+    labelSize: '体积', // FaUpload 新增
+    labelMinFileSizeExceeded: '文件体积过小 (未上传)', // filePondLocale 未包含
+    labelMinFileSize: '允许的最小体积：{filesize}', // filePondLocale 未包含
+
+    labelImageWidth: '图片宽度', // FaUpload 新增
+    labelImageWidthNotMatch: '允许的图片宽度：{imageWidth}', // FaUpload 新增
+    labelMinImageWidthExceeded: '允许的最小图片宽度：{minImageWidth}', // FaUpload 新增
+    labelMaxImageWidthExceeded: '允许的最大图片宽度：{maxImageWidth}', // FaUpload 新增
+
+    labelImageHeight: '图片高度', // FaUpload 新增
+    labelImageHeightNotMatch: '允许的图片高度：{imageHeight}', // FaUpload 新增
+    labelMinImageHeightExceeded: '允许的最小图片高度：{minImageHeight}', // FaUpload 新增
+    labelMaxImageHeightExceeded: '允许的最大图片高度：{maxImageHeight}', // FaUpload 新增
+
+    labelImageDimension: '图片尺寸', // FaUpload 新增
+
+    labelImageResolution: '图片分辨率', // FaUpload 新增
+    labelImageResolutionNotMatch: '允许的图片分辨率：{imageResolution}', // FaUpload 新增
+
+    labelImageAspectRatio: '图片比例', // FaUpload 新增
+    labelImageAspectRatioNotMatch: '允许的图片比例：{imageAspectRatio}', // FaUpload 新增
+    labelMinImageAspectRatioExceeded: '允许的最小图片比例：{minImageAspectRatio}', // FaUpload 新增
+    labelMaxImageAspectRatioExceeded: '允许的最大图片比例：{maxImageAspectRatio}', // FaUpload 新增
+
+    labelVideoWidth: '视频宽度', // FaUpload 新增
+    labelVideoWidthNotMatch: '允许的视频宽度：{videoWidth}', // FaUpload 新增
+    labelMinVideoWidthExceeded: '允许的最小视频宽度：{minVideoWidth}', // FaUpload 新增
+    labelMaxVideoWidthExceeded: '允许的最大视频宽度：{maxVideoWidth}', // FaUpload 新增
+
+    labelVideoHeight: '视频高度', // FaUpload 新增
+    labelVideoHeightNotMatch: '允许的视频高度：{videoHeight}', // FaUpload 新增
+    labelMinVideoHeightExceeded: '允许的最小视频高度：{minVideoHeight}', // FaUpload 新增
+    labelMaxVideoHeightExceeded: '允许的最大视频高度：{maxVideoHeight}', // FaUpload 新增
+
+    labelVideoDimension: '视频尺寸', // FaUpload 新增
+
+    labelVideoResolution: '视频分辨率', // FaUpload 新增
+    labelVideoResolutionNotMatch: '允许的视频分辨率：{videoResolution}', // FaUpload 新增
+    labelMinVideoResolutionExceeded: '允许的最小视频分辨率：{minVideoResolution}', // FaUpload 新增
+    labelMaxVideoResolutionExceeded: '允许的最大视频分辨率：{maxVideoResolution}', // FaUpload 新增
+
+    labelVideoAspectRatio: '视频比例', // FaUpload 新增
+    labelVideoAspectRatioNotMatch: '允许的视频比例：{videoAspectRatio}', // FaUpload 新增
+    labelMinVideoAspectRatioExceeded: '允许的最小视频比例：{minVideoAspectRatio}', // FaUpload 新增
+    labelMaxVideoAspectRatioExceeded: '允许的最大视频比例：{maxVideoAspectRatio}', // FaUpload 新增
+
+    labelVideoDuration: '视频时长', // FaUpload 新增
+    labelVideoDurationNotMatch: '允许的视频时长：{videoDuration}', // FaUpload 新增
+    labelMinVideoDurationExceeded: '允许的最小视频时长：{minVideoDuration}', // FaUpload 新增
+    labelMaxVideoDurationExceeded: '允许的最大视频时长：{maxVideoDuration}', // FaUpload 新增
+
+    labelAudioDuration: '音频时长', // FaUpload 新增
+    labelAudioDurationNotMatch: '允许的音频时长：{audioDuration}', // FaUpload 新增
+    labelMinAudioDurationExceeded: '允许的最小音频时长：{minAudioDuration}', // FaUpload 新增
+    labelMaxAudioDurationExceeded: '允许的最大音频时长：{maxAudioDuration}', // FaUpload 新增
   },
 }

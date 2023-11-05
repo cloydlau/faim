@@ -92,3 +92,71 @@ export function unwrap(value: any, srcAt: string | ((value: any) => unknown) | s
       }
   }
 }
+export function getVideoMetadata(source: File | Blob | string) {
+  const url = source instanceof Blob ? URL.createObjectURL(source) : source
+
+  return new Promise((resolve, reject) => {
+    const video = document.createElement('video')
+
+    video.addEventListener('error', (e) => {
+      reject(e)
+    })
+
+    video.addEventListener('loadedmetadata', () => {
+      if (source instanceof Blob) {
+        URL.revokeObjectURL(url)
+      }
+      resolve(video)
+    })
+
+    video.src = url
+  })
+}
+
+export function getAudioMetadata(source: File | Blob | string) {
+  const url = source instanceof Blob ? URL.createObjectURL(source) : source
+
+  return new Promise((resolve, reject) => {
+    const audio = document.createElement('audio')
+
+    audio.addEventListener('error', (e) => {
+      reject(e)
+    })
+
+    audio.addEventListener('loadedmetadata', () => {
+      if (source instanceof Blob) {
+        URL.revokeObjectURL(url)
+      }
+      resolve(audio)
+    })
+
+    audio.src = url
+  })
+}
+
+export function secondsToHHMMSS(seconds: number): string {
+  let Seconds = Number.parseInt(String(seconds), 10)
+  const Hours = Math.floor(Seconds / 3600)
+  const Minutes = Math.floor(Seconds / 60) % 60
+  Seconds %= 60
+  return [Hours, Minutes, Seconds]
+    .map(v => v < 10 ? `0${v}` : v)
+    .filter((v, i) => v !== '00' || i > 0)
+    .join(':')
+}
+
+export function sizeToLabel(size: number, unit: 'B' | 'KB' | 'MB' = 'B'): string {
+  // 转 B
+  if (unit === 'KB') {
+    size *= KB
+  } else if (unit === 'MB') {
+    size *= MB
+  }
+  if (size >= MB) {
+    return `${(size / MB).toFixed(1)}M`
+  } else if (size >= KB) {
+    return `${(size / KB).toFixed(0)}K`
+  } else {
+    return `${(size).toFixed(0)}B`
+  }
+}

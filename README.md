@@ -1374,11 +1374,17 @@ Ant Design 也是使用 `value` 与 `label` 命名。
   - 用户选择本地文件 (File)
   - 编程式提供数据源 (File/Blob/Base64/URL/[object URL](https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications#example_using_object_urls_to_display_images))
 - 限制文件
-  - 图片尺寸或尺寸范围 (间接限制宽高比例)
-  - 图片分辨率或分辨率范围
   - 格式筛选、扩展名校验 (`acceptedFileTypes` 同时支持 [MIME](https://www.iana.org/assignments/media-types/media-types.xhtml#image) 和扩展名)
   - 体积上限、下限
   - 数量上限、下限
+  - 图片尺寸、尺寸范围
+  - 图片分辨率、分辨率范围
+  - 图片比例、比例范围
+  - 视频尺寸、尺寸范围
+  - 视频分辨率、分辨率范围
+  - 视频比例、比例范围
+  - 视频时长、时长范围
+  - 音频时长、时长范围
   - 自定义校验
   - 限制条件可视化 (让用户根据限制条件去准备文件，而不是准备好了才发现不合适)
 - 已上传文件下载
@@ -1389,22 +1395,32 @@ Ant Design 也是使用 `value` 与 `label` 命名。
 
 ### Props
 
-| 名称                                               | 说明                          | 类型                                                                                                                                          | 默认值       |
-|----------------------------------------------------|-----------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------|--------------|
-| modelValue (Vue 3) /<br>value (Vue 2) /<br>v-model | 绑定值                        | any                                                                                                                                           |              |
-| upload                                             | 调用接口上传文件，返回 URL/ID  | (file: File, progress: (progress: number) => void, abortController: AbortController) => Promise<string \| object> \| string \| object \| void |              |
-| arrayed                                            | 绑定值是否为数组类型，默认自动 | boolean                                                                                                                                       |              |
-| srcAt                                              | 文件 URL/ID 的位置            | string / symbol / (value: any) => any                                                                                                         |              |
-| minFiles                                           | 最小数量                      | number                                                                                                                                        |              |
-| labelCount                                         | 数量文案                      | string                                                                                                                                        | 'Count'      |
-| labelSize                                          | 体积文案                      | string                                                                                                                                        | 'Size'       |
-| labelWidth                                         | 宽度文案                      | string                                                                                                                                        | 'Width'      |
-| labelHeight                                        | 高度文案                      | string                                                                                                                                        | 'Height'     |
-| labelResolution                                    | 分辨率文案                    | string                                                                                                                                        | 'Resolution' |
-| labelExtensions                                        | 格式文案                                                                      | string                                                                          | 'Extensions'                                                                                                                                  |                                                                             |                                                                                                                                           |
-| labelMinFilesExceeded                              | 触发最小数量限制时的提示文案                                                  | string                                                                          | 'Minimum file count: {minFiles}'                                                                                                          |
-| labelMaxFilesExceeded                              | 触发最大数量限制时的提示文案                                                  | string                                                                          | 'Maximum file count: {maxFiles}'                                                                                                          |
+| 名称                                               | 说明                          | 类型                                               | 默认值                         |
+|----------------------------------------------------|-------------------------------|----------------------------------------------------|--------------------------------|
+| modelValue (Vue 3) /<br>value (Vue 2) /<br>v-model | 绑定值                        | any                                                |                                |
+| upload                                             | 调用接口上传文件，返回 URL/ID  | Upload                                             |                                |
+| arrayed                                            | 绑定值是否为数组类型，默认自动 | boolean                                            |                                |
+| srcAt                                              | 文件 URL/ID 的位置            | string / symbol / (value: any) => any              |                                |
+| minFiles                                           | 最小数量                      | number                                             |                                |
+| imageAspectRatio                                   | 图片比例                      | string / { min?: string, max?: string } / string[] |                                |
+| videoWidth                                         | 视频宽度 (像素)               | number / { min?: number, max?: number } / number[] |                                |
+| videoHeight                                        | 视频高度 (像素)               | number / { min?: number, max?: number } / number[] |                                |
+| videoResolution                                    | 视频分辨率，即宽高的积 (像素)  | number / { min?: number, max?: number } / number[] |                                |
+| videoAspectRatio                                   | 视频比例，即宽高的商           | string / { min?: string, max?: string } / string[] |                                |
+| videoDuration                                      | 视频时长 (秒)                 | number / { min?: number, max?: number } / number[] |                                |
+| audioDuration                                      | 音频时长 (秒)                 | number / { min?: number, max?: number } / number[] |                                |
+| ...                                                | i18n                          | Record<string, string>                             | [查看代码](./src/locale/en.ts) |
 | ...                                                | [FilePond 实例的属性](https://pqina.nl/filepond/docs/api/instance/properties) |
+
+#### upload
+
+```ts
+type Upload = (file: File, progress: (progress: number) => void, abortController: AbortController) => Promise<string | object> | string | object | void
+```
+
+未配置或函数返回值为空时，绑定值将输出二进制文件
+
+返回值类型为 Promise\<object\> 或 object 时需要配置 srcAt
 
 #### arrayed
 
@@ -1429,11 +1445,21 @@ item 具体是什么格式？
 - 支持 symbol 类型的属性名
 - 支持 Function，如 `value => value.source`
 
-#### upload
+#### imageAspectRatio，videoAspectRatio
 
-未配置或函数返回值为空时，绑定值将输出二进制文件
+- `'16:9'`：限制比例为 16:9
+- `{ min: '16:10' }`：限制比例下限为 16:10
+- `{ max: '21:9' }`：限制比例上限为 21:9
+- `{ min: '16:10', max: '21:9' }`：限制比例下限为 16:10，且上限为 21:9
+- `['16:10', '16:9', '21:9']`：限制比例为 16:10，16:9，21:9 其中之一
 
-返回值类型为 Promise\<object\> 或 object 时需要配置 srcAt
+#### videoWidth，videoHeight，videoResolution，videoDuration，audioDuration
+
+- `200`：限制参数值为 200
+- `{ min: 100 }`：限制参数值下限为 100
+- `{ max: 300 }`：限制参数值上限为 300
+- `{ min: 100, max: 300 }`：限制参数值下限为 100，且上限为 300
+- `[100, 200, 300]`：限制参数值为 100，200，300 其中之一
 
 ### Events
 
