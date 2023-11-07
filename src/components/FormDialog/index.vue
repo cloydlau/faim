@@ -769,7 +769,7 @@ export default {
       bottom: 0;
       right: 0;
       backdrop-filter: blur(1px);
-      z-index: 1;
+      z-index: 3; // higher than .el-table__inner-wrapper
 
       .el-button.is-disabled.closing {
         cursor: revert;
