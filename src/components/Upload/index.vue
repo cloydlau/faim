@@ -687,9 +687,12 @@ export default {
         limitation.push(`${this.LabelSize} ≥ ${minFileSize}`)
       }
       // 图片尺寸
-      // aspectRatio 参数的值不能与 width & height 冲突
-      if (this.ImageAspectRatio.target && imageValidateSizeMaxWidth && imageValidateSizeMaxHeight && this.ImageAspectRatio.target !== (imageValidateSizeMaxWidth / imageValidateSizeMaxHeight)) {
-        throw new Error('Value of prop \'imageAspectRatio\' conflicts with values of \'imageValidateSizeMaxWidth\' and \'imageValidateSizeMaxHeight\'')
+      if (imageValidateSizeMinWidth || imageValidateSizeMaxWidth || imageValidateSizeMinHeight || imageValidateSizeMaxHeight) {
+        if (imageValidateSizeMinResolution || imageValidateSizeMaxResolution) {
+          throw new Error('Prohibit specifying both width/height and resolution at the same time to avoid conflicts')
+        } else if (this.ImageAspectRatio.tip) {
+          throw new Error('Prohibit specifying both width/height and aspect ratio at the same time to avoid conflicts')
+        }
       }
       let isWidthFixed = false
       if (imageValidateSizeMinWidth && imageValidateSizeMaxWidth) {
@@ -762,6 +765,13 @@ export default {
         limitation.push(this.ImageAspectRatio.tip)
       }
       // 视频尺寸
+      if (this.VideoWidth.tip || this.VideoHeight.tip) {
+        if (this.VideoResolution.tip) {
+          throw new Error('Prohibit specifying both width/height and resolution at the same time to avoid conflicts')
+        } else if (this.VideoAspectRatio.tip) {
+          throw new Error('Prohibit specifying both width/height and aspect ratio at the same time to avoid conflicts')
+        }
+      }
       if (this.VideoWidth.targetLabel && this.VideoHeight.targetLabel) {
         limitation.push(`${this.LabelVideoDimension} ${this.VideoWidth.targetLabel} × ${this.VideoHeight.targetLabel}`)
       } else {

@@ -7,8 +7,8 @@ const common = {
 const catalog = {
   image: {
     maxFiles: 5,
-    imageValidateSizeMaxWidth: 5000,
-    imageValidateSizeMaxHeight: 5000,
+    // imageValidateSizeMaxWidth: 5000,
+    // imageValidateSizeMaxHeight: 5000,
     imageAspectRatio: '1:1',
     acceptedFileTypes: ['image/jpeg', 'image/png'],
     labelIdle: '将图片拖到此处，或<span class="filepond--label-action">点击</span>上传',
@@ -24,8 +24,8 @@ const catalog = {
     maxFiles: 2,
     maxFileSize: '100MB',
     acceptedFileTypes: ['video/*'],
-    videoWidth: { max: 1280 },
-    videoHeight: 720,
+    // videoWidth: { max: 1280 },
+    // videoHeight: 720,
     videoAspectRatio: { min: '16:10', max: '16:9' },
     videoResolution: 1280 * 720,
     videoDuration: { max: 14 },
