@@ -3,10 +3,10 @@ import { POST } from '../request'
 
 export default {
   locale: FaimLocale.FaImageUpload,
-  size: 0.5,
   // width: 800,
   // height: 800,
   maxCount: 5,
+  maxSize: 512 * 1024,
   // resolution: 640000,
   accept: '.jpg,.jpeg,.png,.gif',
   editable: true,

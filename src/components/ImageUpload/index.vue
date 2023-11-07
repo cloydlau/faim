@@ -52,9 +52,10 @@ export default {
         || isObject(value),
     },
     srcAt: {},
-    size: {},
     minCount: {},
     maxCount: {},
+    minSize: {},
+    maxSize: {},
     width: {},
     height: {},
     resolution: {},
@@ -109,38 +110,13 @@ export default {
       })
     },
     Size() {
-      const size = conclude([this.size, globalProps.size], {
-        validator: value => equalOrWithin(value),
+      return handleNumericalProp({
+        config: [{ min: this.minSize, max: this.maxSize }, { min: globalProps.minSize, max: globalProps.maxSize }],
+        labelTip: this.Locale.size,
+        createTitleTextOfMinExceeded: minSize => this.Locale.minSizeExceeded.replaceAll('{minSize}', minSize),
+        createTitleTextOfMaxExceeded: maxSize => this.Locale.maxSizeExceeded.replaceAll('{maxSize}', maxSize),
+        withUnit: sizeToLabel,
       })
-
-      let min, max, _min, _max, minText, maxText, label
-      if (Array.isArray(size)) {
-        [min, max] = size
-        if (min) {
-          _min = min * MB
-          minText = sizeToText(_min)
-        }
-        if (max) {
-          _max = max * MB
-          maxText = sizeToText(_max)
-        }
-        if (min && max) {
-          label = `${this.Locale.size} ${minText} ~ ${maxText}`
-        } else if (max) {
-          label = `${this.Locale.size} ≤ ${maxText}`
-        } else if (min) {
-          label = `${this.Locale.size} ≥ ${minText}`
-        }
-      } else if (size !== undefined) {
-        max = size
-        if (max) {
-          _max = max * MB
-          maxText = sizeToText(_max)
-          label = `${this.Locale.size} ≤ ${maxText}`
-        }
-      }
-
-      return { min, max, _min, _max, minText, maxText, label }
     },
     Width() {
       const width = conclude([this.width, globalProps.width], {
@@ -500,27 +476,8 @@ export default {
       if (this.Editable) {
         return true
       }
-
-      let sizeError = false
       const file = await toBinary(source)
-
-      if (this.Size.max !== undefined && file.size > this.Size._max) {
-        FaMessageBox.warning({
-          titleText: this.Locale.maxSizeExceeded.replaceAll('{maxSize}', this.Size.maxText),
-          timer: 5000,
-        })
-        sizeError = true
-      } else if (this.Size.min !== undefined && file.size < this.Size._min) {
-        FaMessageBox.warning({
-          titleText: this.Locale.minSizeExceeded.replaceAll('{maxSize}', this.Size.minText),
-          timer: 5000,
-        })
-        sizeError = true
-      }
-      if (sizeError) {
-        return false
-      }
-      return true
+      return this.Size.validate(file.size)
     },
     async validateDimensionAndResolution(file) {
       if (this.Editable) {
