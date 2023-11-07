@@ -476,6 +476,7 @@ export default {
     :locale="locale"
     @fullscreen-change="onFullscreenChange"
     @update:show="(e) => { $emit('update:show', e) }"
+    v-on="$listeners"
   >
     <div
       :style="{ height: `${fullscreen ? '700' : '500'}px`, overflow: 'hidden' }"
