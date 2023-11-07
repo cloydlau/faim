@@ -416,7 +416,7 @@ export default {
       })
     },
     ImageAspectRatio() {
-      const { tip, validate, min, minLabel, max, maxLabel, options, optionsLabel, target, targetLabel } = handleNumericalProp({
+      return handleNumericalProp({
         config: [this.imageAspectRatio, globalProps.imageAspectRatio],
         labelTip: this.LabelImageAspectRatio,
         createTitleTextOfNotMatch: imageAspectRatio => this.LabelImageAspectRatioNotMatch.replaceAll('{imageAspectRatio}', imageAspectRatio),
@@ -430,14 +430,6 @@ export default {
           return w / h
         },
       })
-
-      // aspectRatio 参数的值不能与 width & height 冲突
-      const { imageValidateSizeMaxWidth, imageValidateSizeMaxHeight } = this.FilePondOptions
-      if (target && imageValidateSizeMaxWidth && imageValidateSizeMaxHeight && target !== (imageValidateSizeMaxWidth / imageValidateSizeMaxHeight)) {
-        throw new Error('Value of prop \'imageAspectRatio\' conflicts with values of \'imageValidateSizeMaxWidth\' and \'imageValidateSizeMaxHeight\'')
-      }
-
-      return { tip, validate, min, minLabel, max, maxLabel, options, optionsLabel, target, targetLabel }
     },
     VideoWidth() {
       return handleNumericalProp({
@@ -458,26 +450,16 @@ export default {
       })
     },
     VideoResolution() {
-      const { tip, validate, min, minLabel, max, maxLabel, options, optionsLabel, target, targetLabel } = handleNumericalProp({
+      return handleNumericalProp({
         config: [this.videoResolution, globalProps.videoResolution],
         labelTip: this.LabelVideoResolution,
         createTitleTextOfNotMatch: videoResolution => this.LabelVideoResolutionNotMatch.replaceAll('{videoResolution}', videoResolution),
         createTitleTextOfMinExceeded: minVideoResolution => this.LabelMinVideoResolutionExceeded.replaceAll('{minVideoResolution}', minVideoResolution),
         createTitleTextOfMaxExceeded: maxVideoResolution => this.LabelMaxVideoResolutionExceeded.replaceAll('{maxVideoResolution}', maxVideoResolution),
       })
-
-      // resolution 参数的值不能与 width & height 冲突
-      if ((target && this.VideoWidth.target && this.VideoHeight.target && target !== (this.VideoWidth.target * this.VideoHeight.target))
-       || (max && this.VideoWidth.max && this.VideoHeight.max && max !== (this.VideoWidth.max * this.VideoHeight.max))
-       || (min && this.VideoWidth.min && this.VideoHeight.min && min !== (this.VideoWidth.min * this.VideoHeight.min))
-      ) {
-        throw new Error('Value of prop \'videoResolution\' conflicts with values of \'videoWidth\' and \'videoHeight\'')
-      }
-
-      return { tip, validate, min, minLabel, max, maxLabel, options, optionsLabel, target, targetLabel }
     },
     VideoAspectRatio() {
-      const { tip, validate, min, minLabel, max, maxLabel, options, optionsLabel, target, targetLabel } = handleNumericalProp({
+      return handleNumericalProp({
         config: [this.videoAspectRatio, globalProps.videoAspectRatio],
         labelTip: this.LabelVideoAspectRatio,
         createTitleTextOfNotMatch: videoAspectRatio => this.LabelVideoAspectRatioNotMatch.replaceAll('{videoAspectRatio}', videoAspectRatio),
@@ -491,16 +473,6 @@ export default {
           return w / h
         },
       })
-
-      // aspectRatio 参数的值不能与 width & height 冲突
-      if ((target && this.VideoWidth.target && this.VideoHeight.target && target !== (this.VideoWidth.target / this.VideoHeight.target))
-       || (max && this.VideoWidth.max && this.VideoHeight.min && max !== (this.VideoWidth.max / this.VideoHeight.min))
-       || (min && this.VideoWidth.min && this.VideoHeight.max && min !== (this.VideoWidth.min / this.VideoHeight.max))
-      ) {
-        throw new Error('Value of prop \'videoAspectRatio\' conflicts with values of \'videoWidth\' and \'videoHeight\'')
-      }
-
-      return { tip, validate, min, minLabel, max, maxLabel, options, optionsLabel, target, targetLabel }
     },
     VideoDuration() {
       return handleNumericalProp({
@@ -715,6 +687,10 @@ export default {
         limitation.push(`${this.LabelSize} ≥ ${minFileSize}`)
       }
       // 图片尺寸
+      // aspectRatio 参数的值不能与 width & height 冲突
+      if (this.ImageAspectRatio.target && imageValidateSizeMaxWidth && imageValidateSizeMaxHeight && this.ImageAspectRatio.target !== (imageValidateSizeMaxWidth / imageValidateSizeMaxHeight)) {
+        throw new Error('Value of prop \'imageAspectRatio\' conflicts with values of \'imageValidateSizeMaxWidth\' and \'imageValidateSizeMaxHeight\'')
+      }
       let isWidthFixed = false
       if (imageValidateSizeMinWidth && imageValidateSizeMaxWidth) {
         if (imageValidateSizeMinWidth < imageValidateSizeMaxWidth) {
@@ -797,10 +773,24 @@ export default {
         }
       }
       // 视频分辨率
+      // resolution 参数的值不能与 width & height 冲突
+      if ((this.VideoResolution.target && this.VideoWidth.target && this.VideoHeight.target && this.VideoResolution.target !== (this.VideoWidth.target * this.VideoHeight.target))
+       || (this.VideoResolution.max && this.VideoWidth.max && this.VideoHeight.max && this.VideoResolution.max !== (this.VideoWidth.max * this.VideoHeight.max))
+       || (this.VideoResolution.min && this.VideoWidth.min && this.VideoHeight.min && this.VideoResolution.min !== (this.VideoWidth.min * this.VideoHeight.min))
+      ) {
+        throw new Error('Value of prop \'videoResolution\' conflicts with values of \'videoWidth\' and \'videoHeight\'')
+      }
       if (this.VideoResolution.tip) {
         limitation.push(this.VideoResolution.tip)
       }
       // 视频比例
+      // aspectRatio 参数的值不能与 width & height 冲突
+      if ((this.VideoAspectRatio.target && this.VideoWidth.target && this.VideoHeight.target && this.VideoAspectRatio.target !== (this.VideoWidth.target / this.VideoHeight.target))
+       || (this.VideoAspectRatio.max && this.VideoWidth.max && this.VideoHeight.min && this.VideoAspectRatio.max !== (this.VideoWidth.max / this.VideoHeight.min))
+       || (this.VideoAspectRatio.min && this.VideoWidth.min && this.VideoHeight.max && this.VideoAspectRatio.min !== (this.VideoWidth.min / this.VideoHeight.max))
+      ) {
+        throw new Error('Value of prop \'videoAspectRatio\' conflicts with values of \'videoWidth\' and \'videoHeight\'')
+      }
       if (this.VideoAspectRatio.tip) {
         limitation.push(this.VideoAspectRatio.tip)
       }

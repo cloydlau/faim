@@ -348,6 +348,7 @@ export default {
             })
             reject(Error(sizeTooltip))
           } else {
+            this.reset()
             this.$emit('confirm', this.value)
             // Closing is decided by the parent component based on the length of queue
             resolve({ show: true })
@@ -371,6 +372,7 @@ export default {
         reject(Error(sizeTooltip))
       } else {
         console.log(sizeDiffText)
+        this.reset()
         this.$emit('confirm', binary)
         // Closing is decided by the parent component based on the length of queue
         resolve({ show: true })
