@@ -85,9 +85,6 @@ export default {
       return Boolean(this.specifiedAspectRatio)
     },
     specifiedAspectRatioLabel() {
-      if (this.width.target && this.height.target) {
-        return ` (${this.width.target}:${this.height.target})`
-      }
       return this.aspectRatio.targetLabel && ` (${this.aspectRatio.targetLabel})`
     },
     // 用户输入的比例
