@@ -623,6 +623,7 @@ export default {
       :height="Height"
       :resolution="Resolution"
       :aspectRatio="AspectRatio"
+      :validator="Validator"
       :locale="Locale"
       @update:show="(e) => { editor.show = e }"
       @confirm="onEditorConfirm"

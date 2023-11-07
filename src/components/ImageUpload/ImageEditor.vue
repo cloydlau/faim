@@ -50,6 +50,7 @@ export default {
     height: Object,
     aspectRatio: Object,
     resolution: Object,
+    validator: Function,
     locale: {
       type: Object,
       default: () => ({}),
@@ -325,21 +326,20 @@ export default {
     },
     onConfirm() {
       return new Promise((resolve, reject) => {
-        const resolution = (this.outputWidth ?? this.imageTag.width) * (this.outputHeight ?? this.imageTag.height)
-        let titleText
-        if (this.resolution.target !== undefined && resolution !== this.resolution.target) {
-          titleText = this.locale.resolutionNotMatch.replaceAll('{resolution}', this.resolution.targetLabel)
-        } else if (this.resolution.max !== undefined && resolution > this.resolution.max) {
-          titleText = this.locale.maxresolutionExceeded.replaceAll('{maxresolution}', this.resolution.maxLabel)
-        } else if (this.resolution.min !== undefined && resolution < this.resolution.min) {
-          titleText = this.locale.minresolutionExceeded.replaceAll('{minresolution}', this.resolution.minLabel)
-        }
-        if (titleText) {
-          FaMessageBox.warning({
-            titleText,
-            timer: 5000,
-          })
-          reject(Error(titleText))
+        // 在输出之前进行 宽度 & 高度 & 分辨率 & 比例校验
+        // 主要是针对极值的校验，如果是指定固定值，是禁止编辑的
+        // 格式不需要校验，根据 outputType 进行输出即可
+        // 体积和自定义校验在输出后进行
+        const outputWidth = this.inputWidth ?? this.imageTag.width
+        const outputHeight = this.inputHeight ?? this.imageTag.height
+        const outputResolution = outputWidth * outputHeight
+        if (!(
+          this.width.validate(outputWidth)
+          && this.height.validate(outputHeight)
+          && this.resolution.validate(outputResolution)
+          && this.aspectRatio.validate(this.specifiedAspectRatio || this.impliedAspectRatio)
+        )) {
+          reject(new Error('Validation failed'))
           return
         }
         // 如果改变了裁剪框，或比例不符，或尺寸不符，则处理图片，否则上传原图
@@ -380,7 +380,7 @@ export default {
                 } else {
                   FaMessageBox.error(this.locale.exportError)
                   this.submitting = false
-                  reject(Error(this.locale.exportError))
+                  reject(new Error(this.locale.exportError))
                 }
               },
               // 如果旋转角度不为直角，则图片一定会出现空白区域，空白区域默认透明，使用 png 格式
@@ -391,12 +391,16 @@ export default {
             )
           }
         } else {
+          // 体积校验
           const sizeTooltip = this.getSizeTooltip(this.binary)
           if (sizeTooltip) {
             FaMessageBox.warning({
               html: `<div style="text-align:center">${sizeTooltip}</div>`,
             })
-            reject(Error(sizeTooltip))
+            reject(new Error(sizeTooltip))
+          // 自定义校验
+          } else if (!this.validator(this.binary)) {
+            reject(new Error('Validation failed'))
           } else {
             this.reset()
             this.$emit('confirm', this.value)
@@ -412,6 +416,7 @@ export default {
         ? blobToFile(blob, this.binary.name, this.outputType)
         : blob
 
+      // 体积校验
       const sizeDiffText = this.getSizeDiffText(this.binary.size, binary.size)
       const sizeTooltip = this.getSizeTooltip(binary)
       if (sizeTooltip) {
@@ -419,7 +424,10 @@ export default {
           html: `<div style="text-align:center">${sizeDiffText}</div>
                  <div style="text-align:center">${sizeTooltip}</div>`,
         })
-        reject(Error(sizeTooltip))
+        reject(new Error(sizeTooltip))
+      // 自定义校验
+      } else if (!this.validator(binary)) {
+        reject(new Error('Validation failed'))
       } else {
         console.log(sizeDiffText)
         this.reset()
