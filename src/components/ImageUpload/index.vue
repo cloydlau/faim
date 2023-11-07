@@ -119,7 +119,7 @@ export default {
       return handleNumericalProp({
         config: [{ min: this.minCount, max: this.maxCount }, { min: globalProps.minCount, max: globalProps.maxCount }],
         labelTip: this.Locale.count,
-        createTitleTextOfNotMatch: count => this.Locale.countNotMatch.replaceAll('{count}', count),
+        createTitleTextOfNotMatched: count => this.Locale.countNotMatched.replaceAll('{count}', count),
         createTitleTextOfMinExceeded: minCount => this.Locale.minCountExceeded.replaceAll('{minCount}', minCount),
         createTitleTextOfMaxExceeded: maxCount => this.Locale.maxCountExceeded.replaceAll('{maxCount}', maxCount),
         allowOptions: false,
@@ -139,7 +139,7 @@ export default {
       return handleNumericalProp({
         config: [this.width, globalProps.width],
         labelTip: this.Locale.width,
-        createTitleTextOfNotMatch: width => this.Locale.widthNotMatch.replaceAll('{width}', width),
+        createTitleTextOfNotMatched: width => this.Locale.widthNotMatched.replaceAll('{width}', width),
         createTitleTextOfMinExceeded: minWidth => this.Locale.minWidthExceeded.replaceAll('{minWidth}', minWidth),
         createTitleTextOfMaxExceeded: maxWidth => this.Locale.maxWidthExceeded.replaceAll('{maxWidth}', maxWidth),
       })
@@ -148,7 +148,7 @@ export default {
       return handleNumericalProp({
         config: [this.height, globalProps.height],
         labelTip: this.Locale.height,
-        createTitleTextOfNotMatch: height => this.Locale.heightNotMatch.replaceAll('{height}', height),
+        createTitleTextOfNotMatched: height => this.Locale.heightNotMatched.replaceAll('{height}', height),
         createTitleTextOfMinExceeded: minHeight => this.Locale.minHeightExceeded.replaceAll('{minHeight}', minHeight),
         createTitleTextOfMaxExceeded: maxHeight => this.Locale.maxHeightExceeded.replaceAll('{maxHeight}', maxHeight),
       })
@@ -157,7 +157,7 @@ export default {
       return handleNumericalProp({
         config: [this.resolution, globalProps.resolution],
         labelTip: this.Locale.resolution,
-        createTitleTextOfNotMatch: resolution => this.Locale.resolutionNotMatch.replaceAll('{resolution}', resolution),
+        createTitleTextOfNotMatched: resolution => this.Locale.resolutionNotMatched.replaceAll('{resolution}', resolution),
         createTitleTextOfMinExceeded: minResolution => this.Locale.minResolutionExceeded.replaceAll('{minResolution}', minResolution),
         createTitleTextOfMaxExceeded: maxResolution => this.Locale.maxResolutionExceeded.replaceAll('{maxResolution}', maxResolution),
       })
@@ -166,7 +166,7 @@ export default {
       return handleNumericalProp({
         config: [this.aspectRatio, globalProps.aspectRatio],
         labelTip: this.Locale.aspectRatio,
-        createTitleTextOfNotMatch: aspectRatio => this.Locale.aspectRatioNotMatch.replaceAll('{aspectRatio}', aspectRatio),
+        createTitleTextOfNotMatched: aspectRatio => this.Locale.aspectRatioNotMatched.replaceAll('{aspectRatio}', aspectRatio),
         createTitleTextOfMinExceeded: minAspectRatio => this.Locale.minAspectRatioExceeded.replaceAll('{minAspectRatio}', minAspectRatio),
         createTitleTextOfMaxExceeded: maxAspectRatio => this.Locale.maxAspectRatioExceeded.replaceAll('{maxAspectRatio}', maxAspectRatio),
         getValue: (value) => {

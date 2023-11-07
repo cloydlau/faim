@@ -159,7 +159,7 @@ const isPositiveNumber = (number: any) => typeof number === 'number' && !Number.
 export function handleNumericalProp({
   config,
   labelTip,
-  createTitleTextOfNotMatch,
+  createTitleTextOfNotMatched,
   createTitleTextOfMinExceeded,
   createTitleTextOfMaxExceeded,
   withUnit = value => value.toLocaleString(),
@@ -167,7 +167,7 @@ export function handleNumericalProp({
 }: {
   config: any[]
   labelTip: string
-  createTitleTextOfNotMatch: (replacement: string) => string
+  createTitleTextOfNotMatched: (replacement: string) => string
   createTitleTextOfMinExceeded: (replacement: string) => string
   createTitleTextOfMaxExceeded: (replacement: string) => string
   withUnit: (value: number) => string
@@ -200,7 +200,7 @@ export function handleNumericalProp({
   })
 
   let tip: string | undefined
-  let titleTextOfNotMatch: string | undefined
+  let titleTextOfNotMatched: string | undefined
   let titleTextOfMinExceeded: string | undefined
   let titleTextOfMaxExceeded: string | undefined
   let min: number | undefined
@@ -233,12 +233,12 @@ export function handleNumericalProp({
     options = value.map(getValue)
     optionsLabel = value.map(withUnit).join(' / ')
     tip = `${labelTip} ${optionsLabel}`
-    titleTextOfNotMatch = createTitleTextOfNotMatch(optionsLabel)
+    titleTextOfNotMatched = createTitleTextOfNotMatched(optionsLabel)
   } else if (value !== undefined) {
     target = getValue(value)
     targetLabel = withUnit(value)
     tip = `${labelTip} ${targetLabel}`
-    titleTextOfNotMatch = createTitleTextOfNotMatch(targetLabel)
+    titleTextOfNotMatched = createTitleTextOfNotMatched(targetLabel)
   }
 
   function validate(v: any) {
@@ -248,9 +248,9 @@ export function handleNumericalProp({
     } else if (min && v < min) {
       titleText = titleTextOfMinExceeded
     } else if (options && !options.includes(v)) {
-      titleText = titleTextOfNotMatch
+      titleText = titleTextOfNotMatched
     } else if (target && v !== target) {
-      titleText = titleTextOfNotMatch
+      titleText = titleTextOfNotMatched
     }
     if (titleText) {
       FaMessageBox.warning({

@@ -109,43 +109,43 @@ export default {
     labelMaxFilesExceeded: {},
     labelSize: {},
     labelImageWidth: {},
-    labelImageWidthNotMatch: {},
+    labelImageWidthNotMatched: {},
     labelMinImageWidthExceeded: {},
     labelMaxImageWidthExceeded: {},
     labelImageHeight: {},
-    labelImageHeightNotMatch: {},
+    labelImageHeightNotMatched: {},
     labelMinImageHeightExceeded: {},
     labelMaxImageHeightExceeded: {},
     labelImageDimension: {},
     labelImageAspectRatio: {},
-    labelImageAspectRatioNotMatch: {},
+    labelImageAspectRatioNotMatched: {},
     labelMinImageAspectRatioExceeded: {},
     labelMaxImageAspectRatioExceeded: {},
     labelImageResolution: {},
-    labelImageResolutionNotMatch: {},
+    labelImageResolutionNotMatched: {},
     labelVideoWidth: {},
-    labelVideoWidthNotMatch: {},
+    labelVideoWidthNotMatched: {},
     labelMinVideoWidthExceeded: {},
     labelMaxVideoWidthExceeded: {},
     labelVideoHeight: {},
-    labelVideoHeightNotMatch: {},
+    labelVideoHeightNotMatched: {},
     labelMinVideoHeightExceeded: {},
     labelMaxVideoHeightExceeded: {},
     labelVideoDimension: {},
     labelVideoResolution: {},
-    labelVideoResolutionNotMatch: {},
+    labelVideoResolutionNotMatched: {},
     labelMinVideoResolutionExceeded: {},
     labelMaxVideoResolutionExceeded: {},
     labelVideoAspectRatio: {},
-    labelVideoAspectRatioNotMatch: {},
+    labelVideoAspectRatioNotMatched: {},
     labelMinVideoAspectRatioExceeded: {},
     labelMaxVideoAspectRatioExceeded: {},
     labelVideoDuration: {},
-    labelVideoDurationNotMatch: {},
+    labelVideoDurationNotMatched: {},
     labelMinVideoDurationExceeded: {},
     labelMaxVideoDurationExceeded: {},
     labelAudioDuration: {},
-    labelAudioDurationNotMatch: {},
+    labelAudioDurationNotMatched: {},
     labelMinAudioDurationExceeded: {},
     labelMaxAudioDurationExceeded: {},
   },
@@ -220,8 +220,8 @@ export default {
         type: String,
       })
     },
-    LabelImageWidthNotMatch() {
-      return conclude([this.labelImageWidthNotMatch, globalProps.labelImageWidthNotMatch], {
+    LabelImageWidthNotMatched() {
+      return conclude([this.labelImageWidthNotMatched, globalProps.labelImageWidthNotMatched], {
         type: String,
       })
     },
@@ -240,8 +240,8 @@ export default {
         type: String,
       })
     },
-    LabelImageHeightNotMatch() {
-      return conclude([this.labelImageHeightNotMatch, globalProps.labelImageHeightNotMatch], {
+    LabelImageHeightNotMatched() {
+      return conclude([this.labelImageHeightNotMatched, globalProps.labelImageHeightNotMatched], {
         type: String,
       })
     },
@@ -265,8 +265,8 @@ export default {
         type: String,
       })
     },
-    LabelImageAspectRatioNotMatch() {
-      return conclude([this.labelImageAspectRatioNotMatch, globalProps.labelImageAspectRatioNotMatch], {
+    LabelImageAspectRatioNotMatched() {
+      return conclude([this.labelImageAspectRatioNotMatched, globalProps.labelImageAspectRatioNotMatched], {
         type: String,
       })
     },
@@ -285,8 +285,8 @@ export default {
         type: String,
       })
     },
-    LabelImageResolutionNotMatch() {
-      return conclude([this.labelImageResolutionNotMatch, globalProps.labelImageResolutionNotMatch], {
+    LabelImageResolutionNotMatched() {
+      return conclude([this.labelImageResolutionNotMatched, globalProps.labelImageResolutionNotMatched], {
         type: String,
       })
     },
@@ -295,8 +295,8 @@ export default {
         type: String,
       })
     },
-    LabelVideoWidthNotMatch() {
-      return conclude([this.labelVideoWidthNotMatch, globalProps.labelVideoWidthNotMatch], {
+    LabelVideoWidthNotMatched() {
+      return conclude([this.labelVideoWidthNotMatched, globalProps.labelVideoWidthNotMatched], {
         type: String,
       })
     },
@@ -315,8 +315,8 @@ export default {
         type: String,
       })
     },
-    LabelVideoHeightNotMatch() {
-      return conclude([this.labelVideoHeightNotMatch, globalProps.labelVideoHeightNotMatch], {
+    LabelVideoHeightNotMatched() {
+      return conclude([this.labelVideoHeightNotMatched, globalProps.labelVideoHeightNotMatched], {
         type: String,
       })
     },
@@ -340,8 +340,8 @@ export default {
         type: String,
       })
     },
-    LabelVideoResolutionNotMatch() {
-      return conclude([this.labelVideoResolutionNotMatch, globalProps.labelVideoResolutionNotMatch], {
+    LabelVideoResolutionNotMatched() {
+      return conclude([this.labelVideoResolutionNotMatched, globalProps.labelVideoResolutionNotMatched], {
         type: String,
       })
     },
@@ -360,8 +360,8 @@ export default {
         type: String,
       })
     },
-    LabelVideoAspectRatioNotMatch() {
-      return conclude([this.labelVideoAspectRatioNotMatch, globalProps.labelVideoAspectRatioNotMatch], {
+    LabelVideoAspectRatioNotMatched() {
+      return conclude([this.labelVideoAspectRatioNotMatched, globalProps.labelVideoAspectRatioNotMatched], {
         type: String,
       })
     },
@@ -380,8 +380,8 @@ export default {
         type: String,
       })
     },
-    LabelVideoDurationNotMatch() {
-      return conclude([this.labelVideoDurationNotMatch, globalProps.labelVideoDurationNotMatch], {
+    LabelVideoDurationNotMatched() {
+      return conclude([this.labelVideoDurationNotMatched, globalProps.labelVideoDurationNotMatched], {
         type: String,
       })
     },
@@ -400,8 +400,8 @@ export default {
         type: String,
       })
     },
-    LabelAudioDurationNotMatch() {
-      return conclude([this.labelAudioDurationNotMatch, globalProps.labelAudioDurationNotMatch], {
+    LabelAudioDurationNotMatched() {
+      return conclude([this.labelAudioDurationNotMatched, globalProps.labelAudioDurationNotMatched], {
         type: String,
       })
     },
@@ -419,7 +419,7 @@ export default {
       return handleNumericalProp({
         config: [this.imageAspectRatio, globalProps.imageAspectRatio],
         labelTip: this.LabelImageAspectRatio,
-        createTitleTextOfNotMatch: imageAspectRatio => this.LabelImageAspectRatioNotMatch.replaceAll('{imageAspectRatio}', imageAspectRatio),
+        createTitleTextOfNotMatched: imageAspectRatio => this.LabelImageAspectRatioNotMatched.replaceAll('{imageAspectRatio}', imageAspectRatio),
         createTitleTextOfMinExceeded: minImageAspectRatio => this.LabelMinImageAspectRatioExceeded.replaceAll('{minImageAspectRatio}', minImageAspectRatio),
         createTitleTextOfMaxExceeded: maxImageAspectRatio => this.LabelMaxImageAspectRatioExceeded.replaceAll('{maxImageAspectRatio}', maxImageAspectRatio),
         getValue: (value) => {
@@ -435,7 +435,7 @@ export default {
       return handleNumericalProp({
         config: [this.videoWidth, globalProps.videoWidth],
         labelTip: this.LabelVideoWidth,
-        createTitleTextOfNotMatch: videoWidth => this.LabelVideoWidthNotMatch.replaceAll('{videoWidth}', videoWidth),
+        createTitleTextOfNotMatched: videoWidth => this.LabelVideoWidthNotMatched.replaceAll('{videoWidth}', videoWidth),
         createTitleTextOfMinExceeded: minVideoWidth => this.LabelMinVideoWidthExceeded.replaceAll('{minVideoWidth}', minVideoWidth),
         createTitleTextOfMaxExceeded: maxVideoWidth => this.LabelMaxVideoWidthExceeded.replaceAll('{maxVideoWidth}', maxVideoWidth),
       })
@@ -444,7 +444,7 @@ export default {
       return handleNumericalProp({
         config: [this.videoHeight, globalProps.videoHeight],
         labelTip: this.LabelVideoHeight,
-        createTitleTextOfNotMatch: videoHeight => this.LabelVideoHeightNotMatch.replaceAll('{videoHeight}', videoHeight),
+        createTitleTextOfNotMatched: videoHeight => this.LabelVideoHeightNotMatched.replaceAll('{videoHeight}', videoHeight),
         createTitleTextOfMinExceeded: minVideoHeight => this.LabelMinVideoHeightExceeded.replaceAll('{minVideoHeight}', minVideoHeight),
         createTitleTextOfMaxExceeded: maxVideoHeight => this.LabelMaxVideoHeightExceeded.replaceAll('{maxVideoHeight}', maxVideoHeight),
       })
@@ -453,7 +453,7 @@ export default {
       return handleNumericalProp({
         config: [this.videoResolution, globalProps.videoResolution],
         labelTip: this.LabelVideoResolution,
-        createTitleTextOfNotMatch: videoResolution => this.LabelVideoResolutionNotMatch.replaceAll('{videoResolution}', videoResolution),
+        createTitleTextOfNotMatched: videoResolution => this.LabelVideoResolutionNotMatched.replaceAll('{videoResolution}', videoResolution),
         createTitleTextOfMinExceeded: minVideoResolution => this.LabelMinVideoResolutionExceeded.replaceAll('{minVideoResolution}', minVideoResolution),
         createTitleTextOfMaxExceeded: maxVideoResolution => this.LabelMaxVideoResolutionExceeded.replaceAll('{maxVideoResolution}', maxVideoResolution),
       })
@@ -462,7 +462,7 @@ export default {
       return handleNumericalProp({
         config: [this.videoAspectRatio, globalProps.videoAspectRatio],
         labelTip: this.LabelVideoAspectRatio,
-        createTitleTextOfNotMatch: videoAspectRatio => this.LabelVideoAspectRatioNotMatch.replaceAll('{videoAspectRatio}', videoAspectRatio),
+        createTitleTextOfNotMatched: videoAspectRatio => this.LabelVideoAspectRatioNotMatched.replaceAll('{videoAspectRatio}', videoAspectRatio),
         createTitleTextOfMinExceeded: minVideoAspectRatio => this.LabelMinVideoAspectRatioExceeded.replaceAll('{minVideoAspectRatio}', minVideoAspectRatio),
         createTitleTextOfMaxExceeded: maxVideoAspectRatio => this.LabelMaxVideoAspectRatioExceeded.replaceAll('{maxVideoAspectRatio}', maxVideoAspectRatio),
         getValue: (value) => {
@@ -478,7 +478,7 @@ export default {
       return handleNumericalProp({
         config: [this.videoDuration, globalProps.videoDuration],
         labelTip: this.LabelVideoDuration,
-        createTitleTextOfNotMatch: videoDuration => this.LabelVideoDurationNotMatch.replaceAll('{videoDuration}', videoDuration),
+        createTitleTextOfNotMatched: videoDuration => this.LabelVideoDurationNotMatched.replaceAll('{videoDuration}', videoDuration),
         createTitleTextOfMinExceeded: minVideoDuration => this.LabelMinVideoDurationExceeded.replaceAll('{minVideoDuration}', minVideoDuration),
         createTitleTextOfMaxExceeded: maxVideoDuration => this.LabelMaxVideoDurationExceeded.replaceAll('{maxVideoDuration}', maxVideoDuration),
         withUnit: secondsToHHMMSS,
@@ -488,7 +488,7 @@ export default {
       return handleNumericalProp({
         config: [this.audioDuration, globalProps.audioDuration],
         labelTip: this.LabelAudioDuration,
-        createTitleTextOfNotMatch: audioDuration => this.LabelAudioDurationNotMatch.replaceAll('{audioDuration}', audioDuration),
+        createTitleTextOfNotMatched: audioDuration => this.LabelAudioDurationNotMatched.replaceAll('{audioDuration}', audioDuration),
         createTitleTextOfMinExceeded: minAudioDuration => this.LabelMinAudioDurationExceeded.replaceAll('{minAudioDuration}', minAudioDuration),
         createTitleTextOfMaxExceeded: maxAudioDuration => this.LabelMaxAudioDurationExceeded.replaceAll('{maxAudioDuration}', maxAudioDuration),
         withUnit: secondsToHHMMSS,

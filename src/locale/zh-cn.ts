@@ -20,24 +20,24 @@ export default {
     quality: '品质',
 
     width: '宽度',
-    widthNotMatch: '允许的宽度：{width}',
+    widthNotMatched: '允许的宽度：{width}',
     minWidthExceeded: '允许的最小宽度：{minWidth}',
     maxWidthExceeded: '允许的最大宽度：{maxWidth}',
 
     height: '高度',
-    heightNotMatch: '允许的高度：{height}',
+    heightNotMatched: '允许的高度：{height}',
     minHeightExceeded: '允许的最小高度：{minHeight}',
     maxHeightExceeded: '允许的最大高度：{maxHeight}',
 
     dimension: '尺寸',
 
     resolution: '分辨率',
-    resolutionNotMatch: '允许的分辨率 (宽度 * 高度)：{resolution}',
+    resolutionNotMatched: '允许的分辨率 (宽度 * 高度)：{resolution}',
     minResolutionExceeded: '允许的最小分辨率 (宽度 * 高度)：{minResolution}',
     maxResolutionExceeded: '允许的最大分辨率 (宽度 * 高度)：{maxResolution}',
 
     aspectRatio: '比例',
-    aspectRatioNotMatch: '允许的比例 (宽度 / 高度)：{aspectRatio}',
+    aspectRatioNotMatched: '允许的比例 (宽度 / 高度)：{aspectRatio}',
     minAspectRatioExceeded: '允许的最小比例 (宽度 / 高度)：{minAspectRatio}',
     maxAspectRatioExceeded: '允许的最大比例 (宽度 / 高度)：{maxAspectRatio}',
     fixedAspectRatio: '固定比例',
@@ -70,54 +70,54 @@ export default {
     labelMinFileSize: '允许的最小体积：{filesize}', // filePondLocale 未包含
 
     labelImageWidth: '图片宽度', // FaUpload 新增
-    labelImageWidthNotMatch: '允许的图片宽度：{imageWidth}', // FaUpload 新增
+    labelImageWidthNotMatched: '允许的图片宽度：{imageWidth}', // FaUpload 新增
     labelMinImageWidthExceeded: '允许的最小图片宽度：{minImageWidth}', // FaUpload 新增
     labelMaxImageWidthExceeded: '允许的最大图片宽度：{maxImageWidth}', // FaUpload 新增
 
     labelImageHeight: '图片高度', // FaUpload 新增
-    labelImageHeightNotMatch: '允许的图片高度：{imageHeight}', // FaUpload 新增
+    labelImageHeightNotMatched: '允许的图片高度：{imageHeight}', // FaUpload 新增
     labelMinImageHeightExceeded: '允许的最小图片高度：{minImageHeight}', // FaUpload 新增
     labelMaxImageHeightExceeded: '允许的最大图片高度：{maxImageHeight}', // FaUpload 新增
 
     labelImageDimension: '图片尺寸', // FaUpload 新增
 
     labelImageResolution: '图片分辨率', // FaUpload 新增
-    labelImageResolutionNotMatch: '允许的图片分辨率：{imageResolution}', // FaUpload 新增
+    labelImageResolutionNotMatched: '允许的图片分辨率：{imageResolution}', // FaUpload 新增
 
     labelImageAspectRatio: '图片比例', // FaUpload 新增
-    labelImageAspectRatioNotMatch: '允许的图片比例：{imageAspectRatio}', // FaUpload 新增
+    labelImageAspectRatioNotMatched: '允许的图片比例：{imageAspectRatio}', // FaUpload 新增
     labelMinImageAspectRatioExceeded: '允许的最小图片比例：{minImageAspectRatio}', // FaUpload 新增
     labelMaxImageAspectRatioExceeded: '允许的最大图片比例：{maxImageAspectRatio}', // FaUpload 新增
 
     labelVideoWidth: '视频宽度', // FaUpload 新增
-    labelVideoWidthNotMatch: '允许的视频宽度：{videoWidth}', // FaUpload 新增
+    labelVideoWidthNotMatched: '允许的视频宽度：{videoWidth}', // FaUpload 新增
     labelMinVideoWidthExceeded: '允许的最小视频宽度：{minVideoWidth}', // FaUpload 新增
     labelMaxVideoWidthExceeded: '允许的最大视频宽度：{maxVideoWidth}', // FaUpload 新增
 
     labelVideoHeight: '视频高度', // FaUpload 新增
-    labelVideoHeightNotMatch: '允许的视频高度：{videoHeight}', // FaUpload 新增
+    labelVideoHeightNotMatched: '允许的视频高度：{videoHeight}', // FaUpload 新增
     labelMinVideoHeightExceeded: '允许的最小视频高度：{minVideoHeight}', // FaUpload 新增
     labelMaxVideoHeightExceeded: '允许的最大视频高度：{maxVideoHeight}', // FaUpload 新增
 
     labelVideoDimension: '视频尺寸', // FaUpload 新增
 
     labelVideoResolution: '视频分辨率', // FaUpload 新增
-    labelVideoResolutionNotMatch: '允许的视频分辨率：{videoResolution}', // FaUpload 新增
+    labelVideoResolutionNotMatched: '允许的视频分辨率：{videoResolution}', // FaUpload 新增
     labelMinVideoResolutionExceeded: '允许的最小视频分辨率：{minVideoResolution}', // FaUpload 新增
     labelMaxVideoResolutionExceeded: '允许的最大视频分辨率：{maxVideoResolution}', // FaUpload 新增
 
     labelVideoAspectRatio: '视频比例', // FaUpload 新增
-    labelVideoAspectRatioNotMatch: '允许的视频比例：{videoAspectRatio}', // FaUpload 新增
+    labelVideoAspectRatioNotMatched: '允许的视频比例：{videoAspectRatio}', // FaUpload 新增
     labelMinVideoAspectRatioExceeded: '允许的最小视频比例：{minVideoAspectRatio}', // FaUpload 新增
     labelMaxVideoAspectRatioExceeded: '允许的最大视频比例：{maxVideoAspectRatio}', // FaUpload 新增
 
     labelVideoDuration: '视频时长', // FaUpload 新增
-    labelVideoDurationNotMatch: '允许的视频时长：{videoDuration}', // FaUpload 新增
+    labelVideoDurationNotMatched: '允许的视频时长：{videoDuration}', // FaUpload 新增
     labelMinVideoDurationExceeded: '允许的最小视频时长：{minVideoDuration}', // FaUpload 新增
     labelMaxVideoDurationExceeded: '允许的最大视频时长：{maxVideoDuration}', // FaUpload 新增
 
     labelAudioDuration: '音频时长', // FaUpload 新增
-    labelAudioDurationNotMatch: '允许的音频时长：{audioDuration}', // FaUpload 新增
+    labelAudioDurationNotMatched: '允许的音频时长：{audioDuration}', // FaUpload 新增
     labelMinAudioDurationExceeded: '允许的最小音频时长：{minAudioDuration}', // FaUpload 新增
     labelMaxAudioDurationExceeded: '允许的最大音频时长：{maxAudioDuration}', // FaUpload 新增
   },
