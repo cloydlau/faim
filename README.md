@@ -36,6 +36,13 @@
 
 <br>
 
+## 规划
+
+- 支持按需导入 & Tree Shaking
+- 支持 Nuxt
+
+<br>
+
 ## 安装
 
 ```shell
