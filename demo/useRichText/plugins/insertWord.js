@@ -6,7 +6,7 @@ export default {
     icon: null,
     input: 'file',
     inputAttributes: {
-      placeholder: '将 docx 文件拖到此处',
+      placeholder: '将 .docx 文件拖到此处，或点击上传',
       multiple: true,
     },
     titleText: '插入 Word 文档',

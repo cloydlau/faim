@@ -49,7 +49,7 @@
 npm i faim
 ```
 
-> **Note**
+> **Warning**
 >
 > 由于需要修改 Element Plus 源码才得以实现 FaImageUpload，故**该组件**存在以下限制：
 > - element-plus 不能晚于 faim 安装
@@ -289,7 +289,7 @@ WIP
   },
   // yarn/bun
   "resolutions": {
-    "faim/xxx": "xxx"
+    "xxx": "xxx"
   },
   // pnpm
   "pnpm": {
@@ -677,6 +677,10 @@ const faImageRef = ref()
 
 #### upload
 
+```ts
+type Upload = (output: File | Blob) => Promise<string | object> | string | object | void
+```
+
 开启编辑功能时，会在编辑完成后调用，未开启编辑功能时，会在选择图片后调用
 
 未配置或函数返回值为空时，绑定值将输出二进制文件
@@ -756,11 +760,11 @@ item 具体是什么格式？
 
 ### Exposes
 
-| 名称       | 说明                             | 参数                                                                     |
-|------------|--------------------------------|--------------------------------------------------------------------------|
-| openEditor | 打开图片编辑对话框               | (source: File \| Blob \| string \| File[] \| Blob[] \| string[]) => void |
-| uploading  | 图片上传状态                     | boolean                                                                  |
-| ...        | 通过 ref 调用 `el-upload` 的方法 |                                                                          |
+| 名称       | 说明                             | 参数                                                                           |
+|------------|--------------------------------|--------------------------------------------------------------------------------|
+| openEditor | 打开图片编辑对话框               | async (source: File \| Blob \| string \| File[] \| Blob[] \| string[]) => void |
+| uploading  | 图片上传状态                     | boolean                                                                        |
+| ...        | 通过 ref 调用 `el-upload` 的方法 |                                                                                |
 
 openEditor 参数为输入的数据源，支持的数据类型有：
 
@@ -773,8 +777,6 @@ openEditor 参数为输入的数据源，支持的数据类型有：
 如果没有编辑图片，则输出值类型不变 (与输入值一致)
 
 如果编辑了图片，输入类型为 File 时，输出类型也为 File，其它情况均输出 Blob 类型
-
-如果未开启编辑模式，且限制了图片体积/宽高/分辨率，则需要 `await openEditor(...)`
 
 ### 编程式提供数据源
 
@@ -1457,6 +1459,10 @@ item 具体是什么格式？
 - `{ max: 300 }`：限制参数值上限为 300
 - `{ min: 100, max: 300 }`：限制参数值下限为 100，且上限为 300
 - `[100, 200, 300]`：限制参数值为 100，200，300 其中之一
+
+> **Note**
+>
+> 为了避免冲突，不允许同时指定图片或视频的**宽度/高度**和**分辨率/比例**
 
 ### Events
 

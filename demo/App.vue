@@ -14,8 +14,6 @@ const data = reactive({
     richtext: '',
     files: [
       'https://picsum.photos/100/100',
-      'https://picsum.photos/100/200',
-      'https://picsum.photos/100/300',
     ],
     images: [
       'https://picsum.photos/100/100',
@@ -142,6 +140,16 @@ function loading() {
         />
       </p>
 
+      <el-form-item label="FaPopButton">
+        <FaPopButton
+          :elTooltipProps="{ rawContent: true, content: '删除' }"
+          :elPopoverProps="{ content: `权限不足`, disabled: true }"
+          :elPopconfirmProps="{ title: '确认删除吗？' }"
+          @click="console.log('[FaPopButton] click')"
+        >
+          删除
+        </FaPopButton>
+      </el-form-item>
       <el-form-item
         label="ElSwitch"
         prop="ElSwitch"
@@ -152,7 +160,7 @@ function loading() {
             console.log('change')
           }"
           @input="() => {
-            console.log('input')
+            // console.log('input')
           }"
           @update:modelValue="() => {
             console.log('update:modelValue')
@@ -379,17 +387,6 @@ function loading() {
         </el-button-group>
       </div>
       <br>
-
-      <el-form-item label="FaPopButton">
-        <FaPopButton
-          :elTooltipProps="{ rawContent: true, content: '删除' }"
-          :elPopoverProps="{ content: `权限不足`, disabled: true }"
-          :elPopconfirmProps="{ title: '确认删除吗？' }"
-          @click="console.log('[FaPopButton] click')"
-        >
-          删除
-        </FaPopButton>
-      </el-form-item>
       <el-form-item label="FaMessageBox">
         <el-button-group>
           <el-button

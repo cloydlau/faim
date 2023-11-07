@@ -12,6 +12,25 @@ import defaultLocale from '../../locale/en'
 import ImageEditor from './ImageEditor.vue'
 import './index.css'
 
+/* console.log(mime.getAllExtensions(' image/jpeg'))
+console.log(mime.getAllExtensions('image/jpeg '))
+console.log(mime.getAllExtensions(' image/jpeg '))
+console.log(mime.getAllExtensions('IMAGE/JPEg'))
+console.log(mime.getAllExtensions('jpg'))
+console.log(mime.getAllExtensions('.jpg'))
+console.log(mime.getAllExtensions('image/*'))
+console.log(mime.getAllExtensions('audio/*'))
+console.log(mime.getAllExtensions('video/*'))
+console.log(mime.getAllExtensions('image/jpeg'))
+console.log(mime.getAllExtensions('image/png'))
+console.log(mime.getAllExtensions('image/gif'))
+console.log(mime.getAllExtensions('audio/mp3'))
+console.log(mime.getAllExtensions('video/mp4'))
+console.log(mime.getAllExtensions('application/pdf'))
+console.log(mime.getAllExtensions('application/vnd.android.package-archive'))
+console.log(mime.getAllExtensions('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'))
+console.log(mime.getAllExtensions('application/vnd.ms-excel')) */
+
 const name = 'FaImageUpload'
 
 const globalProps = {}
@@ -23,8 +42,6 @@ const model = {
   prop: isVue3 ? 'modelValue' : 'value',
   event: isVue3 ? 'update:modelValue' : 'input',
 }
-
-const MB = 1024 ** 2 // B 转 MB
 
 // submit() 会触发 http-request
 // 如果是多选 submit() 会连续多次触发 http-request
@@ -273,7 +290,7 @@ export default {
       const text = list.join(',')
       return {
         target: text,
-        label: text ? `${this.Locale.accept} ${text}` : '',
+        tip: text ? `${this.Locale.accept} ${text}` : '',
         list,
       }
     },
@@ -408,7 +425,7 @@ export default {
         extension = source.replace(/.+\./, '.').toLowerCase()
       }
       if (extension && !this.Extensions.list.includes(extension)) {
-        FaMessageBox.warning(`${this.Locate.typeNotAllowed.replaceAll('{accept}', this.Extensions.target)}`)
+        FaMessageBox.warning(`${this.Locale.typeNotAllowed.replaceAll('{accept}', this.Extensions.target)}`)
         return false
       }
       return true
