@@ -650,6 +650,15 @@ export default {
       inline
       :style="{ 'marginTop': isVue3 ? '25px' : '15px', 'display': 'flex', 'justify-content': 'center', 'align-items': 'center' }"
     >
+      <el-form-item v-if="outputType">
+        <template #label>
+          {{ locale.outputType }}
+        </template>
+        <el-tag>
+          {{ outputType }}
+        </el-tag>
+      </el-form-item>
+
       <el-form-item>
         <template #label>
           {{ locale.size }}
@@ -717,24 +726,6 @@ export default {
         <template #label>
           {{ locale.quality }}
         </template>
-        <!-- <el-tooltip
-          effect="dark"
-          placement="top"
-          :disabled="isCompressible"
-        >
-          <template #content>
-            仅 .jpg,.jpeg,.png,.webp 格式支持压缩
-          </template>
-          <el-slider
-            v-model="quality"
-            :disabled="!isCompressible"
-            class="quality"
-            :min="0"
-            :max="1"
-            :step="0.1"
-            :size="isVue3 ? 'small' : 'mini'"
-          />
-        </el-tooltip> -->
         <el-slider
           v-model="quality"
           :disabled="!isCompressible"
@@ -779,7 +770,7 @@ export default {
   }
 
   .el-dialog {
-    min-width: 850px;
+    min-width: 1000px !important;
   }
 
   .cropper-point {

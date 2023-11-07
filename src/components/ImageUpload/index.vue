@@ -391,6 +391,9 @@ export default {
       this.$emit(model.event, newValue)
     },
     validateExtension(source) {
+      if (this.Editable && this.outputType) {
+        return true
+      }
       if (typeof source !== 'string' && !(source instanceof Blob)) {
         console.error('Not a valid image source: ', source)
         return false

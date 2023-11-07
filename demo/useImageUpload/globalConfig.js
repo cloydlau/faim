@@ -12,6 +12,7 @@ export default {
   accept: '.jpg,.jpeg,.png,.gif',
   editable: true,
   arrayed: undefined,
+  // outputType: 'image/png',
   requestParam: {
     original: 'true',
   },
