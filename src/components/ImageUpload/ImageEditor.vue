@@ -7,13 +7,13 @@ import { useEventListener } from '@vueuse/core'
 import { isVue3 } from 'vue-demi'
 import FaMessageBox from '../MessageBox'
 import FaFormDialog from '../FormDialog/index.vue'
-import { binaryToArrayBuffer, blobToFile, sizeToText, toBinary, toImageTag, toLocalURL } from './utils'
+import { binaryToArrayBuffer, blobToFile, sizeToLabel, toBinary, toImageTag, toLocalURL } from '../../utils'
 
 function initialSettings() {
   return {
     rotateDegree: 0,
     quality: 1,
-    aspectRatioSpecified: false,
+    isAspectRatioLocked: false,
   }
 }
 
@@ -27,9 +27,9 @@ function initialState() {
     imageTag: null,
     loading: false,
     cropper: null,
-    originalSizeText: '',
-    outputWidth: undefined,
-    outputHeight: undefined,
+    originalSizeLabel: '',
+    inputWidth: undefined,
+    inputHeight: undefined,
     flippedX: false,
     flippedY: false,
     isVue3,
@@ -44,11 +44,12 @@ export default {
       required: true,
     },
     value: [Blob, File, String],
+    outputType: String,
+    size: Object,
     width: Object,
     height: Object,
+    aspectRatio: Object,
     resolution: Object,
-    size: Object,
-    outputType: String,
     locale: {
       type: Object,
       default: () => ({}),
@@ -61,25 +62,43 @@ export default {
   computed: {
     Debounce() {
       return 100
-      // return this.binary ? Math.min(500, Math.round(this.binary.size / KB)) : 300
+      // return this.binary ? Math.min(500, Math.round(this.binary.size)) : 300
     },
     sizeTooltip() {
       return this.getSizeTooltip(this.binary)
     },
-    aspectRatio() {
-      if (this.outputWidth && this.outputHeight) {
-        return this.outputWidth / this.outputHeight
+    isWidthSpecified() {
+      return Boolean(this.width.target)
+    },
+    isHeightSpecified() {
+      return Boolean(this.height.target)
+    },
+    // 传参指定的比例
+    specifiedAspectRatio() {
+      if (this.width.target && this.height.target) {
+        return this.width.target / this.height.target
+      }
+      return this.aspectRatio.target
+    },
+    isAspectRatioSpecified() {
+      return Boolean(this.specifiedAspectRatio)
+    },
+    specifiedAspectRatioLabel() {
+      if (this.width.target && this.height.target) {
+        return ` (${this.width.target}:${this.height.target})`
+      }
+      return this.aspectRatio.targetLabel && ` (${this.aspectRatio.targetLabel})`
+    },
+    // 用户输入的比例
+    impliedAspectRatio() {
+      if (this.inputWidth && this.inputHeight) {
+        return this.inputWidth / this.inputHeight
       }
       return null
     },
-    widthSpecified() {
-      return Boolean(this.width.target)
-    },
-    heightSpecified() {
-      return Boolean(this.height.target)
-    },
-    dimensionSpecified() {
-      return this.widthSpecified && this.heightSpecified
+    // 锁定的比例
+    lockedAspectRatio() {
+      return this.specifiedAspectRatio || this.impliedAspectRatio
     },
     isCompressible() {
       return ['image/jpeg', 'image/png', 'image/webp'].includes(this.binary?.type)
@@ -118,18 +137,21 @@ export default {
           })
         }
 
-        this.initDimension()
+        this.initDimensionAndAspectRatio()
 
         // 大图会卡，加一个节流
         this.updateCropBox = throttle((arg) => {
-          this.cropper.rotateTo(arg)
-          this.onReady()
+          // 旋转图片，然后点击取消，this.cropper 为空
+          if (this.cropper) {
+            this.cropper.rotateTo(arg)
+            this.onReady()
+          }
         }, this.Debounce, {
           leading: false,
           trailing: true,
         })
 
-        this.originalSizeText = sizeToText(this.binary.size)
+        this.originalSizeLabel = sizeToLabel(this.binary.size)
 
         this.cropper.replace(this.localURL) // replace 后触发 onReady（参数为 Base64 类型才会触发）
       } else {
@@ -164,20 +186,41 @@ export default {
     }
   },
   methods: {
+    // 初始化宽高和比例
+    initDimensionAndAspectRatio() {
+      if (this.isAspectRatioSpecified) {
+        this.cropper.setAspectRatio(this.specifiedAspectRatio)
+        this.isAspectRatioLocked = true
+      }
+      let defaultWidth = this.imageTag.width
+      let defaultHeight = this.imageTag.height
+      if (this.isAspectRatioLocked && this.lockedAspectRatio) {
+        // 高图
+        if (this.lockedAspectRatio > defaultWidth / defaultHeight) {
+          defaultHeight = this.lockedAspectRatio * this.imageTag.width
+        // 扁图
+        } else {
+          defaultWidth = this.lockedAspectRatio * this.imageTag.height
+        }
+      }
+      this.inputWidth = this.width.target ?? defaultWidth
+      this.inputHeight = this.height.target ?? defaultHeight
+    },
+    // 先设置裁剪框的比例，后设置裁剪框的位置
     onReady() {
+      // 图片信息
       const { width, height, left, top } = this.cropper.getCanvasData()
-      // this.canvas = { width, height, left, top }
-      if (this.aspectRatioSpecified && this.aspectRatio) {
+      // 锁定比例时，默认裁剪框在图片之内（避免裁剪出白边），也可以放大以完全框住图片（避免遗漏信息）
+      // 比例可能是参数锁定的，也可能是用户锁定的
+      if (this.isAspectRatioLocked && this.lockedAspectRatio) {
         this.$nextTick(() => {
-          // 默认裁剪框在图片之内（避免裁剪出白边），也可以放大以完全框住图片（避免遗漏信息）
-          // this.cropBox = this.cropper.getCropBoxData()
-          // 扁图
-          if (this.aspectRatio > width / height) {
+          // 高图
+          if (this.lockedAspectRatio > width / height) {
             this.cropper.setCropBoxData({ width, left })
             const { height: containerHeight } = this.cropper.getContainerData()
             const { height: cropBoxHeight } = this.cropper.getCropBoxData() // 不能提前拿
             this.cropper.setCropBoxData({ top: (containerHeight - cropBoxHeight) / 2 })
-            // 高图
+          // 扁图
           } else {
             this.cropper.setCropBoxData({ height, top })
             const { width: containerWidth } = this.cropper.getContainerData()
@@ -186,26 +229,34 @@ export default {
           }
           this.loading = false
         })
+      // 不锁定比例时，裁剪框正好框住图片
       } else {
-        // this.cropBox = { ...this.canvas }
         this.cropper.setCropBoxData({ width, height, left, top })
         this.loading = false
       }
     },
-    initDimension() {
-      this.outputWidth = this.width.target ?? this.imageTag.width
-      this.outputHeight = this.height.target ?? this.imageTag.height
-
-      if (this.dimensionSpecified) {
-        this.cropper.setAspectRatio(this.width.target / this.height.target)
-        this.aspectRatioSpecified = true
+    onWidthChange() {
+      if (this.isAspectRatioSpecified && this.impliedAspectRatio !== this.specifiedAspectRatio) {
+        this.inputHeight = (this.inputWidth ?? 0) / this.specifiedAspectRatio
       }
+      // 清空宽高时，取消锁定
+      if (!this.impliedAspectRatio) {
+        this.isAspectRatioLocked = false
+      }
+      this.onIsAspectRatioSpecifiedChange()
     },
-    onAspectRatioSpecifiedChange() {
-      if (!this.aspectRatio) {
-        this.aspectRatioSpecified = false
+    onHeightChange() {
+      if (this.isAspectRatioSpecified && this.impliedAspectRatio !== this.specifiedAspectRatio) {
+        this.inputWidth = (this.inputHeight ?? 0) / this.specifiedAspectRatio
       }
-      this.cropper.setAspectRatio(this.aspectRatioSpecified ? this.aspectRatio : null)
+      // 清空宽高时，取消锁定
+      if (!this.impliedAspectRatio) {
+        this.isAspectRatioLocked = false
+      }
+      this.onIsAspectRatioSpecifiedChange()
+    },
+    onIsAspectRatioSpecifiedChange() {
+      this.cropper.setAspectRatio(this.isAspectRatioLocked ? this.impliedAspectRatio : null)
       this.onReady()
     },
     onFullscreenChange(v) {
@@ -220,8 +271,8 @@ export default {
     getSizeDiffText(before, after) {
       const diff = after - before
       const textA = this.locale.sizeTip
-        .replaceAll('{inputSize}', this.originalSizeText)
-        .replaceAll('{outputSize}', sizeToText(after))
+        .replaceAll('{inputSize}', this.originalSizeLabel)
+        .replaceAll('{outputSize}', sizeToLabel(after))
       let textB = diff === 0 ? '' : `${(diff / before * 100).toFixed(2)}%`
       if (diff > 0) {
         textB = `+${textB}`
@@ -233,13 +284,13 @@ export default {
     },
     getSizeTooltip(binary) {
       if (binary) {
-        if (this.size._max && this.size._max < binary.size) {
-          // return `体积上限为${this.size.maxText}，${(this.widthSpecified || this.heightSpecified) ? (this.quality === 0 ? '原图过大，请更换图片' : '请降低图片品质') : '请降低图片尺寸或品质'}`
-          return this.locale.maxSizeExceeded.replaceAll('{maxSize}', this.size.maxText)
+        if (this.size.max && this.size.max < binary.size) {
+          // return `体积上限为${this.size.maxLabel}，${(this.isWidthSpecified || this.isHeightSpecified) ? (this.quality === 0 ? '原图过大，请更换图片' : '请降低图片品质') : '请降低图片尺寸或品质'}`
+          return this.locale.maxSizeExceeded.replaceAll('{maxSize}', this.size.maxLabel)
         }
-        if (this.size._min && this.size._min > binary.size) {
-          // return `体积下限为${this.size.minText}，${(this.widthSpecified || this.heightSpecified) ? (this.quality === 1 ? '原图过小，请更换图片' : '请提升图片品质') : '请提升图片尺寸或品质'}`
-          return this.locale.minSizeExceeded.replaceAll('{minSize}', this.size.minText)
+        if (this.size.min && this.size.min > binary.size) {
+          // return `体积下限为${this.size.minLabel}，${(this.isWidthSpecified || this.isHeightSpecified) ? (this.quality === 1 ? '原图过小，请更换图片' : '请提升图片品质') : '请提升图片尺寸或品质'}`
+          return this.locale.minSizeExceeded.replaceAll('{minSize}', this.size.minLabel)
         }
       }
     },
@@ -260,13 +311,15 @@ export default {
         // 纵向翻转了
         || this.flippedY
         // 设置的尺寸和原图不一致了
-        || (this.outputWidth && this.outputWidth !== this.imageTag.width)
-        || (this.outputHeight && this.outputHeight !== this.imageTag.height)
+        || (this.inputWidth && this.inputWidth !== this.imageTag.width)
+        || (this.inputHeight && this.inputHeight !== this.imageTag.height)
         // 原图尺寸不满足配置的尺寸极值了
         || (this.width.min && this.width.min > this.imageTag.width)
         || (this.width.max && this.width.max < this.imageTag.width)
         || (this.height.min && this.height.min > this.imageTag.height)
         || (this.height.max && this.height.max < this.imageTag.height)
+        // 锁定比例和原图比例不一致了
+        || (this.lockedAspectRatio && this.lockedAspectRatio !== this.imageTag.aspectRatio)
         // 指定了输出格式
         || this.outputType
     },
@@ -294,21 +347,21 @@ export default {
           this.submitting = true
           const canvas = this.cropper.getCroppedCanvas({
             minWidth: this.width.min,
-            width: this.outputWidth,
+            width: this.inputWidth,
             maxWidth: this.width.max,
             minHeight: this.height.min,
-            height: this.outputHeight,
+            height: this.inputHeight,
             maxHeight: this.height.max,
           })
           if (this.binary.type === 'image/png') {
             try {
-              const imgs = [canvas.getContext('2d').getImageData(0, 0, this.outputWidth, this.outputHeight).data.buffer]
+              const imgs = [canvas.getContext('2d').getImageData(0, 0, this.inputWidth, this.inputHeight).data.buffer]
               // this.submitting = true 视图不更新
               setTimeout(() => {
                 const arrayBuffer = UPNG.encode(
                   imgs,
-                  this.outputWidth,
-                  this.outputHeight,
+                  this.inputWidth,
+                  this.inputHeight,
                   // cnum ≤ 1 时无损
                   this.quality === 1 ? 0 : Math.max(Math.floor(this.cnum * this.quality), 2),
                 )
@@ -405,8 +458,8 @@ export default {
     reset() {
       Object.assign(this.$data, initialSettings())
       this.cropper.reset()
-      this.initDimension()
-      this.onAspectRatioSpecifiedChange()
+      this.initDimensionAndAspectRatio()
+      this.onReady()
     },
     rotate(deg) {
       const sum = this.rotateDegree + deg
@@ -473,7 +526,7 @@ export default {
     :locale="locale"
     @fullscreen-change="onFullscreenChange"
     @update:show="(e) => { $emit('update:show', e) }"
-    v-on="$listeners"
+    v-on="isVue3 ? {} : $listeners"
   >
     <div
       :style="{ height: `${fullscreen ? '700' : '500'}px`, overflow: 'hidden' }"
@@ -594,7 +647,7 @@ export default {
           {{ locale.size }}
         </template>
         <el-tooltip
-          v-if="Boolean(originalSizeText)"
+          v-if="Boolean(originalSizeLabel)"
           :disabled="Boolean(!sizeTooltip)"
           effect="dark"
           placement="top"
@@ -603,10 +656,10 @@ export default {
             {{ sizeTooltip }}
           </template>
           <el-tag
-            v-if="originalSizeText"
+            v-if="originalSizeLabel"
             :type="sizeTooltip ? 'danger' : 'success'"
           >
-            {{ originalSizeText }}
+            {{ originalSizeLabel }}
           </el-tag>
         </el-tooltip>
       </el-form-item>
@@ -614,34 +667,15 @@ export default {
         <template #label>
           {{ locale.width }}
         </template>
-        <!-- <el-tooltip
-          effect="dark"
-          placement="top"
-          :disabled="!widthSpecified"
-        >
-          <template #content>
-            宽度限制为{{ width.target }}像素
-          </template>
-          <el-input-number
-            v-model="outputWidth"
-            class="dimension"
-            :min="width.min ?? 1"
-            :max="width.max"
-            :disabled="widthSpecified"
-            :step="100"
-            :size="isVue3 ? 'small' : 'mini'"
-            @change="onAspectRatioSpecifiedChange"
-          />
-        </el-tooltip> -->
         <el-input-number
-          v-model="outputWidth"
+          v-model="inputWidth"
           class="dimension"
           :min="width.min ?? 1"
           :max="width.max"
-          :disabled="widthSpecified"
+          :disabled="isWidthSpecified"
           :step="100"
           :size="isVue3 ? 'small' : 'mini'"
-          @change="onAspectRatioSpecifiedChange"
+          @change="onWidthChange"
         />
       </el-form-item>
 
@@ -649,60 +683,25 @@ export default {
         <template #label>
           {{ locale.height }}
         </template>
-        <!-- <el-tooltip
-          effect="dark"
-          placement="top"
-          :disabled="!heightSpecified"
-        >
-          <template #content>
-            高度限制为{{ height.target }}像素
-          </template>
-          <el-input-number
-            v-model="outputHeight"
-            class="dimension"
-            :min="height.min ?? 1"
-            :max="height.max"
-            :disabled="heightSpecified"
-            :step="100"
-            :size="isVue3 ? 'small' : 'mini'"
-            @change="onAspectRatioSpecifiedChange"
-          />
-        </el-tooltip> -->
         <el-input-number
-          v-model="outputHeight"
+          v-model="inputHeight"
           class="dimension"
           :min="height.min ?? 1"
           :max="height.max"
-          :disabled="heightSpecified"
+          :disabled="isHeightSpecified"
           :step="100"
           :size="isVue3 ? 'small' : 'mini'"
-          @change="onAspectRatioSpecifiedChange"
+          @change="onHeightChange"
         />
       </el-form-item>
       <el-form-item>
         <template #label>
-          {{ locale.fixedAspectRatio }}
+          {{ locale.fixedAspectRatio }}<span class="specifiedAspectRatioLabel">{{ specifiedAspectRatioLabel }}</span>
         </template>
-        <!-- <el-tooltip
-          effect="dark"
-          placement="top"
-        >
-          <template #content>
-            <span v-if="!outputWidth && !outputHeight">请先输入图片宽高</span>
-            <span v-else-if="!outputWidth">请先输入图片宽度</span>
-            <span v-else-if="!outputHeight">请先输入图片高度</span>
-            <span v-else>按照宽高比锁定裁剪框比例</span>
-          </template>
-          <el-switch
-            v-model="aspectRatioSpecified"
-            :disabled="dimensionSpecified"
-            @change="onAspectRatioSpecifiedChange"
-          />
-        </el-tooltip> -->
         <el-switch
-          v-model="aspectRatioSpecified"
-          :disabled="dimensionSpecified"
-          @change="onAspectRatioSpecifiedChange"
+          v-model="isAspectRatioLocked"
+          :disabled="isAspectRatioSpecified"
+          @change="onIsAspectRatioSpecifiedChange"
         />
       </el-form-item>
 
@@ -792,6 +791,11 @@ export default {
   .cropper-hidden {
     display: none !important;
     max-height: 100% !important;
+  }
+
+  .specifiedAspectRatioLabel {
+    white-space: pre;
+    color: #a8abb2;
   }
 }
 </style>

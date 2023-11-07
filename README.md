@@ -635,15 +635,16 @@ const faImageRef = ref()
 - 编辑图片
   - 格式转换
   - 尺寸指定
-  - 品质调节
-  - 自由裁剪 & 锁定比例裁剪
+  - 品质调节 (支持 JPG/PNG/WEBP)
+  - 自由裁剪、锁定比例裁剪
   - 翻转、缩放、无级角度旋转
 - 限制图片
-  - 格式筛选，扩展名校验 (防篡改)
-  - 尺寸或尺寸范围 (间接限制宽高比例)
-  - 分辨率或分辨率范围
-  - 体积上限、下限
+  - 格式筛选、扩展名校验
   - 数量上限、下限
+  - 体积上限、下限
+  - 尺寸、尺寸范围
+  - 分辨率、分辨率范围
+  - 比例、比例范围
   - 自定义校验
   - 限制条件可视化 (让用户根据限制条件去准备图片，而不是准备好了才发现不合适)
 - 多选、并发上传
@@ -653,25 +654,26 @@ const faImageRef = ref()
 
 ### Props
 
-| 名称                                               | 说明                             | 类型                                                                            | 默认值                         |
-|----------------------------------------------------|----------------------------------|---------------------------------------------------------------------------------|--------------------------------|
-| modelValue (Vue 3) /<br>value (Vue 2) /<br>v-model | 绑定值                           | any                                                                             |                                |
-| upload                                             | 调用接口上传图片，返回图片 URL/ID | (output: File \| Blob) => Promise<string \| object> \| string \| object \| void |                                |
-| arrayed                                            | 绑定值是否为数组类型，默认自动    | boolean                                                                         |                                |
-| srcAt                                              | 图片 URL/ID 的位置               | string / symbol / (value: any) => any                                           |                                |
-| disabled                                           | 禁用状态                         | boolean                                                                         | `false`                        |
-| editable                                           | 是否开启编辑功能                 | boolean                                                                         | `true`                         |
-| width                                              | 宽度或宽度范围 (像素)            | number / [number?, number?]                                                     |                                |
-| height                                             | 高度或高度范围 (像素)            | number / [number?, number?]                                                     |                                |
-| resolution                                         | 分辨率或分辨率范围 (像素)        | number / [number?, number?]                                                     |                                |
-| validator                                          | 自定义数据源校验器               | (source: File \| Blob \| string) => boolean                                     |                                |
-| outputType                                         | 图片输出格式 (编辑后)，默认原格式 | string                                                                          |                                |
-| locale                                             | i18n                             | Record<string, string>                                                          | [查看代码](./src/locale/en.ts) |
-| ...                                                | `el-upload` 的属性               |                                                                                 |                                |
+| 名称                                               | 说明                             | 类型                                               | 默认值                         |
+|----------------------------------------------------|----------------------------------|----------------------------------------------------|--------------------------------|
+| modelValue (Vue 3) /<br>value (Vue 2) /<br>v-model | 绑定值                           | any                                                |                                |
+| upload                                             | 调用接口上传图片，返回图片 URL/ID | Upload                                             |                                |
+| arrayed                                            | 绑定值是否为数组类型，默认自动    | boolean                                            |                                |
+| srcAt                                              | 图片 URL/ID 的位置               | string / symbol / (value: any) => any              |                                |
+| disabled                                           | 禁用状态                         | boolean                                            | `false`                        |
+| editable                                           | 是否开启编辑功能                 | boolean                                            | `true`                         |
 | minCount                                           | 最小数量                         | number                                             |                                |
 | maxCount                                           | 最大数量                         | number                                             |                                |
 | minSize                                            | 最小体积 (字节)                  | number                                             |                                |
 | maxSize                                            | 最大体积 (字节)                  | number                                             |                                |
+| width                                              | 宽度 (像素)                      | number / { min?: number, max?: number } / number[] |                                |
+| height                                             | 高度 (像素)                      | number / { min?: number, max?: number } / number[] |                                |
+| resolution                                         | 分辨率，即宽高的积 (像素)         | number / { min?: number, max?: number } / number[] |                                |
+| aspectRatio                                        | 比例，即宽高的商                  | string / { min?: string, max?: string } / string[] |                                |
+| outputType                                         | 图片输出格式 (编辑后)，默认原格式 | string                                             |                                |
+| validator                                          | 自定义数据源校验器               | (source: File \| Blob \| string) => boolean        |                                |
+| locale                                             | i18n                             | Record<string, string>                             | [查看代码](./src/locale/en.ts) |
+| ...                                                | `el-upload` 的属性               |                                                    |                                |
 
 #### upload
 
@@ -714,47 +716,39 @@ item 具体是什么格式？
 - 支持 symbol 类型的属性名
 - 支持 Function，如 `value => value.url`
 
+#### aspectRatio
 
-#### size
+- `'16:9'`：限制比例为 16:9
+- `{ min: '16:10' }`：限制比例下限为 16:10
+- `{ max: '21:9' }`：限制比例上限为 21:9
+- `{ min: '16:10', max: '21:9' }`：限制比例下限为 16:10，且上限为 21:9
+- `['16:10', '16:9', '21:9']`：限制比例为 16:10，16:9，21:9 其中之一
 
-- `1`：限制体积上限为 1M
-- `[0.125]`：限制体积下限为 128K
-- `[, 1]`：限制体积上限为 1M
-- `[0.125, 1]`：限制体积下限为 128K，且上限为 1M
+#### width，height，resolution
 
-#### count
+- `200`：限制参数值为 200
+- `{ min: 100 }`：限制参数值下限为 100
+- `{ max: 300 }`：限制参数值上限为 300
+- `{ min: 100, max: 300 }`：限制参数值下限为 100，且上限为 300
+- `[100, 200, 300]`：限制参数值为 100，200，300 其中之一
 
-- `10`：限制数量上限为 3 张
-- `[1]`：限制数量下限为 1 张
-- `[, 10]`：限制数量上限为 3 张
-- `[1, 10]`：限制数量下限为 1 张，且上限为 3 张
-
-#### width
-
-- `500`：限制宽度为 500 像素
-- `[100]`：限制宽度下限为 100 像素
-- `[, 1000]`：限制宽度上限为 1000 像素
-- `[100, 1000]`：限制宽度下限 100 像素，且上限为 1000 像素
-
-#### height
-
-- `500`：限制高度为 500 像素
-- `[100]`：限制高度下限为 100 像素
-- `[, 1000]`：限制高度上限为 1000 像素
-- `[100, 1000]`：限制高度下限 100 像素，且上限为 1000 像素
-
-#### resolution
-
-即宽高乘积
-
-- `250000`：限制分辨率为 250000 像素
-- `[10000]`：限制分辨率下限为 10000 像素
-- `[, 1000000]`：限制分辨率上限为 1000000 像素
-- `[10000, 1000000]`：限制分辨率下限 10000 像素，且上限为 1000000 像素
+> **Note**
+>
+> 为了避免冲突，不允许同时指定 **width/height** 和 **resolution/aspectRatio**
 
 #### outputType
 
-开启编辑模式时，可以指定输出的图片格式，可选值参考 [MIME type](https://www.iana.org/assignments/media-types/media-types.xhtml#image)
+关闭编辑模式时，会按照 `accept` 筛选格式、校验扩展名
+
+开启编辑模式时，会按照 `accept` 筛选格式，但不会校验扩展名，编辑图片后，按照 `outputType` 指定的格式输出图片
+
+可选值参考 [MIME type](https://www.iana.org/assignments/media-types/media-types.xhtml#image)
+
+#### validator
+
+关闭编辑模式时，在选择图片时调用该方法进行校验
+
+开启编辑模式时，在输出图片时调用该方法进行校验
 
 ### Slots
 

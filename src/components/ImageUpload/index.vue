@@ -59,6 +59,7 @@ export default {
     width: {},
     height: {},
     resolution: {},
+    aspectRatio: {},
     upload: {},
     outputType: {},
     validator: {},
@@ -118,116 +119,59 @@ export default {
       })
     },
     Width() {
-      const width = conclude([this.width, globalProps.width], {
-        validator: value => equalOrWithin(value),
+      return handleNumericalProp({
+        config: [this.width, globalProps.width],
+        labelTip: this.Locale.width,
+        createTitleTextOfNotMatch: width => this.Locale.widthNotMatch.replaceAll('{width}', width),
+        createTitleTextOfMinExceeded: minWidth => this.Locale.minWidthExceeded.replaceAll('{minWidth}', minWidth),
+        createTitleTextOfMaxExceeded: maxWidth => this.Locale.maxWidthExceeded.replaceAll('{maxWidth}', maxWidth),
       })
-
-      let target, min, max, targetLabel, minLabel, maxLabel, label
-      if (Array.isArray(width)) {
-        [min, max] = width
-        if (min && max) {
-          minLabel = min.toLocaleString()
-          maxLabel = max.toLocaleString()
-          label = `${this.Locale.width} ${minLabel} ~ ${maxLabel}`
-        } else if (max) {
-          maxLabel = max.toLocaleString()
-          label = `${this.Locale.width} ≤ ${maxLabel}`
-        } else if (min) {
-          minLabel = min.toLocaleString()
-          label = `${this.Locale.width} ≥ ${minLabel}`
-        }
-      } else if (width !== undefined) {
-        target = width
-        if (target) {
-          targetLabel = target.toLocaleString()
-          label = `${this.Locale.width} ${targetLabel}`
-        }
-      }
-
-      return { target, min, max, targetLabel, minLabel, maxLabel, label }
     },
     Height() {
-      const height = conclude([this.height, globalProps.height], {
-        validator: value => equalOrWithin(value),
+      return handleNumericalProp({
+        config: [this.height, globalProps.height],
+        labelTip: this.Locale.height,
+        createTitleTextOfNotMatch: height => this.Locale.heightNotMatch.replaceAll('{height}', height),
+        createTitleTextOfMinExceeded: minHeight => this.Locale.minHeightExceeded.replaceAll('{minHeight}', minHeight),
+        createTitleTextOfMaxExceeded: maxHeight => this.Locale.maxHeightExceeded.replaceAll('{maxHeight}', maxHeight),
       })
-
-      let target, min, max, targetLabel, minLabel, maxLabel, label
-      if (Array.isArray(height)) {
-        [min, max] = height
-        if (min && max) {
-          minLabel = min.toLocaleString()
-          maxLabel = max.toLocaleString()
-          label = `${this.Locale.height} ${minLabel} ~ ${maxLabel}`
-        } else if (max) {
-          maxLabel = max.toLocaleString()
-          label = `${this.Locale.height} ≤ ${maxLabel}`
-        } else if (min) {
-          minLabel = min.toLocaleString()
-          label = `${this.Locale.height} ≥ ${minLabel}`
-        }
-      } else if (height !== undefined) {
-        target = height
-        if (target) {
-          targetLabel = target.toLocaleString()
-          label = `${targetLabel}`
-        }
-      }
-
-      return { target, min, max, targetLabel, minLabel, maxLabel, label }
     },
     Resolution() {
-      const resolution = conclude([this.resolution, globalProps.resolution], {
-        validator: value => equalOrWithin(value),
+      return handleNumericalProp({
+        config: [this.resolution, globalProps.resolution],
+        labelTip: this.Locale.resolution,
+        createTitleTextOfNotMatch: resolution => this.Locale.resolutionNotMatch.replaceAll('{resolution}', resolution),
+        createTitleTextOfMinExceeded: minResolution => this.Locale.minResolutionExceeded.replaceAll('{minResolution}', minResolution),
+        createTitleTextOfMaxExceeded: maxResolution => this.Locale.maxResolutionExceeded.replaceAll('{maxResolution}', maxResolution),
       })
-
-      let target, min, max, targetLabel, minLabel, maxLabel, label
-      if (Array.isArray(resolution)) {
-        [min, max] = resolution
-        if (min && max) {
-          minLabel = min.toLocaleString()
-          maxLabel = max.toLocaleString()
-          label = `${this.Locale.resolution} ${minLabel} ~ ${maxLabel}`
-        } else if (max) {
-          maxLabel = max.toLocaleString()
-          label = `${this.Locale.resolution} ≤ ${maxLabel}`
-        } else if (min) {
-          minLabel = min.toLocaleString()
-          label = `${this.Locale.resolution} ≥ ${minLabel}`
-        }
-      } else if (resolution !== undefined) {
-        target = resolution
-        if (target) {
-          targetLabel = target.toLocaleString()
-          label = `${this.Locale.resolution} ${targetLabel}`
-        }
-      }
-
-      // resolution 参数的值不能与 width & height 冲突
-      if ((target && this.Width.target && this.Height.target && target !== (this.Width.target * this.Height.target))
-       || (max && this.Width.max && this.Height.max && max !== (this.Width.max * this.Height.max))
-       || (min && this.Width.min && this.Height.min && min !== (this.Width.min * this.Height.min))
-      ) {
-        throw new Error('Value of prop \'resolution\' conflicts with values of \'width\' and \'height\'')
-      }
-
-      return { target, min, max, targetLabel, minLabel, maxLabel, label }
     },
-    dimensionLabel() {
-      let t = ''
-      if (this.Width.targetLabel && this.Height.targetLabel) {
-        t += `${this.Locale.dimension} ${this.Width.targetLabel} × ${this.Height.targetLabel}`
-      } else {
-        if (this.Width.label) {
-          t += this.Width.label
-        }
-        if (this.Height.label) {
-          if (t) {
-            t += '，'
+    AspectRatio() {
+      return handleNumericalProp({
+        config: [this.aspectRatio, globalProps.aspectRatio],
+        labelTip: this.Locale.aspectRatio,
+        createTitleTextOfNotMatch: aspectRatio => this.Locale.aspectRatioNotMatch.replaceAll('{aspectRatio}', aspectRatio),
+        createTitleTextOfMinExceeded: minAspectRatio => this.Locale.minAspectRatioExceeded.replaceAll('{minAspectRatio}', minAspectRatio),
+        createTitleTextOfMaxExceeded: maxAspectRatio => this.Locale.maxAspectRatioExceeded.replaceAll('{maxAspectRatio}', maxAspectRatio),
+        getValue: (value) => {
+          if (!/[1-9]+:[1-9]+/.test(value)) {
+            throw new TypeError('Expect prop aspectRatio to be a string like \'1:1\'')
           }
-          t += this.Height.label
+          const [w, h] = value.split(':')
+          return w / h
+        },
+      })
+    },
+    dimensionTip() {
+      if (this.Width.tip || this.Height.tip) {
+        if (this.Resolution.tip) {
+          throw new Error('Prohibit specifying both width/height and resolution at the same time to avoid conflicts')
+        } else if (this.AspectRatio.tip) {
+          throw new Error('Prohibit specifying both width/height and aspect ratio at the same time to avoid conflicts')
         }
       }
-      return t
+      return (this.Width.targetLabel && this.Height.targetLabel)
+        ? `${this.Locale.dimension} ${this.Width.targetLabel} × ${this.Height.targetLabel}`
+        : [this.Width.tip, this.Height.tip].filter(v => v).join(' ')
     },
     Locale() {
       return conclude([this.locale, globalProps.locale, defaultLocale[name]], {
@@ -473,42 +417,15 @@ export default {
       const file = await toBinary(source)
       return this.Size.validate(file.size)
     },
-    async validateDimensionAndResolution(file) {
+    async validateDimension(file) {
       if (this.Editable) {
         return true
       }
-
-      let titleText
       const imageTag = await toImageTag(await toLocalURL(file))
-      const resolution = imageTag.width * imageTag.height
-
-      if (this.Width.target !== undefined && imageTag.width !== this.Width.target) {
-        titleText = this.Locale.widthNotMatch.replaceAll('{width}', this.Width.targetLabel)
-      } else if (this.Width.max !== undefined && imageTag.width > this.Width.max) {
-        titleText = this.Locale.maxWidthExceeded.replaceAll('{maxWidth}', this.Width.maxLabel)
-      } else if (this.Width.min !== undefined && imageTag.width < this.Width.min) {
-        titleText = this.Locale.minWidthExceeded.replaceAll('{minWidth}', this.Width.minLabel)
-      } else if (this.Height.target !== undefined && imageTag.height !== this.Height.target) {
-        titleText = this.Locale.heightNotMatch.replaceAll('{height}', this.Height.targetLabel)
-      } else if (this.Height.max !== undefined && imageTag.height > this.Height.max) {
-        titleText = this.Locale.maxHeightExceeded.replaceAll('{maxHeight}', this.Height.maxLabel)
-      } else if (this.Height.min !== undefined && imageTag.height < this.Height.min) {
-        titleText = this.Locale.minHeightExceeded.replaceAll('{minHeight}', this.Height.minLabel)
-      } else if (this.Resolution.target !== undefined && resolution !== this.Resolution.target) {
-        titleText = this.Locale.resolutionNotMatch.replaceAll('{resolution}', this.Resolution.targetLabel)
-      } else if (this.Resolution.max !== undefined && resolution > this.Resolution.max) {
-        titleText = this.Locale.maxResolutionExceeded.replaceAll('{maxResolution}', this.Resolution.maxLabel)
-      } else if (this.Resolution.min !== undefined && resolution < this.Resolution.min) {
-        titleText = this.Locale.minResolutionExceeded.replaceAll('{minResolution}', this.Resolution.minLabel)
-      }
-      if (titleText) {
-        FaMessageBox.warning({
-          titleText,
-          timer: 5000,
-        })
-        return false
-      }
-      return true
+      return this.Width.validate(imageTag.width)
+      && this.Height.validate(imageTag.height)
+      && this.Resolution.validate(imageTag.width * imageTag.height)
+      && this.AspectRatio.validate(imageTag.width / imageTag.height)
     },
     async openEditor(input) {
       if (!this.Editable) {
@@ -532,7 +449,7 @@ export default {
           source
           && this.validateExtension(source)
           && await this.validateSize(source)
-          && await this.validateDimensionAndResolution(source)
+          && await this.validateDimension(source)
           && this.Validator(source)
         ) {
           this.editor.queue.push(source)
@@ -560,7 +477,7 @@ export default {
         if (
           this.validateExtension(file.raw)
           && await this.validateSize(file.raw)
-          && await this.validateDimensionAndResolution(file.raw)
+          && await this.validateDimension(file.raw)
           && this.Validator(file.raw)
         ) {
           this.httpRequest(file.raw)
@@ -675,11 +592,11 @@ export default {
       </slot>
       <slot name="trigger" />
       <div class="el-upload__tip">
-        <div>{{ Count.label }}</div>
-        <div>{{ Size.label }}</div>
-        <div>{{ dimensionLabel }}</div>
-        <div>{{ Resolution.label }}</div>
-        <div>{{ Extensions.label }}</div>
+        <div>{{ Count.tip }}</div>
+        <div>{{ Size.tip }}</div>
+        <div>{{ dimensionTip }}</div>
+        <div>{{ Resolution.tip }} {{ AspectRatio.tip }}</div>
+        <div>{{ Extensions.tip }}</div>
       </div>
       <slot
         v-if="isVue3"
@@ -700,11 +617,12 @@ export default {
     <ImageEditor
       :show.sync="editor.show"
       :value="editor.value"
+      :outputType="OutputType"
+      :size="Size"
       :width="Width"
       :height="Height"
       :resolution="Resolution"
-      :size="Size"
-      :outputType="OutputType"
+      :aspectRatio="AspectRatio"
       :locale="Locale"
       @update:show="(e) => { editor.show = e }"
       @confirm="onEditorConfirm"
