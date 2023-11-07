@@ -662,7 +662,6 @@ const faImageRef = ref()
 | disabled                                           | 禁用状态                         | boolean                                                                         | `false`                        |
 | editable                                           | 是否开启编辑功能                 | boolean                                                                         | `true`                         |
 | size                                               | 体积限制 (MB)                    | number / [number?, number?]                                                     |                                |
-| count                                              | 数量限制                         | number / [number?, number?]                                                     |                                |
 | width                                              | 宽度或宽度范围 (像素)            | number / [number?, number?]                                                     |                                |
 | height                                             | 高度或高度范围 (像素)            | number / [number?, number?]                                                     |                                |
 | aspectRatioTolerance                               | 锁定裁剪比例的公差               | number                                                                          | `0`                            |
@@ -671,6 +670,8 @@ const faImageRef = ref()
 | outputType                                         | 图片输出格式 (编辑后)，默认原格式 | string                                                                          |                                |
 | locale                                             | i18n                             | Record<string, string>                                                          | [查看代码](./src/locale/en.ts) |
 | ...                                                | `el-upload` 的属性               |                                                                                 |                                |
+| minCount                                           | 最小数量                         | number                                             |                                |
+| maxCount                                           | 最大数量                         | number                                             |                                |
 
 #### upload
 

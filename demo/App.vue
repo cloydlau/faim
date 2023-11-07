@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue-demi'
 import JsonEditorVue from 'json-editor-vue'
-import { binaryToBase64, fileToBlob } from '../src/components/ImageUpload/utils'
+import { binaryToBase64, fileToBlob } from '../src/utils'
 import { FaMessageBox } from '../src'
 import presets from './useUpload/presets'
 
@@ -262,7 +262,7 @@ function loading() {
             <template #default>
               <FaImageUpload
                 v-model="data.value.images[0]"
-                :count="1"
+                :maxCount="1"
               />
             </template>
           </el-table-column>

@@ -7,10 +7,9 @@ import mime from 'mime'
 import { useFormDisabled } from 'element-plus/es/components/form/src/hooks/use-form-common-props.mjs'
 import FaMessageBox from '../MessageBox'
 import FaImage from '../Image/index.vue'
-import { isObject, tryParsingJSONArray, unwrap } from '../../utils'
+import { handleNumericalProp, isObject, sizeToLabel, toBinary, toImageTag, toLocalURL, tryParsingJSONArray, unwrap } from '../../utils'
 import defaultLocale from '../../locale/en'
 import ImageEditor from './ImageEditor.vue'
-import { equalOrWithin, sizeToText, toBinary, toImageTag, toLocalURL } from './utils'
 import './index.css'
 
 const name = 'FaImageUpload'
@@ -54,10 +53,11 @@ export default {
     },
     srcAt: {},
     size: {},
+    minCount: {},
+    maxCount: {},
     width: {},
     height: {},
     resolution: {},
-    count: {},
     upload: {},
     outputType: {},
     validator: {},
@@ -98,28 +98,15 @@ export default {
       return this.queue.length > 0
     },
     Count() {
-      const count = conclude([this.count, globalProps.count], {
-        validator: value => equalOrWithin(value),
+      return handleNumericalProp({
+        config: [{ min: this.minCount, max: this.maxCount }, { min: globalProps.minCount, max: globalProps.maxCount }],
+        labelTip: this.Locale.count,
+        createTitleTextOfNotMatch: count => this.Locale.countNotMatch.replaceAll('{count}', count),
+        createTitleTextOfMinExceeded: minCount => this.Locale.minCountExceeded.replaceAll('{minCount}', minCount),
+        createTitleTextOfMaxExceeded: maxCount => this.Locale.maxCountExceeded.replaceAll('{maxCount}', maxCount),
+        allowOptions: false,
+        allowTarget: false,
       })
-
-      let min, max, label
-      if (Array.isArray(count)) {
-        [min, max] = count
-        if (min && max) {
-          label = `${this.Locale.count} ${min} ~ ${max}`
-        } else if (max) {
-          label = `${this.Locale.count} ≤ ${max}`
-        } else if (min) {
-          label = `${this.Locale.count} ≥ ${min}`
-        }
-      } else if (count !== undefined) {
-        max = count
-        if (max) {
-          label = `${this.Locale.count} ≤ ${max}`
-        }
-      }
-
-      return { min, max, label }
     },
     Size() {
       const size = conclude([this.size, globalProps.size], {
@@ -313,7 +300,7 @@ export default {
       })
     },
     isFull() {
-      return this.Count.max !== undefined && this.files.length >= this.Count.max
+      return this.Count.max && this.files.length >= this.Count.max
     },
     canSort() {
       return !this.Disabled && this.files.length > 1
@@ -691,7 +678,7 @@ export default {
       }
     },
     onBeforeRemove() {
-      if (this.Count.min !== undefined && this.files.length <= this.Count.min) {
+      if (this.Count.min && this.files.length <= this.Count.min) {
         FaMessageBox.warning(this.Locale.minCountExceeded.replaceAll('{minCount}', this.Count.min))
         return false
       }

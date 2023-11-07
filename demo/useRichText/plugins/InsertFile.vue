@@ -116,7 +116,7 @@ export default {
       >
         <FaImageUpload
           v-model="formData.cover"
-          :count="1"
+          :maxCount="1"
         />
       </el-form-item>
       <el-form-item
