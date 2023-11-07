@@ -62,7 +62,6 @@ export default {
     upload: {},
     outputType: {},
     validator: {},
-    aspectRatioTolerance: {},
     locale: {},
     disabled: {
       type: Boolean,
@@ -233,11 +232,6 @@ export default {
     Locale() {
       return conclude([this.locale, globalProps.locale, defaultLocale[name]], {
         type: Object,
-      })
-    },
-    AspectRatioTolerance() {
-      return conclude([this.aspectRatioTolerance, globalProps.aspectRatioTolerance, 0], {
-        type: Number,
       })
     },
     OutputType() {
@@ -709,7 +703,6 @@ export default {
       :width="Width"
       :height="Height"
       :resolution="Resolution"
-      :aspectRatioTolerance="AspectRatioTolerance"
       :size="Size"
       :outputType="OutputType"
       :locale="Locale"

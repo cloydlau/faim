@@ -47,7 +47,6 @@ export default {
     width: Object,
     height: Object,
     resolution: Object,
-    aspectRatioTolerance: Number,
     size: Object,
     outputType: String,
     locale: {
@@ -268,8 +267,6 @@ export default {
         || (this.width.max && this.width.max < this.imageTag.width)
         || (this.height.min && this.height.min > this.imageTag.height)
         || (this.height.max && this.height.max < this.imageTag.height)
-        // 设置的比例和原图比例之差超过配置的公差了
-        || (this.aspectRatio && Math.abs(this.aspectRatio - this.imageTag.aspectRatio) > this.aspectRatioTolerance)
         // 指定了输出格式
         || this.outputType
     },

@@ -663,7 +663,6 @@ const faImageRef = ref()
 | editable                                           | 是否开启编辑功能                 | boolean                                                                         | `true`                         |
 | width                                              | 宽度或宽度范围 (像素)            | number / [number?, number?]                                                     |                                |
 | height                                             | 高度或高度范围 (像素)            | number / [number?, number?]                                                     |                                |
-| aspectRatioTolerance                               | 锁定裁剪比例的公差               | number                                                                          | `0`                            |
 | resolution                                         | 分辨率或分辨率范围 (像素)        | number / [number?, number?]                                                     |                                |
 | validator                                          | 自定义数据源校验器               | (source: File \| Blob \| string) => boolean                                     |                                |
 | outputType                                         | 图片输出格式 (编辑后)，默认原格式 | string                                                                          |                                |

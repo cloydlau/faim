@@ -11,7 +11,6 @@ export default {
   accept: '.jpg,.jpeg,.png,.gif',
   editable: true,
   arrayed: undefined,
-  aspectRatioTolerance: 0.1,
   requestParam: {
     original: 'true',
   },
