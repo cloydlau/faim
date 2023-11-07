@@ -1,9 +1,10 @@
 export default {
   FaFormDialog: {
     confirm: '确 认',
+    deny: '拒 绝',
+    save: '保 存',
     reset: '重 置',
     cancel: '取 消',
-    deny: '拒 绝',
   },
   FaImageUpload: {
     count: '数量',

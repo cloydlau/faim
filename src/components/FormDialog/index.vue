@@ -25,6 +25,7 @@ const boolProps = [
   'showFullscreenToggle',
   'showConfirmButton',
   'showDenyButton',
+  'showSaveButton',
   'showResetButton',
   'showCancelButton',
   'reverseButtons',
@@ -46,8 +47,9 @@ export default {
     elFormProps: {},
     retrieve: {},
     confirm: {},
-    reset: {},
     deny: {},
+    save: {},
+    reset: {},
     getContainer: {},
     locale: {},
     ...Object.fromEntries(Array.from(boolProps, boolProp => [boolProp, {
@@ -63,6 +65,7 @@ export default {
       retrieving_inner: true,
       confirming: false,
       denying: false,
+      saving: false,
       closing: false,
       scrollbar: null,
       beforeCloseIsPassed: false,
@@ -99,6 +102,11 @@ export default {
     },
     ShowDenyButton() {
       return conclude([this.showDenyButton, globalProps.showDenyButton, false], {
+        type: Boolean,
+      })
+    },
+    ShowSaveButton() {
+      return conclude([this.showSaveButton, globalProps.showSaveButton, false], {
         type: Boolean,
       })
     },
@@ -140,13 +148,18 @@ export default {
         type: Function,
       })
     },
-    Reset() {
-      return conclude([this.reset, globalProps.reset], {
+    Deny() {
+      return conclude([this.deny, globalProps.deny], {
         type: Function,
       })
     },
-    Deny() {
-      return conclude([this.deny, globalProps.deny], {
+    Save() {
+      return conclude([this.save, globalProps.save], {
+        type: Function,
+      })
+    },
+    Reset() {
+      return conclude([this.reset, globalProps.reset], {
         type: Function,
       })
     },
@@ -296,10 +309,6 @@ export default {
         })
       }
     },
-    onReset() {
-      this.$refs[this.ElFormProps.ref]?.resetFields()
-      this.Reset?.()
-    },
     onClosed() {
       this.$emit(model.event, cloneDeep(this.initialValue))
       this.$refs[this.ElFormProps.ref]?.clearValidate()
@@ -319,21 +328,21 @@ export default {
         this.$emit('update:show', false)
       }
     },
-    onConfirm() {
+    onAction(type, status) {
       const exec = () => {
-        if (typeof this.Confirm === 'function') {
-          const result = this.Confirm()
+        if (typeof this[type] === 'function') {
+          const result = this[type]()
           if (result instanceof Promise) {
-            this.confirming = true
+            this[status] = true
             result.then((data) => {
               if (data?.show === true) {
-                this.confirming = false
+                this[status] = false
               } else {
                 this.onCancel()
               }
             }).catch((e) => {
               console.error(e)
-              this.confirming = false
+              this[status] = false
             })
           } else if (result?.show !== true) {
             this.onCancel()
@@ -353,39 +362,9 @@ export default {
         exec()
       }
     },
-    onDeny() {
-      const exec = () => {
-        if (typeof this.Deny === 'function') {
-          const result = this.Deny()
-          if (result instanceof Promise) {
-            this.denying = true
-            result.then((data) => {
-              if (data?.show === true) {
-                this.denying = false
-              } else {
-                this.onCancel()
-              }
-            }).catch((e) => {
-              console.error(e)
-              this.denying = false
-            })
-          } else if (result?.show !== true) {
-            this.onCancel()
-          }
-        } else {
-          this.onCancel()
-        }
-      }
-
-      if (this.$refs[this.ElFormProps.ref]) {
-        this.$refs[this.ElFormProps.ref].validate().then(() => {
-          exec()
-        }).catch(() => {
-          this.highlightError(undefined, this.$refs.overlayScrollbar)
-        })
-      } else {
-        exec()
-      }
+    onReset() {
+      this.$refs[this.ElFormProps.ref]?.resetFields()
+      this.Reset?.()
     },
     highlightError,
   },
@@ -498,27 +477,37 @@ export default {
             <el-button
               v-if="ShowConfirmButton"
               type="primary"
-              :disabled="closing || denying"
+              :disabled="closing || denying || saving"
               :class="closing && 'closing'"
               :loading="confirming"
-              @click="onConfirm"
+              @click="onAction('Confirm', 'confirming')"
             >
               {{ Locale.confirm }}
             </el-button>
             <el-button
               v-if="ShowDenyButton"
               type="danger"
-              :disabled="closing || confirming"
+              :disabled="closing || confirming || saving"
               :class="closing && 'closing'"
               :loading="denying"
-              @click="onDeny"
+              @click="onAction('Deny', 'denying')"
             >
               {{ Locale.deny }}
             </el-button>
             <el-button
-              v-if="ShowResetButton"
+              v-if="ShowSaveButton"
               type="info"
               :disabled="closing || confirming || denying"
+              :class="closing && 'closing'"
+              :loading="saving"
+              @click="onAction('Save', 'saving')"
+            >
+              {{ Locale.save }}
+            </el-button>
+            <el-button
+              v-if="ShowResetButton"
+              type="info"
+              :disabled="closing || confirming || denying || saving"
               @click="onReset"
             >
               {{ Locale.reset }}
@@ -545,28 +534,38 @@ export default {
             <el-button
               v-if="ShowResetButton"
               type="info"
-              :disabled="closing || confirming || denying"
+              :disabled="closing || confirming || denying || saving"
               @click="onReset"
             >
               {{ Locale.reset }}
             </el-button>
             <el-button
+              v-if="ShowSaveButton"
+              type="info"
+              :disabled="closing || confirming || denying"
+              :class="closing && 'closing'"
+              :loading="saving"
+              @click="onAction('Save', 'saving')"
+            >
+              {{ Locale.save }}
+            </el-button>
+            <el-button
               v-if="ShowDenyButton"
               type="danger"
-              :disabled="closing || confirming"
+              :disabled="closing || confirming || saving"
               :class="closing && 'closing'"
               :loading="denying"
-              @click="onDeny"
+              @click="onAction('Deny', 'denying')"
             >
               {{ Locale.deny }}
             </el-button>
             <el-button
               v-if="ShowConfirmButton"
               type="primary"
-              :disabled="closing || denying"
+              :disabled="closing || denying || saving"
               :class="closing && 'closing'"
               :loading="confirming"
-              @click="onConfirm"
+              @click="onAction('Confirm', 'confirming')"
             >
               {{ Locale.confirm }}
             </el-button>

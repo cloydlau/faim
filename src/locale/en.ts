@@ -1,8 +1,9 @@
 export default {
   FaFormDialog: {
     confirm: 'Confirm',
-    reset: 'Reset',
     deny: 'Deny',
+    save: 'Save',
+    reset: 'Reset',
     cancel: 'Cancel',
   },
   FaImageUpload: {
