@@ -42,7 +42,6 @@ export default {
 
     accept: 'Accept',
     typeNotAllowed: 'Expected image types are {accept}',
-    outputType: 'Output Type',
 
     edit: 'Edit',
     confirm: undefined,

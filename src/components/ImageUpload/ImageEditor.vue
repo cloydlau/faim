@@ -647,13 +647,18 @@ export default {
       inline
       :style="{ 'marginTop': isVue3 ? '25px' : '15px', 'display': 'flex', 'justify-content': 'center', 'align-items': 'center' }"
     >
-      <el-form-item v-if="outputType">
+      <el-form-item>
         <template #label>
-          {{ locale.outputType }}
+          {{ locale.accept }}
         </template>
-        <el-tag>
-          {{ outputType }}
-        </el-tag>
+        <template v-if="binary">
+          <el-tag v-if="outputType && outputType !== binary.type">
+            <span style="color: #a8abb2;">{{ binary.type }}</span> ➜ {{ outputType }}
+          </el-tag>
+          <el-tag v-else>
+            {{ binary.type }}
+          </el-tag>
+        </template>
       </el-form-item>
 
       <el-form-item>
@@ -710,7 +715,7 @@ export default {
       </el-form-item>
       <el-form-item>
         <template #label>
-          {{ locale.fixedAspectRatio }}<span class="specifiedAspectRatioLabel">{{ specifiedAspectRatioLabel }}</span>
+          {{ locale.fixedAspectRatio }}<span style="color: #a8abb2; white-space: pre;">{{ specifiedAspectRatioLabel }}</span>
         </template>
         <el-switch
           v-model="isAspectRatioLocked"
@@ -787,11 +792,6 @@ export default {
   .cropper-hidden {
     display: none !important;
     max-height: 100% !important;
-  }
-
-  .specifiedAspectRatioLabel {
-    white-space: pre;
-    color: #a8abb2;
   }
 }
 </style>

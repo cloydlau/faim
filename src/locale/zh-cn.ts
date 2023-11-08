@@ -44,7 +44,6 @@ export default {
 
     accept: '格式',
     typeNotAllowed: '允许的格式：{accept}',
-    outputType: '输出格式',
 
     edit: '编辑',
     confirm: '确 认',
