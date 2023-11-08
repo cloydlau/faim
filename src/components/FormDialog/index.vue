@@ -314,6 +314,7 @@ export default {
       this.$refs[this.ElFormProps.ref]?.clearValidate()
       this.confirming = false
       this.denying = false
+      this.saving = false
       this.closing = false
       // el-dialog 内部的 key 是在 onCancel 时改变
       // 改为 closed 时改变，提升性能，在 DOM 较多时感受明显
