@@ -304,7 +304,7 @@ WIP
 
 ## FaFormDialog
 
-[el-dialog](https://element.eleme.cn/#/zh-CN/component/dialog) + [el-form](https://element.eleme.cn/#/zh-CN/component/form) 组合拳。
+[el-dialog](https://element.eleme.cn/#/zh-CN/component/dialog) + [el-form](https://element.eleme.cn/#/zh-CN/component/form) 组合拳
 
 ### 特性
 
@@ -341,9 +341,9 @@ WIP
 
 #### v-model / modelValue (Vue 3) / value (Vue 2)
 
-如果是 plain object 类型，将用于 `el-form` 的 `model`。
+如果是 plain object 类型，将用于 `el-form` 的 `model`
 
-`onMounted` 时记录初始值 (与 `el-form-item` 保持一致)，关闭对话框时会重置至初始值。
+`onMounted` 时记录初始值 (与 `el-form-item` 保持一致)，关闭对话框时会重置至初始值
 
 #### retrieve
 
@@ -362,9 +362,9 @@ WIP
 
 #### readonly
 
-开启只读模式时默认不显示确认和取消按钮。
+开启只读模式时默认不显示确认和取消按钮
 
-跟 `<el-form disabled />` 的区别是在样式上，更便于用户阅读。
+跟 `<el-form disabled />` 的区别是在样式上，更便于用户阅读
 
 如果希望部分组件不进入禁用状态：
 
@@ -373,7 +373,7 @@ WIP
 
 #### confirm
 
-如果返回一个 Promise 实例，则在该 Promise 实例状态终结后对话框才会关闭。
+如果返回一个 Promise 实例，则在该 Promise 实例状态终结后对话框才会关闭
 
 ```vue
 <template>
@@ -388,7 +388,7 @@ WIP
 </template>
 ```
 
-返回 `Promise.reject()` / `Promise.resolve({ show: true })` / `{ show: true }` 时对话框不会关闭。
+返回 `Promise.reject()` / `Promise.resolve({ show: true })` / `{ show: true }` 时对话框不会关闭
 
 ```vue
 <template>
@@ -411,7 +411,7 @@ WIP
 
 #### deny
 
-如果返回一个 Promise 实例，则在该 Promise 实例状态终结后对话框才会关闭。
+如果返回一个 Promise 实例，则在该 Promise 实例状态终结后对话框才会关闭
 
 ```vue
 <template>
@@ -426,7 +426,7 @@ WIP
 </template>
 ```
 
-返回 `Promise.reject()` / `Promise.resolve({ show: true })` / `{ show: true }` 时对话框不会关闭。
+返回 `Promise.reject()` / `Promise.resolve({ show: true })` / `{ show: true }` 时对话框不会关闭
 
 ```vue
 <template>
@@ -449,7 +449,7 @@ WIP
 
 #### reverseButtons
 
-关于 “确定” 和 “取消” 按钮的顺序，可以看看这篇[知乎回答](https://www.zhihu.com/question/20694680/answer/1400624833)。
+关于 “确定” 和 “取消” 按钮的顺序，可以看看这篇[知乎回答](https://www.zhihu.com/question/20694680/answer/1400624833)
 
 ### Events
 
@@ -495,7 +495,7 @@ WIP
 
 ## FaImage
 
-[Viewer.js](https://github.com/fengyuanchen/viewerjs) + [Swiper](https://swiperjs.com) + [node-qrcode](https://github.com/soldair/node-qrcode) 组合拳。
+[Viewer.js](https://github.com/fengyuanchen/viewerjs) + [Swiper](https://swiperjs.com) + [node-qrcode](https://github.com/soldair/node-qrcode) 组合拳
 
 ### 特性
 
@@ -519,11 +519,11 @@ WIP
 
 #### qrcode
 
-如果将 `qrcode` 设为 `'auto'`，FaImage 会自动判断是否需要转换 (`value` 为 Base64 或 URL 时不会转换)。
+如果将 `qrcode` 设为 `'auto'`，FaImage 会自动判断是否需要转换 (`value` 为 Base64 或 URL 时不会转换)
 
 #### srcAt
 
-用于定位 `value` 中的图片 `src`，适用于绑定值非 `src` 本身的情况。
+用于定位 `value` 中的图片 `src`，适用于绑定值非 `src` 本身的情况
 
 - 支持属性名，如 `'url'`
 - 支持属性路径，如 `'data[0].url'`
@@ -591,9 +591,9 @@ const faImageRef = ref()
 
 ### 二维码清晰度
 
-默认的图片 CSS 高度为 148px (与 `el-upload` 保持一致)，默认的二维码分辨率为 444 × 444 (三倍图)，如果你增大了图片的 CSS 尺寸，将导致图片变模糊。
+默认的图片 CSS 高度为 148px (与 `el-upload` 保持一致)，默认的二维码分辨率为 444 × 444 (三倍图)，如果你增大了图片的 CSS 尺寸，将导致图片变模糊
 
-解决方式：将二维码分辨率设置为展示尺寸的三倍。
+解决方式：将二维码分辨率设置为展示尺寸的三倍
 
 ```vue
 <template>
@@ -618,7 +618,7 @@ const faImageRef = ref()
 
 ## FaImageUpload
 
-`el-upload` 封装，图片上传一站式解决方案。
+`el-upload` 封装，图片上传一站式解决方案
 
 ### 对比 FaUpload
 
@@ -850,7 +850,7 @@ openEditor 参数为输入的数据源，支持的数据类型有：
 
 ## FaMessageBox
 
-<a href="https://sweetalert2.github.io">sweetalert2</a> + `ElMessageBox` 组合拳。
+<a href="https://sweetalert2.github.io">sweetalert2</a> + `ElMessageBox` 组合拳
 
 ### 特性
 
@@ -963,7 +963,7 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 
 ## FaPopButton
 
-`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip` 组合拳。
+`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip` 组合拳
 
 ### 特性
 
@@ -985,7 +985,7 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 
 ### Events
 
-`el-popconfirm`、`el-popover` 的事件。
+`el-popconfirm`、`el-popover` 的事件
 
 ### Slots
 
@@ -998,7 +998,7 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 
 ## FaPopSwitch
 
-`el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip` 组合拳。
+`el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip` 组合拳
 
 ### 特性
 
@@ -1022,7 +1022,7 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 
 ### Events
 
-`el-switch`、`el-popconfirm`、`el-popover` 的事件。
+`el-switch`、`el-popconfirm`、`el-popover` 的事件
 
 ### Slots
 
@@ -1033,13 +1033,13 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 
 ### Exposes
 
-通过 ref 调用 `el-switch` 的方法。
+通过 ref 调用 `el-switch` 的方法
 
 <br>
 
 ## FaRichText
 
-富文本编辑器，可离线使用的 <a href="https://github.com/tinymce/tinymce">TinyMCE</a> Vue 封装。
+富文本编辑器，可离线使用的 <a href="https://github.com/tinymce/tinymce">TinyMCE</a> Vue 封装
 
 ### 对比 [tinymce-vue](https://github.com/tinymce/tinymce-vue)
 
@@ -1127,9 +1127,9 @@ const faRichTextRef = ref()
 
 ### 显隐控制
 
-请使用 `v-if` 控制显隐。
+请使用 `v-if` 控制显隐
 
-由于实际的富文本元素并没有挂载在 `selector` 上面，所以使用 `v-show` 切换显隐会有问题。
+由于实际的富文本元素并没有挂载在 `selector` 上面，所以使用 `v-show` 切换显隐会有问题
 
 ### 内容样式
 
@@ -1211,12 +1211,12 @@ app.use(FaRichText, {
 - 兼容性
   ![PowerPaste 插件兼容性](./docs/powerpaste-compatibility.png)
 
-- 受浏览器限制，PowerPaste 插件**无法支持微软 Word 和 Excel 文档所支持的<font color="#dd0000">所有</font>图片类型**
-  。举个例子，浏览器禁止以编程方式访问文件系统，所以无法解析文档中使用 `file://` 协议的图片 (WPS 使用的就是此协议)。
+- 受浏览器限制，PowerPaste 插件**无法支持微软 Word 和 Excel 文档所支持的<font color="#dd0000">所有</font>图片类型**。
+  举个例子，浏览器禁止以编程方式访问文件系统，所以无法解析文档中使用 `file://` 协议的图片 (WPS 使用的就是此协议)
 
-- 粘贴微软 Word 文档 (Windows 系统、≥ 2013 版本) 中<font color="#dd0000">受保护视图</font>的内容，将仅得到**无格式的普通文本**，这是受保护视图与剪贴板的交互机制决定的。
+- 粘贴微软 Word 文档 (Windows 系统、≥ 2013 版本) 中<font color="#dd0000">受保护视图</font>的内容，将仅得到**无格式的普通文本**，这是受保护视图与剪贴板的交互机制决定的
 
-- 受微软 Excel 网页版限制，粘贴<font color="#dd0000">微软 Excel 网页版</font>的内容将仅得到**无格式的普通文本**。
+- 受微软 Excel 网页版限制，粘贴<font color="#dd0000">微软 Excel 网页版</font>的内容将仅得到**无格式的普通文本**
 
 ### 粘贴网页内容 (HTML)
 
@@ -1248,7 +1248,7 @@ TinyMCE 的 `urlconverter_callback`、`paste_postprocess` API 不支持异步操
 
 ## FaSelect
 
-`el-select` + `el-option` + `el-option-group` 组合拳。
+`el-select` + `el-option` + `el-option-group` 组合拳
 
 ### 特性
 
@@ -1273,9 +1273,9 @@ TinyMCE 的 `urlconverter_callback`、`paste_postprocess` API 不支持异步操
 
 #### options
 
-默认情况下绑定值将得到选中项的数组元素本身。
+默认情况下绑定值将得到选中项的数组元素本身
 
-可使用 `props.value` 改变此行为 (比如选项的数组元素是 plain object 类型，而绑定值只想要其中某个属性)。
+可使用 `props.value` 改变此行为 (比如选项的数组元素是 plain object 类型，而绑定值只想要其中某个属性)
 
 #### props
 
@@ -1304,7 +1304,7 @@ interface Props {
 
 ### Events
 
-`el-select` 的事件。
+`el-select` 的事件
 
 ### Slots
 
@@ -1329,14 +1329,14 @@ interface Props {
 
 关于 `value` 和 `label` 的命名：
 
-- `value`：这里要表达的含义就是选中目标的 “值”，等同于原生 `<input type="checkbox">` 元素的 `value` 属性，不一定是其唯一标识，所以不应该使用 id 或者 key，且 key 与 Vue 的特殊 attribute 冲突。
+- `value`：这里要表达的含义就是选中目标的 “值”，等同于原生 `<input type="checkbox">` 元素的 `value` 属性，不一定是其唯一标识，所以不应该使用 id 或者 key，且 key 与 Vue 的特殊 attribute 冲突
 
-- `label`：HTML 中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以 `label` 天生是用来表达选中目标的 “展示名称” 的，而 ‘name’ 由于与原生 `<input>` 元素的 `name` 属性冲突故不考虑使用 ‘name’。
+- `label`：HTML 中 `<label>` 与 `<input>` 元素相关联，用于对后者进行说明，所以 `label` 天生是用来表达选中目标的 “展示名称” 的，而 ‘name’ 由于与原生 `<input>` 元素的 `name` 属性冲突故不考虑使用 ‘name’
 
 > Element 本身没有做到命名的统一，`el-select` 中 `label` 表示选项的标签，
-> 但 `el-checkbox` 中 `label` 却表示的是选中状态的值。
+> 但 `el-checkbox` 中 `label` 却表示的是选中状态的值
 
-Ant Design 也是使用 `value` 与 `label` 命名。
+Ant Design 也是使用 `value` 与 `label` 命名
 
 ### 仅在初始化时执行一次 search
 
@@ -1351,7 +1351,7 @@ Ant Design 也是使用 `value` 与 `label` 命名。
 
 ## FaUpload
 
-文件上传，[FilePond](https://pqina.nl/filepond) Vue 封装。
+文件上传，[FilePond](https://pqina.nl/filepond) Vue 封装
 
 ### 对比 [vue-filepond](https://github.com/pqina/vue-filepond)
 
