@@ -339,7 +339,7 @@ WIP
 | locale                                             | i18n                                | Record<string, string>                           | [查看代码](./src/locale/en.ts) |
 | ...                                                | `el-dialog` 的属性                  |                                                  |                                |
 
-#### modelValue (Vue 3) / value (Vue 2) / v-model
+#### v-model / modelValue (Vue 3) / value (Vue 2)
 
 如果是 plain object 类型，将用于 `el-form` 的 `model`。
 
