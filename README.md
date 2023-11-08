@@ -328,13 +328,13 @@ WIP
 | showFullscreenToggle                               | 是否显示全屏开关                    | boolean                                          | `true`                         |
 | showConfirmButton                                  | 是否显示确认按钮                    | boolean                                          | `!readonly`                    |
 | confirm                                            | 确认                                | ()= > Promise<void \| { show: boolean }> \| void |                                |
-| showCancelButton                                   | 是否显示取消按钮                    | boolean                                          | `!readonly`                    |
 | showDenyButton                                     | 是否显示拒绝按钮                    | boolean                                          | `false`                        |
 | deny                                               | 拒绝                                | () => Promise<void \| { show: boolean }> \| void |                                |
 | showSaveButton                                     | 是否显示保存按钮                    | boolean                                          | `false`                        |
 | save                                               | 保存                                | () => Promise<void \| { show: boolean }> \| void |                                |
 | showResetButton                                    | 是否显示重置按钮                    | boolean                                          | `false`                        |
 | reset                                              | 重置                                | () => void                                       |                                |
+| showCancelButton                                   | 是否显示取消按钮                    | boolean                                          | `!readonly`                    |
 | reverseButtons                                     | 是否反转按钮顺序                    | boolean                                          | `false`                        |
 | locale                                             | i18n                                | Record<string, string>                           | [查看代码](./src/locale/en.ts) |
 | ...                                                | `el-dialog` 的属性                  |                                                  |                                |
