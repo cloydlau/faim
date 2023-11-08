@@ -12,7 +12,7 @@ import { binaryToArrayBuffer, blobToFile, sizeToLabel, toBinary, toImageTag, toL
 function initialSettings() {
   return {
     rotateDegree: 0,
-    quality: 0.9, // 1 会导致图片在尺寸降低的基础上，体积不降反增
+    quality: 1,
     isAspectRatioLocked: false,
   }
 }
@@ -135,7 +135,7 @@ export default {
           })
         }
 
-        this.initDimensionAndAspectRatio()
+        this.initSetting()
 
         // 大图会卡，加一个节流
         this.updateCropBox = throttle((arg) => {
@@ -183,8 +183,7 @@ export default {
     }
   },
   methods: {
-    // 初始化宽高和比例
-    initDimensionAndAspectRatio() {
+    initSetting() {
       if (this.isAspectRatioSpecified) {
         this.cropper.setAspectRatio(this.specifiedAspectRatio)
         this.isAspectRatioLocked = true
@@ -202,6 +201,10 @@ export default {
       }
       this.inputWidth = this.width.target ?? defaultWidth
       this.inputHeight = this.height.target ?? defaultHeight
+      // 1 会导致图片在尺寸降低的基础上，体积不降反增
+      this.$nextTick(() => {
+        this.quality = (this.sizeTooltip || this.shouldCrop()) ? 0.9 : 1
+      })
     },
     // 先设置裁剪框的比例，后设置裁剪框的位置
     onReady() {
@@ -316,7 +319,7 @@ export default {
         // 锁定比例和原图比例不一致了
         || (this.lockedAspectRatio && this.lockedAspectRatio !== this.imageTag.aspectRatio)
         // 指定了输出格式
-        || this.outputType
+        || Boolean(this.outputType)
     },
     onConfirm() {
       return new Promise((resolve, reject) => {
@@ -460,7 +463,7 @@ export default {
     reset() {
       Object.assign(this.$data, initialSettings())
       this.cropper.reset()
-      this.initDimensionAndAspectRatio()
+      this.initSetting()
       this.onReady()
     },
     rotate(deg) {
