@@ -139,11 +139,8 @@ export default {
 
         // 大图会卡，加一个节流
         this.updateCropBox = throttle((arg) => {
-          // 旋转图片，然后点击取消，this.cropper 为空
-          if (this.cropper) {
-            this.cropper.rotateTo(arg)
-            this.onReady()
-          }
+          this.cropper.rotateTo(arg)
+          this.onReady()
         }, this.Debounce, {
           leading: false,
           trailing: true,
@@ -153,7 +150,9 @@ export default {
 
         this.cropper.replace(this.localURL) // replace 后触发 onReady（参数为 Base64 类型才会触发）
       } else {
-        Object.assign(this.$data, initialState())
+        this.$nextTick(() => {
+          Object.assign(this.$data, initialState())
+        })
       }
     },
     rotateDegree(n) {
@@ -211,22 +210,20 @@ export default {
       // 锁定比例时，默认裁剪框在图片之内（避免裁剪出白边），也可以放大以完全框住图片（避免遗漏信息）
       // 比例可能是参数锁定的，也可能是用户锁定的
       if (this.isAspectRatioLocked && this.lockedAspectRatio) {
-        this.$nextTick(() => {
-          // 高图
-          if (this.lockedAspectRatio > width / height) {
-            this.cropper.setCropBoxData({ width, left })
-            const { height: containerHeight } = this.cropper.getContainerData()
-            const { height: cropBoxHeight } = this.cropper.getCropBoxData() // 不能提前拿
-            this.cropper.setCropBoxData({ top: (containerHeight - cropBoxHeight) / 2 })
+        // 高图
+        if (this.lockedAspectRatio > width / height) {
+          this.cropper.setCropBoxData({ width, left })
+          const { height: containerHeight } = this.cropper.getContainerData()
+          const { height: cropBoxHeight } = this.cropper.getCropBoxData() // 不能提前拿
+          this.cropper.setCropBoxData({ top: (containerHeight - cropBoxHeight) / 2 })
           // 扁图
-          } else {
-            this.cropper.setCropBoxData({ height, top })
-            const { width: containerWidth } = this.cropper.getContainerData()
-            const { width: cropBoxWidth } = this.cropper.getCropBoxData() // 不能提前拿
-            this.cropper.setCropBoxData({ left: (containerWidth - cropBoxWidth) / 2 })
-          }
-          this.loading = false
-        })
+        } else {
+          this.cropper.setCropBoxData({ height, top })
+          const { width: containerWidth } = this.cropper.getContainerData()
+          const { width: cropBoxWidth } = this.cropper.getCropBoxData() // 不能提前拿
+          this.cropper.setCropBoxData({ left: (containerWidth - cropBoxWidth) / 2 })
+        }
+        this.loading = false
       // 不锁定比例时，裁剪框正好框住图片
       } else {
         this.cropper.setCropBoxData({ width, height, left, top })
