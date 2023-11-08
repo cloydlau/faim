@@ -12,7 +12,7 @@ import { binaryToArrayBuffer, blobToFile, sizeToLabel, toBinary, toImageTag, toL
 function initialSettings() {
   return {
     rotateDegree: 0,
-    quality: 1,
+    quality: 0.9, // 1 会导致图片在尺寸降低的基础上，体积不降反增
     isAspectRatioLocked: false,
   }
 }
