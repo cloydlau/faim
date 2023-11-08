@@ -672,6 +672,10 @@ export default {
       .el-upload-list__item-thumbnail {
         object-fit: contain;
       }
+
+      .el-upload-list__item-status-label {
+        display: none;
+      }
     }
   }
 
