@@ -389,12 +389,11 @@ export default {
           }
         } else {
           // 体积校验
-          const sizeTooltip = this.getSizeTooltip(this.binary)
-          if (sizeTooltip) {
+          if (this.sizeTooltip) {
             FaMessageBox.warning({
-              html: `<div style="text-align:center">${sizeTooltip}</div>`,
+              html: `<div style="text-align:center">${this.sizeTooltip}</div>`,
             })
-            reject(new Error(sizeTooltip))
+            reject(new Error(this.sizeTooltip))
           // 自定义校验
           } else if (!this.validator(this.binary)) {
             reject(new Error('Validation failed'))
@@ -667,7 +666,7 @@ export default {
         </template>
         <el-tooltip
           v-if="Boolean(originalSizeLabel)"
-          :disabled="Boolean(!sizeTooltip)"
+          :disabled="!sizeTooltip"
           effect="dark"
           placement="top"
         >
