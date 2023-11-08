@@ -320,7 +320,7 @@ WIP
 |----------------------------------------------------|-------------------------------------|--------------------------------------------------|--------------------------------|
 | title                                              | 对话框标题                          | string                                           |                                |
 | v-model:show (Vue 3) /<br>show.sync (Vue 2)        | 是否显示                            | boolean                                          | `false`                        |
-| modelValue (Vue 3) /<br>value (Vue 2) /<br>v-model | 表单数据对象 (`el-form` 的 `model`) | any                                              |                                |
+| v-model /<br>modelValue (Vue 3) /<br>value (Vue 2) | 表单数据对象 (`el-form` 的 `model`) | any                                              |                                |
 | elFormProps                                        | `el-form` 的属性                    | object                                           |                                |
 | retrieve                                           | 读取数据                            | () => Promise<void> \| void                      |                                |
 | retrieving                                         | 读取状态                            | boolean                                          | `false`                        |
@@ -656,7 +656,7 @@ const faImageRef = ref()
 
 | 名称                                               | 说明                             | 类型                                               | 默认值                         |
 |----------------------------------------------------|----------------------------------|----------------------------------------------------|--------------------------------|
-| modelValue (Vue 3) /<br>value (Vue 2) /<br>v-model | 绑定值                           | any                                                |                                |
+| v-model /<br>modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                           | any                                                |                                |
 | upload                                             | 调用接口上传图片，返回图片 URL/ID | Upload                                             |                                |
 | arrayed                                            | 绑定值是否为数组类型，默认自动    | boolean                                            |                                |
 | srcAt                                              | 图片 URL/ID 的位置               | string / symbol / (value: any) => any              |                                |
@@ -1069,7 +1069,7 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 
 | 名称                                                | 说明                                                   | 类型    | 默认值                                         |
 |-----------------------------------------------------|------------------------------------------------------|---------|------------------------------------------------|
-| modelValue (Vue 3) /<br>value (Vue 2) /<br> v-model | 绑定值                                                 | string  |                                                |
+| v-model /<br>modelValue (Vue 3) /<br>value (Vue 2)  | 绑定值                                                 | string  |                                                |
 | disabled                                            | 禁用状态                                               | boolean | `false`                                        |
 | outputFormat                                        | 输出格式，`'html'` 或 `'text'`                          | string  | `'html'`                                       |
 | ...                                                 | [TinyMCE 配置](https://www.tiny.cloud/docs/tinymce/6/) | /       | [查看代码](./src/components/RichText/index.ts) |
@@ -1261,7 +1261,7 @@ TinyMCE 的 `urlconverter_callback`、`paste_postprocess` API 不支持异步操
 
 | 名称                                               | 说明                              | 类型                                          | 默认值                         |
 |----------------------------------------------------|-----------------------------------|-----------------------------------------------|--------------------------------|
-| modelValue (Vue 3) /<br>value (Vue 2) /<br>v-model | 绑定值                            | any                                           |                                |
+| v-model /<br>modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                            | any                                           |                                |
 | v-model:options (Vue 3) /<br>options.sync (Vue 2)  | 选项                              | any[]                                         |                                |
 | v-model:label (Vue 3) /<br>label.sync (Vue 2)      | 绑定值对应的 `label` (单向数据流) | string \| string[]                            |                                |
 | props                                              | 定位选项的各项属性                | object                                        |                                |
@@ -1396,7 +1396,7 @@ Ant Design 也是使用 `value` 与 `label` 命名。
 
 | 名称                                               | 说明                          | 类型                                               | 默认值                         |
 |----------------------------------------------------|-------------------------------|----------------------------------------------------|--------------------------------|
-| modelValue (Vue 3) /<br>value (Vue 2) /<br>v-model | 绑定值                        | any                                                |                                |
+| v-model /<br>modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                        | any                                                |                                |
 | upload                                             | 调用接口上传文件，返回 URL/ID  | Upload                                             |                                |
 | arrayed                                            | 绑定值是否为数组类型，默认自动 | boolean                                            |                                |
 | srcAt                                              | 文件 URL/ID 的位置            | string / symbol / (value: any) => any              |                                |
