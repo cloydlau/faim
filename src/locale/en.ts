@@ -47,8 +47,8 @@ export default {
     confirm: undefined,
     reset: undefined,
     cancel: undefined,
-    loadError: 'Failed to load image, please try lowering image size',
-    exportError: 'Failed to export image, please try lowering image dimension or quality',
+    loadError: 'Load failed, please try lowering image size',
+    exportError: 'Export failed, please try lowering image dimension or quality',
   },
   FaSelect: {
     selectAll: 'Select All',
