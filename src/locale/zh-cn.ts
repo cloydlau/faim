@@ -49,7 +49,7 @@ export default {
     confirm: '确 认',
     reset: '重 置',
     cancel: '取 消',
-    loadError: '图片加载失败',
+    loadError: '图片加载失败，请尝试降低图片体积',
     exportError: '图片导出失败，请尝试降低图片尺寸或品质',
   },
   FaSelect: {
