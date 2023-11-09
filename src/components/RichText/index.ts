@@ -185,11 +185,14 @@ export default defineComponent({
                 preventUpdatingModelValue.value = false
                 return
               }
-              // 更新绑定值会触发编程式输入的监听，需要避免
-              preventSettingContent.value = true
-              const newContent = editor.getContent({ format: OutputFormat.value })
-              // console.log('手动输入:', newContent)
-              emit(model.event, newContent)
+              const newContent = editor.getContent({ format: OutputFormat.value }) as unknown as string
+              // 失焦但内容不变时不更新绑定值，避免打破平衡
+              if (newContent !== props[model.prop]) {
+                // 更新绑定值会触发编程式输入的监听，需要避免
+                preventSettingContent.value = true
+                // console.log('手动输入:', newContent)
+                emit(model.event, newContent)
+              }
             }, 100)
 
             /**
