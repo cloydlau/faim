@@ -13,10 +13,10 @@ export default {
     minCountExceeded: '允许的最小数量：{minCount}',
     maxCountExceeded: '允许的最大数量：{maxCount}',
 
-    size: '体积',
-    minSizeExceeded: '允许的最小体积：{minSize}，请提升图片尺寸或品质',
-    maxSizeExceeded: '允许的最大体积：{maxSize}，请降低图片尺寸或品质',
-    sizeTip: '原图体积：{inputSize} ➜ 编辑后：{outputSize}',
+    size: '大小',
+    minSizeExceeded: '大小不能低于：{minSize}，请提升图片尺寸或品质',
+    maxSizeExceeded: '大小不能高于：{maxSize}，请降低图片尺寸或品质',
+    sizeTip: '原图大小：{inputSize} ➜ 编辑后：{outputSize}',
     quality: '品质',
 
     width: '宽度',
@@ -49,7 +49,7 @@ export default {
     confirm: '确 认',
     reset: '重 置',
     cancel: '取 消',
-    loadError: '加载失败，请尝试降低图片体积',
+    loadError: '加载失败，请尝试降低图片大小',
     exportError: '导出失败，请尝试降低图片尺寸或品质',
   },
   FaSelect: {
@@ -64,9 +64,9 @@ export default {
     labelMinFilesExceeded: '允许的最小数量：{minFiles}', // FaUpload 新增
     labelMaxFilesExceeded: '允许的最大数量：{maxFiles}', // FaUpload 新增
 
-    labelSize: '体积', // FaUpload 新增
-    labelMinFileSizeExceeded: '文件体积过小 (未上传)', // filePondLocale 未包含
-    labelMinFileSize: '允许的最小体积：{filesize}', // filePondLocale 未包含
+    labelSize: '大小', // FaUpload 新增
+    labelMinFileSizeExceeded: '文件过小 (未上传)', // filePondLocale 未包含
+    labelMinFileSize: '大小不能低于：{filesize}', // filePondLocale 未包含
 
     labelImageWidth: '图片宽度', // FaUpload 新增
     labelImageWidthNotMatched: '允许的图片宽度：{imageWidth}', // FaUpload 新增

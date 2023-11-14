@@ -201,7 +201,7 @@ export default {
       }
       this.inputWidth = this.width.target ?? defaultWidth
       this.inputHeight = this.height.target ?? defaultHeight
-      // 1 会导致图片在尺寸降低的基础上，体积不降反增
+      // 1 会导致图片在尺寸降低的基础上，大小不降反增
       this.$nextTick(() => {
         this.quality = (this.sizeTooltip || this.shouldCrop()) ? 0.9 : 1
       })
@@ -283,11 +283,11 @@ export default {
     getSizeTooltip(binary) {
       if (binary) {
         if (this.size.max && this.size.max < binary.size) {
-          // return `体积上限为${this.size.maxLabel}，${(this.isWidthSpecified || this.isHeightSpecified) ? (this.quality === 0 ? '原图过大，请更换图片' : '请降低图片品质') : '请降低图片尺寸或品质'}`
+          // return `大小上限为${this.size.maxLabel}，${(this.isWidthSpecified || this.isHeightSpecified) ? (this.quality === 0 ? '原图过大，请更换图片' : '请降低图片品质') : '请降低图片尺寸或品质'}`
           return this.locale.maxSizeExceeded.replaceAll('{maxSize}', this.size.maxLabel)
         }
         if (this.size.min && this.size.min > binary.size) {
-          // return `体积下限为${this.size.minLabel}，${(this.isWidthSpecified || this.isHeightSpecified) ? (this.quality === 1 ? '原图过小，请更换图片' : '请提升图片品质') : '请提升图片尺寸或品质'}`
+          // return `大小下限为${this.size.minLabel}，${(this.isWidthSpecified || this.isHeightSpecified) ? (this.quality === 1 ? '原图过小，请更换图片' : '请提升图片品质') : '请提升图片尺寸或品质'}`
           return this.locale.minSizeExceeded.replaceAll('{minSize}', this.size.minLabel)
         }
       }
@@ -326,7 +326,7 @@ export default {
         // 在输出之前进行 宽度 & 高度 & 分辨率 & 比例校验
         // 主要是针对极值的校验，如果是指定固定值，是禁止编辑的
         // 格式不需要校验，根据 outputType 进行输出即可
-        // 体积和自定义校验在输出后进行
+        // 大小和自定义校验在输出后进行
         const outputWidth = this.inputWidth ?? this.imageTag.width
         const outputHeight = this.inputHeight ?? this.imageTag.height
         const outputResolution = outputWidth * outputHeight
@@ -388,7 +388,7 @@ export default {
             )
           }
         } else {
-          // 体积校验
+          // 大小校验
           if (this.sizeTooltip) {
             FaMessageBox.warning({
               html: `<div style="text-align:center">${this.sizeTooltip}</div>`,
@@ -412,7 +412,7 @@ export default {
         ? blobToFile(blob, this.binary.name, this.outputType)
         : blob
 
-      // 体积校验
+      // 大小校验
       const sizeDiffText = this.getSizeDiffText(this.binary.size, binary.size)
       const sizeTooltip = this.getSizeTooltip(binary)
       if (sizeTooltip) {

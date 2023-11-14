@@ -672,7 +672,7 @@ export default {
       } else if (minFiles) {
         limitation.push(`${this.LabelCount} ≥ ${minFiles}`)
       }
-      // 体积
+      // 大小
       if (minFileSize && maxFileSize) {
         if (minFileSize < maxFileSize) {
           limitation.push(`${this.LabelSize} ${minFileSize} ~ ${maxFileSize}`)

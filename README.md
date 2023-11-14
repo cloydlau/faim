@@ -641,7 +641,7 @@ const faImageRef = ref()
 - 限制图片
   - 格式筛选、扩展名校验
   - 数量上限、下限
-  - 体积上限、下限
+  - 大小上限、下限
   - 尺寸、尺寸范围
   - 分辨率、分辨率范围
   - 比例、比例范围
@@ -664,8 +664,8 @@ const faImageRef = ref()
 | editable                                           | 是否开启编辑功能                 | boolean                                            | `true`                         |
 | minCount                                           | 最小数量                         | number                                             |                                |
 | maxCount                                           | 最大数量                         | number                                             |                                |
-| minSize                                            | 最小体积 (字节)                  | number                                             |                                |
-| maxSize                                            | 最大体积 (字节)                  | number                                             |                                |
+| minSize                                            | 大小下限 (字节)                  | number                                             |                                |
+| maxSize                                            | 大小上限 (字节)                  | number                                             |                                |
 | width                                              | 宽度 (像素)                      | number / { min?: number, max?: number } / number[] |                                |
 | height                                             | 高度 (像素)                      | number / { min?: number, max?: number } / number[] |                                |
 | resolution                                         | 分辨率，即宽高的积 (像素)         | number / { min?: number, max?: number } / number[] |                                |
@@ -806,11 +806,11 @@ openEditor 参数为输入的数据源，支持的数据类型有：
 </template>
 ```
 
-### 输出体积
+### 输出大小
 
-图片经过编辑后，输出的体积与以下因素相关：
+图片经过编辑后，输出的大小与以下因素相关：
 
-- 原图体积
+- 原图大小
 - 配置或用户设置的图片宽度
 - 配置或用户设置的图片高度
 - 配置的图片格式
@@ -1067,12 +1067,12 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 
 ### Props
 
-| 名称                                                | 说明                                                   | 类型    | 默认值                                         |
-|-----------------------------------------------------|------------------------------------------------------|---------|------------------------------------------------|
-| v-model /<br>modelValue (Vue 3) /<br>value (Vue 2)  | 绑定值                                                 | string  |                                                |
-| disabled                                            | 禁用状态                                               | boolean | `false`                                        |
-| outputFormat                                        | 输出格式，`'html'` 或 `'text'`                          | string  | `'html'`                                       |
-| ...                                                 | [TinyMCE 配置](https://www.tiny.cloud/docs/tinymce/6/) | /       | [查看代码](./src/components/RichText/index.ts) |
+| 名称                                               | 说明                                                   | 类型    | 默认值                                         |
+|----------------------------------------------------|------------------------------------------------------|---------|------------------------------------------------|
+| v-model /<br>modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                                                 | string  |                                                |
+| disabled                                           | 禁用状态                                               | boolean | `false`                                        |
+| outputFormat                                       | 输出格式，`'html'` 或 `'text'`                          | string  | `'html'`                                       |
+| ...                                                | [TinyMCE 配置](https://www.tiny.cloud/docs/tinymce/6/) | /       | [查看代码](./src/components/RichText/index.ts) |
 
 <br>
 
@@ -1374,7 +1374,7 @@ Ant Design 也是使用 `value` 与 `label` 命名
   - 编程式提供数据源 (File/Blob/Base64/URL/[object URL](https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications#example_using_object_urls_to_display_images))
 - 限制文件
   - 格式筛选、扩展名校验 (`acceptedFileTypes` 同时支持 [MIME](https://www.iana.org/assignments/media-types/media-types.xhtml#image) 和扩展名)
-  - 体积上限、下限
+  - 大小上限、下限
   - 数量上限、下限
   - 图片尺寸、尺寸范围
   - 图片分辨率、分辨率范围
