@@ -26,20 +26,12 @@
 ## 特性
 
 - Vue 2.6/2.7/3 一体通用
-- 支持 SSR，Nuxt 2/3 一体通用
 - Element UI / Element Plus 一体通用 (定位并不是 Element wrapper，部分组件不依赖 Element 甚至不依赖 Vue，支持任意框架，支持移动端)
 - 识别 `el-form` 的 `disabled` 状态
-- 支持微前端 ([wujie](https://github.com/Tencent/wujie)，[qiankun](https://github.com/umijs/qiankun)，[single-spa](https://github.com/single-spa/single-spa)...)
 - 支持 Vite，Vue CLI，webpack...
+- 支持按需导入、自动导入
 - 支持全局属性、全局事件、全局插槽、全局作用域插槽 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 - 支持 i18n
-
-<br>
-
-## 规划
-
-- 支持按需导入 & Tree Shaking
-- 支持 Nuxt
 
 <br>
 
@@ -71,6 +63,7 @@ npm i faim
 
 ```ts
 // vite.config.ts
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   optimizeDeps: {
@@ -108,6 +101,45 @@ module.exports = {
       },
     ]
   }
+}
+```
+
+### 自动导入
+
+```shell
+npm i unplugin-vue-components -D
+```
+
+```ts
+// vite.config.ts
+import { defineConfig } from 'vite'
+import Components from 'unplugin-vue-components/vite'
+import FaimResolver from 'faim/auto-import-resolver'
+
+export default defineConfig({
+  // ...
+  plugins: [
+    // ...
+    Components({
+      resolvers: [FaimResolver()],
+    }),
+  ],
+})
+```
+
+```js
+// webpack.config.js
+const Components = require('unplugin-vue-components/webpack')
+const FaimResolver = require('faim/auto-import-resolver')
+
+module.exports = {
+  // ...
+  plugins: [
+    // ...
+    Components({
+      resolvers: [FaimResolver()],
+    }),
+  ],
 }
 ```
 

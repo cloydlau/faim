@@ -42,7 +42,8 @@
   "files": [
     "dist",
     "docs",
-    "scripts/postinstall.mts"
+    "scripts/postinstall.mts",
+    "auto-import-resolver.ts"
   ],
   "scripts": {
     "dev": "esno ./scripts/dev.mts",
