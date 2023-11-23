@@ -1,7 +1,7 @@
 {
   "name": "faim",
   "PascalCasedName": "Faim",
-  "version": "0.5.0-alpha.3",
+  "version": "0.5.0-beta.0",
   "private": false,
   "description": "Element Plus (Vue 3) & Element UI (Vue 2.7/2.6) isomorphic UI component library. ❄️ More than Element.",
   "author": {
@@ -68,12 +68,12 @@
     }
   },
   "dependencies": {
-    "@vueuse/core": "^10.5.0",
+    "@vueuse/core": "^10.6.1",
     "await-to-js": "^3.0.0",
     "cropperjs": "^1.6.1",
     "cross-spawn": "^7.0.3",
     "del": "^7.1.0",
-    "esno": "^0.17.0",
+    "esno": "^4.0.0",
     "filepond": "^4.30.4",
     "filepond-plugin-file-validate-size": "^2.2.8",
     "filepond-plugin-file-validate-type": "^1.2.8",
@@ -84,9 +84,9 @@
     "qrcode": "^1.5.3",
     "sass": "^1.69.5",
     "sortablejs": "^1.15.0",
-    "sweetalert2": "^11.9.0",
-    "swiper": "^11.0.4",
-    "tinymce": "^6.7.2",
+    "sweetalert2": "^11.10.1",
+    "swiper": "^11.0.5",
+    "tinymce": "^6.8.0",
     "upng-js": "^2.1.0",
     "uuid": "^9.0.1",
     "validator": "^13.11.0",
