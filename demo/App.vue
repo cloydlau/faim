@@ -469,9 +469,6 @@ function loading() {
           :props="{ label: 'name' }"
           value-key="code"
           multiple
-          :locale="{
-            selectAll: '全选',
-          }"
         >
           <template #prefix>
             Local Slot

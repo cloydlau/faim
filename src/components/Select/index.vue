@@ -355,7 +355,7 @@ export default {
           style="padding: 10px 20px;"
           @change="selectAll"
         >
-          {{ Locale.checkAll }}
+          {{ Locale.selectAll }}
         </el-checkbox>
       </slot>
       <el-option-group

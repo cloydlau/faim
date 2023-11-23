@@ -53,7 +53,7 @@ export default {
     exportError: '导出失败，请尝试降低图片尺寸或品质',
   },
   FaSelect: {
-    selecttAll: '全选',
+    selectAll: '全选',
   },
   FaUpload: {
     ...filePondLocale,
