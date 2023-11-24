@@ -92,14 +92,14 @@ export default {
     @closed="onClosed"
   >
     <el-form-item
-      v-if="type === 'image'"
+      v-if="type === '图片'"
       prop="image"
       :rules="{ required: true, message: '必填项' }"
     >
       <FaImageUpload v-model="formData.image" />
     </el-form-item>
     <el-form-item
-      v-else-if="type === 'video'"
+      v-else-if="type === '视频'"
       prop="file"
       :rules="{ required: true, message: '必填项' }"
     >
@@ -108,7 +108,7 @@ export default {
         v-bind="presets[type]"
       />
     </el-form-item>
-    <template v-else-if="type === 'audio'">
+    <template v-else-if="type === '音频'">
       <el-form-item
         label="封面"
         prop="cover"

@@ -74,21 +74,21 @@ export default {
       text: '本地图片',
       icon: 'image',
       onAction: () => {
-        InsertFile.open({ type: 'image' })
+        InsertFile.open({ type: '图片' })
       },
     })
     editor.ui.registry.addMenuItem('localvideo', {
       text: '本地视频',
       icon: 'embed',
       onAction: () => {
-        InsertFile.open({ type: 'video' })
+        InsertFile.open({ type: '视频' })
       },
     })
     editor.ui.registry.addMenuItem('localaudio', {
       text: '本地音频',
       icon: 'arrow-right',
       onAction: () => {
-        InsertFile.open({ type: 'audio' })
+        InsertFile.open({ type: '音频' })
       },
     })
 
