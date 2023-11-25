@@ -131,7 +131,7 @@ export default {
             'overflow-hidden': true,
             'preview': '.preview',
             'background': true,
-            'ready': this.onReady,
+            'ready': this.initCropBox,
           })
         }
 
@@ -139,8 +139,11 @@ export default {
 
         // 大图会卡，加一个节流
         this.updateCropBox = throttle((arg) => {
-          this.cropper.rotateTo(arg)
-          this.onReady()
+          // 可能编辑器已关闭
+          if (this.cropper) {
+            this.cropper.rotateTo(arg)
+            this.initCropBox()
+          }
         }, this.Debounce, {
           leading: false,
           trailing: true,
@@ -148,7 +151,7 @@ export default {
 
         this.originalSizeLabel = sizeToLabel(this.binary.size)
 
-        this.cropper.replace(this.localURL) // replace 后触发 onReady（参数为 Base64 类型才会触发）
+        this.cropper.replace(this.localURL) // replace 后触发 initCropBox（参数为 Base64 类型才会触发）
       } else {
         this.$nextTick(() => {
           Object.assign(this.$data, initialState())
@@ -207,7 +210,7 @@ export default {
       })
     },
     // 先设置裁剪框的比例，后设置裁剪框的位置
-    onReady() {
+    initCropBox() {
       // 图片信息
       const { width, height, left, top } = this.cropper.getCanvasData()
       // 锁定比例时，默认裁剪框在图片之内（避免裁剪出白边），也可以放大以完全框住图片（避免遗漏信息）
@@ -255,7 +258,7 @@ export default {
     },
     onIsAspectRatioSpecifiedChange() {
       this.cropper.setAspectRatio(this.isAspectRatioLocked ? this.impliedAspectRatio : null)
-      this.onReady()
+      this.initCropBox()
     },
     onFullscreenChange(v) {
       this.fullscreen = v
@@ -293,6 +296,10 @@ export default {
       }
     },
     shouldCrop() {
+      // 可能编辑器已关闭
+      if (!this.cropper) {
+        return false
+      }
       const canvasData = this.cropper.getCanvasData()
       const cropBoxData = this.cropper.getCropBoxData()
       // 裁剪框移动了
@@ -463,7 +470,7 @@ export default {
       Object.assign(this.$data, initialSettings())
       this.cropper.reset()
       this.initSetting()
-      this.onReady()
+      this.initCropBox()
     },
     rotate(deg) {
       const sum = this.rotateDegree + deg
