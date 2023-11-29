@@ -274,7 +274,7 @@ export default {
       const textA = this.locale.sizeTip
         .replaceAll('{inputSize}', this.originalSizeLabel)
         .replaceAll('{outputSize}', sizeToLabel(after))
-      let textB = diff === 0 ? '' : `${(diff / before * 100).toFixed(2)}%`
+      let textB = diff === 0 ? '' : `${Number.parseFloat((diff / before * 100).toFixed(2))}%`
       if (diff > 0) {
         textB = `+${textB}`
       }

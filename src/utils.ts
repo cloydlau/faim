@@ -319,7 +319,7 @@ export function secondsToHHMMSS(seconds: number): string {
 
 export function sizeToLabel(bytes: number): string {
   if (bytes >= MB) {
-    return `${(bytes / MB).toFixed(1)}M`
+    return `${Number.parseFloat((bytes / MB).toFixed(1))}M`
   } else if (bytes >= KB) {
     return `${(bytes / KB).toFixed(0)}K`
   } else {
