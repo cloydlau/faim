@@ -534,13 +534,15 @@ export default {
         this.sortablejs.option('disabled', !this.canSort)
       } else if (this.canSort) {
         this.$nextTick(() => {
-          // list-type="text" 时，this.$refs.elUploadRef.$el.firstChild 是一个注释节点
-          if (this.$refs.elUploadRef.$el.firstChild?.nodeType === Node.ELEMENT_NODE) {
-            this.sortablejs = Sortable.create(this.$refs.elUploadRef.$el.firstChild, {
+          // list-type="text" 时，this.$refs.elUploadRef.$el.firstElementChild 是一个注释节点
+          if (this.$refs.elUploadRef.$el.firstElementChild?.nodeType === Node.ELEMENT_NODE) {
+            this.sortablejs = Sortable.create(this.$refs.elUploadRef.$el.firstElementChild, {
               animation: 500,
               filter: '.el-upload-list__item-preview, .el-upload-list__item-delete',
               onStart: () => {
-                document.documentElement.classList.toggle('fa-image-upload__cursor-grabbing', true)
+                setTimeout(() => {
+                  document.documentElement.classList.toggle('fa-image-upload__cursor-grabbing', true)
+                }, 50)
               },
               onEnd: ({ newIndex, oldIndex }) => {
                 if (newIndex !== oldIndex) {
@@ -657,7 +659,7 @@ export default {
 <style lang="scss">
 .fa-image-upload__cursor-grabbing,
 .fa-image-upload__cursor-grabbing *,
-.fa-image-upload__cursor-grabbing .canSort .el-upload-list__item-actions {
+.fa-image-upload__cursor-grabbing .fa-image-upload.canSort .el-upload-list__item-actions {
   cursor: grabbing !important;
 }
 
