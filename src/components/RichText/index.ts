@@ -236,6 +236,10 @@ export default defineComponent({
             )
 
             // loading.value = false
+
+            // 默认展示统计的字符数，而不是单词数
+            const wordcountButton: HTMLElement | null = editor.getContainer().querySelector('button.tox-statusbar__wordcount')
+            wordcountButton?.click()
           },
         },
       ],
