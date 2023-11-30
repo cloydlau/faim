@@ -2,6 +2,7 @@
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
 import { cloneDeep } from 'lodash-es'
+import Sortable from 'sortablejs'
 import { getListeners, isEmpty, isGlobalSlot, isObject, notEmpty, unwrap } from '../../utils'
 import defaultLocale from '../../locale/en'
 
@@ -58,6 +59,7 @@ export default {
       allSelected: false,
       indeterminate: false,
       previousQuery: null,
+      sortablejs: null,
     }
   },
   computed: {
@@ -118,6 +120,9 @@ export default {
     isGrouped() {
       return notEmpty(this.Props.groupOptions)
     },
+    canSort() {
+      return !this.ElSelectProps.disabled && this.isMultiple && this.innerValue?.length > 1
+    },
   },
   watch: {
     options: {
@@ -140,6 +145,12 @@ export default {
           this.remoteMethod()
         }
         this.$emit(model.event, newInnerValue)
+      },
+    },
+    canSort: {
+      immediate: true,
+      handler() {
+        this.sort()
       },
     },
   },
@@ -327,6 +338,33 @@ export default {
     isGroupDisabled(v) {
       return this.Props.groupDisabled ? unwrap(v, this.Props.groupDisabled) : undefined
     },
+    sort() {
+      if (this.sortablejs) {
+        this.sortablejs.option('disabled', !this.canSort)
+      } else if (this.canSort) {
+        this.$nextTick(() => {
+          let elSelectTagsWrapper = this.$refs.elSelectRef.$el.firstElementChild.firstElementChild
+          if (isVue3) {
+            elSelectTagsWrapper = elSelectTagsWrapper.firstElementChild
+          }
+          this.sortablejs = Sortable.create(elSelectTagsWrapper, {
+            animation: 500,
+            filter: '.el-tag__close',
+            onStart: () => {
+              setTimeout(() => {
+                document.documentElement.classList.toggle('fa-select__cursor-grabbing', true)
+              }, 50)
+            },
+            onEnd: ({ newIndex, oldIndex }) => {
+              if (newIndex !== oldIndex) {
+                this.innerValue.splice(newIndex, 0, this.innerValue.splice(oldIndex, 1)[0])
+              }
+              document.documentElement.classList.toggle('fa-select__cursor-grabbing', false)
+            },
+          })
+        })
+      }
+    },
   },
 }
 </script>
@@ -336,6 +374,7 @@ export default {
     v-bind="ElSelectProps"
     v-model="innerValue"
     class="fa-select"
+    :class="{ canSort }"
     v-on="Listeners"
     @visible-change="onVisibleChange"
   >
@@ -481,3 +520,15 @@ export default {
     </template>
   </el-select>
 </template>
+
+<style lang="scss">
+.fa-select__cursor-grabbing,
+.fa-select__cursor-grabbing *,
+.fa-select__cursor-grabbing .fa-select.canSort .el-tag {
+  cursor: grabbing !important;
+}
+
+.fa-select.canSort .el-tag {
+  cursor: grab;
+}
+</style>

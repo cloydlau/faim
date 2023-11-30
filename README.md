@@ -1287,7 +1287,7 @@ TinyMCE 的 `urlconverter_callback`、`paste_postprocess` API 不支持异步操
 - 单向绑定 `label`
 - 远程搜索时无需关心 `options` 和 `loading`
 - 无匹配选项时展示 `label` (而不是 `value`)
-- 多选时支持一键全选
+- 多选时支持一键全选、拖拉拽排序
 
 ### Props
 
