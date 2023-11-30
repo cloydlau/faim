@@ -162,7 +162,7 @@ function loading() {
           @input="() => {
             // console.log('input')
           }"
-          @update:modelValue="() => {
+          @update:model-value="() => {
             console.log('update:modelValue')
           }"
         />
@@ -469,6 +469,10 @@ function loading() {
           :props="{ label: 'name' }"
           value-key="code"
           multiple
+          :multiple-limit="1"
+          @change="() => {
+            console.log(111)
+          }"
         >
           <template #prefix>
             Local Slot
