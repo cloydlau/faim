@@ -269,6 +269,7 @@ export default {
       }
 
       this.innerValue = innerValue.filter(v => v !== undefined)
+      this.$emit('change', this.innerValue)
     },
     // 更新全选按钮的勾选状态
     updateSelectAllStatus() {
@@ -358,6 +359,7 @@ export default {
             onEnd: ({ newIndex, oldIndex }) => {
               if (newIndex !== oldIndex) {
                 this.innerValue.splice(newIndex, 0, this.innerValue.splice(oldIndex, 1)[0])
+                this.$emit('change', this.innerValue)
               }
               document.documentElement.classList.toggle('fa-select__cursor-grabbing', false)
             },
