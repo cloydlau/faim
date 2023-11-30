@@ -75,12 +75,15 @@ export default {
       return conclude([isVue3 ? this.$slots : this.$scopedSlots, globalSlots])
     },
     ShowSelectAllCheckbox() {
-      return conclude([this.showSelectAllCheckbox, globalProps.showSelectAllCheckbox, true], {
+      return conclude([
+        this.showSelectAllCheckbox,
+        globalProps.showSelectAllCheckbox,
+        true,
+      ], {
         type: Boolean,
-      })
-    },
-    innerShowSelectAllCheckbox() {
-      return this.ShowSelectAllCheckbox && this.isMultiple && this.innerOptions.length > 1
+      }) && this.isMultiple
+      && this.innerOptions.length > 1
+      && (!this.ElSelectProps.multipleLimit || this.ElSelectProps.multipleLimit >= this.innerOptions.length)
     },
     ElSelectProps() {
       const remote = Boolean(this.Search)
@@ -273,7 +276,7 @@ export default {
     },
     // 更新全选按钮的勾选状态
     updateSelectAllStatus() {
-      if (this.innerShowSelectAllCheckbox) {
+      if (this.ShowSelectAllCheckbox) {
         if (this.innerValue?.length) {
           // 便于高效判断一个选项是否被选中
           const valueToIndex = Object.fromEntries(Array.from(this.innerValue, (item, i) =>
@@ -390,7 +393,7 @@ export default {
         name="option-prepend"
       >
         <el-checkbox
-          v-if="innerShowSelectAllCheckbox"
+          v-if="ShowSelectAllCheckbox"
           v-model="allSelected"
           :indeterminate="indeterminate"
           style="padding: 10px 20px;"
@@ -461,7 +464,7 @@ export default {
         name="option-prepend"
       >
         <el-checkbox
-          v-if="innerShowSelectAllCheckbox"
+          v-if="ShowSelectAllCheckbox"
           v-model="allSelected"
           :indeterminate="indeterminate"
           style="padding: 10px 20px;"
