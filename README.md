@@ -41,9 +41,10 @@
 npm i faim
 ```
 
-> **Warning**
+> [!Warning]
 >
 > 由于需要修改 Element Plus 源码才得以实现 FaImageUpload，故**该组件**存在以下限制：
+>
 > - element-plus 不能晚于 faim 安装
 >
 > - 暂不支持通过 CDN 的方式使用 element-plus
@@ -768,7 +769,7 @@ item 具体是什么格式？
 - `{ min: 100, max: 300 }`：限制参数值下限为 100，且上限为 300
 - `[100, 200, 300]`：限制参数值为 100，200，300 其中之一
 
-> **Note**
+> [!CAUTION]
 >
 > 为了避免冲突，不允许同时指定 **width/height** 和 **resolution/aspectRatio**
 
@@ -1096,6 +1097,7 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
   - 插入 Word 文档 (`.docx`)，兼容 Microsoft Office、WPS
 - 支持浅色模式 & 深色模式，主题、图标、内容样式均可自定义
 - 支持将 HTML 输出为普通文本
+- 字数统计功能默认统计字符数，而不是单词数
 
 ### Props
 
@@ -1492,7 +1494,7 @@ item 具体是什么格式？
 - `{ min: 100, max: 300 }`：限制参数值下限为 100，且上限为 300
 - `[100, 200, 300]`：限制参数值为 100，200，300 其中之一
 
-> **Note**
+> [!CAUTION]
 >
 > 为了避免冲突，不允许同时指定图片或视频的**宽度/高度**和**分辨率/比例**
 
