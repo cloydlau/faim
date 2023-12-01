@@ -30,9 +30,11 @@
   ],
   "scripts": {
     "dev": "esno ./scripts/dev.mts",
+    "up": "nu -L !@antfu/eslint-config",
     "build": "vite build",
     "serve": "vite preview",
     "release": "esno ./scripts/release.mts",
+    "pnpm:devPreinstall": "node ./scripts/devPreinstall.js",
     "preinstall": "node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || npx only-allow pnpm"
   },
   "peerDependencies": {

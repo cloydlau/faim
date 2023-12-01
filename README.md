@@ -25,8 +25,9 @@
 
 ## ⚠ DEPRECATED
 
-- kikimore 已升级至原作者 [cloydlau](https://github.com/cloydlau) 的 [faim](https://github.com/cloydlau/faim)
-- 除了 faim 的众多新组件和能力增强以外，为了后续的漏洞修复和迭代优化，建议尽快迁移
+> [!IMPORTANT]
+> kikimore 已升级至原作者 [cloydlau](https://github.com/cloydlau) 的 [faim](https://github.com/cloydlau/faim)
+> 不仅有更多的新组件和能力增强，为了后续的漏洞修复和迭代优化，请尽快迁移
 
 <br>
 
@@ -34,7 +35,6 @@
 
 - Vue 2.6/2.7/3 一体通用
 - Element UI / Element Plus 一体通用
-- 支持微前端 ([wujie](https://github.com/Tencent/wujie)，[qiankun](https://github.com/umijs/qiankun)，[single-spa](https://github.com/single-spa/single-spa)...)
 - 支持 Vite，Vue CLI，webpack...
 - 支持全局属性、全局事件、全局插槽、全局作用域插槽 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
 
