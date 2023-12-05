@@ -101,17 +101,17 @@ export default {
       })
     },
     ShowDenyButton() {
-      return conclude([this.showDenyButton, globalProps.showDenyButton, false], {
+      return conclude([this.showDenyButton, globalProps.showDenyButton, !this.Readonly], {
         type: Boolean,
       })
     },
     ShowSaveButton() {
-      return conclude([this.showSaveButton, globalProps.showSaveButton, false], {
+      return conclude([this.showSaveButton, globalProps.showSaveButton, !this.Readonly], {
         type: Boolean,
       })
     },
     ShowResetButton() {
-      return conclude([this.showResetButton, globalProps.showResetButton, false], {
+      return conclude([this.showResetButton, globalProps.showResetButton, !this.Readonly], {
         type: Boolean,
       })
     },
