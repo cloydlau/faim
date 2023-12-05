@@ -401,7 +401,7 @@ WIP
 
 如果希望部分组件不进入禁用状态：
 
-- 单独给这个组件设置 `:disabled="false"`
+- 单独给这些组件设置 `:disabled="false"`
 - 给这部分组件包一层 `<el-form />`
 
 #### confirm
