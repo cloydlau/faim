@@ -105,13 +105,11 @@ export default defineComponent({
     /**
      * props & attrs
      */
-    const Disabled = computed(() => conclude([
-      props.disabled,
-      globalProps.disabled,
-      isVue3 ? unref(elFormDisabled) : elForm.disabled,
-    ], {
-      type: Boolean,
-    }))
+    const Disabled = computed(() =>
+      conclude([props.disabled, globalProps.disabled], { type: Boolean })
+      // Element 的逻辑是 props.disabled 或 el-form 的 props.disabled 任一为 true 就禁用
+      || (isVue3 ? unref(elFormDisabled) : elForm.disabled),
+    )
     const OutputFormat = computed(() => conclude([props.outputFormat, globalProps.outputFormat], {
       type: String,
     }))
