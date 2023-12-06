@@ -76,6 +76,11 @@ export default {
     }
   },
   computed: {
+    Readonly() {
+      return conclude([this.readonly, globalProps.readonly, false], {
+        type: Boolean,
+      })
+    },
     Locale() {
       return conclude([this.locale, globalProps.locale, defaultLocale[name]], {
         type: Object,
@@ -161,11 +166,6 @@ export default {
     Reset() {
       return conclude([this.reset, globalProps.reset], {
         type: Function,
-      })
-    },
-    Readonly() {
-      return conclude([this.readonly, globalProps.readonly, false], {
-        type: Boolean,
       })
     },
     // 必须放在 ElDialogProps 下面

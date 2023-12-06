@@ -399,11 +399,6 @@ WIP
 
 跟 `<el-form disabled />` 的区别是在样式上，更便于用户阅读
 
-如果希望部分组件不进入禁用状态：
-
-- 单独给这些组件设置 `:disabled="false"`
-- 给这部分组件包一层 `<el-form />`
-
 #### confirm
 
 如果返回一个 Promise 实例，则在该 Promise 实例状态终结后对话框才会关闭
