@@ -81,10 +81,6 @@ export default {
     outputType: {},
     validator: {},
     locale: {},
-    disabled: {
-      type: Boolean,
-      default: undefined,
-    },
     editable: {
       type: Boolean,
       default: undefined,
@@ -215,11 +211,6 @@ export default {
         type: Function,
       })
     },
-    Disabled() {
-      return conclude([this.disabled, globalProps.disabled, isVue3 ? this.elFormDisabled : this.elForm.disabled], {
-        type: Boolean,
-      })
-    },
     Editable() {
       return conclude([this.editable, globalProps.editable, true], {
         type: Boolean,
@@ -269,6 +260,12 @@ export default {
         type: Object,
         camelizeObjectKeys: true,
       })
+    },
+    // 也可以通过 refs 去拿 el-upload 的 disabled 状态，但是 element-plus 没有暴露出来
+    Disabled() {
+      return this.ElUploadProps.disabled
+      // Element 的逻辑是 props.disabled 或 el-form 的 props.disabled 任一为 true 就禁用
+      || (isVue3 ? this.elFormDisabled : this.elForm.disabled)
     },
     // accept 转 extensions
     Extensions() {
