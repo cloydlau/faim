@@ -500,7 +500,6 @@ export default {
         globalAttrs,
         {
           ...defaultLocale.FaUpload,
-          disabled: isVue3 ? this.elFormDisabled : this.elForm.disabled,
           itemInsertLocation: 'after',
           allowMultiple: true,
           allowReorder: true,
@@ -822,6 +821,10 @@ export default {
 
       return FilePondOptions
     },
+    Disabled() {
+      // Element 的逻辑是 props.disabled 或 el-form 的 props.disabled 任一为 true 就禁用
+      return this.FilePondOptions.disabled || (isVue3 ? this.elFormDisabled : this.elForm.disabled)
+    },
   },
   expose: ['filePond', 'uploading'],
   watch: {
@@ -857,7 +860,7 @@ export default {
         this.filePond?.sort(() => 0)
       },
     },
-    'FilePondOptions.disabled': function (newValue) {
+    Disabled(newValue) {
       if (newValue) {
         FilePond.destroy(this.$refs.filePond)
       } else {
@@ -969,7 +972,7 @@ export default {
     style="position: relative;"
     class="fa-upload"
   >
-    <div v-if="FilePondOptions.disabled">
+    <div v-if="Disabled">
       <div
         v-for="(v, index) of files"
         :key="index"
