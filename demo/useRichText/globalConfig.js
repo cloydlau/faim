@@ -59,7 +59,7 @@ const contentCustomCSS = `
 export default {
   language: 'zh-Hans',
   content_style: [contentCSS, contentUICSS, contentCustomCSS].join('\n'),
-  plugins: `preview importcss searchreplace autolink autosave save directionality visualblocks visualchars fullscreen image link media table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons
+  plugins: `preview importcss searchreplace autolink autosave save directionality visualblocks visualchars fullscreen image link media table charmap pagebreak nonbreaking anchor insertdatetime advlist lists wordcount help charmap quickbars emoticons accordion
         ${import.meta.env.MODE === 'development' ? ' code codesample' : ''}`,
   // https://www.tiny.cloud/docs/tinymce/6/menus-configuration-options/#example-the-tinymce-default-menu-items
   menu: {
