@@ -88,25 +88,25 @@ importers:
         specifier: ~0.42.1
         version: 0.42.1(eslint@8.55.0)(typescript@5.3.3)
       '@commitlint/cli':
-        specifier: ^18.4.3
+        specifier: latest
         version: 18.4.3(typescript@5.3.3)
       '@commitlint/config-conventional':
-        specifier: ^18.4.3
+        specifier: latest
         version: 18.4.3
       '@element-plus/icons-vue':
         specifier: latest
         version: 2.3.1(vue@3.3.10)
       '@types/lodash-es':
-        specifier: ^4.17.12
+        specifier: latest
         version: 4.17.12
       '@types/node':
-        specifier: ^20.10.3
-        version: 20.10.3
+        specifier: latest
+        version: 20.10.4
       '@types/uuid':
-        specifier: ^9.0.7
+        specifier: latest
         version: 9.0.7
       '@types/validator':
-        specifier: ^13.11.7
+        specifier: latest
         version: 13.11.7
       '@vitejs/plugin-vue':
         specifier: latest
@@ -118,13 +118,13 @@ importers:
         specifier: latest
         version: 2.4.3(vue@3.3.10)
       axios:
-        specifier: ^1.6.2
+        specifier: latest
         version: 1.6.2
       axios-shortcut:
-        specifier: ^0.1.2
+        specifier: latest
         version: 0.1.2
       case-police:
-        specifier: ^0.6.1
+        specifier: latest
         version: 0.6.1
       element-plus:
         specifier: latest
@@ -133,46 +133,46 @@ importers:
         specifier: workspace:*
         version: 'link:'
       json-editor-vue:
-        specifier: ^0.11.2
+        specifier: latest
         version: 0.11.2(@lezer/common@1.1.1)(vue@3.3.10)
       lint-staged:
-        specifier: ^15.2.0
+        specifier: latest
         version: 15.2.0
       magicast:
-        specifier: ^0.3.2
+        specifier: latest
         version: 0.3.2
       mammoth:
-        specifier: ^1.6.0
+        specifier: latest
         version: 1.6.0
       only-allow:
-        specifier: ^1.2.1
+        specifier: latest
         version: 1.2.1
       open:
-        specifier: ^9.1.0
+        specifier: latest
         version: 9.1.0
       prompts:
-        specifier: ^2.4.2
+        specifier: latest
         version: 2.4.2
       semver:
-        specifier: ^7.5.4
+        specifier: latest
         version: 7.5.4
       simple-git-hooks:
-        specifier: ^2.9.0
+        specifier: latest
         version: 2.9.0
       typescript:
-        specifier: ^5.3.3
+        specifier: latest
         version: 5.3.3
       unbuild:
-        specifier: ^2.0.0
+        specifier: latest
         version: 2.0.0(sass@1.69.5)(typescript@5.3.3)
       vite:
-        specifier: ^5.0.6
-        version: 5.0.6(@types/node@20.10.3)(sass@1.69.5)
+        specifier: latest
+        version: 5.0.6(@types/node@20.10.4)(sass@1.69.5)
       vue:
         specifier: latest
         version: 3.3.10(typescript@5.3.3)
       zhlint:
-        specifier: ^0.7.1
+        specifier: latest
         version: 0.7.1(sass@1.69.5)
 
 packages:
@@ -634,10 +634,10 @@ packages:
       '@commitlint/execute-rule': 18.4.3
       '@commitlint/resolve-extends': 18.4.3
       '@commitlint/types': 18.4.3
-      '@types/node': 18.19.2
+      '@types/node': 18.19.3
       chalk: 4.1.2
       cosmiconfig: 8.3.6(typescript@5.3.3)
-      cosmiconfig-typescript-loader: 5.0.0(@types/node@18.19.2)(cosmiconfig@8.3.6)(typescript@5.3.3)
+      cosmiconfig-typescript-loader: 5.0.0(@types/node@18.19.3)(cosmiconfig@8.3.6)(typescript@5.3.3)
       lodash.isplainobject: 4.0.6
       lodash.merge: 4.6.2
       lodash.uniq: 4.5.0
@@ -1592,14 +1592,14 @@ packages:
     resolution: {integrity: sha512-hov8bUuiLiyFPGyFPE1lwWhmzYbirOXQNNo40+y3zow8aFVTeyn3VWL0VFFfdNddA8S4Vf0Tc062rzyNr7Paag==}
     dev: true
 
-  /@types/node@18.19.2:
-    resolution: {integrity: sha512-6wzfBdbWpe8QykUkXBjtmO3zITA0A3FIjoy+in0Y2K4KrCiRhNYJIdwAPDffZ3G6GnaKaSLSEa9ZuORLfEoiwg==}
+  /@types/node@18.19.3:
+    resolution: {integrity: sha512-k5fggr14DwAytoA/t8rPrIz++lXK7/DqckthCmoZOKNsEbJkId4Z//BqgApXBUGrGddrigYa1oqheo/7YmW4rg==}
     dependencies:
       undici-types: 5.26.5
     dev: true
 
-  /@types/node@20.10.3:
-    resolution: {integrity: sha512-XJavIpZqiXID5Yxnxv3RUDKTN5b81ddNC3ecsA0SoFXz/QU8OGBwZGMomiq0zw+uuqbL/krztv/DINAQ/EV4gg==}
+  /@types/node@20.10.4:
+    resolution: {integrity: sha512-D08YG6rr8X90YB56tSIuBaddy/UXAA9RKJoFvrsnogAum/0pmjkgi4+2nx96A330FmioegBWmEYQ+syqCFaveg==}
     dependencies:
       undici-types: 5.26.5
     dev: true
@@ -1840,7 +1840,7 @@ packages:
       vite: ^4.0.0 || ^5.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 5.0.6(@types/node@20.10.3)(sass@1.69.5)
+      vite: 5.0.6(@types/node@20.10.4)(sass@1.69.5)
       vue: 3.3.10(typescript@5.3.3)
     dev: true
 
@@ -2690,7 +2690,7 @@ packages:
     resolution: {integrity: sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==}
     dev: true
 
-  /cosmiconfig-typescript-loader@5.0.0(@types/node@18.19.2)(cosmiconfig@8.3.6)(typescript@5.3.3):
+  /cosmiconfig-typescript-loader@5.0.0(@types/node@18.19.3)(cosmiconfig@8.3.6)(typescript@5.3.3):
     resolution: {integrity: sha512-+8cK7jRAReYkMwMiG+bxhcNKiHJDM6bR9FD/nGBXOWdMLuYawjF5cGrtLilJ+LGd3ZjCXnJjR5DkfWPoIVlqJA==}
     engines: {node: '>=v16'}
     peerDependencies:
@@ -2698,7 +2698,7 @@ packages:
       cosmiconfig: '>=8.2'
       typescript: '>=4'
     dependencies:
-      '@types/node': 18.19.2
+      '@types/node': 18.19.3
       cosmiconfig: 8.3.6(typescript@5.3.3)
       jiti: 1.21.0
       typescript: 5.3.3
@@ -7086,7 +7086,7 @@ packages:
     resolution: {integrity: sha512-TlhdSp2oEOLFXvEp4psKaeTjR5zBjTRcM/sHUN8PkV1UWuY8HKC8n7GaVdW5Xqnwdr/F1OmzLik1QwDjI4w/nw==}
     dev: false
 
-  /vite@3.2.7(@types/node@20.10.3)(sass@1.69.5):
+  /vite@3.2.7(@types/node@20.10.4)(sass@1.69.5):
     resolution: {integrity: sha512-29pdXjk49xAP0QBr0xXqu2s5jiQIXNvE/xwd0vUizYT2Hzqe4BksNNoWllFVXJf4eLZ+UlVQmXfB4lWrc+t18g==}
     engines: {node: ^14.18.0 || >=16.0.0}
     hasBin: true
@@ -7111,7 +7111,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.10.3
+      '@types/node': 20.10.4
       esbuild: 0.15.18
       postcss: 8.4.32
       resolve: 1.22.8
@@ -7121,7 +7121,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vite@5.0.6(@types/node@20.10.3)(sass@1.69.5):
+  /vite@5.0.6(@types/node@20.10.4)(sass@1.69.5):
     resolution: {integrity: sha512-MD3joyAEBtV7QZPl2JVVUai6zHms3YOmLR+BpMzLlX2Yzjfcc4gTgNi09d/Rua3F4EtC8zdwPU8eQYyib4vVMQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
@@ -7149,7 +7149,7 @@ packages:
       terser:
         optional: true
     dependencies:
-      '@types/node': 20.10.3
+      '@types/node': 20.10.4
       esbuild: 0.19.8
       postcss: 8.4.32
       rollup: 4.6.1
@@ -7185,13 +7185,13 @@ packages:
     dependencies:
       '@types/chai': 4.3.11
       '@types/chai-subset': 1.3.5
-      '@types/node': 20.10.3
+      '@types/node': 20.10.4
       chai: 4.3.10
       debug: 4.3.4
       local-pkg: 0.4.3
       tinypool: 0.2.4
       tinyspy: 1.1.1
-      vite: 3.2.7(@types/node@20.10.3)(sass@1.69.5)
+      vite: 3.2.7(@types/node@20.10.4)(sass@1.69.5)
     transitivePeerDependencies:
       - less
       - sass

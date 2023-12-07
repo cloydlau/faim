@@ -514,8 +514,4 @@ function loading() {
     margin-bottom: 8px;
   }
 }
-
-.fa-form-dialog.el-dialog__wrapper > .el-dialog {
-  min-width: revert;
-}
 </style>
