@@ -596,9 +596,9 @@ export default {
   </div>
 </template>
 
-<style lang="scss" scoped>
+<!-- <style lang="scss" scoped>
 // 动画
-/* @keyframes open {
+@keyframes open {
   0% {
     opacity: 0;
     transform: scale3d(0, 0, 1);
@@ -648,8 +648,8 @@ export default {
 .dialog-fade-leave-active :deep(.el-dialog) {
   animation-duration: 0.3s;
   animation-name: close;
-} */
-</style>
+}
+</style> -->
 
 <style lang="scss">
  // element plus
