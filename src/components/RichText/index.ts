@@ -80,7 +80,7 @@ const globalSlots: Record<keyof any, any> = {}
 export default defineComponent({
   name: 'FaRichText',
   install(app: App, options = {}) {
-    const { props, attrs, listeners, slots } = resolveConfig(options, this.props as any)
+    const { props, attrs, listeners, slots } = resolveConfig(options, { props: this.props as any, camelizePropNames: true })
     Object.assign(globalProps, props)
     Object.assign(globalAttrs, attrs)
     Object.assign(globalListeners, listeners)

@@ -311,6 +311,28 @@ WIP
 
 - FaMessageBox
 
+### 布尔类型属性
+
+> [!Warning]
+>
+> 对于基于 Element 的组件，仅写上布尔类型的属性但不传值，支持隐式转换为 `true`：
+>
+> ✔️ `<FaImageUpload disabled />`
+>
+> ✔️ `<FaImageUpload :disabled="true" />`
+>
+> 与 Element 表现一致：
+>
+> ✔️ `<el-upload disabled />`
+>
+> ✔️ `<el-upload :disabled="true" />`
+>
+> **但非 Element 环境的组件是不支持的：**
+>
+> ✗ `<FaUpload disabled />`
+>
+> ✔️ `<FaUpload :disabled="true" />`
+
 ### 覆盖依赖版本
 
 ```json

@@ -21,7 +21,7 @@ const globalSlots = { }
 export default {
   name: 'FaImage',
   install(app, options = {}) {
-    const { props, attrs, listeners, slots } = resolveConfig(options, this.props)
+    const { props, attrs, listeners, slots } = resolveConfig(options, { props: this.props, camelizePropNames: true })
     Object.assign(globalProps, props)
     Object.assign(globalAttrs, attrs)
     Object.assign(globalListeners, listeners)

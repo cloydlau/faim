@@ -8,10 +8,24 @@ const globalAttrs = {}
 const globalListeners = {}
 const globalSlots = {}
 
+const boolAttrs = [
+  'plain',
+  'text',
+  'bg',
+  'link',
+  'round',
+  'circle',
+  'loading',
+  'disabled',
+  'autofocus',
+  'autoInsertSpace',
+  'dark',
+]
+
 export default {
   name: 'FaPopButton',
   install(app, options = {}) {
-    const { props, attrs, listeners, slots } = resolveConfig(options, this.props)
+    const { props, attrs, listeners, slots } = resolveConfig(options, { props: this.props, camelizePropNames: true })
     Object.assign(globalProps, props)
     Object.assign(globalAttrs, attrs)
     Object.assign(globalListeners, listeners)
@@ -22,6 +36,10 @@ export default {
     elPopconfirmProps: {},
     elTooltipProps: {},
     elPopoverProps: {},
+    ...Object.fromEntries(Array.from(boolAttrs, v => [v, {
+      type: Boolean,
+      default: undefined,
+    }])),
   },
   emits: ['click', 'confirm'],
   computed: {
@@ -69,7 +87,15 @@ export default {
       }))
     },
     ElButtonProps() {
-      return conclude([this.$attrs, globalAttrs], {
+      return conclude([
+        Object.fromEntries(
+          Array.from(boolAttrs, boolAttr => [boolAttr, conclude([this[boolAttr], globalProps[boolAttr]])]).filter(
+            ([, v]) => v !== undefined,
+          ),
+        ),
+        this.$attrs,
+        globalAttrs,
+      ], {
         type: Object,
         camelizeObjectKeys: true,
       })
@@ -82,7 +108,7 @@ export default {
         this.$refs[this.ElTooltipConfig.attrs.ref].showPopper = false
       }
       this.$emit('confirm', ...e)
-      if (![true, ''].includes(this.ElButtonProps.disabled) && this.ElPopconfirmConfig.attrs.disabled) {
+      if (!this.disabled && this.ElPopconfirmConfig.attrs.disabled) {
         this.$emit('click', ...e)
       }
     },

@@ -23,10 +23,31 @@ const boolProps = [
   'showSelectAllCheckbox',
 ]
 
+const boolAttrs = [
+  'disabled',
+  'multiple',
+  'clearable',
+  'collapseTags',
+  'collapseTagsTooltip',
+  'filterable',
+  'allowCreate',
+  'remote',
+  'remoteShowSuffix',
+  'loading',
+  'reserveKeyword',
+  'defaultFirstOption',
+  'teleported',
+  'persistent',
+  'automaticDropdown',
+  'fitInputWidth',
+  'validateEvent',
+  'popperAppendToBody', // vue 2 only
+]
+
 export default {
   name,
   install(app, options = {}) {
-    const { props, attrs, listeners, slots } = resolveConfig(options, this.props)
+    const { props, attrs, listeners, slots } = resolveConfig(options, { props: this.props, camelizePropNames: true })
     Object.assign(globalProps, props)
     Object.assign(globalAttrs, attrs)
     Object.assign(globalListeners, listeners)
@@ -40,7 +61,11 @@ export default {
     props: {},
     search: {},
     locale: {},
-    ...Object.fromEntries(Array.from(boolProps, boolProp => [boolProp, {
+    ...Object.fromEntries(Array.from(boolProps, v => [v, {
+      type: Boolean,
+      default: undefined,
+    }])),
+    ...Object.fromEntries(Array.from(boolAttrs, v => [v, {
       type: Boolean,
       default: undefined,
     }])),
@@ -51,7 +76,7 @@ export default {
     return {
       innerValue: this[model.prop],
       initialValue: undefined,
-      loading: undefined,
+      innerLoading: undefined,
       // 在组件内部维护一份 innerOptions 的目的：search 时可以不绑定 options
       innerOptions: [],
       optionGroupPropsList: [],
@@ -81,23 +106,33 @@ export default {
         true,
       ], {
         type: Boolean,
-      }) && this.isMultiple
+      }) && this.multiple
       && this.innerOptions.length > 1
       && (!this.ElSelectProps.multipleLimit || this.ElSelectProps.multipleLimit >= this.innerOptions.length)
     },
     ElSelectProps() {
       const remote = Boolean(this.Search)
 
-      return conclude([this.$attrs, globalAttrs, isVue3 ? globalListeners : undefined, {
-        ref: 'elSelectRef',
-        clearable: true,
-        filterable: true,
-        remote,
-        reserveKeyword: true,
-        remoteMethod: remote ? this.remoteMethod : undefined,
-        valueKey: (this.Props.value && typeof this.Props.value === 'string') ? this.Props.value : undefined,
-        loading: this.loading,
-      }], {
+      return conclude([
+        Object.fromEntries(
+          Array.from(boolAttrs, boolAttr => [boolAttr, conclude([this[boolAttr], globalProps[boolAttr]])]).filter(
+            ([, v]) => v !== undefined,
+          ),
+        ),
+        this.$attrs,
+        globalAttrs,
+        isVue3 ? globalListeners : undefined,
+        {
+          ref: 'elSelectRef',
+          clearable: true,
+          filterable: true,
+          remote,
+          reserveKeyword: true,
+          remoteMethod: remote ? this.remoteMethod : undefined,
+          valueKey: (this.Props.value && typeof this.Props.value === 'string') ? this.Props.value : undefined,
+          loading: this.innerLoading,
+        },
+      ], {
         type: Object,
         camelizeObjectKeys: true,
       })
@@ -117,14 +152,11 @@ export default {
         type: Boolean,
       })
     },
-    isMultiple() {
-      return [true, ''].includes(this.ElSelectProps.multiple)
-    },
     isGrouped() {
       return notEmpty(this.Props.groupOptions)
     },
     canSort() {
-      return !this.ElSelectProps.disabled && this.isMultiple && this.innerValue?.length > 1
+      return !this.ElSelectProps.disabled && this.multiple && this.innerValue?.length > 1
     },
   },
   watch: {
@@ -208,24 +240,24 @@ export default {
       if (!this.Search) {
         return
       }
-      this.loading = true
+      this.innerLoading = true
       this.previousQuery = query
       const res = this.Search(query)
       if (res instanceof Promise) {
         res.then((res) => {
           this.setInnerOptions(res)
         }).finally(() => {
-          this.loading = false
+          this.innerLoading = false
         })
       } else {
         this.setInnerOptions(res)
-        this.loading = false
+        this.innerLoading = false
       }
     },
     // value 没匹配上选项时，el-select 默认显示 value，改为显示 label
     updateLabel() {
       this.$nextTick(() => {
-        if (this.isMultiple) {
+        if (this.multiple) {
           const label = []
           this.$refs[this.ElSelectProps.ref].selected.forEach((v) => {
             if (!v.currentLabel) {

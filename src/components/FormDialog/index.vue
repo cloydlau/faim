@@ -31,10 +31,26 @@ const boolProps = [
   'reverseButtons',
 ]
 
+const boolAttrs = [
+  'fullscreen',
+  'modal',
+  'appendToBody',
+  'lockScroll',
+  'closeOnClickModal',
+  'closeOnPressEscape',
+  'showClose',
+  'draggable',
+  'center',
+  'alignCenter',
+  'destroyOnClose',
+  'draggable',
+  'modalAppendToBody', // vue 2 only
+]
+
 export default {
   name,
   install(app, options = {}) {
-    const { props, attrs, listeners, slots } = resolveConfig(options, this.props)
+    const { props, attrs, listeners, slots } = resolveConfig(options, { props: this.props, camelizePropNames: true })
     Object.assign(globalProps, props)
     Object.assign(globalAttrs, attrs)
     Object.assign(globalListeners, listeners)
@@ -52,7 +68,11 @@ export default {
     reset: {},
     getContainer: {},
     locale: {},
-    ...Object.fromEntries(Array.from(boolProps, boolProp => [boolProp, {
+    ...Object.fromEntries(Array.from(boolProps, v => [v, {
+      type: Boolean,
+      default: undefined,
+    }])),
+    ...Object.fromEntries(Array.from(boolAttrs, v => [v, {
       type: Boolean,
       default: undefined,
     }])),
@@ -69,7 +89,7 @@ export default {
       closing: false,
       scrollbar: null,
       beforeCloseIsPassed: false,
-      fullscreen: false,
+      isFullscreen: false,
       labelWidth: undefined,
       key: 0,
       isVue3,
@@ -170,18 +190,27 @@ export default {
     },
     // 必须放在 ElDialogProps 下面
     GetContainer() {
-      return conclude([this.getContainer, globalProps.getContainer, [true, ''].includes(this.ElDialogProps.appendToBody) ? 'body' : undefined], {
+      return conclude([this.getContainer, globalProps.getContainer, this.appendToBody ? 'body' : undefined], {
         type: [String, Function],
       })
     },
     ElDialogProps() {
-      return conclude([this.$attrs, globalAttrs, isVue3 ? globalListeners : undefined], {
+      return conclude([
+        Object.fromEntries(
+          Array.from(boolAttrs, boolAttr => [boolAttr, conclude([this[boolAttr], globalProps[boolAttr]])]).filter(
+            ([, v]) => v !== undefined,
+          ),
+        ),
+        this.$attrs,
+        globalAttrs,
+        isVue3 ? globalListeners : undefined,
+      ], {
         type: Object,
         camelizeObjectKeys: true,
         default: (userProp) => {
           this.beforeCloseIsPassed = Boolean(userProp.beforeClose)
-          if (userProp.fullscreen !== undefined && this.show) {
-            this.toggleFullscreen([true, ''].includes(userProp.fullscreen))
+          if (this.fullscreen !== undefined && this.show) {
+            this.toggleFullscreen(this.fullscreen)
           }
           return {
             closeOnClickModal: false,
@@ -272,14 +301,14 @@ export default {
   },
   methods: {
     isGlobalSlot,
-    toggleFullscreen(newValue = !this.fullscreen) {
+    toggleFullscreen(newValue = !this.isFullscreen) {
       if (typeof newValue !== 'boolean') {
         return
       }
-      this.fullscreen = newValue
+      this.isFullscreen = newValue
       this.$nextTick(() => {
         window.dispatchEvent(new Event('resize'))
-        this.$emit('fullscreen-change', this.fullscreen)
+        this.$emit('fullscreen-change', this.isFullscreen)
       })
     },
     // fix: https://github.com/ElemeFE/element/issues?q=label+width+auto
@@ -318,7 +347,7 @@ export default {
       this.closing = false
       // el-dialog 内部的 key 是在 onCancel 时改变
       // 改为 closed 时改变，提升性能，在 DOM 较多时感受明显
-      if (['', true].includes(this.ElDialogProps.destroyOnClose)) {
+      if (this.destroyOnClose) {
         this.key++
       }
     },
@@ -385,7 +414,7 @@ export default {
       :title="Title"
       :destroyOnClose="false"
       :appendToBody="false"
-      :fullscreen="fullscreen"
+      :fullscreen="isFullscreen"
       class="fa-form-dialog"
       v-on="Listeners"
       @closed="onClosed"
@@ -407,10 +436,10 @@ export default {
           <template v-if="isVue3">
             <el-icon
               v-if="ShowFullscreenToggle"
-              :class="fullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
+              :class="isFullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
               @click="toggleFullscreen()"
             >
-              <Component :is="fullscreen ? 'CopyDocument' : 'FullScreen'" />
+              <Component :is="isFullscreen ? 'CopyDocument' : 'FullScreen'" />
             </el-icon>
             <el-icon
               v-if="ElDialogProps.showClose !== false"
@@ -423,7 +452,7 @@ export default {
           <template v-else>
             <i
               v-if="ShowFullscreenToggle"
-              :class="fullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
+              :class="isFullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
               @click="toggleFullscreen()"
             />
             <i
@@ -441,7 +470,7 @@ export default {
         <div
           ref="overlayScrollbar"
           style="overflow-y: auto; padding: 10px 40px 40px 40px; max-height:calc(100vh - 45px);"
-          :style="{ paddingBottom: fullscreen ? '40px' : '85px' }"
+          :style="{ paddingBottom: isFullscreen ? '40px' : '85px' }"
         >
           <el-form
             v-if="ValueIsPlainObject"

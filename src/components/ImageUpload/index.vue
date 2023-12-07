@@ -43,13 +43,27 @@ const model = {
   event: isVue3 ? 'update:modelValue' : 'input',
 }
 
+const boolProps = [
+  'editable',
+  'arrayed',
+]
+
+const boolAttrs = [
+  'disabled',
+  'multiple',
+  'withCredentials',
+  'showFileList',
+  'drag',
+  'autoUpload',
+]
+
 // submit() 会触发 http-request
 // 如果是多选 submit() 会连续多次触发 http-request
 
 export default {
   name,
   install(app, options = {}) {
-    const { props, attrs, listeners, slots } = resolveConfig(options, this.props)
+    const { props, attrs, listeners, slots } = resolveConfig(options, { props: this.props, camelizePropNames: true })
     Object.assign(globalProps, props)
     Object.assign(globalAttrs, attrs)
     Object.assign(globalListeners, listeners)
@@ -81,14 +95,14 @@ export default {
     outputType: {},
     validator: {},
     locale: {},
-    editable: {
+    ...Object.fromEntries(Array.from(boolProps, v => [v, {
       type: Boolean,
       default: undefined,
-    },
-    arrayed: {
+    }])),
+    ...Object.fromEntries(Array.from(boolAttrs, v => [v, {
       type: Boolean,
       default: undefined,
-    },
+    }])),
   },
   emits: [model.event],
   setup: () => ({ elFormDisabled: useFormDisabled() }),
@@ -211,6 +225,12 @@ export default {
         type: Function,
       })
     },
+    // 也可以通过 refs 去拿 el-upload 的 disabled 状态，但是 element-plus 没有暴露出来
+    Disabled() {
+      return conclude([this.disabled, globalProps.disabled], { type: Boolean })
+      // Element 的逻辑是 props.disabled 或 el-form 的 props.disabled 任一为 true 就禁用
+      || (isVue3 ? this.elFormDisabled : this.elForm.disabled)
+    },
     Editable() {
       return conclude([this.editable, globalProps.editable, true], {
         type: Boolean,
@@ -239,33 +259,35 @@ export default {
       return false
     },
     ElUploadProps() {
-      return conclude([this.$attrs, globalAttrs, {
-        ref: 'elUploadRef',
-        action: '#',
-        listType: 'picture-card',
-        accept: 'image/*',
-        fileList: this.files,
-        autoUpload: false,
-        drag: true,
-        disabled: this.Disabled,
-        limit: this.Count.max,
-        multiple: this.Count.max !== 1,
-        httpRequest: () => { },
-        beforeRemove: this.onBeforeRemove,
-        onChange: this.onChange,
-        onPreview: this.onPreview,
-        onRemove: this.onRemove,
-        onExceed: this.onExceed,
-      }], {
+      return conclude([
+        Object.fromEntries(
+          Array.from(boolAttrs, boolAttr => [boolAttr, conclude([this[boolAttr], globalProps[boolAttr]])]).filter(
+            ([, v]) => v !== undefined,
+          ),
+        ),
+        this.$attrs,
+        globalAttrs, {
+          ref: 'elUploadRef',
+          action: '#',
+          listType: 'picture-card',
+          accept: 'image/*',
+          fileList: this.files,
+          autoUpload: false,
+          drag: true,
+          disabled: this.Disabled,
+          limit: this.Count.max,
+          multiple: this.Count.max !== 1,
+          httpRequest: () => { },
+          beforeRemove: this.onBeforeRemove,
+          onChange: this.onChange,
+          onPreview: this.onPreview,
+          onRemove: this.onRemove,
+          onExceed: this.onExceed,
+        },
+      ], {
         type: Object,
         camelizeObjectKeys: true,
       })
-    },
-    // 也可以通过 refs 去拿 el-upload 的 disabled 状态，但是 element-plus 没有暴露出来
-    Disabled() {
-      return this.ElUploadProps.disabled
-      // Element 的逻辑是 props.disabled 或 el-form 的 props.disabled 任一为 true 就禁用
-      || (isVue3 ? this.elFormDisabled : this.elForm.disabled)
     },
     // accept 转 extensions
     Extensions() {

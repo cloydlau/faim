@@ -17,10 +17,16 @@ const boolProps = [
   'inlinePrompt',
 ]
 
+const boolAttrs = [
+  'disabled',
+  'loading',
+  'validateEvent',
+]
+
 export default {
   name: 'FaPopSwitch',
   install(app, options = {}) {
-    const { props, attrs, listeners, slots } = resolveConfig(options, this.props)
+    const { props, attrs, listeners, slots } = resolveConfig(options, { props: this.props, camelizePropNames: true })
     Object.assign(globalProps, props)
     Object.assign(globalAttrs, attrs)
     Object.assign(globalListeners, listeners)
@@ -33,7 +39,11 @@ export default {
     elPopconfirmProps: {},
     elTooltipProps: {},
     elPopoverProps: {},
-    ...Object.fromEntries(Array.from(boolProps, boolProp => [boolProp, {
+    ...Object.fromEntries(Array.from(boolProps, v => [v, {
+      type: Boolean,
+      default: undefined,
+    }])),
+    ...Object.fromEntries(Array.from(boolAttrs, v => [v, {
       type: Boolean,
       default: undefined,
     }])),
@@ -84,7 +94,7 @@ export default {
         type: Object,
         camelizeObjectKeys: true,
         default: userProp => ({
-          disabled: [true, ''].includes(this.ElSwitchProps.disabled) || !userProp?.title,
+          disabled: this.disabled || !userProp?.title,
         }),
         defaultIsDynamic: true,
       }))
@@ -100,6 +110,11 @@ export default {
           [model.prop]: this[model.prop],
           inlinePrompt: this.InlinePrompt,
         },
+        Object.fromEntries(
+          Array.from(boolAttrs, boolAttr => [boolAttr, conclude([this[boolAttr], globalProps[boolAttr]])]).filter(
+            ([, v]) => v !== undefined,
+          ),
+        ),
         this.$attrs,
         globalAttrs,
         { ref: 'elSwitchRef' },
@@ -129,7 +144,7 @@ export default {
       if (!this.$refs[this.ElTooltipConfig.attrs.ref].manual) {
         this.$refs[this.ElTooltipConfig.attrs.ref].showPopper = false
       }
-      if (![true, ''].includes(this.ElSwitchProps.disabled) && this.ElPopconfirmConfig.attrs.disabled) {
+      if (!this.disabled && this.ElPopconfirmConfig.attrs.disabled) {
         this.onConfirm()
       }
     },

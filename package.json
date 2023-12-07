@@ -92,7 +92,7 @@
     "validator": "^13.11.0",
     "viewerjs": "^1.11.6",
     "vue-demi": "^0.14.6",
-    "vue-global-config": "^0.4.2"
+    "vue-global-config": "^0.5.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "~0.42.1",
