@@ -7,6 +7,7 @@ import QRCode from 'qrcode'
 import isURL from 'validator/es/lib/isURL'
 import { conclude, resolveConfig } from 'vue-global-config'
 import { isVue3 } from 'vue-demi'
+import { useEventListener } from '@vueuse/core'
 import { isBase64WithScheme, isObject, tryParsingJSONArray, unwrap } from '../../utils'
 
 const model = {
@@ -65,14 +66,12 @@ export default {
         zIndex: 5000,
         zoomRatio: 0.5,
         show() {
-          // fix: 在 webpack 项目中会报错，但不影响正常使用
-          try {
-            this.cleanup = useEventListener(document, 'keydown', (e) => {
-              if (e.key === 'Escape') {
-                e.stopPropagation()
-              }
-            })
-          } catch (e) { }
+          this.cleanup = useEventListener(document.body, 'keydown', (e) => {
+            if (e.key === 'Escape') {
+              e.stopPropagation()
+              this.viewer.hide()
+            }
+          })
         },
         hide() {
           this.cleanup?.()
