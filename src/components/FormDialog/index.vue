@@ -1,4 +1,5 @@
 <script>
+import './index.scss'
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
 import { cloneDeep, isPlainObject } from 'lodash-es'
@@ -66,7 +67,6 @@ export default {
     deny: {},
     save: {},
     reset: {},
-    getContainer: {},
     locale: {},
     ...Object.fromEntries(Array.from(boolProps, v => [v, {
       type: Boolean,
@@ -188,12 +188,6 @@ export default {
         type: Function,
       })
     },
-    // 必须放在 ElDialogProps 下面
-    GetContainer() {
-      return conclude([this.getContainer, globalProps.getContainer, this.appendToBody ? 'body' : undefined], {
-        type: [String, Function],
-      })
-    },
     ElDialogProps() {
       return conclude([
         Object.fromEntries(
@@ -214,6 +208,7 @@ export default {
           }
           return {
             closeOnClickModal: false,
+            modalClass: 'fa-form-dialog-modal',
             ...!this.beforeCloseIsPassed && {
               beforeClose: () => {
                 this.$emit('update:show', false)
@@ -276,14 +271,6 @@ export default {
         } else if (this.initiated) {
           this.closing = true
         }
-        if (this.GetContainer) {
-          this.$nextTick(() => {
-            (typeof this.GetContainer === 'function'
-              ? this.GetContainer()
-              : document.querySelector(this.GetContainer)
-            ).appendChild(this.$el)
-          })
-        }
         this.initiated = true
       },
     },
@@ -293,11 +280,6 @@ export default {
   },
   updated() {
     this.computeLabelWidth()
-  },
-  unmounted() {
-    if (this.GetContainer && this.$el?.parentNode) {
-      this.$el.parentNode.removeChild(this.$el)
-    }
   },
   methods: {
     isGlobalSlot,
@@ -413,7 +395,6 @@ export default {
       :visible="show"
       :title="Title"
       :destroyOnClose="false"
-      :appendToBody="false"
       :fullscreen="isFullscreen"
       class="fa-form-dialog"
       v-on="Listeners"
@@ -433,34 +414,44 @@ export default {
           <span>{{ Title }}</span>
         </slot>
         <div style="display: flex; align-items: center;">
-          <template v-if="isVue3">
-            <el-icon
-              v-if="ShowFullscreenToggle"
-              :class="isFullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
+          <template v-if="ShowFullscreenToggle">
+            <svg
+              v-if="isFullscreen"
+              class="icon-fullscreen"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
               @click="toggleFullscreen()"
-            >
-              <Component :is="isFullscreen ? 'CopyDocument' : 'FullScreen'" />
-            </el-icon>
-            <el-icon
-              v-if="ElDialogProps.showClose !== false"
-              class="el-icon-close"
-              @click="onCancel"
-            >
-              <Close />
-            </el-icon>
-          </template>
-          <template v-else>
-            <i
-              v-if="ShowFullscreenToggle"
-              :class="isFullscreen ? 'el-icon-copy-document' : 'el-icon-full-screen'"
+            ><path
+              fill="currentColor"
+              d="M6 21v-3H3v-2h5v5H6Zm10 0v-5h5v2h-3v3h-2ZM3 8V6h3V3h2v5H3Zm13 0V3h2v3h3v2h-5Z"
+            /></svg>
+            <svg
+              v-else
+              class="icon-fullscreen-exit"
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
               @click="toggleFullscreen()"
-            />
-            <i
-              v-if="ElDialogProps.showClose !== false"
-              class="el-icon-close"
-              @click="onCancel"
-            />
+            ><path
+              fill="currentColor"
+              d="M3 21v-5h2v3h3v2H3Zm13 0v-2h3v-3h2v5h-5ZM3 8V3h5v2H5v3H3Zm16 0V5h-3V3h5v5h-2Z"
+            /></svg>
           </template>
+          <svg
+            v-if="ElDialogProps.showClose !== false"
+            class="icon-close"
+            xmlns="http://www.w3.org/2000/svg"
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            @click="onCancel"
+          ><path
+            fill="currentColor"
+            d="m12 13.4l-4.9 4.9q-.275.275-.7.275t-.7-.275q-.275-.275-.275-.7t.275-.7l4.9-4.9l-4.9-4.9q-.275-.275-.275-.7t.275-.7q.275-.275.7-.275t.7.275l4.9 4.9l4.9-4.9q.275-.275.7-.275t.7.275q.275.275.275.7t-.275.7L13.4 12l4.9 4.9q.275.275.275.7t-.275.7q-.275.275-.7.275t-.7-.275L12 13.4Z"
+          /></svg>
         </div>
       </template>
       <div
@@ -659,300 +650,4 @@ export default {
   animation-duration: 0.3s;
   animation-name: close;
 } */
-</style>
-
-<style lang="scss" scoped>
-:deep(.el-overlay-dialog) {
-  display: flex;
-
-  &>.el-dialog {
-    min-width: 855px;
-
-    &:not(.is-fullscreen) {
-      margin: auto !important;
-
-      .el-dialog__body {
-        max-height: calc(100vh - 75px);
-      }
-    }
-
-    .el-dialog__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      &>.el-dialog__headerbtn {
-        display: none;
-      }
-
-      .el-icon-copy-document,
-      .el-icon-full-screen {
-        cursor: pointer;
-
-        &:hover {
-          color: #409eff;
-        }
-      }
-
-      .el-icon-close {
-        cursor: pointer;
-        font-size: 20px;
-        margin-left: 15px;
-
-        &:hover {
-          color: #FF7575;
-        }
-      }
-    }
-
-    .el-dialog__body {
-      max-height: calc(100vh - 45px);
-      overflow-y: auto;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-
-      /* .el-form-item__content {
-
-        .el-input,
-        .el-input-number,
-        .el-select,
-        .el-time-select,
-        .el-time-picker,
-        .el-date-picker,
-        .el-date-editor,
-        .el-cascader {
-          width: 100%;
-        }
-      } */
-
-      .el-form-item:last-child {
-        margin-bottom: 0;
-      }
-
-      ::-webkit-scrollbar {
-        width: 6px; // 纵向滚动条
-        height: 6px; // 横向滚动条
-      }
-
-      ::-webkit-scrollbar-thumb {
-        border-radius: 10px;
-        background-color: #C0C0C0;
-      }
-
-      .el-form.readonly {
-
-        [disabled="disabled"],
-        .is-disabled,
-        .is-disabled *,
-        .disabled {
-          -webkit-text-fill-color: revert !important;
-          color: revert !important;
-          cursor: revert !important;
-        }
-
-        .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner,
-        .el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner {
-          background-color: #409EFF;
-          border-color: #409EFF;
-        }
-
-        .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner::after {
-          border-color: #FFF;
-          cursor: revert;
-        }
-
-        .el-radio__input.is-disabled.is-checked {
-          .el-radio__inner {
-            border-color: #409EFF;
-            background: #409EFF;
-          }
-
-          .el-radio__inner::after {
-            cursor: revert;
-            background-color: #FFF;
-            border-color: revert;
-          }
-        }
-
-        .el-slider__runway.disabled>.el-slider__button-wrapper {
-          cursor: revert;
-
-          &>.el-slider__button {
-            cursor: revert;
-            border-color: #409EFF;
-          }
-        }
-
-        .el-color-picker.is-disabled>.el-color-picker__mask {
-          display: none;
-        }
-
-        .el-upload {
-          cursor: revert;
-        }
-      }
-    }
-
-    .el-dialog__footer {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      backdrop-filter: blur(1px);
-      z-index: 3; // higher than .el-table__inner-wrapper
-
-      .el-button.is-disabled.closing {
-        cursor: revert;
-      }
-    }
-  }
-}
-</style>
-
-<!-- 与上方保持一致，适用于 vue 2.6 -->
-<style lang="scss">
-.fa-form-dialog.el-dialog__wrapper {
-  display: flex;
-
-  &>.el-dialog {
-    min-width: 855px;
-
-    &:not(.is-fullscreen) {
-      margin: auto !important;
-
-      .el-dialog__body {
-        max-height: calc(100vh - 75px);
-      }
-    }
-
-    .el-dialog__header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-
-      &>.el-dialog__headerbtn {
-        display: none;
-      }
-
-      .el-icon-copy-document,
-      .el-icon-full-screen {
-        cursor: pointer;
-
-        &:hover {
-          color: #409eff;
-        }
-      }
-
-      .el-icon-close {
-        cursor: pointer;
-        font-size: 20px;
-        margin-left: 15px;
-
-        &:hover {
-          color: #FF7575;
-        }
-      }
-    }
-
-    .el-dialog__body {
-      max-height: calc(100vh - 45px);
-      overflow-y: auto;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-
-      /* .el-form-item__content {
-
-        .el-input,
-        .el-input-number,
-        .el-select,
-        .el-time-select,
-        .el-time-picker,
-        .el-date-picker,
-        .el-date-editor,
-        .el-cascader {
-          width: 100%;
-        }
-      } */
-
-      .el-form-item:last-child {
-        margin-bottom: 0;
-      }
-
-      ::-webkit-scrollbar {
-        width: 6px; // 纵向滚动条
-        height: 6px; // 横向滚动条
-      }
-
-      ::-webkit-scrollbar-thumb {
-        border-radius: 10px;
-        background-color: #C0C0C0;
-      }
-
-      .el-form.readonly {
-
-        [disabled="disabled"],
-        .is-disabled,
-        .is-disabled *,
-        .disabled {
-          color: revert !important;
-          cursor: revert !important;
-        }
-
-        .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner,
-        .el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner {
-          background-color: #409EFF;
-          border-color: #409EFF;
-        }
-
-        .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner::after {
-          border-color: #FFF;
-          cursor: revert;
-        }
-
-        .el-radio__input.is-disabled.is-checked {
-          .el-radio__inner {
-            border-color: #409EFF;
-            background: #409EFF;
-          }
-
-          .el-radio__inner::after {
-            cursor: revert;
-            background-color: #FFF;
-            border-color: revert;
-          }
-        }
-
-        .el-slider__runway.disabled>.el-slider__button-wrapper {
-          cursor: revert;
-
-          &>.el-slider__button {
-            cursor: revert;
-            border-color: #409EFF;
-          }
-        }
-
-        .el-color-picker.is-disabled>.el-color-picker__mask {
-          display: none;
-        }
-
-        .el-upload {
-          cursor: revert;
-        }
-      }
-    }
-
-    .el-dialog__footer {
-      position: absolute;
-      bottom: 0;
-      right: 0;
-      backdrop-filter: blur(1px);
-      z-index: 1;
-
-      .el-button.is-disabled.closing {
-        cursor: revert;
-      }
-    }
-  }
-}
 </style>
