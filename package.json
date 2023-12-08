@@ -47,7 +47,7 @@
   ],
   "scripts": {
     "dev": "esno ./scripts/dev.mts",
-    "up": "nu -L !@antfu/eslint-config !mime && ni",
+    "up": "nu -L !@antfu/eslint-config && ni",
     "build": "npx unbuild",
     "preview": "vite preview",
     "release": "esno ./scripts/release.mts",
