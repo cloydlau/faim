@@ -120,7 +120,10 @@ export default {
         } catch (e) {
           console.error(e)
           this.$emit('update:show', false)
-          FaMessageBox.error(this.locale.loadError)
+          FaMessageBox.error({
+            titleText: this.locale.loadError,
+            text: e,
+          })
           return
         }
 
