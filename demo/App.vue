@@ -7,6 +7,7 @@ import presets from './useUpload/presets'
 
 const console = window.console
 const show = ref(true)
+const openingEditor = ref(false)
 const source = ref(undefined)
 const data = reactive({
   value: {
@@ -218,8 +219,12 @@ function loading() {
           FaUpload addFile
         </el-button>
         <el-button
+          :loading="openingEditor"
           @click="() => {
-            $refs.faImageUploadRef.openEditor(data.sourceOptions[source])
+            openingEditor = true
+            $refs.faImageUploadRef.openEditor(data.sourceOptions[source]).finally(() => {
+              openingEditor = false
+            })
           }"
         >
           FaImageUpload openEditor
@@ -238,7 +243,7 @@ function loading() {
         prop="FaUpload"
       >
         <FaUpload
-          v-bind="presets.video"
+          v-bind="presets.pdf"
           ref="faUploadRef"
           v-model="data.value.files"
         />

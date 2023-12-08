@@ -289,28 +289,34 @@ export default {
         camelizeObjectKeys: true,
       })
     },
-    // accept 转 extensions
-    Extensions() {
-      const list = this.ElUploadProps.accept
+    // accept 转 extension + mime
+    Type() {
+      const mimeMap = {}
+      const extensions = (this.ElUploadProps.accept
         ?.split(',')
         .map((accept) => {
           accept = accept?.trim().toLowerCase() // 便于扩展名校验，且原生的 accept 就支持空格和大写
           if (accept) {
             if (accept.startsWith('.')) {
+              const type = mime.getType(accept)
+              if (type) {
+                mimeMap[type] = true
+              }
               return accept
             } else {
+              mimeMap[accept] = true
               return Array.from(mime.getAllExtensions(accept) || [], extension => `.${extension}`)
             }
           }
           return null
         })
         .filter(v => v)
-        .flat(1) || []
-      const text = list.join(',')
+        .flat(1) || [])
+        .join(',')
       return {
-        target: text,
-        tip: text ? `${this.Locale.accept} ${text}` : '',
-        list,
+        extensions,
+        tip: extensions ? `${this.Locale.accept} ${extensions}` : '',
+        mimeMap: Object.keys(mimeMap).length ? mimeMap : null,
       }
     },
   },
@@ -426,35 +432,33 @@ export default {
 
       this.$emit(model.event, newValue)
     },
-    validateExtension(source) {
-      if (this.Editable && this.outputType) {
-        return true
+    async validateTypeAndSize(source) {
+      let binary
+      // 可以编辑且指定输出的格式时，免校验格式
+      if (!(this.Editable && this.outputType)) {
+        if (source instanceof Blob) {
+          if (this.Type.mimeMap && !this.Type.mimeMap[source.type]) {
+            FaMessageBox.warning(`${this.Locale.typeNotAllowed.replaceAll('{accept}', this.Type.extensions)}`)
+            return false
+          }
+        } else if (typeof source === 'string') {
+          binary = await toBinary(source)
+          if (this.Type.mimeMap && !this.Type.mimeMap[source.type]) {
+            FaMessageBox.warning(`${this.Locale.typeNotAllowed.replaceAll('{accept}', this.Type.extensions)}`)
+            return false
+          }
+        } else {
+          console.error('Invalid image source: ', source)
+          return false
+        }
       }
-      if (typeof source !== 'string' && !(source instanceof Blob)) {
-        console.error('Not a valid image source: ', source)
-        return false
-      }
-      if (!this.Extensions.list.length) {
-        return true
-      }
-      let extension
-      if (source instanceof File) {
-        extension = source.name.replace(/.+\./, '.').toLowerCase()
-      } else if (typeof source === 'string') {
-        extension = source.replace(/.+\./, '.').toLowerCase()
-      }
-      if (extension && !this.Extensions.list.includes(extension)) {
-        FaMessageBox.warning(`${this.Locale.typeNotAllowed.replaceAll('{accept}', this.Extensions.target)}`)
-        return false
-      }
-      return true
-    },
-    async validateSize(source) {
+
+      // 可以编辑时，免校验大小
       if (this.Editable) {
         return true
       }
-      const file = await toBinary(source)
-      return this.Size.validate(file.size)
+      binary ??= await toBinary(source)
+      return this.Size.validate(binary.size)
     },
     async validateDimension(file) {
       if (this.Editable) {
@@ -486,8 +490,7 @@ export default {
       for (const source of inputs) {
         if (
           source
-          && this.validateExtension(source)
-          && await this.validateSize(source)
+          && await this.validateTypeAndSize(source)
           && await this.validateDimension(source)
           && this.Validator(source)
         ) {
@@ -514,8 +517,7 @@ export default {
         await this.openEditor(file.raw)
       } else {
         if (
-          this.validateExtension(file.raw)
-          && await this.validateSize(file.raw)
+          await this.validateTypeAndSize(file.raw)
           && await this.validateDimension(file.raw)
           && this.Validator(file.raw)
         ) {
@@ -637,7 +639,7 @@ export default {
         <div>{{ Size.tip }}</div>
         <div>{{ dimensionTip }}</div>
         <div>{{ Resolution.tip }} {{ AspectRatio.tip }}</div>
-        <div>{{ Extensions.tip }}</div>
+        <div>{{ Type.tip }}</div>
       </div>
       <slot
         v-if="isVue3"

@@ -689,7 +689,7 @@ const faImageRef = ref()
   - 自由裁剪、锁定比例裁剪
   - 翻转、缩放、无级角度旋转
 - 限制图片
-  - 格式筛选、扩展名校验
+  - 格式筛选、格式校验
   - 数量上限、下限
   - 大小上限、下限
   - 尺寸、尺寸范围
@@ -792,9 +792,9 @@ item 具体是什么格式？
 
 #### outputType
 
-关闭编辑模式时，会按照 `accept` 筛选格式、校验扩展名
+关闭编辑模式时，会按照 `accept` 筛选格式、校验格式
 
-开启编辑模式时，会按照 `accept` 筛选格式，但不会校验扩展名，编辑图片后，按照 `outputType` 指定的格式输出图片
+开启编辑模式时，会按照 `accept` 筛选格式，但不会校验格式，编辑图片后，按照 `outputType` 指定的格式输出图片
 
 可选值参考 [MIME type](https://www.iana.org/assignments/media-types/media-types.xhtml#image)
 
@@ -842,13 +842,17 @@ openEditor 参数为输入的数据源，支持的数据类型有：
   />
 
   <el-button
+    :loading="openingEditor"
     @click="async () => {
+      openingEditor = true
       const url = 'https://picsum.photos/100'
       const fileName = '100x100.jpg'
       // 如果需要附加图片名称，可以先转换为 File 类型再输入
       const blob = await (await fetch(url)).blob()
       const file = new File([blob], fileName, { type: blob.type })
-      await $refs.faImageUploadRef.openEditor(file)
+      $refs.faImageUploadRef.openEditor(file).finally(() => {
+        openingEditor = false
+      })
     }"
   >
     编辑图片
