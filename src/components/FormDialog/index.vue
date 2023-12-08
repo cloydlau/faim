@@ -87,7 +87,6 @@ export default {
       saving: false,
       closing: false,
       scrollbar: null,
-      beforeCloseIsPassed: false,
       isFullscreen: false,
       labelWidth: undefined,
       key: 0,
@@ -197,25 +196,13 @@ export default {
         this.$attrs,
         globalAttrs,
         isVue3 ? globalListeners : undefined,
+        {
+          closeOnClickModal: false,
+          modalClass: 'fa-form-dialog-modal',
+        },
       ], {
         type: Object,
         camelizeObjectKeys: true,
-        default: (userProp) => {
-          this.beforeCloseIsPassed = Boolean(userProp.beforeClose)
-          if (this.fullscreen !== undefined && this.show) {
-            this.toggleFullscreen(this.fullscreen)
-          }
-          return {
-            closeOnClickModal: false,
-            modalClass: 'fa-form-dialog-modal',
-            ...!this.beforeCloseIsPassed && {
-              beforeClose: () => {
-                this.$emit('update:show', false)
-              },
-            },
-          }
-        },
-        defaultIsDynamic: true,
       })
     },
     ElFormProps() {
@@ -241,10 +228,13 @@ export default {
   },
   watch: {
     show: {
-      // 针对默认打开的情况 默认打开时 依然执行retrieve
+      // 针对默认打开的情况 默认打开时 依然执行 retrieve
       immediate: true,
       handler(newShow) {
         if (newShow) {
+          if (this.fullscreen !== undefined) {
+            this.toggleFullscreen(this.fullscreen)
+          }
           /* if (!this.labelWidthSettled) {
             this.labelWidth = await this.getLabelWidth()
             this.labelWidthSettled = true
@@ -266,9 +256,6 @@ export default {
           /* this.$nextTick(() => {
             this.osInstance = OverlayScrollbars(this.$refs.overlayScrollbar, {})
           }) */
-        // 首次不执行
-        } else if (this.initiated) {
-          this.closing = true
         }
         this.initiated = true
       },
@@ -319,6 +306,16 @@ export default {
         })
       }
     },
+    onClose() {
+      // 首次不执行
+      if (this.initiated) {
+        this.closing = true
+      }
+      // esc 关闭时，show 仍为 true
+      if (this.show) {
+        this.$emit('update:show', false)
+      }
+    },
     onClosed() {
       this.$emit(model.event, cloneDeep(this.initialValue))
       this.$refs[this.ElFormProps.ref]?.clearValidate()
@@ -333,8 +330,13 @@ export default {
       }
     },
     onCancel() {
-      if (this.beforeCloseIsPassed) {
-        this.$refs.elDialogRef.beforeClose()
+      // el-dialog 在点击右上角和 esc 时，会触发 beforeClose，点击自定义的取消按钮不会触发
+      // FaImageUpload 自定义了右上角，因此只有 esc 时触发 beforeClose
+      // 由于 FaImageUpload 封装了关闭逻辑，所以需要配套补全 beforeClose
+      if (this.ElDialogProps.beforeClose) {
+        this.ElDialogProps.beforeClose(() => {
+          this.$emit('update:show', false)
+        })
       } else {
         this.$emit('update:show', false)
       }
@@ -397,6 +399,7 @@ export default {
       :fullscreen="isFullscreen"
       class="fa-form-dialog"
       v-on="Listeners"
+      @close="onClose"
       @closed="onClosed"
     >
       <!-- 向 el-dialog 传递 slot -->
