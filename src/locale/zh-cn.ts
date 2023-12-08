@@ -14,8 +14,8 @@ export default {
     maxCountExceeded: '允许的最大数量：{maxCount}',
 
     size: '大小',
-    minSizeExceeded: '大小不能低于：{minSize}，请提升图片尺寸或品质',
-    maxSizeExceeded: '大小不能高于：{maxSize}，请降低图片尺寸或品质',
+    minSizeExceeded: '大小不能低于：{minSize}\n请提升图片尺寸或品质',
+    maxSizeExceeded: '大小不能高于：{maxSize}\n请降低图片尺寸或品质',
     sizeTip: '原图大小：{inputSize} ➜ 编辑后：{outputSize}',
     quality: '品质',
 
@@ -50,7 +50,7 @@ export default {
     reset: '重 置',
     cancel: '取 消',
     loadError: '加载失败',
-    exportError: '导出失败，请尝试降低图片尺寸或品质',
+    exportError: '导出失败\n请尝试降低图片尺寸或品质',
   },
   FaSelect: {
     selectAll: '全选',

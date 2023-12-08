@@ -534,7 +534,7 @@ export default {
     destroy-on-close
     center
     class="fa-image-editor"
-    custom-class="fa-image-editor"
+    :custom-class="isVue3 ? undefined : 'fa-image-editor'"
     :retrieving="loading"
     :confirm="onConfirm"
     showResetButton

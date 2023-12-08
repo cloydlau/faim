@@ -12,8 +12,8 @@ export default {
     maxCountExceeded: 'Maximum count is {maxCount}',
 
     size: 'Size',
-    minSizeExceeded: 'Minimum size is {minSize}, please enhance image dimension or quality',
-    maxSizeExceeded: 'Maximum size is {maxSize}, please lower image dimension or quality',
+    minSizeExceeded: 'Minimum size is {minSize}\nplease enhance image dimension or quality',
+    maxSizeExceeded: 'Maximum size is {maxSize}\nplease lower image dimension or quality',
     sizeTip: 'Input size: {inputSize} ➜ output size: {outputSize}',
     quality: 'Quality',
 
@@ -48,7 +48,7 @@ export default {
     reset: undefined,
     cancel: undefined,
     loadError: 'Load failed',
-    exportError: 'Export failed, please try lowering image dimension or quality',
+    exportError: 'Export failed\nplease try lowering image dimension or quality',
   },
   FaSelect: {
     selectAll: 'Select All',
