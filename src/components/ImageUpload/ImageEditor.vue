@@ -531,6 +531,7 @@ export default {
     destroy-on-close
     center
     class="fa-image-editor"
+    custom-class="fa-image-editor"
     :retrieving="loading"
     :confirm="onConfirm"
     showResetButton
@@ -778,7 +779,7 @@ export default {
     transform: rotate(90deg);
   }
 
-  .el-dialog {
+  &.el-dialog {
     min-width: 1000px !important;
   }
 
