@@ -639,23 +639,22 @@ export default {
             extensions.push(...Array.from(mime.getAllExtensions(acceptedFileTypes[i]) || [], extension => `.${extension}`))
           }
         }
-        // extensions 生成 labelIdle 和 fileValidateTypeDetectType
+        // extensions 生成 labelIdle
         if (extensions.length) {
           limitation.push(`${this.LabelAccept} ${extensions.join(',')}`)
-          // 校验文件扩展名
-          FilePondOptions.fileValidateTypeDetectType ??= (file, type) => new Promise((resolve, reject) => {
-            const extension = file.name.replace(/.+\./, '.').toLowerCase()
-            // File.name (扩展名) 和 File.type (MIME) 不匹配（经测试不会出现这种情况）
-            /* if (getType(extension) !== type) {
+        }
+        // 校验文件类型，acceptedFileTypes 生成 fileValidateTypeDetectType
+        FilePondOptions.fileValidateTypeDetectType ??= (file, type) => new Promise((resolve, reject) => {
+          // File.name (扩展名) 和 File.type (MIME) 不匹配（经测试不会出现这种情况）
+          /* if (getType(extension) !== type) {
               reject(Error('File extension does not match file type'))
             } else */
-            if (extensions.includes(extension)) {
-              resolve(type)
-            } else {
-              reject(new Error(labelFileTypeNotAllowed || 'File of invalid type'))
-            }
-          })
-        }
+          if (acceptedFileTypes.includes(type)) {
+            resolve(type)
+          } else {
+            reject(new Error(labelFileTypeNotAllowed || 'File of invalid type'))
+          }
+        })
       }
       // 数量
       if (minFiles && maxFiles) {

@@ -1424,7 +1424,7 @@ Ant Design 也是使用 `value` 与 `label` 命名
   - 用户选择本地文件 (File)
   - 编程式提供数据源 (File/Blob/Base64/URL/[object URL](https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications#example_using_object_urls_to_display_images))
 - 限制文件
-  - 格式筛选、扩展名校验 (`acceptedFileTypes` 同时支持 [MIME](https://www.iana.org/assignments/media-types/media-types.xhtml#image) 和扩展名)
+  - 格式筛选、格式校验 (`acceptedFileTypes` 同时支持 [MIME](https://www.iana.org/assignments/media-types/media-types.xhtml#image) 和扩展名)
   - 大小上限、下限
   - 数量上限、下限
   - 图片尺寸、尺寸范围
