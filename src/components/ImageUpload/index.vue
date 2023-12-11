@@ -688,6 +688,9 @@ export default {
   margin-bottom: -8px;
 
   .el-upload-list--picture-card {
+    // see: https://github.com/SortableJS/Sortable/issues/1853
+    display: inline-block;
+
     .el-upload-list__item {
       user-select: none;
       transition: none !important;
