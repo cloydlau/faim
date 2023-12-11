@@ -1021,6 +1021,14 @@ export default {
     display: none;
   }
 
+  .filepond--item {
+    cursor: zoom-in;
+
+    &[data-drag-state] {
+      cursor: grab;
+    }
+  }
+
   a {
     --el-link-font-size: 14px;
     --el-link-font-weight: 500;
