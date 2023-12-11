@@ -159,6 +159,7 @@ export default {
       filePond: null,
       isSupported: true,
       queue: [],
+      updatingModelValue: false,
     }
   },
   computed: {
@@ -831,6 +832,10 @@ export default {
       immediate: true,
       deep: true,
       async handler(newValue) {
+        if (this.updatingModelValue) {
+          this.updatingModelValue = false
+          return
+        }
         // 将 value 统一为符合 files 格式的对象数组
         if (newValue) {
           // 先统一为数组
@@ -927,6 +932,7 @@ export default {
         newValue = newValue[0]
       }
 
+      this.updatingModelValue = true
       this.$emit(model.event, newValue)
     },
     onActivateFile(file) {
