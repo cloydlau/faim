@@ -27,7 +27,7 @@ async function postinstall() {
       await deleteAsync([`${process.env.INIT_CWD}/node_modules/.vite/deps/element-plus.js*`], { force: true })
     }
   } else {
-    throw new Error('Element Plus not installed')
+    console.log(cyan('[INFO] Element Plus not installed'))
   }
 
   const dir = isDev ? 'src' : 'dist'
