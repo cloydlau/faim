@@ -110,7 +110,7 @@ importers:
         version: 13.11.7
       '@vitejs/plugin-vue':
         specifier: ^4.5.2
-        version: 4.5.2(vite@5.0.7)(vue@3.3.11)
+        version: 4.5.2(vite@5.0.8)(vue@3.3.11)
       '@vue/compiler-sfc':
         specifier: ^3.3.11
         version: 3.3.11
@@ -166,8 +166,8 @@ importers:
         specifier: ^2.0.0
         version: 2.0.0(sass@1.69.5)(typescript@5.3.3)
       vite:
-        specifier: ^5.0.7
-        version: 5.0.7(@types/node@20.10.4)(sass@1.69.5)
+        specifier: ^5.0.8
+        version: 5.0.8(@types/node@20.10.4)(sass@1.69.5)
       vue:
         specifier: ^3.3.11
         version: 3.3.11(typescript@5.3.3)
@@ -1842,14 +1842,14 @@ packages:
     resolution: {integrity: sha512-zuVdFrMJiuCDQUMCzQaD6KL28MjnqqN8XnAqiEq9PNm/hCPTSGfrXCOfwj1ow4LFb/tNymJPwsNbVePc1xFqrQ==}
     dev: true
 
-  /@vitejs/plugin-vue@4.5.2(vite@5.0.7)(vue@3.3.11):
+  /@vitejs/plugin-vue@4.5.2(vite@5.0.8)(vue@3.3.11):
     resolution: {integrity: sha512-UGR3DlzLi/SaVBPX0cnSyE37vqxU3O6chn8l0HJNzQzDia6/Au2A4xKv+iIJW8w2daf80G7TYHhi1pAUjdZ0bQ==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
       vite: ^4.0.0 || ^5.0.0
       vue: ^3.2.25
     dependencies:
-      vite: 5.0.7(@types/node@20.10.4)(sass@1.69.5)
+      vite: 5.0.8(@types/node@20.10.4)(sass@1.69.5)
       vue: 3.3.11(typescript@5.3.3)
     dev: true
 
@@ -7131,8 +7131,8 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vite@5.0.7(@types/node@20.10.4)(sass@1.69.5):
-    resolution: {integrity: sha512-B4T4rJCDPihrQo2B+h1MbeGL/k/GMAHzhQ8S0LjQ142s6/+l3hHTT095ORvsshj4QCkoWu3Xtmob5mazvakaOw==}
+  /vite@5.0.8(@types/node@20.10.4)(sass@1.69.5):
+    resolution: {integrity: sha512-jYMALd8aeqR3yS9xlHd0OzQJndS9fH5ylVgWdB+pxTwxLKdO1pgC5Dlb398BUxpfaBxa4M9oT7j1g503Gaj5IQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
