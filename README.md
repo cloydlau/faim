@@ -49,6 +49,14 @@ npm i faim
 >
 > - 暂不支持通过 CDN 的方式使用 element-plus
 
+> [!Warning]
+>
+> 为了方便用户更换 tinymce 的皮肤、主题、图标，这些样式资源需要用户手动引入
+>
+> 故使用 FaRichText 组件时还需额外安装 tinymce：
+>
+> `npm i faim tinymce`
+
 ### Bun
 
 允许 faim 执行生命周期脚本：
