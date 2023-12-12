@@ -12,9 +12,10 @@ async function postinstall() {
   const cwd = process.cwd()
   const isDev = process.env.INIT_CWD === cwd
   const elementPlusPath = `${process.env.INIT_CWD}/node_modules/element-plus`
+  const isElementPlusInstalled = fs.existsSync(elementPlusPath)
 
   if (isVue3) {
-    if (fs.existsSync(elementPlusPath)) {
+    if (isElementPlusInstalled) {
       console.log(cyan('[INFO] Patching el-upload source code'))
       const elUploadSourcePath = `${elementPlusPath}/es/components/upload/src/upload2.mjs`
       const elUploadSource = fs.readFileSync(elUploadSourcePath, 'utf-8')
@@ -45,7 +46,7 @@ async function postinstall() {
     'element-plus/es/components/form/src/hooks/use-form-common-props.mjs',
     '../../use-form-common-props',
   ]
-  if (isVue3) {
+  if (isElementPlusInstalled) {
     useFormDisabledSources.reverse()
   }
 
