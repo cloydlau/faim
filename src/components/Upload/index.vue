@@ -504,7 +504,6 @@ export default {
           ...defaultLocale.FaUpload,
           itemInsertLocation: 'after',
           allowMultiple: true,
-          allowReorder: true,
           dropValidation: true,
           credits: false,
           files: this.files,
@@ -616,6 +615,9 @@ export default {
         acceptedFileTypes,
         fileValidateTypeLabelExpectedTypesMap,
       } = FilePondOptions
+
+      // maxFiles 默认不封顶
+      FilePondOptions.allowReorder ??= maxFiles !== 1
 
       // 限制条件可视化
       const limitation = []
