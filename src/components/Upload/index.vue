@@ -160,6 +160,7 @@ export default {
       isSupported: true,
       queue: [],
       updatingModelValue: false,
+      removingLimboFile: false,
     }
   },
   computed: {
@@ -576,6 +577,7 @@ export default {
               task.setProgress(100)
               this.queue.shift()
             }, 0)
+            this.removingLimboFile = true
             return false
           },
           beforeRemoveFile: (_item) => {
@@ -881,6 +883,10 @@ export default {
     }
     this.filePond = FilePond.create(this.$refs.filePond, this.FilePondOptions)
     this.filePond.on('removefile', () => {
+      if (this.removingLimboFile) {
+        this.removingLimboFile = false
+        return
+      }
       this.files = this.filePond.getFiles()
       this.emitInput()
     })
