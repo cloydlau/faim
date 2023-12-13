@@ -67,6 +67,7 @@ export default {
     save: {},
     reset: {},
     locale: {},
+    // beforeCancel: {},
     ...Object.fromEntries(Array.from(boolProps, v => [v, {
       type: Boolean,
       default: undefined,
@@ -225,6 +226,11 @@ export default {
         }),
       }
     },
+    /* BeforeCancel() {
+      return conclude([this.beforeCancel, globalProps.beforeCancel], {
+        type: Function,
+      })
+    }, */
   },
   watch: {
     show: {
@@ -244,7 +250,7 @@ export default {
           if (result instanceof Promise) {
             result.catch((e) => {
               console.error(e)
-              this.onCancel()
+              this.doClose()
             }).finally(() => {
               this.retrieving_inner = false
             })
@@ -313,7 +319,7 @@ export default {
       }
       // esc 关闭时，show 仍为 true
       if (this.show) {
-        this.$emit('update:show', false)
+        this.doClose()
       }
     },
     onClosed() {
@@ -323,23 +329,31 @@ export default {
       this.denying = false
       this.saving = false
       this.closing = false
-      // el-dialog 内部的 key 是在 onCancel 时改变
+      // el-dialog 内部的 key 是在 close 时改变
       // 改为 closed 时改变，提升性能，在 DOM 较多时感受明显
       if (this.destroyOnClose) {
         this.key++
       }
     },
-    onCancel() {
+    /* cancel() {
+      if (this.BeforeCancel) {
+        this.BeforeCancel(this.doClose)
+      } else {
+        this.doClose()
+      }
+    }, */
+    close() {
       // el-dialog 在点击右上角和 esc 时，会触发 beforeClose，点击自定义的取消按钮不会触发
       // FaImageUpload 自定义了右上角，因此只有 esc 时触发 beforeClose
       // 由于 FaImageUpload 封装了关闭逻辑，所以需要配套补全 beforeClose
       if (this.ElDialogProps.beforeClose) {
-        this.ElDialogProps.beforeClose(() => {
-          this.$emit('update:show', false)
-        })
+        this.ElDialogProps.beforeClose(this.doClose)
       } else {
-        this.$emit('update:show', false)
+        this.doClose()
       }
+    },
+    doClose() {
+      this.$emit('update:show', false)
     },
     onAction(type, status) {
       const exec = () => {
@@ -351,17 +365,17 @@ export default {
               if (data?.show === true) {
                 this[status] = false
               } else {
-                this.onCancel()
+                this.close()
               }
             }).catch((e) => {
               console.error(e)
               this[status] = false
             })
           } else if (result?.show !== true) {
-            this.onCancel()
+            this.close()
           }
         } else {
-          this.onCancel()
+          this.close()
         }
       }
 
@@ -449,7 +463,7 @@ export default {
             width="20"
             height="20"
             viewBox="0 0 24 24"
-            @click="onCancel"
+            @click="close"
           ><path
             fill="currentColor"
             d="m12 13.4l-4.9 4.9q-.275.275-.7.275t-.7-.275q-.275-.275-.275-.7t.275-.7l4.9-4.9l-4.9-4.9q-.275-.275-.275-.7t.275-.7q.275-.275.7-.275t.7.275l4.9 4.9l4.9-4.9q.275-.275.7-.275t.7.275q.275.275.275.7t-.275.7L13.4 12l4.9 4.9q.275.275.275.7t-.275.7q-.275.275-.7.275t-.7-.275L12 13.4Z"
@@ -539,7 +553,7 @@ export default {
               v-if="ShowCancelButton"
               :disabled="closing"
               :class="closing && 'closing'"
-              @click="onCancel"
+              @click="close"
             >
               {{ Locale.cancel }}
             </el-button>
@@ -550,7 +564,7 @@ export default {
               v-if="ShowCancelButton"
               :disabled="closing"
               :class="closing && 'closing'"
-              @click="onCancel"
+              @click="close"
             >
               {{ Locale.cancel }}
             </el-button>
