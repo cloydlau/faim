@@ -1,11 +1,19 @@
+/* const fs = require('node:fs')
+const spawn = require('cross-spawn')
+const { cyan, green, red } = require('kolorist')
+const { deleteAsync } = require('del')
+const { name } = require('../package.json') */
+
 import fs from 'node:fs'
 import spawn from 'cross-spawn'
 import { cyan, green, red } from 'kolorist'
 import { deleteAsync } from 'del'
-import { name } from '../package.json'
 
-declare const process: NodeJS.Process
-type Format = 'cjs' | 'esm'
+// Node 14 不支持
+// import packageJSON from '../package.json' assert { type: 'json' }
+// const { name } = packageJSON
+
+const name = 'faim'
 
 async function postinstall() {
   const cwd = process.cwd()
@@ -31,7 +39,7 @@ async function postinstall() {
   }
 
   const dir = isDev ? 'src' : 'dist'
-  const formats: Format[] = ['esm']
+  const formats = ['esm']
   if (!isDev) {
     formats.unshift('cjs')
   }
@@ -39,7 +47,7 @@ async function postinstall() {
     cjs: ['RichText/index.js'],
     esm: ['ImageUpload/index.vue', 'Upload/index.vue', ...isDev ? ['RichText/index.ts'] : ['RichText/index.mjs']],
   }
-  const useFormDisabledSources: [string, string] = [
+  const useFormDisabledSources = [
     'element-plus/es/components/form/src/hooks/use-form-common-props.mjs',
     '../../use-form-common-props',
   ]
