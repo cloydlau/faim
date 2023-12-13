@@ -517,22 +517,16 @@ export default {
     // 添加文件、上传成功和上传失败时都会被调用
     // 配置了 httpRequest 以后，只有添加文件时会被调用
     async onChange(file, _fileList) {
+      // 不让图片显示在 input 标签中
+      this.$refs.elUploadRef.uploadFiles.pop()
       if (this.Editable) {
-        // 不让图片显示在 input 标签中
-        this.$refs.elUploadRef.uploadFiles.pop()
         await this.openEditor(file.raw)
-      } else {
-        if (
-          await this.validateTypeAndSize(file.raw)
+      } else if (
+        await this.validateTypeAndSize(file.raw)
           && await this.validateDimension(file.raw)
           && this.Validator(file.raw)
-        ) {
-          this.httpRequest(file.raw)
-        } else {
-          // 如果 onChange 里有异步操作，则 length-- 无效
-          // this.$refs.elUploadRef.uploadFiles.length--
-          this.$refs.elUploadRef.uploadFiles.pop()
-        }
+      ) {
+        this.httpRequest(file.raw)
       }
     },
     // 关闭编辑弹窗后，回车可以打开文件选择
