@@ -42,7 +42,7 @@
   "files": [
     "dist",
     "docs",
-    "scripts/postinstall.mts",
+    "scripts/postinstall.mjs",
     "auto-import-resolver.ts"
   ],
   "scripts": {
