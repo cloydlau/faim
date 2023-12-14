@@ -449,7 +449,7 @@ export default {
           }
         } else if (typeof source === 'string') {
           binary = await toBinary(source)
-          if (this.Type.mimeMap && !this.Type.mimeMap[source.type]) {
+          if (this.Type.mimeMap && !this.Type.mimeMap[binary.type]) {
             FaMessageBox.warning(`${this.Locale.typeNotAllowed.replaceAll('{accept}', this.Type.extensions)}`)
             return false
           }
