@@ -316,6 +316,7 @@ export default {
                 extensions[i] = Array.from(mime.getAllExtensions(accept) || [], extension => `.${extension}`)
               }
             } else {
+              throw new Error(`Prop 'accept' contains illegal value: '${accept}'`)
             }
           }
         }
@@ -459,12 +460,20 @@ export default {
       // 可以编辑且指定输出的格式时，免校验格式
       if (!(this.Editable && this.outputType)) {
         if (source instanceof Blob) {
+          if (!source.type.startsWith('image/')) {
+            FaMessageBox.warning(`${this.Locale.typeNotAllowed.replaceAll('{accept}', this.Type.extensions)}`)
+            return false
+          }
           if (this.Type.mimeMap && !this.Type.mimeMap[source.type]) {
             FaMessageBox.warning(`${this.Locale.typeNotAllowed.replaceAll('{accept}', this.Type.extensions)}`)
             return false
           }
         } else if (typeof source === 'string') {
           binary = await toBinary(source)
+          if (!binary.type.startsWith('image/')) {
+            FaMessageBox.warning(`${this.Locale.typeNotAllowed.replaceAll('{accept}', this.Type.extensions)}`)
+            return false
+          }
           if (this.Type.mimeMap && !this.Type.mimeMap[binary.type]) {
             FaMessageBox.warning(`${this.Locale.typeNotAllowed.replaceAll('{accept}', this.Type.extensions)}`)
             return false
