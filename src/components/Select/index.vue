@@ -275,7 +275,7 @@ export default {
       })
     },
     selectAll(checked) {
-      const innerValue = cloneDeep(this.innerValue)
+      const innerValue = cloneDeep(this.innerValue) || []
       // 便于高效判断一个选项是否被选中
       const valueKeyToIndex = Object.fromEntries(Array.from(innerValue, (item, i) =>
         [isObject(item) ? item[this.ElSelectProps.valueKey] : item, i]))
