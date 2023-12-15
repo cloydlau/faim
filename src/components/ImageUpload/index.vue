@@ -292,32 +292,48 @@ export default {
     },
     // accept 转 extension + mime
     Type() {
-      const mimeMap = {}
-      const extensions = (this.ElUploadProps.accept
-        ?.split(',')
-        .map((accept) => {
-          accept = accept?.trim().toLowerCase() // 便于扩展名校验，且原生的 accept 就支持空格和大写
+      let mimeMap = {}
+      let extensions = this.ElUploadProps.accept?.split(',')
+
+      if (extensions) {
+        for (let i = 0; i < extensions.length; i++) {
+          const accept = extensions[i]?.trim().toLowerCase() // 便于扩展名校验，且原生的 accept 就支持空格和大写
           if (accept) {
             if (accept.startsWith('.')) {
               const type = mime.getType(accept)
               if (type) {
                 mimeMap[type] = true
               }
-              return accept
+              continue
+            } else if (accept.startsWith('image/')) {
+              if (accept === 'image/*') {
+                // 不需要校验
+                mimeMap = null
+                extensions[i] = null
+                break
+              } else {
+                mimeMap[accept] = true
+                extensions[i] = Array.from(mime.getAllExtensions(accept) || [], extension => `.${extension}`)
+              }
             } else {
-              mimeMap[accept] = true
-              return Array.from(mime.getAllExtensions(accept) || [], extension => `.${extension}`)
             }
           }
-          return null
-        })
-        .filter(v => v)
-        .flat(1) || [])
-        .join(',')
+        }
+
+        extensions = extensions
+          .filter(v => v)
+          .flat(1)
+          .join(',')
+
+        if (mimeMap && !Object.keys(mimeMap).length) {
+          mimeMap = null
+        }
+      }
+
       return {
-        extensions,
+        extensions: extensions || 'image/*',
         tip: extensions ? `${this.Locale.accept} ${extensions}` : '',
-        mimeMap: Object.keys(mimeMap).length ? mimeMap : null,
+        mimeMap,
       }
     },
   },
