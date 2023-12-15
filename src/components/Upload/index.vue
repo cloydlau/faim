@@ -649,12 +649,13 @@ export default {
           limitation.push(`${this.LabelAccept} ${extensions.join(',')}`)
         }
         // 校验文件类型，acceptedFileTypes 生成 fileValidateTypeDetectType
+        const acceptedFileTypesMap = Object.fromEntries(Array.from(acceptedFileTypes, v => [v, true]))
         FilePondOptions.fileValidateTypeDetectType ??= (file, type) => new Promise((resolve, reject) => {
           // File.name (扩展名) 和 File.type (MIME) 不匹配（经测试不会出现这种情况）
           /* if (getType(extension) !== type) {
               reject(Error('File extension does not match file type'))
             } else */
-          if (acceptedFileTypes.includes(type)) {
+          if (acceptedFileTypesMap[type] || acceptedFileTypesMap[type.replace(/\/.+$/, '/*')]) {
             resolve(type)
           } else {
             reject(new Error(labelFileTypeNotAllowed || 'File of invalid type'))
