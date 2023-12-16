@@ -74,7 +74,7 @@
     "cross-spawn": "^7.0.3",
     "del": "^7.1.0",
     "esno": "^4.0.0",
-    "filepond": "^4.30.4",
+    "filepond": "^4.30.5",
     "filepond-plugin-file-validate-size": "^2.2.8",
     "filepond-plugin-file-validate-type": "^1.2.8",
     "filepond-plugin-image-validate-size": "^1.2.7",

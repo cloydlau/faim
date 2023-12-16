@@ -43,7 +43,7 @@ npm i faim
 
 > [!Warning]
 >
-> 由于需要修改 Element Plus 源码才得以实现 FaImageUpload，故**该组件**存在以下限制：
+> 由于需要修改 Element Plus 源码才得以实现 FaImageUpload，故**该组件在 Element Plus 环境**存在以下限制：
 >
 > - element-plus 不能晚于 faim 安装
 >
