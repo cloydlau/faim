@@ -19,6 +19,7 @@ const catalog = {
     acceptedFileTypes: ['audio/*'],
     audioDuration: { max: 22 },
     labelIdle: '将音频拖到此处，或<span class="filepond--label-action">点击</span>上传',
+    fileValidateTypeLabelExpectedTypes: '应为 {allTypes}',
   },
   video: {
     maxFiles: 2,
@@ -30,10 +31,12 @@ const catalog = {
     videoResolution: 1280 * 720,
     videoDuration: { max: 14 },
     labelIdle: '将视频拖到此处，或<span class="filepond--label-action">点击</span>上传',
+    fileValidateTypeLabelExpectedTypes: '应为 {allTypes}',
   },
   pdf: {
     acceptedFileTypes: ['application/pdf'],
     labelIdle: '将 PDF 文件拖到此处，或<span class="filepond--label-action">点击</span>上传',
+    fileValidateTypeLabelExpectedTypes: '应为 {allTypes}',
   },
   excel: {
     // acceptedFileTypes: ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/vnd.ms-excel'],
@@ -43,6 +46,7 @@ const catalog = {
   apk: {
     acceptedFileTypes: ['application/vnd.android.package-archive'],
     labelIdle: '将 APK 文件拖到此处，或<span class="filepond--label-action">点击</span>上传',
+    fileValidateTypeLabelExpectedTypes: '应为 {allTypes}',
   },
 }
 

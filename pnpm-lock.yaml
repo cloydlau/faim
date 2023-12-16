@@ -88,91 +88,91 @@ importers:
         specifier: ~0.42.1
         version: 0.42.1(eslint@8.56.0)(typescript@5.3.3)
       '@commitlint/cli':
-        specifier: ^18.4.3
+        specifier: latest
         version: 18.4.3(typescript@5.3.3)
       '@commitlint/config-conventional':
-        specifier: ^18.4.3
+        specifier: latest
         version: 18.4.3
       '@element-plus/icons-vue':
-        specifier: ^2.3.1
+        specifier: latest
         version: 2.3.1(vue@3.3.12)
       '@types/lodash-es':
-        specifier: ^4.17.12
+        specifier: latest
         version: 4.17.12
       '@types/node':
-        specifier: ^20.10.4
+        specifier: latest
         version: 20.10.4
       '@types/uuid':
-        specifier: ^9.0.7
+        specifier: latest
         version: 9.0.7
       '@types/validator':
-        specifier: ^13.11.7
+        specifier: latest
         version: 13.11.7
       '@vitejs/plugin-vue':
-        specifier: ^4.5.2
+        specifier: latest
         version: 4.5.2(vite@5.0.10)(vue@3.3.12)
       '@vue/compiler-sfc':
-        specifier: ^3.3.12
+        specifier: latest
         version: 3.3.12
       '@vue/test-utils':
-        specifier: ^2.4.3
+        specifier: latest
         version: 2.4.3(vue@3.3.12)
       axios:
-        specifier: ^1.6.2
+        specifier: latest
         version: 1.6.2
       axios-shortcut:
-        specifier: ^0.1.2
+        specifier: latest
         version: 0.1.2
       case-police:
-        specifier: ^0.6.1
+        specifier: latest
         version: 0.6.1
       element-plus:
-        specifier: ^2.4.4
+        specifier: latest
         version: 2.4.4(vue@3.3.12)
       faim:
         specifier: workspace:*
         version: 'link:'
       json-editor-vue:
-        specifier: ^0.11.2
+        specifier: latest
         version: 0.11.2(@lezer/common@1.1.2)(vue@3.3.12)
       lint-staged:
-        specifier: ^15.2.0
+        specifier: latest
         version: 15.2.0
       magicast:
-        specifier: ^0.3.2
+        specifier: latest
         version: 0.3.2
       mammoth:
-        specifier: ^1.6.0
+        specifier: latest
         version: 1.6.0
       only-allow:
-        specifier: ^1.2.1
+        specifier: latest
         version: 1.2.1
       open:
-        specifier: ^9.1.0
+        specifier: latest
         version: 9.1.0
       prompts:
-        specifier: ^2.4.2
+        specifier: latest
         version: 2.4.2
       semver:
-        specifier: ^7.5.4
+        specifier: latest
         version: 7.5.4
       simple-git-hooks:
-        specifier: ^2.9.0
+        specifier: latest
         version: 2.9.0
       typescript:
-        specifier: ^5.3.3
+        specifier: latest
         version: 5.3.3
       unbuild:
-        specifier: ^2.0.0
+        specifier: latest
         version: 2.0.0(sass@1.69.5)(typescript@5.3.3)
       vite:
-        specifier: ^5.0.10
+        specifier: latest
         version: 5.0.10(@types/node@20.10.4)(sass@1.69.5)
       vue:
-        specifier: ^3.3.12
+        specifier: latest
         version: 3.3.12(typescript@5.3.3)
       zhlint:
-        specifier: ^0.7.1
+        specifier: latest
         version: 0.7.1(sass@1.69.5)
 
 packages:
