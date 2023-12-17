@@ -1535,6 +1535,16 @@ item 具体是什么格式？
 
 > [!CAUTION]
 >
+> videoAspectRatio，videoWidth，videoHeight，videoResolution 和 videoDuration 需要 video 标签支持的视频格式才能生效
+>
+> 即：MP4，WebM 和 OGG (Safari 不支持 OGG)
+>
+> audioDuration 需要 audio 标签支持的视频格式才能生效
+>
+> 即：MP3，WAV 和 OGG (Safari 不支持 OGG)
+
+> [!CAUTION]
+>
 > 为了避免冲突，不允许同时指定图片或视频的**宽度/高度**和**分辨率/比例**
 
 ### Events

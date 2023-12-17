@@ -516,24 +516,36 @@ export default {
                   return
                 }
               } else if (item.file.type.startsWith('video/')) {
-                const { videoWidth, videoHeight, duration } = await getVideoMetadata(item.file)
-                // console.log('videoWidth: ', videoWidth)
-                // console.log('videoHeight: ', videoHeight)
-                // console.log('duration: ', duration)
-                if (!(
-                  this.VideoWidth.validate(videoWidth)
+                // video 标签只支持 mp4/webm/ogg (Safari 不支持 ogg)
+                const [err, res] = await to(getVideoMetadata(item.file))
+                if (err) {
+                  console.error(err)
+                } else {
+                  const { videoWidth, videoHeight, duration } = res
+                  // console.log('videoWidth: ', videoWidth)
+                  // console.log('videoHeight: ', videoHeight)
+                  // console.log('duration: ', duration)
+                  if (!(
+                    this.VideoWidth.validate(videoWidth)
                   && this.VideoHeight.validate(videoHeight)
                   && this.VideoResolution.validate(videoWidth * videoHeight)
                   && this.VideoAspectRatio.validate(videoWidth / videoHeight)
                   && this.VideoDuration.validate(duration)
-                )) {
-                  return
+                  )) {
+                    return
+                  }
                 }
               } else if (item.file.type.startsWith('audio/')) {
-                const { duration } = await getAudioMetadata(item.file)
-                // console.log('duration: ', duration)
-                if (!this.AudioDuration.validate(duration)) {
-                  return
+                // audio 标签只支持 mp3/wav/ogg (Safari 不支持 ogg)
+                const [err, res] = await to(getAudioMetadata(item.file))
+                if (err) {
+                  console.error(err)
+                } else {
+                  const { duration } = res
+                  // console.log('duration: ', duration)
+                  if (!this.AudioDuration.validate(duration)) {
+                    return
+                  }
                 }
               }
 
