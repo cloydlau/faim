@@ -105,7 +105,7 @@ export default {
     >
       <FaUpload
         v-model="formData.file"
-        v-bind="presets[type]"
+        v-bind="presets.audio"
       />
     </el-form-item>
     <template v-else-if="type === '音频'">
@@ -126,7 +126,7 @@ export default {
       >
         <FaUpload
           v-model="formData.file"
-          v-bind="presets[type]"
+          v-bind="presets.video"
         />
       </el-form-item>
     </template>

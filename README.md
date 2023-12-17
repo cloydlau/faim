@@ -1539,7 +1539,7 @@ item 具体是什么格式？
 >
 > 即：MP4，WebM 和 OGG (Safari 不支持 OGG)
 >
-> audioDuration 需要 audio 标签支持的视频格式才能生效
+> audioDuration 需要 audio 标签支持的音频格式才能生效
 >
 > 即：MP3，WAV 和 OGG (Safari 不支持 OGG)
 
