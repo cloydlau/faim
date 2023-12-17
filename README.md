@@ -225,7 +225,13 @@ app.mount('#app')
 
 #### CDN
 
-WIP
+> [!Note]
+>
+> 请结合 <https://github.com/FranckFreiburger/vue3-sfc-loader> 自行实现
+>
+> Faim 输出的格式为包含 SFC 的 ESM + CJS (没有 IIFE)，引入依赖的过程会比较繁琐
+>
+> 使用 FaImageUpload 组件需要自行修改 Element Plus 源码
 
 ### Element UI (Vue 2.7/2.6)
 
@@ -302,7 +308,11 @@ new Vue({
 
 #### CDN
 
-WIP
+> [!Note]
+>
+> 请结合 <https://github.com/FranckFreiburger/vue3-sfc-loader> 自行实现
+>
+> Faim 输出的格式为包含 SFC 的 ESM + CJS (没有 IIFE)，引入依赖的过程会比较繁琐
 
 ### 非 Element 环境
 
