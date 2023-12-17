@@ -1026,6 +1026,10 @@ export default {
 }
 
 .fa-upload {
+  .filepond--drop-label, .filepond--drop-label > label {
+    cursor: pointer;
+  }
+
   .filepond--file-info-sub {
     display: none;
   }
