@@ -51,7 +51,7 @@
     "build": "npx unbuild",
     "preview": "vite preview",
     "release": "esno ./scripts/release.mts",
-    "pnpm:devPreinstall": "node ./scripts/devPreinstall.mjs",
+    "pnpm:devPreinstall": "node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || node ./scripts/devPreinstall.mjs",
     "preinstall": "node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || npx only-allow pnpm",
     "postinstall": "node ./scripts/postinstall.mjs"
   },
