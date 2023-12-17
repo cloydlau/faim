@@ -645,7 +645,7 @@ export default {
       v-show="!Disabled"
       v-loading="uploading"
       class="fa-image-upload"
-      :class="{ isFull, canSort, isInsideTable }"
+      :class="{ isVue3, isFull, canSort, isInsideTable }"
       v-bind="ElUploadProps"
     >
       <!-- 无论什么 list-type -->
@@ -712,10 +712,12 @@ export default {
 .fa-image-upload {
   margin-bottom: -8px;
 
-  .el-upload-list--picture-card {
-    // see: https://github.com/SortableJS/Sortable/issues/1853
+  // see: https://github.com/SortableJS/Sortable/issues/1853
+  &:not(.isVue3) .el-upload-list--picture-card {
     display: inline-block;
+  }
 
+  .el-upload-list--picture-card {
     .el-upload-list__item {
       user-select: none;
       transition: none !important;
