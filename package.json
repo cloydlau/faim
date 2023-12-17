@@ -80,7 +80,7 @@
     "filepond-plugin-image-validate-size": "^1.2.7",
     "kolorist": "^1.8.0",
     "lodash-es": "^4.17.21",
-    "mime": "^4.0.0",
+    "mime": "^4.0.1",
     "qrcode": "^1.5.3",
     "sass": "^1.69.5",
     "sortablejs": "^1.15.1",

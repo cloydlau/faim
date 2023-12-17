@@ -645,8 +645,7 @@ export default {
             if (acceptedFileTypes[i].startsWith('.')) {
               extension = acceptedFileTypes[i]
               // filepond 不支持扩展名：https://github.com/pqina/filepond-plugin-file-validate-type/issues/13
-              // 为什么 mp4 要特殊处理：https://github.com/broofa/mime/issues/297
-              acceptedFileTypes[i] = acceptedFileTypes[i].toLowerCase() === '.mp4' ? 'video/mp4' : mime.getType(acceptedFileTypes[i])
+              acceptedFileTypes[i] = mime.getType(acceptedFileTypes[i])
             } else if (fileValidateTypeLabelExpectedTypesMap) {
               extension = fileValidateTypeLabelExpectedTypesMap[acceptedFileTypes[i]]
             }
