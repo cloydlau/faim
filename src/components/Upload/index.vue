@@ -1038,7 +1038,7 @@ export default {
 }
 
 .fa-upload {
-  .filepond--drop-label, .filepond--drop-label > label {
+  .filepond--drop-label, .filepond--drop-label > label, .filepond--action-remove-item {
     cursor: pointer;
   }
 
