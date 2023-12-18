@@ -1042,6 +1042,10 @@ export default {
     cursor: pointer;
   }
 
+  .filepond--file-info {
+    text-decoration: underline;
+  }
+
   .filepond--file-info-sub {
     display: none;
   }
