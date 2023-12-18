@@ -534,7 +534,10 @@ export default {
       />
     </template>
 
-    <template #prefix>
+    <template
+      v-if="Slots.prefix"
+      #prefix
+    >
       <component
         :is="Slots.prefix()"
         v-if="isGlobalSlot(Slots.prefix)"
