@@ -776,6 +776,10 @@ export default {
     cursor: grab;
   }
 
+  .el-upload-list__item-actions>.el-upload-list__item-preview {
+    cursor: zoom-in;
+  }
+
   &.isFull {
     .el-upload-list--picture-card>.el-upload-list__item:last-child {
       margin-right: 0;
