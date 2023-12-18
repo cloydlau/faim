@@ -127,7 +127,7 @@ importers:
         specifier: latest
         version: 2.4.4(vue@3.3.12)
       esno:
-        specifier: ^4.0.0
+        specifier: latest
         version: 4.0.0
       faim:
         specifier: workspace:*

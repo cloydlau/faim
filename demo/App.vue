@@ -37,6 +37,7 @@ const data = reactive({
     ElSelect: { a: 1, b: 1 },
     FaSelect: undefined,
     FaSelectLabel: undefined,
+    input: '',
   },
   sourceOptions: {
     url: 'https://picsum.photos/100',
@@ -254,6 +255,9 @@ function loading() {
         class="FaImageUpload"
       >
         <div style="display: inline-block; border: 1px solid red;">
+          <el-input
+            v-model.trim="data.value.input"
+          />
           <FaImageUpload
             ref="faImageUploadRef"
             v-model="data.value.images"
