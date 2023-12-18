@@ -1071,7 +1071,7 @@ export default {
     position: relative;
     text-decoration: none;
     outline: 0;
-    cursor: pointer;
+    cursor: zoom-in;
     padding: 0;
     font-size: var(--el-link-font-size);
     font-weight: var(--el-link-font-weight);
