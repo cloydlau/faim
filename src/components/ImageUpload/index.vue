@@ -643,6 +643,7 @@ export default {
   <div style="line-height: 0;">
     <el-upload
       v-show="!Disabled"
+      v-model:fileList="files"
       v-loading="uploading"
       class="fa-image-upload"
       :class="{ isVue3, isFull, canSort, isInsideTable }"
