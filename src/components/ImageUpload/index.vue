@@ -742,7 +742,7 @@ export default {
 
     i {
       font-size: 28px;
-      color: var(--el-text-color-secondary);
+      color: #909399;
     }
 
     .el-upload__tip {
