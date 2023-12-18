@@ -267,12 +267,12 @@ export default {
           ),
         ),
         this.$attrs,
-        globalAttrs, {
+        globalAttrs,
+        {
           ref: 'elUploadRef',
           action: '#',
           listType: 'picture-card',
           accept: 'image/*',
-          fileList: this.files,
           autoUpload: false,
           drag: true,
           disabled: this.Disabled,
@@ -647,6 +647,7 @@ export default {
       class="fa-image-upload"
       :class="{ isVue3, isFull, canSort, isInsideTable }"
       v-bind="ElUploadProps"
+      :fileList="files"
     >
       <!-- 无论什么 list-type -->
       <!-- 如果只有默认插槽没有 trigger 插槽，则默认插槽就是 trigger -->
