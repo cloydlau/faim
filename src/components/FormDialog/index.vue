@@ -238,8 +238,8 @@ export default {
       immediate: true,
       handler(newShow) {
         if (newShow) {
-          if (this.fullscreen !== undefined) {
-            this.toggleFullscreen(this.fullscreen)
+          if (this.ElDialogProps.fullscreen !== undefined) {
+            this.toggleFullscreen(this.ElDialogProps.fullscreen)
           }
           /* if (!this.labelWidthSettled) {
             this.labelWidth = await this.getLabelWidth()
