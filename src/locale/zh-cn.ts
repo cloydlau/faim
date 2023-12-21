@@ -44,6 +44,7 @@ export default {
 
     accept: '格式',
     typeNotAllowed: '允许的格式：{accept}',
+    typeNotCompressible: '不支持压缩 {type}',
 
     edit: '编辑',
     confirm: '确 认',

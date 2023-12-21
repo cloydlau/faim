@@ -99,7 +99,10 @@ export default {
       return this.specifiedAspectRatio || this.impliedAspectRatio
     },
     isCompressible() {
-      return ['image/jpeg', 'image/png', 'image/webp'].includes(this.binary?.type)
+      return this.binary && ['image/jpeg', 'image/png', 'image/webp'].includes(this.binary.type)
+    },
+    compressTooltip() {
+      return this.binary && this.locale.typeNotCompressible.replaceAll('{type}', this.binary.type)
     },
   },
   watch: {
@@ -739,15 +742,25 @@ export default {
         <template #label>
           {{ locale.quality }}
         </template>
-        <el-slider
-          v-model="quality"
-          :disabled="!isCompressible"
-          class="quality"
-          :min="0"
-          :max="1"
-          :step="0.01"
-          :size="isVue3 ? 'small' : 'mini'"
-        />
+        <el-tooltip
+          :disabled="isCompressible"
+          effect="dark"
+          placement="top"
+        >
+          <template #content>
+            {{ compressTooltip }}
+          </template>
+          <el-slider
+            v-model="quality"
+            :disabled="!isCompressible"
+            class="quality"
+            :min="0"
+            :max="1"
+            :step="0.01"
+            :size="isVue3 ? 'small' : 'mini'"
+            placement="right"
+          />
+        </el-tooltip>
       </el-form-item>
     </el-form>
   </FaFormDialog>

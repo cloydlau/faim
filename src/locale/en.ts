@@ -42,6 +42,7 @@ export default {
 
     accept: 'Accept',
     typeNotAllowed: 'Expected image types are {accept}',
+    typeNotCompressible: 'Unable to compress {type}',
 
     edit: 'Edit',
     confirm: undefined,
