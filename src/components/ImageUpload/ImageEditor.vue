@@ -375,7 +375,7 @@ export default {
                   // cnum ≤ 1 时无损
                   this.quality === 1 ? 0 : Math.max(Math.floor(this.cnum * this.quality), 2),
                 )
-                this.doConfirm(new Blob([arrayBuffer]), resolve, reject)
+                this.doConfirm(new Blob([arrayBuffer], { type: this.binary.type }), resolve, reject)
               }, 0)
             } catch (e) {
               FaMessageBox.error(this.locale.exportError)
