@@ -209,7 +209,7 @@ export default {
       this.inputHeight = this.height.target ?? defaultHeight
       // 1 会导致图片在尺寸降低的基础上，大小不降反增
       this.$nextTick(() => {
-        this.quality = (this.sizeTooltip || this.shouldCrop()) ? 0.92 : 1
+        this.quality = (this.isCompressible && (this.sizeTooltip || this.shouldCrop())) ? 0.92 : 1
       })
     },
     // 先设置裁剪框的比例，后设置裁剪框的位置
