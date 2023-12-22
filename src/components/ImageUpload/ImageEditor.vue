@@ -193,10 +193,8 @@ export default {
   },
   methods: {
     initSetting() {
-      if (this.isAspectRatioSpecified) {
-        this.cropper.setAspectRatio(this.specifiedAspectRatio)
-        this.isAspectRatioLocked = true
-      }
+      this.cropper.setAspectRatio(this.isAspectRatioSpecified ? this.specifiedAspectRatio : null)
+      this.isAspectRatioLocked = this.isAspectRatioSpecified
       let defaultWidth = this.imageTag.width
       let defaultHeight = this.imageTag.height
       if (this.isAspectRatioLocked && this.lockedAspectRatio) {
