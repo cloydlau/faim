@@ -144,11 +144,28 @@ export default {
         this.initSetting()
 
         // 大图会卡，加一个节流
-        this.updateCropBox = throttle((arg) => {
+        this.rotateCropBox = throttle((arg) => {
           // 可能编辑器已关闭
           if (this.cropper) {
             this.cropper.rotateTo(arg)
             this.initCropBox()
+          }
+        }, this.Debounce, {
+          leading: false,
+          trailing: true,
+        })
+
+        this.onCropmove = throttle((e) => {
+          // 可能编辑器已关闭
+          // 拖动裁剪框不执行
+          if (this.cropper && !this.isAspectRatioLocked && e.detail.action !== 'all' && this.impliedAspectRatio) {
+            const { width, height } = this.cropper.getCropBoxData()
+            const newAspectRatio = width / height
+            if (newAspectRatio > this.impliedAspectRatio) {
+              this.inputHeight = Number.parseInt((this.inputWidth / newAspectRatio).toFixed(0))
+            } else if (newAspectRatio < this.impliedAspectRatio) {
+              this.inputWidth = Number.parseInt((this.inputHeight * newAspectRatio).toFixed(0))
+            }
           }
         }, this.Debounce, {
           leading: false,
@@ -240,6 +257,25 @@ export default {
         this.loading = false
       }
     },
+    // 针对没有锁定比例的情况
+    updateCropBox() {
+      if (this.impliedAspectRatio) {
+        const { width, height, left, top } = this.cropper.getCanvasData()
+        // 高图
+        if (this.impliedAspectRatio > width / height) {
+          this.cropper.setCropBoxData({ width, left })
+          const { height: containerHeight } = this.cropper.getContainerData()
+          const cropBoxHeight = width / this.impliedAspectRatio
+          this.cropper.setCropBoxData({ height: cropBoxHeight, top: (containerHeight - cropBoxHeight) / 2 })
+        // 扁图
+        } else {
+          this.cropper.setCropBoxData({ height, top })
+          const { width: containerWidth } = this.cropper.getContainerData()
+          const cropBoxWidth = height * this.impliedAspectRatio
+          this.cropper.setCropBoxData({ width: cropBoxWidth, left: (containerWidth - cropBoxWidth) / 2 })
+        }
+      }
+    },
     onWidthChange() {
       if (this.isAspectRatioSpecified && this.impliedAspectRatio !== this.specifiedAspectRatio) {
         this.inputHeight = (this.inputWidth ?? 0) / this.specifiedAspectRatio
@@ -262,7 +298,7 @@ export default {
     },
     onIsAspectRatioSpecifiedChange() {
       this.cropper.setAspectRatio(this.isAspectRatioLocked ? this.impliedAspectRatio : null)
-      this.initCropBox()
+      this.updateCropBox()
     },
     onFullscreenChange(v) {
       this.fullscreen = v
@@ -271,7 +307,7 @@ export default {
       })
     },
     onRotateDegreeChange(n) {
-      this.updateCropBox(n)
+      this.rotateCropBox(n)
     },
     getSizeDiffText(before, after) {
       const diff = after - before
@@ -552,6 +588,7 @@ export default {
         ref="cropper"
         :src="localURL"
         style="display: block; max-width: 100%"
+        @cropmove="onCropmove"
       >
     </div>
 
