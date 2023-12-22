@@ -533,6 +533,8 @@ export default {
     zoom(percent) {
       this.cropper.zoom(percent)
     },
+    rotateCropBox() {},
+    onCropmove() {},
     /* setData() {
       if (!this.data)
         return
