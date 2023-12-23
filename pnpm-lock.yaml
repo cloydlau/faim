@@ -149,7 +149,7 @@ importers:
         version: 1.2.1
       open:
         specifier: latest
-        version: 10.0.0
+        version: 10.0.1
       prompts:
         specifier: latest
         version: 2.4.2
@@ -5219,8 +5219,8 @@ packages:
       which-pm-runs: 1.1.0
     dev: true
 
-  /open@10.0.0:
-    resolution: {integrity: sha512-WDekhGCZ7VHBw6sNDzCl42rVL315m/K/A1lYiZO2nHXn9T4yPBXxvrZKYkVPtsCahD815yhFNR9/Wq608PdIaA==}
+  /open@10.0.1:
+    resolution: {integrity: sha512-+BCGXjtXs4qlmImA8X1AhSU2XyBqD8tJC/PNgWYbcEvNphnw2nyCvNEhAXYk9V+55h1B8M64oXind989YcWANw==}
     engines: {node: '>=18'}
     dependencies:
       default-browser: 5.2.0
