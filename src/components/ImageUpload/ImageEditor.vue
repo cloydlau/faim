@@ -20,6 +20,7 @@ function initialSettings() {
 function initialState() {
   return {
     ...initialSettings(),
+    isVue3,
     fullscreen: false,
     binary: null,
     cnum: null,
@@ -32,7 +33,7 @@ function initialState() {
     inputHeight: undefined,
     flippedX: false,
     flippedY: false,
-    isVue3,
+    dimensionScaleFactor: null,
   }
 }
 
@@ -162,9 +163,11 @@ export default {
             const { width, height } = this.cropper.getCropBoxData()
             const newAspectRatio = width / height
             if (newAspectRatio > this.impliedAspectRatio) {
-              this.inputHeight = Number.parseInt((this.inputWidth / newAspectRatio).toFixed(0))
-            } else if (newAspectRatio < this.impliedAspectRatio) {
+              this.inputHeight = Number.parseInt((width / this.dimensionScaleFactor / newAspectRatio).toFixed(0))
               this.inputWidth = Number.parseInt((this.inputHeight * newAspectRatio).toFixed(0))
+            } else if (newAspectRatio < this.impliedAspectRatio) {
+              this.inputWidth = Number.parseInt((height / this.dimensionScaleFactor * newAspectRatio).toFixed(0))
+              this.inputHeight = Number.parseInt((this.inputWidth / newAspectRatio).toFixed(0))
             }
           }
         }, this.Debounce, {
@@ -234,6 +237,7 @@ export default {
     initCropBox() {
       // 图片信息
       const { width, height, left, top } = this.cropper.getCanvasData()
+      this.dimensionScaleFactor = width / this.imageTag.width
       // 锁定比例时，默认裁剪框在图片之内（避免裁剪出白边），也可以放大以完全框住图片（避免遗漏信息）
       // 比例可能是参数锁定的，也可能是用户锁定的
       if (this.isAspectRatioLocked && this.lockedAspectRatio) {
