@@ -134,7 +134,7 @@ export default {
         await this.$nextTick()
         // Vue 2 中，二次打开时，不覆盖的话，会导致图片溢出
         if (!this.cropper || !isVue3) {
-          this.cropper = new Cropper(this.$refs.cropper, {
+          this.cropper = new Cropper(this.$refs.imgRef, {
             'overflow-hidden': true,
             'preview': '.preview',
             'background': true,
@@ -247,7 +247,7 @@ export default {
           const { height: containerHeight } = this.cropper.getContainerData()
           const { height: cropBoxHeight } = this.cropper.getCropBoxData() // 不能提前拿
           this.cropper.setCropBoxData({ top: (containerHeight - cropBoxHeight) / 2 })
-          // 扁图
+        // 扁图
         } else {
           this.cropper.setCropBoxData({ height, top })
           const { width: containerWidth } = this.cropper.getContainerData()
@@ -591,7 +591,7 @@ export default {
       :style="{ height: `${fullscreen ? '700' : '500'}px`, overflow: 'hidden' }"
     >
       <img
-        ref="cropper"
+        ref="imgRef"
         :src="localURL"
         style="display: block; max-width: 100%"
         @cropmove="onCropmove"
