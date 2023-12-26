@@ -642,7 +642,6 @@ export default {
 <template>
   <div style="line-height: 0;">
     <el-upload
-      v-show="!Disabled"
       v-model:fileList="files"
       v-loading="uploading"
       class="fa-image-upload"
@@ -675,7 +674,7 @@ export default {
     </el-upload>
 
     <FaImage
-      v-show="Disabled"
+      v-show="false"
       ref="faImageRef"
       :value="files"
       :modelValue="files"
@@ -729,7 +728,11 @@ export default {
       }
 
       .el-upload-list__item-status-label {
-        display: none;
+        display: none !important;
+      }
+
+      .el-upload-list__item-actions {
+        color: #FFF !important;
       }
     }
   }
@@ -779,7 +782,7 @@ export default {
   }
 
   .el-upload-list__item-actions>.el-upload-list__item-preview {
-    cursor: zoom-in;
+    cursor: zoom-in !important;
   }
 
   &.isFull {
