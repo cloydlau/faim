@@ -349,12 +349,12 @@ export default {
       immediate: true,
       deep: true,
       handler(newValue) {
+        if (this.updatingModelValue) {
+          this.updatingModelValue = false
+          return
+        }
         // 将 value 统一为含有 url 属性的对象数组
         if (newValue) {
-          if (this.updatingModelValue) {
-            this.updatingModelValue = false
-            return
-          }
           // 先统一为数组
           if (typeof newValue === 'string') {
             const arr = tryParsingJSONArray(newValue)
