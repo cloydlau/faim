@@ -499,6 +499,82 @@ function loading() {
           multiple
         />
       </el-form-item>
+
+      <el-form-item label="el-button">
+        <el-button>123</el-button>
+      </el-form-item>
+      <el-form-item label="el-input">
+        <el-input
+          value="123"
+          modelValue="123"
+        />
+      </el-form-item>
+      <el-form-item label="el-input-number">
+        <el-input-number
+          :value="123"
+          :modelValue="123"
+        />
+      </el-form-item>
+      <el-form-item label="el-radio">
+        <el-radio
+          value="1"
+          modelValue="1"
+          label="1"
+        />
+      </el-form-item>
+      <el-form-item label="el-checkbox">
+        <el-checkbox
+          :value="true"
+          :modelValue="true"
+        />
+      </el-form-item>
+      <el-form-item label="el-cascader">
+        <el-cascader
+          :value="1"
+          :modelValue="1"
+          :options="[{
+            value: 1,
+            label: 1,
+          }]"
+        />
+      </el-form-item>
+      <el-form-item label="el-slider">
+        <el-slider
+          :value="50"
+          :modelValue="50"
+        />
+      </el-form-item>
+      <el-form-item label="el-time-select">
+        <el-time-select
+          value="12:00"
+          modelValue="12:00"
+        />
+      </el-form-item>
+      <el-form-item label="el-rate">
+        <el-rate
+          :value="2"
+          :modelValue="2"
+        />
+      </el-form-item>
+      <el-form-item label="el-color-picker">
+        <el-color-picker
+          value="#409EFF"
+          modelValue="#409EFF"
+        />
+      </el-form-item>
+      <el-form-item label="el-transfer">
+        <el-transfer
+          :value="[1]"
+          :modelValue="[1]"
+          :data="[{
+            key: 1,
+            label: '1',
+          }, {
+            key: 2,
+            label: '2',
+          }]"
+        />
+      </el-form-item>
     </FaFormDialog>
   </div>
 </template>

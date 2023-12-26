@@ -754,9 +754,9 @@ export default {
          .is-disabled,
          .is-disabled *,
          .disabled {
-           -webkit-text-fill-color: revert !important;
-           color: revert !important;
-           cursor: revert !important;
+           -webkit-text-fill-color: revert;
+           color: revert;
+           cursor: revert;
          }
 
          .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner,
@@ -783,21 +783,45 @@ export default {
            }
          }
 
-         .el-slider__runway.disabled>.el-slider__button-wrapper {
-           cursor: revert;
+         .el-slider__bar {
+           background-color: #409EFF;
+         }
 
-           &>.el-slider__button {
-             cursor: revert;
-             border-color: #409EFF;
-           }
+         .el-slider__button-wrapper {
+           cursor: revert;
+         }
+
+         .el-slider__button {
+           border: solid 2px #409EFF;
+           cursor: revert;
          }
 
          .el-color-picker.is-disabled>.el-color-picker__mask {
            display: none;
          }
 
-         .el-upload {
+         .el-upload, .el-upload-dragger {
            cursor: revert;
+         }
+
+         .el-switch {
+           opacity: revert;
+         }
+
+         .el-rate .el-rate__icon.is-active {
+           color: var(--el-rate-fill-color);
+         }
+
+         .el-color-picker__icon {
+           color: #FFF;
+         }
+
+         .el-transfer__button {
+           color: #FFF;
+         }
+
+         .el-switch__inner .is-text {
+           color: var(--el-color-white);
          }
        }
      }
