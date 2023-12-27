@@ -47,7 +47,7 @@ npm i faim
 >
 > - element-plus 不能晚于 faim 安装
 >
-> - 暂不支持通过 CDN 的方式使用 element-plus
+> - 通过 CDN 的方式使用时需要自行修改 ElUpload 源码
 
 > [!Warning]
 >
@@ -231,7 +231,7 @@ app.mount('#app')
 >
 > Faim 输出的格式为包含 SFC 的 ESM + CJS (没有 IIFE)，引入依赖的过程会比较繁琐
 >
-> 使用 FaImageUpload 组件需要自行修改 Element Plus 源码
+> 使用 FaImageUpload 组件需要自行修改 ElUpload 源码
 
 ### Element UI (Vue 2.7/2.6)
 
