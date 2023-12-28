@@ -4,9 +4,9 @@ import ElementUI from 'element-ui'
 import ElementUILocale from 'element-ui/lib/locale/lang/zh-CN'
 import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopButton, FaPopSwitch, FaRichText, FaSelect, FaUpload } from '../src/index'
 import FaimLocale from '../src/locale/zh-cn'
-import globalConfigForFaUpload from './useUpload/globalConfig'
-import globalConfigForFaImageUpload from './useImageUpload/globalConfig'
-import globalConfigForFaRichText from './useRichText/globalConfig'
+import globalConfigForFaUpload from './Upload/globalConfig'
+import globalConfigForFaImageUpload from './ImageUpload/globalConfig'
+import globalConfigForFaRichText from './RichText/globalConfig'
 import App from './App.vue'
 
 Vue.use(ElementUI, { locale: ElementUILocale })

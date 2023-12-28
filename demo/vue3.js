@@ -5,9 +5,9 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import ElementPlusLocale from 'element-plus/dist/locale/zh-cn.mjs'
 import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopButton, FaPopSwitch, FaRichText, FaSelect, FaUpload } from '../src/index'
 import FaimLocale from '../src/locale/zh-cn'
-import globalConfigForFaUpload from './useUpload/globalConfig'
-import globalConfigForFaImageUpload from './useImageUpload/globalConfig'
-import globalConfigForFaRichText from './useRichText/globalConfig'
+import globalConfigForFaUpload from './Upload/globalConfig'
+import globalConfigForFaImageUpload from './ImageUpload/globalConfig'
+import globalConfigForFaRichText from './RichText/globalConfig'
 import App from './App.vue'
 
 const app = createApp(App)

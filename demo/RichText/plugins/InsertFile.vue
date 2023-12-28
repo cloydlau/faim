@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/one-component-per-file -->
 <script>
 import { isVue3 } from 'vue-demi'
-import presets from '../../useUpload/presets'
+import presets from '../../Upload/presets'
 
 let vm
 

@@ -3,7 +3,7 @@ import { reactive, ref } from 'vue-demi'
 import JsonEditorVue from 'json-editor-vue'
 import { binaryToBase64, fileToBlob } from '../src/utils'
 import { FaMessageBox } from '../src'
-import presets from './useUpload/presets'
+import presets from './Upload/presets'
 
 const console = window.console
 const show = ref(true)
