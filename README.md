@@ -358,16 +358,40 @@ new Vue({
 {
   // npm/cnpm/bun
   "overrides": {
-    "xxx": "xxx"
+    "xxx": "yyy"
   },
   // yarn/bun
   "resolutions": {
-    "xxx": "xxx"
+    "xxx": "yyy"
   },
   // pnpm
   "pnpm": {
     "overrides": {
-      "xxx": "xxx"
+      "xxx": "yyy"
+    }
+  }
+}
+```
+
+或缩小作用范围：
+
+```json
+// package.json
+{
+  // npm/cnpm/bun
+  "overrides": {
+    "faim": {
+      "xxx": "yyy"
+    }
+  },
+  // yarn/bun
+  "resolutions": {
+    "faim/xxx": "yyy"
+  },
+  // pnpm
+  "pnpm": {
+    "overrides": {
+      "faim>xxx": "yyy"
     }
   }
 }
