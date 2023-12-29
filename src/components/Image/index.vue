@@ -1,7 +1,7 @@
 <script>
 import 'viewerjs/dist/viewer.min.css'
 import Viewer from 'viewerjs'
-import 'swiper/css'
+import 'swiper/swiper-bundle.css'
 import Swiper from 'swiper'
 import QRCode from 'qrcode'
 import isURL from 'validator/es/lib/isURL'
