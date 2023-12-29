@@ -81,13 +81,25 @@ export default defineConfig({
 })
 ```
 
-### Vue CLI
+### Vue CLI 5
+
+```shell
+npm i faim
+npm i sass-loader -D
+```
+
+### Vue CLI 4
+
+```shell
+npm i faim
+npm i sass-loader@10 -D
+```
 
 ```js
 // vue.config.js
 
 module.exports = {
-  transpileDependencies: ['faim'],
+  transpileDependencies: ['faim', 'mime'],
 }
 ```
 
