@@ -837,7 +837,7 @@ export default {
   }
 
   &.el-dialog {
-    min-width: 1000px !important;
+    min-width: 1100px !important;
   }
 
   .cropper-point {
