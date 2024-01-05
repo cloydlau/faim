@@ -18,12 +18,12 @@ const name = 'faim'
 async function postinstall() {
   const cwd = process.cwd()
   const isDev = process.env.INIT_CWD === cwd
-  const elementPlusPath = `${process.env.INIT_CWD}/node_modules/element-plus`
-  const isElementPlusInstalled = fs.existsSync(elementPlusPath)
+  const elementPlusDir = `${process.env.INIT_CWD}/node_modules/element-plus`
+  const isElementPlusInstalled = fs.existsSync(elementPlusDir)
 
   if (isElementPlusInstalled) {
     console.log(cyan('[INFO] Patching el-upload source code'))
-    const elUploadSourcePath = `${elementPlusPath}/es/components/upload/src/upload2.mjs`
+    const elUploadSourcePath = `${elementPlusDir}/es/components/upload/src/upload2.mjs`
     const elUploadSource = fs.readFileSync(elUploadSourcePath, 'utf-8')
     const whitespaces = elUploadSource.match(/(?<=expose\({)\s*/)?.[0] || '\n'
     const elUploadSourceNew = elUploadSource.replace(/expose\({(?!\s*uploadFiles,)/, `expose({${whitespaces}uploadFiles,`)
@@ -72,9 +72,12 @@ async function postinstall() {
   if (isDev) {
     spawn.sync('npx', ['simple-git-hooks'], { stdio: 'inherit' })
   } else {
-    console.log(cyan(`[INFO] Vite re-bundling ${name}`))
-    // Cannot delete files/directories outside the current working directory. Can be overridden with the `force` option.
-    await deleteAsync([`${process.env.INIT_CWD}/node_modules/.vite/deps/${name}`], { force: true })
+    const viteCacheDir = `${process.env.INIT_CWD}/node_modules/.vite/deps/${name}`
+    if (fs.existsSync(viteCacheDir)) {
+      console.log(cyan(`[INFO] Vite re-bundling ${name}`))
+      // Cannot delete files/directories outside the current working directory. Can be overridden with the `force` option.
+      await deleteAsync([viteCacheDir], { force: true })
+    }
   }
 }
 
