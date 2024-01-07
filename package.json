@@ -47,7 +47,6 @@
   ],
   "scripts": {
     "dev": "esno ./scripts/dev.mts",
-    "up": "nu -L !@antfu/eslint-config && ni",
     "build": "npx unbuild",
     "preview": "vite preview",
     "release": "esno ./scripts/release.mts",
@@ -81,7 +80,7 @@
     "lodash-es": "^4.17.21",
     "mime": "^4.0.1",
     "qrcode": "^1.5.3",
-    "sass": "^1.69.6",
+    "sass": "^1.69.7",
     "sortablejs": "^1.15.1",
     "sweetalert2": "^11.10.2",
     "swiper": "^11.0.5",
@@ -91,10 +90,10 @@
     "validator": "^13.11.0",
     "viewerjs": "^1.11.6",
     "vue-demi": "^0.14.6",
-    "vue-global-config": "^0.5.0"
+    "vue-global-config": "^0.6.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "~0.42.1",
+    "@antfu/eslint-config": "latest",
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
     "@element-plus/icons-vue": "latest",
