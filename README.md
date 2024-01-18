@@ -62,6 +62,7 @@ npm i faim
 
 ```json
 // package.json
+
 {
   "trustedDependencies": ["faim"]
 }
@@ -71,6 +72,7 @@ npm i faim
 
 ```ts
 // vite.config.ts
+
 import { defineConfig } from 'vite'
 
 export default defineConfig({
@@ -106,6 +108,7 @@ module.exports = {
 
 ```js
 // webpack.config.js
+
 module.exports = {
   resolve: {
     extensions: ['.mjs', '...'],
@@ -132,6 +135,7 @@ npm i unplugin-vue-components -D
 
 ```ts
 // vite.config.ts
+
 import { defineConfig } from 'vite'
 import Components from 'unplugin-vue-components/vite'
 import FaimResolver from 'faim/auto-import-resolver'
@@ -149,6 +153,7 @@ export default defineConfig({
 
 ```js
 // webpack.config.js
+
 const Components = require('unplugin-vue-components/webpack')
 const FaimResolver = require('faim/auto-import-resolver')
 
