@@ -43,7 +43,6 @@ const boolAttrs = [
   'center',
   'alignCenter',
   'destroyOnClose',
-  'draggable',
   'modalAppendToBody', // vue 2 only
 ]
 
@@ -409,7 +408,6 @@ export default {
       :modelValue="show"
       :visible="show"
       :title="Title"
-      :destroyOnClose="false"
       :fullscreen="isFullscreen"
       class="fa-form-dialog"
       v-on="Listeners"
