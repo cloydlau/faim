@@ -668,58 +668,58 @@ export default {
 
 <style lang="scss">
  // element plus
- .fa-form-dialog-modal>.el-overlay-dialog,
+.fa-form-dialog-modal>.el-overlay-dialog,
  // element ui
  .fa-form-dialog.el-dialog__wrapper {
-   display: flex;
+  display: flex;
 
-   &>.el-dialog {
-     min-width: 855px;
+  & > .el-dialog {
+    min-width: 855px;
 
-     &:not(.is-fullscreen) {
-       margin: auto !important;
+    &:not(.is-fullscreen) {
+      margin: auto !important;
 
-       .el-dialog__body {
-         max-height: calc(100vh - 75px);
-       }
-     }
+      .el-dialog__body {
+        max-height: calc(100vh - 75px);
+      }
+    }
 
-     .el-dialog__header {
-       display: flex;
-       justify-content: space-between;
-       align-items: center;
+    .el-dialog__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
 
-       &>.el-dialog__headerbtn {
-         display: none;
-       }
+      & > .el-dialog__headerbtn {
+        display: none;
+      }
 
-       .icon-fullscreen,
-       .icon-fullscreen-exit {
-         cursor: pointer;
+      .icon-fullscreen,
+      .icon-fullscreen-exit {
+        cursor: pointer;
 
-         &:hover {
-           color: #409eff;
-         }
-       }
+        &:hover {
+          color: #409eff;
+        }
+      }
 
-       .icon-close {
-         cursor: pointer;
-         margin-left: 15px;
+      .icon-close {
+        cursor: pointer;
+        margin-left: 15px;
 
-         &:hover {
-           color: #FF7575;
-         }
-       }
-     }
+        &:hover {
+          color: #ff7575;
+        }
+      }
+    }
 
-     .el-dialog__body {
-       max-height: calc(100vh - 45px);
-       overflow-y: auto;
-       padding: 0;
-       display: flex;
-       flex-direction: column;
+    .el-dialog__body {
+      max-height: calc(100vh - 45px);
+      overflow-y: auto;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
 
-       /* .el-form-item__content {
+      /* .el-form-item__content {
       .el-input,
       .el-input-number,
       .el-select,
@@ -732,109 +732,109 @@ export default {
       }
     } */
 
-       .el-form-item:last-child {
-         margin-bottom: 0;
-       }
+      .el-form-item:last-child {
+        margin-bottom: 0;
+      }
 
-       ::-webkit-scrollbar {
-         width: 6px; // 纵向滚动条
-         height: 6px; // 横向滚动条
-       }
+      ::-webkit-scrollbar {
+        width: 6px; // 纵向滚动条
+        height: 6px; // 横向滚动条
+      }
 
-       ::-webkit-scrollbar-thumb {
-         border-radius: 10px;
-         background-color: #C0C0C0;
-       }
+      ::-webkit-scrollbar-thumb {
+        border-radius: 10px;
+        background-color: #c0c0c0;
+      }
 
-       .el-form.readonly {
+      .el-form.readonly {
+        [disabled='disabled'],
+        .is-disabled,
+        .is-disabled *,
+        .disabled {
+          -webkit-text-fill-color: revert;
+          color: revert;
+          cursor: revert;
+        }
 
-         [disabled="disabled"],
-         .is-disabled,
-         .is-disabled *,
-         .disabled {
-           -webkit-text-fill-color: revert;
-           color: revert;
-           cursor: revert;
-         }
+        .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner,
+        .el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner {
+          background-color: #409eff;
+          border-color: #409eff;
+        }
 
-         .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner,
-         .el-checkbox__input.is-disabled.is-indeterminate .el-checkbox__inner {
-           background-color: #409EFF;
-           border-color: #409EFF;
-         }
+        .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner::after {
+          border-color: #fff;
+          cursor: revert;
+        }
 
-         .el-checkbox__input.is-disabled.is-checked .el-checkbox__inner::after {
-           border-color: #FFF;
-           cursor: revert;
-         }
+        .el-radio__input.is-disabled.is-checked {
+          .el-radio__inner {
+            border-color: #409eff;
+            background: #409eff;
+          }
 
-         .el-radio__input.is-disabled.is-checked {
-           .el-radio__inner {
-             border-color: #409EFF;
-             background: #409EFF;
-           }
+          .el-radio__inner::after {
+            cursor: revert;
+            background-color: #fff;
+            border-color: revert;
+          }
+        }
 
-           .el-radio__inner::after {
-             cursor: revert;
-             background-color: #FFF;
-             border-color: revert;
-           }
-         }
+        .el-slider__bar {
+          background-color: #409eff;
+        }
 
-         .el-slider__bar {
-           background-color: #409EFF;
-         }
+        .el-slider__button-wrapper {
+          cursor: revert;
+        }
 
-         .el-slider__button-wrapper {
-           cursor: revert;
-         }
+        .el-slider__button {
+          border: solid 2px #409eff;
+          cursor: revert;
+        }
 
-         .el-slider__button {
-           border: solid 2px #409EFF;
-           cursor: revert;
-         }
+        .el-color-picker.is-disabled > .el-color-picker__mask {
+          display: none;
+        }
 
-         .el-color-picker.is-disabled>.el-color-picker__mask {
-           display: none;
-         }
+        .el-upload,
+        .el-upload-dragger {
+          cursor: revert;
+        }
 
-         .el-upload, .el-upload-dragger {
-           cursor: revert;
-         }
+        .el-switch {
+          opacity: revert;
+        }
 
-         .el-switch {
-           opacity: revert;
-         }
+        .el-rate .el-rate__icon.is-active {
+          color: var(--el-rate-fill-color);
+        }
 
-         .el-rate .el-rate__icon.is-active {
-           color: var(--el-rate-fill-color);
-         }
+        .el-color-picker__icon {
+          color: #fff;
+        }
 
-         .el-color-picker__icon {
-           color: #FFF;
-         }
+        .el-transfer__button {
+          color: #fff;
+        }
 
-         .el-transfer__button {
-           color: #FFF;
-         }
+        .el-switch__inner .is-text {
+          color: var(--el-color-white);
+        }
+      }
+    }
 
-         .el-switch__inner .is-text {
-           color: var(--el-color-white);
-         }
-       }
-     }
+    .el-dialog__footer {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      backdrop-filter: blur(1px);
+      z-index: 3; // higher than .el-table__inner-wrapper
 
-     .el-dialog__footer {
-       position: absolute;
-       bottom: 0;
-       right: 0;
-       backdrop-filter: blur(1px);
-       z-index: 3; // higher than .el-table__inner-wrapper
-
-       .el-button.is-disabled.closing {
-         cursor: revert;
-       }
-     }
-   }
- }
+      .el-button.is-disabled.closing {
+        cursor: revert;
+      }
+    }
+  }
+}
 </style>

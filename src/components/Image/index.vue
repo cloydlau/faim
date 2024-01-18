@@ -312,7 +312,13 @@ $gapInTableCell: 5px;
       right: 0;
       background: white;
       //IE9
-      background: linear-gradient(315deg, white 45%, #aaa 50%, #ccc 56%, white 80%);
+      background: linear-gradient(
+        315deg,
+        white 45%,
+        #aaa 50%,
+        #ccc 56%,
+        white 80%
+      );
       box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.4);
       transition-duration: 0.3s;
       transition-property: width, height;
@@ -335,14 +341,14 @@ $gapInTableCell: 5px;
     overflow: hidden;
 
     &:before {
-      content: "";
+      content: '';
       position: absolute;
       z-index: -1;
       left: 0;
       right: 0;
       top: 0;
       bottom: 0;
-      border-color: rgba(32, 152, 209, .1);
+      border-color: rgba(32, 152, 209, 0.1);
       border-style: solid;
       border-width: 0;
       transition-property: border-width;
@@ -371,39 +377,39 @@ $gapInTableCell: 5px;
     max-height: 100%;
   }
 
-  &>ul {
+  & > ul {
     padding: 0;
     margin: 0 auto;
 
-    &>li {
+    & > li {
       list-style: none;
     }
   }
 
-  &>ul.swiper-wrapper {
-    &>.swiper-slide {
+  & > ul.swiper-wrapper {
+    & > .swiper-slide {
       display: flex;
       justify-content: center;
       align-items: center;
     }
   }
 
-  &>ul.waterfall {
+  & > ul.waterfall {
     display: inline-block;
     position: relative;
     column-width: 148px;
     column-gap: $gap;
     width: 100%; // 图片大小完全一致时显示异常
 
-    &>li {
+    & > li {
       width: 100%;
       break-inside: avoid;
       // margin-bottom: $gap; // 会导致底部错位
 
-      &>div {
+      & > div {
         margin-bottom: $gap;
 
-        &>img {
+        & > img {
           width: 100%;
           height: 100%;
         }
@@ -421,13 +427,13 @@ $gapInTableCell: 5px;
     }
   }
 
-  &>ul.normal-flow {
+  & > ul.normal-flow {
     display: inline-flex;
     flex-wrap: wrap;
     gap: $gap;
     margin: 0;
 
-    &>li {
+    & > li {
       list-style: none;
       display: inline-block;
 
@@ -438,7 +444,7 @@ $gapInTableCell: 5px;
     }
   }
 
-  &>ul.table-cell {
+  & > ul.table-cell {
     display: inline-flex;
     flex-wrap: wrap;
     gap: $gapInTableCell;
@@ -446,7 +452,6 @@ $gapInTableCell: 5px;
 
     @media (any-hover: hover) {
       .curl-on-hover {
-
         &:hover:before,
         &:focus:before,
         &:active:before {
@@ -456,7 +461,7 @@ $gapInTableCell: 5px;
       }
     }
 
-    &>li {
+    & > li {
       list-style: none;
       display: inline-block;
 

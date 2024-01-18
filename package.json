@@ -40,17 +40,18 @@
   "jsdelivr": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "files": [
+    "auto-import-resolver.ts",
     "dist",
     "docs",
-    "scripts/postinstall.mjs",
-    "auto-import-resolver.ts"
+    "scripts/postinstall.mjs"
   ],
   "scripts": {
     "dev": "esno ./scripts/dev.mts",
-    "up": "nu -L !@antfu/eslint-config && ni",
     "build": "npx unbuild",
     "preview": "vite preview",
     "release": "esno ./scripts/release.mts",
+    "lint": "eslint \"**/*.{vue,js,ts,mjs,mts,jsx,tsx,md,json}\"",
+    "lint:fix": "eslint \"**/*.{vue,js,ts,mjs,mts,jsx,tsx,md,json}\" --fix",
     "pnpm:devPreinstall": "node ./scripts/devPreinstall.mjs",
     "preinstall": "node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || npx only-allow pnpm",
     "postinstall": "node ./scripts/postinstall.mjs"
@@ -60,10 +61,10 @@
     "vue": "2||3"
   },
   "peerDependenciesMeta": {
-    "vue": {
+    "element-plus": {
       "optional": true
     },
-    "element-plus": {
+    "vue": {
       "optional": true
     }
   },
@@ -81,7 +82,7 @@
     "lodash-es": "^4.17.21",
     "mime": "^4.0.1",
     "qrcode": "^1.5.3",
-    "sass": "^1.69.7",
+    "sass": "^1.70.0",
     "sortablejs": "^1.15.2",
     "sweetalert2": "^11.10.3",
     "swiper": "^11.0.5",
@@ -94,7 +95,7 @@
     "vue-global-config": "^0.6.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "~0.42.1",
+    "@antfu/eslint-config": "latest",
     "@commitlint/cli": "latest",
     "@commitlint/config-conventional": "latest",
     "@element-plus/icons-vue": "latest",
@@ -109,6 +110,9 @@
     "axios-shortcut": "latest",
     "case-police": "latest",
     "element-plus": "latest",
+    "eslint": "npm:eslint-ts-patch@latest",
+    "eslint-plugin-format": "latest",
+    "eslint-ts-patch": "latest",
     "esno": "latest",
     "faim": "workspace:*",
     "json-editor-vue": "latest",

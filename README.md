@@ -46,7 +46,6 @@ npm i faim
 > 由于需要修改 Element Plus 源码才得以实现 FaImageUpload，故**该组件在 Element Plus 环境**存在以下限制：
 >
 > - element-plus 不能晚于 faim 安装
->
 > - 通过 CDN 的方式使用时需要自行修改 ElUpload 源码
 
 > [!Warning]
@@ -426,7 +425,7 @@ new Vue({
 ### Props
 
 | 名称                                               | 说明                                | 类型                                             | 默认值                         |
-|----------------------------------------------------|-------------------------------------|--------------------------------------------------|--------------------------------|
+| -------------------------------------------------- | ----------------------------------- | ------------------------------------------------ | ------------------------------ |
 | title                                              | 对话框标题                          | string                                           |                                |
 | v-model:show (Vue 3) /<br>show.sync (Vue 2)        | 是否显示                            | boolean                                          | `false`                        |
 | v-model /<br>modelValue (Vue 3) /<br>value (Vue 2) | 表单数据对象 (`el-form` 的 `model`) | any                                              |                                |
@@ -557,29 +556,30 @@ new Vue({
 
 ### Events
 
-| 名称              | 说明                         | 回调参数              |
-|-------------------|----------------------------|-----------------------|
-| fullscreen-change | 切换全屏状态时触发           | (fullscreen: boolean) |
+| 名称              | 说明                          | 回调参数              |
+| ----------------- | ----------------------------- | --------------------- |
+| fullscreen-change | 切换全屏状态时触发            | (fullscreen: boolean) |
 | ...               | `el-dialog`、`el-form` 的事件 |                       |
 
 ### Slots
 
 | 名称    | 说明               |
-|---------|------------------|
+| ------- | ------------------ |
 | default | `el-form` 的内容   |
 | ...     | `el-dialog` 的插槽 |
 
 ### Exposes
 
 | 名称           | 说明                           | 类型                                                                                                       |
-|----------------|------------------------------|------------------------------------------------------------------------------------------------------------|
+| -------------- | ------------------------------ | ---------------------------------------------------------------------------------------------------------- |
 | highlightError | 平滑滚动至校验失败的表单项     | (selectors: string \| Element \| NodeList = '.el-form .el-form-item.is-error', container = window) => void |
 | ...            | 通过 ref 调用 `el-form` 的方法 |                                                                                                            |
 
 ### 改变遮罩层定位
 
 ```scss
-.el-dialog__wrapper, .v-modal {
+.el-dialog__wrapper,
+.v-modal {
   position: absolute;
 }
 
@@ -610,16 +610,16 @@ new Vue({
 
 ### Props
 
-| 名称                                  | 说明                                                  | 类型                                  | 默认值                                                              |
-|---------------------------------------|-----------------------------------------------------|---------------------------------------|---------------------------------------------------------------------|
-| modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                                                | any                                   |                                                                     |
-| pattern                               | 展示模式（`'waterfall'`, `'swiper'` 或 `'table-cell'`） | string                                | `undefined`（即文档流）                                               |
-| srcAt                                 | 图片 `src` 的位置                                     | string / symbol / (value: any) => any |                                                                     |
-| viewable                              | 是否启用 Viewer.js                                    | boolean                               | `true`                                                              |
-| viewerOptions                         | Viewer.js 的参数                                      | object                                | `{ zIndex: 5000, zoomRatio: 0.4 }`                                  |
-| swiperOptions                         | Swiper 的参数                                         | object                                | `{ observer: true }`                                                |
-| qrcode                                | 是否将 `value` 转换为二维码                           | boolean / `'auto'`                    | `false`                                                             |
-| qrcodeOptions                         | node-qrcode 的参数                                    | object                                | `{ margin: 0, errorCorrectionLevel: 'L', width: 444, height: 444 }` |
+| 名称                                  | 说明                                                    | 类型                                  | 默认值                                                              |
+| ------------------------------------- | ------------------------------------------------------- | ------------------------------------- | ------------------------------------------------------------------- |
+| modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                                                  | any                                   |                                                                     |
+| pattern                               | 展示模式（`'waterfall'`, `'swiper'` 或 `'table-cell'`） | string                                | `undefined`（即文档流）                                             |
+| srcAt                                 | 图片 `src` 的位置                                       | string / symbol / (value: any) => any |                                                                     |
+| viewable                              | 是否启用 Viewer.js                                      | boolean                               | `true`                                                              |
+| viewerOptions                         | Viewer.js 的参数                                        | object                                | `{ zIndex: 5000, zoomRatio: 0.4 }`                                  |
+| swiperOptions                         | Swiper 的参数                                           | object                                | `{ observer: true }`                                                |
+| qrcode                                | 是否将 `value` 转换为二维码                             | boolean / `'auto'`                    | `false`                                                             |
+| qrcodeOptions                         | node-qrcode 的参数                                      | object                                | `{ margin: 0, errorCorrectionLevel: 'L', width: 444, height: 444 }` |
 
 #### qrcode
 
@@ -637,20 +637,20 @@ new Vue({
 ### Slots
 
 | 名称    | 说明           |
-|---------|--------------|
+| ------- | -------------- |
 | default | 自定义图片标签 |
 
 ### Exposes
 
 | 名称   | 说明           | 类型   |
-|--------|--------------|--------|
+| ------ | -------------- | ------ |
 | viewer | Viewer.js 实例 | Object |
 | swiper | Swiper 实例    | Object |
 
 ```html
 <FaImage>
   <template #default="{ src, index }">
-    <img :src="src">
+    <img :src="src" />
     <div>第{{ index + 1 }}张</div>
   </template>
 </FaImage>
@@ -758,26 +758,26 @@ const faImageRef = ref()
 
 ### Props
 
-| 名称                                               | 说明                             | 类型                                               | 默认值                         |
-|----------------------------------------------------|----------------------------------|----------------------------------------------------|--------------------------------|
-| v-model /<br>modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                           | any                                                |                                |
+| 名称                                               | 说明                              | 类型                                               | 默认值                         |
+| -------------------------------------------------- | --------------------------------- | -------------------------------------------------- | ------------------------------ |
+| v-model /<br>modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                            | any                                                |                                |
 | upload                                             | 调用接口上传图片，返回图片 URL/ID | Upload                                             |                                |
 | arrayed                                            | 绑定值是否为数组类型，默认自动    | boolean                                            |                                |
-| srcAt                                              | 图片 URL/ID 的位置               | string / symbol / (value: any) => any              |                                |
-| disabled                                           | 禁用状态                         | boolean                                            | `false`                        |
-| editable                                           | 是否开启编辑功能                 | boolean                                            | `true`                         |
-| minCount                                           | 最小数量                         | number                                             |                                |
-| maxCount                                           | 最大数量                         | number                                             |                                |
-| minSize                                            | 大小下限 (字节)                  | number                                             |                                |
-| maxSize                                            | 大小上限 (字节)                  | number                                             |                                |
-| width                                              | 宽度 (像素)                      | number / { min?: number, max?: number } / number[] |                                |
-| height                                             | 高度 (像素)                      | number / { min?: number, max?: number } / number[] |                                |
+| srcAt                                              | 图片 URL/ID 的位置                | string / symbol / (value: any) => any              |                                |
+| disabled                                           | 禁用状态                          | boolean                                            | `false`                        |
+| editable                                           | 是否开启编辑功能                  | boolean                                            | `true`                         |
+| minCount                                           | 最小数量                          | number                                             |                                |
+| maxCount                                           | 最大数量                          | number                                             |                                |
+| minSize                                            | 大小下限 (字节)                   | number                                             |                                |
+| maxSize                                            | 大小上限 (字节)                   | number                                             |                                |
+| width                                              | 宽度 (像素)                       | number / { min?: number, max?: number } / number[] |                                |
+| height                                             | 高度 (像素)                       | number / { min?: number, max?: number } / number[] |                                |
 | resolution                                         | 分辨率，即宽高的积 (像素)         | number / { min?: number, max?: number } / number[] |                                |
 | aspectRatio                                        | 比例，即宽高的商                  | string / { min?: string, max?: string } / string[] |                                |
 | outputType                                         | 图片输出格式 (编辑后)，默认原格式 | string                                             |                                |
-| validator                                          | 自定义数据源校验器               | (source: File \| Blob \| string) => boolean        |                                |
-| locale                                             | i18n                             | Record<string, string>                             | [查看代码](./src/locale/en.ts) |
-| ...                                                | `el-upload` 的属性               |                                                    |                                |
+| validator                                          | 自定义数据源校验器                | (source: File \| Blob \| string) => boolean        |                                |
+| locale                                             | i18n                              | Record<string, string>                             | [查看代码](./src/locale/en.ts) |
+| ...                                                | `el-upload` 的属性                |                                                    |                                |
 
 #### upload
 
@@ -865,7 +865,7 @@ item 具体是什么格式？
 ### Exposes
 
 | 名称       | 说明                             | 参数                                                                           |
-|------------|--------------------------------|--------------------------------------------------------------------------------|
+| ---------- | -------------------------------- | ------------------------------------------------------------------------------ |
 | openEditor | 打开图片编辑对话框               | async (source: File \| Blob \| string \| File[] \| Blob[] \| string[]) => void |
 | uploading  | 图片上传状态                     | boolean                                                                        |
 | ...        | 通过 ref 调用 `el-upload` 的方法 |                                                                                |
@@ -1083,9 +1083,9 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 ### Props
 
 | 名称                        | 说明                                       | 类型    | 默认值  |
-|-----------------------------|------------------------------------------|---------|---------|
+| --------------------------- | ------------------------------------------ | ------- | ------- |
 | elPopconfirmProps           | `el-popconfirm` 的属性                     | object  |         |
-| elPopoverProps              | `el-popover` 的属性，支持事件绑定           | object  |         |
+| elPopoverProps              | `el-popover` 的属性，支持事件绑定          | object  |         |
 | `elPopoverProps.rawContent` | `content` 中的内容是否作为 HTML 字符串处理 | boolean | `false` |
 | elTooltipProps              | `el-tooltip` 的属性                        | object  |         |
 | `elTooltipProps.rawContent` | `content` 中的内容是否作为 HTML 字符串处理 | boolean | `false` |
@@ -1098,7 +1098,7 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 ### Slots
 
 | 名称            | 说明                           |
-|-----------------|------------------------------|
+| --------------- | ------------------------------ |
 | tooltip-content | `el-tooltip` 的 `content` 插槽 |
 | popover-content | `el-popover` 的 `content` 插槽 |
 
@@ -1119,10 +1119,10 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 ### Props
 
 | 名称                        | 说明                                       | 类型    | 默认值  |
-|-----------------------------|------------------------------------------|---------|---------|
+| --------------------------- | ------------------------------------------ | ------- | ------- |
 | inlinePrompt                | 是否内嵌文字描述                           | boolean | `false` |
 | elPopconfirmProps           | `el-popconfirm` 的属性                     | object  |         |
-| elPopoverProps              | `el-popover` 的属性，支持事件绑定           | object  |         |
+| elPopoverProps              | `el-popover` 的属性，支持事件绑定          | object  |         |
 | `elPopoverProps.rawContent` | `content` 中的内容是否作为 HTML 字符串处理 | boolean | `false` |
 | elTooltipProps              | `el-tooltip` 的属性                        | object  |         |
 | `elTooltipProps.rawContent` | `content` 中的内容是否作为 HTML 字符串处理 | boolean | `false` |
@@ -1135,7 +1135,7 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 ### Slots
 
 | 名称            | 说明                           |
-|-----------------|------------------------------|
+| --------------- | ------------------------------ |
 | tooltip-content | `el-tooltip` 的 `content` 插槽 |
 | popover-content | `el-popover` 的 `content` 插槽 |
 
@@ -1177,10 +1177,10 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 ### Props
 
 | 名称                                               | 说明                                                   | 类型    | 默认值                                         |
-|----------------------------------------------------|------------------------------------------------------|---------|------------------------------------------------|
+| -------------------------------------------------- | ------------------------------------------------------ | ------- | ---------------------------------------------- |
 | v-model /<br>modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                                                 | string  |                                                |
 | disabled                                           | 禁用状态                                               | boolean | `false`                                        |
-| outputFormat                                       | 输出格式，`'html'` 或 `'text'`                          | string  | `'html'`                                       |
+| outputFormat                                       | 输出格式，`'html'` 或 `'text'`                         | string  | `'html'`                                       |
 | ...                                                | [TinyMCE 配置](https://www.tiny.cloud/docs/tinymce/6/) | /       | [查看代码](./src/components/RichText/index.ts) |
 
 <br>
@@ -1188,7 +1188,7 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 ### Exposes
 
 | 名称 | 说明    | 类型   |
-|------|-------|--------|
+| ---- | ------- | ------ |
 | id   | 元素 ID | string |
 
 <br>
@@ -1309,7 +1309,6 @@ app.use(FaRichText, {
       } else {
         failure(res.data?.message)
       }
-
     }).catch((err) => {
       failure(String(err))
     })
@@ -1369,7 +1368,7 @@ TinyMCE 的 `urlconverter_callback`、`paste_postprocess` API 不支持异步操
 ### Props
 
 | 名称                                               | 说明                              | 类型                                          | 默认值                         |
-|----------------------------------------------------|-----------------------------------|-----------------------------------------------|--------------------------------|
+| -------------------------------------------------- | --------------------------------- | --------------------------------------------- | ------------------------------ |
 | v-model /<br>modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                            | any                                           |                                |
 | v-model:options (Vue 3) /<br>options.sync (Vue 2)  | 选项                              | any[]                                         |                                |
 | v-model:label (Vue 3) /<br>label.sync (Vue 2)      | 绑定值对应的 `label` (单向数据流) | string \| string[]                            |                                |
@@ -1417,22 +1416,22 @@ interface Props {
 
 ### Slots
 
-| 名称           | 说明                                                               |
-|----------------|------------------------------------------------------------------|
-| prefix         | `el-select` 的 `prefix` 插槽                                       |
-| empty          | `el-select` 的 `empty` 插槽                                        |
-| group-prepend  | `el-option-group` 的前置内容                                       |
-| group-append   | `el-option-group` 的后置内容                                       |
+| 名称           | 说明                                                                |
+| -------------- | ------------------------------------------------------------------- |
+| prefix         | `el-select` 的 `prefix` 插槽                                        |
+| empty          | `el-select` 的 `empty` 插槽                                         |
+| group-prepend  | `el-option-group` 的前置内容                                        |
+| group-append   | `el-option-group` 的后置内容                                        |
 | default        | `el-option` 的默认插槽，作用域参数为 `{option: any, index: number}` |
 | option-prepend | `el-option` 的前置内容，默认内容为全选框                            |
-| option-append  | `el-option` 的后置内容                                             |
+| option-append  | `el-option` 的后置内容                                              |
 
 ### Exposes
 
-| 名称         | 说明                                                            | 类型                    |
-|--------------|---------------------------------------------------------------|-------------------------|
+| 名称         | 说明                                                             | 类型                    |
+| ------------ | ---------------------------------------------------------------- | ----------------------- |
 | remoteMethod | `el-select` 的 `remoteMethod` 属性，自行控制 `search` 时机时使用 | (query: string) => void |
-| ...          | 通过 ref 调用 `el-select` 的方法                                |                         |
+| ...          | 通过 ref 调用 `el-select` 的方法                                 |                         |
 
 ### 命名
 
@@ -1503,21 +1502,21 @@ Ant Design 也是使用 `value` 与 `label` 命名
 
 ### Props
 
-| 名称                                               | 说明                          | 类型                                               | 默认值                         |
-|----------------------------------------------------|-------------------------------|----------------------------------------------------|--------------------------------|
-| v-model /<br>modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                        | any                                                |                                |
-| upload                                             | 调用接口上传文件，返回 URL/ID  | Upload                                             |                                |
-| arrayed                                            | 绑定值是否为数组类型，默认自动 | boolean                                            |                                |
-| srcAt                                              | 文件 URL/ID 的位置            | string / symbol / (value: any) => any              |                                |
-| minFiles                                           | 最小数量                      | number                                             |                                |
-| imageAspectRatio                                   | 图片比例                      | string / { min?: string, max?: string } / string[] |                                |
-| videoWidth                                         | 视频宽度 (像素)               | number / { min?: number, max?: number } / number[] |                                |
-| videoHeight                                        | 视频高度 (像素)               | number / { min?: number, max?: number } / number[] |                                |
-| videoResolution                                    | 视频分辨率，即宽高的积 (像素)  | number / { min?: number, max?: number } / number[] |                                |
-| videoAspectRatio                                   | 视频比例，即宽高的商           | string / { min?: string, max?: string } / string[] |                                |
-| videoDuration                                      | 视频时长 (秒)                 | number / { min?: number, max?: number } / number[] |                                |
-| audioDuration                                      | 音频时长 (秒)                 | number / { min?: number, max?: number } / number[] |                                |
-| ...                                                | i18n                          | Record<string, string>                             | [查看代码](./src/locale/en.ts) |
+| 名称                                               | 说明                                                                          | 类型                                               | 默认值                         |
+| -------------------------------------------------- | ----------------------------------------------------------------------------- | -------------------------------------------------- | ------------------------------ |
+| v-model /<br>modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                                                                        | any                                                |                                |
+| upload                                             | 调用接口上传文件，返回 URL/ID                                                 | Upload                                             |                                |
+| arrayed                                            | 绑定值是否为数组类型，默认自动                                                | boolean                                            |                                |
+| srcAt                                              | 文件 URL/ID 的位置                                                            | string / symbol / (value: any) => any              |                                |
+| minFiles                                           | 最小数量                                                                      | number                                             |                                |
+| imageAspectRatio                                   | 图片比例                                                                      | string / { min?: string, max?: string } / string[] |                                |
+| videoWidth                                         | 视频宽度 (像素)                                                               | number / { min?: number, max?: number } / number[] |                                |
+| videoHeight                                        | 视频高度 (像素)                                                               | number / { min?: number, max?: number } / number[] |                                |
+| videoResolution                                    | 视频分辨率，即宽高的积 (像素)                                                 | number / { min?: number, max?: number } / number[] |                                |
+| videoAspectRatio                                   | 视频比例，即宽高的商                                                          | string / { min?: string, max?: string } / string[] |                                |
+| videoDuration                                      | 视频时长 (秒)                                                                 | number / { min?: number, max?: number } / number[] |                                |
+| audioDuration                                      | 音频时长 (秒)                                                                 | number / { min?: number, max?: number } / number[] |                                |
+| ...                                                | i18n                                                                          | Record<string, string>                             | [查看代码](./src/locale/en.ts) |
 | ...                                                | [FilePond 实例的属性](https://pqina.nl/filepond/docs/api/instance/properties) |
 
 #### upload
@@ -1622,7 +1621,7 @@ Vue 2
 ### Exposes
 
 | 名称      | 说明                                                          |
-|-----------|-------------------------------------------------------------|
+| --------- | ------------------------------------------------------------- |
 | filePond  | [FilePond 实例](https://pqina.nl/filepond/docs/api/instance/) |
 | uploading | 上传状态                                                      |
 

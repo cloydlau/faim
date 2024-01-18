@@ -86,8 +86,8 @@ export default {
   props: {
     [model.prop]: {
       validator: value => typeof value === 'string'
-        || Array.isArray(value)
-        || isObject(value),
+      || Array.isArray(value)
+      || isObject(value),
     },
     srcAt: {},
     arrayed: {
@@ -527,10 +527,10 @@ export default {
                   // console.log('duration: ', duration)
                   if (!(
                     this.VideoWidth.validate(videoWidth)
-                  && this.VideoHeight.validate(videoHeight)
-                  && this.VideoResolution.validate(videoWidth * videoHeight)
-                  && this.VideoAspectRatio.validate(videoWidth / videoHeight)
-                  && this.VideoDuration.validate(duration)
+                      && this.VideoHeight.validate(videoHeight)
+                      && this.VideoResolution.validate(videoWidth * videoHeight)
+                      && this.VideoAspectRatio.validate(videoWidth / videoHeight)
+                      && this.VideoDuration.validate(duration)
                   )) {
                     return
                   }
@@ -801,8 +801,8 @@ export default {
       // 视频分辨率
       // resolution 参数的值不能与 width & height 冲突
       if ((this.VideoResolution.target && this.VideoWidth.target && this.VideoHeight.target && this.VideoResolution.target !== (this.VideoWidth.target * this.VideoHeight.target))
-       || (this.VideoResolution.max && this.VideoWidth.max && this.VideoHeight.max && this.VideoResolution.max !== (this.VideoWidth.max * this.VideoHeight.max))
-       || (this.VideoResolution.min && this.VideoWidth.min && this.VideoHeight.min && this.VideoResolution.min !== (this.VideoWidth.min * this.VideoHeight.min))
+        || (this.VideoResolution.max && this.VideoWidth.max && this.VideoHeight.max && this.VideoResolution.max !== (this.VideoWidth.max * this.VideoHeight.max))
+        || (this.VideoResolution.min && this.VideoWidth.min && this.VideoHeight.min && this.VideoResolution.min !== (this.VideoWidth.min * this.VideoHeight.min))
       ) {
         throw new Error('Value of prop \'videoResolution\' conflicts with values of \'videoWidth\' and \'videoHeight\'')
       }
@@ -812,8 +812,8 @@ export default {
       // 视频比例
       // aspectRatio 参数的值不能与 width & height 冲突
       if ((this.VideoAspectRatio.target && this.VideoWidth.target && this.VideoHeight.target && this.VideoAspectRatio.target !== (this.VideoWidth.target / this.VideoHeight.target))
-       || (this.VideoAspectRatio.max && this.VideoWidth.max && this.VideoHeight.min && this.VideoAspectRatio.max !== (this.VideoWidth.max / this.VideoHeight.min))
-       || (this.VideoAspectRatio.min && this.VideoWidth.min && this.VideoHeight.max && this.VideoAspectRatio.min !== (this.VideoWidth.min / this.VideoHeight.max))
+        || (this.VideoAspectRatio.max && this.VideoWidth.max && this.VideoHeight.min && this.VideoAspectRatio.max !== (this.VideoWidth.max / this.VideoHeight.min))
+        || (this.VideoAspectRatio.min && this.VideoWidth.min && this.VideoHeight.max && this.VideoAspectRatio.min !== (this.VideoWidth.min / this.VideoHeight.max))
       ) {
         throw new Error('Value of prop \'videoAspectRatio\' conflicts with values of \'videoWidth\' and \'videoHeight\'')
       }
@@ -1038,7 +1038,9 @@ export default {
 }
 
 .fa-upload {
-  .filepond--drop-label, .filepond--drop-label > label, .filepond--action-remove-item {
+  .filepond--drop-label,
+  .filepond--drop-label > label,
+  .filepond--action-remove-item {
     cursor: pointer;
   }
 
@@ -1075,21 +1077,21 @@ export default {
     padding: 0;
     font-size: var(--el-link-font-size);
     font-weight: var(--el-link-font-weight);
-    color: var(--el-link-text-color)
+    color: var(--el-link-text-color);
   }
 
   a:hover {
-    color: var(--el-link-hover-text-color)
+    color: var(--el-link-hover-text-color);
   }
 
   a:hover::after {
-    content: "";
+    content: '';
     position: absolute;
     left: 0;
     right: 0;
     height: 0;
     bottom: 0;
-    border-bottom: 1px solid var(--el-link-hover-text-color)
+    border-bottom: 1px solid var(--el-link-hover-text-color);
   }
 }
 </style>

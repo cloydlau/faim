@@ -79,8 +79,8 @@ export default {
   props: {
     [model.prop]: {
       validator: value => typeof value === 'string'
-        || Array.isArray(value)
-        || isObject(value),
+      || Array.isArray(value)
+      || isObject(value),
     },
     srcAt: {},
     minCount: {},
@@ -230,7 +230,7 @@ export default {
     Disabled() {
       return conclude([this.disabled, globalProps.disabled], { type: Boolean })
       // Element 的逻辑是 props.disabled 或 el-form 的 props.disabled 任一为 true 就禁用
-      || (isVue3 ? this.elFormDisabled : this.elForm.disabled)
+        || (isVue3 ? this.elFormDisabled : this.elForm.disabled)
     },
     Editable() {
       return conclude([this.editable, globalProps.editable, true], {
@@ -497,9 +497,9 @@ export default {
       }
       const imageTag = await toImageTag(await toLocalURL(file))
       return this.Width.validate(imageTag.width)
-      && this.Height.validate(imageTag.height)
-      && this.Resolution.validate(imageTag.width * imageTag.height)
-      && this.AspectRatio.validate(imageTag.width / imageTag.height)
+        && this.Height.validate(imageTag.height)
+        && this.Resolution.validate(imageTag.width * imageTag.height)
+        && this.AspectRatio.validate(imageTag.width / imageTag.height)
     },
     async openEditor(input) {
       if (!this.Editable) {
@@ -512,7 +512,7 @@ export default {
       if (
         this.Count.max !== undefined
         // 判断是否超过数量上限: 已有图片数量 + 编辑队列中图片数量 + 输入图片数量 > 图片数量上限
-        && (this.files.length + initialEditorQueueLength + inputs.length) > this.Count.max
+          && (this.files.length + initialEditorQueueLength + inputs.length) > this.Count.max
       ) {
         throw new Error(this.onExceed())
       }
@@ -548,8 +548,8 @@ export default {
         await this.openEditor(file.raw)
       } else if (
         await this.validateTypeAndSize(file.raw)
-          && await this.validateDimension(file.raw)
-          && this.Validator(file.raw)
+        && await this.validateDimension(file.raw)
+        && this.Validator(file.raw)
       ) {
         this.httpRequest(file.raw)
       }
@@ -706,7 +706,9 @@ export default {
 <style lang="scss">
 .fa-image-upload__cursor-grabbing,
 .fa-image-upload__cursor-grabbing *,
-.fa-image-upload__cursor-grabbing .fa-image-upload.canSort .el-upload-list__item-actions {
+.fa-image-upload__cursor-grabbing
+  .fa-image-upload.canSort
+  .el-upload-list__item-actions {
   cursor: grabbing !important;
 }
 
@@ -732,7 +734,7 @@ export default {
       }
 
       .el-upload-list__item-actions {
-        color: #FFF !important;
+        color: #fff !important;
       }
     }
   }
@@ -781,12 +783,12 @@ export default {
     cursor: grab;
   }
 
-  .el-upload-list__item-actions>.el-upload-list__item-preview {
+  .el-upload-list__item-actions > .el-upload-list__item-preview {
     cursor: zoom-in !important;
   }
 
   &.isFull {
-    .el-upload-list--picture-card>.el-upload-list__item:last-child {
+    .el-upload-list--picture-card > .el-upload-list__item:last-child {
       margin-right: 0;
     }
 
@@ -796,8 +798,8 @@ export default {
   }
 
   &.isInsideTable {
-    &>.el-upload-list {
-      &>.el-upload-list__item {
+    & > .el-upload-list {
+      & > .el-upload-list__item {
         width: 50px;
         height: 50px;
 
@@ -805,7 +807,7 @@ export default {
           width: 34px;
           height: 18px;
 
-          &>i {
+          & > i {
             margin-top: 0;
           }
         }
@@ -814,7 +816,7 @@ export default {
           line-height: 50px;
           font-size: 16px;
 
-          &>span+span {
+          & > span + span {
             margin-left: 4px;
           }
         }
@@ -826,12 +828,13 @@ export default {
       height: 50px;
       line-height: 50px;
 
-      &>.el-upload-dragger {
+      & > .el-upload-dragger {
         width: 50px;
         height: 50px;
       }
 
-      .el-icon, .el-icon-plus {
+      .el-icon,
+      .el-icon-plus {
         font-size: initial;
       }
 

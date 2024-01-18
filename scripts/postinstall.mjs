@@ -5,8 +5,9 @@ const { deleteAsync } = require('del')
 const { name } = require('../package.json') */
 
 import fs from 'node:fs'
+import process from 'node:process'
 import spawn from 'cross-spawn'
-import { cyan, green, red } from 'kolorist'
+import { cyan, green } from 'kolorist'
 import { deleteAsync } from 'del'
 
 // Node 14 不支持

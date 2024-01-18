@@ -383,9 +383,9 @@ export default {
         const outputResolution = outputWidth * outputHeight
         if (!(
           this.width.validate(outputWidth)
-          && this.height.validate(outputHeight)
-          && this.resolution.validate(outputResolution)
-          && this.aspectRatio.validate(this.specifiedAspectRatio || this.impliedAspectRatio)
+            && this.height.validate(outputHeight)
+            && this.resolution.validate(outputResolution)
+            && this.aspectRatio.validate(this.specifiedAspectRatio || this.impliedAspectRatio)
         )) {
           reject(new Error('Validation failed'))
           return
@@ -832,7 +832,8 @@ export default {
 
 <style lang="scss">
 .fa-image-editor {
-  .flipX>span>.el-icon-sort, .flipX>span>.el-icon {
+  .flipX > span > .el-icon-sort,
+  .flipX > span > .el-icon {
     transform: rotate(90deg);
   }
 

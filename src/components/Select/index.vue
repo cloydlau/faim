@@ -568,13 +568,13 @@ export default {
   cursor: grabbing !important;
 }
 
-.fa-select.canSort .el-select__tags>span {
+.fa-select.canSort .el-select__tags > span {
   // see: https://github.com/SortableJS/Sortable/issues/1853
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
 
-  &>.el-tag {
+  & > .el-tag {
     cursor: grab;
   }
 }

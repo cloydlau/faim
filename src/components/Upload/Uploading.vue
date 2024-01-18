@@ -53,7 +53,7 @@ export default {
   left: 0;
   transition: opacity 0.3s;
 
-  &>.container{
+  & > .container {
     position: absolute;
     top: 0;
     bottom: 0;
@@ -68,14 +68,14 @@ export default {
     line-height: 24px;
     color: #606266;
 
-    &>.progress-bar {
+    & > .progress-bar {
       height: 6px;
       border-radius: 3px;
       background-color: #409eff;
       transition: width 1s;
     }
 
-    &>svg {
+    & > svg {
       position: absolute;
       right: -24px;
       top: -8px;

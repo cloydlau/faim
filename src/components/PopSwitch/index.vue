@@ -280,7 +280,6 @@ export default {
   }
 
   &:not(.is-checked) .el-switch__core {
-
     &:after {
       left: 2px;
     }
