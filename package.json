@@ -39,6 +39,9 @@
   "unpkg": "./dist/index.mjs",
   "jsdelivr": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "bin": {
+    "faim-fix": "./bin.js"
+  },
   "files": [
     "auto-import-resolver.ts",
     "dist",

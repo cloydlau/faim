@@ -45,7 +45,7 @@ npm i faim
 >
 > 由于需要修改 Element Plus 源码才得以实现 FaImageUpload，故**该组件在 Element Plus 环境**存在以下限制：
 >
-> - element-plus 不能晚于 faim 安装
+> - element-plus 不能晚于 faim 安装 (可执行 `npx faim-fix` 修复)
 > - 通过 CDN 的方式使用时需要自行修改 ElUpload 源码
 
 > [!Warning]
