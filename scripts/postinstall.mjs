@@ -19,10 +19,12 @@ import { deleteAsync } from 'del'
 const name = 'faim'
 
 async function postinstall() {
-  console.log(cyan(`[INFO] process.cwd(): ${process.cwd()}`))
-  console.log(cyan(`[INFO] process.env.INIT_CWD: ${process.env.INIT_CWD}`))
   const cwd = process.cwd()
   const isDev = process.env.INIT_CWD === cwd
+  // faim 的目录 (可能是 xxx/faim 或 xxx/node_modules/faim)
+  console.log(cyan(`[INFO] process.cwd(): ${cwd}`))
+  // 直接或间接执行 postinstall 的目录 (xxx 或者 xxx/faim)
+  console.log(cyan(`[INFO] process.env.INIT_CWD: ${process.env.INIT_CWD}`))
   const elementPlusDir = `${process.env.INIT_CWD}/node_modules/element-plus`
   const isElementPlusInstalled = fs.existsSync(elementPlusDir)
 
@@ -62,7 +64,7 @@ async function postinstall() {
 
   for (const format of formats) {
     for (const component of componentsRelyOnElFormDisabled[format]) {
-      const componentPath = `${process.env.INIT_CWD}/${dir}/components/${component}`
+      const componentPath = `${cwd}/${dir}/components/${component}`
       console.log(cyan(`[INFO] Patching ${componentPath}`))
       const componentSource = fs.readFileSync(componentPath, 'utf-8')
       const componentSourceNew = componentSource.replace(...useFormDisabledSources)
