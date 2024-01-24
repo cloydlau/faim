@@ -21,9 +21,9 @@ const name = 'faim'
 async function postinstall() {
   const cwd = process.cwd()
   const isDev = process.env.INIT_CWD === cwd
-  // faim 的目录 (可能是 xxx/faim 或 xxx/node_modules/faim)
+  // 当前 Node.js 进程的工作目录，通常是 faim 的目录
   console.log(cyan(`[INFO] process.cwd(): ${cwd}`))
-  // 直接或间接执行 postinstall 的目录 (xxx 或者 xxx/faim)
+  // 最初启动 Node.js 进程时的工作目录，比如执行 ni 的目录
   console.log(cyan(`[INFO] process.env.INIT_CWD: ${process.env.INIT_CWD}`))
   const elementPlusDir = `${process.env.INIT_CWD}/node_modules/element-plus`
   const isElementPlusInstalled = fs.existsSync(elementPlusDir)
