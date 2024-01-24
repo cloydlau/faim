@@ -40,7 +40,7 @@
   "jsdelivr": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "bin": {
-    "faim-fix": "./bin.js"
+    "faim-fix": "./scripts/postinstall.mjs"
   },
   "files": [
     "auto-import-resolver.ts",
