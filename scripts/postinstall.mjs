@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 /* const fs = require('node:fs')
 const spawn = require('cross-spawn')
 const { cyan, green, red } = require('kolorist')
