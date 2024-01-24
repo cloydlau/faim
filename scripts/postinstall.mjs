@@ -19,6 +19,8 @@ import { deleteAsync } from 'del'
 const name = 'faim'
 
 async function postinstall() {
+  console.log(cyan(`[INFO] process.cwd(): ${process.cwd()}`))
+  console.log(cyan(`[INFO] process.env.INIT_CWD: ${process.env.INIT_CWD}`))
   const cwd = process.cwd()
   const isDev = process.env.INIT_CWD === cwd
   const elementPlusDir = `${process.env.INIT_CWD}/node_modules/element-plus`
@@ -60,7 +62,7 @@ async function postinstall() {
 
   for (const format of formats) {
     for (const component of componentsRelyOnElFormDisabled[format]) {
-      const componentPath = `${cwd}/${dir}/components/${component}`
+      const componentPath = `${process.env.INIT_CWD}/${dir}/components/${component}`
       console.log(cyan(`[INFO] Patching ${componentPath}`))
       const componentSource = fs.readFileSync(componentPath, 'utf-8')
       const componentSourceNew = componentSource.replace(...useFormDisabledSources)
