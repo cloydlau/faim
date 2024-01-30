@@ -241,13 +241,13 @@ export default {
       // 锁定比例时，默认裁剪框在图片之内（避免裁剪出白边），也可以放大以完全框住图片（避免遗漏信息）
       // 比例可能是参数锁定的，也可能是用户锁定的
       if (this.isAspectRatioLocked && this.lockedAspectRatio) {
-        // 高图
+        // 裁剪框比图片扁
         if (this.lockedAspectRatio > width / height) {
           this.cropper.setCropBoxData({ width, left })
           const { height: containerHeight } = this.cropper.getContainerData()
           const { height: cropBoxHeight } = this.cropper.getCropBoxData() // 不能提前拿
           this.cropper.setCropBoxData({ top: (containerHeight - cropBoxHeight) / 2 })
-        // 扁图
+        // 裁剪框比图片瘦
         } else {
           this.cropper.setCropBoxData({ height, top })
           const { width: containerWidth } = this.cropper.getContainerData()
@@ -259,25 +259,6 @@ export default {
       } else {
         this.cropper.setCropBoxData({ width, height, left, top })
         this.loading = false
-      }
-    },
-    // 针对没有锁定比例的情况
-    updateCropBox() {
-      if (this.impliedAspectRatio) {
-        const { width, height, left, top } = this.cropper.getCanvasData()
-        // 高图
-        if (this.impliedAspectRatio > width / height) {
-          this.cropper.setCropBoxData({ width, left })
-          const { height: containerHeight } = this.cropper.getContainerData()
-          const cropBoxHeight = width / this.impliedAspectRatio
-          this.cropper.setCropBoxData({ height: cropBoxHeight, top: (containerHeight - cropBoxHeight) / 2 })
-        // 扁图
-        } else {
-          this.cropper.setCropBoxData({ height, top })
-          const { width: containerWidth } = this.cropper.getContainerData()
-          const cropBoxWidth = height * this.impliedAspectRatio
-          this.cropper.setCropBoxData({ width: cropBoxWidth, left: (containerWidth - cropBoxWidth) / 2 })
-        }
       }
     },
     onWidthChange() {
@@ -300,9 +281,31 @@ export default {
       }
       this.onIsAspectRatioSpecifiedChange()
     },
+    // 针对没有锁定比例的情况
     onIsAspectRatioSpecifiedChange() {
+      const containerData = this.cropper.getContainerData()
+      const cropBoxData = this.cropper.getCropBoxData()
+      // setAspectRatio 会改变裁剪框
       this.cropper.setAspectRatio(this.isAspectRatioLocked ? this.impliedAspectRatio : null)
-      this.updateCropBox()
+      if (this.impliedAspectRatio) {
+        // 裁剪框高了，降低高度
+        if (this.impliedAspectRatio > cropBoxData.width / cropBoxData.height) {
+          this.cropper.setCropBoxData({
+            width: cropBoxData.width,
+            height: cropBoxData.width / this.impliedAspectRatio,
+            top: (containerData.height - cropBoxData.height) / 2,
+            left: (containerData.width - cropBoxData.width) / 2,
+          })
+        // 裁剪框扁了，降低宽度
+        } else {
+          this.cropper.setCropBoxData({
+            width: cropBoxData.height * this.impliedAspectRatio,
+            height: cropBoxData.height,
+            top: (containerData.height - cropBoxData.height) / 2,
+            left: (containerData.width - cropBoxData.width) / 2,
+          })
+        }
+      }
     },
     onFullscreenChange(v) {
       this.fullscreen = v
