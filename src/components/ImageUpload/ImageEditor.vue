@@ -327,31 +327,11 @@ export default {
         })
       }
     },
-    // 针对没有锁定比例的情况
     onIsAspectRatioSpecifiedChange() {
-      const containerData = this.cropper.getContainerData()
       const cropBoxData = this.cropper.getCropBoxData()
       // setAspectRatio 会改变裁剪框
       this.cropper.setAspectRatio(this.isAspectRatioLocked ? this.impliedAspectRatio : null)
-      if (this.impliedAspectRatio) {
-        // 裁剪框高了，降低高度
-        if (this.impliedAspectRatio > cropBoxData.width / cropBoxData.height) {
-          this.cropper.setCropBoxData({
-            width: cropBoxData.width,
-            height: cropBoxData.width / this.impliedAspectRatio,
-            top: (containerData.height - cropBoxData.height) / 2,
-            left: (containerData.width - cropBoxData.width) / 2,
-          })
-        // 裁剪框扁了，降低宽度
-        } else {
-          this.cropper.setCropBoxData({
-            width: cropBoxData.height * this.impliedAspectRatio,
-            height: cropBoxData.height,
-            top: (containerData.height - cropBoxData.height) / 2,
-            left: (containerData.width - cropBoxData.width) / 2,
-          })
-        }
-      }
+      this.cropper.setCropBoxData(cropBoxData)
     },
     onFullscreenChange(v) {
       this.fullscreen = v
