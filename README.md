@@ -676,7 +676,9 @@ new Vue({
 > [!CAUTION]
 >
 > Element UI 的 `<el-image>` 在图片加载完毕后才会渲染 `<img>`，因此 Viewer.js 和 Swiper 必须在全部图片加载完毕后再进行初始化
+>
 > Element Plus 不存在这个问题
+>
 > 可以这样解决：
 
 ```vue

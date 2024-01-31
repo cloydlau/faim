@@ -116,7 +116,7 @@ export default {
       return conclude([
         Object.fromEntries(
           Array.from(boolAttrs, boolAttr => [boolAttr, conclude([this[boolAttr], globalProps[boolAttr]])]).filter(
-            ([, v]) => v !== undefined,
+            ([, item]) => item !== undefined,
           ),
         ),
         this.$attrs,
