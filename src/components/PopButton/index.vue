@@ -1,6 +1,7 @@
 <script>
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
+import { debounce } from 'lodash-es'
 import { isGlobalSlot } from '../../utils'
 
 const globalProps = {}
@@ -42,6 +43,11 @@ export default {
     }])),
   },
   emits: ['click', 'confirm'],
+  data() {
+    return {
+      onConfirm() {},
+    }
+  },
   computed: {
     Slots() {
       return conclude([isVue3 ? this.$slots : this.$scopedSlots, globalSlots])
@@ -77,6 +83,7 @@ export default {
       return resolveConfig(conclude([
         this.elPopconfirmProps,
         globalProps.elPopconfirmProps,
+        { ref: 'elPopconfirmRef' },
       ], {
         type: Object,
         camelizeObjectKeys: true,
@@ -90,7 +97,7 @@ export default {
       return conclude([
         Object.fromEntries(
           Array.from(boolAttrs, boolAttr => [boolAttr, conclude([this[boolAttr], globalProps[boolAttr]])]).filter(
-            ([, v]) => v !== undefined,
+            ([, item]) => item !== undefined,
           ),
         ),
         this.$attrs,
@@ -101,13 +108,18 @@ export default {
       })
     },
   },
+  mounted() {
+    this.onConfirm = debounce((...e) => {
+      this.$emit('click', ...e)
+      this.$emit('confirm', ...e)
+    }, this.$refs[this.ElPopconfirmConfig.attrs.ref]?.hideAfter ?? 200)
+  },
   methods: {
     isGlobalSlot,
     onClick(...e) {
       if (!this.$refs[this.ElTooltipConfig.attrs.ref].manual) {
         this.$refs[this.ElTooltipConfig.attrs.ref].showPopper = false
       }
-      this.$emit('confirm', ...e)
       if (!this.disabled && this.ElPopconfirmConfig.attrs.disabled) {
         this.$emit('click', ...e)
       }
@@ -169,8 +181,8 @@ export default {
               <el-popconfirm
                 v-bind="ElPopconfirmConfig.attrs"
                 v-on="ElPopconfirmConfig.listeners"
-                @confirm="$emit('click', $event)"
-                @on-confirm="$emit('click', $event)"
+                @confirm="onConfirm"
+                @on-confirm="onConfirm"
               >
                 <template #reference>
                   <el-button
