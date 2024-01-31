@@ -647,29 +647,67 @@ new Vue({
 
 ### Exposes
 
-| 名称   | 说明           | 类型   |
-| ------ | -------------- | ------ |
-| viewer | Viewer.js 实例 | Object |
-| swiper | Swiper 实例    | Object |
+| 名称    | 说明                       | 类型       |
+| ------- | -------------------------- | ---------- |
+| viewer  | Viewer.js 实例             | Object     |
+| swiper  | Swiper 实例                | Object     |
+| hydrate | 初始化 Viewer.js 和 Swiper | () => void |
 
 ```html
 <FaImage>
   <template #default="{ src, index }">
-    <img :src="src" />
+    <img :src="src" style="cursor: zoom-in; height: 148px" />
     <div>第{{ index + 1 }}张</div>
   </template>
 </FaImage>
 ```
 
-通过默认插槽来使用 `el-image`：
+通过默认插槽来使用 `<el-image>`：
 
 ```html
 <FaImage>
   <template #default="{ src, index }">
-    <el-image :src="src" />
+    <el-image :src="src" style="cursor: zoom-in; height: 148px" />
     <div>第{{ index + 1 }}张</div>
   </template>
 </FaImage>
+```
+
+> [!CAUTION]
+>
+> Element UI 的 `<el-image>` 在图片加载完毕后才会渲染 `<img>`，因此 Viewer.js 和 Swiper 必须在全部图片加载完毕后再进行初始化
+> Element Plus 不存在这个问题
+> 可以这样解决：
+
+```vue
+<script setup>
+const faImageRef = ref()
+const value = ref([])
+const loadCount = ref(0)
+function onLoad() {
+  if (++loadCount === value.length) {
+    faImageRef.value.hydrate()
+  }
+}
+</script>
+
+<template>
+  <FaImage
+    ref="faImageRef"
+    :value="value"
+    :modelValue="value"
+  >
+    <template #default="{ src, index }">
+      <el-image
+        :src="src"
+        style="cursor: zoom-in; height: 148px"
+        @load="onLoad"
+        @error="onLoad"
+      />
+      <div>第{{ index + 1 }}张</div>
+    </template>
+  </FaImage>
+</template>
 ```
 
 ### 获取 Swiper 实例

@@ -45,7 +45,7 @@ export default {
     },
     viewerOptions: {},
   },
-  expose: ['viewer', 'swiper'],
+  expose: ['viewer', 'swiper', 'hydrate'],
   data() {
     return {
       files: [],
@@ -177,22 +177,8 @@ export default {
         this.loading = false
       },
     },
-    files(newFiles) {
-      if (newFiles.length) {
-        this.$nextTick(() => {
-          if (this.Pattern === 'swiper' && !this.swiper) {
-            this.swiper = new Swiper(this.$refs.faImageRef, this.SwiperOptions)
-          }
-
-          if (this.Viewable) {
-            if (this.viewer) {
-              // this.viewer.update() // 无效（非必现）
-              this.viewer.destroy()
-            }
-            this.viewer = new Viewer(this.$refs.viewerRef, this.ViewerOptions)
-          }
-        })
-      }
+    files() {
+      this.hydrate()
     },
   },
   methods: {
@@ -231,6 +217,31 @@ export default {
       }
 
       return result
+    },
+    hydrate() {
+      this.$nextTick(() => {
+        if (this.files.length) {
+          if (this.Pattern === 'swiper') {
+            this.swiper ||= new Swiper(this.$refs.faImageRef, this.SwiperOptions)
+          } else {
+            this.swiper?.destroy()
+            this.swiper = null
+          }
+
+          // this.viewer?.update() // 无效（非必现）
+          this.viewer?.destroy()
+          if (this.Viewable) {
+            this.viewer = new Viewer(this.$refs.viewerRef, this.ViewerOptions)
+          } else {
+            this.viewer = null
+          }
+        } else {
+          this.swiper?.destroy()
+          this.swiper = null
+          this.viewer?.destroy()
+          this.viewer = null
+        }
+      })
     },
   },
 }
