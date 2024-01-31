@@ -1,6 +1,7 @@
 <script>
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
+import { debounce } from 'lodash-es'
 import { isGlobalSlot } from '../../utils'
 
 const globalProps = {}
@@ -52,6 +53,7 @@ export default {
   data() {
     return {
       isVue3,
+      onConfirm() {},
     }
   },
   computed: {
@@ -90,6 +92,7 @@ export default {
       return resolveConfig(conclude([
         this.elPopconfirmProps,
         globalProps.elPopconfirmProps,
+        { ref: 'elPopconfirmRef' },
       ], {
         type: Object,
         camelizeObjectKeys: true,
@@ -112,7 +115,7 @@ export default {
         },
         Object.fromEntries(
           Array.from(boolAttrs, boolAttr => [boolAttr, conclude([this[boolAttr], globalProps[boolAttr]])]).filter(
-            ([, v]) => v !== undefined,
+            ([, item]) => item !== undefined,
           ),
         ),
         this.$attrs,
@@ -138,23 +141,25 @@ export default {
       })
     },
   },
-  methods: {
-    isGlobalSlot,
-    onClick() {
-      if (!this.$refs[this.ElTooltipConfig.attrs.ref].manual) {
-        this.$refs[this.ElTooltipConfig.attrs.ref].showPopper = false
-      }
-      if (!this.disabled && this.ElPopconfirmConfig.attrs.disabled) {
-        this.onConfirm()
-      }
-    },
-    onConfirm(...e) {
-      this.$emit('confirm', ...e)
+  mounted() {
+    this.onConfirm = debounce((...e) => {
       const value = this.$refs[this.ElSwitchProps.ref].checked
         ? (this.ElSwitchProps.inactiveValue ?? false)
         : (this.ElSwitchProps.activeValue ?? true)
       this.$emit(model.event, value)
+      this.$emit('confirm', ...e)
       this.$emit('change', value)
+    }, this.$refs[this.ElPopconfirmConfig.attrs.ref]?.hideAfter ?? 200)
+  },
+  methods: {
+    isGlobalSlot,
+    onClick(...e) {
+      if (!this.$refs[this.ElTooltipConfig.attrs.ref].manual) {
+        this.$refs[this.ElTooltipConfig.attrs.ref].showPopper = false
+      }
+      if (!this.disabled && this.ElPopconfirmConfig.attrs.disabled) {
+        this.onConfirm(...e)
+      }
     },
     getCharCount(text) {
       let count = 0
