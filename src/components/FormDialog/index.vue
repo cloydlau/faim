@@ -471,6 +471,7 @@ export default {
       <div
         v-loading="Retrieving"
         style="display: flex; flex-direction: column; overflow-y: hidden;"
+        :class="Readonly && 'is-readonly'"
       >
         <div
           ref="overlayScrollbar"
@@ -479,7 +480,6 @@ export default {
         >
           <el-form
             v-if="ValueIsPlainObject"
-            :class="Readonly && 'readonly'"
             v-bind="ElFormProps"
             v-on="Listeners"
           >
@@ -720,17 +720,17 @@ export default {
       flex-direction: column;
 
       /* .el-form-item__content {
-      .el-input,
-      .el-input-number,
-      .el-select,
-      .el-time-select,
-      .el-time-picker,
-      .el-date-picker,
-      .el-date-editor,
-      .el-cascader {
-        width: 100%;
-      }
-    } */
+        .el-input,
+        .el-input-number,
+        .el-select,
+        .el-time-select,
+        .el-time-picker,
+        .el-date-picker,
+        .el-date-editor,
+        .el-cascader {
+          width: 100%;
+        }
+      } */
 
       .el-form-item:last-child {
         margin-bottom: 0;
@@ -746,7 +746,7 @@ export default {
         background-color: #c0c0c0;
       }
 
-      .el-form.readonly {
+      .is-readonly {
         [disabled='disabled'],
         .is-disabled,
         .is-disabled *,

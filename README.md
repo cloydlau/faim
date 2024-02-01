@@ -475,9 +475,24 @@ new Vue({
 
 #### readonly
 
-开启只读模式时默认不显示确认和取消按钮
+开启只读模式时默认隐藏底部操作按钮
 
-跟 `<el-form disabled />` 的区别是在样式上，更便于用户阅读
+跟 `<el-form disabled />` 的区别是在样式上，不置灰，提高可读性和美观度
+
+支持在非只读模式下应用只读样式、支持局部应用只读样式：
+
+```html
+<FaFormDialog>
+  <div class="is-readonly">
+    <el-form-item>
+      <el-checkbox disabled />
+    </el-form-item>
+  </div>
+  <el-form-item>
+    <el-input />
+  </el-form-item>
+</FaFormDialog>
+```
 
 #### confirm
 
