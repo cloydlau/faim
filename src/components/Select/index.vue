@@ -259,7 +259,7 @@ export default {
       this.$nextTick(() => {
         if (this.multiple) {
           const label = []
-          this.$refs[this.ElSelectProps.ref].selected.forEach((v) => {
+          this.$refs[this.ElSelectProps.ref].selected?.forEach((v) => {
             if (!v.currentLabel) {
               v.currentLabel = this.getLabel(v.value)
             }
