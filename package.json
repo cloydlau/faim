@@ -1,7 +1,7 @@
 {
   "name": "faim",
   "PascalCasedName": "Faim",
-  "version": "0.6.11",
+  "version": "0.6.12",
   "private": false,
   "description": "Element Plus (Vue 3) & Element UI (Vue 2.7/2.6) isomorphic UI component library. ❄️ More than Element.",
   "author": {
@@ -91,7 +91,7 @@
     "uuid": "^9.0.1",
     "validator": "^13.11.0",
     "viewerjs": "^1.11.6",
-    "vue-demi": "^0.14.6",
+    "vue-demi": "^0.14.7",
     "vue-global-config": "^0.6.0"
   },
   "devDependencies": {
