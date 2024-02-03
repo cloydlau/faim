@@ -475,7 +475,7 @@ export default {
       >
         <div
           ref="overlayScrollbar"
-          style="overflow-y: auto; padding: 10px 40px 40px 40px; max-height:calc(100vh - 45px);"
+          style="overflow-y: auto; padding: 10px 20px 40px 40px; max-height:calc(100vh - 54.5px);"
           :style="{ paddingBottom: isFullscreen ? '40px' : '85px' }"
         >
           <el-form
@@ -675,6 +675,7 @@ export default {
 
   & > .el-dialog {
     min-width: 855px;
+    padding: 0;
 
     &:not(.is-fullscreen) {
       margin: auto !important;
@@ -688,6 +689,7 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      padding: 16px;
 
       & > .el-dialog__headerbtn {
         display: none;
@@ -713,7 +715,7 @@ export default {
     }
 
     .el-dialog__body {
-      max-height: calc(100vh - 45px);
+      max-height: calc(100vh - 54.5px);
       overflow-y: auto;
       padding: 0;
       display: flex;
@@ -830,6 +832,7 @@ export default {
       right: 0;
       backdrop-filter: blur(1px);
       z-index: 3; // higher than .el-table__inner-wrapper
+      padding: 16px;
 
       .el-button.is-disabled.closing {
         cursor: revert;
