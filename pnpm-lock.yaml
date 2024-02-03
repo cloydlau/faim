@@ -79,109 +79,109 @@ importers:
         version: 0.14.7(vue@3.4.15)
       vue-global-config:
         specifier: ^0.6.0
-        version: 0.6.0(element-plus@2.5.3)(vue@3.4.15)
+        version: 0.6.0(element-plus@2.5.4)(vue@3.4.15)
     devDependencies:
       '@antfu/eslint-config':
-        specifier: ^2.6.3
+        specifier: latest
         version: 2.6.3(@vue/compiler-sfc@3.4.15)(eslint-plugin-format@0.1.0)(eslint-ts-patch@8.56.0-0)(typescript@5.3.3)
       '@commitlint/cli':
-        specifier: ^18.6.0
+        specifier: latest
         version: 18.6.0(@types/node@20.11.16)(typescript@5.3.3)
       '@commitlint/config-conventional':
-        specifier: ^18.6.0
+        specifier: latest
         version: 18.6.0
       '@element-plus/icons-vue':
-        specifier: ^2.3.1
+        specifier: latest
         version: 2.3.1(vue@3.4.15)
       '@types/lodash-es':
-        specifier: ^4.17.12
+        specifier: latest
         version: 4.17.12
       '@types/node':
-        specifier: ^20.11.16
+        specifier: latest
         version: 20.11.16
       '@types/uuid':
-        specifier: ^9.0.8
+        specifier: latest
         version: 9.0.8
       '@types/validator':
-        specifier: ^13.11.8
+        specifier: latest
         version: 13.11.8
       '@vitejs/plugin-vue':
-        specifier: ^5.0.3
+        specifier: latest
         version: 5.0.3(vite@5.0.12)(vue@3.4.15)
       '@vue/compiler-sfc':
-        specifier: ^3.4.15
+        specifier: latest
         version: 3.4.15
       '@vue/test-utils':
-        specifier: ^2.4.4
+        specifier: latest
         version: 2.4.4(vue@3.4.15)
       axios:
-        specifier: ^1.6.7
+        specifier: latest
         version: 1.6.7
       axios-shortcut:
-        specifier: ^0.1.3
+        specifier: latest
         version: 0.1.3
       case-police:
-        specifier: ^0.6.1
+        specifier: latest
         version: 0.6.1
       element-plus:
-        specifier: ^2.5.3
-        version: 2.5.3(vue@3.4.15)
+        specifier: latest
+        version: 2.5.4(vue@3.4.15)
       eslint:
         specifier: npm:eslint-ts-patch@8.56.0-0
         version: /eslint-ts-patch@8.56.0-0
       eslint-plugin-format:
-        specifier: ^0.1.0
+        specifier: latest
         version: 0.1.0(eslint-ts-patch@8.56.0-0)
       eslint-ts-patch:
         specifier: 8.56.0-0
         version: 8.56.0-0
       esno:
-        specifier: ^4.0.0
+        specifier: latest
         version: 4.0.0
       faim:
         specifier: workspace:*
         version: 'link:'
       json-editor-vue:
-        specifier: ^0.12.0
+        specifier: latest
         version: 0.12.0(@lezer/common@1.2.1)(vue@3.4.15)
       lint-staged:
-        specifier: ^15.2.1
+        specifier: latest
         version: 15.2.1
       magicast:
-        specifier: ^0.3.3
+        specifier: latest
         version: 0.3.3
       mammoth:
-        specifier: ^1.6.0
+        specifier: latest
         version: 1.6.0
       only-allow:
-        specifier: ^1.2.1
+        specifier: latest
         version: 1.2.1
       open:
-        specifier: ^10.0.3
+        specifier: latest
         version: 10.0.3
       prompts:
-        specifier: ^2.4.2
+        specifier: latest
         version: 2.4.2
       semver:
-        specifier: ^7.5.4
+        specifier: latest
         version: 7.5.4
       simple-git-hooks:
-        specifier: ^2.9.0
+        specifier: latest
         version: 2.9.0
       typescript:
-        specifier: ^5.3.3
+        specifier: latest
         version: 5.3.3
       unbuild:
-        specifier: ^2.0.0
+        specifier: latest
         version: 2.0.0(sass@1.70.0)(typescript@5.3.3)
       vite:
-        specifier: ^5.0.12
+        specifier: latest
         version: 5.0.12(@types/node@20.11.16)(sass@1.70.0)
       vue:
-        specifier: ^3.4.15
+        specifier: latest
         version: 3.4.15(typescript@5.3.3)
       zhlint:
-        specifier: ^0.7.4
+        specifier: latest
         version: 0.7.4(@types/node@20.11.16)(sass@1.70.0)(typescript@5.3.3)
 
 packages:
@@ -480,7 +480,7 @@ packages:
       '@babel/helper-validator-identifier': 7.22.20
       to-fast-properties: 2.0.0
 
-  /@codemirror/autocomplete@6.12.0(@codemirror/language@6.10.0)(@codemirror/state@6.4.0)(@codemirror/view@6.23.1)(@lezer/common@1.2.1):
+  /@codemirror/autocomplete@6.12.0(@codemirror/language@6.10.1)(@codemirror/state@6.4.0)(@codemirror/view@6.23.1)(@lezer/common@1.2.1):
     resolution: {integrity: sha512-r4IjdYFthwbCQyvqnSlx0WBHRHi8nBvU+WjJxFUij81qsBfhNudf/XKKmmC2j3m0LaOYUQTf3qiEK1J8lO1sdg==}
     peerDependencies:
       '@codemirror/language': ^6.0.0
@@ -488,7 +488,7 @@ packages:
       '@codemirror/view': ^6.0.0
       '@lezer/common': ^1.0.0
     dependencies:
-      '@codemirror/language': 6.10.0
+      '@codemirror/language': 6.10.1
       '@codemirror/state': 6.4.0
       '@codemirror/view': 6.23.1
       '@lezer/common': 1.2.1
@@ -497,7 +497,7 @@ packages:
   /@codemirror/commands@6.3.3:
     resolution: {integrity: sha512-dO4hcF0fGT9tu1Pj1D2PvGvxjeGkbC6RGcZw6Qs74TH+Ed1gw98jmUgd2axWvIZEqTeTuFrg1lEB1KV6cK9h1A==}
     dependencies:
-      '@codemirror/language': 6.10.0
+      '@codemirror/language': 6.10.1
       '@codemirror/state': 6.4.0
       '@codemirror/view': 6.23.1
       '@lezer/common': 1.2.1
@@ -506,12 +506,12 @@ packages:
   /@codemirror/lang-json@6.0.1:
     resolution: {integrity: sha512-+T1flHdgpqDDlJZ2Lkil/rLiRy684WMLc74xUnjJH48GQdfJo/pudlTRreZmKwzP8/tGdKf83wlbAdOCzlJOGQ==}
     dependencies:
-      '@codemirror/language': 6.10.0
+      '@codemirror/language': 6.10.1
       '@lezer/json': 1.0.2
     dev: true
 
-  /@codemirror/language@6.10.0:
-    resolution: {integrity: sha512-2vaNn9aPGCRFKWcHPFksctzJ8yS5p7YoaT+jHpc0UGKzNuAIx4qy6R5wiqbP+heEEdyaABA582mNqSHzSoYdmg==}
+  /@codemirror/language@6.10.1:
+    resolution: {integrity: sha512-5GrXzrhq6k+gL5fjkAwt90nYDmjlzTIJV8THnxNFtNKWotMIlzzN+CpqxqwXOECnUdOndmSeWntVrVcv5axWRQ==}
     dependencies:
       '@codemirror/state': 6.4.0
       '@codemirror/view': 6.23.1
@@ -1173,14 +1173,14 @@ packages:
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
     dev: true
 
-  /@replit/codemirror-indentation-markers@6.5.0(@codemirror/language@6.10.0)(@codemirror/state@6.4.0)(@codemirror/view@6.23.1):
+  /@replit/codemirror-indentation-markers@6.5.0(@codemirror/language@6.10.1)(@codemirror/state@6.4.0)(@codemirror/view@6.23.1):
     resolution: {integrity: sha512-5RgeuQ6erfROi1EVI2X7G4UR+KByjb07jhYMynvpvlrV22JlnARifmKMGEUKy0pKcxBNfwbFqoUlTYHPgyZNlg==}
     peerDependencies:
       '@codemirror/language': ^6.0.0
       '@codemirror/state': ^6.0.0
       '@codemirror/view': ^6.0.0
     dependencies:
-      '@codemirror/language': 6.10.0
+      '@codemirror/language': 6.10.1
       '@codemirror/state': 6.4.0
       '@codemirror/view': 6.23.1
     dev: true
@@ -2005,7 +2005,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.22.3
-      caniuse-lite: 1.0.30001582
+      caniuse-lite: 1.0.30001583
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -2085,8 +2085,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001582
-      electron-to-chromium: 1.4.654
+      caniuse-lite: 1.0.30001583
+      electron-to-chromium: 1.4.656
       node-releases: 2.0.14
       update-browserslist-db: 1.0.13(browserslist@4.22.3)
     dev: true
@@ -2136,13 +2136,13 @@ packages:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
       browserslist: 4.22.3
-      caniuse-lite: 1.0.30001582
+      caniuse-lite: 1.0.30001583
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
     dev: true
 
-  /caniuse-lite@1.0.30001582:
-    resolution: {integrity: sha512-vsJG3V5vgfduaQGVxL53uSX/HUzxyr2eA8xCo36OLal7sRcSZbibJtLeh0qja4sFOr/QQGt4opB4tOy+eOgAxg==}
+  /caniuse-lite@1.0.30001583:
+    resolution: {integrity: sha512-acWTYaha8xfhA/Du/z4sNZjHUWjkiuoAi2LM+T/aL+kemKQgPT1xBb/YKjlQ0Qo8gvbHsGNplrEJ+9G3gL7i4Q==}
     dev: true
 
   /case-police@0.6.1:
@@ -2285,14 +2285,14 @@ packages:
       periscopic: 3.1.0
     dev: true
 
-  /codemirror-wrapped-line-indent@1.0.3(@codemirror/language@6.10.0)(@codemirror/state@6.4.0)(@codemirror/view@6.23.1):
+  /codemirror-wrapped-line-indent@1.0.3(@codemirror/language@6.10.1)(@codemirror/state@6.4.0)(@codemirror/view@6.23.1):
     resolution: {integrity: sha512-1MWPgyxcDcpGpqmBlraoQyIgbZMAmppj/e/9+gpqug68Gli+BtSLE3GLxGoRoRK5n5sFp8RH0xAQL5i7jOo2qQ==}
     peerDependencies:
       '@codemirror/language': ^6.9.0
       '@codemirror/state': ^6.2.1
       '@codemirror/view': ^6.17.1
     dependencies:
-      '@codemirror/language': 6.10.0
+      '@codemirror/language': 6.10.1
       '@codemirror/state': 6.4.0
       '@codemirror/view': 6.23.1
     dev: true
@@ -2768,12 +2768,12 @@ packages:
       semver: 7.5.4
     dev: true
 
-  /electron-to-chromium@1.4.654:
-    resolution: {integrity: sha512-hjfFa+Vj4WGLRVTlCQa+IivBkpcp+boGxMQfusOC/me5Y5NfU4wX7wyw+K9p8Cw4tl0BVIZGH2n7y/jMc3w4pg==}
+  /electron-to-chromium@1.4.656:
+    resolution: {integrity: sha512-9AQB5eFTHyR3Gvt2t/NwR0le2jBSUNwCnMbUCejFWHD+so4tH40/dRLgoE+jxlPeWS43XJewyvCv+I8LPMl49Q==}
     dev: true
 
-  /element-plus@2.5.3(vue@3.4.15):
-    resolution: {integrity: sha512-wmtstxaMkD6UinIgD+45CjrhbRh4u0vt+/GgxfPeMLt5pDpIVwZFjkUaVcWqqxcxd5a80HP3XlDF74fW7wim9A==}
+  /element-plus@2.5.4(vue@3.4.15):
+    resolution: {integrity: sha512-3z2BQ53B93wypOLFq+vmT2XibTGRm3WODVPdAGymqTVGRIeUfFh17ysymn81ZvEVs4b8Dq6Fxr3I1B/9NUwZ0A==}
     peerDependencies:
       vue: ^3.2.0
     dependencies:
@@ -6152,10 +6152,10 @@ packages:
   /vanilla-jsoneditor@0.21.4(@lezer/common@1.2.1):
     resolution: {integrity: sha512-uhvF7IZbd/QM6yPznZ4IxF/FbOj3T85euc0jerjD65uExVV9qDihEpNg7hjaazj1njtRkao83aBRJZdaGCA/Sw==}
     dependencies:
-      '@codemirror/autocomplete': 6.12.0(@codemirror/language@6.10.0)(@codemirror/state@6.4.0)(@codemirror/view@6.23.1)(@lezer/common@1.2.1)
+      '@codemirror/autocomplete': 6.12.0(@codemirror/language@6.10.1)(@codemirror/state@6.4.0)(@codemirror/view@6.23.1)(@lezer/common@1.2.1)
       '@codemirror/commands': 6.3.3
       '@codemirror/lang-json': 6.0.1
-      '@codemirror/language': 6.10.0
+      '@codemirror/language': 6.10.1
       '@codemirror/lint': 6.5.0
       '@codemirror/search': 6.5.5
       '@codemirror/state': 6.4.0
@@ -6163,9 +6163,9 @@ packages:
       '@fortawesome/free-regular-svg-icons': 6.5.1
       '@fortawesome/free-solid-svg-icons': 6.5.1
       '@lezer/highlight': 1.2.0
-      '@replit/codemirror-indentation-markers': 6.5.0(@codemirror/language@6.10.0)(@codemirror/state@6.4.0)(@codemirror/view@6.23.1)
+      '@replit/codemirror-indentation-markers': 6.5.0(@codemirror/language@6.10.1)(@codemirror/state@6.4.0)(@codemirror/view@6.23.1)
       ajv: 8.12.0
-      codemirror-wrapped-line-indent: 1.0.3(@codemirror/language@6.10.0)(@codemirror/state@6.4.0)(@codemirror/view@6.23.1)
+      codemirror-wrapped-line-indent: 1.0.3(@codemirror/language@6.10.1)(@codemirror/state@6.4.0)(@codemirror/view@6.23.1)
       diff-sequences: 29.6.3
       immutable-json-patch: 6.0.1
       jmespath: 0.16.0
@@ -6362,7 +6362,7 @@ packages:
       - supports-color
     dev: true
 
-  /vue-global-config@0.6.0(element-plus@2.5.3)(vue@3.4.15):
+  /vue-global-config@0.6.0(element-plus@2.5.4)(vue@3.4.15):
     resolution: {integrity: sha512-T9++CQPBWhZbRzD3NAWzcCpA0WFszLZHpTast6K5ME+yRa+d6MHkt7RpKgzGmuiTPo6cUCuc3hltjUqH81mUuw==}
     requiresBuild: true
     peerDependencies:
@@ -6375,7 +6375,7 @@ packages:
       element-plus:
         optional: true
     dependencies:
-      element-plus: 2.5.3(vue@3.4.15)
+      element-plus: 2.5.4(vue@3.4.15)
       vue: 3.4.15(typescript@5.3.3)
       vue-demi: 0.14.7(vue@3.4.15)
     dev: false
