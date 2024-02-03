@@ -81,7 +81,7 @@ export function isBase64WithScheme(str: string, mediaType?: string) {
   }
 }
 
-export function binaryToBase64(binary: File | Blob) {
+export function blobLikeToBase64(binary: File | Blob) {
   return new Promise((resolve, reject) => {
     const fileReader = new FileReader()
     fileReader.onerror = (e) => {
@@ -96,7 +96,7 @@ export function binaryToBase64(binary: File | Blob) {
 }
 
 // 任意类型 转 File 或 Blob
-export async function toBinary(source: File | Blob | string) {
+export async function toBlobLike(source: File | Blob | string) {
   if (typeof source === 'string') {
     if (isURL(source) || isBase64WithScheme(source, 'image/') || source.startsWith('blob:')) {
       return await (await fetch(source)).blob()
@@ -113,7 +113,7 @@ export async function toLocalURL(source: File | Blob | string) {
       return Promise.resolve(source)
     }
     if (isURL(source)) {
-      return binaryToBase64(await toBinary(source))
+      return blobLikeToBase64(await toBlobLike(source))
     }
     // isBase64 的参数为 URL 或 object URL 时会报错
     if (isBase64WithScheme(source, 'image/')) {
@@ -121,7 +121,7 @@ export async function toLocalURL(source: File | Blob | string) {
     }
     return Promise.reject(new Error('Error parsing image'))
   }
-  return binaryToBase64(source)
+  return blobLikeToBase64(source)
 }
 
 export async function toImageTag(src: string) {
@@ -353,20 +353,18 @@ export async function fileToBlob(file: File | Blob) {
     : Promise.resolve(file)
 }
 
-export async function binaryToArrayBuffer(file: File | Blob) {
-  return file instanceof File
-    ? new Promise((resolve, reject) => {
-      const fileReader = new FileReader()
-      fileReader.onerror = (e) => {
-        reject(e)
-      }
-      fileReader.onload = (e) => {
-        resolve(e.target?.result)
-      }
-      // readAsArrayBuffer 支持 File 和 Blob
-      fileReader.readAsArrayBuffer(file)
-    })
-    : Promise.resolve(file)
+export async function blobLikeToArrayBuffer(blobLike: File | Blob) {
+  return new Promise((resolve, reject) => {
+    const fileReader = new FileReader()
+    fileReader.onerror = (e) => {
+      reject(e)
+    }
+    fileReader.onload = (e) => {
+      resolve(e.target?.result)
+    }
+    // readAsArrayBuffer 支持 File 和 Blob
+    fileReader.readAsArrayBuffer(blobLike)
+  })
 }
 
 export function blobToFile(blob: File | Blob, fileName?: string, fileType?: string) {

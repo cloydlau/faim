@@ -1,7 +1,7 @@
 <script setup>
 import { reactive, ref } from 'vue-demi'
 import JsonEditorVue from 'json-editor-vue'
-import { binaryToBase64, fileToBlob } from '../src/utils'
+import { blobLikeToBase64, fileToBlob } from '../src/utils'
 import { FaMessageBox } from '../src'
 import presets from './Upload/presets'
 
@@ -63,7 +63,7 @@ async function onChooseFile(e) {
   data.sourceOptions.file = file
   data.sourceOptions.fileFromURL = await urlToFile(data.sourceOptions.url, '100x100.jpg')
   data.sourceOptions.blob = await fileToBlob(file)
-  data.sourceOptions.base64 = await binaryToBase64(file)
+  data.sourceOptions.base64 = await blobLikeToBase64(file)
   data.sourceOptions.objectURL = URL.createObjectURL(file)
   loadingFile.value = false
 }

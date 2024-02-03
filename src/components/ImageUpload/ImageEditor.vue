@@ -7,7 +7,7 @@ import { useEventListener } from '@vueuse/core'
 import { isVue3 } from 'vue-demi'
 import FaMessageBox from '../MessageBox'
 import FaFormDialog from '../FormDialog/index.vue'
-import { binaryToArrayBuffer, blobToFile, sizeToLabel, toBinary, toImageTag, toLocalURL } from '../../utils'
+import { blobLikeToArrayBuffer, blobToFile, sizeToLabel, toBlobLike, toImageTag, toLocalURL } from '../../utils'
 
 function initialSettings() {
   return {
@@ -22,7 +22,7 @@ function initialState() {
     ...initialSettings(),
     isVue3,
     fullscreen: false,
-    binary: null,
+    blobLike: null,
     cnum: null,
     localURL: null,
     imageTag: null,
@@ -64,10 +64,10 @@ export default {
   computed: {
     Debounce() {
       return 100
-      // return this.binary ? Math.min(500, Math.round(this.binary.size)) : 300
+      // return this.blobLike ? Math.min(500, Math.round(this.blobLike.size)) : 300
     },
     sizeTooltip() {
-      return this.getSizeTooltip(this.binary)
+      return this.getSizeTooltip(this.blobLike)
     },
     isWidthSpecified() {
       return Boolean(this.width.target)
@@ -100,10 +100,10 @@ export default {
       return this.specifiedAspectRatio || this.impliedAspectRatio
     },
     isCompressible() {
-      return this.binary && ['image/jpeg', 'image/png', 'image/webp'].includes(this.binary.type)
+      return this.blobLike && ['image/jpeg', 'image/png', 'image/webp'].includes(this.blobLike.type)
     },
     compressTooltip() {
-      return this.binary && this.locale.typeNotCompressible.replaceAll('{type}', this.binary.type)
+      return this.blobLike && this.locale.typeNotCompressible.replaceAll('{type}', this.blobLike.type)
     },
   },
   watch: {
@@ -113,12 +113,12 @@ export default {
         this.loading = true
 
         try {
-          this.binary = await toBinary(newValue)
+          this.blobLike = await toBlobLike(newValue)
           this.localURL = await toLocalURL(newValue)
           this.imageTag = await toImageTag(this.localURL)
           this.imageTag.aspectRatio = this.imageTag.width / this.imageTag.height
-          if (this.binary.type === 'image/png') {
-            const { depth } = UPNG.decode(await binaryToArrayBuffer(this.binary))
+          if (this.blobLike.type === 'image/png') {
+            const { depth } = UPNG.decode(await blobLikeToArrayBuffer(this.blobLike))
             this.cnum = 2 ** depth
           }
         } catch (e) {
@@ -175,7 +175,7 @@ export default {
           trailing: true,
         })
 
-        this.originalSizeLabel = sizeToLabel(this.binary.size)
+        this.originalSizeLabel = sizeToLabel(this.blobLike.size)
 
         this.cropper.replace(this.localURL) // replace 后触发 initCropBox（参数为 Base64 类型才会触发）
       } else {
@@ -356,13 +356,13 @@ export default {
       }
       return textA + textB
     },
-    getSizeTooltip(binary) {
-      if (binary) {
-        if (this.size.max && this.size.max < binary.size) {
+    getSizeTooltip(blobLike) {
+      if (blobLike) {
+        if (this.size.max && this.size.max < blobLike.size) {
           // return `大小上限为${this.size.maxLabel}，${(this.isWidthSpecified || this.isHeightSpecified) ? (this.quality === 0 ? '原图过大，请更换图片' : '请降低图片品质') : '请降低图片尺寸或品质'}`
           return this.locale.maxSizeExceeded.replaceAll('{maxSize}', this.size.maxLabel)
         }
-        if (this.size.min && this.size.min > binary.size) {
+        if (this.size.min && this.size.min > blobLike.size) {
           // return `大小下限为${this.size.minLabel}，${(this.isWidthSpecified || this.isHeightSpecified) ? (this.quality === 1 ? '原图过小，请更换图片' : '请提升图片品质') : '请提升图片尺寸或品质'}`
           return this.locale.minSizeExceeded.replaceAll('{minSize}', this.size.minLabel)
         }
@@ -431,7 +431,7 @@ export default {
             maxHeight: this.height.max,
             fillColor: '#fff',
           })
-          if (this.binary.type === 'image/png') {
+          if (this.blobLike.type === 'image/png') {
             try {
               const imgs = [canvas.getContext('2d').getImageData(0, 0, this.inputWidth, this.inputHeight).data.buffer]
               // this.submitting = true 视图不更新
@@ -443,7 +443,7 @@ export default {
                   // cnum ≤ 1 时无损
                   this.quality === 1 ? 0 : Math.max(Math.floor(this.cnum * this.quality), 2),
                 )
-                this.doConfirm(new Blob([arrayBuffer], { type: this.binary.type }), resolve, reject)
+                this.doConfirm(new Blob([arrayBuffer], { type: this.blobLike.type }), resolve, reject)
               }, 0)
             } catch (e) {
               FaMessageBox.error(this.locale.exportError)
@@ -462,8 +462,8 @@ export default {
                 }
               },
               // 如果旋转角度不为直角，则图片一定会出现空白区域，空白区域默认透明，使用 png 格式
-              // this.rotateDegree % 90 === 0 ? this.binary.type : 'image/png',
-              this.outputType || this.binary.type,
+              // this.rotateDegree % 90 === 0 ? this.blobLike.type : 'image/png',
+              this.outputType || this.blobLike.type,
               // 质量
               // jpg 默认 0.92，webp 默认 0.8
               this.quality,
@@ -477,7 +477,7 @@ export default {
             })
             reject(new Error(this.sizeTooltip))
           // 自定义校验
-          } else if (!this.validator(this.binary)) {
+          } else if (!this.validator(this.blobLike)) {
             reject(new Error('Validation failed'))
           } else {
             this.reset()
@@ -490,13 +490,13 @@ export default {
     },
     doConfirm(blob, resolve, reject) {
       // 如果输入为 File 类型，则输出也应为 File 类型，避免 name 丢失
-      const binary = this.binary instanceof File
-        ? blobToFile(blob, this.binary.name, this.outputType)
+      const blobLike = this.blobLike instanceof File
+        ? blobToFile(blob, this.blobLike.name, this.outputType)
         : blob
 
       // 大小校验
-      const sizeDiffText = this.getSizeDiffText(this.binary.size, binary.size)
-      const sizeTooltip = this.getSizeTooltip(binary)
+      const sizeDiffText = this.getSizeDiffText(this.blobLike.size, blobLike.size)
+      const sizeTooltip = this.getSizeTooltip(blobLike)
       if (sizeTooltip) {
         FaMessageBox.warning({
           html: `<div style="text-align:center">${sizeDiffText}</div>
@@ -504,12 +504,12 @@ export default {
         })
         reject(new Error(sizeTooltip))
       // 自定义校验
-      } else if (!this.validator(binary)) {
+      } else if (!this.validator(blobLike)) {
         reject(new Error('Validation failed'))
       } else {
         console.log(sizeDiffText)
         this.reset()
-        this.$emit('confirm', binary)
+        this.$emit('confirm', blobLike)
         // Closing is decided by the parent component based on the length of queue
         resolve({ show: true })
       }
@@ -736,12 +736,12 @@ export default {
         <template #label>
           {{ locale.accept }}
         </template>
-        <template v-if="binary">
-          <el-tag v-if="outputType && outputType !== binary.type">
-            <span style="color: #a8abb2;">{{ binary.type }}</span> ➜ {{ outputType }}
+        <template v-if="blobLike">
+          <el-tag v-if="outputType && outputType !== blobLike.type">
+            <span style="color: #a8abb2;">{{ blobLike.type }}</span> ➜ {{ outputType }}
           </el-tag>
           <el-tag v-else>
-            {{ binary.type }}
+            {{ blobLike.type }}
           </el-tag>
         </template>
       </el-form-item>

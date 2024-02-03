@@ -7,7 +7,7 @@ import mime from 'mime'
 import { useFormDisabled } from 'element-plus/es/components/form/src/hooks/use-form-common-props.mjs'
 import FaMessageBox from '../MessageBox'
 import FaImage from '../Image/index.vue'
-import { handleNumericalProp, isObject, sizeToLabel, toBinary, toImageTag, toLocalURL, tryParsingJSONArray, unwrap } from '../../utils'
+import { handleNumericalProp, isObject, sizeToLabel, toBlobLike, toImageTag, toLocalURL, tryParsingJSONArray, unwrap } from '../../utils'
 import defaultLocale from '../../locale/en'
 import ImageEditor from './ImageEditor.vue'
 import './index.css'
@@ -469,7 +469,7 @@ export default {
             return false
           }
         } else if (typeof source === 'string') {
-          binary = await toBinary(source)
+          binary = await toBlobLike(source)
           if (!binary.type.startsWith('image/')) {
             FaMessageBox.warning(`${this.Locale.typeNotAllowed.replaceAll('{accept}', this.Type.extensions)}`)
             return false
@@ -488,7 +488,7 @@ export default {
       if (this.Editable) {
         return true
       }
-      binary ??= await toBinary(source)
+      binary ??= await toBlobLike(source)
       return this.Size.validate(binary.size)
     },
     async validateDimension(file) {
