@@ -804,7 +804,7 @@ export default {
         </template>
         <el-switch
           v-model="isAspectRatioLocked"
-          :disabled="isAspectRatioSpecified"
+          :disabled="isAspectRatioSpecified || !impliedAspectRatio"
           @change="onIsAspectRatioSpecifiedChange"
         />
       </el-form-item>
