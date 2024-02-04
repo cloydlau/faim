@@ -163,11 +163,11 @@ export default {
             const { width, height } = this.cropper.getCropBoxData()
             const newAspectRatio = width / height
             if (newAspectRatio > this.impliedAspectRatio) {
-              this.inputHeight = Number.parseInt((width / this.dimensionScaleFactor / newAspectRatio).toFixed(0))
-              this.inputWidth = Number.parseInt((this.inputHeight * newAspectRatio).toFixed(0))
+              this.inputHeight = Number.parseInt((width / this.dimensionScaleFactor / newAspectRatio).toFixed())
+              this.inputWidth = Number.parseInt((this.inputHeight * newAspectRatio).toFixed())
             } else if (newAspectRatio < this.impliedAspectRatio) {
-              this.inputWidth = Number.parseInt((height / this.dimensionScaleFactor * newAspectRatio).toFixed(0))
-              this.inputHeight = Number.parseInt((this.inputWidth / newAspectRatio).toFixed(0))
+              this.inputWidth = Number.parseInt((height / this.dimensionScaleFactor * newAspectRatio).toFixed())
+              this.inputHeight = Number.parseInt((this.inputWidth / newAspectRatio).toFixed())
             }
           }
         }, this.Debounce, {
@@ -261,70 +261,80 @@ export default {
         this.loading = false
       }
     },
-    onWidthChange() {
-      if (this.isAspectRatioSpecified && this.impliedAspectRatio !== this.specifiedAspectRatio) {
-        this.inputHeight = (this.inputWidth ?? 0) / this.specifiedAspectRatio
-      }
-      // 清空宽高时，取消锁定
+    onWidthChange(newVal, oldVal) {
+      // 清空宽/高时，不存在宽高比，取消锁定
       if (!this.impliedAspectRatio) {
         this.isAspectRatioLocked = false
-      }
-      // 裁剪框比例与宽高比保持一致
-      if (this.impliedAspectRatio) {
-        const containerData = this.cropper.getContainerData()
-        const cropBoxData = this.cropper.getCropBoxData()
-        // setAspectRatio 会改变裁剪框
-        this.cropper.setAspectRatio(this.isAspectRatioLocked ? this.impliedAspectRatio : null)
-        const newCropBoxWidth = cropBoxData.height * this.impliedAspectRatio
-        const isReachHorizontalBorder = newCropBoxWidth > containerData.width
-        let width, height
-        // 裁剪框横向抵满
-        if (isReachHorizontalBorder) {
-          width = cropBoxData.width
-          height = cropBoxData.width / this.impliedAspectRatio
+      // 存在宽&高，隐含宽高比
+      } else {
+        // 比例锁定，调整高度以保持比例不变
+        if (this.isAspectRatioLocked) {
+          const oldAspectRatio = oldVal / this.inputHeight
+          if (this.impliedAspectRatio !== oldAspectRatio) {
+            this.inputHeight = Number.parseInt((this.inputWidth / oldAspectRatio).toFixed())
+          }
+        // 比例自由，调整裁剪框比例以与宽高比保持一致
         } else {
-          width = newCropBoxWidth
-          height = cropBoxData.height
+          const containerData = this.cropper.getContainerData()
+          const cropBoxData = this.cropper.getCropBoxData()
+          // setAspectRatio 会改变裁剪框
+          this.cropper.setAspectRatio(this.isAspectRatioLocked ? this.impliedAspectRatio : null)
+          const newCropBoxWidth = cropBoxData.height * this.impliedAspectRatio
+          const isReachHorizontalBorder = newCropBoxWidth > containerData.width
+          let width, height
+          // 裁剪框横向抵满
+          if (isReachHorizontalBorder) {
+            width = cropBoxData.width
+            height = cropBoxData.width / this.impliedAspectRatio
+          } else {
+            width = newCropBoxWidth
+            height = cropBoxData.height
+          }
+          this.cropper.setCropBoxData({
+            width,
+            height,
+            left: (containerData.width - width) / 2,
+            top: (containerData.height - height) / 2,
+          })
         }
-        this.cropper.setCropBoxData({
-          width,
-          height,
-          left: (containerData.width - width) / 2,
-          top: (containerData.height - height) / 2,
-        })
       }
     },
-    onHeightChange() {
-      if (this.isAspectRatioSpecified && this.impliedAspectRatio !== this.specifiedAspectRatio) {
-        this.inputWidth = (this.inputHeight ?? 0) / this.specifiedAspectRatio
-      }
-      // 清空宽高时，取消锁定
+    onHeightChange(newVal, oldVal) {
+      // 清空宽/高时，不存在宽高比，取消锁定
       if (!this.impliedAspectRatio) {
         this.isAspectRatioLocked = false
-      }
-      // 裁剪框比例与宽高比保持一致
-      if (this.impliedAspectRatio) {
-        const containerData = this.cropper.getContainerData()
-        const cropBoxData = this.cropper.getCropBoxData()
-        // setAspectRatio 会改变裁剪框
-        this.cropper.setAspectRatio(this.isAspectRatioLocked ? this.impliedAspectRatio : null)
-        const newCropBoxHeight = cropBoxData.width / this.impliedAspectRatio
-        const isReachVerticalBorder = newCropBoxHeight > containerData.height
-        let width, height
-        // 裁剪框纵向抵满
-        if (isReachVerticalBorder) {
-          width = cropBoxData.height * this.impliedAspectRatio
-          height = cropBoxData.height
+      // 存在宽&高，隐含宽高比
+      } else {
+        // 比例锁定，调整宽度以保持比例不变
+        if (this.isAspectRatioLocked) {
+          const oldAspectRatio = this.inputWidth / oldVal
+          if (this.impliedAspectRatio !== oldAspectRatio) {
+            this.inputWidth = Number.parseInt((this.inputHeight * oldAspectRatio).toFixed())
+          }
+        // 比例自由，调整裁剪框比例以与宽高比保持一致
         } else {
-          width = cropBoxData.width
-          height = newCropBoxHeight
+          const containerData = this.cropper.getContainerData()
+          const cropBoxData = this.cropper.getCropBoxData()
+          // setAspectRatio 会改变裁剪框
+          this.cropper.setAspectRatio(this.isAspectRatioLocked ? this.impliedAspectRatio : null)
+          const newCropBoxHeight = cropBoxData.width / this.impliedAspectRatio
+          const isReachVerticalBorder = newCropBoxHeight > containerData.height
+          let width, height
+          // 裁剪框纵向抵满
+          if (isReachVerticalBorder) {
+            width = cropBoxData.height * this.impliedAspectRatio
+            height = cropBoxData.height
+          } else {
+            width = cropBoxData.width
+            height = newCropBoxHeight
+          }
+          this.cropper.setCropBoxData({
+            width,
+            height,
+            left: (containerData.width - width) / 2,
+            top: (containerData.height - height) / 2,
+          })
         }
-        this.cropper.setCropBoxData({
-          width,
-          height,
-          left: (containerData.width - width) / 2,
-          top: (containerData.height - height) / 2,
-        })
       }
     },
     onIsAspectRatioSpecifiedChange() {
