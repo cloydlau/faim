@@ -60,7 +60,7 @@ npm i faim
 
 允许 faim 执行生命周期脚本：
 
-```json
+```json5
 // package.json
 
 {
@@ -369,7 +369,7 @@ new Vue({
 
 ### 覆盖依赖版本
 
-```json
+```json5
 // package.json
 {
   // npm/cnpm/bun
@@ -391,7 +391,7 @@ new Vue({
 
 或缩小作用范围：
 
-```json
+```json5
 // package.json
 {
   // npm/cnpm/bun
@@ -1451,17 +1451,17 @@ TinyMCE 的 `urlconverter_callback`、`paste_postprocess` API 不支持异步操
 interface Props {
   // 定位 option 中的 value
   // 如果是 string 类型，将默认用于 el-select 的 value-key
-  'value': string | symbol | ((value: any) => any)
+  value: string | symbol | ((value: any) => any)
   // 定位 option 中的 label
-  'label': string | symbol | ((value: any) => string)
+  label: string | symbol | ((value: any) => string)
   // 定位 option 中的 disabled
-  'disabled': string | symbol | ((value: any) => boolean)
+  disabled: string | symbol | ((value: any) => boolean)
   // 定位 option 中分组的 label
-  'groupLabel': string | symbol | ((value: any) => string)
+  groupLabel: string | symbol | ((value: any) => string)
   // 定位 option 中分组的 options
-  'groupOptions': string | symbol | ((value: any) => any[])
+  groupOptions: string | symbol | ((value: any) => any[])
   // 定位 option 中分组的 disabled
-  'groupDisabled': string | symbol | ((value: any) => boolean)
+  groupDisabled: string | symbol | ((value: any) => boolean)
 }
 ```
 
