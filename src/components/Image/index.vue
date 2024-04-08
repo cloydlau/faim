@@ -154,7 +154,8 @@ export default {
           if (typeof newValue === 'string') {
             const arr = tryParsingJSONArray(newValue)
             newValue = arr || [newValue]
-          } else if (isObject(newValue)) {
+          }
+          else if (isObject(newValue)) {
             newValue = [newValue]
           }
           // 应用 srcAt，并过滤空值
@@ -168,10 +169,12 @@ export default {
                 })
               }
             }))).filter(v => v)
-          } else {
+          }
+          else {
             this.files = []
           }
-        } else {
+        }
+        else {
           this.files = []
         }
         this.loading = false
@@ -186,7 +189,8 @@ export default {
       let type = 'qrcode'
       if (isURL(src || '')) {
         type = 'url'
-      } else if (isBase64WithScheme(src, 'image/')) {
+      }
+      else if (isBase64WithScheme(src, 'image/')) {
         type = 'base64'
       }
 
@@ -204,15 +208,18 @@ export default {
             console.error(e)
           })
         // base64 或 URL
-        } else {
+        }
+        else {
           result.src = src
         }
-      } else if (this.QRCode) {
+      }
+      else if (this.QRCode) {
         result.type = 'qrcode'
         result.src = await QRCode.toDataURL(src, this.QRCodeOptions).catch((e) => {
           console.error(e)
         })
-      } else {
+      }
+      else {
         result.src = src
       }
 
@@ -223,7 +230,8 @@ export default {
         if (this.files.length) {
           if (this.Pattern === 'swiper') {
             this.swiper ||= new Swiper(this.$refs.faImageRef, this.SwiperOptions)
-          } else {
+          }
+          else {
             this.swiper?.destroy()
             this.swiper = null
           }
@@ -232,10 +240,12 @@ export default {
           this.viewer?.destroy()
           if (this.Viewable) {
             this.viewer = new Viewer(this.$refs.viewerRef, this.ViewerOptions)
-          } else {
+          }
+          else {
             this.viewer = null
           }
-        } else {
+        }
+        else {
           this.swiper?.destroy()
           this.swiper = null
           this.viewer?.destroy()

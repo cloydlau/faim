@@ -1,7 +1,9 @@
 // '?raw' 是 Vite 语法，在 webpack 中请使用 https://github.com/webpack-contrib/raw-loader
 
 // 浅色模式
-import 'tinymce/skins/ui/oxide/skin.min.css' // 皮肤
+import 'tinymce/skins/ui/oxide/skin.min.css'
+
+// 皮肤
 import contentCSS from 'tinymce/skins/content/default/content.min.css?raw'
 import contentUICSS from 'tinymce/skins/ui/oxide/content.min.css?raw'
 
@@ -120,7 +122,8 @@ export default {
     }).then((res) => {
       if (typeof res.data?.data === 'string') {
         return res.data.data
-      } else {
+      }
+      else {
         Promise.reject(res)
       }
     })

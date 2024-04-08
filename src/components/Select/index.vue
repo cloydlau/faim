@@ -223,7 +223,8 @@ export default {
             })),
           }
         })
-      } else {
+      }
+      else {
         this.optionPropsList = Array.from(newOptions || [], v => ({
           key: this.getKey(v),
           value: this.getValue(v),
@@ -249,7 +250,8 @@ export default {
         }).finally(() => {
           this.innerLoading = false
         })
-      } else {
+      }
+      else {
         this.setInnerOptions(res)
         this.innerLoading = false
       }
@@ -266,7 +268,8 @@ export default {
             label.push(v.currentLabel)
           })
           this.$emit('update:label', label)
-        } else {
+        }
+        else {
           if (!this.$refs[this.ElSelectProps.ref].selectedLabel) {
             this.$refs[this.ElSelectProps.ref].selectedLabel = this.getLabel(this.innerValue)
           }
@@ -288,7 +291,8 @@ export default {
             innerValue.push(value)
           }
         // 全不选时，选项被选中了，取消选中它
-        } else if (i !== undefined) {
+        }
+        else if (i !== undefined) {
           innerValue[i] = undefined
         }
       }
@@ -299,7 +303,8 @@ export default {
             optionPropsList?.forEach(({ disabled, value, key }) => callback(disabled, value, key))
           }
         })
-      } else {
+      }
+      else {
         this.optionPropsList.forEach(({ disabled, value, key }) => callback(disabled, value, key))
       }
 
@@ -327,12 +332,14 @@ export default {
             this.optionGroupPropsList.forEach(({ optionPropsList }) => {
               optionPropsList?.forEach(({ value, key }) => callback(value, key))
             })
-          } else {
+          }
+          else {
             this.optionPropsList.forEach(({ value, key }) => callback(value, key))
           }
           this.indeterminate = matchCount > 0 && matchCount < optionsCount
           this.allSelected = matchCount > 0 && matchCount === optionsCount
-        } else {
+        }
+        else {
           this.indeterminate = false
           this.allSelected = false
         }
@@ -377,7 +384,8 @@ export default {
     sort() {
       if (this.sortablejs) {
         this.sortablejs.option('disabled', !this.canSort)
-      } else if (this.canSort) {
+      }
+      else if (this.canSort) {
         this.$nextTick(() => {
           let elSelectTagsWrapper = this.$refs.elSelectRef.$el.firstElementChild.firstElementChild
           if (isVue3) {
@@ -413,7 +421,7 @@ export default {
     class="fa-select"
     :class="{ canSort }"
     v-on="Listeners"
-    @visible-change="onVisibleChange"
+    @visibleChange="onVisibleChange"
   >
     <template v-if="isGrouped">
       <component

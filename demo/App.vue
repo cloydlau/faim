@@ -164,7 +164,7 @@ function loading() {
           @input="() => {
             // console.log('input')
           }"
-          @update:model-value="() => {
+          @update:modelValue="() => {
             console.log('update:modelValue')
           }"
         />
@@ -580,7 +580,7 @@ function loading() {
 </template>
 
 <style lang="scss">
-.FaImageUpload>.el-form-item__content {
+.FaImageUpload > .el-form-item__content {
   display: flex;
   flex-direction: column;
   align-items: start;

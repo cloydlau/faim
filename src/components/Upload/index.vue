@@ -515,32 +515,36 @@ export default {
                 if (!this.ImageAspectRatio.validate(imageTag.width / imageTag.height)) {
                   return
                 }
-              } else if (item.file.type.startsWith('video/')) {
+              }
+              else if (item.file.type.startsWith('video/')) {
                 // video 标签只支持 mp4/webm/ogg (Safari 不支持 ogg)
                 const [err, res] = await to(getVideoMetadata(item.file))
                 if (err) {
                   console.error(err)
-                } else {
+                }
+                else {
                   const { videoWidth, videoHeight, duration } = res
                   // console.log('videoWidth: ', videoWidth)
                   // console.log('videoHeight: ', videoHeight)
                   // console.log('duration: ', duration)
                   if (!(
                     this.VideoWidth.validate(videoWidth)
-                      && this.VideoHeight.validate(videoHeight)
-                      && this.VideoResolution.validate(videoWidth * videoHeight)
-                      && this.VideoAspectRatio.validate(videoWidth / videoHeight)
-                      && this.VideoDuration.validate(duration)
+                    && this.VideoHeight.validate(videoHeight)
+                    && this.VideoResolution.validate(videoWidth * videoHeight)
+                    && this.VideoAspectRatio.validate(videoWidth / videoHeight)
+                    && this.VideoDuration.validate(duration)
                   )) {
                     return
                   }
                 }
-              } else if (item.file.type.startsWith('audio/')) {
+              }
+              else if (item.file.type.startsWith('audio/')) {
                 // audio 标签只支持 mp3/wav/ogg (Safari 不支持 ogg)
                 const [err, res] = await to(getAudioMetadata(item.file))
                 if (err) {
                   console.error(err)
-                } else {
+                }
+                else {
                   const { duration } = res
                   // console.log('duration: ', duration)
                   if (!this.AudioDuration.validate(duration)) {
@@ -581,7 +585,8 @@ export default {
               this.filePond.addFile(file.source, file.options)
               if (this.FilePondOptions.itemInsertLocation === 'after') {
                 this.files.push(file)
-              } else {
+              }
+              else {
                 this.files.unshift(file)
               }
               this.emitInput()
@@ -646,13 +651,15 @@ export default {
               extension = acceptedFileTypes[i]
               // filepond 不支持扩展名：https://github.com/pqina/filepond-plugin-file-validate-type/issues/13
               acceptedFileTypes[i] = mime.getType(acceptedFileTypes[i])
-            } else if (fileValidateTypeLabelExpectedTypesMap) {
+            }
+            else if (fileValidateTypeLabelExpectedTypesMap) {
               extension = fileValidateTypeLabelExpectedTypesMap[acceptedFileTypes[i]]
             }
           }
           if (extension) {
             extensions.push(extension)
-          } else {
+          }
+          else {
             extensions.push(...Array.from(mime.getAllExtensions(acceptedFileTypes[i]) || [], extension => `.${extension}`))
           }
         }
@@ -669,7 +676,8 @@ export default {
             } else */
           if (acceptedFileTypesMap[type] || acceptedFileTypesMap[type.replace(/\/.+$/, '/*')]) {
             resolve(type)
-          } else {
+          }
+          else {
             reject(new Error(labelFileTypeNotAllowed || 'File of invalid type'))
           }
         })
@@ -678,35 +686,44 @@ export default {
       if (minFiles && maxFiles) {
         if (minFiles < maxFiles) {
           limitation.push(`${this.LabelCount} ${minFiles.toLocaleString()} ~ ${maxFiles.toLocaleString()}`)
-        } else if (minFiles === maxFiles) {
+        }
+        else if (minFiles === maxFiles) {
           limitation.push(`${this.LabelCount} ${minFiles.toLocaleString()}`)
-        } else {
+        }
+        else {
           throw new Error('minFiles cannot be greater than maxFiles')
         }
-      } else if (maxFiles) {
+      }
+      else if (maxFiles) {
         limitation.push(`${this.LabelCount} ≤ ${maxFiles}`)
-      } else if (minFiles) {
+      }
+      else if (minFiles) {
         limitation.push(`${this.LabelCount} ≥ ${minFiles}`)
       }
       // 大小
       if (minFileSize && maxFileSize) {
         if (minFileSize < maxFileSize) {
           limitation.push(`${this.LabelSize} ${minFileSize} ~ ${maxFileSize}`)
-        } else if (minFileSize === maxFileSize) {
+        }
+        else if (minFileSize === maxFileSize) {
           limitation.push(`${this.LabelSize} ${minFileSize}`)
-        } else {
+        }
+        else {
           throw new Error('minFileSize cannot be greater than maxFileSize')
         }
-      } else if (maxFileSize) {
+      }
+      else if (maxFileSize) {
         limitation.push(`${this.LabelSize} ≤ ${maxFileSize}`)
-      } else if (minFileSize) {
+      }
+      else if (minFileSize) {
         limitation.push(`${this.LabelSize} ≥ ${minFileSize}`)
       }
       // 图片尺寸
       if (imageValidateSizeMinWidth || imageValidateSizeMaxWidth || imageValidateSizeMinHeight || imageValidateSizeMaxHeight) {
         if (imageValidateSizeMinResolution || imageValidateSizeMaxResolution) {
           throw new Error('Prohibit specifying both width/height and resolution at the same time to avoid conflicts')
-        } else if (this.ImageAspectRatio.tip) {
+        }
+        else if (this.ImageAspectRatio.tip) {
           throw new Error('Prohibit specifying both width/height and aspect ratio at the same time to avoid conflicts')
         }
       }
@@ -714,33 +731,42 @@ export default {
       if (imageValidateSizeMinWidth && imageValidateSizeMaxWidth) {
         if (imageValidateSizeMinWidth < imageValidateSizeMaxWidth) {
           limitation.push(`${this.LabelImageWidth} ${imageValidateSizeMinWidth.toLocaleString()} ~ ${imageValidateSizeMaxWidth.toLocaleString()}`)
-        } else if (imageValidateSizeMinWidth === imageValidateSizeMaxWidth) {
+        }
+        else if (imageValidateSizeMinWidth === imageValidateSizeMaxWidth) {
           isWidthFixed = true
-        } else {
+        }
+        else {
           throw new Error('imageValidateSizeMinWidth cannot be greater than imageValidateSizeMaxWidth')
         }
-      } else if (imageValidateSizeMaxWidth) {
+      }
+      else if (imageValidateSizeMaxWidth) {
         limitation.push(`${this.LabelImageWidth} ≤ ${imageValidateSizeMaxWidth.toLocaleString()}`)
-      } else if (imageValidateSizeMinWidth) {
+      }
+      else if (imageValidateSizeMinWidth) {
         limitation.push(`${this.LabelImageWidth} ≥ ${imageValidateSizeMinWidth.toLocaleString()}`)
       }
       let isHeightFixed = false
       if (imageValidateSizeMinHeight && imageValidateSizeMaxHeight) {
         if (imageValidateSizeMinHeight < imageValidateSizeMaxHeight) {
           limitation.push(`${this.LabelImageHeight} ${imageValidateSizeMinHeight.toLocaleString()} ~ ${imageValidateSizeMaxHeight.toLocaleString()}`)
-        } else if (imageValidateSizeMinHeight === imageValidateSizeMaxHeight) {
+        }
+        else if (imageValidateSizeMinHeight === imageValidateSizeMaxHeight) {
           isHeightFixed = true
-        } else {
+        }
+        else {
           throw new Error('imageValidateSizeMinHeight cannot be greater than imageValidateSizeMaxHeight')
         }
-      } else if (imageValidateSizeMaxHeight) {
+      }
+      else if (imageValidateSizeMaxHeight) {
         limitation.push(`${this.LabelImageHeight} ≤ ${imageValidateSizeMaxHeight.toLocaleString()}`)
-      } else if (imageValidateSizeMinHeight) {
+      }
+      else if (imageValidateSizeMinHeight) {
         limitation.push(`${this.LabelImageHeight} ≥ ${imageValidateSizeMinHeight.toLocaleString()}`)
       }
       if (isWidthFixed && isHeightFixed) {
         limitation.push(`${this.LabelImageDimension} ${imageValidateSizeMinHeight.toLocaleString()} × ${imageValidateSizeMinHeight.toLocaleString()}`)
-      } else {
+      }
+      else {
         if (isWidthFixed) {
           limitation.push(`${this.LabelImageWidth} ${imageValidateSizeMinWidth.toLocaleString()}`)
         }
@@ -766,14 +792,18 @@ export default {
       if (imageValidateSizeMinResolution && imageValidateSizeMaxResolution) {
         if (imageValidateSizeMinResolution < imageValidateSizeMaxResolution) {
           limitation.push(`${this.LabelImageResolution} ${imageValidateSizeMinResolution.toLocaleString()} ~ ${imageValidateSizeMaxResolution.toLocaleString()}`)
-        } else if (imageValidateSizeMinResolution === imageValidateSizeMaxResolution) {
+        }
+        else if (imageValidateSizeMinResolution === imageValidateSizeMaxResolution) {
           limitation.push(`${this.LabelImageResolution} ${imageValidateSizeMinResolution.toLocaleString()}`)
-        } else {
+        }
+        else {
           throw new Error('imageValidateSizeMinResolution cannot be greater than imageValidateSizeMaxResolution')
         }
-      } else if (imageValidateSizeMaxResolution) {
+      }
+      else if (imageValidateSizeMaxResolution) {
         limitation.push(`${this.LabelImageResolution} ≤ ${imageValidateSizeMaxResolution.toLocaleString()}`)
-      } else if (imageValidateSizeMinResolution) {
+      }
+      else if (imageValidateSizeMinResolution) {
         limitation.push(`${this.LabelImageResolution} ≥ ${imageValidateSizeMinResolution.toLocaleString()}`)
       }
       // 图片比例
@@ -784,13 +814,15 @@ export default {
       if (this.VideoWidth.tip || this.VideoHeight.tip) {
         if (this.VideoResolution.tip) {
           throw new Error('Prohibit specifying both width/height and resolution at the same time to avoid conflicts')
-        } else if (this.VideoAspectRatio.tip) {
+        }
+        else if (this.VideoAspectRatio.tip) {
           throw new Error('Prohibit specifying both width/height and aspect ratio at the same time to avoid conflicts')
         }
       }
       if (this.VideoWidth.targetLabel && this.VideoHeight.targetLabel) {
         limitation.push(`${this.LabelVideoDimension} ${this.VideoWidth.targetLabel} × ${this.VideoHeight.targetLabel}`)
-      } else {
+      }
+      else {
         if (this.VideoWidth.tip) {
           limitation.push(this.VideoWidth.tip)
         }
@@ -859,7 +891,8 @@ export default {
           if (typeof newValue === 'string') {
             const arr = tryParsingJSONArray(newValue)
             newValue = arr || [newValue]
-          } else if (isObject(newValue)) {
+          }
+          else if (isObject(newValue)) {
             newValue = [newValue]
           }
           // 应用 srcAt，并过滤掉无效的值
@@ -870,10 +903,12 @@ export default {
               file && files.push(file)
             }
             this.files = files
-          } else {
+          }
+          else {
             this.files = []
           }
-        } else {
+        }
+        else {
           this.files = []
         }
         // 改变排序时，视图不会更新
@@ -884,7 +919,8 @@ export default {
     Disabled(newValue) {
       if (newValue) {
         FilePond.destroy(this.$refs.filePond)
-      } else {
+      }
+      else {
         this.$nextTick(() => {
           this.filePond = FilePond.create(this.$refs.filePond, this.FilePondOptions)
         })
@@ -916,7 +952,8 @@ export default {
         leading: false,
         trailing: true,
       }))
-    } catch (e) { }
+    }
+    catch (e) { }
   },
   destroyed() {
     FilePond.destroy(this.$refs.filePond)
@@ -949,7 +986,8 @@ export default {
       if (this.Arrayed === false) {
         newValue = isSingle ? newValue[0] : JSON.stringify(newValue)
       // 自动
-      } else if (!this.Arrayed && isSingle) {
+      }
+      else if (!this.Arrayed && isSingle) {
         newValue = newValue[0]
       }
 
@@ -980,10 +1018,12 @@ export default {
         if (source instanceof Blob) {
           res.options.file = source
           res.options.file.name ||= source.toString()
-        } else if (value instanceof Blob) {
+        }
+        else if (value instanceof Blob) {
           res.options.file = value
           res.options.file.name ||= source.toString()
-        } else if (typeof source === 'string') {
+        }
+        else if (typeof source === 'string') {
           res.options.file = { name: source }
         }
         return res

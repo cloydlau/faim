@@ -193,7 +193,8 @@ export default {
       if (this.Width.tip || this.Height.tip) {
         if (this.Resolution.tip) {
           throw new Error('Prohibit specifying both width/height and resolution at the same time to avoid conflicts')
-        } else if (this.AspectRatio.tip) {
+        }
+        else if (this.AspectRatio.tip) {
           throw new Error('Prohibit specifying both width/height and aspect ratio at the same time to avoid conflicts')
         }
       }
@@ -305,17 +306,20 @@ export default {
                 mimeMap[type] = true
               }
               continue
-            } else if (accept.startsWith('image/')) {
+            }
+            else if (accept.startsWith('image/')) {
               if (accept === 'image/*') {
                 // 不需要校验
                 mimeMap = null
                 extensions[i] = null
                 break
-              } else {
+              }
+              else {
                 mimeMap[accept] = true
                 extensions[i] = Array.from(mime.getAllExtensions(accept) || [], extension => `.${extension}`)
               }
-            } else {
+            }
+            else {
               throw new Error(`Prop 'accept' contains illegal value: '${accept}'`)
             }
           }
@@ -359,7 +363,8 @@ export default {
           if (typeof newValue === 'string') {
             const arr = tryParsingJSONArray(newValue)
             newValue = arr || [newValue]
-          } else if (isObject(newValue)) {
+          }
+          else if (isObject(newValue)) {
             newValue = [newValue]
           }
           // 应用 srcAt，并过滤掉无效的值
@@ -370,10 +375,12 @@ export default {
               file && files.push(file)
             }
             this.files = files
-          } else {
+          }
+          else {
             this.files = []
           }
-        } else {
+        }
+        else {
           this.files = []
         }
       },
@@ -442,11 +449,13 @@ export default {
       if (this.Arrayed === false) {
         if (isSingle) {
           newValue = newValue[0]
-        } else {
+        }
+        else {
           newValue = JSON.stringify(newValue)
         }
       // 自动
-      } else if (!this.Arrayed) {
+      }
+      else if (!this.Arrayed) {
         if (isSingle) {
           newValue = newValue[0]
         }
@@ -468,7 +477,8 @@ export default {
             FaMessageBox.warning(`${this.Locale.typeNotAllowed.replaceAll('{accept}', this.Type.extensions)}`)
             return false
           }
-        } else if (typeof source === 'string') {
+        }
+        else if (typeof source === 'string') {
           binary = await toBlobLike(source)
           if (!binary.type.startsWith('image/')) {
             FaMessageBox.warning(`${this.Locale.typeNotAllowed.replaceAll('{accept}', this.Type.extensions)}`)
@@ -478,7 +488,8 @@ export default {
             FaMessageBox.warning(`${this.Locale.typeNotAllowed.replaceAll('{accept}', this.Type.extensions)}`)
             return false
           }
-        } else {
+        }
+        else {
           console.error('Invalid image source: ', source)
           return false
         }
@@ -512,7 +523,7 @@ export default {
       if (
         this.Count.max !== undefined
         // 判断是否超过数量上限: 已有图片数量 + 编辑队列中图片数量 + 输入图片数量 > 图片数量上限
-          && (this.files.length + initialEditorQueueLength + inputs.length) > this.Count.max
+        && (this.files.length + initialEditorQueueLength + inputs.length) > this.Count.max
       ) {
         throw new Error(this.onExceed())
       }
@@ -546,7 +557,8 @@ export default {
       this.$refs.elUploadRef.uploadFiles.pop()
       if (this.Editable) {
         await this.openEditor(file.raw)
-      } else if (
+      }
+      else if (
         await this.validateTypeAndSize(file.raw)
         && await this.validateDimension(file.raw)
         && this.Validator(file.raw)
@@ -566,7 +578,8 @@ export default {
       this.httpRequest(output)
       if (this.editor.queue.length > 0) {
         this.editor.value = this.editor.queue.shift()
-      } else {
+      }
+      else {
         this.editor.show = false
       }
     },
@@ -578,7 +591,8 @@ export default {
     sort() {
       if (this.sortablejs) {
         this.sortablejs.option('disabled', !this.canSort)
-      } else if (this.canSort) {
+      }
+      else if (this.canSort) {
         this.$nextTick(() => {
           // list-type="text" 时，this.$refs.elUploadRef.$el.firstElementChild 是一个注释节点
           if (this.$refs.elUploadRef.$el.firstElementChild?.nodeType === Node.ELEMENT_NODE) {

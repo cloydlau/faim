@@ -41,7 +41,8 @@ async function postinstall() {
       // Cannot delete files/directories outside the current working directory. Can be overridden with the `force` option.
       await deleteAsync([`${process.env.INIT_CWD}/node_modules/.vite/deps/element-plus.js*`], { force: true })
     }
-  } else {
+  }
+  else {
     console.log(cyan('[INFO] Element Plus not installed'))
   }
 
@@ -78,7 +79,8 @@ async function postinstall() {
 
   if (isDev) {
     spawn.sync('npx', ['simple-git-hooks'], { stdio: 'inherit' })
-  } else {
+  }
+  else {
     const viteCacheDir = `${process.env.INIT_CWD}/node_modules/.vite/deps/${name}`
     if (fs.existsSync(viteCacheDir)) {
       console.log(cyan(`[INFO] Vite re-bundling ${name}`))

@@ -576,10 +576,10 @@ new Vue({
 
 ### Events
 
-| 名称              | 说明                          | 回调参数              |
-| ----------------- | ----------------------------- | --------------------- |
-| fullscreen-change | 切换全屏状态时触发            | (fullscreen: boolean) |
-| ...               | `el-dialog`、`el-form` 的事件 |                       |
+| 名称             | 说明                          | 回调参数              |
+| ---------------- | ----------------------------- | --------------------- |
+| fullscreenChange | 切换全屏状态时触发            | (fullscreen: boolean) |
+| ...              | `el-dialog`、`el-form` 的事件 |                       |
 
 ### Slots
 
@@ -702,7 +702,7 @@ const faImageRef = ref()
 const value = ref([])
 const loadCount = ref(0)
 function onLoad() {
-  if (++loadCount === value.length) {
+  if (++loadCount.value === value.value.length) {
     faImageRef.value.hydrate()
   }
 }
@@ -1049,7 +1049,8 @@ FaMessageBox.confirm('Are You Sure?').then(() => {
 }).catch((e) => {
   if (e.isDenied) {
     // onDenied
-  } else if (e.isDismissed) {
+  }
+  else if (e.isDismissed) {
     // onDismissed
   }
 })
@@ -1105,7 +1106,8 @@ FaMessageBox.confirm({
       }).catch((e) => {
         alert('Deny Failed')
       })
-    } else {
+    }
+    else {
       FaMessageBox.showValidationMessage('Please fill in the remark')
       return false
     }
@@ -1115,7 +1117,8 @@ FaMessageBox.confirm({
 }).catch((e) => {
   if (e.isDenied) {
     alert('Denied')
-  } else if (e.isDismissed) {
+  }
+  else if (e.isDismissed) {
     alert('Dismissed')
   }
 })
@@ -1224,6 +1227,7 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 
 - 可离线使用，零网络延迟
 - 无[域名检测](#域名检测)，无弹窗困扰
+- 使用 tinymce@6 (MIT)，无许可证风险
 - 插件全家桶开箱即用
 - 提供常用自定义插件示例
   - 插入本地图片
@@ -1366,7 +1370,8 @@ app.use(FaRichText, {
     }).then((res) => {
       if (typeof res.data?.data === 'string') {
         success(res.data.data)
-      } else {
+      }
+      else {
         failure(res.data?.message)
       }
     }).catch((err) => {

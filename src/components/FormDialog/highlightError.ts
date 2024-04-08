@@ -57,7 +57,8 @@ export default (
         animateCSS(errFormItems, 'animate__headShake').catch((e) => {
           console.warn(e)
         })
-      } else {
+      }
+      else {
         let scrollTimeout: number
 
         function shake() {

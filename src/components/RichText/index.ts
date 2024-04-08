@@ -262,7 +262,8 @@ export default defineComponent({
           // el is visible
           intersectionObserver.unobserve(el) // tinymce.init will trigger invisible
           tinymce.init(Options.value)
-        } else {
+        }
+        else {
           // el is invisible
         }
       })

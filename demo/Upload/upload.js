@@ -17,14 +17,16 @@ function sliceFile(file, CHUNK_SIZE = 10 * MB) {
         if (end + CHUNK_SIZE >= file.size) {
           chunks.push(file.slice(start))
           break
-        } else {
+        }
+        else {
           end += CHUNK_SIZE
           const blob = file.slice(start, end)
           chunks.push(blob)
           start += CHUNK_SIZE
         }
       }
-    } else {
+    }
+    else {
       chunks.push(file.slice(0))
     }
   }
@@ -64,10 +66,12 @@ export default function upload(file, progress, abortController) {
           const data = 'data' in res ? ('data' in res.data ? res.data.data : res.data) : res
           if (data?.status === '200') {
             resolve(data.url)
-          } else if (count++ < chunks.length - 1) {
+          }
+          else if (count++ < chunks.length - 1) {
             formData.taskId = data.url
             recursion()
-          } else {
+          }
+          else {
             FaMessageBox.error('上传失败')
             reject(Error('上传失败'))
           }
@@ -78,9 +82,11 @@ export default function upload(file, progress, abortController) {
             failTimes = Number.MAX_VALUE
             reject(Error('上传取消'))
           // 断点续传
-          } else if (failTimes++ < RETRY_TIMES) {
+          }
+          else if (failTimes++ < RETRY_TIMES) {
             recursion()
-          } else {
+          }
+          else {
             FaMessageBox.error('上传失败')
             reject(Error('上传失败'))
           }

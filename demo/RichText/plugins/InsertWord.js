@@ -30,13 +30,15 @@ export default {
                   console.log(`${file.name} 解析结果：`, res)
                   if (value) {
                     resolve(value)
-                  } else {
+                  }
+                  else {
                     reject(new Error(`${file.name} 内容为空`))
                   }
                 }).catch((err) => {
                   reject(err)
                 })
-              } else {
+              }
+              else {
                 reject(new Error(`${file.name} 内容为空`))
               }
             }
@@ -47,11 +49,13 @@ export default {
             const { status, value, reason } = result
             if (status === 'fulfilled') {
               editor.insertContent(value)
-            } else {
+            }
+            else {
               if (reason) {
                 if (typeof reason === 'string') {
                   FaMessageBox.showValidationMessage(reason)
-                } else {
+                }
+                else {
                   console.error(reason)
                   FaMessageBox.showValidationMessage('解析失败')
                 }
@@ -59,7 +63,8 @@ export default {
             }
           })
         })
-      } else {
+      }
+      else {
         FaMessageBox.showValidationMessage('未选择任何文件')
       }
     },

@@ -76,7 +76,7 @@ export default {
       default: undefined,
     }])),
   },
-  emits: [model.event, 'update:show', 'fullscreen-change'],
+  emits: [model.event, 'update:show', 'fullscreenChange'],
   data() {
     return {
       initialValue: undefined,
@@ -253,7 +253,8 @@ export default {
             }).finally(() => {
               this.retrieving_inner = false
             })
-          } else {
+          }
+          else {
             this.retrieving_inner = false
           }
           this.computeLabelWidth()
@@ -281,7 +282,7 @@ export default {
       this.isFullscreen = newValue
       this.$nextTick(() => {
         window.dispatchEvent(new Event('resize'))
-        this.$emit('fullscreen-change', this.isFullscreen)
+        this.$emit('fullscreenChange', this.isFullscreen)
       })
     },
     // fix: https://github.com/ElemeFE/element/issues?q=label+width+auto
@@ -347,7 +348,8 @@ export default {
       // 由于 FaImageUpload 封装了关闭逻辑，所以需要配套补全 beforeClose
       if (this.ElDialogProps.beforeClose) {
         this.ElDialogProps.beforeClose(this.doClose)
-      } else {
+      }
+      else {
         this.doClose()
       }
     },
@@ -363,17 +365,20 @@ export default {
             result.then((data) => {
               if (data?.show === true) {
                 this[status] = false
-              } else {
+              }
+              else {
                 this.close()
               }
             }).catch((e) => {
               console.error(e)
               this[status] = false
             })
-          } else if (result?.show !== true) {
+          }
+          else if (result?.show !== true) {
             this.close()
           }
-        } else {
+        }
+        else {
           this.close()
         }
       }
@@ -384,7 +389,8 @@ export default {
         }).catch(() => {
           this.highlightError(undefined, this.$refs.overlayScrollbar)
         })
-      } else {
+      }
+      else {
         exec()
       }
     },

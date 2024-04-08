@@ -182,7 +182,7 @@ export default {
                 v-bind="ElPopconfirmConfig.attrs"
                 v-on="ElPopconfirmConfig.listeners"
                 @confirm="onConfirm"
-                @on-confirm="onConfirm"
+                @onConfirm="onConfirm"
               >
                 <template #reference>
                   <el-button

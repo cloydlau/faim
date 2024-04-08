@@ -24,7 +24,8 @@ export default {
       vm.appContext = app._context
       render(vm, container)
       document.body.appendChild(container)
-    } else {
+    }
+    else {
       const { Vue } = await import('vue-demi')
       const Constructor = Vue.extend({
         render: h => h(this, { props }),

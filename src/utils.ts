@@ -61,7 +61,8 @@ export function tryParsingJSONArray(str: any) {
     try {
       const arr = JSON.parse(str)
       return Array.isArray(arr) && arr
-    } catch (e) {
+    }
+    catch (e) {
       console.error(e)
       return false
     }
@@ -75,7 +76,8 @@ export function isBase64WithScheme(str: string, mediaType?: string) {
   }
   if (mediaType && !str.startsWith(`data:${mediaType}`)) {
     return false
-  } else {
+  }
+  else {
     const base64WithoutScheme = str.split(',')[1]
     return base64WithoutScheme ? isBase64(base64WithoutScheme) : false
   }
@@ -186,14 +188,16 @@ export function handleNumericalProp({
           || (min === undefined && maxIsValid)
           || (min === undefined && max === undefined)
         )
-      } else if (Array.isArray(value)) {
+      }
+      else if (Array.isArray(value)) {
         for (const v of value) {
           if (!isPositiveNumber(getValue(v))) {
             return false
           }
         }
         return value.length > 0
-      } else {
+      }
+      else {
         return isPositiveNumber(getValue(value))
       }
     },
@@ -220,21 +224,25 @@ export function handleNumericalProp({
       tip = `${labelTip} ${minLabel} ~ ${maxLabel}`
       titleTextOfMinExceeded = createTitleTextOfMinExceeded(minLabel)
       titleTextOfMaxExceeded = createTitleTextOfMaxExceeded(maxLabel)
-    } else if (max) {
+    }
+    else if (max) {
       maxLabel = withUnit(value.max)
       tip = `${labelTip} ≤ ${maxLabel}`
       titleTextOfMaxExceeded = createTitleTextOfMaxExceeded(maxLabel)
-    } else if (min) {
+    }
+    else if (min) {
       minLabel = withUnit(value.min)
       tip = `${labelTip} ≥ ${minLabel}`
       titleTextOfMinExceeded = createTitleTextOfMinExceeded(minLabel)
     }
-  } else if (Array.isArray(value)) {
+  }
+  else if (Array.isArray(value)) {
     options = value.map(getValue)
     optionsLabel = value.map(withUnit).join(' / ')
     tip = `${labelTip} ${optionsLabel}`
     titleTextOfNotMatched = createTitleTextOfNotMatched(optionsLabel)
-  } else if (value !== undefined) {
+  }
+  else if (value !== undefined) {
     target = getValue(value)
     targetLabel = withUnit(value)
     tip = `${labelTip} ${targetLabel}`
@@ -245,11 +253,14 @@ export function handleNumericalProp({
     let titleText
     if (max && v > max) {
       titleText = titleTextOfMaxExceeded
-    } else if (min && v < min) {
+    }
+    else if (min && v < min) {
       titleText = titleTextOfMinExceeded
-    } else if (options && !options.includes(v)) {
+    }
+    else if (options && !options.includes(v)) {
       titleText = titleTextOfNotMatched
-    } else if (target && v !== target) {
+    }
+    else if (target && v !== target) {
       titleText = titleTextOfNotMatched
     }
     if (titleText) {
@@ -320,9 +331,11 @@ export function secondsToHHMMSS(seconds: number): string {
 export function sizeToLabel(bytes: number): string {
   if (bytes >= MB) {
     return `${Number.parseFloat((bytes / MB).toFixed(1))}M`
-  } else if (bytes >= KB) {
+  }
+  else if (bytes >= KB) {
     return `${(bytes / KB).toFixed(0)}K`
-  } else {
+  }
+  else {
     return `${(bytes).toFixed(0)}B`
   }
 }
@@ -330,7 +343,8 @@ export function sizeToLabel(bytes: number): string {
 export function getOrigin(url: string) {
   if (url.startsWith('//')) {
     return `//${new URL(window.location.protocol + url).host}`
-  } else if (!url.startsWith('http')) {
+  }
+  else if (!url.startsWith('http')) {
     return new URL(`${window.location.protocol}//${url}`).host
   }
   const urlObj = new URL(url)

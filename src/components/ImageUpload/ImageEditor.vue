@@ -121,7 +121,8 @@ export default {
             const { depth } = UPNG.decode(await blobLikeToArrayBuffer(this.blobLike))
             this.cnum = 2 ** depth
           }
-        } catch (e) {
+        }
+        catch (e) {
           console.error(e)
           this.$emit('update:show', false)
           FaMessageBox.error({
@@ -165,7 +166,8 @@ export default {
             if (newAspectRatio > this.impliedAspectRatio) {
               this.inputHeight = Number.parseInt((width / this.dimensionScaleFactor / newAspectRatio).toFixed())
               this.inputWidth = Number.parseInt((this.inputHeight * newAspectRatio).toFixed())
-            } else if (newAspectRatio < this.impliedAspectRatio) {
+            }
+            else if (newAspectRatio < this.impliedAspectRatio) {
               this.inputWidth = Number.parseInt((height / this.dimensionScaleFactor * newAspectRatio).toFixed())
               this.inputHeight = Number.parseInt((this.inputWidth / newAspectRatio).toFixed())
             }
@@ -178,7 +180,8 @@ export default {
         this.originalSizeLabel = sizeToLabel(this.blobLike.size)
 
         this.cropper.replace(this.localURL) // replace 后触发 initCropBox（参数为 Base64 类型才会触发）
-      } else {
+      }
+      else {
         this.$nextTick(() => {
           Object.assign(this.$data, initialState())
         })
@@ -207,7 +210,8 @@ export default {
           }
         }
       })
-    } catch (e) {
+    }
+    catch (e) {
       console.error(e)
     }
   },
@@ -222,7 +226,8 @@ export default {
         if (this.lockedAspectRatio > defaultWidth / defaultHeight) {
           defaultHeight = this.lockedAspectRatio * this.imageTag.width
         // 扁图
-        } else {
+        }
+        else {
           defaultWidth = this.lockedAspectRatio * this.imageTag.height
         }
       }
@@ -248,7 +253,8 @@ export default {
           const { height: cropBoxHeight } = this.cropper.getCropBoxData() // 不能提前拿
           this.cropper.setCropBoxData({ top: (containerHeight - cropBoxHeight) / 2 })
         // 裁剪框比图片瘦
-        } else {
+        }
+        else {
           this.cropper.setCropBoxData({ height, top })
           const { width: containerWidth } = this.cropper.getContainerData()
           const { width: cropBoxWidth } = this.cropper.getCropBoxData() // 不能提前拿
@@ -256,7 +262,8 @@ export default {
         }
         this.loading = false
       // 不锁定比例时，裁剪框正好框住图片
-      } else {
+      }
+      else {
         this.cropper.setCropBoxData({ width, height, left, top })
         this.loading = false
       }
@@ -266,7 +273,8 @@ export default {
       if (!this.impliedAspectRatio) {
         this.isAspectRatioLocked = false
       // 存在宽&高，隐含宽高比
-      } else {
+      }
+      else {
         // 比例锁定，调整高度以保持比例不变
         if (this.isAspectRatioLocked) {
           const oldAspectRatio = oldVal / this.inputHeight
@@ -274,7 +282,8 @@ export default {
             this.inputHeight = Number.parseInt((this.inputWidth / oldAspectRatio).toFixed())
           }
         // 比例自由，调整裁剪框比例以与宽高比保持一致
-        } else {
+        }
+        else {
           const containerData = this.cropper.getContainerData()
           const cropBoxData = this.cropper.getCropBoxData()
           // setAspectRatio 会改变裁剪框
@@ -286,7 +295,8 @@ export default {
           if (isReachHorizontalBorder) {
             width = cropBoxData.width
             height = cropBoxData.width / this.impliedAspectRatio
-          } else {
+          }
+          else {
             width = newCropBoxWidth
             height = cropBoxData.height
           }
@@ -304,7 +314,8 @@ export default {
       if (!this.impliedAspectRatio) {
         this.isAspectRatioLocked = false
       // 存在宽&高，隐含宽高比
-      } else {
+      }
+      else {
         // 比例锁定，调整宽度以保持比例不变
         if (this.isAspectRatioLocked) {
           const oldAspectRatio = this.inputWidth / oldVal
@@ -312,7 +323,8 @@ export default {
             this.inputWidth = Number.parseInt((this.inputHeight * oldAspectRatio).toFixed())
           }
         // 比例自由，调整裁剪框比例以与宽高比保持一致
-        } else {
+        }
+        else {
           const containerData = this.cropper.getContainerData()
           const cropBoxData = this.cropper.getCropBoxData()
           // setAspectRatio 会改变裁剪框
@@ -324,7 +336,8 @@ export default {
           if (isReachVerticalBorder) {
             width = cropBoxData.height * this.impliedAspectRatio
             height = cropBoxData.height
-          } else {
+          }
+          else {
             width = cropBoxData.width
             height = newCropBoxHeight
           }
@@ -422,9 +435,9 @@ export default {
         const outputResolution = outputWidth * outputHeight
         if (!(
           this.width.validate(outputWidth)
-            && this.height.validate(outputHeight)
-            && this.resolution.validate(outputResolution)
-            && this.aspectRatio.validate(this.specifiedAspectRatio || this.impliedAspectRatio)
+          && this.height.validate(outputHeight)
+          && this.resolution.validate(outputResolution)
+          && this.aspectRatio.validate(this.specifiedAspectRatio || this.impliedAspectRatio)
         )) {
           reject(new Error('Validation failed'))
           return
@@ -455,17 +468,20 @@ export default {
                 )
                 this.doConfirm(new Blob([arrayBuffer], { type: this.blobLike.type }), resolve, reject)
               }, 0)
-            } catch (e) {
+            }
+            catch (e) {
               FaMessageBox.error(this.locale.exportError)
               this.submitting = false
               reject(e)
             }
-          } else {
+          }
+          else {
             canvas.toBlob(
               (blob) => {
                 if (blob) {
                   this.doConfirm(blob, resolve, reject)
-                } else {
+                }
+                else {
                   FaMessageBox.error(this.locale.exportError)
                   this.submitting = false
                   reject(new Error(this.locale.exportError))
@@ -479,7 +495,8 @@ export default {
               this.quality,
             )
           }
-        } else {
+        }
+        else {
           // 大小校验
           if (this.sizeTooltip) {
             FaMessageBox.warning({
@@ -487,9 +504,11 @@ export default {
             })
             reject(new Error(this.sizeTooltip))
           // 自定义校验
-          } else if (!this.validator(this.blobLike)) {
+          }
+          else if (!this.validator(this.blobLike)) {
             reject(new Error('Validation failed'))
-          } else {
+          }
+          else {
             this.reset()
             this.$emit('confirm', this.value)
             // Closing is decided by the parent component based on the length of queue
@@ -514,9 +533,11 @@ export default {
         })
         reject(new Error(sizeTooltip))
       // 自定义校验
-      } else if (!this.validator(blobLike)) {
+      }
+      else if (!this.validator(blobLike)) {
         reject(new Error('Validation failed'))
-      } else {
+      }
+      else {
         console.log(sizeDiffText)
         this.reset()
         this.$emit('confirm', blobLike)
@@ -561,9 +582,11 @@ export default {
       const sum = this.rotateDegree + deg
       if (sum > 180) {
         this.rotateDegree = sum - 360
-      } else if (sum < -180) {
+      }
+      else if (sum < -180) {
         this.rotateDegree = sum + 360
-      } else {
+      }
+      else {
         this.rotateDegree = sum
       }
       this.onRotateDegreeChange(this.rotateDegree)
@@ -623,7 +646,7 @@ export default {
     showResetButton
     :reset="reset"
     :locale="locale"
-    @fullscreen-change="onFullscreenChange"
+    @fullscreenChange="onFullscreenChange"
     @update:show="(e) => { $emit('update:show', e) }"
     v-on="isVue3 ? {} : $listeners"
   >
