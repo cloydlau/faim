@@ -661,7 +661,7 @@ export default {
       class="fa-image-upload"
       :class="{ isVue3, isFull, canSort, isInsideTable }"
       v-bind="ElUploadProps"
-      :fileList="files"
+      :file-list="files"
     >
       <!-- 无论什么 list-type -->
       <!-- 如果只有默认插槽没有 trigger 插槽，则默认插槽就是 trigger -->
@@ -691,8 +691,8 @@ export default {
       v-show="false"
       ref="faImageRef"
       :value="files"
-      :modelValue="files"
-      srcAt="url"
+      :model-value="files"
+      src-at="url"
     />
 
     <!-- 不使用 v-model:show="editor.show" 的原因： -->
@@ -700,12 +700,12 @@ export default {
     <ImageEditor
       :show.sync="editor.show"
       :value="editor.value"
-      :outputType="OutputType"
+      :output-type="OutputType"
       :size="Size"
       :width="Width"
       :height="Height"
       :resolution="Resolution"
-      :aspectRatio="AspectRatio"
+      :aspect-ratio="AspectRatio"
       :validator="Validator"
       :locale="Locale"
       @update:show="(e) => { editor.show = e }"

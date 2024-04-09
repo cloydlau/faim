@@ -144,9 +144,9 @@ function loading() {
 
       <el-form-item label="FaPopButton">
         <FaPopButton
-          :elTooltipProps="{ rawContent: true, content: '删除' }"
-          :elPopoverProps="{ content: `权限不足`, disabled: true }"
-          :elPopconfirmProps="{ title: '确认删除吗？' }"
+          :el-tooltip-props="{ rawContent: true, content: '删除' }"
+          :el-popover-props="{ content: `权限不足`, disabled: true }"
+          :el-popconfirm-props="{ title: '确认删除吗？' }"
           @click="console.log('[FaPopButton] click')"
         >
           删除
@@ -164,7 +164,7 @@ function loading() {
           @input="() => {
             // console.log('input')
           }"
-          @update:modelValue="() => {
+          @update:model-value="() => {
             console.log('update:modelValue')
           }"
         />
@@ -175,12 +175,12 @@ function loading() {
       >
         <FaPopSwitch
           v-model="data.value.FaPopSwitch"
-          :elTooltipProps="{ rawContent: true, content: '已停用' }"
-          :elPopoverProps="{ content: `权限不足`, trigger: 'hover' }"
-          :elPopconfirmProps="{ title: '确认启用吗？' }"
+          :el-tooltip-props="{ rawContent: true, content: '已停用' }"
+          :el-popover-props="{ content: `权限不足`, trigger: 'hover' }"
+          :el-popconfirm-props="{ title: '确认启用吗？' }"
           active-text="启用"
           inactive-text="停用"
-          inlinePrompt
+          inline-prompt
           @change="console.log('[FaPopSwitch] change')"
         />
       </el-form-item>
@@ -279,7 +279,7 @@ function loading() {
             <template #default>
               <FaImageUpload
                 v-model="data.value.images[0]"
-                :maxCount="1"
+                :max-count="1"
               />
             </template>
           </el-table-column>
@@ -299,7 +299,7 @@ function loading() {
         <p border="1px solid red">
           <FaImage
             :value="data.value.FaImage[0]"
-            :modelValue="data.value.FaImage[0]"
+            :model-value="data.value.FaImage[0]"
           />
         </p>
 
@@ -307,9 +307,9 @@ function loading() {
         <p border="1px solid red">
           <FaImage
             :value="data.value.FaImage"
-            :modelValue="data.value.FaImage"
+            :model-value="data.value.FaImage"
             pattern="swiper"
-            :swiperOptions="{
+            :swiper-options="{
               slidesPerView: 3,
               spaceBetween: 15,
             }"
@@ -328,9 +328,9 @@ function loading() {
         <p border="1px solid red">
           <FaImage
             :value="JSON.stringify(data.value.FaImage)"
-            :modelValue="JSON.stringify(data.value.FaImage)"
+            :model-value="JSON.stringify(data.value.FaImage)"
             qrcode="auto"
-            :qrcodeOptions="{
+            :qrcode-options="{
               width: 48,
               height: 48,
             }"
@@ -341,7 +341,7 @@ function loading() {
         <p border="1px solid red">
           <FaImage
             :value="data.value.FaImage"
-            :modelValue="data.value.FaImage"
+            :model-value="data.value.FaImage"
             pattern="waterfall"
           />
         </p>
@@ -366,7 +366,7 @@ function loading() {
               <div border="1px solid red">
                 <FaImage
                   :value="row.img"
-                  :modelValue="row.img"
+                  :model-value="row.img"
                 />
               </div>
             </template>
@@ -377,11 +377,11 @@ function loading() {
           v-show="false"
           ref="FaImageRef"
           :value="data.value.FaImage"
-          :modelValue="data.value.FaImage"
+          :model-value="data.value.FaImage"
         />
         <FaImage
           :value="data.value.FaImage[0]"
-          :modelValue="data.value.FaImage[0]"
+          :model-value="data.value.FaImage[0]"
           :viewer="false"
           @click="onClick"
         />
@@ -506,32 +506,32 @@ function loading() {
       <el-form-item label="el-input">
         <el-input
           value="123"
-          modelValue="123"
+          model-value="123"
         />
       </el-form-item>
       <el-form-item label="el-input-number">
         <el-input-number
           :value="123"
-          :modelValue="123"
+          :model-value="123"
         />
       </el-form-item>
       <el-form-item label="el-radio">
         <el-radio
           value="1"
-          modelValue="1"
+          model-value="1"
           label="1"
         />
       </el-form-item>
       <el-form-item label="el-checkbox">
         <el-checkbox
           :value="true"
-          :modelValue="true"
+          :model-value="true"
         />
       </el-form-item>
       <el-form-item label="el-cascader">
         <el-cascader
           :value="1"
-          :modelValue="1"
+          :model-value="1"
           :options="[{
             value: 1,
             label: 1,
@@ -541,31 +541,31 @@ function loading() {
       <el-form-item label="el-slider">
         <el-slider
           :value="50"
-          :modelValue="50"
+          :model-value="50"
         />
       </el-form-item>
       <el-form-item label="el-time-select">
         <el-time-select
           value="12:00"
-          modelValue="12:00"
+          model-value="12:00"
         />
       </el-form-item>
       <el-form-item label="el-rate">
         <el-rate
           :value="2"
-          :modelValue="2"
+          :model-value="2"
         />
       </el-form-item>
       <el-form-item label="el-color-picker">
         <el-color-picker
           value="#409EFF"
-          modelValue="#409EFF"
+          model-value="#409EFF"
         />
       </el-form-item>
       <el-form-item label="el-transfer">
         <el-transfer
           :value="[1]"
-          :modelValue="[1]"
+          :model-value="[1]"
           :data="[{
             key: 1,
             label: '1',

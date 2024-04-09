@@ -643,10 +643,10 @@ export default {
     :custom-class="isVue3 ? undefined : 'fa-image-editor'"
     :retrieving="loading"
     :confirm="onConfirm"
-    showResetButton
+    show-reset-button
     :reset="reset"
     :locale="locale"
-    @fullscreenChange="onFullscreenChange"
+    @fullscreen-change="onFullscreenChange"
     @update:show="(e) => { $emit('update:show', e) }"
     v-on="isVue3 ? {} : $listeners"
   >

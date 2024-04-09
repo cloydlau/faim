@@ -411,7 +411,7 @@ export default {
       v-bind="ElDialogProps"
       ref="elDialogRef"
       :key="key"
-      :modelValue="show"
+      :model-value="show"
       :visible="show"
       :title="Title"
       :fullscreen="isFullscreen"

@@ -712,7 +712,7 @@ function onLoad() {
   <FaImage
     ref="faImageRef"
     :value="value"
-    :modelValue="value"
+    :model-value="value"
   >
     <template #default="{ src, index }">
       <el-image
@@ -740,7 +740,7 @@ const faImageRef = ref()
   <FaImage
     ref="faImageRef"
     pattern="swiper"
-    :swiperOptions="{
+    :swiper-options="{
       on: {
         init: () => {
           $nextTick(() => {
@@ -762,7 +762,7 @@ const faImageRef = ref()
 ```vue
 <template>
   <FaImage
-    :qrcodeOptions="{
+    :qrcode-options="{
       width: 900,
       height: 900,
     }"

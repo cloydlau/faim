@@ -421,7 +421,7 @@ export default {
     class="fa-select"
     :class="{ canSort }"
     v-on="Listeners"
-    @visibleChange="onVisibleChange"
+    @visible-change="onVisibleChange"
   >
     <template v-if="isGrouped">
       <component
