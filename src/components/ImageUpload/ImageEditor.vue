@@ -452,7 +452,7 @@ export default {
             minHeight: this.height.min,
             height: this.inputHeight,
             maxHeight: this.height.max,
-            fillColor: '#fff',
+            fillColor: this.blobLike.type === 'image/jpeg' ? '#fff' : undefined,
           })
           if (this.blobLike.type === 'image/png') {
             try {
