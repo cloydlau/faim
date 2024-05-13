@@ -3,7 +3,7 @@
   "PascalCasedName": "Faim",
   "version": "0.8.1",
   "private": false,
-  "description": "Element Plus (Vue 3) & Element UI (Vue 2.7/2.6) isomorphic UI component library. ❄️ More than Element.",
+  "description": "Element Plus & Element UI isomorphic UI component library, more than Element.",
   "author": {
     "name": "Cloyd Lau",
     "url": "https://github.com/cloydlau"

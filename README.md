@@ -9,16 +9,15 @@
   &nbsp;
   <img height="28px" src="https://cdn.rawgit.com/ElemeFE/element/dev/element_logo.svg">
   <br>
-  Element Plus (Vue 3) & Element UI (Vue 2.7/2.6) 一体通用 UI 组件库
-  <br>
-  ❄️ 不止于 Element
+  Element Plus & Element UI 一体通用 UI 组件库，不止于 Element
 </p>
 
 <p align="center">
   <!-- <a href="https://bundlephobia.com/package/faim"><img alt="minzipped size" src="https://img.shields.io/bundlephobia/minzip/faim"></a> -->
   <a href="https://conventionalcommits.org"><img alt="conventional commits" src="https://img.shields.io/badge/commits-Conventional-FE5196.svg?logo=conventionalcommits"></a>
   <a href="https://github.com/antfu/eslint-config"><img alt="code style" src="https://antfu.me/badge-code-style.svg"></a>
-  <a href="https://github.com/cloydlau/faim#develop"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg"></a>
+  <a href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request"><img alt="PRs Welcome" src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgMjQgMjQiPjxwYXRoIGZpbGw9IiNmZmZmZmYiIGQ9Ik0xOS4wMSAxNS4xNjNWNy45OTdDMTkuMDA1IDYuMzkxIDE3LjkzMyA0IDE1IDRWMmwtNCAzbDQgM1Y2YzEuODI5IDAgMi4wMDEgMS41MzkgMi4wMSAydjcuMTYzYy0xLjQ0LjQzNC0yLjUgMS43NTctMi41IDMuMzM3YzAgMS45MyAxLjU3IDMuNSAzLjUgMy41czMuNS0xLjU3IDMuNS0zLjVjMC0xLjU4LTEuMDYtMi45MDMtMi41LTMuMzM3bS0xIDQuODM3Yy0uODI3IDAtMS41LS42NzMtMS41LTEuNXMuNjczLTEuNSAxLjUtMS41czEuNS42NzMgMS41IDEuNXMtLjY3MyAxLjUtMS41IDEuNU05LjUgNS41QzkuNSAzLjU3IDcuOTMgMiA2IDJTMi41IDMuNTcgMi41IDUuNWMwIDEuNTggMS4wNiAyLjkwMyAyLjUgMy4zMzd2Ni4zMjZjLTEuNDQuNDM0LTIuNSAxLjc1Ny0yLjUgMy4zMzdDMi41IDIwLjQzIDQuMDcgMjIgNiAyMnMzLjUtMS41NyAzLjUtMy41YzAtMS41OC0xLjA2LTIuOTAzLTIuNS0zLjMzN1Y4LjgzN0M4LjQ0IDguNDAzIDkuNSA3LjA4IDkuNSA1LjVtLTUgMEM0LjUgNC42NzMgNS4xNzMgNCA2IDRzMS41LjY3MyAxLjUgMS41UzYuODI3IDcgNiA3cy0xLjUtLjY3My0xLjUtMS41bTMgMTNjMCAuODI3LS42NzMgMS41LTEuNSAxLjVzLTEuNS0uNjczLTEuNS0xLjVTNS4xNzMgMTcgNiAxN3MxLjUuNjczIDEuNSAxLjUiLz48L3N2Zz4="></a>
+  <a href="https://www.npmjs.com/package/faim?activeTab=versions"><img alt="created at" src="https://img.shields.io/github/created-at/cloydlau/faim?&color=1C404E&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxZW0iIGhlaWdodD0iMWVtIiB2aWV3Qm94PSIwIDAgNDggNDgiPjxnIGZpbGw9Im5vbmUiPjxwYXRoIGQ9Ik04IDQwaDMyVjI0SDh6Ii8+PHBhdGggc3Ryb2tlPSIjZmZmZmZmIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIHN0cm9rZS13aWR0aD0iNCIgZD0iTTQwIDQwSDhtMzIgMEg0aDRtMzIgMGg0bS00IDBWMjRIOHYxNiIvPjxwYXRoIHN0cm9rZT0iI2ZmZmZmZiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIiBzdHJva2UtbGluZWpvaW49InJvdW5kIiBzdHJva2Utd2lkdGg9IjQiIGQ9Im00MCAzNGwtNC0ybC00IDJsLTQtMmwtNCAybC00LTJsLTQgMmwtNC0ybC00IDJtMjQtMTB2LTltLTggOXYtOW0tOCA5di05bTE2LTVWOG0tOCAyVjhtLTggMlY4TTggMjR2MTZtMzItMTZ2MTYiLz48L2c+PC9zdmc+"></a>
 </p>
 
 <br>
