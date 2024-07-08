@@ -1691,7 +1691,7 @@ Vue 2
 
 ### 大文件上传
 
-[分片上传、断点续传、进度展示、中途取消示例](./demo/useUpload/upload.js)
+[分片上传、断点续传、进度展示、中途取消示例](./demo/Upload/upload.js)
 
 <br>
 
