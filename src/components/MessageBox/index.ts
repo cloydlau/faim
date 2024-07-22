@@ -154,7 +154,12 @@ function confirm() {
       allowOutsideClick: false,
       ...options,
     }).then((e: any) => {
-      e.isConfirmed ? resolve(e) : reject(e)
+      if (e.isConfirmed) {
+        resolve(e)
+      }
+      else {
+        reject(e)
+      }
     })
   })
 }

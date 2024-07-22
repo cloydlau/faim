@@ -73,14 +73,14 @@ export default function upload(file, progress, abortController) {
           }
           else {
             FaMessageBox.error('上传失败')
-            reject(Error('上传失败'))
+            reject(new Error('上传失败'))
           }
         })
         .catch((e) => {
           // 手动中止，重置断点续传次数
           if (e.code === 'ERR_CANCELED') {
             failTimes = Number.MAX_VALUE
-            reject(Error('上传取消'))
+            reject(new Error('上传取消'))
           // 断点续传
           }
           else if (failTimes++ < RETRY_TIMES) {
@@ -88,7 +88,7 @@ export default function upload(file, progress, abortController) {
           }
           else {
             FaMessageBox.error('上传失败')
-            reject(Error('上传失败'))
+            reject(new Error('上传失败'))
           }
         })
     }

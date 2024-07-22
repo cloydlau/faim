@@ -3,6 +3,7 @@ import antfu from '@antfu/eslint-config'
 export default antfu(
   {
     formatters: true,
+    lessOpinionated: true,
   },
   {
     rules: {
@@ -16,6 +17,11 @@ export default antfu(
       'vue/no-deprecated-dollar-listeners-api': 'off',
       'vue/no-deprecated-dollar-scopedslots-api': 'off',
       'vue/singleline-html-element-content-newline': 'off',
+    },
+    languageOptions: {
+      globals: {
+        tinymce: 'readonly',
+      },
     },
   },
 )

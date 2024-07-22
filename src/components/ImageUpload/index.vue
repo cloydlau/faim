@@ -372,7 +372,9 @@ export default {
             const files = []
             for (const v of newValue) {
               const file = this.valueToFile(v)
-              file && files.push(file)
+              if (file) {
+                files.push(file)
+              }
             }
             this.files = files
           }

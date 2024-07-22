@@ -268,7 +268,9 @@ export default defineComponent({
         }
       })
       // Asynchronous call
-      el && intersectionObserver.observe(el)
+      if (el) {
+        intersectionObserver.observe(el)
+      }
     })
 
     expose?.({ id })

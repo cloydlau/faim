@@ -900,7 +900,9 @@ export default {
             const files = []
             for (const v of newValue) {
               const file = await this.valueToFile(v)
-              file && files.push(file)
+              if (file) {
+                files.push(file)
+              }
             }
             this.files = files
           }
@@ -953,7 +955,9 @@ export default {
         trailing: true,
       }))
     }
-    catch (e) { }
+    catch (e) {
+      console.warn(e)
+    }
   },
   destroyed() {
     FilePond.destroy(this.$refs.filePond)

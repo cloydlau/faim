@@ -32,8 +32,8 @@ async function postinstall() {
     console.log(cyan('[INFO] Patching el-upload source code'))
     const elUploadSourcePath = `${elementPlusDir}/es/components/upload/src/upload2.mjs`
     const elUploadSource = fs.readFileSync(elUploadSourcePath, 'utf-8')
-    const whitespaces = elUploadSource.match(/(?<=expose\({)\s*/)?.[0] || '\n'
-    const elUploadSourceNew = elUploadSource.replace(/expose\({(?!\s*uploadFiles,)/, `expose({${whitespaces}uploadFiles,`)
+    const whitespaces = elUploadSource.match(/(?<=expose\(\{)\s*/)?.[0] || '\n'
+    const elUploadSourceNew = elUploadSource.replace(/expose\(\{(?!\s*uploadFiles,)/, `expose({${whitespaces}uploadFiles,`)
     if (elUploadSource !== elUploadSourceNew) {
       fs.writeFileSync(elUploadSourcePath, elUploadSourceNew)
       console.log(green('[INFO] Successfully patched el-upload source code'))
