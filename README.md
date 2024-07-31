@@ -115,11 +115,17 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.m?js/,
+        test: /\.m?js$/,
         type: 'javascript/auto',
         resolve: {
           fullySpecified: false,
         },
+        include: [
+          path.resolve(__dirname, 'src'),
+          path.resolve(__dirname, 'node_modules', 'faim'),
+          path.resolve(__dirname, 'node_modules', 'mime'),
+        ],
+        loader: 'babel-loader',
       },
     ]
   }
