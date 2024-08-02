@@ -1,7 +1,7 @@
 {
   "name": "faim",
   "PascalCasedName": "Faim",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "private": false,
   "description": "Element Plus & Element UI isomorphic UI component library, more than Element.",
   "author": {
@@ -128,6 +128,7 @@
     "unbuild": "^2.0.0",
     "vite": "^5.3.5",
     "vue": "latest",
+    "vue-tsc": "^2.0.29",
     "zhlint": "^0.8.1"
   },
   "simple-git-hooks": {
