@@ -141,6 +141,14 @@ export default {
         type: Object,
       })
     },
+    Attrs() {
+      return conclude([
+        this.$attrs,
+        globalAttrs,
+      ], {
+        type: Object,
+      })
+    },
   },
   watch: {
     Value: {
@@ -287,6 +295,7 @@ export default {
             :width="width"
             :height="height"
             :style="{ cursor: Viewable ? 'zoom-in' : undefined }"
+            v-bind="Attrs"
           >
         </slot>
       </li>

@@ -645,6 +645,7 @@ new Vue({
 | swiperOptions                         | Swiper 的参数                                           | object                                | `{ observer: true }`                                                |
 | qrcode                                | 是否将 `value` 转换为二维码                             | boolean / `'auto'`                    | `false`                                                             |
 | qrcodeOptions                         | node-qrcode 的参数                                      | object                                | `{ margin: 0, errorCorrectionLevel: 'L', width: 444, height: 444 }` |
+| ...                                   | `<img>` 的属性                                          |                                       |                                                                     |
 
 #### qrcode
 
