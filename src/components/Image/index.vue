@@ -145,6 +145,28 @@ export default {
       return conclude([
         this.$attrs,
         globalAttrs,
+        {
+          'waterfall': {
+            width: '100%',
+            height: '100%',
+          },
+          'table-cell': {
+            height: '50px',
+            style: {
+              'vertical-align': 'bottom', // 换行时被遮挡
+            },
+          },
+        }[this.Pattern],
+        {
+          height: '148px', // 与 el-upload 组件保持一致
+          style: {
+            'vertical-align': 'middle', // fix: 图片下方空隙
+            'object-fit': 'cover', // 保持图片比例
+            'max-width': '100%',
+            'max-height': '100%',
+            ...this.Viewable && { cursor: 'zoom-in' },
+          },
+        },
       ], {
         type: Object,
       })
@@ -205,8 +227,6 @@ export default {
       const result = {
         src: '',
         type,
-        width: '',
-        height: '',
       }
 
       if (this.QRCode === 'auto') {
@@ -279,7 +299,7 @@ export default {
       :class="(Pattern === 'swiper' ? 'swiper-wrapper' : Pattern) || 'normal-flow'"
     >
       <li
-        v-for="({ src, width, height }, i) of files"
+        v-for="({ src }, i) of files"
         :key="i"
         :class="{
           'swiper-slide': Pattern === 'swiper',
@@ -291,9 +311,6 @@ export default {
         >
           <img
             :src="src"
-            :width="width"
-            :height="height"
-            :style="{ cursor: Viewable ? 'zoom-in' : undefined }"
             v-bind="Attrs"
           >
         </slot>
@@ -399,13 +416,6 @@ $gapInTableCell: 5px;
 }
 
 .fa-image {
-  img {
-    vertical-align: middle; // fix: 图片下方空隙
-    object-fit: cover; // 保持图片比例
-    max-width: 100%;
-    max-height: 100%;
-  }
-
   & > ul {
     padding: 0;
     margin: 0 auto;
@@ -437,11 +447,6 @@ $gapInTableCell: 5px;
 
       & > div {
         margin-bottom: $gap;
-
-        & > img {
-          width: 100%;
-          height: 100%;
-        }
       }
 
       /*&:hover {
@@ -465,11 +470,6 @@ $gapInTableCell: 5px;
     & > li {
       list-style: none;
       display: inline-block;
-
-      img {
-        height: 148px; // 与 el-upload 组件保持一致
-        vertical-align: middle;
-      }
     }
   }
 
@@ -493,11 +493,6 @@ $gapInTableCell: 5px;
     & > li {
       list-style: none;
       display: inline-block;
-
-      img {
-        height: 50px;
-        vertical-align: bottom; // 换行时被遮挡
-      }
     }
   }
 }
