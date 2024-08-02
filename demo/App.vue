@@ -204,7 +204,7 @@ function loading() {
           <el-radio
             v-for="(v, k) in data.sourceOptions"
             :key="k"
-            :label="k"
+            :value="k"
             style="display: block; width: 100%;"
           >
             <b>{{ k }}</b>: {{ v }}
