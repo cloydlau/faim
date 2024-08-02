@@ -214,7 +214,6 @@ export default {
           {
             disabled: this.readonly || this.confirming,
             ref: 'elFormRef',
-            labelWidth: this.labelWidth,
             // model 不能写在这里因为会被深拷贝，将导致无法重置
             // model: this[model.prop],
           },
@@ -486,6 +485,7 @@ export default {
         >
           <el-form
             v-if="ValueIsPlainObject"
+            :label-width="labelWidth"
             v-bind="ElFormProps"
             v-on="Listeners"
           >
