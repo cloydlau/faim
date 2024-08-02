@@ -32,7 +32,7 @@ const toPackageOptions: Record<VueVersion, Record<string, Record<string, any>>> 
       '@vitejs/plugin-vue': 'latest',
       '@vue/compiler-sfc': 'latest',
       '@vue/test-utils': 'latest',
-      'vue': '3.4.21',
+      'vue': 'latest',
       '@element-plus/icons-vue': 'latest',
       'element-plus': 'latest',
     },
