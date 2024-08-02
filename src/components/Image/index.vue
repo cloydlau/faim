@@ -291,7 +291,6 @@ export default {
         >
           <img
             :src="src"
-            referrerpolicy="no-referrer"
             :width="width"
             :height="height"
             :style="{ cursor: Viewable ? 'zoom-in' : undefined }"

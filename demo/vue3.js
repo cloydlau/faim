@@ -15,7 +15,9 @@ const app = createApp(App)
   .use(FaFormDialog, {
     locale: FaimLocale.FaFormDialog,
   })
-  .use(FaImage)
+  .use(FaImage, {
+    referrerpolicy: 'no-referrer',
+  })
   .use(FaImageUpload, globalConfigForFaImageUpload)
   .use(FaPopButton)
   .use(FaPopSwitch)
