@@ -198,6 +198,7 @@ import 'element-plus/dist/index.css'
 import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopButton, FaPopSwitch, FaRichText, FaSelect, FaUpload } from 'faim'
+import FaimLocale from 'faim/dist/locale/zh-cn.mjs'
 import App from './App.vue'
 
 // 在 FaRichText 外部引入皮肤、主题、图标等样式资源的目的是方便用户对其进行更换
@@ -209,6 +210,7 @@ const app = createApp(App)
   .use(ElementPlus)
   .use(FaFormDialog, {
     // 全局配置
+    locale: FaimLocale.FaFormDialog,
   })
   .use(FaImage, {
     // 全局配置
@@ -216,6 +218,7 @@ const app = createApp(App)
   .use(FaImageUpload, {
     // 全局配置
     // 完整示例参考 ./demo/useFaImageUpload
+    locale: FaimLocale.FaImageUpload,
   })
   .use(FaPopButton, {
     // 全局配置
@@ -229,10 +232,12 @@ const app = createApp(App)
   })
   .use(FaSelect, {
     // 全局配置
+    locale: FaimLocale.FaSelect,
   })
   .use(FaUpload, {
     // 全局配置
     // 完整示例参考 ./demo/useFaUpload
+    locale: FaimLocale.FaUpload,
   })
 
 app.config.globalProperties.$swal = FaMessageBox
@@ -282,6 +287,7 @@ import Vue from 'vue'
 import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
 import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopButton, FaPopSwitch, FaRichText, FaSelect, FaUpload } from 'faim'
+import FaimLocale from 'faim/dist/locale/zh-cn.mjs'
 import App from './App.vue'
 
 // 在 FaRichText 外部引入皮肤、主题、图标等样式资源的目的是方便用户对其进行更换
@@ -292,6 +298,7 @@ import 'tinymce/icons/default/icons'
 Vue.use(ElementUI)
 Vue.use(FaFormDialog, {
   // 全局配置
+  locale: FaimLocale.FaFormDialog,
 })
 Vue.use(FaImage, {
   // 全局配置
@@ -299,6 +306,7 @@ Vue.use(FaImage, {
 Vue.use(FaImageUpload, {
   // 全局配置
   // 完整示例参考 ./demo/useFaImageUpload
+  locale: FaimLocale.FaImageUpload,
 })
 Vue.use(FaPopButton, {
   // 全局配置
@@ -312,10 +320,12 @@ Vue.use(FaRichText, {
 })
 Vue.use(FaSelect, {
   // 全局配置
+  locale: FaimLocale.FaSelect,
 })
 Vue.use(FaUpload, {
   // 全局配置
   // 完整示例参考 ./demo/useFaUpload
+  locale: FaimLocale.FaUpload,
 })
 
 Object.defineProperty(Vue.prototype, '$swal', {
