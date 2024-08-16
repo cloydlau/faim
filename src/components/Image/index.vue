@@ -358,13 +358,7 @@ $gapInTableCell: 5px;
       right: 0;
       background: white;
       //IE9
-      background: linear-gradient(
-        315deg,
-        white 45%,
-        #aaa 50%,
-        #ccc 56%,
-        white 80%
-      );
+      background: linear-gradient(315deg, white 45%, #aaa 50%, #ccc 56%, white 80%);
       box-shadow: -1px -1px 1px rgba(0, 0, 0, 0.4);
       transition-duration: 0.3s;
       transition-property: width, height;

@@ -722,9 +722,7 @@ export default {
 <style lang="scss">
 .fa-image-upload__cursor-grabbing,
 .fa-image-upload__cursor-grabbing *,
-.fa-image-upload__cursor-grabbing
-  .fa-image-upload.canSort
-  .el-upload-list__item-actions {
+.fa-image-upload__cursor-grabbing .fa-image-upload.canSort .el-upload-list__item-actions {
   cursor: grabbing !important;
 }
 

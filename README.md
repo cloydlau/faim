@@ -1530,10 +1530,7 @@ Ant Design 也是使用 `value` 与 `label` 命名
 ### 仅在初始化时执行一次 search
 
 ```html
-<FaSelect
-  :search="query => $POST('...', { query }).then(res => res.data)"
-  :filterable="false"
-/>
+<FaSelect :search="query => $POST('...', { query }).then(res => res.data)" :filterable="false" />
 ```
 
 <br>
