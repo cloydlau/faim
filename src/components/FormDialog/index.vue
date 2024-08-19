@@ -680,7 +680,6 @@ export default {
   display: flex;
 
   & > .el-dialog {
-    min-width: 855px;
     padding: 0;
 
     &:not(.is-fullscreen) {
