@@ -211,6 +211,7 @@ const app = createApp(App)
   .use(FaFormDialog, {
     // 全局配置
     locale: FaimLocale.FaFormDialog,
+    width: `${window.outerWidth / 2}px`,
   })
   .use(FaImage, {
     // 全局配置

@@ -14,6 +14,7 @@ const app = createApp(App)
   .use(ElementPlus, { locale: ElementPlusLocale })
   .use(FaFormDialog, {
     locale: FaimLocale.FaFormDialog,
+    width: `${window.outerWidth / 2}px`,
   })
   .use(FaImage, {
     referrerpolicy: 'no-referrer',

@@ -12,6 +12,7 @@ import App from './App.vue'
 Vue.use(ElementUI, { locale: ElementUILocale })
 Vue.use(FaFormDialog, {
   locale: FaimLocale.FaFormDialog,
+  width: `${window.outerWidth / 2}px`,
 })
 Vue.use(FaImage)
 Vue.use(FaImageUpload, globalConfigForFaImageUpload)
