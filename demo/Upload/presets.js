@@ -1,3 +1,15 @@
+export const RETRY_MAX = 3
+export const CONFIG_ID = 23 // OSS ID
+export const MB = 1024 ** 2
+export const TEN_MB = 10 * MB
+export const GB = MB * 1024
+export const TEN_GB = 10 * GB
+
+// 文件存储S3协议的限制，分片数量不能超过1000个
+export function getChunkSize(fileSize) {
+  return fileSize > TEN_GB ? fileSize / 1000 : TEN_MB
+}
+
 // 任意类型文件的配置预设
 const common = {
   maxFiles: 5,

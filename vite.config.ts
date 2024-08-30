@@ -1,3 +1,4 @@
+import { resolve } from 'node:path'
 import vue from '@vitejs/plugin-vue'
 import { defineConfig } from 'vite'
 import { parse } from 'semver'
@@ -7,7 +8,20 @@ import { PascalCasedName, name } from './package.json'
 
 const { major, minor } = parse(version) as SemVer
 
+// 路径查找
+function pathResolve(dir: string): string {
+  return resolve(__dirname, '.', dir)
+}
+
+// 设置别名
+const alias: Record<string, string> = {
+  '@': pathResolve('demo'),
+}
+
 export default defineConfig({
+  resolve: {
+    alias,
+  },
   plugins: [{
     name: 'html-transform',
     transformIndexHtml(html: string) {

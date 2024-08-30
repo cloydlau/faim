@@ -1,98 +1,274 @@
-import { FaMessageBox } from '../../src/index'
-import { POST } from '../request'
+import to from 'await-to-js'
+import { CONFIG_ID, RETRY_MAX } from './presets'
+import { POST } from '@/utils/http'
+import createMQ from '@/utils/mq'
 
-// const GB = 1024 ** 3
-const MB = 1024 ** 2
-const RETRY_TIMES = 3
-const CHUNK_SIZE = 10 * MB
+// 初始化前端消息队列
+const mq = createMQ()
+
+// 初始化多线程
+const worker = new Worker(new URL('./worker.js', import.meta.url), {
+  type: 'module',
+})
 
 // 切割文件
-function sliceFile(file, CHUNK_SIZE = 10 * MB) {
-  const chunks = []
-  if (file instanceof Blob) {
-    if (file.size > CHUNK_SIZE) {
-      let start = 0
-      let end = 0
-      while (true) {
-        if (end + CHUNK_SIZE >= file.size) {
-          chunks.push(file.slice(start))
-          break
-        }
-        else {
-          end += CHUNK_SIZE
-          const blob = file.slice(start, end)
-          chunks.push(blob)
-          start += CHUNK_SIZE
-        }
-      }
+function sliceFile(file) {
+  return new Promise((resolve, reject) => {
+    worker.onerror = (e) => {
+      reject(e)
     }
-    else {
-      chunks.push(file.slice(0))
+
+    worker.onmessage = (event) => {
+      resolve(event.data)
     }
-  }
-  return chunks
+
+    worker.postMessage(file)
+  })
 }
 
-// 分片上传文件
-export default function upload(file, progress, abortController) {
-  let failTimes = 0
-
-  const chunks = sliceFile(file, CHUNK_SIZE)
-  let count = 0
-
-  const formData = {
-    chunkTotal: chunks.length.toString(),
-    fileName: file.name,
-    domainId: '1',
-    dir: 'img',
-    ...this.$attrs.requestParam,
+// 分片上传
+async function uploadPart({
+  file,
+  chunk,
+  partNumber,
+  path,
+  uploadId,
+  queue,
+  progress,
+  abortController,
+  resolve,
+  reject,
+  retry = 0,
+}) {
+  const [err] = await to(
+    mq.produce(() =>
+      POST.upload(
+        '/uploadPart',
+        {
+          file: chunk.blob,
+          req: JSON.stringify({
+            configId: CONFIG_ID,
+            md5Digest: queue.md5,
+            path,
+            uploadId,
+            partSize: chunk.blob.size,
+            partNumber,
+          }),
+        },
+        {
+          timeout: 0,
+          onUploadProgress({ event }) {
+            if (event.lengthComputable) {
+              const increment = event.loaded - chunk.uploadedSize
+              chunk.uploadedSize
+                = event.loaded >= event.total
+                  ? chunk.blob.size
+                  : chunk.blob.size * (event.loaded / event.total)
+              queue.uploadedSize += increment
+              const percentage = (queue.uploadedSize / file.size) * 100
+              // 由于还要合并分片，因此上传完所有分片并不算上传完成
+              progress(Math.min(percentage, 99))
+            }
+          },
+          signal: abortController?.signal,
+        },
+      ),
+    ),
+  )
+  if (err) {
+    // 手动中止
+    if (err.code === 'ERR_CANCELED') {
+      reject(err)
+    }
+    // 失败重试
+    else if (++retry < RETRY_MAX) {
+      uploadPart({
+        file,
+        chunk,
+        partNumber,
+        path,
+        uploadId,
+        queue,
+        progress,
+        abortController,
+        resolve,
+        reject,
+        retry: retry + 1,
+      })
+    }
+    else {
+      reject(err)
+    }
   }
+  else {
+    const increment = chunk.blob.size - chunk.uploadedSize
+    chunk.uploadedSize = chunk.blob.size
+    queue.uploadedSize += increment
+    if (++queue.uploadedCount >= queue.chunks.length) {
+      mergeChunks({
+        file,
+        uploadId,
+        queue,
+        progress,
+        resolve,
+        reject,
+      })
+    }
+  }
+}
+
+// 上传所有分片
+function uploadAllPart({
+  file,
+  path,
+  uploadId,
+  partUploadList,
+  queue,
+  progress,
+  abortController,
+  resolve,
+  reject,
+}) {
+  queue.uploadedSize = 0
+  queue.uploadedCount = 0
+  const isUploadedMap = partUploadList
+    ? Object.fromEntries(Array.from(partUploadList, ({ partNumber }) => [partNumber, true]))
+    : {}
+  // 已经上传完所有分片，直接合并
+  if (partUploadList?.length >= queue.chunks.length) {
+    queue.uploadedSize = file.size
+    queue.uploadedCount++
+    mergeChunks({
+      file,
+      uploadId,
+      queue,
+      progress,
+      resolve,
+      reject,
+    })
+  }
+  else {
+    for (let partNumber = 1; partNumber <= queue.chunks.length; partNumber++) {
+      const chunk = queue.chunks[partNumber - 1]
+      if (isUploadedMap[partNumber]) {
+        queue.uploadedSize += chunk.blob.size
+        queue.uploadedCount++
+      }
+      else {
+        uploadPart({
+          file,
+          chunk,
+          partNumber,
+          path,
+          uploadId,
+          queue,
+          progress,
+          abortController,
+          resolve,
+          reject,
+        })
+      }
+    }
+  }
+}
+
+// 合并分片
+function mergeChunks({ file, uploadId, queue, progress, resolve, reject, abortController }) {
+  progress(99)
+  POST(
+    '/complete',
+    {
+      configId: CONFIG_ID,
+      uploadId,
+      md5Digest: queue.md5,
+      name: file.name,
+      size: file.size,
+      chunkNumber: queue.chunks.length,
+      chunkSize: queue.chunkSize,
+    },
+    {
+      signal: abortController?.signal,
+    },
+  )
+    .then(({ data: { url } }) => {
+      resolve(url)
+    })
+    .catch((reason) => {
+      reject(reason)
+    })
+    .finally(() => {
+      progress(100)
+    })
+}
+
+// 上传文件
+export default async function upload(file, progress, abortController) {
+  const queue = await sliceFile(file)
+  const getPartList = await POST(
+    '/getPartList',
+    {
+      configId: CONFIG_ID,
+      md5Digest: queue.md5,
+    },
+    {
+      signal: abortController?.signal,
+    },
+  )
+
+  progress(1)
+
+  const { partUploadList, path, uploadId, url } = getPartList.data || {}
 
   return new Promise((resolve, reject) => {
-    const recursion = () => {
-      formData.file = chunks[count]
-      formData.chunk = count.toString()
-      POST.upload(`${import.meta.env.VITE_APP_UPLOAD_API}/upload-api-noauth/chunkUpload`, formData, {
-        baseURL: '', // 针对 baseAPI 为相对路径的情况
-        timeout: 0,
-        onUploadProgress({ event }) {
-          if (event.lengthComputable) {
-            progress(((CHUNK_SIZE * count + event.loaded) / file.size) * 100)
-          }
-        },
-        signal: abortController?.signal,
+    // 重复上传
+    if (url) {
+      resolve(url)
+    }
+    // 离线断点续传（支持更换电脑）
+    else if (partUploadList) {
+      uploadAllPart({
+        file,
+        path,
+        uploadId,
+        partUploadList,
+        queue,
+        progress,
+        abortController,
+        resolve,
+        reject,
       })
-        .then((res) => {
-          const data = 'data' in res ? ('data' in res.data ? res.data.data : res.data) : res
-          if (data?.status === '200') {
-            resolve(data.url)
-          }
-          else if (count++ < chunks.length - 1) {
-            formData.taskId = data.url
-            recursion()
-          }
-          else {
-            FaMessageBox.error('上传失败')
-            reject(new Error('上传失败'))
-          }
+    }
+    // 全新上传
+    else {
+      POST(
+        '/init',
+        {
+          configId: CONFIG_ID,
+          md5Digest: queue.md5,
+          name: file.name,
+          size: file.size,
+          chunkNumber: queue.chunks.length,
+          chunkSize: queue.chunkSize,
+        },
+        {
+          signal: abortController?.signal,
+        },
+      )
+        .then(({ data: { path, uploadId } }) => {
+          uploadAllPart({
+            file,
+            path,
+            uploadId,
+            queue,
+            progress,
+            abortController,
+            resolve,
+            reject,
+          })
         })
-        .catch((e) => {
-          // 手动中止，重置断点续传次数
-          if (e.code === 'ERR_CANCELED') {
-            failTimes = Number.MAX_VALUE
-            reject(new Error('上传取消'))
-          // 断点续传
-          }
-          else if (failTimes++ < RETRY_TIMES) {
-            recursion()
-          }
-          else {
-            FaMessageBox.error('上传失败')
-            reject(new Error('上传失败'))
-          }
+        .catch((reason) => {
+          reject(reason)
         })
     }
-
-    recursion()
   })
 }

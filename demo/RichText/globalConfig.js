@@ -25,9 +25,9 @@ import './langs/zh-Hans'
 import './index.scss'
 
 // 自定义插件（非必须）
-import { POST } from '../request'
 import InsertFile from './plugins/InsertFile.vue'
 import InsertWord from './plugins/InsertWord'
+import { POST } from '@/utils/http'
 
 // 官方插件（非必须）
 /* if (import.meta.env.MODE === 'development') {
