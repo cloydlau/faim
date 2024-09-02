@@ -4,6 +4,7 @@ import { defineConfig } from 'vite'
 import { parse } from 'semver'
 import type { SemVer } from 'semver'
 import { version } from 'vue'
+import UnpluginUnused from 'unplugin-unused/vite'
 import { PascalCasedName, name } from './package.json'
 
 const { major, minor } = parse(version) as SemVer
@@ -22,12 +23,16 @@ export default defineConfig({
   resolve: {
     alias,
   },
-  plugins: [{
-    name: 'html-transform',
-    transformIndexHtml(html: string) {
-      return html.replace(/\{\{ NAME \}\}/, name).replace(/\{\{ VUE_VERSION \}\}/g, String(major === 3 ? major : `${major}.${minor}`))
+  plugins: [
+    {
+      name: 'html-transform',
+      transformIndexHtml(html: string) {
+        return html.replace(/\{\{ NAME \}\}/, name).replace(/\{\{ VUE_VERSION \}\}/g, String(major === 3 ? major : `${major}.${minor}`))
+      },
     },
-  }, vue()],
+    UnpluginUnused(),
+    vue(),
+  ],
   build: {
     lib: {
       name,
