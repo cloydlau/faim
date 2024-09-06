@@ -1,7 +1,7 @@
 <script>
+import { debounce } from 'lodash-es'
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
-import { debounce } from 'lodash-es'
 import { isGlobalSlot } from '../../utils'
 
 const globalProps = {}

@@ -1,10 +1,10 @@
 <script>
-import { isVue3 } from 'vue-demi'
-import { conclude, resolveConfig } from 'vue-global-config'
 import { cloneDeep } from 'lodash-es'
 import Sortable from 'sortablejs'
-import { getListeners, isEmpty, isGlobalSlot, isObject, notEmpty, unwrap } from '../../utils'
+import { isVue3 } from 'vue-demi'
+import { conclude, resolveConfig } from 'vue-global-config'
 import defaultLocale from '../../locale/en'
+import { getListeners, isEmpty, isGlobalSlot, isObject, notEmpty, unwrap } from '../../utils'
 
 const name = 'FaSelect'
 

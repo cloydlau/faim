@@ -1,14 +1,14 @@
-import { createApp } from 'vue'
-import 'element-plus/dist/index.css'
-import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import ElementPlus from 'element-plus'
 import ElementPlusLocale from 'element-plus/dist/locale/zh-cn.mjs'
+import { createApp } from 'vue'
 import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopButton, FaPopSwitch, FaRichText, FaSelect, FaUpload } from '../src/index'
 import FaimLocale from '../src/locale/zh-cn'
-import globalConfigForFaUpload from './Upload/globalConfig'
+import App from './App.vue'
 import globalConfigForFaImageUpload from './ImageUpload/globalConfig'
 import globalConfigForFaRichText from './RichText/globalConfig'
-import App from './App.vue'
+import globalConfigForFaUpload from './Upload/globalConfig'
+import 'element-plus/dist/index.css'
 
 const app = createApp(App)
   .use(ElementPlus, { locale: ElementPlusLocale })

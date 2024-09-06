@@ -1,9 +1,9 @@
 <script>
+import { cloneDeep, isPlainObject } from 'lodash-es'
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
-import { cloneDeep, isPlainObject } from 'lodash-es'
-import { getListeners, isGlobalSlot } from '../../utils'
 import defaultLocale from '../../locale/en'
+import { getListeners, isGlobalSlot } from '../../utils'
 import highlightError from './highlightError'
 
 const name = 'FaFormDialog'

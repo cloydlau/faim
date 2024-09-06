@@ -141,9 +141,9 @@ npm i unplugin-vue-components -D
 ```ts
 // vite.config.ts
 
-import { defineConfig } from 'vite'
-import Components from 'unplugin-vue-components/vite'
 import FaimResolver from 'faim/auto-import-resolver'
+import Components from 'unplugin-vue-components/vite'
+import { defineConfig } from 'vite'
 
 export default defineConfig({
   // ...
@@ -159,8 +159,8 @@ export default defineConfig({
 ```js
 // webpack.config.js
 
-const Components = require('unplugin-vue-components/webpack')
 const FaimResolver = require('faim/auto-import-resolver')
+const Components = require('unplugin-vue-components/webpack')
 
 module.exports = {
   // ...
@@ -193,18 +193,18 @@ const $swal = FaMessageBox
 #### 全局注册
 
 ```ts
-import { createApp, h } from 'vue'
-import 'element-plus/dist/index.css'
-import ElementPlus from 'element-plus'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+import ElementPlus from 'element-plus'
 import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopButton, FaPopSwitch, FaRichText, FaSelect, FaUpload } from 'faim'
 import FaimLocale from 'faim/dist/locale/zh-cn.mjs'
+import { createApp, h } from 'vue'
 import App from './App.vue'
+import 'element-plus/dist/index.css'
 
+import 'tinymce/icons/default/icons'
 // 在 FaRichText 外部引入皮肤、主题、图标等样式资源的目的是方便用户对其进行更换
 import 'tinymce/skins/ui/oxide/skin.min.css'
 import 'tinymce/themes/silver/theme'
-import 'tinymce/icons/default/icons'
 
 const app = createApp(App)
   .use(ElementPlus)
@@ -284,17 +284,17 @@ export default {
 #### 全局注册
 
 ```ts
-import Vue from 'vue'
-import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
 import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopButton, FaPopSwitch, FaRichText, FaSelect, FaUpload } from 'faim'
 import FaimLocale from 'faim/dist/locale/zh-cn.mjs'
+import Vue from 'vue'
 import App from './App.vue'
+import 'element-ui/lib/theme-chalk/index.css'
 
+import 'tinymce/icons/default/icons'
 // 在 FaRichText 外部引入皮肤、主题、图标等样式资源的目的是方便用户对其进行更换
 import 'tinymce/skins/ui/oxide/skin.min.css'
 import 'tinymce/themes/silver/theme'
-import 'tinymce/icons/default/icons'
 
 Vue.use(ElementUI)
 Vue.use(FaFormDialog, {
@@ -1280,8 +1280,8 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 <!-- 示例: 监听 TinyMCE 的事件 -->
 
 <script setup>
-import { reactive, ref } from 'vue'
 import tinymce from 'tinymce/tinymce'
+import { reactive, ref } from 'vue'
 
 const faRichTextRef = ref()
 </script>
@@ -1367,9 +1367,9 @@ FaRichText 提供了插入 Word 文档的插件示例，兼容 Microsoft Office�
 ```ts
 // PowerPaste 配置示例
 
-import { FaRichText } from 'faim'
 import axios from 'axios'
 import createAxiosShortcut from 'axios-shortcut'
+import { FaRichText } from 'faim'
 
 const { POST } = createAxiosShortcut(axios)
 

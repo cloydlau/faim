@@ -1,7 +1,7 @@
-import to from 'await-to-js'
-import { CONFIG_ID, RETRY_MAX } from './presets'
 import { POST } from '@/utils/http'
 import createMQ from '@/utils/mq'
+import to from 'await-to-js'
+import { CONFIG_ID, RETRY_MAX } from './presets'
 
 // 初始化前端消息队列
 const mq = createMQ()

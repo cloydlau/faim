@@ -1,14 +1,14 @@
 <script>
-import Sortable from 'sortablejs'
-import { conclude, resolveConfig } from 'vue-global-config'
 import to from 'await-to-js'
-import { isVue3 } from 'vue-demi'
-import mime from 'mime'
 import { useFormDisabled } from 'element-plus/es/components/form/src/hooks/use-form-common-props.mjs'
-import FaMessageBox from '../MessageBox'
-import FaImage from '../Image/index.vue'
-import { handleNumericalProp, isObject, sizeToLabel, toBlobLike, toImageTag, toLocalURL, tryParsingJSONArray, unwrap } from '../../utils'
+import mime from 'mime'
+import Sortable from 'sortablejs'
+import { isVue3 } from 'vue-demi'
+import { conclude, resolveConfig } from 'vue-global-config'
 import defaultLocale from '../../locale/en'
+import { handleNumericalProp, isObject, sizeToLabel, toBlobLike, toImageTag, toLocalURL, tryParsingJSONArray, unwrap } from '../../utils'
+import FaImage from '../Image/index.vue'
+import FaMessageBox from '../MessageBox'
 import ImageEditor from './ImageEditor.vue'
 import './index.css'
 
@@ -658,7 +658,7 @@ export default {
 <template>
   <div style="line-height: 0;">
     <el-upload
-      v-model:fileList="files"
+      v-model:file-list="files"
       v-loading="uploading"
       class="fa-image-upload"
       :class="{ isVue3, isFull, canSort, isInsideTable }"

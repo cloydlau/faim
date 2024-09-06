@@ -1,8 +1,8 @@
 <script setup>
-import { reactive, ref } from 'vue-demi'
 import JsonEditorVue from 'json-editor-vue'
-import { blobLikeToBase64, fileToBlob } from '../src/utils'
+import { reactive, ref } from 'vue-demi'
 import { FaMessageBox } from '../src'
+import { blobLikeToBase64, fileToBlob } from '../src/utils'
 import presets from './Upload/presets'
 
 const console = window.console

@@ -1,4 +1,4 @@
-import { PascalCasedName, name } from './package.json'
+import { name, PascalCasedName } from './package.json'
 
 const prefix = PascalCasedName.substring(0, 2)
 

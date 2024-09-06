@@ -1,5 +1,5 @@
-import FaimLocale from '../../src/locale/zh-cn'
 import { POST } from '@/utils/http'
+import FaimLocale from '../../src/locale/zh-cn'
 
 export default {
   locale: FaimLocale.FaImageUpload,

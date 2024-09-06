@@ -1,14 +1,14 @@
 <script>
-import 'viewerjs/dist/viewer.min.css'
-import Viewer from 'viewerjs'
-import 'swiper/swiper-bundle.css'
-import Swiper from 'swiper'
-import QRCode from 'qrcode'
-import isURL from 'validator/es/lib/isURL'
-import { conclude, resolveConfig } from 'vue-global-config'
-import { isVue3 } from 'vue-demi'
 import { useEventListener } from '@vueuse/core'
+import QRCode from 'qrcode'
+import Swiper from 'swiper'
+import isURL from 'validator/es/lib/isURL'
+import Viewer from 'viewerjs'
+import { isVue3 } from 'vue-demi'
+import { conclude, resolveConfig } from 'vue-global-config'
 import { isBase64WithScheme, isObject, tryParsingJSONArray, unwrap } from '../../utils'
+import 'swiper/swiper-bundle.css'
+import 'viewerjs/dist/viewer.min.css'
 
 const model = {
   prop: isVue3 ? 'modelValue' : 'value',

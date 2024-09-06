@@ -1,3 +1,8 @@
+// 该插件在官方的 full-featured 示例中被排除，故默认关闭
+import { useFormDisabled } from 'element-plus/es/components/form/src/hooks/use-form-common-props.mjs'
+import { debounce } from 'lodash-es'
+import tinymce from 'tinymce/tinymce'
+import { v4 as uuidv4 } from 'uuid'
 import {
   computed,
   defineComponent,
@@ -12,32 +17,26 @@ import {
   // vShow, // 不支持 Vue 2
   // withDirectives, // 不支持 Vue 2
 } from 'vue-demi'
-import type { App } from 'vue-demi'
-import { conclude, resolveConfig } from 'vue-global-config'
-import { v4 as uuidv4 } from 'uuid'
-import { debounce } from 'lodash-es'
 
-import tinymce from 'tinymce/tinymce'
+import { conclude, resolveConfig } from 'vue-global-config'
 import type { Editor } from 'tinymce/tinymce'
+
+import type { App } from 'vue-demi'
 
 // models
 import 'tinymce/models/dom'
-
 // plugins
 import 'tinymce/plugins/accordion'
 import 'tinymce/plugins/advlist'
 import 'tinymce/plugins/anchor'
-import 'tinymce/plugins/autolink'
 
-// 该插件在官方的 full-featured 示例中被排除，故默认关闭
+import 'tinymce/plugins/autolink'
 // import 'tinymce/plugins/autoresize' //
 import 'tinymce/plugins/autosave'
-import 'tinymce/plugins/charmap'
 
-// 该插件只有开发者会用到，故默认关闭
-// import 'tinymce/plugins/code'
-// 该插件只有开发者会用到，故默认关闭
-// import 'tinymce/plugins/codesample'
+import 'tinymce/plugins/charmap'
+// import 'tinymce/plugins/code' // 该插件只有开发者会用到，故默认关闭
+// import 'tinymce/plugins/codesample' // 该插件只有开发者会用到，故默认关闭
 import 'tinymce/plugins/directionality'
 import 'tinymce/plugins/emoticons'
 import 'tinymce/plugins/emoticons/js/emojis.min'
@@ -55,15 +54,12 @@ import 'tinymce/plugins/preview'
 import 'tinymce/plugins/quickbars'
 import 'tinymce/plugins/save'
 import 'tinymce/plugins/searchreplace'
-import 'tinymce/plugins/table'
-
-// 该插件需要用户进一步的配置，故默认关闭
+import 'tinymce/plugins/table' // 该插件需要用户进一步的配置，故默认关闭
 // import 'tinymce/plugins/template'
 import 'tinymce/plugins/visualblocks'
 import 'tinymce/plugins/visualchars'
-import 'tinymce/plugins/wordcount'
 
-import { useFormDisabled } from 'element-plus/es/components/form/src/hooks/use-form-common-props.mjs'
+import 'tinymce/plugins/wordcount'
 
 // const isSmallScreen = window.matchMedia('(max-width: 1023.5px)').matches
 

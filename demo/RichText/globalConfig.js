@@ -1,33 +1,33 @@
 // '?raw' 是 Vite 语法，在 webpack 中请使用 https://github.com/webpack-contrib/raw-loader
 
-// 浅色模式
-import 'tinymce/skins/ui/oxide/skin.min.css'
-
 // 皮肤
 import contentCSS from 'tinymce/skins/content/default/content.min.css?raw'
+
 import contentUICSS from 'tinymce/skins/ui/oxide/content.min.css?raw'
+// 浅色模式
+import 'tinymce/skins/ui/oxide/skin.min.css'
 
 // 深色模式
 /* import 'tinymce/skins/ui/oxide-dark/skin.min.css' // 皮肤
 import contentCSS from 'tinymce/skins/content/dark/content.min.css?raw'
 import contentUICSS from 'tinymce/skins/ui/oxide-dark/content.min.css?raw' */
 
-// 图标
-import 'tinymce/icons/default/icons'
+import { POST } from '@/utils/http'
 
-// 主题
-import 'tinymce/themes/silver/theme'
+// 自定义插件（非必须）
+import InsertFile from './plugins/InsertFile.vue'
 
-// 语言（非必须，默认英文，下载地址：https://www.tiny.cloud/get-tiny/language-packages）
-import './langs/zh-Hans'
+import InsertWord from './plugins/InsertWord'
 
 // 自定义样式
 import './index.scss'
 
-// 自定义插件（非必须）
-import InsertFile from './plugins/InsertFile.vue'
-import InsertWord from './plugins/InsertWord'
-import { POST } from '@/utils/http'
+// 语言（非必须，默认英文，下载地址：https://www.tiny.cloud/get-tiny/language-packages）
+import './langs/zh-Hans'
+// 图标
+import 'tinymce/icons/default/icons'
+// 主题
+import 'tinymce/themes/silver/theme'
 
 // 官方插件（非必须）
 /* if (import.meta.env.MODE === 'development') {

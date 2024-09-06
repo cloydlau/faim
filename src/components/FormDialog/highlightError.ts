@@ -1,5 +1,5 @@
-import './highlightError.css'
 import elementIsVisible from './elementIsVisible'
+import './highlightError.css'
 
 export default (
   selectors: string | Element | NodeList = '.el-form .el-form-item.is-error',

@@ -9,8 +9,8 @@ const { name } = require('../package.json') */
 import fs from 'node:fs'
 import process from 'node:process'
 import spawn from 'cross-spawn'
-import { cyan, green } from 'kolorist'
 import { deleteAsync } from 'del'
+import { cyan, green } from 'kolorist'
 
 // Node 14 不支持
 // import packageJSON from '../package.json' assert { type: 'json' }

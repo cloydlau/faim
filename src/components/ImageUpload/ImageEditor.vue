@@ -1,13 +1,13 @@
 <script>
-import 'cropperjs/dist/cropper.min.css'
+import { useEventListener } from '@vueuse/core'
 import Cropper from 'cropperjs'
 import { throttle } from 'lodash-es'
 import UPNG from 'upng-js'
-import { useEventListener } from '@vueuse/core'
 import { isVue3 } from 'vue-demi'
-import FaMessageBox from '../MessageBox'
-import FaFormDialog from '../FormDialog/index.vue'
 import { blobLikeToArrayBuffer, blobToFile, sizeToLabel, toBlobLike, toImageTag, toLocalURL } from '../../utils'
+import FaFormDialog from '../FormDialog/index.vue'
+import FaMessageBox from '../MessageBox'
+import 'cropperjs/dist/cropper.min.css'
 
 function initialSettings() {
   return {
@@ -367,9 +367,7 @@ export default {
     },
     getSizeDiffText(before, after) {
       const diff = after - before
-      const textA = this.locale.sizeTip
-        .replaceAll('{inputSize}', this.originalSizeLabel)
-        .replaceAll('{outputSize}', sizeToLabel(after))
+      const textA = this.locale.sizeTip.replaceAll('{inputSize}', this.originalSizeLabel).replaceAll('{outputSize}', sizeToLabel(after))
       let textB = diff === 0 ? '' : `${Number.parseFloat((diff / before * 100).toFixed(2))}%`
       if (diff > 0) {
         textB = `+${textB}`

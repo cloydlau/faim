@@ -1,13 +1,13 @@
-import Vue from 'vue'
-import 'element-ui/lib/theme-chalk/index.css'
 import ElementUI from 'element-ui'
 import ElementUILocale from 'element-ui/lib/locale/lang/zh-CN'
+import Vue from 'vue'
 import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopButton, FaPopSwitch, FaRichText, FaSelect, FaUpload } from '../src/index'
 import FaimLocale from '../src/locale/zh-cn'
-import globalConfigForFaUpload from './Upload/globalConfig'
+import App from './App.vue'
 import globalConfigForFaImageUpload from './ImageUpload/globalConfig'
 import globalConfigForFaRichText from './RichText/globalConfig'
-import App from './App.vue'
+import globalConfigForFaUpload from './Upload/globalConfig'
+import 'element-ui/lib/theme-chalk/index.css'
 
 Vue.use(ElementUI, { locale: ElementUILocale })
 Vue.use(FaFormDialog, {
