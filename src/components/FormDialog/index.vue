@@ -43,6 +43,7 @@ const boolAttrs = [
   'center',
   'alignCenter',
   'destroyOnClose',
+  'overflow',
   'modalAppendToBody', // vue 2 only
 ]
 
