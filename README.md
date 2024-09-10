@@ -218,7 +218,7 @@ const app = createApp(App)
   })
   .use(FaImageUpload, {
     // 全局配置
-    // 完整示例参考 ./demo/useFaImageUpload
+    // 完整示例参考 ./demo/ImageUpload
     locale: FaimLocale.FaImageUpload,
   })
   .use(FaPopButton, {
@@ -229,7 +229,7 @@ const app = createApp(App)
   })
   .use(FaRichText, {
     // 全局配置
-    // 完整示例参考 ./demo/useFaRichText
+    // 完整示例参考 ./demo/RichText
   })
   .use(FaSelect, {
     // 全局配置
@@ -237,7 +237,7 @@ const app = createApp(App)
   })
   .use(FaUpload, {
     // 全局配置
-    // 完整示例参考 ./demo/useFaUpload
+    // 完整示例参考 ./demo/Upload
     locale: FaimLocale.FaUpload,
   })
 
@@ -306,7 +306,7 @@ Vue.use(FaImage, {
 })
 Vue.use(FaImageUpload, {
   // 全局配置
-  // 完整示例参考 ./demo/useFaImageUpload
+  // 完整示例参考 ./demo/ImageUpload
   locale: FaimLocale.FaImageUpload,
 })
 Vue.use(FaPopButton, {
@@ -317,7 +317,7 @@ Vue.use(FaPopSwitch, {
 })
 Vue.use(FaRichText, {
   // 全局配置
-  // 完整示例参考 ./demo/useFaRichText
+  // 完整示例参考 ./demo/RichText
 })
 Vue.use(FaSelect, {
   // 全局配置
@@ -325,7 +325,7 @@ Vue.use(FaSelect, {
 })
 Vue.use(FaUpload, {
   // 全局配置
-  // 完整示例参考 ./demo/useFaUpload
+  // 完整示例参考 ./demo/Upload
   locale: FaimLocale.FaUpload,
 })
 
@@ -1350,9 +1350,9 @@ TinyMCE 提供了两种加载方式：
 
 ### 自定义插件示例
 
-[插入本地图片/视频/音频](./demo/useFaRichText/plugins/InsertFile)
+[插入本地图片/视频/音频](./demo/RichText/plugins/InsertFile)
 
-[插入 Word 文档 (`.docx`)，兼容 Microsoft Office、WPS](./demo/useFaRichText/plugins/InsertWord)
+[插入 Word 文档 (`.docx`)，兼容 Microsoft Office、WPS](./demo/RichText/plugins/InsertWord)
 
 #### 粘贴 Word 文档
 
