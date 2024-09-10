@@ -1350,9 +1350,9 @@ TinyMCE 提供了两种加载方式：
 
 ### 自定义插件示例
 
-[插入本地图片/视频/音频](./demo/RichText/plugins/InsertFile)
+[插入本地图片/视频/音频](./demo/RichText/plugins/InsertFile.vue)
 
-[插入 Word 文档 (`.docx`)，兼容 Microsoft Office、WPS](./demo/RichText/plugins/InsertWord)
+[插入 Word 文档 (`.docx`)，兼容 Microsoft Office、WPS](./demo/RichText/plugins/InsertWord.js)
 
 #### 粘贴 Word 文档
 
