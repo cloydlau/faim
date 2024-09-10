@@ -346,6 +346,14 @@ new Vue({
 >
 > Faim 输出的格式为包含 SFC 的 ESM + CJS (没有 IIFE)，引入依赖的过程会比较繁琐
 
+### SSR/Nuxt 环境
+
+如果在 SSR/Nuxt 中遇到报错：`navigator is not defined`，可能是受到了不支持 SSR/Nuxt 环境的组件代码影响，可以指定路径导入组件：
+
+```ts
+import FaFormDialog from 'faim/dist/components/FormDialog/index.vue'
+```
+
 ### 非 Element 环境
 
 以下组件支持在非 Element 环境中使用：
@@ -360,6 +368,12 @@ new Vue({
 以下组件支持在非 Vue 环境中使用：
 
 - FaMessageBox
+
+为了避免受到依赖 Vue 的组件代码影响，可以指定路径导入组件：
+
+```ts
+import FaMessageBox from 'faim/dist/components/MessageBox/index'
+```
 
 ### 布尔类型属性
 
@@ -1139,12 +1153,6 @@ FaMessageBox.confirm({
     alert('Dismissed')
   }
 })
-```
-
-### 在非 Vue 环境中使用
-
-```ts
-import FaMessageBox from 'faim/dist/components/MessageBox/index'
 ```
 
 <br>
