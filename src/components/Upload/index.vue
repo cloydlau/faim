@@ -87,8 +87,8 @@ export default {
   props: {
     [model.prop]: {
       validator: value => typeof value === 'string'
-      || Array.isArray(value)
-      || isObject(value),
+        || Array.isArray(value)
+        || isObject(value),
     },
     srcAt: {},
     arrayed: {

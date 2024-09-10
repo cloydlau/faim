@@ -1,7 +1,7 @@
 {
   "name": "faim",
   "PascalCasedName": "Faim",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "private": false,
   "description": "Element Plus & Element UI isomorphic UI component library, more than Element.",
   "author": {
@@ -74,7 +74,7 @@
     "cropperjs": "^1.6.2",
     "cross-spawn": "^7.0.3",
     "del": "^7.1.0",
-    "filepond": "^4.31.2",
+    "filepond": "^4.31.3",
     "filepond-plugin-file-validate-size": "^2.2.8",
     "filepond-plugin-file-validate-type": "^1.2.9",
     "filepond-plugin-image-validate-size": "^1.2.7",
@@ -84,7 +84,7 @@
     "qrcode": "^1.5.4",
     "sass": "^1.78.0",
     "sortablejs": "^1.15.3",
-    "sweetalert2": "^11.13.2",
+    "sweetalert2": "^11.14.0",
     "swiper": "^11.1.12",
     "tinymce": "^6",
     "upng-js": "^2.1.0",
@@ -92,10 +92,10 @@
     "validator": "^13.12.0",
     "viewerjs": "^1.11.6",
     "vue-demi": "^0.14.10",
-    "vue-global-config": "^0.6.1"
+    "vue-global-config": "^0.6.2"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.3.2",
+    "@antfu/eslint-config": "^3.5.0",
     "@commitlint/cli": "^19.4.1",
     "@commitlint/config-conventional": "^19.4.1",
     "@element-plus/icons-vue": "latest",
@@ -124,9 +124,9 @@
     "prompts": "^2.4.2",
     "semver": "^7.6.3",
     "simple-git-hooks": "^2.11.1",
-    "typescript": "^5.5.4",
+    "typescript": "^5.6.2",
     "unbuild": "^2.0.0",
-    "unplugin-unused": "^0.1.4",
+    "unplugin-unused": "^0.2.3",
     "vite": "^5.4.3",
     "vue": "latest",
     "vue-tsc": "2.1.6",
