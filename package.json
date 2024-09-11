@@ -1,7 +1,7 @@
 {
   "name": "faim",
   "PascalCasedName": "Faim",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "private": false,
   "description": "Element Plus & Element UI isomorphic UI component library, more than Element.",
   "author": {
@@ -50,7 +50,7 @@
     "build": "npx unbuild",
     "preview": "vite preview",
     "release": "esno ./scripts/release.mts",
-    "license-scan": "license-checker --summary --out ./licenses.txt",
+    "license-scan": "license-checker --summary --out ./dependency-licenses.txt",
     "lint": "eslint \"**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,json,md,html,css,scss,sass}\" --ignore-pattern stats.html",
     "lint:fix": "eslint \"**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,json,md,html,css,scss,sass}\" --ignore-pattern stats.html --fix",
     "preinstall": "node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || npx only-allow pnpm",
@@ -95,7 +95,7 @@
     "vue-global-config": "^0.6.2"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.5.0",
+    "@antfu/eslint-config": "^3.5.1",
     "@commitlint/cli": "^19.4.1",
     "@commitlint/config-conventional": "^19.4.1",
     "@element-plus/icons-vue": "latest",
