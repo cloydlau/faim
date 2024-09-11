@@ -433,7 +433,7 @@ export default {
         >
           <span>{{ Title }}</span>
         </slot>
-        <div style="display: flex; align-items: center;">
+        <div style="display: flex; align-items: center; position: absolute; right: 16px; top: 16px;">
           <template v-if="ShowFullscreenToggle">
             <svg
               v-if="isFullscreen"
@@ -693,7 +693,6 @@ export default {
 
     .el-dialog__header {
       display: flex;
-      justify-content: space-between;
       align-items: center;
       padding: 16px;
 
@@ -842,6 +841,17 @@ export default {
 
       .el-button.is-disabled.closing {
         cursor: revert;
+      }
+    }
+
+    &.el-dialog--center {
+      & > .el-dialog__header {
+        & > span:first-child {
+          margin: auto;
+        }
+      }
+      & > .el-dialog__footer {
+        left: 0;
       }
     }
   }
