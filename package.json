@@ -96,8 +96,8 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.5.1",
-    "@commitlint/cli": "^19.4.1",
-    "@commitlint/config-conventional": "^19.4.1",
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
     "@element-plus/icons-vue": "latest",
     "@types/lodash-es": "^4.17.12",
     "@types/node": "^22.5.4",
@@ -127,7 +127,7 @@
     "typescript": "^5.6.2",
     "unbuild": "^2.0.0",
     "unplugin-unused": "^0.2.3",
-    "vite": "^5.4.3",
+    "vite": "^5.4.4",
     "vue": "latest",
     "vue-tsc": "2.1.6",
     "zhlint": "^0.8.2"
