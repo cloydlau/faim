@@ -1,7 +1,10 @@
+import type { Editor } from 'tinymce/tinymce'
+import type { App } from 'vue-demi'
 // 该插件在官方的 full-featured 示例中被排除，故默认关闭
 import { useFormDisabled } from 'element-plus/es/components/form/src/hooks/use-form-common-props.mjs'
 import { debounce } from 'lodash-es'
 import tinymce from 'tinymce/tinymce'
+
 import { v4 as uuidv4 } from 'uuid'
 import {
   computed,
@@ -19,9 +22,6 @@ import {
 } from 'vue-demi'
 
 import { conclude, resolveConfig } from 'vue-global-config'
-import type { Editor } from 'tinymce/tinymce'
-
-import type { App } from 'vue-demi'
 
 // models
 import 'tinymce/models/dom'

@@ -1,10 +1,10 @@
+import type { SemVer } from 'semver'
 import { resolve } from 'node:path'
 import vue from '@vitejs/plugin-vue'
 import { parse } from 'semver'
 import UnpluginUnused from 'unplugin-unused/vite'
 import { defineConfig } from 'vite'
 import { version } from 'vue'
-import type { SemVer } from 'semver'
 import { name, PascalCasedName } from './package.json'
 
 const { major, minor } = parse(version) as SemVer

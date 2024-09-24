@@ -1,9 +1,9 @@
+import type { ComponentPublicInstance } from 'vue-demi'
 import { at, isPlainObject } from 'lodash-es'
 import isBase64 from 'validator/es/lib/isBase64'
 import isURL from 'validator/es/lib/isURL'
 import { isVue3 } from 'vue-demi'
 import { conclude, getLocalListeners } from 'vue-global-config'
-import type { ComponentPublicInstance } from 'vue-demi'
 import FaMessageBox from './components/MessageBox'
 
 export const MB = 1024 ** 2

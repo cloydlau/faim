@@ -1253,7 +1253,7 @@ FaMessageBox.confirm({
 
 - 可离线使用，零网络延迟
 - 无[域名检测](#域名检测)，无弹窗困扰
-- 使用 tinymce@6 (MIT)，无许可证风险
+- 使用 tinymce@6 (MIT)，[无许可证风险](https://github.com/tinymce/tinymce/issues/9453)
 - 插件全家桶开箱即用
 - 提供常用自定义插件示例
   - 插入本地图片

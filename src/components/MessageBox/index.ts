@@ -1,6 +1,6 @@
+import type { SweetAlertIcon, SweetAlertOptions, SweetAlertResult } from 'sweetalert2'
 /* eslint-disable prefer-rest-params */
 import Swal from 'sweetalert2'
-import type { SweetAlertIcon, SweetAlertOptions, SweetAlertResult } from 'sweetalert2'
 
 type Awaited<T> = T extends Promise<infer U> ? U : T
 

@@ -1,8 +1,8 @@
 import { createMD5 } from 'hash-wasm'
 import { getChunkSize } from './presets'
 
-const md5 = await createMD5()
-const fileReader = new FileReader()
+let md5
+let fileReader
 
 function readAsUint8Array(blob) {
   return new Promise((resolve, reject) => {
@@ -40,6 +40,8 @@ const readNextChunk = async ({ file, chunks = [], offset = 0, chunkSize }) => {
 }
 
 globalThis.addEventListener('message', async (event) => {
+  md5 ||= await createMD5()
+  fileReader ||= new FileReader()
   md5.init()
   const file = event.data
   const chunkSize = getChunkSize(file.size)
