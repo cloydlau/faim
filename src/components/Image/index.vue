@@ -2,11 +2,10 @@
 import { useEventListener } from '@vueuse/core'
 import QRCode from 'qrcode'
 import Swiper from 'swiper'
-import isURL from 'validator/es/lib/isURL'
 import Viewer from 'viewerjs'
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
-import { isBase64WithScheme, isObject, tryParsingJSONArray, unwrap } from '../../utils'
+import { isObject, tryParsingJSONArray, unwrap } from '../../utils'
 import 'swiper/swiper-bundle.css'
 import 'viewerjs/dist/viewer.min.css'
 
@@ -35,7 +34,7 @@ export default {
     pattern: {},
     swiperOptions: {},
     qrcode: {
-      type: [Boolean, String],
+      type: Boolean,
       default: undefined,
     },
     qrcodeOptions: {},
@@ -126,7 +125,7 @@ export default {
     },
     QRCode() {
       return conclude([this.qrcode, globalProps.qrcode, false], {
-        type: [Boolean, String],
+        type: Boolean,
       })
     },
     QRCodeOptions() {
@@ -216,33 +215,11 @@ export default {
   },
   methods: {
     async createItem(src) {
-      let type = 'qrcode'
-      if (isURL(src || '')) {
-        type = 'url'
-      }
-      else if (isBase64WithScheme(src, 'image/')) {
-        type = 'base64'
-      }
-
       const result = {
         src: '',
-        type,
       }
 
-      if (this.QRCode === 'auto') {
-        // 字符串
-        if (type === 'qrcode') {
-          result.src = await QRCode.toDataURL(src, this.QRCodeOptions).catch((e) => {
-            console.error(e)
-          })
-        // base64 或 URL
-        }
-        else {
-          result.src = src
-        }
-      }
-      else if (this.QRCode) {
-        result.type = 'qrcode'
+      if (this.QRCode) {
         result.src = await QRCode.toDataURL(src, this.QRCodeOptions).catch((e) => {
           console.error(e)
         })

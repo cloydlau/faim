@@ -669,13 +669,9 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 | viewable                              | 是否启用 Viewer.js                                      | boolean                               | `true`                                                              |
 | viewerOptions                         | Viewer.js 的参数                                        | object                                | `{ zIndex: 5000, zoomRatio: 0.4 }`                                  |
 | swiperOptions                         | Swiper 的参数                                           | object                                | `{ observer: true }`                                                |
-| qrcode                                | 是否将 `value` 转换为二维码                             | boolean / `'auto'`                    | `false`                                                             |
+| qrcode                                | 是否将 `value` 转换为二维码                             | boolean                               | `false`                                                             |
 | qrcodeOptions                         | node-qrcode 的参数                                      | object                                | `{ margin: 0, errorCorrectionLevel: 'L', width: 444, height: 444 }` |
 | ...                                   | `<img>` 的属性                                          |                                       |                                                                     |
-
-#### qrcode
-
-如果将 `qrcode` 设为 `'auto'`，FaImage 会自动判断是否需要转换 (`value` 为 Base64 或 URL 时不会转换)
 
 #### srcAt
 
