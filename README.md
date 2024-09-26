@@ -71,7 +71,7 @@ npm i faim
 ### Vite
 
 ```ts
-// vite.config.ts
+// vite.config.mts
 
 import { defineConfig } from 'vite'
 
@@ -140,7 +140,7 @@ npm i unplugin-vue-components -D
 ```
 
 ```ts
-// vite.config.ts
+// vite.config.mts
 
 import FaimResolver from 'faim/auto-import-resolver'
 import Components from 'unplugin-vue-components/vite'
@@ -676,7 +676,7 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 
 #### srcAt
 
-用于定位 `value` 中的图片 `src`，适用于绑定值非 `src` 本身的情况
+用于定位 `model-value` 中的图片 `src`，适用于绑定值非 `src` 本身的情况
 
 - 支持属性名，如 `'url'`
 - 支持属性路径，如 `'data[0].url'`

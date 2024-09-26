@@ -2,6 +2,8 @@ import type { SemVer } from 'semver'
 import { resolve } from 'node:path'
 import vue from '@vitejs/plugin-vue'
 import { parse } from 'semver'
+import { presetAttributify, presetUno } from 'unocss'
+import UnoCSS from 'unocss/vite'
 import UnpluginUnused from 'unplugin-unused/vite'
 import { defineConfig } from 'vite'
 import { version } from 'vue'
@@ -31,6 +33,12 @@ export default defineConfig({
       },
     },
     UnpluginUnused(),
+    UnoCSS({
+      presets: [
+        presetAttributify(),
+        presetUno(),
+      ],
+    }),
     vue(),
   ],
   build: {

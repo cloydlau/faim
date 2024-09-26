@@ -4,6 +4,7 @@ import { reactive, ref } from 'vue-demi'
 import { FaMessageBox } from '../src'
 import { blobLikeToBase64, fileToBlob } from '../src/utils'
 import presets from './Upload/presets'
+import modifyQRCode from './utils/modifyQRCode'
 
 const console = window.console
 const show = ref(true)
@@ -300,6 +301,7 @@ function loading() {
           <FaImage
             :value="data.value.FaImage[0]"
             :model-value="data.value.FaImage[0]"
+            :qrcode="modifyQRCode"
           />
         </p>
 
@@ -329,11 +331,6 @@ function loading() {
           <FaImage
             :value="JSON.stringify(data.value.FaImage)"
             :model-value="JSON.stringify(data.value.FaImage)"
-            qrcode="auto"
-            :qrcode-options="{
-              width: 48,
-              height: 48,
-            }"
           />
         </p>
 

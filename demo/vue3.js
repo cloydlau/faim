@@ -9,6 +9,7 @@ import globalConfigForFaImageUpload from './ImageUpload/globalConfig'
 import globalConfigForFaRichText from './RichText/globalConfig'
 import globalConfigForFaUpload from './Upload/globalConfig'
 import 'element-plus/dist/index.css'
+import 'uno.css'
 
 const app = createApp(App)
   .use(ElementPlus, { locale: ElementPlusLocale })

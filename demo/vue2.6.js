@@ -8,6 +8,7 @@ import globalConfigForFaImageUpload from './ImageUpload/globalConfig'
 import globalConfigForFaRichText from './RichText/globalConfig'
 import globalConfigForFaUpload from './Upload/globalConfig'
 import 'element-ui/lib/theme-chalk/index.css'
+import 'uno.css'
 
 Vue.use(ElementUI, { locale: ElementUILocale })
 Vue.use(FaFormDialog, {
