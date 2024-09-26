@@ -34,7 +34,7 @@ export default {
     pattern: {},
     swiperOptions: {},
     qrcode: {
-      type: Boolean,
+      type: [Boolean, Function],
       default: undefined,
     },
     qrcodeOptions: {},
@@ -125,7 +125,7 @@ export default {
     },
     QRCode() {
       return conclude([this.qrcode, globalProps.qrcode, false], {
-        type: Boolean,
+        type: [Boolean, Function],
       })
     },
     QRCodeOptions() {
@@ -223,6 +223,12 @@ export default {
         result.src = await QRCode.toDataURL(src, this.QRCodeOptions).catch((e) => {
           console.error(e)
         })
+        if (typeof this.QRCode === 'function') {
+          const newSrc = await this.QRCode(result.src)
+          if (newSrc) {
+            result.src = newSrc
+          }
+        }
       }
       else {
         result.src = src

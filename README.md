@@ -658,6 +658,7 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 - 多样的展示形式：文档流/瀑布流/轮播图/表格嵌套，适配 `<table>` & `<el-table>`
 - 灵活的数据类型：URL/Base64/二维码/[object URL](https://developer.mozilla.org/en-US/docs/Web/API/File_API/Using_files_from_web_applications#example_using_object_urls_to_display_images)
 - 任意绑定值类型
+- 支持二维码内嵌图标
 
 ### Props
 
@@ -669,7 +670,7 @@ import FaMessageBox from 'faim/dist/components/MessageBox/index'
 | viewable                              | 是否启用 Viewer.js                                      | boolean                               | `true`                                                              |
 | viewerOptions                         | Viewer.js 的参数                                        | object                                | `{ zIndex: 5000, zoomRatio: 0.4 }`                                  |
 | swiperOptions                         | Swiper 的参数                                           | object                                | `{ observer: true }`                                                |
-| qrcode                                | 是否将 `value` 转换为二维码                             | boolean                               | `false`                                                             |
+| qrcode                                | 是否生成二维码                                          | boolean / (src: string) => string     | `false`                                                             |
 | qrcodeOptions                         | node-qrcode 的参数                                      | object                                | `{ margin: 0, errorCorrectionLevel: 'L', width: 444, height: 444 }` |
 | ...                                   | `<img>` 的属性                                          |                                       |                                                                     |
 
@@ -804,6 +805,74 @@ const faImageRef = ref()
   height: 300px;
 }
 </style>
+```
+
+### 二维码内嵌图标
+
+`qrcode` 支持传入一个函数，该函数的入参为绑定值所生成的二维码链接，你可以通过该函数修改二维码，然后输出新的二维码链接
+
+```vue
+<script setup>
+function modifyQRCode(src) {
+  // 二维码画布
+  const width = 444
+  const height = 444
+  const canvas = document.createElement('canvas')
+  canvas.width = width
+  canvas.height = height
+  const ctx = canvas.getContext('2d')
+  const img = new Image()
+  img.src = src
+
+  return new Promise((resolve, reject) => {
+    img.onerror = (reason) => {
+      reject(reason)
+    }
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+
+      // 内嵌图标
+      const canvasEmbedded = document.createElement('canvas')
+      const widthEmbedded = 148
+      const heightEmbedded = 52
+      canvasEmbedded.width = widthEmbedded
+      canvasEmbedded.height = heightEmbedded
+
+      // 背景
+      const ctxEmbedded = canvasEmbedded.getContext('2d')
+      ctxEmbedded.fillStyle = 'white'
+      ctxEmbedded.fillRect(0, 0, widthEmbedded, heightEmbedded)
+
+      // 边框
+      ctxEmbedded.lineWidth = 5
+      ctxEmbedded.strokeStyle = 'rgb(93,155,74)'
+      ctxEmbedded.strokeRect(0, 0, widthEmbedded, heightEmbedded)
+
+      // 编号，可换成图标等
+      const text = '12345'
+      const fontSize = 52
+      ctxEmbedded.font = `bolder ${fontSize}px Arial`
+      ctxEmbedded.fillStyle = 'rgb(93,155,74)'
+      const textMetrics = ctxEmbedded.measureText(text)
+      const textX = (widthEmbedded - textMetrics.width) / 2
+      const textY = (heightEmbedded + 38) / 2
+      ctxEmbedded.fillText(text, textX, textY)
+      const x = (canvas.width - canvasEmbedded.width) / 2
+      const y = (canvas.height - canvasEmbedded.height) / 2
+
+      ctx.drawImage(canvasEmbedded, x, y)
+      resolve(canvas.toDataURL())
+    }
+  })
+}
+</script>
+
+<template>
+  <FaImage
+    model-value="blahblah"
+    :qrcode="modifyQRCode"
+  />
+</template>
 ```
 
 <br>
