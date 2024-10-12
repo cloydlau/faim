@@ -760,7 +760,7 @@ function onLoad() {
 
 ```vue
 <script setup>
-import FaImage from 'fa-image'
+import { FaImage } from 'faim'
 
 const faImageRef = ref()
 </script>
