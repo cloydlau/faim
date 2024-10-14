@@ -350,6 +350,21 @@ new Vue({
 
 ### SSR/Nuxt 环境
 
+```ts
+// nuxt.config.ts
+
+export default defineNuxtConfig({
+  build: {
+    transpile: ['faim'],
+  },
+  vite: {
+    optimizeDeps: {
+      include: ['faim > qrcode', 'faim > sweetalert2', 'faim > upng-js'],
+    },
+  }
+})
+```
+
 如果在 SSR/Nuxt 中遇到报错：`navigator is not defined`，可能是受到了不支持 SSR/Nuxt 环境的组件代码影响，可以指定路径导入组件：
 
 ```ts
