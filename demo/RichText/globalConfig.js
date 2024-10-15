@@ -71,26 +71,26 @@ export default {
     },
   },
   async setup(editor) {
-    await InsertFile.init({ editor })
+    await InsertFile.init()
     editor.ui.registry.addMenuItem('localimage', {
       text: '本地图片',
       icon: 'image',
       onAction: () => {
-        InsertFile.open({ type: '图片' })
+        InsertFile.open({ editor, type: '图片' })
       },
     })
     editor.ui.registry.addMenuItem('localvideo', {
       text: '本地视频',
       icon: 'embed',
       onAction: () => {
-        InsertFile.open({ type: '视频' })
+        InsertFile.open({ editor, type: '视频' })
       },
     })
     editor.ui.registry.addMenuItem('localaudio', {
       text: '本地音频',
       icon: 'arrow-right',
       onAction: () => {
-        InsertFile.open({ type: '音频' })
+        InsertFile.open({ editor, type: '音频' })
       },
     })
 

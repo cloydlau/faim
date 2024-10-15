@@ -41,20 +41,21 @@ export default {
       ...data,
     })
   },
-  props: {
+  /* props: {
     editor: {
       required: true,
     },
-  },
+  }, */
   data() {
     return {
+      editor: null,
       presets,
       show: false,
       type: null,
       formData: createInitialFormData(),
     }
   },
-  expose: ['show', 'type'],
+  expose: ['show', 'type', 'editor'],
   methods: {
     confirm() {
       let content = ''
