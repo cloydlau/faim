@@ -389,6 +389,11 @@ export default {
     },
   },
   // mounted() { this.computeIsTipOverflowed() },
+  mounted() {
+    if (!this.$refs.elUploadRef.uploadFiles) {
+      console.error(`NPM script did not execute correctly: Try reinstalling faim. If you are using pnpm and it's not feasible to reinstall faim (e.g., in CI environments), you can add 'side-effects-cache=false' in the .npmrc file. See https://pnpm.io/npmrc#side-effects-cache for more information.`)
+    }
+  },
   // updated() { this.computeIsTipOverflowed() },
   expose: ['openEditor', 'uploading'],
   methods: {

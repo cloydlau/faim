@@ -48,6 +48,12 @@ npm i faim
 >
 > - element-plus 不能晚于 faim 安装
 > - 通过 CDN 的方式使用时需要自行修改 ElUpload 源码
+>
+> 如果遇到报错 `TypeError: Cannot read properties of undefined (reading 'pop')`
+>
+> 重装 faim 可以解决
+>
+> 如果包管理器为 pnpm，且不方便重装 faim（比如流水线环境），可以在 `.npmrc` 中添加 [side-effects-cache=false](https://pnpm.io/npmrc#side-effects-cache)
 
 > [!Warning]
 >
