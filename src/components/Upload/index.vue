@@ -963,6 +963,9 @@ export default {
   destroyed() {
     FilePond.destroy(this.$refs.filePond)
   },
+  unmounted() {
+    FilePond.destroy(this.$refs.filePond)
+  },
   methods: {
     getSubWindowFeatures() {
       const width = window.screen.availWidth / 2
