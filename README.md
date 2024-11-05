@@ -29,10 +29,9 @@
 - Vue 2.6/2.7/3 一体通用
 - Element UI / Element Plus 一体通用 (定位并不是 Element wrapper，部分组件不依赖 Element 甚至不依赖 Vue)
 - 识别 `el-form` 的 `disabled` 状态
-- 支持 Vite、Vue CLI、webpack、CDN...
+- 支持 i18n
 - 支持按需导入、自动导入
 - 支持全局属性、全局事件、全局插槽、全局作用域插槽 ([vue-global-config](https://github.com/cloydlau/vue-global-config) 提供技术支持)
-- 支持 i18n
 
 <br>
 
