@@ -925,40 +925,13 @@ export default {
       }
       else {
         this.$nextTick(() => {
-          this.filePond = FilePond.create(this.$refs.filePond, this.FilePondOptions)
+          this.initialize()
         })
       }
     },
   },
   mounted() {
-    if (!FilePond.supported()) {
-      this.isSupported = false
-      throw new Error('Current browser does not support FilePond')
-    }
-    this.filePond = FilePond.create(this.$refs.filePond, this.FilePondOptions)
-    this.filePond.on('removefile', () => {
-      if (this.removingLimboFile) {
-        this.removingLimboFile = false
-        return
-      }
-      this.files = this.filePond.getFiles()
-      this.emitInput()
-    })
-    this.filePond.on('warning', (e) => {
-      FaMessageBox.warning(e.code === 0
-        ? this.LabelMaxFilesExceeded.replaceAll('{maxFiles}', this.FilePondOptions.maxFiles)
-        : e.body)
-    })
-    this.getSubWindowFeatures()
-    try {
-      useEventListener(window, 'resize', throttle(this.getSubWindowFeatures, 100, {
-        leading: false,
-        trailing: true,
-      }))
-    }
-    catch (e) {
-      console.warn(e)
-    }
+    this.initialize()
   },
   destroyed() {
     FilePond.destroy(this.$refs.filePond)
@@ -967,6 +940,36 @@ export default {
     FilePond.destroy(this.$refs.filePond)
   },
   methods: {
+    initialize() {
+      if (!FilePond.supported()) {
+        this.isSupported = false
+        throw new Error('Current browser does not support FilePond')
+      }
+      this.filePond = FilePond.create(this.$refs.filePond, this.FilePondOptions)
+      this.filePond.on('removefile', () => {
+        if (this.removingLimboFile) {
+          this.removingLimboFile = false
+          return
+        }
+        this.files = this.filePond.getFiles()
+        this.emitInput()
+      })
+      this.filePond.on('warning', (e) => {
+        FaMessageBox.warning(e.code === 0
+          ? this.LabelMaxFilesExceeded.replaceAll('{maxFiles}', this.FilePondOptions.maxFiles)
+          : e.body)
+      })
+      this.getSubWindowFeatures()
+      try {
+        useEventListener(window, 'resize', throttle(this.getSubWindowFeatures, 100, {
+          leading: false,
+          trailing: true,
+        }))
+      }
+      catch (e) {
+        console.warn(e)
+      }
+    },
     getSubWindowFeatures() {
       const width = window.screen.availWidth / 2
       const height = window.screen.availHeight / 2
