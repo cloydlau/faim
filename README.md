@@ -261,9 +261,12 @@ app.mount('#app')
 
 > [!Note]
 >
-> 请结合 <https://github.com/FranckFreiburger/vue3-sfc-loader> 自行实现
+> Faim 输出的格式为包含 SFC 的 ESM + CJS (没有 IIFE)，常规方法引入依赖会比较繁琐，可使用如下工具：
 >
-> Faim 输出的格式为包含 SFC 的 ESM + CJS (没有 IIFE)，引入依赖的过程会比较繁琐
+> - [esm.sh](https://github.com/esm-dev/esm.sh)
+> - [vue3-sfc-loader](https://github.com/FranckFreiburger/vue3-sfc-loader)
+
+> [!Caution]
 >
 > 使用 FaImageUpload 组件需要自行修改 ElUpload 源码
 
@@ -349,9 +352,10 @@ new Vue({
 
 > [!Note]
 >
-> 请结合 <https://github.com/FranckFreiburger/vue3-sfc-loader> 自行实现
+> Faim 输出的格式为包含 SFC 的 ESM + CJS (没有 IIFE)，常规方法引入依赖会比较繁琐，可使用如下工具：
 >
-> Faim 输出的格式为包含 SFC 的 ESM + CJS (没有 IIFE)，引入依赖的过程会比较繁琐
+> - [esm.sh](https://github.com/esm-dev/esm.sh)
+> - [vue3-sfc-loader](https://github.com/FranckFreiburger/vue3-sfc-loader)
 
 ### SSR/Nuxt 环境
 
