@@ -921,7 +921,7 @@ export default {
     },
     Disabled(newValue) {
       if (newValue) {
-        FilePond.destroy(this.$refs.filePond)
+        this.destroy()
       }
       else {
         this.$nextTick(() => {
@@ -934,10 +934,10 @@ export default {
     this.initialize()
   },
   destroyed() {
-    FilePond.destroy(this.$refs.filePond)
+    this.destroy()
   },
   unmounted() {
-    FilePond.destroy(this.$refs.filePond)
+    this.destroy()
   },
   methods: {
     initialize() {
@@ -969,6 +969,10 @@ export default {
       catch (e) {
         console.warn(e)
       }
+    },
+    destroy() {
+      this.updatingModelValue = false
+      FilePond.destroy(this.$refs.filePond)
     },
     getSubWindowFeatures() {
       const width = window.screen.availWidth / 2
