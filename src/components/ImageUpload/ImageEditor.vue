@@ -34,6 +34,7 @@ function initialState() {
     flippedX: false,
     flippedY: false,
     dimensionScaleFactor: null,
+    pngDecodingError: null,
   }
 }
 
@@ -100,10 +101,10 @@ export default {
       return this.specifiedAspectRatio || this.impliedAspectRatio
     },
     isCompressible() {
-      return this.blobLike && ['image/jpeg', 'image/png', 'image/webp'].includes(this.blobLike.type)
+      return this.blobLike && ['image/jpeg', 'image/png', 'image/webp'].includes(this.blobLike.type) && !this.pngDecodingError
     },
     compressTooltip() {
-      return this.blobLike && this.locale.typeNotCompressible.replaceAll('{type}', this.blobLike.type)
+      return this.pngDecodingError || (this.blobLike && this.locale.typeNotCompressible.replaceAll('{type}', this.blobLike.type))
     },
   },
   watch: {
@@ -117,10 +118,6 @@ export default {
           this.localURL = await toLocalURL(newValue)
           this.imageTag = await toImageTag(this.localURL)
           this.imageTag.aspectRatio = this.imageTag.width / this.imageTag.height
-          if (this.blobLike.type === 'image/png') {
-            const { depth } = UPNG.decode(await blobLikeToArrayBuffer(this.blobLike))
-            this.cnum = 2 ** depth
-          }
         }
         catch (e) {
           console.error(e)
@@ -130,6 +127,19 @@ export default {
             text: e,
           })
           return
+        }
+
+        try {
+          // Windows 系统微信截图报错，可能是 PNG 签名错误（wrong PNG signature. Byte at 0 should be 137.）
+          if (this.blobLike.type === 'image/png') {
+            // const { depth } = UPNG.decode(this.blobLike.arrayBuffer())
+            const { depth } = UPNG.decode(await blobLikeToArrayBuffer(this.blobLike))
+            this.cnum = 2 ** depth
+          }
+        }
+        catch (e) {
+          console.error(e)
+          this.pngDecodingError = e.toString()
         }
 
         await this.$nextTick()

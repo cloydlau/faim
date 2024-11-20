@@ -1136,6 +1136,16 @@ openEditor 参数为输入的数据源，支持的数据类型有：
 </style>
 ```
 
+### PNG 签名错误
+
+> [!Note]
+>
+> [upng-js](https://github.com/photopea/UPNG.js) 和 [fast-png](https://github.com/image-js/fast-png) 均无法解析 Windows 系统下的微信截图
+>
+> 该截图可能存在 PNG 签名错误的问题，能正常编辑和上传，但无法调节品质系数
+>
+> 可尝试使用图像工具重新导出，然后重新上传
+
 <br>
 
 ## FaMessageBox
