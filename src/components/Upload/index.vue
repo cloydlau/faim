@@ -991,8 +991,8 @@ export default {
         // 未配置 upload 或 upload 返回值为空时，输出二进制文件
         // 过滤非法文件
         : this.files
-          .map(file => file.status === FilePond.FileStatus.PROCESSING_COMPLETE && file.source)
-          .filter(v => v)
+            .map(file => file.status === FilePond.FileStatus.PROCESSING_COMPLETE && file.source)
+            .filter(v => v)
 
       // 限制单数且实际单数
       const isSingle = this.FilePondOptions.maxFiles === 1 && newValue.length <= 1

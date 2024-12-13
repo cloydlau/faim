@@ -837,6 +837,59 @@ const faImageRef = ref()
 `qrcode` 支持传入一个函数，该函数的入参为绑定值所生成的二维码链接，你可以通过该函数修改二维码，然后输出新的二维码链接
 
 ```vue
+<!-- 内嵌图片 -->
+
+<script setup>
+import embeddedImgSrc from '../assets/logo.png'
+
+function modifyQRCode(src) {
+  // 二维码画布
+  const canvas = document.createElement('canvas')
+  canvas.width = 444
+  canvas.height = 444
+  const ctx = canvas.getContext('2d')
+  const img = new Image()
+  img.src = src
+
+  return new Promise((resolve, reject) => {
+    img.onerror = (reason) => {
+      reject(reason)
+    }
+    img.onload = () => {
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
+
+      // 内嵌图片
+      const embeddedImg = new Image()
+      embeddedImg.crossOrigin = 'Anonymous'
+      embeddedImg.width = 100
+      embeddedImg.height = 100
+      embeddedImg.src = embeddedImgSrc
+      embeddedImg.onerror = (reason) => {
+        reject(reason)
+      }
+      embeddedImg.onload = () => {
+        const x = (canvas.width - embeddedImg.width) / 2
+        const y = (canvas.height - embeddedImg.height) / 2
+
+        ctx.drawImage(embeddedImg, x, y, embeddedImg.width, embeddedImg.height)
+        resolve(canvas.toDataURL())
+      }
+    }
+  })
+}
+</script>
+
+<template>
+  <FaImage
+    model-value="blahblah"
+    :qrcode="modifyQRCode"
+  />
+</template>
+```
+
+```vue
+<!-- 内嵌 canvas 画布 -->
+
 <script setup>
 function modifyQRCode(src) {
   // 二维码画布
