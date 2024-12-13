@@ -225,10 +225,11 @@ export default defineComponent({
                 // console.log('编程式输入:', newModelValue)
                 editor.setContent((newModelValue || '') as string)
               },
-              {
-                immediate: true,
-              },
             )
+
+            setTimeout(() => {
+              editor.setContent((props[model.prop] || '') as string)
+            })
 
             // loading.value = false
 
@@ -286,19 +287,19 @@ export default defineComponent({
     // console.log('ctx: ', ctx)
     return isVue3
       ? h('textarea', {
-        id: this.id,
-        class: 'fa-rich-text',
-      })
-      : h('textarea', {
-        attrs: {
-          id: unref(this.id),
+          id: this.id,
           class: 'fa-rich-text',
-        },
-        on: {
-          input: (value?: string | null) => {
-            this.$emit(model.event, value)
+        })
+      : h('textarea', {
+          attrs: {
+            id: unref(this.id),
+            class: 'fa-rich-text',
           },
-        },
-      })
+          on: {
+            input: (value?: string | null) => {
+              this.$emit(model.event, value)
+            },
+          },
+        })
   },
 })
