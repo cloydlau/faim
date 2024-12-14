@@ -60,7 +60,7 @@ npm i faim
 >
 > 故使用 FaRichText 组件时还需额外安装 tinymce：
 >
-> `npm i faim tinymce`
+> `npm i faim tinymce@6`
 
 ### Bun
 
