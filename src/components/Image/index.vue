@@ -5,7 +5,7 @@ import Swiper from 'swiper'
 import Viewer from 'viewerjs'
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
-import { isObject, tryParsingJSONArray, unwrap } from '../../utils'
+import { isObject, unwrap } from '../../utils'
 import 'swiper/swiper-bundle.css'
 import 'viewerjs/dist/viewer.min.css'
 
@@ -176,36 +176,9 @@ export default {
       immediate: true,
       deep: true,
       async handler(newValue) {
-        // 将 value 统一为对象数组
         this.loading = true
-        if (newValue) {
-          // 先统一为数组
-          if (typeof newValue === 'string') {
-            const arr = tryParsingJSONArray(newValue)
-            newValue = arr || [newValue]
-          }
-          else if (isObject(newValue)) {
-            newValue = [newValue]
-          }
-          // 应用 srcAt，并过滤空值
-          if (Array.isArray(newValue)) {
-            this.files = (await Promise.all(newValue.map(async (v) => {
-              const src = unwrap(v, this.SrcAt)
-              if (src && typeof src === 'string') {
-                // 同步才能保证图片的顺序不变
-                return await this.createItem(src).catch((e) => {
-                  console.error(e)
-                })
-              }
-            }))).filter(v => v)
-          }
-          else {
-            this.files = []
-          }
-        }
-        else {
-          this.files = []
-        }
+        // 将 model-value 统一为对象数组
+        this.files = await this.formatModelValue(newValue)
         this.loading = false
       },
     },
@@ -263,6 +236,29 @@ export default {
           this.viewer = null
         }
       })
+    },
+    // 应用 srcAt，并过滤掉无效的值
+    async formatModelValue(modelValue) {
+      if (!modelValue) {
+        return []
+      }
+      else if (Array.isArray(modelValue)) {
+        return (await Promise.all(modelValue.map(async (v) => {
+          const src = unwrap(v, this.SrcAt)
+          if (src && typeof src === 'string') {
+            // 同步才能保证图片的顺序不变
+            return await this.createItem(src).catch((e) => {
+              console.error(e)
+            })
+          }
+        }))).filter(v => v)
+      }
+      else if (typeof modelValue === 'string' || isObject(modelValue)) {
+        return await this.formatModelValue([modelValue])
+      }
+      else {
+        return []
+      }
     },
   },
 }

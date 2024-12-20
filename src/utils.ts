@@ -56,20 +56,6 @@ export function isObject(value: any) {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
-export function tryParsingJSONArray(str: any) {
-  if (typeof str === 'string' && str.startsWith('[') && str.endsWith(']')) {
-    try {
-      const arr = JSON.parse(str)
-      return Array.isArray(arr) && arr
-    }
-    catch (e) {
-      console.error(e)
-      return false
-    }
-  }
-  return false
-}
-
 export function isBase64WithScheme(str: string, mediaType?: string) {
   if (!str || typeof str !== 'string') {
     return false
