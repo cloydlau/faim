@@ -1,12 +1,14 @@
 <script>
 import to from 'await-to-js'
+import { destr } from 'destr'
 import { useFormDisabled } from 'element-plus/es/components/form/src/hooks/use-form-common-props.mjs'
+import { cloneDeep } from 'lodash-es'
 import mime from 'mime'
 import Sortable from 'sortablejs'
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
 import defaultLocale from '../../locale/en'
-import { handleNumericalProp, isObject, sizeToLabel, toBlobLike, toImageTag, toLocalURL, tryParsingJSONArray, unwrap } from '../../utils'
+import { handleNumericalProp, isObject, sizeToLabel, toBlobLike, toImageTag, toLocalURL, unwrap } from '../../utils'
 import FaImage from '../Image/index.vue'
 import FaMessageBox from '../MessageBox'
 import ImageEditor from './ImageEditor.vue'
@@ -46,6 +48,7 @@ const model = {
 const boolProps = [
   'editable',
   'arrayed',
+  'stringified',
 ]
 
 const boolAttrs = [
@@ -243,6 +246,11 @@ export default {
         type: Boolean,
       })
     },
+    Stringified() {
+      return conclude([this.stringified, globalProps.stringified], {
+        type: Boolean,
+      })
+    },
     isFull() {
       return this.Count.max && this.files.length >= this.Count.max
     },
@@ -357,34 +365,8 @@ export default {
           this.updatingModelValue = false
           return
         }
-        // 将 value 统一为含有 url 属性的对象数组
-        if (newValue) {
-          // 先统一为数组
-          if (typeof newValue === 'string') {
-            const arr = tryParsingJSONArray(newValue)
-            newValue = arr || [newValue]
-          }
-          else if (isObject(newValue)) {
-            newValue = [newValue]
-          }
-          // 应用 srcAt，并过滤掉无效的值
-          if (Array.isArray(newValue)) {
-            const files = []
-            for (const v of newValue) {
-              const file = this.valueToFile(v)
-              if (file) {
-                files.push(file)
-              }
-            }
-            this.files = files
-          }
-          else {
-            this.files = []
-          }
-        }
-        else {
-          this.files = []
-        }
+        // 将 model-value 统一为含有 url 属性的对象数组
+        this.files = this.formatModelValue(newValue)
       },
     },
   },
@@ -466,6 +448,10 @@ export default {
         if (isSingle) {
           newValue = newValue[0]
         }
+      }
+
+      if (this.Stringified) {
+        newValue = JSON.stringify(newValue)
       }
 
       this.updatingModelValue = true
@@ -643,6 +629,32 @@ export default {
     onRemove(file, fileList) {
       this.files = fileList
       this.emitInput()
+    },
+    // 应用 srcAt，并过滤掉无效的值
+    formatModelValue(modelValue) {
+      const files = []
+      if (!modelValue) {
+        return files
+      }
+      else if (Array.isArray(modelValue)) {
+        for (const item of modelValue) {
+          const file = this.valueToFile(cloneDeep(item))
+          if (file) {
+            files.push(file)
+          }
+        }
+        return files
+      }
+      else if (this.Stringified) {
+        const parsedModelValue = destr(modelValue)
+        return parsedModelValue ? this.formatModelValue(Array.isArray(parsedModelValue) ? parsedModelValue : [parsedModelValue]) : files
+      }
+      else if (typeof modelValue === 'string' || isObject(modelValue)) {
+        return this.formatModelValue([modelValue])
+      }
+      else {
+        return files
+      }
     },
     // 根据 srcAt 定位 url 在绑定值中的位置，然后将绑定值转换为 files 格式
     valueToFile(value) {
