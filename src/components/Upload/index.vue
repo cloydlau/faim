@@ -1,6 +1,7 @@
 <script>
 import { useEventListener } from '@vueuse/core'
 import to from 'await-to-js'
+import { destr } from 'destr'
 import { useFormDisabled } from 'element-plus/es/components/form/src/hooks/use-form-common-props.mjs'
 import * as FilePond from 'filepond'
 // import FilepondPluginDragReorder from 'filepond-plugin-drag-reorder'
@@ -24,10 +25,10 @@ import mime from 'mime'
 import { isVue3, reactive } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
 import defaultLocale from '../../locale/en'
-import { getAudioMetadata, getVideoMetadata, handleNumericalProp, isBase64WithScheme, isObject, secondsToHHMMSS, toImageTag, toLocalURL, tryParsingJSONArray, unwrap } from '../../utils'
+import { getAudioMetadata, getVideoMetadata, handleNumericalProp, isBase64WithScheme, isObject, secondsToHHMMSS, toImageTag, toLocalURL, unwrap } from '../../utils'
 import FaMessageBox from '../MessageBox/index'
-import Uploading from './Uploading.vue'
 
+import Uploading from './Uploading.vue'
 import 'filepond/dist/filepond.min.css'
 // import FilePondPluginFileMetadata from 'filepond-plugin-file-metadata'
 // import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
@@ -92,6 +93,10 @@ export default {
     },
     srcAt: {},
     arrayed: {
+      type: Boolean,
+      default: undefined,
+    },
+    stringified: {
       type: Boolean,
       default: undefined,
     },
@@ -182,6 +187,11 @@ export default {
     },
     Arrayed() {
       return conclude([this.arrayed, globalProps.arrayed], {
+        type: Boolean,
+      })
+    },
+    Stringified() {
+      return conclude([this.stringified, globalProps.stringified], {
         type: Boolean,
       })
     },
@@ -971,25 +981,9 @@ export default {
         this.updatingModelValue = false
         return
       }
+
       // 将 model-value 统一为符合 files 格式的对象数组
-      if (newValue) {
-        if (typeof newValue === 'string') {
-          const arr = tryParsingJSONArray(newValue)
-          this.files = await this.formatModelValue(arr || [newValue])
-        }
-        else if (isObject(newValue)) {
-          this.files = await this.formatModelValue([newValue])
-        }
-        else if (Array.isArray(newValue)) {
-          this.files = await this.formatModelValue(newValue)
-        }
-        else {
-          this.files = []
-        }
-      }
-      else {
-        this.files = []
-      }
+      this.files = await this.formatModelValue(newValue)
 
       // this.filePond.setOptions({ files: this.files })
       // 上方代码在更新时间歇性不生效，因此 model-value 更新后重新初始化
@@ -1022,15 +1016,30 @@ export default {
       }
     },
     // 应用 srcAt，并过滤掉无效的值
-    async formatModelValue(modelValueArray) {
+    async formatModelValue(modelValue) {
       const files = []
-      for (const item of modelValueArray) {
-        const file = await this.valueToFile(cloneDeep(item))
-        if (file) {
-          files.push(file)
-        }
+      if (!modelValue) {
+        return files
       }
-      return files
+      else if (Array.isArray(modelValue)) {
+        for (const item of modelValue) {
+          const file = await this.valueToFile(cloneDeep(item))
+          if (file) {
+            files.push(file)
+          }
+        }
+        return files
+      }
+      else if (this.Stringified) {
+        const parsedModelValue = destr(modelValue)
+        return parsedModelValue ? await this.formatModelValue(Array.isArray(parsedModelValue) ? parsedModelValue : [parsedModelValue]) : files
+      }
+      else if (typeof modelValue === 'string' || isObject(modelValue)) {
+        return await this.formatModelValue([modelValue])
+      }
+      else {
+        return files
+      }
     },
     destroy() {
       this.isInitialized = false
@@ -1067,6 +1076,10 @@ export default {
       }
       else if (!this.Arrayed && isSingle) {
         newValue = newValue[0]
+      }
+
+      if (this.Stringified) {
+        newValue = JSON.stringify(newValue)
       }
 
       this.updatingModelValue = true

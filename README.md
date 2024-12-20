@@ -1762,6 +1762,7 @@ Ant Design 也是使用 `value` 与 `label` 命名
 | v-model /<br>modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                                                                        | any                                                |                                |
 | upload                                             | 调用接口上传文件，返回 URL/ID                                                 | Upload                                             |                                |
 | arrayed                                            | 绑定值是否为数组类型，默认自动                                                | boolean                                            |                                |
+| stringified                                        | 绑定值是否为 stringified JSON                                                 | boolean                                            | `false`                        |
 | srcAt                                              | 文件 URL/ID 的位置                                                            | string / symbol / (value: any) => any              |                                |
 | minFiles                                           | 最小数量                                                                      | number                                             |                                |
 | imageAspectRatio                                   | 图片比例                                                                      | string / { min?: string, max?: string } / string[] |                                |
@@ -1797,6 +1798,15 @@ item 具体是什么格式？
 如果将 arrayed 设置为 `true` 则强制输出数组类型，无论单选还是多选
 
 如果将 arrayed 设置为 `false` 则强制输出非数组类型，如果此时文件数量为多个，则会执行 `JSON.stringify`
+
+#### stringified
+
+- 场景1: 需要存储文件链接和文件名称等多维度信息，但后端提供的字段类型为字符串
+- 场景2: 需要存储多个文件，但后端提供的字段类型为字符串
+
+> [!Warning]
+>
+> 这通常并不是最佳实践，建议后端修改字段类型
 
 #### srcAt
 
