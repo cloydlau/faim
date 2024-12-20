@@ -3,19 +3,6 @@ import { useEventListener } from '@vueuse/core'
 import to from 'await-to-js'
 import { useFormDisabled } from 'element-plus/es/components/form/src/hooks/use-form-common-props.mjs'
 import * as FilePond from 'filepond'
-import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size'
-import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
-import FilePondPluginImageValidateSize from 'filepond-plugin-image-validate-size'
-import { isPlainObject, throttle } from 'lodash-es'
-import mime from 'mime'
-import { isVue3, reactive } from 'vue-demi'
-import { conclude, resolveConfig } from 'vue-global-config'
-import defaultLocale from '../../locale/en'
-import { getAudioMetadata, getVideoMetadata, handleNumericalProp, isBase64WithScheme, isObject, secondsToHHMMSS, toImageTag, toLocalURL, tryParsingJSONArray, unwrap } from '../../utils'
-import FaMessageBox from '../MessageBox/index'
-import Uploading from './Uploading.vue'
-import 'filepond/dist/filepond.min.css'
-
 // import FilepondPluginDragReorder from 'filepond-plugin-drag-reorder'
 // import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
 // import FilePondPluginImagePreview from 'filepond-plugin-image-preview'
@@ -29,6 +16,19 @@ import 'filepond/dist/filepond.min.css'
 // import FilePondPluginImageTransform from 'filepond-plugin-image-transform'
 // import FilePondPluginFileEncode from 'filepond-plugin-file-encode'
 // import FilePondPluginFileRename from 'filepond-plugin-file-rename'
+import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size'
+import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
+import FilePondPluginImageValidateSize from 'filepond-plugin-image-validate-size'
+import { cloneDeep, isPlainObject, throttle } from 'lodash-es'
+import mime from 'mime'
+import { isVue3, reactive } from 'vue-demi'
+import { conclude, resolveConfig } from 'vue-global-config'
+import defaultLocale from '../../locale/en'
+import { getAudioMetadata, getVideoMetadata, handleNumericalProp, isBase64WithScheme, isObject, secondsToHHMMSS, toImageTag, toLocalURL, tryParsingJSONArray, unwrap } from '../../utils'
+import FaMessageBox from '../MessageBox/index'
+import Uploading from './Uploading.vue'
+
+import 'filepond/dist/filepond.min.css'
 // import FilePondPluginFileMetadata from 'filepond-plugin-file-metadata'
 // import FilePondPluginImageExifOrientation from 'filepond-plugin-image-exif-orientation'
 // import 'filepond-plugin-media-preview/dist/filepond-plugin-media-preview.min.css'
@@ -41,9 +41,9 @@ FilePond.registerPlugin(
   FilePondPluginFileValidateSize,
   FilePondPluginFileValidateType,
   FilePondPluginImageValidateSize,
+  // FilePondPluginFileRename,
   // FilepondPluginDragReorder,
   // FilePondPluginFileEncode,
-  // FilePondPluginFileRename,
   // FilePondPluginFileMetadata,
   // FilePondPluginFilePoster,
   // FilePondPluginMediaPreview,
@@ -155,8 +155,10 @@ export default {
   data() {
     return {
       isVue3,
+      isInitialized: false,
       subWindowFeatures: '',
       files: [],
+      idToIndex: {},
       filePond: null,
       isSupported: true,
       queue: [],
@@ -584,11 +586,16 @@ export default {
                 return
               }
               this.filePond.addFile(file.source, file.options)
+              const files = this.filePond.getFiles()
               if (this.FilePondOptions.itemInsertLocation === 'after') {
+                file.id = files[files.length - 1].id
                 this.files.push(file)
+                this.idToIndex[file.id] = this.files.length - 1
               }
               else {
+                file.id = files[0].id
                 this.files.unshift(file)
+                this.idToIndex[file.id] = 0
               }
               this.emitInput()
               task.setProgress(100)
@@ -606,9 +613,17 @@ export default {
             }
           },
           // 不会触发 update
-          onreorderfiles: (files, _origin, _target) => {
-            this.files = files
-            this.emitInput()
+          onreorderfiles: (files, origin, target) => {
+            // origin 和 target 有 bug
+            if (origin !== target) {
+              const _files = []
+              files.forEach(({ id }, index) => {
+                _files.push(this.files[this.idToIndex[id]])
+                this.idToIndex[id] = index
+              })
+              this.files = _files
+              this.emitInput()
+            }
           },
           onactivatefile: this.onActivateFile,
         },
@@ -879,44 +894,10 @@ export default {
   expose: ['filePond', 'uploading'],
   watch: {
     [model.prop]: {
-      immediate: true,
+      // immediate: true,
       deep: true,
-      async handler(newValue) {
-        if (this.updatingModelValue) {
-          this.updatingModelValue = false
-          return
-        }
-        // 将 value 统一为符合 files 格式的对象数组
-        if (newValue) {
-          // 先统一为数组
-          if (typeof newValue === 'string') {
-            const arr = tryParsingJSONArray(newValue)
-            newValue = arr || [newValue]
-          }
-          else if (isObject(newValue)) {
-            newValue = [newValue]
-          }
-          // 应用 srcAt，并过滤掉无效的值
-          if (Array.isArray(newValue)) {
-            const files = []
-            for (const v of newValue) {
-              const file = await this.valueToFile(v)
-              if (file) {
-                files.push(file)
-              }
-            }
-            this.files = files
-          }
-          else {
-            this.files = []
-          }
-        }
-        else {
-          this.files = []
-        }
-        // 改变排序时，视图不会更新
-        this.filePond?.setOptions({ files: this.files })
-        this.filePond?.sort(() => 0)
+      handler(newValue) {
+        this.onModelValueChange(newValue)
       },
     },
     Disabled(newValue) {
@@ -932,6 +913,7 @@ export default {
   },
   mounted() {
     this.initialize()
+    this.onModelValueChange(this[model.prop])
   },
   destroyed() {
     this.destroy()
@@ -946,18 +928,32 @@ export default {
         throw new Error('Current browser does not support FilePond')
       }
       this.filePond = FilePond.create(this.$refs.filePond, this.FilePondOptions)
-      this.filePond.on('removefile', () => {
+      this.filePond.on('removefile', (_, { id }) => {
         if (this.removingLimboFile) {
           this.removingLimboFile = false
           return
         }
-        this.files = this.filePond.getFiles()
+        for (let i = this.idToIndex[id] + 1; i < this.files.length; i++) {
+          this.idToIndex[this.files[i].id]--
+        }
+        this.files.splice(this.idToIndex[id], 1)
+        delete this.idToIndex[id]
         this.emitInput()
       })
       this.filePond.on('warning', (e) => {
-        FaMessageBox.warning(e.code === 0
-          ? this.LabelMaxFilesExceeded.replaceAll('{maxFiles}', this.FilePondOptions.maxFiles)
-          : e.body)
+        if (e.code === 0) {
+          if (this.FilePondOptions.itemInsertLocation === 'after') {
+            this.files.length = this.FilePondOptions.maxFiles
+          }
+          else {
+            this.files.splice(0, this.files.length - this.FilePondOptions.maxFiles)
+          }
+          this.emitInput()
+          FaMessageBox.warning(this.LabelMaxFilesExceeded.replaceAll('{maxFiles}', this.FilePondOptions.maxFiles))
+        }
+        else {
+          FaMessageBox.warning(e.body)
+        }
       })
       this.getSubWindowFeatures()
       try {
@@ -970,7 +966,74 @@ export default {
         console.warn(e)
       }
     },
+    async onModelValueChange(newValue) {
+      if (this.updatingModelValue) {
+        this.updatingModelValue = false
+        return
+      }
+      // 将 model-value 统一为符合 files 格式的对象数组
+      if (newValue) {
+        if (typeof newValue === 'string') {
+          const arr = tryParsingJSONArray(newValue)
+          this.files = await this.formatModelValue(arr || [newValue])
+        }
+        else if (isObject(newValue)) {
+          this.files = await this.formatModelValue([newValue])
+        }
+        else if (Array.isArray(newValue)) {
+          this.files = await this.formatModelValue(newValue)
+        }
+        else {
+          this.files = []
+        }
+      }
+      else {
+        this.files = []
+      }
+
+      // this.filePond.setOptions({ files: this.files })
+      // 上方代码在更新时间歇性不生效，因此 model-value 更新后重新初始化
+      if (this.isInitialized) {
+        this.destroy()
+        this.initialize()
+      }
+      else {
+        this.isInitialized = true
+      }
+
+      this.filePond.setOptions({
+        files: this.files,
+        /* fileRenameFunction: file =>
+            new Promise((resolve) => {
+              resolve(window.prompt('Enter new filename', file.name))
+            }), */
+      })
+
+      // 给文件标记 ID，在删除文件时才好知道删除的是哪个文件
+      const files = this.filePond.getFiles()
+      if (files.length) {
+        files.forEach((item, index) => {
+          this.files[index].id = item.id
+          this.idToIndex[item.id] = index
+        })
+      }
+      else {
+        this.idToIndex = {}
+      }
+    },
+    // 应用 srcAt，并过滤掉无效的值
+    async formatModelValue(modelValueArray) {
+      const files = []
+      for (const item of modelValueArray) {
+        const file = await this.valueToFile(cloneDeep(item))
+        if (file) {
+          files.push(file)
+        }
+      }
+      return files
+    },
     destroy() {
+      this.isInitialized = false
       this.updatingModelValue = false
       FilePond.destroy(this.$refs.filePond)
     },
