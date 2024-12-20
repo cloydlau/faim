@@ -2,7 +2,7 @@
   "name": "faim",
   "PascalCasedName": "Faim",
   "type": "commonjs",
-  "version": "0.10.4",
+  "version": "0.10.5",
   "private": false,
   "description": "Element Plus & Element UI isomorphic UI component library, more than Element.",
   "author": {
@@ -90,11 +90,11 @@
     "filepond-plugin-image-validate-size": "^1.2.7",
     "kolorist": "^1.8.0",
     "lodash-es": "^4.17.21",
-    "mime": "^4.0.4",
+    "mime": "^4.0.6",
     "qrcode": "^1.5.4",
     "sass": "^1.83.0",
     "sortablejs": "^1.15.6",
-    "sweetalert2": "^11.14.5",
+    "sweetalert2": "^11.15.2",
     "swiper": "^11.1.15",
     "tinymce": "^6",
     "upng-js": "^2.1.0",
@@ -106,8 +106,8 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^3.12.0",
-    "@arethetypeswrong/cli": "^0.17.1",
-    "@commitlint/cli": "^19.6.0",
+    "@arethetypeswrong/cli": "^0.17.2",
+    "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
     "@element-plus/icons-vue": "latest",
     "@types/lodash-es": "^4.17.12",
@@ -138,13 +138,18 @@
     "semver": "^7.6.3",
     "simple-git-hooks": "^2.11.1",
     "typescript": "^5.7.2",
-    "unbuild": "^2.0.0",
-    "unocss": "^0.65.1",
+    "unbuild": "^3.0.1",
+    "unocss": "^0.65.2",
     "unplugin-unused": "^0.2.3",
-    "vite": "^6.0.3",
+    "vite": "^6.0.4",
     "vue": "latest",
     "vue-tsc": "2.1.10",
     "zhlint": "^0.8.2"
+  },
+  "pnpm": {
+    "overrides": {
+      "esbuild": "0.24.0"
+    }
   },
   "simple-git-hooks": {
     "pre-commit": "pnpm lint-staged",
