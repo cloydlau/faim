@@ -168,7 +168,7 @@ export default {
       isSupported: true,
       queue: [],
       updatingModelValue: false,
-      removingLimboFile: false,
+      limboFilesToBeRemovedCount: 0,
     }
   },
   computed: {
@@ -611,7 +611,7 @@ export default {
               task.setProgress(100)
               this.queue.shift()
             }, 0)
-            this.removingLimboFile = true
+            this.limboFilesToBeRemovedCount++
             return false
           },
           beforeRemoveFile: (_item) => {
@@ -939,8 +939,8 @@ export default {
       }
       this.filePond = FilePond.create(this.$refs.filePond, this.FilePondOptions)
       this.filePond.on('removefile', (_, { id }) => {
-        if (this.removingLimboFile) {
-          this.removingLimboFile = false
+        if (this.limboFilesToBeRemovedCount > 0) {
+          this.limboFilesToBeRemovedCount--
           return
         }
         for (let i = this.idToIndex[id] + 1; i < this.files.length; i++) {
