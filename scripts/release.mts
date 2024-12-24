@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import spawn from 'cross-spawn'
+import { destr } from 'destr'
 // import { deleteAsync } from 'del'
 import { cyan } from 'kolorist'
 import prompts from 'prompts'
@@ -35,7 +36,7 @@ async function release() {
     return
   } */
 
-  const npmConfig = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
+  const npmConfig = destr(fs.readFileSync('./package.json', 'utf-8')) as Record<string, string>
   const { name, version: currentVersion } = npmConfig
 
   const choices = Array.from(['patch', 'minor', 'major', 'prerelease', 'prepatch', 'preminor', 'premajor', 'custom'], title => ({

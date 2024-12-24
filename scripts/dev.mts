@@ -3,6 +3,7 @@
 import type { ASTNode } from 'magicast'
 import fs from 'node:fs'
 import spawn from 'cross-spawn'
+import { destr } from 'destr'
 import { cyan } from 'kolorist'
 import { loadFile, writeFile } from 'magicast'
 import { addVitePlugin } from 'magicast/helpers'
@@ -139,7 +140,7 @@ async function dev() {
 
   let isDepsChanged = false
 
-  const pkg = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
+  const pkg = destr(fs.readFileSync('./package.json', 'utf-8')) as JSON
 
   // 删除非目标版本的依赖
   for (const ver of vueVersion) {
