@@ -1,6 +1,7 @@
 <script>
 import { useEventListener } from '@vueuse/core'
 import Cropper from 'cropperjs'
+import { safeDestr } from 'destr'
 import { throttle } from 'lodash-es'
 import UPNG from 'upng-js'
 import { isVue3 } from 'vue-demi'
@@ -602,7 +603,7 @@ export default {
     },
     setCropBoxData() {
       if (this.data) {
-        this.cropper.setCropBoxData(JSON.parse(this.data))
+        this.cropper.setCropBoxData(safeDestr(this.data))
       }
     },
     zoom(percent) {
