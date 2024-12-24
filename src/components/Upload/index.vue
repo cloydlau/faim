@@ -163,6 +163,7 @@ export default {
       isInitialized: false,
       subWindowFeatures: '',
       files: [],
+      values: [],
       idToIndex: {},
       filePond: null,
       isSupported: true,
@@ -537,9 +538,6 @@ export default {
                 }
                 else {
                   const { videoWidth, videoHeight, duration } = res
-                  // console.log('videoWidth: ', videoWidth)
-                  // console.log('videoHeight: ', videoHeight)
-                  // console.log('duration: ', duration)
                   if (!(
                     this.VideoWidth.validate(videoWidth)
                     && this.VideoHeight.validate(videoHeight)
@@ -559,7 +557,6 @@ export default {
                 }
                 else {
                   const { duration } = res
-                  // console.log('duration: ', duration)
                   if (!this.AudioDuration.validate(duration)) {
                     return
                   }
@@ -588,7 +585,7 @@ export default {
                 }
               }
 
-              const file = await this.valueToFile(res)
+              const { file, value } = await this.resolveInput(cloneDeep(res))
               if (!file) {
                 console.error('Invalid upload result')
                 task.setProgress(100)
@@ -600,11 +597,13 @@ export default {
               if (this.FilePondOptions.itemInsertLocation === 'after') {
                 file.id = files[files.length - 1].id
                 this.files.push(file)
+                this.values.push(value)
                 this.idToIndex[file.id] = this.files.length - 1
               }
               else {
                 file.id = files[0].id
                 this.files.unshift(file)
+                this.values.unshift(value)
                 this.idToIndex[file.id] = 0
               }
               this.emitInput()
@@ -615,7 +614,7 @@ export default {
             return false
           },
           beforeRemoveFile: (_item) => {
-            if (this.MinFiles !== undefined && this.filePond.getFiles().length <= this.MinFiles) {
+            if (this.MinFiles !== undefined && this.files.length <= this.MinFiles) {
               if (this.LabelMinFilesExceeded) {
                 FaMessageBox.warning(this.LabelMinFilesExceeded.replaceAll('{minFiles}', this.MinFiles))
               }
@@ -627,11 +626,14 @@ export default {
             // origin 和 target 有 bug
             if (origin !== target) {
               const _files = []
+              const values = []
               files.forEach(({ id }, index) => {
                 _files.push(this.files[this.idToIndex[id]])
+                values.push(this.values[this.idToIndex[id]])
                 this.idToIndex[id] = index
               })
               this.files = _files
+              this.values = values
               this.emitInput()
             }
           },
@@ -947,6 +949,7 @@ export default {
           this.idToIndex[this.files[i].id]--
         }
         this.files.splice(this.idToIndex[id], 1)
+        this.values.splice(this.idToIndex[id], 1)
         delete this.idToIndex[id]
         this.emitInput()
       })
@@ -954,9 +957,11 @@ export default {
         if (e.code === 0) {
           if (this.FilePondOptions.itemInsertLocation === 'after') {
             this.files.length = this.FilePondOptions.maxFiles
+            this.values.length = this.FilePondOptions.maxFiles
           }
           else {
             this.files.splice(0, this.files.length - this.FilePondOptions.maxFiles)
+            this.values.splice(0, this.values.length - this.FilePondOptions.maxFiles)
           }
           this.emitInput()
           FaMessageBox.warning(this.LabelMaxFilesExceeded.replaceAll('{maxFiles}', this.FilePondOptions.maxFiles))
@@ -983,7 +988,9 @@ export default {
       }
 
       // 将 model-value 统一为符合 files 格式的对象数组
-      this.files = await this.formatModelValue(newValue)
+      const { files, values } = await this.formatModelValue(newValue)
+      this.files = files
+      this.values = values
 
       // this.filePond.setOptions({ files: this.files })
       // 上方代码在更新时间歇性不生效，因此 model-value 更新后重新初始化
@@ -1004,9 +1011,9 @@ export default {
       })
 
       // 给文件标记 ID，在删除文件时才好知道删除的是哪个文件
-      const files = this.filePond.getFiles()
-      if (files.length) {
-        files.forEach((item, index) => {
+      const _files = this.filePond.getFiles()
+      if (_files.length) {
+        _files.forEach((item, index) => {
           this.files[index].id = item.id
           this.idToIndex[item.id] = index
         })
@@ -1018,27 +1025,29 @@ export default {
     // 应用 srcAt，并过滤掉无效的值
     async formatModelValue(modelValue) {
       const files = []
+      const values = []
       if (!modelValue) {
-        return files
+        return { files, values }
       }
       else if (Array.isArray(modelValue)) {
         for (const item of modelValue) {
-          const file = await this.valueToFile(cloneDeep(item))
+          const { file, value } = await this.resolveInput(cloneDeep(item))
           if (file) {
             files.push(file)
+            values.push(value)
           }
         }
-        return files
+        return { files, values }
       }
       else if (this.Stringified) {
         const parsedModelValue = destr(modelValue)
-        return parsedModelValue ? await this.formatModelValue(Array.isArray(parsedModelValue) ? parsedModelValue : [parsedModelValue]) : files
+        return parsedModelValue ? await this.formatModelValue(Array.isArray(parsedModelValue) ? parsedModelValue : [parsedModelValue]) : { files, values }
       }
       else if (typeof modelValue === 'string' || isObject(modelValue)) {
         return await this.formatModelValue([modelValue])
       }
       else {
-        return files
+        return { files, values }
       }
     },
     destroy() {
@@ -1059,7 +1068,7 @@ export default {
 
       // 配置了 srcAt 时，不需要提取文件的 URL/ID
       let newValue = this.SrcAt
-        ? this.files
+        ? this.values
         // 未配置 upload 或 upload 返回值为空时，输出二进制文件
         // 过滤非法文件
         : this.files
@@ -1094,31 +1103,36 @@ export default {
         this.queue[i].abortController.abort()
       }
     },
-    // 根据 srcAt 定位 source 在绑定值中的位置，然后将绑定值转换为 files 格式
-    async valueToFile(value) {
-      let source = unwrap(value, this.SrcAt)
+    // 根据 srcAt 定位 source 在输入值中的位置，然后将绑定值转换为 files 格式
+    async resolveInput(input) {
+      let source = unwrap(input, this.SrcAt)
       // Base64 无法预览、无法下载，需要转换为 Blob
       if (isBase64WithScheme(source)) {
         source = await (await fetch(source)).blob()
       }
       if (source) {
-        const res = isPlainObject(value) ? value : {}
-        res.source = source
-        res.options = { type: 'local' }
-        res.status = FilePond.FileStatus.PROCESSING_COMPLETE
+        const value = isPlainObject(input) ? input : {}
+        const file = {}
+        file.source = source
+        file.options = { type: 'local' }
+        file.status = FilePond.FileStatus.PROCESSING_COMPLETE
         if (source instanceof Blob) {
-          res.options.file = source
-          res.options.file.name ||= source.toString()
+          file.options.file = source
+          file.options.file.name ||= source.toString()
         }
-        else if (value instanceof Blob) {
-          res.options.file = value
-          res.options.file.name ||= source.toString()
+        else if (input instanceof Blob) {
+          file.options.file = input
+          file.options.file.name ||= source.toString()
         }
         else if (typeof source === 'string') {
-          res.options.file = { name: source }
+          file.options.file = { name: source }
         }
-        return res
+        return {
+          file,
+          value,
+        }
       }
+      return {}
     },
   },
 }
