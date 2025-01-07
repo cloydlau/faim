@@ -62,6 +62,20 @@ npm i faim
 >
 > `npm i faim tinymce@6`
 
+### pnpm ≥10
+
+允许 faim 执行生命周期脚本：
+
+```json5
+// package.json
+
+{
+  "pnpm": {
+    "onlyBuiltDependencies": ["faim"]
+  }
+}
+```
+
 ### Bun
 
 允许 faim 执行生命周期脚本：
