@@ -747,12 +747,12 @@ export default {
         limitation.push(`${this.LabelSize} ≥ ${minFileSize}`)
       }
       // 图片尺寸
-      if (imageValidateSizeMinWidth || imageValidateSizeMaxWidth || imageValidateSizeMinHeight || imageValidateSizeMaxHeight) {
+      if ((imageValidateSizeMinWidth || imageValidateSizeMaxWidth) && (imageValidateSizeMinHeight || imageValidateSizeMaxHeight)) {
         if (imageValidateSizeMinResolution || imageValidateSizeMaxResolution) {
-          throw new Error('Prohibit specifying both width/height and resolution at the same time to avoid conflicts')
+          throw new Error('Prohibit specifying width, height, and resolution simultaneously to avoid conflicts')
         }
         else if (this.ImageAspectRatio.tip) {
-          throw new Error('Prohibit specifying both width/height and aspect ratio at the same time to avoid conflicts')
+          throw new Error('Prohibit specifying width, height and aspect ratio simultaneously to avoid conflicts')
         }
       }
       let isWidthFixed = false
