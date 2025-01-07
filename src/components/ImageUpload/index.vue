@@ -193,12 +193,12 @@ export default {
       })
     },
     dimensionTip() {
-      if (this.Width.tip || this.Height.tip) {
+      if (this.Width.tip && this.Height.tip) {
         if (this.Resolution.tip) {
-          throw new Error('Prohibit specifying both width/height and resolution at the same time to avoid conflicts')
+          throw new Error('Prohibit specifying width, height, and resolution simultaneously to avoid conflicts')
         }
         else if (this.AspectRatio.tip) {
-          throw new Error('Prohibit specifying both width/height and aspect ratio at the same time to avoid conflicts')
+          throw new Error('Prohibit specifying width, height and aspect ratio simultaneously to avoid conflicts')
         }
       }
       return (this.Width.targetLabel && this.Height.targetLabel)

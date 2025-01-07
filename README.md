@@ -1087,7 +1087,7 @@ item 具体是什么格式？
 
 > [!CAUTION]
 >
-> 为了避免冲突，不允许同时指定 **width/height** 和 **resolution/aspectRatio**
+> 为了避免冲突，宽度、高度、分辨率只能同时指定其中两者，宽度、高度、比例也是一样
 
 #### outputType
 
