@@ -22,28 +22,28 @@ async function postinstall() {
   const cwd = process.cwd()
   const isDev = process.env.INIT_CWD === cwd
   // 当前 Node.js 进程的工作目录，通常是 faim 的目录
-  console.log(cyan(`[INFO] process.cwd(): ${cwd}`))
+  console.info(cyan(`[INFO] process.cwd(): ${cwd}`))
   // 最初启动 Node.js 进程时的工作目录，比如执行 ni 的目录
-  console.log(cyan(`[INFO] process.env.INIT_CWD: ${process.env.INIT_CWD}`))
+  console.info(cyan(`[INFO] process.env.INIT_CWD: ${process.env.INIT_CWD}`))
   const elementPlusDir = `${process.env.INIT_CWD}/node_modules/element-plus`
   const isElementPlusInstalled = fs.existsSync(elementPlusDir)
 
   if (isElementPlusInstalled) {
-    console.log(cyan('[INFO] Patching el-upload source code'))
+    console.info(cyan('[INFO] Patching el-upload source code'))
     const elUploadSourcePath = `${elementPlusDir}/es/components/upload/src/upload2.mjs`
     const elUploadSource = fs.readFileSync(elUploadSourcePath, 'utf-8')
     const whitespaces = elUploadSource.match(/(?<=expose\(\{)\s*/)?.[0] || '\n'
     const elUploadSourceNew = elUploadSource.replace(/expose\(\{(?!\s*uploadFiles,)/, `expose({${whitespaces}uploadFiles,`)
     if (elUploadSource !== elUploadSourceNew) {
       fs.writeFileSync(elUploadSourcePath, elUploadSourceNew)
-      console.log(green('[INFO] Successfully patched el-upload source code'))
-      console.log(cyan('[INFO] Vite re-bundling element-plus'))
+      console.info(green('[INFO] Successfully patched el-upload source code'))
+      console.info(cyan('[INFO] Vite re-bundling element-plus'))
       // Cannot delete files/directories outside the current working directory. Can be overridden with the `force` option.
       await deleteAsync([`${process.env.INIT_CWD}/node_modules/.vite/deps/element-plus.js*`], { force: true })
     }
   }
   else {
-    console.log(cyan('[INFO] Element Plus not installed'))
+    console.info(cyan('[INFO] Element Plus not installed'))
   }
 
   const dir = isDev ? 'src' : 'dist'
@@ -66,12 +66,12 @@ async function postinstall() {
   for (const format of formats) {
     for (const component of componentsRelyOnElFormDisabled[format]) {
       const componentPath = `${cwd}/${dir}/components/${component}`
-      console.log(cyan(`[INFO] Patching ${componentPath}`))
+      console.info(cyan(`[INFO] Patching ${componentPath}`))
       const componentSource = fs.readFileSync(componentPath, 'utf-8')
       const componentSourceNew = componentSource.replace(...useFormDisabledSources)
       fs.writeFileSync(componentPath, componentSourceNew)
       if (isDev) {
-        console.log(cyan(`[INFO] Linting ${componentPath}`))
+        console.info(cyan(`[INFO] Linting ${componentPath}`))
         spawn('npx', ['eslint', componentPath, '--fix'], { stdio: 'inherit' })
       }
     }
@@ -83,7 +83,7 @@ async function postinstall() {
   else {
     const viteCacheDir = `${process.env.INIT_CWD}/node_modules/.vite/deps/${name}`
     if (fs.existsSync(viteCacheDir)) {
-      console.log(cyan(`[INFO] Vite re-bundling ${name}`))
+      console.info(cyan(`[INFO] Vite re-bundling ${name}`))
       // Cannot delete files/directories outside the current working directory. Can be overridden with the `force` option.
       await deleteAsync([viteCacheDir], { force: true })
     }

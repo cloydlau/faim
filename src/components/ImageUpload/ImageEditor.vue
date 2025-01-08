@@ -547,7 +547,7 @@ export default {
         reject(new Error('Validation failed'))
       }
       else {
-        console.log(sizeDiffText)
+        console.info(sizeDiffText)
         this.reset()
         this.$emit('confirm', blobLike)
         // Closing is decided by the parent component based on the length of queue

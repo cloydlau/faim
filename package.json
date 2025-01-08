@@ -48,23 +48,22 @@
   "unpkg": "./dist/index.mjs",
   "jsdelivr": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "bin": "./bin/postinstall.mjs",
   "files": [
     "auto-import-resolver.ts",
+    "bin",
     "dist",
-    "docs",
-    "scripts/postinstall.mjs"
+    "docs"
   ],
   "scripts": {
     "dev": "esno ./scripts/dev.mts",
     "build": "npx unbuild",
     "preview": "vite preview",
     "release": "esno ./scripts/release.mts",
-    "sync-to-cnpm": "npx cnpm sync && curl -L https://npmmirror.com/sync/faim",
-    "license-scan": "license-checker --summary --out ./dependency-licenses.txt",
     "lint": "eslint \"**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,json,md,html,css,scss,sass}\" --ignore-pattern stats.html",
     "lint:fix": "eslint \"**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,json,md,html,css,scss,sass}\" --ignore-pattern stats.html --fix",
     "preinstall": "node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || npx only-allow pnpm",
-    "postinstall": "node ./scripts/postinstall.mjs && (node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || (npx simple-git-hooks && pnpm license-scan))"
+    "postinstall": "node ./bin/postinstall.mjs && (node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || (npx simple-git-hooks && npx license-checker --summary --out ./licenses-of-dependencies.txt))"
   },
   "peerDependencies": {
     "element-plus": ">=2",
@@ -106,7 +105,7 @@
     "vue-global-config": "^0.6.3"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^3.12.1",
+    "@antfu/eslint-config": "^3.12.2",
     "@arethetypeswrong/cli": "^0.17.2",
     "@commitlint/cli": "^19.6.1",
     "@commitlint/config-conventional": "^19.6.0",
@@ -123,7 +122,7 @@
     "case-police": "^0.7.2",
     "cnpm": "^9.4.0",
     "element-plus": "latest",
-    "eslint-plugin-format": "^0.1.3",
+    "eslint-plugin-format": "^1.0.1",
     "esno": "^4.8.0",
     "faim": "workspace:*",
     "hash-wasm": "^4.12.0",
@@ -140,7 +139,7 @@
     "simple-git-hooks": "^2.11.1",
     "typescript": "^5.7.2",
     "unbuild": "^3.2.0",
-    "unocss": "^0.65.3",
+    "unocss": "^0.65.4",
     "unplugin-unused": "^0.3.0",
     "vite": "^6.0.7",
     "vue": "latest",

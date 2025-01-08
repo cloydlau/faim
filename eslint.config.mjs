@@ -9,7 +9,7 @@ export default antfu(
     rules: {
       'brace-style': ['error', 'stroustrup', { allowSingleLine: false }],
       'curly': ['error', 'all'],
-      'no-console': ['warn', { allow: ['warn', 'error'] }],
+      'no-console': ['warn', { allow: ['info', 'warn', 'error'] }],
       'vue/max-attributes-per-line': ['error', { singleline: 3 }],
       'vue/no-deprecated-v-bind-sync': 'off',
       'vue/no-deprecated-v-on-native-modifier': 'off',

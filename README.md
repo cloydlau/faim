@@ -38,7 +38,8 @@
 ## 安装
 
 ```shell
-npm i faim
+# 安装并执行脚本
+npm i faim && npx faim
 ```
 
 > [!Warning]
@@ -50,9 +51,7 @@ npm i faim
 >
 > 如果遇到报错 `TypeError: Cannot read properties of undefined (reading 'pop')`
 >
-> 重装 faim 可以解决
->
-> 如果包管理器为 pnpm，且不方便重装 faim（比如流水线环境），可以在 `.npmrc` 中添加 [side-effects-cache=false](https://pnpm.io/npmrc#side-effects-cache)
+> 执行 `npx faim`
 
 > [!Warning]
 >
@@ -61,32 +60,6 @@ npm i faim
 > 故使用 FaRichText 组件时还需额外安装 tinymce：
 >
 > `npm i faim tinymce@6`
-
-### pnpm ≥10
-
-允许 faim 执行生命周期脚本：
-
-```json5
-// package.json
-
-{
-  "pnpm": {
-    "onlyBuiltDependencies": ["faim"]
-  }
-}
-```
-
-### Bun
-
-允许 faim 执行生命周期脚本：
-
-```json5
-// package.json
-
-{
-  "trustedDependencies": ["faim"]
-}
-```
 
 ### Vite
 
