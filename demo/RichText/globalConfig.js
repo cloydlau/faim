@@ -1,23 +1,21 @@
-// '?raw' 是 Vite 语法，在 webpack 中请使用 https://github.com/webpack-contrib/raw-loader
+import { POST } from '@/utils/http'
 
 // 皮肤
+// '?raw' 是 Vite 语法，在 webpack 中请使用 https://github.com/webpack-contrib/raw-loader
 import contentCSS from 'tinymce/skins/content/default/content.min.css?raw'
-
 import contentUICSS from 'tinymce/skins/ui/oxide/content.min.css?raw'
-// 浅色模式
-import 'tinymce/skins/ui/oxide/skin.min.css'
 
 // 深色模式
 /* import 'tinymce/skins/ui/oxide-dark/skin.min.css' // 皮肤
 import contentCSS from 'tinymce/skins/content/dark/content.min.css?raw'
 import contentUICSS from 'tinymce/skins/ui/oxide-dark/content.min.css?raw' */
 
-import { POST } from '@/utils/http'
-
 // 自定义插件（非必须）
 import InsertFile from './plugins/InsertFile.vue'
-
 import InsertWord from './plugins/InsertWord'
+
+// 浅色模式
+import 'tinymce/skins/ui/oxide/skin.min.css'
 
 // 自定义样式
 import './index.scss'

@@ -1,9 +1,23 @@
+// import path from 'node:path'
+// import { fileURLToPath } from 'node:url'
 import antfu from '@antfu/eslint-config'
+// import { FlatCompat } from '@eslint/eslintrc'
+import nounsanitized from 'eslint-plugin-no-unsanitized'
+
+// mimic CommonJS variables -- not needed if using CommonJS
+/* const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
+
+const compat = new FlatCompat({
+  baseDirectory: __dirname,
+}) */
 
 export default antfu(
   {
     formatters: true,
+    ignores: ['./demo'],
     lessOpinionated: true,
+    // unocss: true,
   },
   {
     rules: {
@@ -24,4 +38,7 @@ export default antfu(
       },
     },
   },
+  [nounsanitized.configs.recommended], // 代码安全性检测
+  // mimic ESLintRC-style extends
+  // ...compat.extends('plugin:financial/recommended'), // 避免财务计算
 )
