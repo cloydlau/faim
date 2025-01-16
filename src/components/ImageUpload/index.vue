@@ -434,6 +434,7 @@ export default {
       // 限制单数且实际单数
       const isSingle = this.Count.max === 1 && newValue.length <= 1
 
+      let hasStringified = false
       // 指定非数组
       if (this.Arrayed === false) {
         if (isSingle) {
@@ -441,16 +442,17 @@ export default {
         }
         else {
           newValue = JSON.stringify(newValue)
+          hasStringified = true
         }
-      // 自动
       }
+      // 自动
       else if (!this.Arrayed) {
         if (isSingle) {
           newValue = newValue[0]
         }
       }
 
-      if (this.Stringified) {
+      if (this.Stringified && !hasStringified) {
         newValue = JSON.stringify(newValue)
       }
 
