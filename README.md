@@ -38,8 +38,7 @@
 ## 安装
 
 ```shell
-# 安装并执行脚本
-npm i faim && npx faim
+npx -y faim@latest
 ```
 
 > [!Warning]
@@ -47,7 +46,7 @@ npm i faim && npx faim
 > 由于需要修改 Element Plus 源码才得以实现 FaImageUpload，故**该组件在 Element Plus 环境**存在以下限制：
 >
 > - element-plus 不能晚于 faim 安装
-> - 通过 CDN 的方式使用时需要自行修改 ElUpload 源码
+> - 通过 CDN 的方式使用时需要自行修改 el-upload 源码
 >
 > 如果遇到报错 `TypeError: Cannot read properties of undefined (reading 'pop')`
 >
@@ -255,7 +254,7 @@ app.mount('#app')
 
 > [!Caution]
 >
-> 使用 FaImageUpload 组件需要自行修改 ElUpload 源码
+> 使用 FaImageUpload 组件需要自行修改 el-upload 源码
 
 ### Element UI (Vue 2.7/2.6)
 
@@ -944,7 +943,7 @@ function modifyQRCode(src) {
 
 ## FaImageUpload
 
-`el-upload` 封装，图片上传一站式解决方案
+[el-upload](https://element-plus.org/zh-CN/component/upload.html) 封装，图片上传一站式解决方案
 
 ### 对比 FaUpload
 
@@ -1200,7 +1199,7 @@ openEditor 参数为输入的数据源，支持的数据类型有：
 
 ## FaMessageBox
 
-<a href="https://sweetalert2.github.io">sweetalert2</a> + `ElMessageBox` 组合拳
+<a href="https://sweetalert2.github.io">sweetalert 2</a> + [el-message-box](https://element-plus.org/zh-CN/component/message-box) 组合拳
 
 ### 特性
 
@@ -1310,7 +1309,7 @@ FaMessageBox.confirm({
 
 ## FaPopButton
 
-`el-button` + `el-popconfirm` + `el-popover` + `el-tooltip` 组合拳
+[el-button](https://element-plus.org/zh-CN/component/button) + [el-popconfirm](https://element-plus.org/zh-CN/component/popconfirm) + [el-popover](https://element-plus.org/zh-CN/component/popover) + [el-tooltip](https://element-plus.org/zh-CN/component/tooltip) 组合拳
 
 ### 特性
 
@@ -1345,7 +1344,7 @@ FaMessageBox.confirm({
 
 ## FaPopSwitch
 
-`el-switch` + `el-popconfirm` + `el-popover` + `el-tooltip` 组合拳
+[el-switch](https://element-plus.org/zh-CN/component/switch) + [el-popconfirm](https://element-plus.org/zh-CN/component/popconfirm) + [el-popover](https://element-plus.org/zh-CN/component/popover) + [el-tooltip](https://element-plus.org/zh-CN/component/tooltip) 组合拳
 
 ### 特性
 
@@ -1597,7 +1596,7 @@ TinyMCE 的 `urlconverter_callback`、`paste_postprocess` API 不支持异步操
 
 ## FaSelect
 
-`el-select` + `el-option` + `el-option-group` 组合拳
+[el-select](https://element-plus.org/zh-CN/component/select) + `el-option` + `el-option-group` 组合拳
 
 ### 特性
 
