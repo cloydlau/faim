@@ -17,6 +17,7 @@ export default antfu(
     formatters: true,
     ignores: ['demo/', 'stats.html'],
     lessOpinionated: true,
+    // unocss: true,
   },
   {
     rules: {
