@@ -81,7 +81,7 @@
   "dependencies": {
     "@vueuse/core": "^13.1.0",
     "await-to-js": "^3.0.0",
-    "cropperjs": "^2.0.0",
+    "cropperjs": "^1",
     "cross-spawn": "^7.0.6",
     "del": "^8.0.0",
     "destr": "^2.0.5",
