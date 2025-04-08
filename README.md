@@ -50,7 +50,9 @@ npm i faim
 >
 > 如果遇到报错 `TypeError: Cannot read properties of undefined (reading 'pop')`
 >
-> 执行 `npx faim`
+> 重装 faim 可以解决
+>
+> 如果包管理器为 pnpm，且不方便重装 faim（比如流水线环境），可以在 `.npmrc` 中添加 [side-effects-cache=false](https://pnpm.io/npmrc#side-effects-cache)
 
 > [!Warning]
 >

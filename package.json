@@ -48,10 +48,8 @@
   "unpkg": "./dist/index.mjs",
   "jsdelivr": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
-  "bin": "./bin/postinstall.mjs",
   "files": [
     "auto-import-resolver.ts",
-    "bin",
     "dist",
     "docs"
   ],
@@ -63,8 +61,8 @@
     "lint": "eslint \"**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,json,md,html,css,scss,sass}\"",
     "lint:fix": "eslint \"**/*.{js,mjs,cjs,jsx,ts,mts,cts,tsx,vue,json,md,html,css,scss,sass}\" --fix",
     "lint:inspect": "npx @eslint/config-inspector@latest",
-    "preinstall": "node -e \"if (process.env.INIT_CWD === process.cwd()) { process.exit(1) }\" || (npx only-allow pnpm && pnpm config set registry https://registry.npmmirror.com)",
-    "postinstall": "node ./bin/postinstall.mjs"
+    "preinstall": "node ./scripts/preinstall.mjs",
+    "postinstall": "node ./scripts/postinstall.mjs"
   },
   "peerDependencies": {
     "element-plus": ">=2",
