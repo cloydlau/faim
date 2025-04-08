@@ -38,7 +38,7 @@
 ## 安装
 
 ```shell
-npx -y faim@latest
+npm i faim
 ```
 
 > [!Warning]
@@ -59,6 +59,32 @@ npx -y faim@latest
 > 故使用 FaRichText 组件时还需额外安装 tinymce：
 >
 > `npm i faim tinymce@6`
+
+### pnpm ≥10
+
+允许 faim 执行生命周期脚本：
+
+```json5
+// package.json
+
+{
+  "pnpm": {
+    "onlyBuiltDependencies": ["faim"]
+  }
+}
+```
+
+### Bun
+
+允许 faim 执行生命周期脚本：
+
+```json5
+// package.json
+
+{
+  "trustedDependencies": ["faim"]
+}
+```
 
 ### Vite
 

@@ -20,12 +20,12 @@ const name = 'faim'
 
 async function postinstall() {
   const cwd = process.cwd()
-  const isDev = process.env.INIT_CWD === cwd
-  // 当前 Node.js 进程的工作目录，通常是 faim 的目录
-  console.info(cyan(`[INFO] process.cwd(): ${cwd}`))
-  // 最初启动 Node.js 进程时的工作目录，比如执行 ni 的目录
+  console.info(cyan(`[INFO] process.cwd(): ${process.cwd()}`))
+  console.info(cyan(`[INFO] process.env.PWD: ${process.env.PWD}`))
   console.info(cyan(`[INFO] process.env.INIT_CWD: ${process.env.INIT_CWD}`))
-  const elementPlusDir = `${process.env.INIT_CWD}/node_modules/element-plus`
+
+  const isDev = process.env.INIT_CWD === cwd
+  const elementPlusDir = './node_modules/element-plus'
   const isElementPlusInstalled = fs.existsSync(elementPlusDir)
 
   if (isElementPlusInstalled) {
@@ -39,7 +39,7 @@ async function postinstall() {
       console.info(green('[INFO] Successfully patched el-upload source code'))
       console.info(cyan('[INFO] Vite re-bundling element-plus'))
       // Cannot delete files/directories outside the current working directory. Can be overridden with the `force` option.
-      await deleteAsync([`${process.env.INIT_CWD}/node_modules/.vite/deps/element-plus.js*`], { force: true })
+      await deleteAsync(['./node_modules/.vite/deps/element-plus.js*'], { force: true })
     }
   }
   else {
@@ -79,6 +79,8 @@ async function postinstall() {
 
   if (isDev) {
     spawn.sync('npx', ['simple-git-hooks'], { stdio: 'inherit' })
+    spawn.sync('git', ['config', 'core.hooksPath', '.git/hooks/'], { stdio: 'inherit' })
+    spawn.sync('npx', ['license-checker', '--summary', '--out', './licenses.txt'], { stdio: 'inherit' })
   }
   else {
     const viteCacheDir = `${process.env.INIT_CWD}/node_modules/.vite/deps/${name}`

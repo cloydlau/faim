@@ -29,6 +29,9 @@ const toPackageOptions: Record<VueVersion, Record<string, Record<string, any>>> 
         optional: true,
       },
     },
+    dependencies: {
+      '@vueuse/core': 'latest',
+    },
     devDependencies: {
       '@vitejs/plugin-vue': 'latest',
       '@vue/compiler-sfc': 'latest',
@@ -47,6 +50,9 @@ const toPackageOptions: Record<VueVersion, Record<string, Record<string, any>>> 
         optional: true,
       },
     },
+    dependencies: {
+      '@vueuse/core': '^11',
+    },
     devDependencies: {
       '@vitejs/plugin-vue2': 'latest',
       '@vue/test-utils': 'legacy',
@@ -63,6 +69,9 @@ const toPackageOptions: Record<VueVersion, Record<string, Record<string, any>>> 
       'element-ui': {
         optional: true,
       },
+    },
+    dependencies: {
+      '@vueuse/core': '^11',
     },
     devDependencies: {
       '@vue/composition-api': 'latest',
