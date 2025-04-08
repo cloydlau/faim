@@ -108,6 +108,8 @@ export default {
     }])),
   },
   emits: [model.event],
+  // updated() { this.computeIsTipOverflowed() },
+  expose: ['openEditor', 'uploading'],
   setup: () => ({ elFormDisabled: useFormDisabled() }),
   data() {
     return {
@@ -376,8 +378,6 @@ export default {
       console.error(`NPM script did not execute correctly: Try reinstalling faim. If you are using pnpm and it's not feasible to reinstall faim (e.g., in CI environments), you can add 'side-effects-cache=false' in the .npmrc file. See https://pnpm.io/npmrc#side-effects-cache for more information.`)
     }
   },
-  // updated() { this.computeIsTipOverflowed() },
-  expose: ['openEditor', 'uploading'],
   methods: {
     /* computeIsTipOverflowed() {
       for (const e of document.querySelectorAll(isVue3

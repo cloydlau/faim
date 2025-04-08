@@ -156,6 +156,7 @@ export default {
     labelMaxAudioDurationExceeded: {},
   },
   emits: [model.event, 'uploading'],
+  expose: ['filePond', 'uploading'],
   setup: () => ({ elFormDisabled: useFormDisabled() }),
   data() {
     return {
@@ -860,10 +861,22 @@ export default {
       }
       // 视频分辨率
       // resolution 参数的值不能与 width & height 冲突
-      if ((this.VideoResolution.target && this.VideoWidth.target && this.VideoHeight.target && this.VideoResolution.target !== (this.VideoWidth.target * this.VideoHeight.target))
-        || (this.VideoResolution.max && this.VideoWidth.max && this.VideoHeight.max && this.VideoResolution.max !== (this.VideoWidth.max * this.VideoHeight.max))
-        || (this.VideoResolution.min && this.VideoWidth.min && this.VideoHeight.min && this.VideoResolution.min !== (this.VideoWidth.min * this.VideoHeight.min))
-      ) {
+      if ((
+        this.VideoResolution.target
+        && this.VideoWidth.target
+        && this.VideoHeight.target
+        && this.VideoResolution.target !== (this.VideoWidth.target * this.VideoHeight.target)
+      ) || (
+        this.VideoResolution.max
+        && this.VideoWidth.max
+        && this.VideoHeight.max
+        && this.VideoResolution.max !== (this.VideoWidth.max * this.VideoHeight.max)
+      ) || (
+        this.VideoResolution.min
+        && this.VideoWidth.min
+        && this.VideoHeight.min
+        && this.VideoResolution.min !== (this.VideoWidth.min * this.VideoHeight.min)
+      )) {
         throw new Error('Value of prop \'videoResolution\' conflicts with values of \'videoWidth\' and \'videoHeight\'')
       }
       if (this.VideoResolution.tip) {
@@ -871,10 +884,22 @@ export default {
       }
       // 视频比例
       // aspectRatio 参数的值不能与 width & height 冲突
-      if ((this.VideoAspectRatio.target && this.VideoWidth.target && this.VideoHeight.target && this.VideoAspectRatio.target !== (this.VideoWidth.target / this.VideoHeight.target))
-        || (this.VideoAspectRatio.max && this.VideoWidth.max && this.VideoHeight.min && this.VideoAspectRatio.max !== (this.VideoWidth.max / this.VideoHeight.min))
-        || (this.VideoAspectRatio.min && this.VideoWidth.min && this.VideoHeight.max && this.VideoAspectRatio.min !== (this.VideoWidth.min / this.VideoHeight.max))
-      ) {
+      if ((
+        this.VideoAspectRatio.target
+        && this.VideoWidth.target
+        && this.VideoHeight.target
+        && this.VideoAspectRatio.target !== (this.VideoWidth.target / this.VideoHeight.target)
+      ) || (
+        this.VideoAspectRatio.max
+        && this.VideoWidth.max
+        && this.VideoHeight.min
+        && this.VideoAspectRatio.max !== (this.VideoWidth.max / this.VideoHeight.min)
+      ) || (
+        this.VideoAspectRatio.min
+        && this.VideoWidth.min
+        && this.VideoHeight.max
+        && this.VideoAspectRatio.min !== (this.VideoWidth.min / this.VideoHeight.max)
+      )) {
         throw new Error('Value of prop \'videoAspectRatio\' conflicts with values of \'videoWidth\' and \'videoHeight\'')
       }
       if (this.VideoAspectRatio.tip) {
@@ -903,7 +928,6 @@ export default {
       return this.FilePondOptions.disabled || (isVue3 ? this.elFormDisabled : this.elForm.disabled)
     },
   },
-  expose: ['filePond', 'uploading'],
   watch: {
     [model.prop]: {
       // immediate: true,
