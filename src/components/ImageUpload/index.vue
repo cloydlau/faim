@@ -756,7 +756,6 @@ export default {
   .el-upload-list--picture-card {
     .el-upload-list__item {
       user-select: none;
-      transition: none !important;
 
       .el-upload-list__item-thumbnail {
         object-fit: contain;
