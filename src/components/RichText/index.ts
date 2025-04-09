@@ -1,7 +1,5 @@
 import type { Editor } from 'tinymce/tinymce'
 import type { App } from 'vue-demi'
-// 该插件在官方的 full-featured 示例中被排除，故默认关闭
-import { useFormDisabled } from 'element-plus/es/components/form/src/hooks/use-form-common-props.mjs'
 import { debounce } from 'lodash-es'
 import tinymce from 'tinymce/tinymce'
 
@@ -10,7 +8,6 @@ import {
   computed,
   defineComponent,
   h,
-  inject,
   isVue3,
   onMounted,
   onUnmounted,
@@ -97,15 +94,11 @@ export default defineComponent({
     const id = ref(`minimce-${uuidv4()}`)
     const preventSettingContent = ref(false)
     const preventUpdatingModelValue = ref(false)
-    const elFormDisabled = useFormDisabled()
-    const elForm = inject('elForm', { disabled: undefined })
     /**
      * props & attrs
      */
     const Disabled = computed(() =>
-      conclude([props.disabled, globalProps.disabled], { type: Boolean })
-      // Element 的逻辑是 props.disabled 或 el-form 的 props.disabled 任一为 true 就禁用
-      || (isVue3 ? unref(elFormDisabled) : elForm.disabled),
+      conclude([props.disabled, globalProps.disabled], { type: Boolean }),
     )
     const OutputFormat = computed(() => conclude([props.outputFormat, globalProps.outputFormat], {
       type: String,

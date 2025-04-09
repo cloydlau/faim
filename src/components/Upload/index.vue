@@ -2,7 +2,6 @@
 import { useEventListener } from '@vueuse/core'
 import to from 'await-to-js'
 import { destr } from 'destr'
-import { useFormDisabled } from 'element-plus/es/components/form/src/hooks/use-form-common-props.mjs'
 import * as FilePond from 'filepond'
 // import FilepondPluginDragReorder from 'filepond-plugin-drag-reorder'
 // import 'filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css'
@@ -80,11 +79,6 @@ export default {
     app.component(this.name, this)
   },
   components: { Uploading },
-  inject: {
-    elForm: {
-      default: {},
-    },
-  },
   props: {
     [model.prop]: {
       validator: value => typeof value === 'string'
@@ -157,7 +151,6 @@ export default {
   },
   emits: [model.event, 'uploading'],
   expose: ['filePond', 'uploading'],
-  setup: () => ({ elFormDisabled: useFormDisabled() }),
   data() {
     return {
       isVue3,
@@ -924,8 +917,7 @@ export default {
       return FilePondOptions
     },
     Disabled() {
-      // Element 的逻辑是 props.disabled 或 el-form 的 props.disabled 任一为 true 就禁用
-      return this.FilePondOptions.disabled || (isVue3 ? this.elFormDisabled : this.elForm.disabled)
+      return this.FilePondOptions.disabled
     },
   },
   watch: {

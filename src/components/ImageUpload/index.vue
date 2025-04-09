@@ -1,7 +1,6 @@
 <script>
 import to from 'await-to-js'
 import { destr } from 'destr'
-import { useFormDisabled } from 'element-plus/es/components/form/src/hooks/use-form-common-props.mjs'
 import { cloneDeep } from 'lodash-es'
 import mime from 'mime'
 import Sortable from 'sortablejs'
@@ -74,11 +73,6 @@ export default {
     app.component(this.name, this)
   },
   components: { FaImage, ImageEditor },
-  inject: {
-    elForm: {
-      default: {},
-    },
-  },
   props: {
     [model.prop]: {
       validator: value => typeof value === 'string'
@@ -110,7 +104,6 @@ export default {
   emits: [model.event],
   // updated() { this.computeIsTipOverflowed() },
   expose: ['openEditor', 'uploading'],
-  setup: () => ({ elFormDisabled: useFormDisabled() }),
   data() {
     return {
       isVue3,
@@ -232,11 +225,8 @@ export default {
         type: Function,
       })
     },
-    // 也可以通过 refs 去拿 el-upload 的 disabled 状态，但是 element-plus 没有暴露出来
     Disabled() {
       return conclude([this.disabled, globalProps.disabled], { type: Boolean })
-      // Element 的逻辑是 props.disabled 或 el-form 的 props.disabled 任一为 true 就禁用
-        || (isVue3 ? this.elFormDisabled : this.elForm.disabled)
     },
     Editable() {
       return conclude([this.editable, globalProps.editable, true], {
