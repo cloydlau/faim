@@ -118,6 +118,7 @@ export default {
       sortablejs: null,
       updatingModelValue: false,
       // isTipOverflowed: false,
+      fileURLToBePreviewed: undefined,
     }
   },
   computed: {
@@ -363,11 +364,6 @@ export default {
     },
   },
   // mounted() { this.computeIsTipOverflowed() },
-  mounted() {
-    if (!this.$refs.elUploadRef.uploadFiles) {
-      console.error(`NPM script did not execute correctly: Try reinstalling faim. If you are using pnpm and it's not feasible to reinstall faim (e.g., in CI environments), you can add 'side-effects-cache=false' in the .npmrc file. See https://pnpm.io/npmrc#side-effects-cache for more information.`)
-    }
-  },
   methods: {
     /* computeIsTipOverflowed() {
       for (const e of document.querySelectorAll(isVue3
@@ -404,9 +400,12 @@ export default {
         return
       }
 
-      this.files.push(file)
+      this.files[this.files.length - 1] = file
       this.emitInput()
-      this.queue.shift()
+      // 加 nextTick 的目的：确保添加上传文件时不产生删除动画
+      this.$nextTick(() => {
+        this.queue.shift()
+      })
     },
     emitInput() {
       // files 的格式:
@@ -538,8 +537,6 @@ export default {
     // 添加文件、上传成功和上传失败时都会被调用
     // 配置了 httpRequest 以后，只有添加文件时会被调用
     async onChange(file, _fileList) {
-      // 不让图片显示在 input 标签中
-      this.$refs.elUploadRef.uploadFiles.pop()
       if (this.Editable) {
         await this.openEditor(file.raw)
       }
@@ -606,11 +603,15 @@ export default {
       FaMessageBox.warning(tip)
       return tip
     },
-    onPreview(file) {
-      const i = this.$refs.elUploadRef.uploadFiles.indexOf(file)
+    onPreview(uploadFile) {
+      /* const i = this.$refs.elUploadRef.uploadFiles?.indexOf(file)
       if (i >= 0) {
         this.$refs.faImageRef.viewer.view(i)
-      }
+      } */
+      this.fileURLToBePreviewed = uploadFile.url
+      setTimeout(() => {
+        this.$refs.faImageRef.viewer.view()
+      }, 0)
     },
     onBeforeRemove() {
       if (this.Count.min && this.files.length <= this.Count.min) {
@@ -670,7 +671,7 @@ export default {
       v-model:file-list="files"
       v-loading="uploading"
       class="fa-image-upload"
-      :class="{ isVue3, isFull, canSort, isInsideTable }"
+      :class="{ isVue3, uploading, isFull, canSort, isInsideTable }"
       v-bind="ElUploadProps"
       :file-list="files"
     >
@@ -679,10 +680,7 @@ export default {
       <!-- 如果默认插槽和 trigger 插槽同时存在，则只有 trigger 插槽才是 trigger -->
       <slot>
         <el-icon v-if="isVue3"><Plus /></el-icon>
-        <i
-          v-else
-          class="el-icon-plus"
-        />
+        <i v-else class="el-icon-plus" />
       </slot>
       <slot name="trigger" />
       <div class="el-upload__tip">
@@ -692,18 +690,14 @@ export default {
         <div>{{ Resolution.tip }} {{ AspectRatio.tip }}</div>
         <div>{{ Type.tip }}</div>
       </div>
-      <slot
-        v-if="isVue3"
-        name="file"
-      />
+      <slot v-if="isVue3" name="file" />
     </el-upload>
 
     <FaImage
       v-show="false"
       ref="faImageRef"
-      :value="files"
-      :model-value="files"
-      src-at="url"
+      :value="fileURLToBePreviewed"
+      :model-value="fileURLToBePreviewed"
     />
 
     <!-- 不使用 v-model:show="editor.show" 的原因： -->
@@ -741,6 +735,10 @@ export default {
   // see: https://github.com/SortableJS/Sortable/issues/1853
   &:not(.isVue3) .el-upload-list--picture-card {
     display: inline-block;
+  }
+
+  &.uploading .el-upload-list__item {
+    transition: none !important;
   }
 
   .el-upload-list--picture-card {

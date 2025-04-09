@@ -42,50 +42,11 @@ npm i faim
 
 > [!Warning]
 >
-> 由于需要修改 Element Plus 源码才得以实现 FaImageUpload，故**该组件在 Element Plus 环境**存在以下限制：
->
-> - element-plus 不能晚于 faim 安装
-> - 通过 CDN 的方式使用时需要自行修改 el-upload 源码
->
-> 如果遇到报错 `TypeError: Cannot read properties of undefined (reading 'pop')`
->
-> 重装 faim 可以解决
->
-> 如果包管理器为 pnpm，且不方便重装 faim（比如流水线环境），可以在 `.npmrc` 中添加 [side-effects-cache=false](https://pnpm.io/npmrc#side-effects-cache)
-
-> [!Warning]
->
 > 为了方便用户更换 tinymce 的皮肤、主题、图标，这些样式资源需要用户手动引入
 >
 > 故使用 FaRichText 组件时还需额外安装 tinymce：
 >
 > `npm i faim tinymce@6`
-
-### pnpm ≥10
-
-允许 faim 执行生命周期脚本：
-
-```json5
-// package.json
-
-{
-  "pnpm": {
-    "onlyBuiltDependencies": ["faim"]
-  }
-}
-```
-
-### Bun
-
-允许 faim 执行生命周期脚本：
-
-```json5
-// package.json
-
-{
-  "trustedDependencies": ["faim"]
-}
-```
 
 ### Vite
 
@@ -278,10 +239,6 @@ app.mount('#app')
 >
 > - [esm.sh](https://github.com/esm-dev/esm.sh)
 > - [vue3-sfc-loader](https://github.com/FranckFreiburger/vue3-sfc-loader)
-
-> [!Caution]
->
-> 使用 FaImageUpload 组件需要自行修改 el-upload 源码
 
 ### Element UI (Vue 2.7/2.6)
 
