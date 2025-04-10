@@ -51,7 +51,8 @@
   "files": [
     "auto-import-resolver.ts",
     "dist",
-    "docs"
+    "docs",
+    "scripts"
   ],
   "scripts": {
     "dev": "esno ./scripts/dev.mts",
