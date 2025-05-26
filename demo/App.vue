@@ -206,6 +206,7 @@ function loading() {
             v-for="(v, k) in data.sourceOptions"
             :key="k"
             :value="k"
+            :label="v"
             style="display: block; width: 100%;"
           >
             <b>{{ k }}</b>: {{ v }}
