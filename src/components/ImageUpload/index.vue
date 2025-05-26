@@ -400,7 +400,12 @@ export default {
         return
       }
 
-      this.files[this.files.length - 1] = file
+      if (isVue3) {
+        this.files[this.files.length - 1] = file
+      }
+      else {
+        this.files.push(file)
+      }
       this.emitInput()
       // 加 nextTick 的目的：确保添加上传文件时不产生删除动画
       this.$nextTick(() => {
