@@ -740,6 +740,10 @@ export default {
   // see: https://github.com/SortableJS/Sortable/issues/1853
   &:not(.isVue3) .el-upload-list--picture-card {
     display: inline-block;
+
+    .el-upload-list__item {
+      transition: none;
+    }
   }
 
   &.uploading .el-upload-list__item {
