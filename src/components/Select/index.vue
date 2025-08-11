@@ -4,7 +4,7 @@ import Sortable from 'sortablejs'
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
 import defaultLocale from '../../locale/en'
-import { getListeners, isEmpty, isGlobalSlot, isObject, notEmpty, unwrap } from '../../utils'
+import { getListeners, isGlobalSlot, isObject, notEmpty, unwrap } from '../../utils'
 
 const name = 'FaSelect'
 
@@ -70,10 +70,11 @@ export default {
       default: undefined,
     }])),
   },
-  emits: [model.event, 'update:options', 'update:label'],
+  emits: [model.event, 'change', 'update:options', 'update:label'],
   expose: ['remoteMethod'],
   data() {
     return {
+      isVue3,
       innerValue: this[model.prop],
       initialValue: undefined,
       innerLoading: undefined,
@@ -167,19 +168,15 @@ export default {
       },
     },
     [model.prop]: {
-      handler(newValue) {
-        this.innerValue = newValue
+      handler() {
+        // this.innerValue = newValue
         this.updateSelectAllStatus()
-        this.updateLabel()
       },
     },
     innerValue: {
       handler(newInnerValue) {
-        // 清空时
-        if (isEmpty(newInnerValue)) {
-          this.remoteMethod()
-        }
         this.$emit(model.event, newInnerValue)
+        this.updateLabel()
       },
     },
     canSort: {
@@ -260,17 +257,23 @@ export default {
     updateLabel() {
       this.$nextTick(() => {
         if (this.multiple) {
-          const label = []
-          this.$refs[this.ElSelectProps.ref].selected?.forEach((v) => {
-            if (!v.currentLabel) {
-              v.currentLabel = this.getLabel(v.value)
-            }
-            label.push(v.currentLabel)
-          })
-          this.$emit('update:label', label)
+          if (isVue3) {
+            this.$emit('update:label', this.$refs[this.ElSelectProps.ref].selectedLabel)
+          }
+          else {
+            const label = []
+            this.$refs[this.ElSelectProps.ref].selected?.forEach((v) => {
+              if (!v.currentLabel) {
+                v.currentLabel = this.getLabel(v.value)
+              }
+              label.push(v.currentLabel)
+            })
+            this.$emit('update:label', label)
+          }
         }
         else {
-          if (!this.$refs[this.ElSelectProps.ref].selectedLabel) {
+          // 仅限 Vue2 的原因 —— [Vue warn] Write operation failed: computed value is readonly
+          if (!isVue3 && !this.$refs[this.ElSelectProps.ref].selectedLabel) {
             this.$refs[this.ElSelectProps.ref].selectedLabel = this.getLabel(this.innerValue)
           }
           this.$emit('update:label', this.$refs[this.ElSelectProps.ref].selectedLabel)
@@ -345,15 +348,15 @@ export default {
         }
       }
     },
-    // 下拉框隐藏时，如果没有选中，el-select 会清空搜索关键字，此时需要恢复 options
     onVisibleChange(isVisible) {
-      if (!isVisible) {
-        this.updateLabel()
-        if (isEmpty(this.innerValue) && this.previousQuery) {
-          // 加延迟的原因：在下拉框隐藏动画结束后再恢复
-          setTimeout(() => {
-            this.remoteMethod()
-          }, 100)
+      if (!isVue3) {
+        // ElementUI 不会像 ElementPlus 一样在聚焦时调用 remoteMethod
+        if (isVisible) {
+          this.remoteMethod()
+        }
+        // ElementUI 点击已选中的选项然后失焦，selectedLabel 会丢失
+        else {
+          this.updateLabel()
         }
       }
     },
