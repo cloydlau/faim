@@ -168,8 +168,8 @@ export default {
       },
     },
     [model.prop]: {
-      handler() {
-        // this.innerValue = newValue
+      handler(newValue) {
+        this.innerValue = newValue
         this.updateSelectAllStatus()
       },
     },
