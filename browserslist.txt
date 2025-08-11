@@ -3,6 +3,7 @@ and_ff 137
 and_qq 14.9
 and_uc 15.5
 android 136
+chrome 137
 chrome 136
 chrome 135
 chrome 134
@@ -62,8 +63,6 @@ chrome 80
 chrome 79
 chrome 78
 chrome 77
-chrome 76
-chrome 75
 edge 136
 edge 135
 edge 134
@@ -121,6 +120,7 @@ edge 83
 edge 81
 edge 80
 edge 79
+firefox 139
 firefox 138
 firefox 137
 firefox 136
@@ -191,7 +191,6 @@ firefox 72
 firefox 71
 firefox 70
 firefox 69
-firefox 68
 ie 11
 ios_saf 18.5
 ios_saf 18.4
@@ -286,7 +285,6 @@ opera 66
 opera 65
 opera 64
 opera 63
-opera 62
 safari 18.5
 safari 18.4
 safari 18.3
