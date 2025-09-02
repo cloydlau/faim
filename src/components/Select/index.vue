@@ -439,7 +439,8 @@ export default {
           v-if="ShowSelectAllCheckbox"
           v-model="allSelected"
           :indeterminate="indeterminate"
-          style="padding: 10px 20px;"
+          style="padding: 0 20px; display: flex; align-items: center;"
+          :style="isVue3 || { paddingTop: '10px', paddingBottom: '10px' }"
           @change="selectAll"
         >
           {{ Locale.selectAll }}
@@ -510,7 +511,8 @@ export default {
           v-if="ShowSelectAllCheckbox"
           v-model="allSelected"
           :indeterminate="indeterminate"
-          style="padding: 10px 20px;"
+          style="padding: 0 20px; display: flex; align-items: center;"
+          :style="isVue3 || { paddingTop: '10px', paddingBottom: '10px' }"
           @change="selectAll"
         >
           {{ Locale.selectAll }}
