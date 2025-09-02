@@ -70,7 +70,12 @@ export default {
       default: undefined,
     }])),
   },
-  emits: [model.event, 'change', 'update:options', 'update:label'],
+  emits: [
+    model.event,
+    'change', // 会导致 Vue 3 不再透传 el-select 的 change 事件
+    'update:options',
+    'update:label',
+  ],
   expose: ['remoteMethod'],
   data() {
     return {
@@ -176,6 +181,9 @@ export default {
     innerValue: {
       handler(newInnerValue) {
         this.$emit(model.event, newInnerValue)
+        if (isVue3) {
+          this.$emit('change', newInnerValue)
+        }
         this.updateLabel()
       },
     },
@@ -312,7 +320,9 @@ export default {
       }
 
       this.innerValue = innerValue.filter(v => v !== undefined)
-      this.$emit('change', this.innerValue)
+      if (!isVue3) {
+        this.$emit('change', this.innerValue)
+      }
     },
     // 更新全选按钮的勾选状态
     updateSelectAllStatus() {
@@ -405,7 +415,9 @@ export default {
             onEnd: ({ newIndex, oldIndex }) => {
               if (newIndex !== oldIndex) {
                 this.innerValue.splice(newIndex, 0, this.innerValue.splice(oldIndex, 1)[0])
-                this.$emit('change', this.innerValue)
+                if (!isVue3) {
+                  this.$emit('change', this.innerValue)
+                }
               }
               document.documentElement.classList.toggle('fa-select__cursor-grabbing', false)
             },

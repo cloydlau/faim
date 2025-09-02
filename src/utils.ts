@@ -10,6 +10,8 @@ export const MB = 1024 ** 2
 export const KB = 1024
 
 export function getListeners(this: ComponentPublicInstance, globalListeners: Record<string, any>) {
+  // Vue 2 用 v-on="Listeners"
+  // Vue 3 用 v-bind="computed(() => conclude([useAttrs(), globalAttrs, globalListeners]))"
   if (isVue3) {
     return {}
   }
