@@ -142,17 +142,6 @@ function loading() {
           :navigation-bar="false"
         />
       </p>
-
-      <el-form-item label="FaPopButton">
-        <FaPopButton
-          :el-tooltip-props="{ rawContent: true, content: '删除' }"
-          :el-popover-props="{ content: `权限不足`, disabled: true }"
-          :el-popconfirm-props="{ title: '确认删除吗？' }"
-          @click="console.log('[FaPopButton] click')"
-        >
-          删除
-        </FaPopButton>
-      </el-form-item>
       <el-form-item
         label="ElSwitch"
         prop="ElSwitch"

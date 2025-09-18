@@ -2,7 +2,7 @@ import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import ElementPlus from 'element-plus'
 import ElementPlusLocale from 'element-plus/dist/locale/zh-cn.mjs'
 import { createApp } from 'vue'
-import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopButton, FaPopSwitch, FaRichText, FaSelect, FaUpload } from '../src/index'
+import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopSwitch, FaRichText, FaSelect, FaUpload } from '../src/index'
 import FaimLocale from '../src/locale/zh-cn'
 import App from './App.vue'
 import globalConfigForFaImageUpload from './ImageUpload/globalConfig'
@@ -21,7 +21,6 @@ const app = createApp(App)
     referrerpolicy: 'no-referrer',
   })
   .use(FaImageUpload, globalConfigForFaImageUpload)
-  .use(FaPopButton)
   .use(FaPopSwitch)
   .use(FaRichText, globalConfigForFaRichText)
   .use(FaSelect, {

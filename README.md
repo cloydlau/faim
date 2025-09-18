@@ -160,7 +160,7 @@ module.exports = {
 
 ```vue
 <script setup>
-import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopButton, FaPopSwitch, FaRichText, FaSelect, FaUpload } from 'faim'
+import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopSwitch, FaRichText, FaSelect, FaUpload } from 'faim'
 
 // 在 FaRichText 外部引入皮肤、主题、图标等样式资源的目的是方便用户对其进行更换
 import 'tinymce/skins/ui/oxide/skin.min.css'
@@ -176,7 +176,7 @@ const $swal = FaMessageBox
 ```ts
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import ElementPlus from 'element-plus'
-import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopButton, FaPopSwitch, FaRichText, FaSelect, FaUpload } from 'faim'
+import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopSwitch, FaRichText, FaSelect, FaUpload } from 'faim'
 import FaimLocale from 'faim/dist/locale/zh-cn.mjs'
 import { createApp, h } from 'vue'
 import App from './App.vue'
@@ -201,9 +201,6 @@ const app = createApp(App)
     // 全局配置
     // 完整示例参考 ./demo/ImageUpload
     locale: FaimLocale.FaImageUpload,
-  })
-  .use(FaPopButton, {
-    // 全局配置
   })
   .use(FaPopSwitch, {
     // 全局配置
@@ -246,7 +243,7 @@ app.mount('#app')
 
 ```vue
 <script>
-import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopButton, FaPopSwitch, FaRichText, FaSelect, FaUpload } from 'faim'
+import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopSwitch, FaRichText, FaSelect, FaUpload } from 'faim'
 
 // 在 FaRichText 外部引入皮肤、主题、图标等样式资源的目的是方便用户对其进行更换
 import 'tinymce/skins/ui/oxide/skin.min.css'
@@ -256,7 +253,7 @@ import 'tinymce/icons/default/icons'
 const $swal = FaMessageBox
 
 export default {
-  components: { FaFormDialog, FaImage, FaImageUpload, FaPopButton, FaPopSwitch, FaRichText, FaSelect, FaUpload },
+  components: { FaFormDialog, FaImage, FaImageUpload, FaPopSwitch, FaRichText, FaSelect, FaUpload },
 }
 </script>
 ```
@@ -265,7 +262,7 @@ export default {
 
 ```ts
 import ElementUI from 'element-ui'
-import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopButton, FaPopSwitch, FaRichText, FaSelect, FaUpload } from 'faim'
+import { FaFormDialog, FaImage, FaImageUpload, FaMessageBox, FaPopSwitch, FaRichText, FaSelect, FaUpload } from 'faim'
 import FaimLocale from 'faim/dist/locale/zh-cn.mjs'
 import Vue from 'vue'
 import App from './App.vue'
@@ -288,9 +285,6 @@ Vue.use(FaImageUpload, {
   // 全局配置
   // 完整示例参考 ./demo/ImageUpload
   locale: FaimLocale.FaImageUpload,
-})
-Vue.use(FaPopButton, {
-  // 全局配置
 })
 Vue.use(FaPopSwitch, {
   // 全局配置
@@ -1288,41 +1282,6 @@ FaMessageBox.confirm({
   }
 })
 ```
-
-<br>
-
-## FaPopButton
-
-[el-button](https://element-plus.org/zh-CN/component/button) + [el-popconfirm](https://element-plus.org/zh-CN/component/popconfirm) + [el-popover](https://element-plus.org/zh-CN/component/popover) + [el-tooltip](https://element-plus.org/zh-CN/component/tooltip) 组合拳
-
-### 特性
-
-- 操作拦截 (`el-popconfirm` 点击确定后才会触发 `click` 事件)
-- `el-popover` 和 `el-tooltip` 的 `content` 属性均支持渲染 HTML
-- `el-tooltip` 不与 `el-popconfirm`、`el-popover` 冲突
-- `el-popconfirm`、`el-popover`、`el-tooltip` 内容为空时，默认不启用
-
-### 属性
-
-| 名称                        | 说明                                       | 类型    | 默认值  |
-| --------------------------- | ------------------------------------------ | ------- | ------- |
-| elPopconfirmProps           | `el-popconfirm` 的属性                     | object  |         |
-| elPopoverProps              | `el-popover` 的属性，支持事件绑定          | object  |         |
-| `elPopoverProps.rawContent` | `content` 中的内容是否作为 HTML 字符串处理 | boolean | `false` |
-| elTooltipProps              | `el-tooltip` 的属性                        | object  |         |
-| `elTooltipProps.rawContent` | `content` 中的内容是否作为 HTML 字符串处理 | boolean | `false` |
-| ...                         | `el-button` 的属性                         |         |         |
-
-### 事件
-
-`el-popconfirm`、`el-popover` 的事件
-
-### 插槽
-
-| 名称            | 说明                           |
-| --------------- | ------------------------------ |
-| tooltip-content | `el-tooltip` 的 `content` 插槽 |
-| popover-content | `el-popover` 的 `content` 插槽 |
 
 <br>
 
