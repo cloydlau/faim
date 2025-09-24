@@ -400,12 +400,7 @@ export default {
         return
       }
 
-      if (isVue3) {
-        this.files[this.files.length - 1] = file
-      }
-      else {
-        this.files.push(file)
-      }
+      this.files.push(file)
       this.emitInput()
       // 加 nextTick 的目的：确保添加上传文件时不产生删除动画
       this.$nextTick(() => {
@@ -542,6 +537,13 @@ export default {
     // 添加文件、上传成功和上传失败时都会被调用
     // 配置了 httpRequest 以后，只有添加文件时会被调用
     async onChange(file, _fileList) {
+      // 上传完毕前，不展示图片
+      if (isVue3) {
+        this.$refs.elUploadRef.handleRemove(file)
+      }
+      else {
+        this.$refs.elUploadRef.uploadFiles.pop()
+      }
       if (this.Editable) {
         await this.openEditor(file.raw)
       }
