@@ -62,28 +62,6 @@ export default defineConfig({
 })
 ```
 
-### Vue CLI 5
-
-```shell
-npm i faim
-npm i sass-loader -D
-```
-
-### Vue CLI 4
-
-```shell
-npm i faim
-npm i sass-loader@10 -D
-```
-
-```js
-// vue.config.js
-
-module.exports = {
-  transpileDependencies: ['faim', 'mime'],
-}
-```
-
 ### webpack
 
 ```js
@@ -109,6 +87,74 @@ module.exports = {
         loader: 'babel-loader',
       },
     ]
+  }
+}
+```
+
+### Vue CLI 5
+
+```shell
+npm i faim
+npm i sass-loader -D
+```
+
+### Vue CLI 4
+
+```shell
+npm i faim
+npm i sass-loader@10 -D
+```
+
+```js
+// vue.config.js
+
+module.exports = {
+  transpileDependencies: ['faim', 'mime'],
+}
+```
+
+### Vue ≤2
+
+```json5
+// package.json
+{
+  // npm/cnpm/bun
+  "overrides": {
+    "@vueuse/core": "^11"
+  },
+  // yarn/bun
+  "resolutions": {
+    "@vueuse/core": "^11"
+  },
+  // pnpm
+  "pnpm": {
+    "overrides": {
+      "@vueuse/core": "^11"
+    }
+  }
+}
+```
+
+缩小作用范围：
+
+```json5
+// package.json
+{
+  // npm/cnpm/bun
+  "overrides": {
+    "faim": {
+      "@vueuse/core": "^11"
+    }
+  },
+  // yarn/bun
+  "resolutions": {
+    "faim/@vueuse/core": "^11"
+  },
+  // pnpm
+  "pnpm": {
+    "overrides": {
+      "faim>@vueuse/core": "^11"
+    }
   }
 }
 ```
