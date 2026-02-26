@@ -579,7 +579,7 @@ export default {
                 }
               }
 
-              const { file, value } = await this.resolveInput(cloneDeep(res))
+              const { file, value } = await this.resolveInput(res)
               if (!file) {
                 console.error('Invalid upload result')
                 task.setProgress(100)
@@ -1047,7 +1047,7 @@ export default {
       }
       else if (Array.isArray(modelValue)) {
         for (const item of modelValue) {
-          const { file, value } = await this.resolveInput(cloneDeep(item))
+          const { file, value } = await this.resolveInput(item)
           if (file) {
             files.push(file)
             values.push(value)
@@ -1127,7 +1127,9 @@ export default {
       }
     },
     // 根据 srcAt 定位 source 在输入值中的位置，然后将绑定值转换为 files 格式
-    async resolveInput(input) {
+    async resolveInput(_input) {
+      // Blob/File cloneDeep 后会变异
+      const input = _input instanceof Blob ? _input : cloneDeep(_input)
       let source = unwrap(input, this.SrcAt)
       // Base64 无法预览、无法下载，需要转换为 Blob
       if (isBase64WithScheme(source)) {
