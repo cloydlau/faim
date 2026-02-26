@@ -2,7 +2,7 @@
   "name": "faim",
   "PascalCasedName": "Faim",
   "type": "commonjs",
-  "version": "0.13.0",
+  "version": "0.13.1",
   "private": false,
   "description": "Element Plus & Element UI isomorphic UI component library, more than Element.",
   "author": {
