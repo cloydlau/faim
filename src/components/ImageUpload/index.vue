@@ -1,4 +1,5 @@
 <script>
+/* eslint-disable financial/no-division -- Image aspect-ratio and percentage calculations require division. */
 import to from 'await-to-js'
 import { destr } from 'destr'
 import { cloneDeep } from 'lodash-es'
@@ -503,11 +504,17 @@ export default {
 
       const inputs = Array.isArray(input) ? input : [input]
       const initialEditorQueueLength = this.editor.queue.length
+      // Vue 3 的 v-model:file-list 会在 onChange 前将本次选择临时加入 files，
+      // 数量校验时需要排除这些待编辑文件，避免重复计数。
+      const committedFileCount = this.files.filter(file =>
+        !inputs.some(source => file === source || file.raw === source),
+      ).length
+      const currentEditorCount = this.editor.show && this.editor.value ? 1 : 0
 
       if (
         this.Count.max !== undefined
-        // 判断是否超过数量上限: 已有图片数量 + 编辑队列中图片数量 + 输入图片数量 > 图片数量上限
-        && (this.files.length + initialEditorQueueLength + inputs.length) > this.Count.max
+        // 已有图片 + 当前编辑图片 + 编辑队列 + 本次输入
+        && (committedFileCount + currentEditorCount + initialEditorQueueLength + inputs.length) > this.Count.max
       ) {
         throw new Error(this.onExceed())
       }
