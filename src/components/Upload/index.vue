@@ -1,4 +1,5 @@
 <script>
+/* eslint-disable financial/no-division -- Upload progress, media dimensions, and layout calculations require division. */
 import { useEventListener } from '@vueuse/core'
 import to from 'await-to-js'
 import { destr } from 'destr'

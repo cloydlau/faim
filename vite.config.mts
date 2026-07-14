@@ -1,6 +1,10 @@
 import type { SemVer } from 'semver'
 import { resolve } from 'node:path'
+// import process from 'node:process'
+// import legacy from '@vitejs/plugin-legacy'
 import vue from '@vitejs/plugin-vue'
+// import browserslistToEsbuild from 'browserslist-to-esbuild'
+import { codeInspectorPlugin } from 'code-inspector-plugin'
 import { parse } from 'semver'
 import { presetAttributify, presetUno } from 'unocss'
 import UnoCSS from 'unocss/vite'
@@ -26,6 +30,11 @@ export default defineConfig({
     alias,
   },
   plugins: [
+    codeInspectorPlugin({
+      bundler: 'vite',
+      launchType: 'open',
+      showSwitch: true,
+    }),
     {
       name: 'html-transform',
       transformIndexHtml(html: string) {
@@ -40,6 +49,7 @@ export default defineConfig({
       ],
     }),
     vue(),
+    // legacy(),
   ],
   build: {
     lib: {
@@ -47,8 +57,10 @@ export default defineConfig({
       entry: 'src/index.ts',
       fileName: 'index',
     },
+
     cssCodeSplit: true,
     sourcemap: true,
+
     rollupOptions: {
       external: [
         'vue',
@@ -64,7 +76,12 @@ export default defineConfig({
           'element-ui': 'ElementUI',
           'element-plus': 'ElementPlus',
         },
+
+        // sourcemapExcludeSources: process.env.NODE_ENV === 'prod',
       },
     },
+
+    // https://github.com/vitejs/vite/issues/11489
+    // target: browserslistToEsbuild(),
   },
 })

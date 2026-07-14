@@ -1,23 +1,22 @@
-// import path from 'node:path'
-// import { fileURLToPath } from 'node:url'
+import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 import antfu from '@antfu/eslint-config'
-// import { FlatCompat } from '@eslint/eslintrc'
+import { FlatCompat } from '@eslint/eslintrc'
 import nounsanitized from 'eslint-plugin-no-unsanitized'
 
 // mimic CommonJS variables -- not needed if using CommonJS
-// const __filename = fileURLToPath(import.meta.url)
-// const __dirname = path.dirname(__filename)
+const __filename = fileURLToPath(import.meta.url)
+const __dirname = path.dirname(__filename)
 
-/* const compat = new FlatCompat({
+const compat = new FlatCompat({
   baseDirectory: __dirname,
-}) */
+})
 
 export default antfu(
   {
     formatters: true,
     ignores: ['demo/', 'stats.html'],
     lessOpinionated: true,
-    // unocss: true,
   },
   {
     rules: {
@@ -57,5 +56,12 @@ export default antfu(
    *   // Reason for ignoring: Not related to finance, calculating xxx
    *   // eslint-disable-next-line financial/no-division (or financial/no-float-calculation)
    */
-  // ...compat.extends('plugin:financial/recommended'),
+  ...compat.extends('plugin:financial/recommended'),
+  {
+    // README contains URLs, paths, ratios, and code examples where slash syntax is intentional.
+    files: ['README.md', 'README.md/**'],
+    rules: {
+      'financial/no-division': 'off',
+    },
+  },
 )

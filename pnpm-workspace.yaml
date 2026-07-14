@@ -1,2 +1,11 @@
 packages:
   - '*'
+allowBuilds:
+  '@parcel/watcher': true
+  axios-shortcut: true
+  core-js: true
+  esbuild: true
+  json-editor-vue: true
+  simple-git-hooks: true
+  vue-demi: true
+  vue-global-config: true

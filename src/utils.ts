@@ -1,3 +1,4 @@
+/* eslint-disable financial/no-division -- Numeric range, aspect-ratio, and unit conversion helpers require division. */
 import type { ComponentPublicInstance } from 'vue-demi'
 import { at, isPlainObject } from 'lodash-es'
 import isBase64 from 'validator/es/lib/isBase64'
@@ -342,16 +343,16 @@ export function getOrigin(url: string) {
 export async function fileToBlob(file: File | Blob) {
   return file instanceof File
     ? new Promise((resolve, reject) => {
-      const fileReader = new FileReader()
-      fileReader.onerror = (e) => {
-        reject(e)
-      }
-      fileReader.onload = (e) => {
-        resolve(e.target?.result ? new Blob([e.target.result], { type: file.type }) : null)
-      }
-      // readAsArrayBuffer 支持 File 和 Blob
-      fileReader.readAsArrayBuffer(file)
-    })
+        const fileReader = new FileReader()
+        fileReader.onerror = (e) => {
+          reject(e)
+        }
+        fileReader.onload = (e) => {
+          resolve(e.target?.result ? new Blob([e.target.result], { type: file.type }) : null)
+        }
+        // readAsArrayBuffer 支持 File 和 Blob
+        fileReader.readAsArrayBuffer(file)
+      })
     : Promise.resolve(file)
 }
 
@@ -372,7 +373,7 @@ export async function blobLikeToArrayBuffer(blobLike: File | Blob) {
 export function blobToFile(blob: File | Blob, fileName?: string, fileType?: string) {
   if (!fileName) {
     const extension = blob.type.split('/')[1]
-    fileName = `${new Date().getTime().toString()}.${extension}`
+    fileName = `${Date.now().toString()}.${extension}`
   }
   return blob instanceof File ? blob : new File([blob], fileName, { type: fileType || blob.type })
 }
