@@ -1,4 +1,5 @@
 <script>
+/* eslint-disable financial/no-division -- Image geometry, aspect-ratio, scaling, and compression calculations require division. */
 import { useEventListener } from '@vueuse/core'
 import Cropper from 'cropperjs'
 import { safeDestr } from 'destr'
@@ -14,6 +15,8 @@ function initialSettings() {
   return {
     rotateDegree: 0,
     quality: 1,
+    compressionMode: 'quality',
+    inputMaxSizeKB: undefined,
     isAspectRatioLocked: false,
   }
 }
@@ -76,6 +79,12 @@ export default {
     },
     isHeightSpecified() {
       return Boolean(this.height.target)
+    },
+    isMaxSizeSpecified() {
+      return Boolean(this.size.max)
+    },
+    effectiveMaxSize() {
+      return this.size.max || (this.compressionMode === 'size' && this.inputMaxSizeKB ? this.inputMaxSizeKB * 1024 : undefined)
     },
     // 传参指定的比例
     specifiedAspectRatio() {
@@ -193,8 +202,9 @@ export default {
         this.cropper.replace(this.localURL) // replace 后触发 initCropBox（参数为 Base64 类型才会触发）
       }
       else {
+        const { fullscreen } = this
         this.$nextTick(() => {
-          Object.assign(this.$data, initialState())
+          Object.assign(this.$data, initialState(), { fullscreen })
         })
       }
     },
@@ -230,6 +240,8 @@ export default {
     initSetting() {
       this.cropper.setAspectRatio(this.isAspectRatioSpecified ? this.specifiedAspectRatio : null)
       this.isAspectRatioLocked = this.isAspectRatioSpecified
+      this.inputMaxSizeKB = this.size.max ? Math.round(this.size.max / 1024) : undefined
+      this.compressionMode = this.size.max ? 'size' : 'quality'
       let defaultWidth = this.imageTag.width
       let defaultHeight = this.imageTag.height
       if (this.isAspectRatioLocked && this.lockedAspectRatio) {
@@ -246,7 +258,7 @@ export default {
       this.inputHeight = this.height.target ?? defaultHeight
       // 1 会导致图片在尺寸降低的基础上，大小不降反增
       this.$nextTick(() => {
-        this.quality = (this.isCompressible && (this.sizeTooltip || this.shouldCrop())) ? 0.92 : 1
+        this.quality = (this.isCompressible && this.shouldCrop()) ? 0.92 : 1
       })
     },
     // 先设置裁剪框的比例，后设置裁剪框的位置
@@ -361,6 +373,11 @@ export default {
         }
       }
     },
+    onMaxSizeChange(value) {
+      this.inputMaxSizeKB = value === '' || value === undefined || value === null
+        ? undefined
+        : Math.max(1, Math.round(Number(value)))
+    },
     onIsAspectRatioSpecifiedChange() {
       const cropBoxData = this.cropper.getCropBoxData()
       // setAspectRatio 会改变裁剪框
@@ -390,9 +407,9 @@ export default {
     },
     getSizeTooltip(blobLike) {
       if (blobLike) {
-        if (this.size.max && this.size.max < blobLike.size) {
-          // return `大小上限为${this.size.maxLabel}，${(this.isWidthSpecified || this.isHeightSpecified) ? (this.quality === 0 ? '原图过大，请更换图片' : '请降低图片品质') : '请降低图片尺寸或品质'}`
-          return this.locale.maxSizeExceeded.replaceAll('{maxSize}', this.size.maxLabel)
+        const maxSizeTooltip = this.getMaxSizeTooltip(blobLike)
+        if (maxSizeTooltip) {
+          return maxSizeTooltip
         }
         if (this.size.min && this.size.min > blobLike.size) {
           // return `大小下限为${this.size.minLabel}，${(this.isWidthSpecified || this.isHeightSpecified) ? (this.quality === 1 ? '原图过小，请更换图片' : '请提升图片品质') : '请提升图片尺寸或品质'}`
@@ -400,7 +417,21 @@ export default {
         }
       }
     },
+    getMaxSizeTooltip(blobLike) {
+      if (blobLike && this.effectiveMaxSize && this.effectiveMaxSize < blobLike.size) {
+        // return `大小上限为${this.size.maxLabel}，${(this.isWidthSpecified || this.isHeightSpecified) ? (this.quality === 0 ? '原图过大，请更换图片' : '请降低图片品质') : '请降低图片尺寸或品质'}`
+        return this.locale.maxSizeExceeded.replaceAll(
+          '{maxSize}',
+          this.size.max ? this.size.maxLabel : sizeToLabel(this.effectiveMaxSize),
+        )
+      }
+    },
     shouldCrop() {
+      return this.shouldTransform()
+        // 原图超过上限时也需要先生成编辑后的候选结果，再决定是否继续压缩。
+        || (this.compressionMode === 'size' && this.effectiveMaxSize && this.blobLike.size > this.effectiveMaxSize)
+    },
+    shouldTransform() {
       // 可能编辑器已关闭
       if (!this.cropper) {
         return false
@@ -463,98 +494,144 @@ export default {
             maxHeight: this.height.max,
             fillColor: this.blobLike.type === 'image/jpeg' ? '#fff' : undefined,
           })
-          if (this.blobLike.type === 'image/png') {
-            try {
-              const imgs = [canvas.getContext('2d').getImageData(0, 0, this.inputWidth, this.inputHeight).data.buffer]
-              // this.submitting = true 视图不更新
-              setTimeout(() => {
-                const arrayBuffer = UPNG.encode(
-                  imgs,
-                  this.inputWidth,
-                  this.inputHeight,
-                  // cnum ≤ 1 时无损
-                  this.quality === 1 ? 0 : Math.max(Math.floor(this.cnum * this.quality), 2),
-                )
-                this.doConfirm(new Blob([arrayBuffer], { type: this.blobLike.type }), resolve, reject)
-              }, 0)
-            }
-            catch (e) {
-              FaMessageBox.error(this.locale.exportError)
+          const encode = this.compressionMode === 'size' && this.effectiveMaxSize
+            ? this.encodeToMaxSize(canvas)
+            : this.encodeCanvas(canvas, this.quality).then(blob => ({ blob, quality: this.quality }))
+
+          encode
+            .then(({ blob, quality }) => {
+              this.quality = quality
+              this.doConfirm(blob, resolve, reject)
+            })
+            .catch((e) => {
+              FaMessageBox.error(e.message || this.locale.exportError)
               this.submitting = false
               reject(e)
-            }
-          }
-          else {
-            canvas.toBlob(
-              (blob) => {
-                if (blob) {
-                  this.doConfirm(blob, resolve, reject)
-                }
-                else {
-                  FaMessageBox.error(this.locale.exportError)
-                  this.submitting = false
-                  reject(new Error(this.locale.exportError))
-                }
-              },
-              // 如果旋转角度不为直角，则图片一定会出现空白区域，空白区域默认透明，使用 png 格式
-              // this.rotateDegree % 90 === 0 ? this.blobLike.type : 'image/png',
-              this.outputType || this.blobLike.type,
-              // 质量
-              // jpg 默认 0.92，webp 默认 0.8
-              this.quality,
-            )
-          }
+            })
         }
         else {
-          // 大小校验
-          if (this.sizeTooltip) {
-            FaMessageBox.warning({
-              html: `<div style="text-align:center">${this.sizeTooltip}</div>`,
-            })
-            reject(new Error(this.sizeTooltip))
-          // 自定义校验
-          }
-          else if (!this.validator(this.blobLike)) {
-            reject(new Error('Validation failed'))
-          }
-          else {
-            this.reset()
-            this.$emit('confirm', this.value)
-            // Closing is decided by the parent component based on the length of queue
-            resolve({ show: true })
-          }
+          this.doConfirm(this.blobLike, resolve, reject, this.value)
         }
       })
     },
-    doConfirm(blob, resolve, reject) {
+    encodeCanvas(canvas, quality) {
+      return new Promise((resolve, reject) => {
+        if (this.blobLike.type === 'image/png') {
+          // PNG 编码较耗时，让出主线程以便提交状态先更新。
+          setTimeout(() => {
+            try {
+              const { width, height } = canvas
+              const imgs = [canvas.getContext('2d').getImageData(0, 0, width, height).data.buffer]
+              const arrayBuffer = UPNG.encode(
+                imgs,
+                width,
+                height,
+                // cnum ≤ 1 时无损
+                quality === 1 ? 0 : Math.max(Math.floor(this.cnum * quality), 2),
+              )
+              resolve(new Blob([arrayBuffer], { type: this.blobLike.type }))
+            }
+            catch (e) {
+              reject(e)
+            }
+          }, 0)
+          return
+        }
+
+        canvas.toBlob(
+          (blob) => {
+            if (blob) {
+              resolve(blob)
+            }
+            else {
+              reject(new Error(this.locale.exportError))
+            }
+          },
+          // 如果旋转角度不为直角，则图片一定会出现空白区域，空白区域默认透明，使用 png 格式
+          // this.rotateDegree % 90 === 0 ? this.blobLike.type : 'image/png',
+          this.outputType || this.blobLike.type,
+          // jpg 默认 0.92，webp 默认 0.8
+          quality,
+        )
+      })
+    },
+    async encodeToMaxSize(canvas) {
+      const maxSize = this.effectiveMaxSize
+      const defaultQualityBlob = await this.encodeCanvas(canvas, this.quality)
+      // 默认品质已经满足大小上限时，不再降低品质。
+      if (defaultQualityBlob.size <= maxSize) {
+        return { blob: defaultQualityBlob, quality: this.quality }
+      }
+
+      const lowestQualityBlob = await this.encodeCanvas(canvas, 0)
+      if (lowestQualityBlob.size > maxSize) {
+        throw new Error(this.getMaxSizeTooltip(lowestQualityBlob))
+      }
+
+      // 以整数百分比寻找不超过大小上限的最高品质。
+      let low = 1
+      let high = Math.max(Math.ceil(this.quality * 100) - 1, 0)
+      let result = { blob: lowestQualityBlob, quality: 0 }
+      while (low <= high) {
+        const qualityPercent = Math.floor((low + high) / 2)
+        const quality = qualityPercent / 100
+        const blob = await this.encodeCanvas(canvas, quality)
+        if (blob.size <= maxSize) {
+          result = { blob, quality }
+          low = qualityPercent + 1
+        }
+        else {
+          high = qualityPercent - 1
+        }
+      }
+      return result
+    },
+    doConfirm(blob, resolve, reject, originalOutput) {
       // 如果输入为 File 类型，则输出也应为 File 类型，避免 name 丢失
       const blobLike = this.blobLike instanceof File
         ? blobToFile(blob, this.blobLike.name, this.outputType)
         : blob
+      const output = originalOutput === undefined ? blobLike : originalOutput
 
       // 大小校验
       const sizeDiffText = this.getSizeDiffText(this.blobLike.size, blobLike.size)
+
       const sizeTooltip = this.getSizeTooltip(blobLike)
       if (sizeTooltip) {
         FaMessageBox.warning({
           html: `<div style="text-align:center">${sizeDiffText}</div>
                  <div style="text-align:center">${sizeTooltip}</div>`,
         })
+        this.submitting = false
         reject(new Error(sizeTooltip))
       // 自定义校验
       }
-      else if (!this.validator(blobLike)) {
+      else {
+        this.showSizeDiff(sizeDiffText)
+        this.completeConfirm(output, blobLike, resolve, reject)
+      }
+    },
+    completeConfirm(output, blobLike, resolve, reject) {
+      if (!this.validator(blobLike)) {
         reject(new Error('Validation failed'))
       }
       else {
-        console.info(sizeDiffText)
         this.reset()
-        this.$emit('confirm', blobLike)
+        this.$emit('confirm', output)
         // Closing is decided by the parent component based on the length of queue
         resolve({ show: true })
       }
 
       this.submitting = false
+    },
+    showSizeDiff(sizeDiffText) {
+      console.info(sizeDiffText)
+      this.$notify?.({
+        customClass: 'fa-image-editor-size-notification',
+        title: this.locale.size,
+        message: sizeDiffText,
+        type: 'info',
+      })
     },
     flipX() {
       this.flippedX = !this.flippedX
@@ -660,7 +737,7 @@ export default {
     v-on="isVue3 ? {} : $listeners"
   >
     <div
-      :style="{ height: `${fullscreen ? '700' : '500'}px`, overflow: 'hidden' }"
+      :style="{ height: `${fullscreen ? '680' : '500'}px`, overflow: 'hidden' }"
     >
       <img
         ref="imgRef"
@@ -790,27 +867,6 @@ export default {
 
       <el-form-item>
         <template #label>
-          {{ locale.size }}
-        </template>
-        <el-tooltip
-          v-if="Boolean(originalSizeLabel)"
-          :disabled="!sizeTooltip"
-          effect="dark"
-          placement="top"
-        >
-          <template #content>
-            {{ sizeTooltip }}
-          </template>
-          <el-tag
-            v-if="originalSizeLabel"
-            :type="sizeTooltip ? 'danger' : 'success'"
-          >
-            {{ originalSizeLabel }}
-          </el-tag>
-        </el-tooltip>
-      </el-form-item>
-      <el-form-item>
-        <template #label>
           {{ locale.width }}
         </template>
         <el-input-number
@@ -853,7 +909,7 @@ export default {
 
       <el-form-item>
         <template #label>
-          {{ locale.quality }}
+          {{ locale.compression }}
         </template>
         <el-tooltip
           :disabled="isCompressible"
@@ -863,16 +919,67 @@ export default {
           <template #content>
             {{ compressTooltip }}
           </template>
-          <el-slider
-            v-model="quality"
-            :disabled="!isCompressible"
-            class="quality"
-            :min="0"
-            :max="1"
-            :step="0.01"
-            :size="isVue3 ? 'small' : 'mini'"
-            placement="right"
-          />
+          <div class="compression-control">
+            <el-tooltip
+              v-if="Boolean(originalSizeLabel)"
+              :disabled="!sizeTooltip"
+              effect="dark"
+              placement="top"
+            >
+              <template #content>
+                {{ sizeTooltip }}
+              </template>
+              <el-tag
+                :type="sizeTooltip ? 'danger' : 'success'"
+                class="original-size"
+              >
+                <span>{{ locale.original }}</span>
+                {{ originalSizeLabel }}
+              </el-tag>
+            </el-tooltip>
+            <span class="compression-arrow">➜</span>
+            <el-radio-group
+              v-model="compressionMode"
+              :disabled="!isCompressible"
+              :size="isVue3 ? 'small' : 'mini'"
+            >
+              <el-radio-button label="quality">
+                {{ locale.quality }}
+              </el-radio-button>
+              <el-radio-button label="size">
+                {{ locale.size }}
+              </el-radio-button>
+            </el-radio-group>
+            <el-slider
+              v-if="compressionMode === 'quality'"
+              v-model="quality"
+              :disabled="!isCompressible"
+              class="quality"
+              :min="0"
+              :max="1"
+              :step="0.01"
+              :size="isVue3 ? 'small' : 'mini'"
+              placement="right"
+            />
+            <div
+              v-else
+              class="max-size"
+            >
+              <el-input
+                v-model.number="inputMaxSizeKB"
+                :disabled="!isCompressible || isMaxSizeSpecified"
+                type="number"
+                :min="1"
+                :step="10"
+                :size="isVue3 ? 'small' : 'mini'"
+                @change="onMaxSizeChange"
+              >
+                <template #append>
+                  K
+                </template>
+              </el-input>
+            </div>
+          </div>
         </el-tooltip>
       </el-form-item>
     </el-form>
@@ -887,6 +994,35 @@ export default {
 
 .quality.el-slider {
   width: 100px;
+}
+
+.compression-control,
+.max-size {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.compression-control {
+  white-space: nowrap;
+}
+
+.original-size span,
+.compression-arrow {
+  color: #a8abb2;
+}
+
+.max-size {
+  width: 100px;
+}
+
+.max-size .el-input {
+  flex: 1;
+  width: 0;
+}
+
+.max-size :deep(.el-input-group__append) {
+  padding: 0 8px;
 }
 
 .dimension.el-input-number {
@@ -930,6 +1066,16 @@ export default {
   .cropper-hidden {
     display: none !important;
     max-height: 100% !important;
+  }
+}
+
+.fa-image-editor-size-notification {
+  width: max-content;
+  min-width: 330px;
+  max-width: calc(100vw - 32px);
+
+  .el-notification__content {
+    white-space: nowrap;
   }
 }
 </style>

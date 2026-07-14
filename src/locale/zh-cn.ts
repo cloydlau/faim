@@ -17,6 +17,8 @@ export default {
     minSizeExceeded: '大小不能低于：{minSize}\n请提升图片尺寸或品质',
     maxSizeExceeded: '大小不能高于：{maxSize}\n请降低图片尺寸或品质',
     sizeTip: '原图大小：{inputSize} ➜ 编辑后：{outputSize}',
+    compression: '压缩',
+    original: '原图',
     quality: '品质',
 
     width: '宽度',

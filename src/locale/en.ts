@@ -15,6 +15,8 @@ export default {
     minSizeExceeded: 'Minimum size is {minSize}\nplease enhance image dimension or quality',
     maxSizeExceeded: 'Maximum size is {maxSize}\nplease lower image dimension or quality',
     sizeTip: 'Input size: {inputSize} ➜ output size: {outputSize}',
+    compression: 'Compression',
+    original: 'Original',
     quality: 'Quality',
 
     width: 'Width',
