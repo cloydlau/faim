@@ -77,7 +77,7 @@ export default {
       default: undefined,
     }])),
   },
-  emits: [model.event, 'update:show', 'fullscreenChange'],
+  emits: [model.event, 'update:show', 'fullscreenChange', 'opened', 'close', 'closed'],
   data() {
     return {
       initialValue: undefined,
@@ -92,6 +92,7 @@ export default {
       labelWidth: undefined,
       key: 0,
       isVue3,
+      isUnmounting: false,
     }
   },
   computed: {
@@ -106,7 +107,12 @@ export default {
       })
     },
     Listeners() {
-      return getListeners.call(this, globalListeners)
+      const listeners = { ...getListeners.call(this, globalListeners) }
+      // 这些事件由组件显式转发，以便过滤 HMR 卸载产生的关闭事件。
+      delete listeners.opened
+      delete listeners.close
+      delete listeners.closed
+      return listeners
     },
     Slots() {
       return conclude([isVue3 ? this.$slots : this.$scopedSlots, globalSlots])
@@ -270,6 +276,12 @@ export default {
   mounted() {
     this.initialValue = cloneDeep(this[model.prop])
   },
+  beforeUnmount() {
+    this.isUnmounting = true
+  },
+  beforeDestroy() {
+    this.isUnmounting = true
+  },
   updated() {
     this.computeLabelWidth()
   },
@@ -313,6 +325,10 @@ export default {
       }
     },
     onClose() {
+      if (this.isUnmounting) {
+        return
+      }
+      this.$emit('close')
       // 首次不执行
       if (this.initiated) {
         this.closing = true
@@ -323,6 +339,9 @@ export default {
       }
     },
     onClosed() {
+      if (this.isUnmounting) {
+        return
+      }
       this.$emit(model.event, cloneDeep(this.initialValue))
       this.$refs[this.ElFormProps.ref]?.clearValidate()
       this.confirming = false
@@ -333,6 +352,12 @@ export default {
       // 改为 closed 时改变，提升性能，在 DOM 较多时感受明显
       if (this.destroyOnClose) {
         this.key++
+      }
+      this.$emit('closed')
+    },
+    onOpened() {
+      if (!this.isUnmounting) {
+        this.$emit('opened')
       }
     },
     /* cancel() {
@@ -417,6 +442,7 @@ export default {
       :fullscreen="isFullscreen"
       class="fa-form-dialog"
       v-on="Listeners"
+      @opened="onOpened"
       @close="onClose"
       @closed="onClosed"
     >
