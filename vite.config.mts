@@ -1,7 +1,5 @@
 import type { SemVer } from 'semver'
 import { resolve } from 'node:path'
-// import process from 'node:process'
-// import legacy from '@vitejs/plugin-legacy'
 import vue from '@vitejs/plugin-vue'
 // import browserslistToEsbuild from 'browserslist-to-esbuild'
 import { codeInspectorPlugin } from 'code-inspector-plugin'
@@ -49,7 +47,6 @@ export default defineConfig({
       ],
     }),
     vue(),
-    // legacy(),
   ],
   build: {
     lib: {
@@ -61,7 +58,7 @@ export default defineConfig({
     cssCodeSplit: true,
     sourcemap: true,
 
-    rollupOptions: {
+    rolldownOptions: {
       external: [
         'vue',
         'vue-demi',

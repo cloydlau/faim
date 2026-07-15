@@ -1,11 +1,13 @@
 packages:
   - '*'
 allowBuilds:
+  '@code-inspector/core': true
   '@parcel/watcher': true
   axios-shortcut: true
   core-js: true
   esbuild: true
   json-editor-vue: true
+  node-pty: true
   simple-git-hooks: true
   vue-demi: true
   vue-global-config: true

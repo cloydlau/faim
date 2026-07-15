@@ -1,13 +1,13 @@
 import fs from 'node:fs'
+import { cyan } from 'ansis'
 import spawn from 'cross-spawn'
-import { destr } from 'destr'
 // import { deleteAsync } from 'del'
-import { cyan } from 'kolorist'
 import prompts from 'prompts'
 import * as semver from 'semver'
 
 const docsPath = ['./README.md']
 
+// 执行发版流程：校验、选择版本、生成变更日志、提交并发布到 npm
 async function release() {
   console.info(cyan('\nFetching origin...'))
   if (spawn.sync('git', ['pull'], { stdio: 'inherit' }).status === 1) {
@@ -15,28 +15,23 @@ async function release() {
   }
 
   console.info(cyan('\nLinting staged...'))
-  if (spawn.sync('npx', ['lint-staged'], { stdio: 'inherit' }).status === 1) {
+  if (spawn.sync('pnpm', ['exec', 'lint-staged'], { stdio: 'inherit' }).status === 1) {
     return
   }
 
-  console.info(cyan('\nBuilding...'))
-  if (spawn.sync('pnpm', ['build'], { stdio: 'inherit' }).status === 1) {
+  console.info(cyan('\nPublinting...'))
+  if (spawn.sync('pnpm', ['exec', 'publint'], { stdio: 'inherit' }).status === 1) {
     return
   }
-
-  /* console.info(cyan('\nPublinting...'))
-  if (spawn.sync('npx', ['publint'], { stdio: 'inherit' }).status === 1) {
-    return
-  } */
 
   /* console.info(cyan('\nAnalyzing types...'))
-  const attw = spawn.sync('npx', ['attw', '$(npm pack)'], { stdio: 'inherit' })
+  const attw = spawn.sync('pnpm', ['exec', 'attw', '$(npm pack)'], { stdio: 'inherit' })
   await deleteAsync(['./*.tgz'])
   if (attw.status === 1) {
     return
   } */
 
-  const npmConfig = destr(fs.readFileSync('./package.json', 'utf-8')) as Record<string, string>
+  const npmConfig = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
   const { name, version: currentVersion } = npmConfig
 
   const choices = Array.from(['patch', 'minor', 'major', 'prerelease', 'prepatch', 'preminor', 'premajor', 'custom'], title => ({
@@ -92,16 +87,31 @@ async function release() {
     throw new Error(`invalid target version: ${targetVersion}`)
   }
 
+  let account = spawn.sync('npm', ['whoami', '--registry=https://registry.npmjs.org']).stdout.toString().trim()
+
+  if (!account) {
+    console.info(cyan('\nNot logged in to npm, please login first:'))
+    if (spawn.sync('npm', ['login', '--registry=https://registry.npmjs.org'], { stdio: 'inherit' }).status === 1) {
+      return
+    }
+    account = spawn.sync('npm', ['whoami', '--registry=https://registry.npmjs.org']).stdout.toString().trim()
+    if (!account) {
+      console.error('Login failed, aborting release.')
+      return
+    }
+  }
+
   const { yes } = await prompts({
     type: 'confirm',
     name: 'yes',
-    message: `Releasing v${targetVersion}. Confirm?`,
+    message: `Releasing v${targetVersion} under this account: ${account}. Confirm?`,
   })
 
   if (!yes) {
     return
   }
 
+  // minor/major 升级时，同步更新文档中的版本引用
   if (['minor', 'major'].includes(releaseType)) {
     const parsedTargetVersion = semver.parse(targetVersion)
     if (parsedCurrentVersion && parsedTargetVersion) {
@@ -115,6 +125,9 @@ async function release() {
 
   npmConfig.version = targetVersion
   fs.writeFileSync('./package.json', JSON.stringify(npmConfig, null, 2))
+
+  // console.info(cyan('\nGenerating changelog...'))
+  // spawn.sync('node', ['./scripts/changelog.mjs'], { stdio: 'inherit' })
 
   console.info(cyan('\nCommitting...'))
   if (spawn.sync('git', ['add', '-A'], { stdio: 'inherit' }).status === 1) {
@@ -140,17 +153,17 @@ async function release() {
 
   console.info(cyan('\nPublishing to npm...'))
   if (spawn.sync('npm', ['publish', '--registry=https://registry.npmjs.org', '--access=public'], { stdio: 'inherit' }).status === 1) {
+    console.info(cyan('\nPublish failed. You can retry manually:\n'))
+    console.info('  npm publish --registry=https://registry.npmjs.org --access=public')
+    console.info('  pnpm exec cnpm sync')
+    console.info(`  curl -L https://npmmirror.com/sync/${name}`)
     return
   }
 
+  // 异步触发 cnpm 镜像同步，无需等待完成
   console.info(cyan('\nSync to cnpm...'))
-  spawn('npx', ['cnpm', 'sync'], { stdio: 'inherit' })
-  spawn('curl', ['-L', 'https://npmmirror.com/sync/faim'], { stdio: 'inherit' })
+  spawn('pnpm', ['exec', 'cnpm', 'sync'], { stdio: 'inherit' })
+  spawn('curl', ['-L', `https://npmmirror.com/sync/${name}`], { stdio: 'inherit' })
 }
 
-try {
-  release()
-}
-catch (e) {
-  console.error(e)
-}
+release().catch(console.error)
