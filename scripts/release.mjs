@@ -14,6 +14,11 @@ async function release() {
     return
   }
 
+  console.info(cyan('\nChecking dependency constraints...'))
+  if (spawn.sync('pnpm', ['check:dependencies'], { stdio: 'inherit' }).status === 1) {
+    return
+  }
+
   console.info(cyan('\nLinting staged...'))
   if (spawn.sync('pnpm', ['exec', 'lint-staged'], { stdio: 'inherit' }).status === 1) {
     return
