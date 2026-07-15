@@ -15,7 +15,6 @@ const compat = new FlatCompat({
 export default antfu(
   {
     formatters: true,
-    ignores: ['demo/', 'stats.html'],
     lessOpinionated: true,
   },
   {

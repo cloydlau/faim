@@ -7,6 +7,7 @@
 .vitepress/cache
 coverage
 dist
+dist.demo
 node_modules
 .pnpm-store
 project.private.config.json

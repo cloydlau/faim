@@ -1,3 +1,4 @@
+/* eslint-disable financial/no-division -- Multipart file sizing is non-financial byte arithmetic and does not require decimal-safe division. */
 export const RETRY_MAX = 3
 export const CONFIG_ID = 23 // OSS ID
 export const MB = 1024 ** 2

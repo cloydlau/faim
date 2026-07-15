@@ -41,6 +41,7 @@ export default {
       ...data,
     })
   },
+  expose: ['show', 'type', 'editor'],
   /* props: {
     editor: {
       required: true,
@@ -55,7 +56,6 @@ export default {
       formData: createInitialFormData(),
     }
   },
-  expose: ['show', 'type', 'editor'],
   methods: {
     confirm() {
       let content = ''

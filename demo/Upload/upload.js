@@ -1,6 +1,7 @@
+/* eslint-disable financial/no-division -- Upload progress uses non-financial byte ratios that do not require decimal-safe arithmetic. */
+import to from 'await-to-js'
 import { POST } from '@/utils/http'
 import createMQ from '@/utils/mq'
-import to from 'await-to-js'
 import { CONFIG_ID, RETRY_MAX } from './presets'
 
 // 初始化前端消息队列

@@ -1,9 +1,10 @@
-import { POST } from '@/utils/http'
-
+/* eslint-disable financial/no-division -- Upload progress is a non-financial ratio and does not require decimal-safe arithmetic. */
 // 皮肤
 // '?raw' 是 Vite 语法，在 webpack 中请使用 https://github.com/webpack-contrib/raw-loader
 import contentCSS from 'tinymce/skins/content/default/content.min.css?raw'
+
 import contentUICSS from 'tinymce/skins/ui/oxide/content.min.css?raw'
+import { POST } from '@/utils/http'
 
 // 深色模式
 /* import 'tinymce/skins/ui/oxide-dark/skin.min.css' // 皮肤

@@ -1,3 +1,4 @@
+/* eslint-disable financial/no-division -- Canvas positioning is non-financial geometry and does not require decimal-safe arithmetic. */
 export default function modifyQRCode(src) {
   // 二维码画布
   const width = 444
