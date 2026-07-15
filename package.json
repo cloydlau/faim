@@ -57,6 +57,7 @@
   "scripts": {
     "dev": "esno ./scripts/dev.mts",
     "update": "esno ./scripts/update.mjs",
+    "check:dependencies": "node ./scripts/check-dependencies.mjs",
     "build": "npx unbuild",
     "preview": "vite preview",
     "release": "esno ./scripts/release.mts",

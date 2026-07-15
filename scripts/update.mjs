@@ -1,28 +1,59 @@
 import fs from 'node:fs'
+import process from 'node:process'
 import spawn from 'cross-spawn'
+import ncu from 'npm-check-updates'
+import { minVersion } from 'semver'
+import { dependencyConstraints } from './dependency-constraints.mjs'
 
 console.info('正在更新所有依赖...')
-spawn.sync('pnpm', ['up', '--latest'], { stdio: 'inherit' })
+const excludedDependencies = Object.keys(dependencyConstraints).map(name => `!${name}`)
+const updateResult = spawn.sync('nup', ['-L', ...excludedDependencies], { stdio: 'inherit' })
+if (updateResult.status !== 0) {
+  process.exit(updateResult.status ?? 1)
+}
 
 const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'))
 
-const versionsToModify = {
-  cropperjs: '^1',
-  tinymce: '^6',
-}
+for (const [pkg, allowedRange] of Object.entries(dependencyConstraints)) {
+  const dependencyType = packageJson.dependencies?.[pkg]
+    ? 'dependencies'
+    : packageJson.devDependencies?.[pkg]
+      ? 'devDependencies'
+      : undefined
 
-for (const [pkg, version] of Object.entries(versionsToModify)) {
-  if (packageJson.dependencies?.[pkg]) {
-    packageJson.dependencies[pkg] = version
-    console.info(`已修改 dependencies.${pkg} 为 ${version}`)
+  if (!dependencyType) {
+    throw new Error(`未找到依赖 ${pkg}`)
   }
-  if (packageJson.devDependencies?.[pkg]) {
-    packageJson.devDependencies[pkg] = version
-    console.info(`已修改 devDependencies.${pkg} 为 ${version}`)
+
+  const major = minVersion(allowedRange)?.major
+  if (major === undefined) {
+    throw new Error(`无法解析 ${pkg} 的版本范围 ${allowedRange}`)
   }
+
+  const upgrades = await ncu({
+    cooldown: '1d',
+    packageData: {
+      [dependencyType]: {
+        [pkg]: `${major}.0.0`,
+      },
+    },
+    packageManager: 'pnpm',
+    target: 'minor',
+    jsonUpgraded: true,
+    silent: true,
+  })
+  const latestVersion = upgrades?.[pkg] ?? `${major}.0.0`
+  const rangePrefix = allowedRange.match(/^[~^]/)?.[0] ?? ''
+  const latestRange = `${rangePrefix}${latestVersion}`
+
+  packageJson[dependencyType][pkg] = latestRange
+  console.info(`已选择 ${pkg}@${latestRange}`)
 }
 
 fs.writeFileSync('package.json', `${JSON.stringify(packageJson, null, 2)}\n`)
 
 console.info('\n正在安装依赖...')
-spawn('pnpm', ['install'], { stdio: 'inherit' })
+const installResult = spawn.sync('pnpm', ['install'], { stdio: 'inherit' })
+if (installResult.status !== 0) {
+  process.exit(installResult.status ?? 1)
+}

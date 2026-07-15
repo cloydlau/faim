@@ -1,12 +1,12 @@
 // pnpm i only-allow esno prompts cross-spawn kolorist magicast del -D -w
 
-import type { ASTNode } from 'magicast'
 import fs from 'node:fs'
 import spawn from 'cross-spawn'
 import { destr } from 'destr'
 import { cyan } from 'kolorist'
 import { loadFile, writeFile } from 'magicast'
 import { addVitePlugin } from 'magicast/helpers'
+import ncu from 'npm-check-updates'
 import prompts from 'prompts'
 
 type VueVersion = '3' | '2.7' | '2.6'
@@ -85,6 +85,48 @@ const toPackageOptions: Record<VueVersion, Record<string, Record<string, any>>> 
   },
 }
 
+/**
+ * 将依赖配置中的 latest 标签解析为满足冷却期的具体版本。
+ * @param packageOptions 当前 Vue 版本对应的依赖配置
+ */
+async function resolveLatestDependencies(packageOptions: Record<string, Record<string, any>>) {
+  const packageData: Record<string, Record<string, string>> = {}
+  const latestDependencies: Array<{ option: string, name: string }> = []
+
+  for (const [option, dependencies] of Object.entries(packageOptions)) {
+    for (const [name, version] of Object.entries(dependencies)) {
+      if (version === 'latest') {
+        packageData[option] ||= {}
+        packageData[option][name] = '0.0.0'
+        latestDependencies.push({ option, name })
+      }
+    }
+  }
+
+  if (!latestDependencies.length) {
+    return
+  }
+
+  const upgrades = await ncu({
+    cooldown: '1d',
+    packageData,
+    packageManager: 'pnpm',
+    target: 'latest',
+    jsonUpgraded: true,
+    silent: true,
+  }) as Record<string, string>
+
+  for (const { option, name } of latestDependencies) {
+    const version = upgrades[name]
+    if (!version) {
+      throw new Error(`无法获取 ${name} 的最新版本`)
+    }
+    packageOptions[option][name] = version
+    console.info(cyan(`Resolved ${name}@${version}`))
+  }
+}
+
+// 切换开发环境的 Vue 版本并启动 Vite。
 async function dev() {
   const { targetVersion }: { targetVersion: VueVersion } = await prompts({
     type: 'select',
@@ -96,6 +138,8 @@ async function dev() {
   if (!targetVersion) {
     return
   }
+
+  await resolveLatestDependencies(toPackageOptions[targetVersion])
 
   console.info(cyan('Fetching origin...'))
   spawn('git', ['pull'], { stdio: 'inherit' })
@@ -144,7 +188,7 @@ async function dev() {
     })
   }
 
-  await writeFile(mod as unknown as ASTNode, './vite.config.mts')
+  await writeFile(mod, './vite.config.mts')
   spawn('npx', ['eslint', './vite.config.mts', '--fix'], { stdio: 'inherit' })
 
   let isDepsChanged = false
@@ -237,7 +281,7 @@ async function dev() {
 }
 
 try {
-  dev()
+  await dev()
 }
 catch (e) {
   console.error(e)
