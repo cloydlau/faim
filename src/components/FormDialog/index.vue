@@ -508,7 +508,7 @@ export default {
         <div
           ref="overlayScrollbar"
           style="overflow-y: auto; padding: 10px 20px 40px 40px; max-height:calc(100vh - 54.5px);"
-          :style="{ paddingBottom: isFullscreen ? '40px' : '60px' }"
+          :style="{ paddingBottom: isFullscreen ? '40px' : (isVue3 ? '60px' : '70px') }"
         >
           <el-form
             v-if="ValueIsPlainObject"
