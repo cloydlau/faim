@@ -294,7 +294,8 @@ export default {
       this.isFullscreen = newValue
       this.$nextTick(() => {
         window.dispatchEvent(new Event('resize'))
-        this.$emit('fullscreenChange', this.isFullscreen)
+        // Vue 3 会归一化事件名；Vue 2 必须与监听方写法一致，这里统一抛 kebab-case
+        this.$emit(isVue3 ? 'fullscreenChange' : 'fullscreen-change', this.isFullscreen)
       })
     },
     // fix: https://github.com/ElemeFE/element/issues?q=label+width+auto
