@@ -1,9 +1,9 @@
 <script>
 import to from 'await-to-js'
 import { destr } from 'destr'
+import { filesize } from 'filesize'
 import { cloneDeep } from 'lodash-es'
 import mime from 'mime'
-import { filesize } from 'filesize'
 import Sortable from 'sortablejs'
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'

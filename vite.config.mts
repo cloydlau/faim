@@ -16,9 +16,7 @@ const { major, minor } = parse(version) as SemVer
 // 使用时间戳目录替代文件名 hash，使静态资源缓存随每次构建失效
 const lastBuildTime = dayjs().format('YYYY-MM-DD_HH-mm-ss')
 
-/**
- * 创建无 hash 的演示站点资源输出配置。
- */
+// 创建无 hash 的演示站点资源输出配置。
 function createDemoOutputOptions() {
   return {
     entryFileNames: `${lastBuildTime}/[name].js`,
