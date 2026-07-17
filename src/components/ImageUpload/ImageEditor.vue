@@ -741,7 +741,7 @@ export default {
     v-on="isVue3 ? {} : $listeners"
   >
     <div
-      :style="{ height: `${fullscreen ? '680' : '500'}px`, overflow: 'hidden' }"
+      :style="{ height: `${fullscreen ? (isVue3 ? '680' : '660') : '500'}px`, overflow: 'hidden' }"
     >
       <img
         ref="imgRef"
