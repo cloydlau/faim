@@ -1,10 +1,10 @@
-import { POST } from '@/utils/http'
+import { $postForm } from '@/utils/http'
 import FaimLocale from '../../src/locale/zh-cn'
 
 export default {
   locale: FaimLocale.FaImageUpload,
   maxCount: 5,
-  maxSize: 512 * 1024,
+  maxSize: 2048 * 1024,
   width: 800,
   height: 800,
   // resolution: 640000,
@@ -20,7 +20,7 @@ export default {
   async upload(binary) {
     await new Promise(resolve => setTimeout(resolve, 500))
 
-    return POST.upload(`${import.meta.env.VITE_APP_UPLOAD_API}/upload-api-noauth/upload`, {
+    return $postForm(`${import.meta.env.VITE_APP_UPLOAD_API}/upload-api-noauth/upload`, {
       file: binary,
       dir: 'img',
       domainId: '1',
@@ -28,6 +28,6 @@ export default {
     }, {
       baseURL: '', // 针对 baseAPI 为相对路径的情况
       timeout: 20000,
-    }).then(res => res.data.data)
+    })
   },
 }

@@ -22,6 +22,17 @@ export default antfu(
       'brace-style': ['error', 'stroustrup', { allowSingleLine: false }],
       'curly': ['error', 'all'],
       'no-console': ['warn', { allow: ['info', 'warn', 'error'] }],
+    },
+    languageOptions: {
+      globals: {
+        tinymce: 'readonly',
+      },
+    },
+  },
+  {
+    // vue/* 规则仅作用于 .vue；未限定 files 时会应用到所有文件并因缺少 vue 插件报错
+    files: ['**/*.vue'],
+    rules: {
       'vue/max-attributes-per-line': ['error', { singleline: 3 }],
       'vue/max-len': ['error', {
         code: 160,
@@ -40,11 +51,6 @@ export default antfu(
       'vue/no-deprecated-dollar-scopedslots-api': 'off',
       'vue/singleline-html-element-content-newline': 'off',
     },
-    languageOptions: {
-      globals: {
-        tinymce: 'readonly',
-      },
-    },
   },
   [nounsanitized.configs.recommended], // Code Security Check
   /**
@@ -57,10 +63,10 @@ export default antfu(
    */
   ...compat.extends('plugin:financial/recommended'),
   {
-    // README contains URLs, paths, ratios, and code examples where slash syntax is intentional.
-    files: ['README.md', 'README.md/**'],
+    // Project arithmetic concerns media processing, UI geometry, progress, and byte sizing rather than financial calculations.
     rules: {
       'financial/no-division': 'off',
+      'financial/no-float-calculation': 'off',
     },
   },
 )

@@ -235,7 +235,7 @@ function loading() {
         prop="FaUpload"
       >
         <FaUpload
-          v-bind="presets.pdf"
+          v-bind="presets.video"
           ref="faUploadRef"
           v-model="data.value.files"
         />

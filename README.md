@@ -1721,6 +1721,7 @@ Ant Design 也是使用 `value` 与 `label` 命名
   - 音频时长、时长范围
   - 自定义校验
   - 限制条件可视化 (让用户根据限制条件去准备文件，而不是准备好了才发现不合适)
+- 上传前文件转换、媒体尺寸调整与体积压缩（提供示例，使用前需自行确认相关编解码专利许可）
 - 已上传文件预览、下载
 - 多选、多文件并发上传
 - 大文件分片切割+分片哈希计算+分片并发上传
@@ -1737,6 +1738,7 @@ Ant Design 也是使用 `value` 与 `label` 命名
 | -------------------------------------------------- | ----------------------------------------------------------------------------- | -------------------------------------------------- | ------------------------------ |
 | v-model /<br>modelValue (Vue 3) /<br>value (Vue 2) | 绑定值                                                                        | any                                                |                                |
 | upload                                             | 调用接口上传文件，返回 URL/ID                                                 | Upload                                             |                                |
+| transform                                          | 上传前转换文件                                                                | (file: File) => Promise\<File \| Blob\>            |                                |
 | arrayed                                            | 绑定值是否为数组类型，默认自动                                                | boolean                                            |                                |
 | stringified                                        | 绑定值是否为 stringified JSON                                                 | boolean                                            | `false`                        |
 | srcAt                                              | 文件 URL/ID 的位置                                                            | string / symbol / (value: any) => any              |                                |
@@ -1760,6 +1762,18 @@ type Upload = (file: File, progress: (progress: number) => void, abortController
 未配置或函数返回值为空时，绑定值将输出二进制文件
 
 返回值类型为 Promise\<object\> 或 object 时需要配置 srcAt
+
+#### transform
+
+```ts
+type Transform = (file: File) => Promise<File | Blob>
+```
+
+转换发生在 upload 之前；返回 Blob 时会沿用原文件的名称、MIME 类型和最后修改时间。
+
+配置 transform 后，文件大小、视频比例、时长、宽度、高度及分辨率均以转换结果为准进行校验。
+
+适用于上传前压缩图片或视频、调整媒体尺寸、转换文件格式、添加水印，以及加密或脱敏文件等场景。
 
 #### arrayed
 

@@ -57,7 +57,10 @@ export default {
     selectAll: 'Select All',
   },
   FaUpload: {
+    labelTapToCancel: 'tap the circle to cancel',
+
     labelAccept: 'Accept',
+    labelFileTransforming: 'Transforming',
 
     labelCount: 'Count',
     labelMinFilesExceeded: 'Minimum file count: {minFiles}',

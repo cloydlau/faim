@@ -1,4 +1,3 @@
-/* eslint-disable financial/no-division -- Viewport sizing is non-financial UI geometry and does not require decimal-safe arithmetic. */
 import ElementUI from 'element-ui'
 import ElementUILocale from 'element-ui/lib/locale/lang/zh-CN'
 import Vue from 'vue'

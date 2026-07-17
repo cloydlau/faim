@@ -1,5 +1,4 @@
 <script>
-/* eslint-disable financial/no-division -- Upload progress, media dimensions, and layout calculations require division. */
 import { useEventListener } from '@vueuse/core'
 import to from 'await-to-js'
 import { destr } from 'destr'
@@ -20,6 +19,7 @@ import * as FilePond from 'filepond'
 import FilePondPluginFileValidateSize from 'filepond-plugin-file-validate-size'
 import FilePondPluginFileValidateType from 'filepond-plugin-file-validate-type'
 import FilePondPluginImageValidateSize from 'filepond-plugin-image-validate-size'
+import { filesize } from 'filesize'
 import { cloneDeep, isPlainObject, throttle } from 'lodash-es'
 import mime from 'mime'
 import { isVue3, reactive } from 'vue-demi'
@@ -38,7 +38,43 @@ import 'filepond/dist/filepond.min.css'
 // import FilePondPluginImageOverlay from 'filepond-plugin-image-overlay'
 // import FilePondPluginPdfPreview from 'filepond-plugin-pdf-preview'
 
+// 在 FilePond 校验前转换文件，使后续插件基于转换结果执行校验。
+const FilePondPluginFileTransform = ({ addFilter, utils }) => {
+  const { Type } = utils
+  addFilter('LOAD_FILE', (file, { query }) => {
+    const transform = query('GET_FILE_TRANSFORM')
+    const didStart = query('GET_FILE_TRANSFORM_DID_START')
+    const didEnd = query('GET_FILE_TRANSFORM_DID_END')
+    return transform
+      ? Promise.resolve(transform(file, {
+          onStart: () => didStart?.(file),
+        }))
+          .then(result => normalizeTransformedFile(result, file))
+          .catch((error) => {
+            const message = error?.message || 'File transform failed'
+            const transformError = new Error(message)
+            transformError.status = {
+              main: message,
+              sub: '',
+            }
+            throw transformError
+          })
+          .finally(() => {
+            didEnd?.(file)
+          })
+      : file
+  })
+  return {
+    options: {
+      fileTransform: [null, Type.FUNCTION],
+      fileTransformDidStart: [null, Type.FUNCTION],
+      fileTransformDidEnd: [null, Type.FUNCTION],
+    },
+  }
+}
+
 FilePond.registerPlugin(
+  FilePondPluginFileTransform,
   FilePondPluginFileValidateSize,
   FilePondPluginFileValidateType,
   FilePondPluginImageValidateSize,
@@ -69,6 +105,40 @@ const model = {
   event: isVue3 ? 'update:modelValue' : 'input',
 }
 
+// 将字节数格式化为与 FilePond 展示规则一致的自然文件大小。
+function toNaturalFileSize(value, options) {
+  if (typeof value !== 'number') {
+    return value
+  }
+  const labelBytes = options.labelFileSizeBytes ?? 'bytes'
+  const labelKB = options.labelFileSizeKilobytes ?? 'KB'
+  const labelMB = options.labelFileSizeMegabytes ?? 'MB'
+  const labelGB = options.labelFileSizeGigabytes ?? 'GB'
+  return filesize(value, {
+    standard: (options.fileSizeBase ?? 1000) === 1000 ? 'si' : 'jedec',
+    symbols: {
+      B: labelBytes,
+      kB: labelKB,
+      KB: labelKB,
+      MB: labelMB,
+      GB: labelGB,
+    },
+  })
+}
+
+// 将转换结果规范为带文件元数据的 File。
+function normalizeTransformedFile(result, originalFile) {
+  if (!(result instanceof Blob)) {
+    throw new TypeError('Expect transform to return a File or Blob')
+  }
+  return result instanceof File
+    ? result
+    : new File([result], originalFile.name, {
+        type: result.type || originalFile.type,
+        lastModified: originalFile.lastModified,
+      })
+}
+
 export default {
   name: 'FaUpload',
   install(app, options = {}) {
@@ -96,6 +166,7 @@ export default {
       default: undefined,
     },
     upload: {},
+    transform: {},
     minFiles: {},
     imageAspectRatio: {},
     videoWidth: {},
@@ -105,6 +176,7 @@ export default {
     videoDuration: {},
     audioDuration: {},
     labelAccept: {},
+    labelFileTransforming: {},
     labelCount: {},
     labelMinFilesExceeded: {},
     labelMaxFilesExceeded: {},
@@ -196,6 +268,12 @@ export default {
         type: Function,
       })
     },
+    // 上传前转换钩子，返回 File / Blob。
+    Transform() {
+      return conclude([this.transform, globalProps.transform], {
+        type: Function,
+      })
+    },
     MinFiles() {
       return conclude([this.minFiles, globalProps.minFiles], {
         type: Number,
@@ -203,6 +281,12 @@ export default {
     },
     LabelAccept() {
       return conclude([this.labelAccept, globalProps.labelAccept], {
+        type: String,
+      })
+    },
+    // 文件转换中的状态文案。
+    LabelFileTransforming() {
+      return conclude([this.labelFileTransforming, globalProps.labelFileTransforming], {
         type: String,
       })
     },
@@ -516,6 +600,9 @@ export default {
           dropValidation: true,
           credits: false,
           files: this.files,
+          fileTransform: this.Transform,
+          fileTransformDidStart: this.onFileTransformStart,
+          fileTransformDidEnd: this.onFileTransformEnd,
           beforeAddFile: (item) => {
             // 不延迟的话，会导致最大数量限制计算错误
             setTimeout(async () => {
@@ -534,11 +621,11 @@ export default {
                 else {
                   const { videoWidth, videoHeight, duration } = res
                   if (!(
-                    this.VideoWidth.validate(videoWidth)
+                    this.VideoAspectRatio.validate(videoWidth / videoHeight)
+                    && this.VideoDuration.validate(duration)
+                    && this.VideoWidth.validate(videoWidth)
                     && this.VideoHeight.validate(videoHeight)
                     && this.VideoResolution.validate(videoWidth * videoHeight)
-                    && this.VideoAspectRatio.validate(videoWidth / videoHeight)
-                    && this.VideoDuration.validate(duration)
                   )) {
                     return
                   }
@@ -566,6 +653,7 @@ export default {
                 abortController: new AbortController(),
               })
               this.queue.push(task)
+
               let res = this.Upload
                 ? this.Upload(item.file, task.setProgress, task.abortController)
                 : item.file
@@ -639,7 +727,6 @@ export default {
         type: Object,
         camelizeObjectKeys: true,
       })
-
       const {
         minFiles,
         maxFiles,
@@ -724,22 +811,24 @@ export default {
         limitation.push(`${this.LabelCount} ≥ ${minFiles}`)
       }
       // 大小
+      const minFileSizeText = toNaturalFileSize(minFileSize, FilePondOptions)
+      const maxFileSizeText = toNaturalFileSize(maxFileSize, FilePondOptions)
       if (minFileSize && maxFileSize) {
         if (minFileSize < maxFileSize) {
-          limitation.push(`${this.LabelSize} ${minFileSize} ~ ${maxFileSize}`)
+          limitation.push(`${this.LabelSize} ${minFileSizeText} ~ ${maxFileSizeText}`)
         }
         else if (minFileSize === maxFileSize) {
-          limitation.push(`${this.LabelSize} ${minFileSize}`)
+          limitation.push(`${this.LabelSize} ${minFileSizeText}`)
         }
         else {
           throw new Error('minFileSize cannot be greater than maxFileSize')
         }
       }
       else if (maxFileSize) {
-        limitation.push(`${this.LabelSize} ≤ ${maxFileSize}`)
+        limitation.push(`${this.LabelSize} ≤ ${maxFileSizeText}`)
       }
       else if (minFileSize) {
-        limitation.push(`${this.LabelSize} ≥ ${minFileSize}`)
+        limitation.push(`${this.LabelSize} ≥ ${minFileSizeText}`)
       }
       // 图片尺寸
       if ((imageValidateSizeMinWidth || imageValidateSizeMaxWidth) && (imageValidateSizeMinHeight || imageValidateSizeMaxHeight)) {
@@ -1118,6 +1207,28 @@ export default {
       this.updatingModelValue = true
       this.$emit(model.event, newValue)
     },
+    // 用户确认后，将当前文件的加载状态更新为转换中。
+    onFileTransformStart() {
+      const label = this.LabelFileTransforming || '转换中'
+      // 同步更新 FilePond 文案，避免后续进度刷新把状态刷回“加载”
+      this.filePond?.setOptions({
+        labelFileLoading: label,
+      })
+      // 转换发生在 LOAD_FILE 阶段，条目状态通常是 busy，不一定是 loading
+      const root = this.filePond?.element || this.$refs.filePond
+      root?.querySelectorAll('.filepond--file-status-main').forEach((status) => {
+        const text = status.textContent || ''
+        if (!text || text === '加载' || text.startsWith('加载') || text === 'Loading' || text.startsWith('Loading')) {
+          status.textContent = label
+        }
+      })
+    },
+    // 转换结束后恢复默认加载文案，避免下一个文件在确认前也显示“转换中”
+    onFileTransformEnd() {
+      this.filePond?.setOptions({
+        labelFileLoading: this.FilePondOptions.labelFileLoading,
+      })
+    },
     onActivateFile(file) {
       // 如果是浏览器支持预览的文件会预览，否则会下载
       window.open(file.source instanceof Blob ? URL.createObjectURL(file.source) : file.source, undefined, this.subWindowFeatures)
@@ -1203,7 +1314,7 @@ export default {
 </template>
 
 <style lang="scss">
-/* 避免在 Vue 3 el-form-item 中样式错乱 */
+// 避免在 Vue 3 el-form-item 中样式错乱
 .el-form-item__content:has(.fa-upload) {
   display: block;
 }
@@ -1211,7 +1322,8 @@ export default {
 .fa-upload {
   .filepond--drop-label,
   .filepond--drop-label > label,
-  .filepond--action-remove-item {
+  .filepond--action-remove-item,
+  .filepond--action-abort-item-load {
     cursor: pointer;
   }
 
@@ -1220,7 +1332,13 @@ export default {
   }
 
   .filepond--file-info-sub {
-    display: none;
+    visibility: hidden;
+  }
+
+  .filepond--item[data-filepond-item-state='loading']:has(.filepond--load-indicator[style*='visibility: hidden']) {
+    .filepond--file-status-sub {
+      visibility: hidden;
+    }
   }
 
   .filepond--item {

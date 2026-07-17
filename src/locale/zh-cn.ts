@@ -61,7 +61,10 @@ export default {
   FaUpload: {
     ...filePondLocale,
 
+    labelTapToCancel: '点击圆圈取消',
+
     labelAccept: '格式', // FaUpload 新增
+    labelFileTransforming: '转换中', // FaUpload 新增
 
     labelCount: '数量', // FaUpload 新增
     labelMinFilesExceeded: '允许的最小数量：{minFiles}', // FaUpload 新增

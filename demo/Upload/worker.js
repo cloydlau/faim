@@ -1,5 +1,5 @@
 import { createMD5 } from 'hash-wasm'
-import { getChunkSize } from './presets'
+import { getChunkSize } from './chunk'
 
 let md5
 let fileReader

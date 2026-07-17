@@ -1,6 +1,5 @@
-/* eslint-disable financial/no-division -- Upload progress uses non-financial byte ratios that do not require decimal-safe arithmetic. */
 import to from 'await-to-js'
-import { POST } from '@/utils/http'
+import { $post, $postForm } from '@/utils/http'
 import createMQ from '@/utils/mq'
 import { CONFIG_ID, RETRY_MAX } from './presets'
 
@@ -43,7 +42,7 @@ async function uploadPart({
 }) {
   const [err] = await to(
     mq.produce(() =>
-      POST.upload(
+      $postForm(
         '/uploadPart',
         {
           file: chunk.blob,
@@ -176,7 +175,7 @@ function uploadAllPart({
 // 合并分片
 function mergeChunks({ file, uploadId, queue, progress, resolve, reject, abortController }) {
   progress(99)
-  POST(
+  $post(
     '/complete',
     {
       configId: CONFIG_ID,
@@ -191,7 +190,7 @@ function mergeChunks({ file, uploadId, queue, progress, resolve, reject, abortCo
       signal: abortController?.signal,
     },
   )
-    .then(({ data: { url } }) => {
+    .then(({ url }) => {
       resolve(url)
     })
     .catch((reason) => {
@@ -205,7 +204,7 @@ function mergeChunks({ file, uploadId, queue, progress, resolve, reject, abortCo
 // 上传文件
 export default async function upload(file, progress, abortController) {
   const queue = await sliceFile(file)
-  const getPartList = await POST(
+  const getPartList = await $post(
     '/getPartList',
     {
       configId: CONFIG_ID,
@@ -218,7 +217,7 @@ export default async function upload(file, progress, abortController) {
 
   progress(1)
 
-  const { partUploadList, path, uploadId, url } = getPartList.data || {}
+  const { partUploadList, path, uploadId, url } = getPartList || {}
 
   return new Promise((resolve, reject) => {
     // 重复上传
@@ -241,7 +240,7 @@ export default async function upload(file, progress, abortController) {
     }
     // 全新上传
     else {
-      POST(
+      $post(
         '/init',
         {
           configId: CONFIG_ID,
@@ -255,7 +254,7 @@ export default async function upload(file, progress, abortController) {
           signal: abortController?.signal,
         },
       )
-        .then(({ data: { path, uploadId } }) => {
+        .then(({ path, uploadId }) => {
           uploadAllPart({
             file,
             path,

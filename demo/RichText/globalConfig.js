@@ -1,10 +1,9 @@
-/* eslint-disable financial/no-division -- Upload progress is a non-financial ratio and does not require decimal-safe arithmetic. */
 // 皮肤
 // '?raw' 是 Vite 语法，在 webpack 中请使用 https://github.com/webpack-contrib/raw-loader
 import contentCSS from 'tinymce/skins/content/default/content.min.css?raw'
 
 import contentUICSS from 'tinymce/skins/ui/oxide/content.min.css?raw'
-import { POST } from '@/utils/http'
+import { $postForm } from '@/utils/http'
 
 // 深色模式
 /* import 'tinymce/skins/ui/oxide-dark/skin.min.css' // 皮肤
@@ -110,7 +109,7 @@ export default {
       type: blob.type,
     })
 
-    return POST.upload(`${import.meta.env.VITE_APP_UPLOAD_API}/upload-api-noauth/upload`, {
+    return $postForm(`${import.meta.env.VITE_APP_UPLOAD_API}/upload-api-noauth/upload`, {
       domainId: '0',
       dir: 'img',
       file,
@@ -119,8 +118,8 @@ export default {
         progress(e.loaded / e.total * 100)
       },
     }).then((res) => {
-      if (typeof res.data?.data === 'string') {
-        return res.data.data
+      if (typeof res === 'string') {
+        return res
       }
       else {
         Promise.reject(res)

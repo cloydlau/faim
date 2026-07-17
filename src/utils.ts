@@ -1,4 +1,3 @@
-/* eslint-disable financial/no-division -- Numeric range, aspect-ratio, and unit conversion helpers require division. */
 import type { ComponentPublicInstance } from 'vue-demi'
 import { at, isPlainObject } from 'lodash-es'
 import isBase64 from 'validator/es/lib/isBase64'
@@ -6,9 +5,6 @@ import isURL from 'validator/es/lib/isURL'
 import { isVue3 } from 'vue-demi'
 import { conclude, getLocalListeners } from 'vue-global-config'
 import FaMessageBox from './components/MessageBox'
-
-export const MB = 1024 ** 2
-export const KB = 1024
 
 export function getListeners(this: ComponentPublicInstance, globalListeners: Record<string, any>) {
   // Vue 2 用 v-on="Listeners"
@@ -315,18 +311,6 @@ export function secondsToHHMMSS(seconds: number): string {
     .map(v => v < 10 ? `0${v}` : v)
     .filter((v, i) => v !== '00' || i > 0)
     .join(':')
-}
-
-export function sizeToLabel(bytes: number): string {
-  if (bytes >= MB) {
-    return `${Number.parseFloat((bytes / MB).toFixed(1))}M`
-  }
-  else if (bytes >= KB) {
-    return `${(bytes / KB).toFixed(0)}K`
-  }
-  else {
-    return `${(bytes).toFixed(0)}B`
-  }
 }
 
 export function getOrigin(url: string) {

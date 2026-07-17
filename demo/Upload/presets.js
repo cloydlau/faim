@@ -1,14 +1,16 @@
-/* eslint-disable financial/no-division -- Multipart file sizing is non-financial byte arithmetic and does not require decimal-safe division. */
+import { TEN_MB } from './chunk'
+import transformVideo from './transformVideo'
+
 export const RETRY_MAX = 3
 export const CONFIG_ID = 23 // OSS ID
-export const MB = 1024 ** 2
-export const TEN_MB = 10 * MB
-export const GB = MB * 1024
-export const TEN_GB = 10 * GB
+export { GB, getChunkSize, MB, TEN_GB, TEN_MB } from './chunk'
 
-// 文件存储S3协议的限制，分片数量不能超过1000个
-export function getChunkSize(fileSize) {
-  return fileSize > TEN_GB ? fileSize / 1000 : TEN_MB
+const videoTransformOptions = {
+  maxFileSize: TEN_MB,
+  fileSizeBase: 1024,
+  // videoWidth: { max: 1280 },
+  // videoHeight: { max: 720 },
+  videoResolution: { max: 1280 * 720 },
 }
 
 // 任意类型文件的配置预设
@@ -36,13 +38,10 @@ const catalog = {
   },
   video: {
     maxFiles: 2,
-    maxFileSize: '100MB',
+    ...videoTransformOptions,
+    videoAspectRatio: '16:9',
     acceptedFileTypes: ['video/*'],
-    // videoWidth: { max: 1280 },
-    // videoHeight: 720,
-    videoAspectRatio: { min: '16:10', max: '16:9' },
-    videoResolution: 1280 * 720,
-    videoDuration: { max: 14 },
+    transform: (file, context) => transformVideo(file, videoTransformOptions, context),
     labelIdle: '将视频拖到此处，或点击上传',
     fileValidateTypeLabelExpectedTypes: '应为 {allTypes}',
   },

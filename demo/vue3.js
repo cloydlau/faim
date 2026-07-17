@@ -1,4 +1,3 @@
-/* eslint-disable financial/no-division -- Viewport sizing is non-financial UI geometry and does not require decimal-safe arithmetic. */
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import ElementPlus from 'element-plus'
 import ElementPlusLocale from 'element-plus/dist/locale/zh-cn.mjs'
