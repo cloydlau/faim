@@ -83,6 +83,10 @@ export default {
     isMaxSizeSpecified() {
       return Boolean(this.size.max)
     },
+    // Vue 2 Element UI 依赖旧版 slot 属性；不能和 v-if/v-else 一起用在插槽节点上
+    maxSizeAppendBind() {
+      return this.isVue3 ? undefined : { slot: 'append' }
+    },
     effectiveMaxSize() {
       return this.size.max || (this.compressionMode === 'size' && this.inputMaxSizeKB ? this.inputMaxSizeKB * 1024 : undefined)
     },
@@ -974,9 +978,13 @@ export default {
                 :size="isVue3 ? 'small' : 'mini'"
                 @change="onMaxSizeChange"
               >
-                <template #append>
+                <template
+                  v-if="isVue3"
+                  #append
+                >
                   K
                 </template>
+                <span v-bind="maxSizeAppendBind">{{ isVue3 ? '' : 'K' }}</span>
               </el-input>
             </div>
           </div>
@@ -1016,9 +1024,8 @@ export default {
   width: 100px;
 }
 
-.max-size .el-input {
-  flex: 1;
-  width: 0;
+.max-size > .el-input {
+  width: 100%;
 }
 
 .max-size :deep(.el-input-group__append) {
