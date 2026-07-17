@@ -86,44 +86,118 @@ const toPackageOptions: Record<VueVersion, Record<string, Record<string, any>>> 
 }
 
 /**
- * 将依赖配置中的 latest 标签解析为满足冷却期的具体版本。
+ * 解析配置中的版本约束，供 ncu 查询具体版本。
+ * - latest → 最新版，写入 ^x.y.z
+ * - ^N → 大版本 N 内最新，写入 ^x.y.z
+ * - ~N.M → 中版本 N.M 内最新，写入 ~x.y.z
+ */
+function parseVersionConstraint(version: unknown): {
+  prefix: '^' | '~'
+  seed: string
+  target: 'latest' | 'minor' | 'patch'
+} | null {
+  if (typeof version !== 'string') {
+    return null
+  }
+  if (version === 'latest') {
+    return { prefix: '^', seed: '0.0.0', target: 'latest' }
+  }
+  const caretMajor = version.match(/^\^(\d+)$/)
+  if (caretMajor) {
+    return { prefix: '^', seed: `${caretMajor[1]}.0.0`, target: 'minor' }
+  }
+  const tildeMinor = version.match(/^~(\d+)\.(\d+)$/)
+  if (tildeMinor) {
+    return { prefix: '~', seed: `${tildeMinor[1]}.${tildeMinor[2]}.0`, target: 'patch' }
+  }
+  return null
+}
+
+/**
+ * 将依赖配置中的 latest / ^major / ~major.minor 解析为带冷却期的具体版本范围。
  * @param packageOptions 当前 Vue 版本对应的依赖配置
  */
-async function resolveLatestDependencies(packageOptions: Record<string, Record<string, any>>) {
-  const packageData: Record<string, Record<string, string>> = {}
-  const latestDependencies: Array<{ option: string, name: string }> = []
+async function resolveDependencyVersions(packageOptions: Record<string, Record<string, any>>) {
+  const pending: Array<{
+    option: string
+    name: string
+    prefix: '^' | '~'
+    seed: string
+    target: 'latest' | 'minor' | 'patch'
+  }> = []
 
   for (const [option, dependencies] of Object.entries(packageOptions)) {
     for (const [name, version] of Object.entries(dependencies)) {
-      if (version === 'latest') {
-        packageData[option] ||= {}
-        packageData[option][name] = '0.0.0'
-        latestDependencies.push({ option, name })
+      const constraint = parseVersionConstraint(version)
+      if (constraint) {
+        pending.push({ option, name, ...constraint })
       }
     }
   }
 
-  if (!latestDependencies.length) {
+  if (!pending.length) {
     return
   }
 
-  const upgrades = await ncu({
-    cooldown: '1d',
-    packageData,
-    packageManager: 'pnpm',
-    target: 'latest',
-    jsonUpgraded: true,
-    silent: true,
-  }) as Record<string, string>
-
-  for (const { option, name } of latestDependencies) {
-    const version = upgrades[name]
-    if (!version) {
-      throw new Error(`无法获取 ${name} 的最新版本`)
-    }
-    packageOptions[option][name] = version
-    console.info(cyan(`Resolved ${name}@${version}`))
+  const byTarget: Record<'latest' | 'minor' | 'patch', typeof pending> = {
+    latest: [],
+    minor: [],
+    patch: [],
   }
+  for (const item of pending) {
+    byTarget[item.target].push(item)
+  }
+
+  for (const target of ['latest', 'minor', 'patch'] as const) {
+    const deps = byTarget[target]
+    if (!deps.length) {
+      continue
+    }
+
+    const packageData: Record<string, Record<string, string>> = {}
+    for (const { option, name, seed } of deps) {
+      packageData[option] ||= {}
+      packageData[option][name] = seed
+    }
+
+    const upgrades = await ncu({
+      cooldown: '1d',
+      packageData,
+      packageManager: 'pnpm',
+      target,
+      jsonUpgraded: true,
+      silent: true,
+    }) as Record<string, string>
+
+    for (const { option, name, prefix, seed } of deps) {
+      const resolved = upgrades[name] ?? (target === 'latest' ? undefined : seed)
+      if (!resolved) {
+        throw new Error(`无法获取 ${name} 的版本`)
+      }
+      const version = resolved.replace(/^[~^]/, '')
+      const versionRange = `${prefix}${version}`
+      packageOptions[option][name] = versionRange
+      console.info(cyan(`Resolved ${name}@${versionRange}`))
+    }
+  }
+}
+
+// 按当前 Vue 大版本同步 ESLint 的 vueVersion：Vue 2 写入配置，Vue 3 删除。
+function syncEslintVueVersion(targetVersion: VueVersion) {
+  const eslintConfigPath = './eslint.config.mjs'
+  const vue2OptionLine = '    vue: { vueVersion: 2 },\n'
+  const lessOpinionatedLine = '    lessOpinionated: true,\n'
+  let content = fs.readFileSync(eslintConfigPath, 'utf-8')
+  content = content.replace(/\n {4}vue: \{ vueVersion: 2 \},\n/, '\n')
+  if (targetVersion !== '3') {
+    if (!content.includes(vue2OptionLine)) {
+      if (!content.includes(lessOpinionatedLine)) {
+        throw new Error('eslint.config.mjs 中未找到 lessOpinionated: true')
+      }
+      content = content.replace(lessOpinionatedLine, `${lessOpinionatedLine}${vue2OptionLine}`)
+    }
+  }
+  fs.writeFileSync(eslintConfigPath, content)
 }
 
 // 切换开发环境的 Vue 版本并启动 Vite。
@@ -139,12 +213,13 @@ async function dev() {
     return
   }
 
-  await resolveLatestDependencies(toPackageOptions[targetVersion])
+  await resolveDependencyVersions(toPackageOptions[targetVersion])
 
   console.info(cyan('Fetching origin...'))
   spawn('git', ['pull'], { stdio: 'inherit' })
 
   console.info(cyan(`Switching to Vue ${targetVersion}...`))
+  syncEslintVueVersion(targetVersion)
   const mod = await loadFile('./vite.config.mts')
 
   // imported 表示命名导入的值，默认导入是 default
