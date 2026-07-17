@@ -1,15 +1,18 @@
 <script>
-/* eslint-disable financial/no-division -- Image geometry, aspect-ratio, scaling, and compression calculations require division. */
 import { useEventListener } from '@vueuse/core'
 import Cropper from 'cropperjs'
 import { safeDestr } from 'destr'
 import { throttle } from 'lodash-es'
+import { filesize } from 'filesize'
 import UPNG from 'upng-js'
 import { isVue3 } from 'vue-demi'
-import { blobLikeToArrayBuffer, blobToFile, sizeToLabel, toBlobLike, toImageTag, toLocalURL } from '../../utils'
+import { blobLikeToArrayBuffer, blobToFile, toBlobLike, toImageTag, toLocalURL } from '../../utils'
 import FaFormDialog from '../FormDialog/index.vue'
 import FaMessageBox from '../MessageBox'
 import 'cropperjs/dist/cropper.min.css'
+
+// 按 1024 进制格式化，单位仍用 KB/MB（与 2048 * 1024 → 2 MB 一致）
+const toFileSizeLabel = value => filesize(value, { standard: 'jedec' })
 
 function initialSettings() {
   return {
@@ -201,7 +204,7 @@ export default {
           trailing: true,
         })
 
-        this.originalSizeLabel = sizeToLabel(this.blobLike.size)
+        this.originalSizeLabel = toFileSizeLabel(this.blobLike.size)
 
         this.cropper.replace(this.localURL) // replace 后触发 initCropBox（参数为 Base64 类型才会触发）
       }
@@ -399,7 +402,7 @@ export default {
     },
     getSizeDiffText(before, after) {
       const diff = after - before
-      const textA = this.locale.sizeTip.replaceAll('{inputSize}', this.originalSizeLabel).replaceAll('{outputSize}', sizeToLabel(after))
+      const textA = this.locale.sizeTip.replaceAll('{inputSize}', this.originalSizeLabel).replaceAll('{outputSize}', toFileSizeLabel(after))
       let textB = diff === 0 ? '' : `${Number.parseFloat((diff / before * 100).toFixed(2))}%`
       if (diff > 0) {
         textB = `+${textB}`
@@ -426,7 +429,7 @@ export default {
         // return `大小上限为${this.size.maxLabel}，${(this.isWidthSpecified || this.isHeightSpecified) ? (this.quality === 0 ? '原图过大，请更换图片' : '请降低图片品质') : '请降低图片尺寸或品质'}`
         return this.locale.maxSizeExceeded.replaceAll(
           '{maxSize}',
-          this.size.max ? this.size.maxLabel : sizeToLabel(this.effectiveMaxSize),
+          this.size.max ? this.size.maxLabel : toFileSizeLabel(this.effectiveMaxSize),
         )
       }
     },

@@ -1,18 +1,21 @@
 <script>
-/* eslint-disable financial/no-division -- Image aspect-ratio and percentage calculations require division. */
 import to from 'await-to-js'
 import { destr } from 'destr'
 import { cloneDeep } from 'lodash-es'
 import mime from 'mime'
+import { filesize } from 'filesize'
 import Sortable from 'sortablejs'
 import { isVue3 } from 'vue-demi'
 import { conclude, resolveConfig } from 'vue-global-config'
 import defaultLocale from '../../locale/en'
-import { handleNumericalProp, isObject, sizeToLabel, toBlobLike, toImageTag, toLocalURL, unwrap } from '../../utils'
+import { handleNumericalProp, isObject, toBlobLike, toImageTag, toLocalURL, unwrap } from '../../utils'
 import FaImage from '../Image/index.vue'
 import FaMessageBox from '../MessageBox'
 import ImageEditor from './ImageEditor.vue'
 import './index.css'
+
+// 按 1024 进制格式化，单位仍用 KB/MB（与 2048 * 1024 → 2 MB 一致）
+const toFileSizeLabel = value => filesize(value, { standard: 'jedec' })
 
 /* console.log(mime.getAllExtensions(' image/jpeg'))
 console.log(mime.getAllExtensions('image/jpeg '))
@@ -143,7 +146,7 @@ export default {
         labelTip: this.Locale.size,
         createTitleTextOfMinExceeded: minSize => this.Locale.minSizeExceeded.replaceAll('{minSize}', minSize),
         createTitleTextOfMaxExceeded: maxSize => this.Locale.maxSizeExceeded.replaceAll('{maxSize}', maxSize),
-        withUnit: sizeToLabel,
+        withUnit: toFileSizeLabel,
       })
     },
     Width() {
