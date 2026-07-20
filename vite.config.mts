@@ -37,6 +37,10 @@ const alias: Record<string, string> = {
 
 export default defineConfig(({ mode }) => ({
   base: mode === 'demo' ? './' : undefined,
+  server: {
+    // Node may bind localhost to IPv6-only (::1); force IPv4 so http://localhost:5173 works in browsers that prefer 127.0.0.1.
+    host: '127.0.0.1',
+  },
   resolve: {
     alias,
   },

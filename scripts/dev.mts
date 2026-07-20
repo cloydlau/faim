@@ -182,6 +182,22 @@ async function resolveDependencyVersions(packageOptions: Record<string, Record<s
   }
 }
 
+const vueRelatedPlugins = new Set([
+  ...Object.values(toVitePlugin),
+  'unplugin-vue2-script-setup/vite',
+])
+
+/** 已是目标 Vue 插件组合时跳过写盘，避免无谓改动触发 Vite 重启。 */
+function needsViteConfigSwitch(mod: Awaited<ReturnType<typeof loadFile>>, targetVersion: VueVersion) {
+  const current = Object.values(mod.imports)
+    .filter((item): item is NonNullable<typeof item> => Boolean(item) && vueRelatedPlugins.has(item.from))
+    .map(item => item.from)
+  const expected = targetVersion === '2.6'
+    ? [toVitePlugin[targetVersion], 'unplugin-vue2-script-setup/vite']
+    : [toVitePlugin[targetVersion]]
+  return current.length !== expected.length || expected.some(pkg => !current.includes(pkg))
+}
+
 // 按当前 Vue 大版本同步 ESLint 的 vueVersion：Vue 2 写入配置，Vue 3 删除。
 function syncEslintVueVersion(targetVersion: VueVersion) {
   const eslintConfigPath = './eslint.config.mjs'
@@ -222,49 +238,52 @@ async function dev() {
   syncEslintVueVersion(targetVersion)
   const mod = await loadFile('./vite.config.mts')
 
-  // imported 表示命名导入的值，默认导入是 default
-  // k 和 mod.imports[k].local 和 constructor 三者一致，表示导入取的别名
+  // 只在需要切换 Vue 插件时写 vite.config：启动路径不做 eslint --fix。
+  // 异步 fix 会在 Vite ready 后改写被 watch 的文件，触发半截 restart；同步 fix 又会拖慢每次 dev。
+  if (needsViteConfigSwitch(mod, targetVersion)) {
+    // imported 表示命名导入的值，默认导入是 default
+    // k 和 mod.imports[k].local 和 constructor 三者一致，表示导入取的别名
 
-  // 删掉 vue 相关引入
-  const existedVuePlugins: Record<string, boolean> = {}
-  for (const k in mod.imports) {
-    for (const vueVersion in toVitePlugin) {
-      if (mod.imports[k] && [toVitePlugin[vueVersion as VueVersion], 'unplugin-vue2-script-setup/vite'].includes(mod.imports[k].from)) {
-        delete mod.imports[k]
-        existedVuePlugins[k] = true
+    // 删掉 vue 相关引入
+    const existedVuePlugins: Record<string, boolean> = {}
+    for (const k in mod.imports) {
+      for (const ver of vueVersion) {
+        if (mod.imports[k] && [toVitePlugin[ver], 'unplugin-vue2-script-setup/vite'].includes(mod.imports[k].from)) {
+          delete mod.imports[k]
+          existedVuePlugins[k] = true
+        }
       }
     }
-  }
 
-  // 删掉 vue 相关插件
-  const options = mod.exports.default.$type === 'function-call'
-    ? mod.exports.default.$args[0]
-    : mod.exports.default
-  if (Object.keys(existedVuePlugins).length && options.plugins?.length) {
-    for (let i = options.plugins.length - 1; i > 0; i--) {
-      const p = options.plugins[i]
-      if (p?.$type === 'function-call' && existedVuePlugins[p.$callee]) {
-        options.plugins.splice(i, 1)
+    // 删掉 vue 相关插件
+    const options = mod.exports.default.$type === 'function-call'
+      ? mod.exports.default.$args[0]
+      : mod.exports.default
+    if (Object.keys(existedVuePlugins).length && options.plugins?.length) {
+      for (let i = options.plugins.length - 1; i > 0; i--) {
+        const p = options.plugins[i]
+        if (p?.$type === 'function-call' && existedVuePlugins[p.$callee]) {
+          options.plugins.splice(i, 1)
+        }
       }
     }
-  }
 
-  // 添加 vue 相关插件
-  addVitePlugin(mod, {
-    from: toVitePlugin[targetVersion],
-    imported: targetVersion === '2.6' ? 'createVuePlugin' : 'default',
-    constructor: 'vue',
-  })
-  if (targetVersion === '2.6') {
+    // 添加 vue 相关插件
     addVitePlugin(mod, {
-      from: 'unplugin-vue2-script-setup/vite',
-      imported: 'default',
-      constructor: 'ScriptSetup',
+      from: toVitePlugin[targetVersion],
+      imported: targetVersion === '2.6' ? 'createVuePlugin' : 'default',
+      constructor: 'vue',
     })
-  }
+    if (targetVersion === '2.6') {
+      addVitePlugin(mod, {
+        from: 'unplugin-vue2-script-setup/vite',
+        imported: 'default',
+        constructor: 'ScriptSetup',
+      })
+    }
 
-  await writeFile(mod, './vite.config.mts')
-  spawn('npx', ['eslint', './vite.config.mts', '--fix'], { stdio: 'inherit' })
+    await writeFile(mod, './vite.config.mts')
+  }
 
   let isDepsChanged = false
 
@@ -296,9 +315,7 @@ async function dev() {
   }
 
   if (isDepsChanged) {
-    fs.writeFileSync('./package.json', JSON.stringify(pkg, null, 2))
-    console.info(cyan('Linting package.json...'))
-    spawn('npx', ['eslint', './package.json', '--fix'], { stdio: 'inherit' })
+    fs.writeFileSync('./package.json', `${JSON.stringify(pkg, null, 2)}\n`)
     await installDependencies()
   }
 
