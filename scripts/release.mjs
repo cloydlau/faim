@@ -1,11 +1,64 @@
 import fs from 'node:fs'
-import { cyan } from 'ansis'
+import { styleText } from 'node:util'
 import spawn from 'cross-spawn'
-// import { deleteAsync } from 'del'
 import prompts from 'prompts'
 import * as semver from 'semver'
 
-const docsPath = ['./README.md']
+const docsPath = ['./README.md', './docs/README.zh-CN.md']
+
+const cyan = text => styleText('cyan', text)
+
+// 文档可能不存在（如仓库裁剪后），告警并跳过而不是报错
+const existingDocsPath = docsPath.filter((docPath) => {
+  if (fs.existsSync(docPath)) {
+    return true
+  }
+  console.warn(styleText('yellow', `Warning: ${docPath} not found, skipped`))
+  return false
+})
+
+/**
+ * 测量 dist 在 externalize vue（peer）后的 minify+gzip 体积，并写入 README 静态 minzip badge。
+ * 避免依赖不稳定的 deno.bundlejs.com 实时 badge。
+ */
+/* function updateMinzipBadge() {
+  const outDir = fs.mkdtempSync(path.join(os.tmpdir(), 'jev-minzip-'))
+  const outfile = path.join(outDir, 'bundle.js')
+  try {
+    const bundled = spawn.sync('pnpm', [
+      'exec',
+      'esbuild',
+      './dist/index.mjs',
+      '--bundle',
+      '--minify',
+      '--format=esm',
+      '--external:vue',
+      `--outfile=${outfile}`,
+    ], { stdio: 'inherit' })
+    if (bundled.status !== 0) {
+      throw new Error('esbuild failed while measuring minzip size')
+    }
+
+    const gzippedBytes = gzipSync(fs.readFileSync(outfile)).byteLength
+    const label = `${Math.round(gzippedBytes / 1000)} kB`
+    const badgeUrl = `https://img.shields.io/badge/minzip-${encodeURIComponent(label)}-3B82F6?logo=esbuild&logoColor=white`
+    const pattern = /https:\/\/img\.shields\.io\/badge\/minzip-[^"'\\\s]+/g
+
+    existingDocsPath.forEach((docPath) => {
+      const content = fs.readFileSync(docPath, 'utf-8')
+      const next = content.replace(pattern, badgeUrl)
+      if (next === content) {
+        throw new Error(`minzip badge not found in ${docPath}`)
+      }
+      fs.writeFileSync(docPath, next)
+    })
+
+    console.info(cyan(`\nUpdated minzip badge to ${label}`))
+  }
+  finally {
+    fs.rmSync(outDir, { recursive: true, force: true })
+  }
+} */
 
 // 执行发版流程：校验、选择版本、生成变更日志、提交并发布到 npm
 async function release() {
@@ -24,19 +77,29 @@ async function release() {
     return
   }
 
+  /* console.info(cyan('\nUnit testing...'))
+  if (spawn.sync('pnpm', ['test'], { stdio: 'inherit' }).status === 1) {
+    return
+  } */
+
+  /* console.info(cyan('\nAnalyzing types...'))
+  if (spawn.sync('pnpm', ['attw'], { stdio: 'inherit' }).status === 1) {
+    return
+  } */
+
+  console.info(cyan('\nBuilding...'))
+  if (spawn.sync('pnpm', ['build'], { stdio: 'inherit' }).status === 1) {
+    return
+  }
+
   console.info(cyan('\nPublinting...'))
   if (spawn.sync('pnpm', ['exec', 'publint'], { stdio: 'inherit' }).status === 1) {
     return
   }
 
-  /* console.info(cyan('\nAnalyzing types...'))
-  const attw = spawn.sync('pnpm', ['exec', 'attw', '$(npm pack)'], { stdio: 'inherit' })
-  await deleteAsync(['./*.tgz'])
-  if (attw.status === 1) {
-    return
-  } */
-
+  // const jsrConfig = JSON.parse(fs.readFileSync('./jsr.json', 'utf-8'))
   const npmConfig = JSON.parse(fs.readFileSync('./package.json', 'utf-8'))
+  // 假定 jsr 版本号与 npm 一致
   const { name, version: currentVersion } = npmConfig
 
   const choices = Array.from(['patch', 'minor', 'major', 'prerelease', 'prepatch', 'preminor', 'premajor', 'custom'], title => ({
@@ -122,13 +185,18 @@ async function release() {
     if (parsedCurrentVersion && parsedTargetVersion) {
       const pattern = new RegExp(`${name}@${parsedCurrentVersion.major}.${parsedCurrentVersion.minor}`, 'g')
       const replacement = `${name}@${parsedTargetVersion.major}.${parsedTargetVersion.minor}`
-      docsPath.forEach((docPath) => {
+      existingDocsPath.forEach((docPath) => {
         fs.writeFileSync(docPath, fs.readFileSync(docPath, 'utf-8').replace(pattern, replacement))
       })
     }
   }
 
+  // console.info(cyan('\nUpdating minzip badge...'))
+  // updateMinzipBadge()
+
+  // jsrConfig.version = targetVersion
   npmConfig.version = targetVersion
+  // fs.writeFileSync('./jsr.json', JSON.stringify(jsrConfig, null, 2))
   fs.writeFileSync('./package.json', JSON.stringify(npmConfig, null, 2))
 
   // console.info(cyan('\nGenerating changelog...'))
@@ -140,7 +208,9 @@ async function release() {
   }
   if (spawn.sync('git', ['commit', '-m', `release: v${targetVersion}`], { stdio: 'inherit' }).status === 1) {
     // pre-commit 时如果 lint 失败，则恢复版本号
+    // jsrConfig.version = currentVersion
     npmConfig.version = currentVersion
+    // fs.writeFileSync('./jsr.json', JSON.stringify(jsrConfig, null, 2))
     fs.writeFileSync('./package.json', JSON.stringify(npmConfig, null, 2))
     return
   }
