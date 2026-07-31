@@ -361,3 +361,12 @@ export function blobToFile(blob: File | Blob, fileName?: string, fileType?: stri
   }
   return blob instanceof File ? blob : new File([blob], fileName, { type: fileType || blob.type })
 }
+
+// 统一的通知入口。自动附带 fa-notification 类（样式见 ImageUpload/index.css），
+// 使所有通知宽度随内容自适应，调用方无需各自处理 customClass。
+export function notify(vm: ComponentPublicInstance, options: Record<string, any> = {}) {
+  ;(vm.$notify as any)?.({
+    ...options,
+    customClass: `fa-notification${options.customClass ? ` ${options.customClass}` : ''}`,
+  })
+}

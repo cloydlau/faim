@@ -1,3 +1,12 @@
 .swal2-container {
   z-index: 99999 !important; /* 在项目中，build:prod 时，该样式会被默认样式覆盖为 1060，所以加 !important */
 }
+
+/* 通知宽度随内容自适应。叠加 .el-notification 提高优先级，
+   确保无论 element-plus / element-ui 样式与加载顺序如何，都能覆盖其固定宽度（330px）。
+   不使用 white-space: nowrap，触达 max-width 时内容换行，而不是被 overflow: hidden 裁剪。 */
+.el-notification.fa-notification {
+  width: max-content;
+  min-width: 330px;
+  max-width: calc(100vw - 32px);
+}

@@ -6,7 +6,7 @@ import { filesize } from 'filesize'
 import { throttle } from 'lodash-es'
 import UPNG from 'upng-js'
 import { isVue3 } from 'vue-demi'
-import { blobLikeToArrayBuffer, blobToFile, toBlobLike, toImageTag, toLocalURL } from '../../utils'
+import { blobLikeToArrayBuffer, blobToFile, notify, toBlobLike, toImageTag, toLocalURL } from '../../utils'
 import FaFormDialog from '../FormDialog/index.vue'
 import FaMessageBox from '../MessageBox'
 import 'cropperjs/dist/cropper.min.css'
@@ -633,7 +633,7 @@ export default {
     },
     showSizeDiff(sizeDiffText) {
       console.info(sizeDiffText)
-      this.$notify?.({
+      notify(this, {
         customClass: 'fa-image-editor-size-notification',
         title: this.locale.size,
         message: sizeDiffText,
@@ -1076,16 +1076,6 @@ export default {
   .cropper-hidden {
     display: none !important;
     max-height: 100% !important;
-  }
-}
-
-.fa-image-editor-size-notification {
-  width: max-content;
-  min-width: 330px;
-  max-width: calc(100vw - 32px);
-
-  .el-notification__content {
-    white-space: nowrap;
   }
 }
 </style>
