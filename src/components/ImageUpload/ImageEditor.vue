@@ -521,7 +521,8 @@ export default {
         }
       })
     },
-    encodeCanvas(canvas, quality) {
+    // paletteSize 仅 PNG 使用：传入时忽略 quality，直接指定调色板色数
+    encodeCanvas(canvas, quality, paletteSize) {
       return new Promise((resolve, reject) => {
         if (this.blobLike.type === 'image/png') {
           // PNG 编码较耗时，让出主线程以便提交状态先更新。
@@ -534,7 +535,7 @@ export default {
                 width,
                 height,
                 // cnum ≤ 1 时无损
-                quality === 1 ? 0 : Math.max(Math.floor(this.cnum * quality), 2),
+                paletteSize ?? (quality === 1 ? 0 : Math.max(Math.floor(this.cnum * quality), 2)),
               )
               resolve(new Blob([arrayBuffer], { type: this.blobLike.type }))
             }
@@ -570,6 +571,11 @@ export default {
         return { blob: defaultQualityBlob, quality: this.quality }
       }
 
+      // PNG 的品质是离散的调色板色数，直接在色数空间搜索才能取到精确最优
+      if (this.blobLike.type === 'image/png') {
+        return this.encodePngToMaxSize(canvas, maxSize)
+      }
+
       const lowestQualityBlob = await this.encodeCanvas(canvas, 0)
       if (lowestQualityBlob.size > maxSize) {
         throw new Error(this.getMaxSizeTooltip(lowestQualityBlob))
@@ -592,6 +598,38 @@ export default {
         }
       }
       return result
+    },
+    async encodePngToMaxSize(canvas, maxSize) {
+      // 有损天花板是调色板满配（无损已在 encodeToMaxSize 确认超限），先试它，命中则省掉整个二分
+      const fullPaletteBlob = await this.encodeCanvas(canvas, 0, this.cnum)
+      if (fullPaletteBlob.size <= maxSize) {
+        // quality 1 是"无损/未编辑"的哨兵值（见 shouldTransform），钳制到 0.99；
+        // 代价是再次编辑重编码时为 253 色，与本次输出的 256 色差异不可感知
+        return { blob: fullPaletteBlob, quality: 0.99 }
+      }
+
+      const minPaletteBlob = await this.encodeCanvas(canvas, 0, 2)
+      if (minPaletteBlob.size > maxSize) {
+        throw new Error(this.getMaxSizeTooltip(minPaletteBlob))
+      }
+
+      // 在色数空间二分，找不超过大小上限的最大调色板色数
+      let low = 2
+      let high = this.cnum - 1
+      let result = { blob: minPaletteBlob, paletteSize: 2 }
+      while (low <= high) {
+        const paletteSize = Math.floor((low + high) / 2)
+        const blob = await this.encodeCanvas(canvas, 0, paletteSize)
+        if (blob.size <= maxSize) {
+          result = { blob, paletteSize }
+          low = paletteSize + 1
+        }
+        else {
+          high = paletteSize - 1
+        }
+      }
+      // cnum 是 2 的幂，paletteSize / cnum 可精确表示，经 floor(cnum * quality) 能精确还原色数
+      return { blob: result.blob, quality: result.paletteSize / this.cnum }
     },
     doConfirm(blob, resolve, reject, originalOutput) {
       // 如果输入为 File 类型，则输出也应为 File 类型，避免 name 丢失
