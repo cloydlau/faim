@@ -156,19 +156,46 @@ async function release() {
     return
   }
 
-  console.info(cyan('\nPublishing to npm...'))
-  if (spawn.sync('npm', ['publish', '--registry=https://registry.npmjs.org', '--access=public'], { stdio: 'inherit' }).status === 1) {
-    console.info(cyan('\nPublish failed. You can retry manually:\n'))
-    console.info('  npm publish --registry=https://registry.npmjs.org --access=public')
-    console.info('  pnpm exec cnpm sync')
-    console.info(`  curl -L https://npmmirror.com/sync/${name}`)
-    return
+  /**
+   * 发布时临时去掉 postinstall，避免终端用户安装时触发 pnpm approve-builds。
+   * 用内存快照还原磁盘文件，不改动 git 已提交内容。
+   * @returns action 的返回值；失败时请返回 false
+   */
+  function withStrippedPostinstall(action) {
+    const packageJsonPath = './package.json'
+    const snapshot = fs.readFileSync(packageJsonPath, 'utf-8')
+    const pkg = JSON.parse(snapshot)
+    if (pkg.scripts?.postinstall) {
+      delete pkg.scripts.postinstall
+      fs.writeFileSync(packageJsonPath, `${JSON.stringify(pkg, null, 2)}\n`)
+    }
+    try {
+      return action()
+    }
+    finally {
+      fs.writeFileSync(packageJsonPath, snapshot)
+    }
   }
 
-  // 异步触发 cnpm 镜像同步，无需等待完成
-  console.info(cyan('\nSync to cnpm...'))
-  spawn('pnpm', ['exec', 'cnpm', 'sync'], { stdio: 'inherit' })
-  spawn('curl', ['-L', `https://npmmirror.com/sync/${name}`], { stdio: 'inherit' })
+  withStrippedPostinstall(() => {
+    console.info(cyan('\nPublishing to npm...'))
+    if (spawn.sync('npm', ['publish', '--registry=https://registry.npmjs.org', '--access=public'], { stdio: 'inherit' }).status === 1) {
+      console.info(cyan('\nPublish failed. You can retry manually:\n'))
+      console.info('  npm publish --registry=https://registry.npmjs.org --access=public')
+      console.info('  pnpm exec cnpm sync')
+      console.info(`  curl -L https://npmmirror.com/sync/${name}`)
+      return false
+    }
+
+    // 异步触发 cnpm 镜像同步，无需等待完成
+    console.info(cyan('\nSync to cnpm...'))
+    spawn('pnpm', ['exec', 'cnpm', 'sync'], { stdio: 'inherit' })
+    spawn('curl', ['-L', `https://npmmirror.com/sync/${name}`], { stdio: 'inherit' })
+    return true
+  })
+
+  // 本地不 npm publish / cnpm sync：由 tag 触发的 release.yml 负责（含 --provenance，以及 publish 前去掉 postinstall）
+  // console.info(cyan(`\nTag v${targetVersion} pushed. npm publish / cnpm sync will run in GitHub Actions.`))
 }
 
 release().catch(console.error)

@@ -1,3 +1,10 @@
+shellEmulator: true
+
+trustPolicy: no-downgrade
+# 发布时间超过该分钟数的历史版本豁免 trust 降级检查。
+# semver@6.3.1 等老版本发布于 npm provenance 出现之前，属误报；真正的包劫持是新发布版本，仍会被拦截。
+trustPolicyIgnoreAfter: 10080
+
 packages:
   - '*'
 allowBuilds:
